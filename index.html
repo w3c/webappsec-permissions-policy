@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Feature Policy</title>
+  <meta charset='utf-8'>
+  <script src='https://www.w3.org/Tools/respec/respec-w3c-common' async class=
+  'remove'>
+  </script>
+  <script class='remove'>
+  var respecConfig = {
+    shortName: "feature-policy",
+    specStatus: "ED",
+    useExperimentalStyles: true,
+    edDraftURI: "http://wicg.github.io/feature-policy/",
+    editors: [{
+      name: "Ilya Grigorik",
+      url: "https://www.igvita.com/",
+      mailto: "igrigorik@gmail.com",
+      company: "Google",
+      companyURL: "https://google.com/",
+      w3cid: "56102"
+    } ],
+    wg: "WICG",
+    subjectPrefix: "[feature-policy]",
+    format: "markdown",
+    // noLegacyStyle: true,
+    otherLinks: [{
+      key: 'Repository',
+      data: [{
+        value: 'We are on Github.',
+        href: 'https://github.com/wicg/feature-policy/'
+      }, {
+        value: 'File a bug.',
+        href: 'https://github.com/wicg/feature-policy/issues'
+      }, {
+        value: 'Commit history.',
+        href: 'https://github.com/wicg/feature-policy/commits/gh-pages/index.html'
+      }]
+    }],
+    localBiblio:  {
+      'REPORTING': {
+        title: 'Reporting API',
+        href: 'https://w3c.github.io/reporting',
+        authors: [
+          'Ilya Grigorik',
+          'Mike West'
+        ],
+        date: 'March 11 2016'
+      },
+      'HTTP-JFV': {
+        title: 'A JSON Encoding for HTTP Header Field Values',
+        href: 'https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html',
+        authors: [
+          'Julian Reschke'
+        ],
+        date: 'October 5 2015'
+      }
+    }
+  };
+  </script>
+</head>
+<body>
+  <section id='abstract'>
+    <p>This specification defines a mechanism that allows developers to modify the behavior of, or disable, use of various browser features and API's.</p>
+  </section>
+  <section id='sotd'>
+    <p>This is a <strong>work in progress</strong> and may change without any
+    notices.</p>
+  </section>
+  <section>
+    <h2>Introduction</h2>
+    <p>The web-platform provides an ever-expanding set of features and APIs, offering richer functionality, better developer ergonomics, and improved performance. However, a missing piece is the ability for the developer to selectively modify the behavior of, or disable, the use of some of these browser features and API's within their application:</p>
+    <ol>
+      <li>The developer may want to "lock down" their application against use of certain features and API's, as a security or performance precaution, to prevent third party content executing within their application from introducing behaviors that regress their application.</li>
+      <li>The developer may want to similarly "lock down" their application against "first party" content developed by other developers from accidentally introducing behaviors that regress their application.</li>
+      <li>The developer may want to assert a promise to a client or an embedder about the use—or lack of thereof—of certain features and API's. For example, to enable certain types of "fast path" optimizations in the browser, or to assert a promise about conformance with some requirements set by other embedders (e.g. various social networks, search engines, and so on).</li>
+    </ol>
+    <p>This specification defines a mechanism which addresses the above limitations, by allowing the developer to specify a feature policy that selectively modifies, or disables, use of certain features and API's within their application.</p>
+    <section>
+      <h2>Examples</h2>
+      <div class="example">
+        <p>MegaCorp Inc. wants to disable use of WebRTC and Geolocation API's within the top-level frame and all of the subframes of their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <pre>
+          Disable: {"name": "<a>webrtc</a>"}, {"name": "<a>geolocation</a>"}
+        </pre>
+      </div>
+      <div class="example">
+        <p>MegaCorp Inc. wants to disable use of Geolocation API's within the top-level frame, and allow but issue a violation report whenever synchronous `XMLHttpRequest` request is made within their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <pre>
+          Disable: {"name": "<a>geolocation</a>", "target": "self"},
+                   {"name": "<a>sync-xhr</a>", "mode": "report"}
+        </pre>
+      </div>
+      <div class="example">
+        <p>Fast App wants to disable use of synchronous `script` elements, synchronous `XMLHttpRequest`'s and use of `document.write` within the top-level and all of the subframes of their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <pre>
+          Disable: {"name": "<a>sync-xhr</a>"},
+                   {"name": "<a>sync-script</a>"},
+                   {"name": "<a>docwrite</a>"}
+        </pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Other and related mechanisms</h2>
+      <p>TODO</p>
+    </section>
+
+
+  </section>
+  <section>
+    <h2>Framework</h2>
+    <section>
+      <h2>Policies</h2>
+      <p>A <dfn>feature policy</dfn> may be applied to a [Window] or [WorkerGlobalScope] and consists of:</p>
+      <ul>
+        <li>A set of <a data-lt="directive">directives</a>.</li>
+        <li>A <dfn>report group</dfn> which is either <var>null</var>, or an ASCII string value.</li>
+      </ul>
+
+    </section>
+    <section>
+      <h2>Directives</h2>
+      <p>Each <dfn>directive</dfn> consists of a:</p>
+      <ul>
+        <li>A <dfn>name</dfn> which is a non-empty ASCII string.</li>
+        <li>A <dfn>mode</dfn> which is either <code>"enforce"</code> or <code>"report"</code>.</li>
+        <li>A <dfn>target</dfn> which is either <code>"self"</code> or <code>"cascade"</code>.</li>
+      </ul>
+    </section>
+  </section>
+  <section>
+    <h2>Disable Policy</h2>
+    <p>The <dfn>disable policy</dfn> allows a developer to turn off certain features for a <code>Document</code> or <code>Worker</code>.</p>
+
+    <section>
+      <h2>Policy Delivery</h2>
+      <section>
+        <h2><code>Disable</code> HTTP Response Header Field</h2>
+        <p>The <dfn>Disable</dfn> HTTP response header field is used to deliver a <a>feature policy</a> from a server to client. The header's value is represented by the following ABNF [[!RFC5234]]:</p>
+        <pre class="abnf" link-type="grammar" dfn-type="grammar">
+          Disable = 1#json-field-value
+                    ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
+        </pre>
+        <p>The policy is parsed as defined in <a href="#process-directives-for-response-to-request"></a>, and the header’s value is interpreted as an array of JSON objects, as described in Section 4 of [[!HTTP-JFV]].</p>
+        <p>The following sections define the set of known members in each JSON object the header’s value defines. Future versions of this document may define additional such members, and user agents MUST ignore unknown members when parsing the header.</p>
+
+        <section>
+          <h2>The <var>name</var> member</h2>
+          <p>The REQUIRED <dfn>name member</dfn> is a string that defines the name of the directive. The member's value MUST be a string; any other type will result in a parse error.</p>
+          <p><a href="#directives"></a> specifies the list of <a>valid feature names</a>.</p>
+        </section>
+        <section>
+          <h2>The <var>mode</var> member</h2>
+          <p>The OPTIONAL <dfn>mode member</dfn> is a string that defines the enforcement mode for the directive. The member's value MUST be a string; any other type will result in a parse error.</p>
+          <p>The recognized string values are <code>"enforce"</code> and <code>"report"</code>. If an unknown value is specified, or if no member named <code>"mode"</code> is present in the object, the <a>directive</a>'s <a>mode</a> will be set to <code>"enforce"</code>.</p>
+        </section>
+        <section>
+          <h2>The <var>target</var> member</h2>
+          <p>The OPTIONAL <dfn>target member</dfn> is a string that defines the enforcement mode for the directive. The member's value MUST be a string; any other type will result in a parse error.</p>
+          <p>The recognized string values are <code>"self"</code> and <code>"cascade"</code>. If an unknown value is specified, or if no member named <code>"target"</code> is present in the object, the <a>directive</a>'s <a>target</a> will be set to <code>"cascade"</code>.</p>
+        </section>
+        <section>
+          <h2>The <var>group</var> member</h2>
+          <p>The OPTIONAL <dfn>group member</dfn> is a string that defines the report-to group [[!REPORTING]]. The member's value MUST be a string; any other type will result in a parse error.</p>
+        </section>
+      </section>
+      <section>
+        <h2>Process directives for response to request</h2>
+        <p>Given a [response] (<var>response</var>) and a [request] (<var>request</var>), this algorithm extracts a <a>feature policy</a>.</p>
+        <ol>
+          <li>Abort these steps if any of the following conditions are true:</li>
+          <ol>
+            <li><var>response</var>’s [HTTPS state] is not "<code>modern</code>", and the [origin] of <var>response</var>’s [url] is not [potentially trustworthy].</li>
+            <li><var>response</var>’s [header list] does not contain a [header] whose [name] is "`Disable`".</li>
+          </ol>
+          <li>Let <var>header</var> be the [value] of the [header] in <var>response</var>’s [header list] whose name is "`Disable`".</p>
+          <li>Let <var>feature policy</var> be the result of executing <a href="#parse-policy-from-value"></a> on <var>header</var>.</li>
+        </ol>
+      </section>
+      <section>
+        <h2>Parse policy from <var>value</var></h2>
+        <p>Given a string (<var>value</var>) this algorithm will return a <a>feature policy</a> that contains a set of <a data-lt="directive">directives</a> and a <a>report group</a>.</p>
+        <ol>
+          <li>Let <var>list</var> be the result of executing the algorithm defined in Section 4 of [[!HTTP-JFV]]. If that algorithm results in an error, abort these steps.</li>
+          <li>Let <var>policy</var> be a new tuple containing the following:</li>
+          <dl>
+            <dt><var>directives</var></dt>
+            <dd>Set to an empty list.</dd>
+            <dt><var>report group</var></dt>
+            <dd>Set to <var>null.</var></dd>
+          </dl>
+          <li>If <var>list</var> contains an <var>item</var> whose member named <code>name</code> is <code>"report-to"</code>:</li>
+          <ol>
+            <li>Remove <var>item</var> from <var>list</var>.</li>
+            <li>Set <var>policy</var>'s <var>report group</var> value to <var>item</var>'s value.</li>
+          </ol>
+          <li>For each <var>item</var> in <var>list</var>:</li>
+          <ol>
+            <li>If <var>item</var> has no member named <code>name</code>, that member’s value is not a string, or member's value is not one of <a>valid feature names</a>, skip to the next <var>item</var>.</li>
+            <li>Let <var>tuple</var> be a new <a>directive</a> containing the following:</li>
+            <dl>
+              <dt>"<code>name</code>"</dt>
+              <dd><var>item</var>'s <a>name member</a>'s value.</dd>
+              <dt>"<code>mode</code>"</dt>
+              <dd><var>item</var>'s <a>mode member</a>'s value if present, and "<code>enforce</code>" otherwise.</dd>
+              <dt>"<code>target</code>"</dt>
+              <dd><var>item</var>'s <a>target member</a>'s value if present, and "<code>cascade</code>" otherwise.</dd>
+              <dt>"<code>report-to</code>"</dt>
+              <dd><var>report-to</var>'s <a>group member</a>'s value if present, and <var>null</var> otherwise.</dd>
+            </dl>
+            <li>Append <var>tuple</var> to <var>policy</var>'s <var>directives</var>.</li>
+          </ol>
+          <li>Return <var>policy</var>.</li>
+        </ol>
+      </section>
+    </section>
+
+    <section>
+      <h2>Features</h2>
+      <p>This section specifies a list of <dfn>valid feature names</dfn> that are recognized by the <a>name member</a>, and their effect when applied via a <a>directive</a> as part of a <a>feature policy</a>.</p>
+
+      <section>
+        <h2><dfn>`cookie`</dfn></h2>
+        <p>Disables `document.cookie`.</p>
+      </section>
+      <section>
+        <h2><dfn>`domain`</dfn></h2>
+        <p>Disables `document.domain`.</p>
+      </section>
+      <section>
+        <h2><dfn>`docwrite`</dfn></h2>
+        <p>Disables `document.write`.</p>
+      </section>
+      <section>
+        <h2><dfn>`geolocation`</dfn></h2>
+        <p>Disables Geolocation API. [[!GEOLOCATION-API]]</p>
+      </section>
+      <section>
+        <h2><dfn>`midi`</dfn></h2>
+        <p>Disables Web MIDI API. [[!WEBMIDI]]</p>
+      </section>
+      <section>
+        <h2><dfn>`notifications`</dfn></h2>
+        <p>Disables Notification API. [[!NOTIFICATIONS]]</p>
+      </section>
+      <section>
+        <h2><dfn>`push`</dfn></h2>
+        <p>Disables Push API. [[!PUSH-API]]</p>
+      </section>
+      <section>
+        <h2><dfn>`sync-script`</dfn></h2>
+        <p>Disables synchronous `script` elements. When this policy is set, such scripts are ignored by the user agent.</p>
+      </section>
+      <section>
+        <h2><dfn>`sync-xhr`</dfn></h2>
+        <p>Disables synchronous <code>XMLHttpRequest</code> API.</p>
+      </section>
+      <section>
+        <h2><dfn>`webrtc`</dfn></h2>
+        <p>Disables WebRTC. [[!WEBRTC]]</p>
+      </section>
+    </section>
+  </section>
+
+  <section>
+    <h2>IANA Considerations</h2>
+    <p class="issue">TODO</p>
+  </section>
+  <section id="privacy" class="informative">
+    <h2>Privacy and Security</h2>
+    <p class="issue">TODO</p>
+  </section>
+  <section class="appendix informative">
+    <h2>Acknowledgments</h2>
+    <p class="issue">TODO</p>
+  </section>
+</body>
+</html>
+
+<!-- spec references. preserve before running tidy! -->
+[window]: https://www.w3.org/TR/html5/browsers.html#dom-window
+[workerglobalscope]: https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope
+[response]: https://fetch.spec.whatwg.org/#concept-response
+[request]: https://fetch.spec.whatwg.org/#concept-request
+[HTTPS state]: https://fetch.spec.whatwg.org/#concept-response-https-state
+[origin]: https://url.spec.whatwg.org/#concept-url-origin
+[url]: https://fetch.spec.whatwg.org/#concept-response-url
+[potentially trustworthy]: https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy
+[header list]: https://fetch.spec.whatwg.org/#concept-response-header-list
+[header]: https://fetch.spec.whatwg.org/#concept-header
+[name]: https://fetch.spec.whatwg.org/#concept-header-name
+[value]: https://fetch.spec.whatwg.org/#concept-header-value
