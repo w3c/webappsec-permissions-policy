@@ -79,24 +79,26 @@
     <section>
       <h2>Examples</h2>
       <div class="example">
-        <p>MegaCorp Inc. wants to disable use of WebRTC and Geolocation API's within the top-level frame and all of the subframes of their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <p>SecureCorp Inc. wants to disable use of WebRTC and Geolocation API's within the top-level frame and all of the subframes of their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
         <pre>
-          Disable: {"name": "<a>webrtc</a>"}, {"name": "<a>geolocation</a>"}
+          Disable: {"<a>webrtc</a>":{}},{"<a>geolocation</a>":{}}
         </pre>
+        <p>Unless specified otherwise, the default <a>mode</a> for each of the above directives is "`enforce`" and <a>target</a> is "`cascade`", which means that both features will be disabled for the top level frame and the same policy will cascade to all subframes of the application.</p>
       </div>
       <div class="example">
-        <p>MegaCorp Inc. wants to disable use of Geolocation API's within the top-level frame, and allow but issue a violation report whenever synchronous `XMLHttpRequest` request is made within their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <p>SecureCorp Inc. wants to disable use of Geolocation API's within the top-level frame and allow the use but collect a violation report whenever `document.cookie` API is used, within any frame of their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
         <pre>
-          Disable: {"name": "<a>geolocation</a>", "target": "self"},
-                   {"name": "<a>sync-xhr</a>", "mode": "report"}
+          Disable: {"<a>geolocation</a>":{"<a>target</a>": "self"}},
+                   {"<a>sync-xhr</a>":{"<a>mode</a>":"report"}}
+                   {"report-to": "default"}
         </pre>
+        <p>In this case, feature policy reports will be delivered to the "default" group configured via [[REPORTING]] API.</p>
       </div>
       <div class="example">
-        <p>Fast App wants to disable use of synchronous `script` elements, synchronous `XMLHttpRequest`'s and use of `document.write` within the top-level and all of the subframes of their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <p>Fast App wants to disable use of synchronous `script` elements, synchronous `XMLHttpRequest`'s and use of `document.write` within the top-level and all of the subframes of their application. It also wants to the browser to send violation reports of this policy to the "disable" group configured via [[REPORTING]] API. It can do so by delivering the following HTTP response header to define a feature policy:</p>
         <pre>
-          Disable: {"name": "<a>sync-xhr</a>"},
-                   {"name": "<a>sync-script</a>"},
-                   {"name": "<a>docwrite</a>"}
+          Disable: {"<a>sync-xhr</a>": {}},{"<a>sync-script</a>": {}},
+                   {"<a>docwrite</a>": {}},{"report-to": "disable"}
         </pre>
       </div>
     </section>
@@ -115,7 +117,7 @@
       <p>A <dfn>feature policy</dfn> may be applied to a [Window] or [WorkerGlobalScope] and consists of:</p>
       <ul>
         <li>A set of <a data-lt="directive">directives</a>.</li>
-        <li>A <dfn>report group</dfn> which is either <var>null</var>, or an ASCII string value.</li>
+        <li>A <dfn>report group</dfn> ([[!REPORTING]]) which is either <var>null</var>, or an ASCII string value.</li>
       </ul>
 
     </section>
@@ -144,12 +146,6 @@
         </pre>
         <p>The policy is parsed as defined in <a href="#process-directives-for-response-to-request"></a>, and the header’s value is interpreted as an array of JSON objects, as described in Section 4 of [[!HTTP-JFV]].</p>
         <p>The following sections define the set of known members in each JSON object the header’s value defines. Future versions of this document may define additional such members, and user agents MUST ignore unknown members when parsing the header.</p>
-
-        <section>
-          <h2>The <var>name</var> member</h2>
-          <p>The REQUIRED <dfn>name member</dfn> is a string that defines the name of the directive. The member's value MUST be a string; any other type will result in a parse error.</p>
-          <p><a href="#directives"></a> specifies the list of <a>valid feature names</a>.</p>
-        </section>
         <section>
           <h2>The <var>mode</var> member</h2>
           <p>The OPTIONAL <dfn>mode member</dfn> is a string that defines the enforcement mode for the directive. The member's value MUST be a string; any other type will result in a parse error.</p>
@@ -159,10 +155,6 @@
           <h2>The <var>target</var> member</h2>
           <p>The OPTIONAL <dfn>target member</dfn> is a string that defines the enforcement mode for the directive. The member's value MUST be a string; any other type will result in a parse error.</p>
           <p>The recognized string values are <code>"self"</code> and <code>"cascade"</code>. If an unknown value is specified, or if no member named <code>"target"</code> is present in the object, the <a>directive</a>'s <a>target</a> will be set to <code>"cascade"</code>.</p>
-        </section>
-        <section>
-          <h2>The <var>group</var> member</h2>
-          <p>The OPTIONAL <dfn>group member</dfn> is a string that defines the report-to group [[!REPORTING]]. The member's value MUST be a string; any other type will result in a parse error.</p>
         </section>
       </section>
       <section>
@@ -188,26 +180,24 @@
             <dt><var>directives</var></dt>
             <dd>Set to an empty list.</dd>
             <dt><var>report group</var></dt>
-            <dd>Set to <var>null.</var></dd>
+            <dd>Set to <var>null</var>.</dd>
           </dl>
-          <li>If <var>list</var> contains an <var>item</var> whose member named <code>name</code> is <code>"report-to"</code>:</li>
+          <li>If <var>list</var> contains a member (<var>item</var>) whose name value is "`report-to`":</li>
           <ol>
             <li>Remove <var>item</var> from <var>list</var>.</li>
-            <li>Set <var>policy</var>'s <var>report group</var> value to <var>item</var>'s value.</li>
+            <li>If <var>item</var>'s value is a string, set <var>policy</var>'s <var>report group</var> value to <var>item</var>'s value.</li>
           </ol>
-          <li>For each <var>item</var> in <var>list</var>:</li>
+          <li>For each <var>name</var>`/`<var>value</var> pair in <var>list</var>:</li>
           <ol>
-            <li>If <var>item</var> has no member named <code>name</code>, that member’s value is not a string, or member's value is not one of <a>valid feature names</a>, skip to the next <var>item</var>.</li>
+            <li>If <var>name</var>'s string value is not equal to one of <a>valid feature names</a>, or <var>value</var> is not a list of members, skip to the next item in <var>list</var>.</li>
             <li>Let <var>tuple</var> be a new <a>directive</a> containing the following:</li>
             <dl>
-              <dt>"<code>name</code>"</dt>
-              <dd><var>item</var>'s <a>name member</a>'s value.</dd>
-              <dt>"<code>mode</code>"</dt>
-              <dd><var>item</var>'s <a>mode member</a>'s value if present, and "<code>enforce</code>" otherwise.</dd>
-              <dt>"<code>target</code>"</dt>
-              <dd><var>item</var>'s <a>target member</a>'s value if present, and "<code>cascade</code>" otherwise.</dd>
-              <dt>"<code>report-to</code>"</dt>
-              <dd><var>report-to</var>'s <a>group member</a>'s value if present, and <var>null</var> otherwise.</dd>
+              <dt>"`name`"</dt>
+              <dd><var>name</var>'s string value.</dd>
+              <dt>"`mode`"</dt>
+              <dd><var>value</var>'s <a>mode member</a>'s string value if present, and "`enforce`" otherwise.</dd>
+              <dt>"`target`"</dt>
+              <dd><var>value</var>'s <a>target member</a>'s string value if present, and "`cascade`" otherwise.</dd>
             </dl>
             <li>Append <var>tuple</var> to <var>policy</var>'s <var>directives</var>.</li>
           </ol>
@@ -218,7 +208,7 @@
 
     <section>
       <h2>Features</h2>
-      <p>This section specifies a list of <dfn>valid feature names</dfn> that are recognized by the <a>name member</a>, and their effect when applied via a <a>directive</a> as part of a <a>feature policy</a>.</p>
+      <p>This section defines the list of <dfn>valid feature names</dfn> and their effect when applied via a <a>directive</a> as part of a <a>feature policy</a>.</p>
 
       <section>
         <h2><dfn>`cookie`</dfn></h2>
