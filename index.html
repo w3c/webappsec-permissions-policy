@@ -47,6 +47,15 @@
         ],
         date: 'March 11 2016'
       },
+      'PERMISSION-DELEGATION': {
+        title: 'Permission Delegation To Embedded Web Applications',
+        href: 'https://noncombatant.github.io/permission-delegation-api/',
+        authors: [
+          'Raymes Khoury',
+          'Chris Palmer'
+        ],
+        date: 'March 30 2016'
+      },
       'HTTP-JFV': {
         title: 'A JSON Encoding for HTTP Header Field Values',
         href: 'https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html',
@@ -108,13 +117,17 @@
         </pre>
       </div>
     </section>
-
     <section>
       <h2>Other and related mechanisms</h2>
-      <p>TODO</p>
+      <p>[[HTML5]] defines a [sandbox attribute] for `iframe` elements that allows developers to reduce the risk of including potentially untrusted content by imposing restrictions on content's abilities - e.g. prevent it from submitting forms, running scripts and plugins, and more. The [sandbox directive] defined by [[CSP2]] extends this capability to any resource, framed or not, to ask for the same set of restrictions - e.g. via an HTTP response header (`Content-Security-Policy: sandbox`). These mechanisms enable the developer to:</p>
+      <ul>
+        <li>Set and customize a sandbox policy on any resource via CSP.</li>
+        <li>Set and customize individual sandbox policies on each `iframe` element within their application.</li>
+      </ul>
+      <p>However, there are several limitations to the above mechanism: the developer cannot automatically cascade a policy to all subframes, which makes it hard or impossible to enforce consistently in some cases (e.g. due to third party content injecting frames); the sandbox mechanism uses a whitelist approach which is impossible to extend without compatibility risk; there is no mechanism to gather violations.</p>
+      <p>Feature Policy is intended to be used in combination with the sandbox mechanism (i.e. it does not duplicate feature controls already covered by sandbox), and provides an extensible mechanism that addresses the above limitations.</p>
+      <p>The [[PERMISSION-DELEGATION]] API allows embedders to regulate the embedees' use of powerful features. This API can be used in combination with Feature Policy: to delegate the permission the top-level page must hold said permission first; if the feature is disabled via Feature Policy then delegation is a no-op.</p>
     </section>
-
-
   </section>
   <section>
     <h2>Framework</h2>
@@ -275,6 +288,8 @@
 </html>
 
 <!-- spec references. preserve before running tidy! -->
+[sandbox attribute]: https://html.spec.whatwg.org/multipage/the-iframe-element.html#attr-iframe-sandbox
+[sandbox directive]: https://www.w3.org/TR/2014/WD-CSP11-20140211/#sandbox
 [window]: https://www.w3.org/TR/html5/browsers.html#dom-window
 [workerglobalscope]: https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope
 [response]: https://fetch.spec.whatwg.org/#concept-response
