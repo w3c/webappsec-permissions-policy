@@ -75,7 +75,13 @@
       <li>The developer may want to similarly "lock down" their application against "first party" content developed by other developers from accidentally introducing behaviors that regress their application.</li>
       <li>The developer may want to assert a promise to a client or an embedder about the use—or lack of thereof—of certain features and API's. For example, to enable certain types of "fast path" optimizations in the browser, or to assert a promise about conformance with some requirements set by other embedders (e.g. various social networks, search engines, and so on).</li>
     </ol>
-    <p>This specification defines a mechanism which addresses the above limitations, by allowing the developer to specify a feature policy that selectively modifies, or disables, use of certain features and API's within their application.</p>
+    <p>This specification defines a mechanism which addresses the above limitations by allowing the developer to:</p>
+    <ul>
+      <li>Selectively disable or modify the behavior of certain features and API's within their application.</li>
+      <li>Configure each such policy to run in report only, enforce, or enforce and report modes.</li>
+      <li>Configure each such policy to be enforced at the top-level context, or to also cascade to all subframes.</li>
+    </ul>
+
     <section>
       <h2>Examples</h2>
       <div class="example">
@@ -92,13 +98,13 @@
                    {"<a>sync-xhr</a>":{"<a>mode</a>":"report"}}
                    {"report-to": "default"}
         </pre>
-        <p>In this case, feature policy reports will be delivered to the "default" group configured via [[REPORTING]] API.</p>
+        <p>Feature policy reports will be delivered to the "default" group configured via [[REPORTING]] API.</p>
       </div>
       <div class="example">
-        <p>Fast App wants to disable use of synchronous `script` elements, synchronous `XMLHttpRequest`'s and use of `document.write` within the top-level and all of the subframes of their application. It also wants to the browser to send violation reports of this policy to the "disable" group configured via [[REPORTING]] API. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <p>Fast App wants to disable use of synchronous `script` elements, synchronous `XMLHttpRequest`'s and use of `document.write` within the top-level and all of the subframes of their application. It also wants to the browser to send violation reports of this policy to the "perf-violations" group configured via [[REPORTING]] API. It can do so by delivering the following HTTP response header to define a feature policy:</p>
         <pre>
           Disable: {"<a>sync-xhr</a>": {}},{"<a>sync-script</a>": {}},
-                   {"<a>docwrite</a>": {}},{"report-to": "disable"}
+                   {"<a>docwrite</a>": {}},{"report-to": "perf-violations"}
         </pre>
       </div>
     </section>
