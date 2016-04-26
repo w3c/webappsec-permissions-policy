@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 for Mac OS X version 5.1.25">
   <title>Feature Policy</title>
   <meta charset='utf-8'>
   <script src='https://www.w3.org/Tools/respec/respec-w3c-common' async class=
@@ -70,7 +72,8 @@
 </head>
 <body>
   <section id='abstract'>
-    <p>This specification defines a mechanism that allows developers to modify the behavior of, or disable, use of various browser features and API's.</p>
+    <p>This specification defines a mechanism that allows developers to modify
+    the behavior of, or disable, use of various browser features and API's.</p>
   </section>
   <section id='sotd'>
     <p>This is a <strong>work in progress</strong> and may change without any
@@ -78,39 +81,73 @@
   </section>
   <section>
     <h2>Introduction</h2>
-    <p>The web-platform provides an ever-expanding set of features and APIs, offering richer functionality, better developer ergonomics, and improved performance. However, a missing piece is the ability for the developer to selectively modify the behavior of, or disable, the use of some of these browser features and API's within their application:</p>
+    <p>The web-platform provides an ever-expanding set of features and APIs,
+    offering richer functionality, better developer ergonomics, and improved
+    performance. However, a missing piece is the ability for the developer to
+    selectively modify the behavior of, or disable, the use of some of these
+    browser features and API's within their application:</p>
     <ol>
-      <li>The developer may want to "lock down" their application against use of certain features and API's, as a security or performance precaution, to prevent third party content executing within their application from introducing behaviors that regress their application.</li>
-      <li>The developer may want to similarly "lock down" their application against "first party" content developed by other developers from accidentally introducing behaviors that regress their application.</li>
-      <li>The developer may want to assert a promise to a client or an embedder about the use—or lack of thereof—of certain features and API's. For example, to enable certain types of "fast path" optimizations in the browser, or to assert a promise about conformance with some requirements set by other embedders (e.g. various social networks, search engines, and so on).</li>
+      <li>The developer may want to "lock down" their application against use
+      of certain features and API's, as a security or performance precaution,
+      to prevent third party content executing within their application from
+      introducing behaviors that regress their application.</li>
+      <li>The developer may want to similarly "lock down" their application
+      against "first party" content developed by other developers from
+      accidentally introducing behaviors that regress their application.</li>
+      <li>The developer may want to assert a promise to a client or an embedder
+      about the use—or lack of thereof—of certain features and API's. For
+      example, to enable certain types of "fast path" optimizations in the
+      browser, or to assert a promise about conformance with some requirements
+      set by other embedders (e.g. various social networks, search engines, and
+      so on).</li>
     </ol>
-    <p>This specification defines a mechanism which addresses the above limitations by allowing the developer to:</p>
+    <p>This specification defines a mechanism which addresses the above
+    limitations by allowing the developer to:</p>
     <ul>
-      <li>Selectively disable or modify the behavior of certain features and API's within their application.</li>
-      <li>Configure each such policy to run in report only, enforce, or enforce and report modes.</li>
-      <li>Configure each such policy to be enforced at the top-level context, or to also cascade to all subframes.</li>
+      <li>Selectively disable or modify the behavior of certain features and
+      API's within their application.</li>
+      <li>Configure each such policy to run in report only, enforce, or enforce
+      and report modes.</li>
+      <li>Configure each such policy to be enforced at the top-level context,
+      or to also cascade to all subframes.</li>
     </ul>
-
     <section>
       <h2>Examples</h2>
       <div class="example">
-        <p>SecureCorp Inc. wants to disable use of WebRTC and Geolocation API's within the top-level frame and all of the subframes of their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <p>SecureCorp Inc. wants to disable use of WebRTC and Geolocation API's
+        within the top-level frame and all of the subframes of their
+        application. It can do so by delivering the following HTTP response
+        header to define a feature policy:</p>
         <pre>
           Disable: {"<a>webrtc</a>":{}},{"<a>geolocation</a>":{}}
         </pre>
-        <p>Unless specified otherwise, the default <a>mode</a> for each of the above directives is "`enforce`" and <a>target</a> is "`cascade`", which means that both features will be disabled for the top level frame and the same policy will cascade to all subframes of the application.</p>
+        <p>Unless specified otherwise, the default <a>mode</a> for each of the
+        above directives is "`enforce`" and <a>target</a> is "`cascade`", which
+        means that both features will be disabled for the top level frame and
+        the same policy will cascade to all subframes of the application.</p>
       </div>
       <div class="example">
-        <p>SecureCorp Inc. wants to disable use of Geolocation API's within the top-level frame and allow the use but collect a violation report whenever `document.cookie` API is used, within any frame of their application. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <p>SecureCorp Inc. wants to disable use of Geolocation API's within the
+        top-level frame and allow the use but collect a violation report
+        whenever `document.cookie` API is used, within any frame of their
+        application. It can do so by delivering the following HTTP response
+        header to define a feature policy:</p>
         <pre>
           Disable: {"<a>geolocation</a>":{"<a>target</a>": "self"}},
                    {"<a>sync-xhr</a>":{"<a>mode</a>":"report"}}
                    {"report-to": "default"}
         </pre>
-        <p>Feature policy reports will be delivered to the "default" group configured via [[REPORTING]] API.</p>
+        <p>Feature policy reports will be delivered to the "default" group
+        configured via [[REPORTING]] API.</p>
       </div>
       <div class="example">
-        <p>Fast App wants to disable use of synchronous `script` elements, synchronous `XMLHttpRequest`'s and use of `document.write` within the top-level and all of the subframes of their application. It also wants to the browser to send violation reports of this policy to the "perf-violations" group configured via [[REPORTING]] API. It can do so by delivering the following HTTP response header to define a feature policy:</p>
+        <p>Fast App wants to disable use of synchronous `script` elements,
+        synchronous `XMLHttpRequest`'s and use of `document.write` within the
+        top-level and all of the subframes of their application. It also wants
+        to the browser to send violation reports of this policy to the
+        "perf-violations" group configured via [[REPORTING]] API. It can do so
+        by delivering the following HTTP response header to define a feature
+        policy:</p>
         <pre>
           Disable: {"<a>sync-xhr</a>": {}},{"<a>sync-script</a>": {}},
                    {"<a>docwrite</a>": {}},{"report-to": "perf-violations"}
@@ -119,116 +156,192 @@
     </section>
     <section>
       <h2>Other and related mechanisms</h2>
-      <p>[[HTML5]] defines a [sandbox attribute] for `iframe` elements that allows developers to reduce the risk of including potentially untrusted content by imposing restrictions on content's abilities - e.g. prevent it from submitting forms, running scripts and plugins, and more. The [sandbox directive] defined by [[CSP2]] extends this capability to any resource, framed or not, to ask for the same set of restrictions - e.g. via an HTTP response header (`Content-Security-Policy: sandbox`). These mechanisms enable the developer to:</p>
+      <p>[[HTML5]] defines a [sandbox attribute] for `iframe` elements that
+      allows developers to reduce the risk of including potentially untrusted
+      content by imposing restrictions on content's abilities - e.g. prevent it
+      from submitting forms, running scripts and plugins, and more. The
+      [sandbox directive] defined by [[CSP2]] extends this capability to any
+      resource, framed or not, to ask for the same set of restrictions - e.g.
+      via an HTTP response header (`Content-Security-Policy: sandbox`). These
+      mechanisms enable the developer to:</p>
       <ul>
         <li>Set and customize a sandbox policy on any resource via CSP.</li>
-        <li>Set and customize individual sandbox policies on each `iframe` element within their application.</li>
+        <li>Set and customize individual sandbox policies on each `iframe`
+        element within their application.</li>
       </ul>
-      <p>However, there are several limitations to the above mechanism: the developer cannot automatically cascade a policy to all subframes, which makes it hard or impossible to enforce consistently in some cases (e.g. due to third party content injecting frames); the sandbox mechanism uses a whitelist approach which is impossible to extend without compatibility risk; there is no mechanism to gather violations.</p>
-      <p>Feature Policy is intended to be used in combination with the sandbox mechanism (i.e. it does not duplicate feature controls already covered by sandbox), and provides an extensible mechanism that addresses the above limitations.</p>
-      <p>The [[PERMISSION-DELEGATION]] API allows embedders to regulate the embedees' use of powerful features. This API can be used in combination with Feature Policy: to delegate the permission the top-level page must hold said permission first; if the feature is disabled via Feature Policy then delegation is a no-op.</p>
+      <p>However, there are several limitations to the above mechanism: the
+      developer cannot automatically cascade a policy to all subframes, which
+      makes it hard or impossible to enforce consistently in some cases (e.g.
+      due to third party content injecting frames); the sandbox mechanism uses
+      a whitelist approach which is impossible to extend without compatibility
+      risk; there is no mechanism to gather violations.</p>
+      <p>Feature Policy is intended to be used in combination with the sandbox
+      mechanism (i.e. it does not duplicate feature controls already covered by
+      sandbox), and provides an extensible mechanism that addresses the above
+      limitations.</p>
+      <p>The [[PERMISSION-DELEGATION]] API allows embedders to regulate the
+      embedees' use of powerful features. This API can be used in combination
+      with Feature Policy: to delegate the permission the top-level page must
+      hold said permission first; if the feature is disabled via Feature Policy
+      then delegation is a no-op.</p>
     </section>
   </section>
   <section>
     <h2>Framework</h2>
     <section>
       <h2>Policies</h2>
-      <p>A <dfn>feature policy</dfn> may be applied to a [Window] or [WorkerGlobalScope] and consists of:</p>
+      <p>A <dfn>feature policy</dfn> may be applied to a [Window] or
+      [WorkerGlobalScope] and consists of:</p>
       <ul>
-        <li>A set of <a data-lt="directive">directives</a>.</li>
-        <li>A <dfn>report group</dfn> ([[!REPORTING]]) which is either <var>null</var>, or an ASCII string value.</li>
+        <li>A set of <a data-lt="directive">directives</a>.
+        </li>
+        <li>A <dfn>report group</dfn> ([[!REPORTING]]) which is either
+        <var>null</var>, or an ASCII string value.</li>
       </ul>
-
     </section>
     <section>
       <h2>Directives</h2>
       <p>Each <dfn>directive</dfn> consists of a:</p>
       <ul>
         <li>A <dfn>name</dfn> which is a non-empty ASCII string.</li>
-        <li>A <dfn>mode</dfn> which is either <code>"enforce"</code> or <code>"report"</code>.</li>
-        <li>A <dfn>target</dfn> which is either <code>"self"</code> or <code>"cascade"</code>.</li>
+        <li>A <dfn>mode</dfn> which is either <code>"enforce"</code> or
+        <code>"report"</code>.</li>
+        <li>A <dfn>target</dfn> which is either <code>"self"</code> or
+        <code>"cascade"</code>.</li>
       </ul>
     </section>
   </section>
   <section>
     <h2>Disable Policy</h2>
-    <p>The <dfn>disable policy</dfn> allows a developer to turn off certain features for a <code>Document</code> or <code>Worker</code>.</p>
-
+    <p>The <dfn>disable policy</dfn> allows a developer to turn off certain
+    features for a <code>Document</code> or <code>Worker</code>.</p>
     <section>
       <h2>Policy Delivery</h2>
       <section>
         <h2><code>Disable</code> HTTP Response Header Field</h2>
-        <p>The <dfn>Disable</dfn> HTTP response header field is used to deliver a <a>feature policy</a> from a server to client. The header's value is represented by the following ABNF [[!RFC5234]]:</p>
-        <pre class="abnf" link-type="grammar" dfn-type="grammar">
+        <p>The <dfn>Disable</dfn> HTTP response header field is used to deliver
+        a <a>feature policy</a> from a server to client. The header's value is
+        represented by the following ABNF [[!RFC5234]]:</p>
+        <pre class="abnf">
           Disable = 1#json-field-value
                     ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
         </pre>
-        <p>The policy is parsed as defined in <a href="#process-directives-for-response-to-request"></a>, and the header’s value is interpreted as an array of JSON objects, as described in Section 4 of [[!HTTP-JFV]].</p>
-        <p>The following sections define the set of known members in each JSON object the header’s value defines. Future versions of this document may define additional such members, and user agents MUST ignore unknown members when parsing the header.</p>
+        <p>The policy is parsed as defined in <a href=
+        "#process-directives-for-response-to-request"></a>, and the header’s
+        value is interpreted as an array of JSON objects, as described in
+        Section 4 of [[!HTTP-JFV]].</p>
+        <p>The following sections define the set of known members in each JSON
+        object the header’s value defines. Future versions of this document may
+        define additional such members, and user agents MUST ignore unknown
+        members when parsing the header.</p>
         <section>
           <h2>The <var>mode</var> member</h2>
-          <p>The OPTIONAL <dfn>mode member</dfn> is a string that defines the enforcement mode for the directive. The member's value MUST be a string; any other type will result in a parse error.</p>
-          <p>The recognized string values are <code>"enforce"</code> and <code>"report"</code>. If an unknown value is specified, or if no member named <code>"mode"</code> is present in the object, the <a>directive</a>'s <a>mode</a> will be set to <code>"enforce"</code>.</p>
+          <p>The OPTIONAL <dfn>mode member</dfn> is a string that defines the
+          enforcement mode for the directive. The member's value MUST be a
+          string; any other type will result in a parse error.</p>
+          <p>The recognized string values are <code>"enforce"</code> and
+          <code>"report"</code>. If an unknown value is specified, or if no
+          member named <code>"mode"</code> is present in the object, the
+          <a>directive</a>'s <a>mode</a> will be set to
+          <code>"enforce"</code>.</p>
         </section>
         <section>
           <h2>The <var>target</var> member</h2>
-          <p>The OPTIONAL <dfn>target member</dfn> is a string that defines the enforcement mode for the directive. The member's value MUST be a string; any other type will result in a parse error.</p>
-          <p>The recognized string values are <code>"self"</code> and <code>"cascade"</code>. If an unknown value is specified, or if no member named <code>"target"</code> is present in the object, the <a>directive</a>'s <a>target</a> will be set to <code>"cascade"</code>.</p>
+          <p>The OPTIONAL <dfn>target member</dfn> is a string that defines the
+          enforcement mode for the directive. The member's value MUST be a
+          string; any other type will result in a parse error.</p>
+          <p>The recognized string values are <code>"self"</code> and
+          <code>"cascade"</code>. If an unknown value is specified, or if no
+          member named <code>"target"</code> is present in the object, the
+          <a>directive</a>'s <a>target</a> will be set to
+          <code>"cascade"</code>.</p>
         </section>
       </section>
       <section>
         <h2>Process directives for response to request</h2>
-        <p>Given a [response] (<var>response</var>) and a [request] (<var>request</var>), this algorithm extracts a <a>feature policy</a>.</p>
+        <p>Given a [response] (<var>response</var>) and a [request]
+        (<var>request</var>), this algorithm extracts a <a>feature
+        policy</a>.</p>
         <ol>
-          <li>Abort these steps if any of the following conditions are true:</li>
-          <ol>
-            <li><var>response</var>’s [HTTPS state] is not "<code>modern</code>", and the [origin] of <var>response</var>’s [url] is not [potentially trustworthy].</li>
-            <li><var>response</var>’s [header list] does not contain a [header] whose [name] is "`Disable`".</li>
-          </ol>
-          <li>Let <var>header</var> be the [value] of the [header] in <var>response</var>’s [header list] whose name is "`Disable`".</p>
-          <li>Let <var>feature policy</var> be the result of executing <a href="#parse-policy-from-value"></a> on <var>header</var>.</li>
+          <li>Abort these steps if any of the following conditions are true:
+            <ol>
+              <li><var>response</var>’s [HTTPS state] is not
+              "<code>modern</code>", and the [origin] of <var>response</var>’s
+              [url] is not [potentially trustworthy].</li>
+              <li><var>response</var>’s [header list] does not contain a
+              [header] whose [name] is "`Disable`".</li>
+            </ol>
+          </li>
+          <li>Let <var>header</var> be the [value] of the [header] in
+          <var>response</var>’s [header list] whose name is "`Disable`".</li>
+          <li>Let <var>feature policy</var> be the result of executing
+            <a href="#parse-policy-from-value"></a> on <var>header</var>.
+          </li>
         </ol>
       </section>
       <section>
         <h2>Parse policy from <var>value</var></h2>
-        <p>Given a string (<var>value</var>) this algorithm will return a <a>feature policy</a> that contains a set of <a data-lt="directive">directives</a> and a <a>report group</a>.</p>
+        <p>Given a string (<var>value</var>) this algorithm will return a
+        <a>feature policy</a> that contains a set of <a data-lt=
+        "directive">directives</a> and a <a>report group</a>.</p>
         <ol>
-          <li>Let <var>list</var> be the result of executing the algorithm defined in Section 4 of [[!HTTP-JFV]]. If that algorithm results in an error, abort these steps.</li>
-          <li>Let <var>policy</var> be a new tuple containing the following:</li>
-          <dl>
-            <dt><var>directives</var></dt>
-            <dd>Set to an empty list.</dd>
-            <dt><var>report group</var></dt>
-            <dd>Set to <var>null</var>.</dd>
-          </dl>
-          <li>If <var>list</var> contains a member (<var>item</var>) whose name value is "`report-to`":</li>
-          <ol>
-            <li>Remove <var>item</var> from <var>list</var>.</li>
-            <li>If <var>item</var>'s value is a string, set <var>policy</var>'s <var>report group</var> value to <var>item</var>'s value.</li>
-          </ol>
-          <li>For each <var>name</var>`/`<var>value</var> pair in <var>list</var>:</li>
-          <ol>
-            <li>If <var>name</var>'s string value is not equal to one of <a>valid feature names</a>, or <var>value</var> is not a list of members, skip to the next item in <var>list</var>.</li>
-            <li>Let <var>tuple</var> be a new <a>directive</a> containing the following:</li>
+          <li>Let <var>list</var> be the result of executing the algorithm
+          defined in Section 4 of [[!HTTP-JFV]]. If that algorithm results in
+          an error, abort these steps.</li>
+          <li>Let <var>policy</var> be a new tuple containing the following:
             <dl>
-              <dt>"`name`"</dt>
-              <dd><var>name</var>'s string value.</dd>
-              <dt>"`mode`"</dt>
-              <dd><var>value</var>'s <a>mode member</a>'s string value if present, and "`enforce`" otherwise.</dd>
-              <dt>"`target`"</dt>
-              <dd><var>value</var>'s <a>target member</a>'s string value if present, and "`cascade`" otherwise.</dd>
+              <dt><var>directives</var></dt>
+              <dd>Set to an empty list.</dd>
+              <dt><var>report group</var></dt>
+              <dd>Set to <var>null</var>.</dd>
             </dl>
-            <li>Append <var>tuple</var> to <var>policy</var>'s <var>directives</var>.</li>
-          </ol>
+          </li>
+          <li>If <var>list</var> contains a member (<var>item</var>) whose name
+          value is "`report-to`":
+            <ol>
+              <li>Remove <var>item</var> from <var>list</var>.</li>
+              <li>If <var>item</var>'s value is a string, set
+              <var>policy</var>'s <var>report group</var> value to
+              <var>item</var>'s value.</li>
+            </ol>
+          </li>
+          <li>For each <var>name</var>`/`<var>value</var> pair in
+          <var>list</var>:
+            <ol>
+              <li>If <var>name</var>'s string value is not equal to one of <a>
+                valid feature names</a>, or <var>value</var> is not a list of
+                members, skip to the next item in <var>list</var>.
+              </li>
+              <li>Let <var>tuple</var> be a new <a>directive</a> containing the
+              following:
+                <dl>
+                  <dt>"`name`"</dt>
+                  <dd><var>name</var>'s string value.</dd>
+                  <dt>"`mode`"</dt>
+                  <dd>
+                    <var>value</var>'s <a>mode member</a>'s string value if
+                    present, and "`enforce`" otherwise.
+                  </dd>
+                  <dt>"`target`"</dt>
+                  <dd>
+                    <var>value</var>'s <a>target member</a>'s string value if
+                    present, and "`cascade`" otherwise.
+                  </dd>
+                </dl>
+              </li>
+              <li>Append <var>tuple</var> to <var>policy</var>'s
+              <var>directives</var>.</li>
+            </ol>
+          </li>
           <li>Return <var>policy</var>.</li>
         </ol>
       </section>
     </section>
-
     <section>
       <h2>Features</h2>
-      <p>This section defines the list of <dfn>valid feature names</dfn> and their effect when applied via a <a>directive</a> as part of a <a>feature policy</a>.</p>
-
+      <p>This section defines the list of <dfn>valid feature names</dfn> and
+      their effect when applied via a <a>directive</a> as part of a <a>feature
+      policy</a>.</p>
       <section>
         <h2><dfn>`cookie`</dfn></h2>
         <p>Disables `document.cookie`.</p>
@@ -259,7 +372,8 @@
       </section>
       <section>
         <h2><dfn>`sync-script`</dfn></h2>
-        <p>Disables synchronous `script` elements. When this policy is set, such scripts are ignored by the user agent.</p>
+        <p>Disables synchronous `script` elements. When this policy is set,
+        such scripts are ignored by the user agent.</p>
       </section>
       <section>
         <h2><dfn>`sync-xhr`</dfn></h2>
@@ -270,24 +384,24 @@
         <p>Disables WebRTC. [[!WEBRTC]]</p>
       </section>
     </section>
-
     <section>
-    <h2>Enforcement</h2>
+      <h2>Enforcement</h2>
       <section>
-      <h2>Runtime enforcement</h2>
-      <div class="issue">
-        <p>TODO...</p>
-        <ol>
-          <li>Hook to check policy before invoking feature</li>
-          <li>Queue a violation report if previous step fails</li>
-        </ol>
-      </p>
+        <h2>Runtime enforcement</h2>
+        <div class="issue">
+          <p>TODO...</p>
+          <ol>
+            <li>Hook (where?) to check policy before invoking feature</li>
+            <li>Queue a violation report if previous step fails</li>
+          </ol>
+        </div>
       </section>
     </section>
   </section>
   <section>
     <h2>IANA Considerations</h2>
-    <p>The permanent message header field registry should be updated with the following registration: [[!RFC3864]]:</p>
+    <p>The permanent message header field registry should be updated with the
+    following registration: [[!RFC3864]]:</p>
     <dl>
       <dt>Header field name</dt>
       <dd>Disable</dd>
@@ -298,7 +412,9 @@
       <dt>Author/Change controller</dt>
       <dd>W3C</dd>
       <dt>Specification document</dt>
-      <dd><a href="">Feature Policy API</a></dd>
+      <dd>
+        <a href="">Feature Policy API</a>
+      </dd>
     </dl>
   </section>
   <section id="privacy" class="informative">
