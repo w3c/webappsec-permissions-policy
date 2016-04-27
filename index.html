@@ -119,7 +119,8 @@
         application. It can do so by delivering the following HTTP response
         header to define a feature policy:</p>
         <pre>
-          Disable: {"<a>webrtc</a>":{}},{"<a>geolocation</a>":{}}
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>webrtc</a>","<a>geolocation</a>"]}
         </pre>
         <p>Unless specified otherwise, the default <a>mode</a> for each of the
         above directives is "`enforce`" and <a>target</a> is "`cascade`", which
@@ -133,9 +134,13 @@
         application. It can do so by delivering the following HTTP response
         header to define a feature policy:</p>
         <pre>
-          Disable: {"<a>geolocation</a>":{"<a>target</a>": "self"}},
-                   {"<a>sync-xhr</a>":{"<a>mode</a>":"report"}}
-                   {"report-to": "default"}
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>geolocation</a>"], "<a data-lt=
+"target member">target</a>":"self"},
+          {"<a data-lt=
+"disable member">disable</a>":["<a>cookie</a>"], "<a data-lt=
+"mode member">mode</a>":"report", "<a data-lt=
+"report member">report-to</a>":"default"}
         </pre>
         <p>Feature policy reports will be delivered to the "default" group
         configured via [[REPORTING]] API.</p>
@@ -149,9 +154,10 @@
         by delivering the following HTTP response header to define a feature
         policy:</p>
         <pre>
-          Disable: {"<a>sync-xhr</a>": {}},{"<a>sync-script</a>": {}},
-                   {"<a>docwrite</a>": {}},{"report-to": "perf-violations"}
-        </pre>
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>sync-xhr</a>","<a>sync-script</a>","<a>docwrite</a>"],
+          "<a data-lt="report member">report-to</a>":"perf-violations"}
+      </pre>
       </div>
     </section>
     <section>
@@ -195,33 +201,36 @@
       <ul>
         <li>A set of <a data-lt="directive">directives</a>.
         </li>
-        <li>A <dfn>report group</dfn> ([[!REPORTING]]) which is either
-        <var>null</var>, or an ASCII string value.</li>
       </ul>
     </section>
     <section>
       <h2>Directives</h2>
       <p>Each <dfn>directive</dfn> consists of a:</p>
       <ul>
-        <li>A <dfn>name</dfn> which is a non-empty ASCII string.</li>
+        <li>A <dfn>type</dfn> which is a non-empty ASCII string.</li>
         <li>A <dfn>mode</dfn> which is either <code>"enforce"</code> or
         <code>"report"</code>.</li>
         <li>A <dfn>target</dfn> which is either <code>"self"</code> or
         <code>"cascade"</code>.</li>
+        <li>A <dfn>report group</dfn> ([[!REPORTING]]) which is either
+        <var>null</var>, or an ASCII string.</li>
+        <li>A <dfn>disable list</dfn> which is a list of <a>valid disable
+        features</a>.
+        </li>
       </ul>
     </section>
-  </section>
-  <section>
-    <h2>Disable Policy</h2>
-    <p>The <dfn>disable policy</dfn> allows a developer to turn off certain
-    features for a <code>Document</code> or <code>Worker</code>.</p>
     <section>
-      <h2>Policy Delivery</h2>
+      <h2>Delivery</h2>
       <section>
-        <h2><code>Disable</code> HTTP Response Header Field</h2>
-        <p>The <dfn>Disable</dfn> HTTP response header field is used to deliver
-        a <a>feature policy</a> from a server to client. The header's value is
-        represented by the following ABNF [[!RFC5234]]:</p>
+        <h2>`Feature-Policy` HTTP Header Field</h2>
+        <p>The <dfn>Feature-Policy</dfn> HTTP header field can be used both in
+        the [response] (server to client) and a [request] (client to server) to
+        communicate the <a>feature policy</a>. In the former case, the server
+        is communicating the desired policy that should be enforced by the
+        client, and in the latter, the client is communicating the policy that
+        it will enforce.</p>
+        <p>The header's value is represented by the following ABNF
+        [[!RFC5234]]:</p>
         <pre class="abnf">
           Disable = 1#json-field-value
                     ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
@@ -235,30 +244,40 @@
         define additional such members, and user agents MUST ignore unknown
         members when parsing the header.</p>
         <section>
-          <h2>The <var>mode</var> member</h2>
-          <p>The OPTIONAL <dfn>mode member</dfn> is a string that defines the
-          enforcement mode for the directive. The member's value MUST be a
-          string; any other type will result in a parse error.</p>
-          <p>The recognized string values are <code>"enforce"</code> and
-          <code>"report"</code>. If an unknown value is specified, or if no
-          member named <code>"mode"</code> is present in the object, the
-          <a>directive</a>'s <a>mode</a> will be set to
-          <code>"enforce"</code>.</p>
+          <h2>The <var>mode member</var></h2>
+          <p>The OPTIONAL <dfn>mode member</dfn> defines the enforcement mode
+          for the directive. The member's name is "`mode`" and the recognized
+          values are "`enforce`" and "`report`". If an unknown value is
+          specified, or if no member named "`mode`" is present in the object,
+          the <a>directive</a>'s <a>mode</a> will be set to "`enforce`".</p>
         </section>
         <section>
-          <h2>The <var>target</var> member</h2>
-          <p>The OPTIONAL <dfn>target member</dfn> is a string that defines the
-          enforcement mode for the directive. The member's value MUST be a
-          string; any other type will result in a parse error.</p>
-          <p>The recognized string values are <code>"self"</code> and
-          <code>"cascade"</code>. If an unknown value is specified, or if no
-          member named <code>"target"</code> is present in the object, the
-          <a>directive</a>'s <a>target</a> will be set to
-          <code>"cascade"</code>.</p>
+          <h2>The <var>target member</var></h2>
+          <p>The OPTIONAL <dfn>target member</dfn> defines the enforcement mode
+          for the directive. The member's name is "`target`" and the recognized
+          values are "`self`" and "`cascade`". If an unknown value is
+          specified, or if no member named "`target`" is present in the object,
+          the <a>directive</a>'s <a>target</a> will be set to "`cascade`".</p>
+        </section>
+        <section>
+          <h2>The <var>report member</var></h2>
+          <p>The OPTIONAL <dfn>report member</dfn> defines the report group
+          ([[!REPORTING]]) for the directive. The member's name is
+          "`report-to`" and the recognized value is an ASCII string. If no
+          member namd "`report-to`" is present in the object, the
+          <a>directive</a>'s <a>report group</a> will be set to
+          <var>null</var>.</p>
+        </section>
+        <section>
+          <h2>The <var>disable member</var></h2>
+          <p>The OPTIONAL <dfn>disable member</dfn> defines the <a>disable
+          policy</a> for the directive. The member's name is "`disable`" and
+          the value is a list of <a>valid disable features</a>. Unrecognized
+          features will be ignored by the user agent.</p>
         </section>
       </section>
       <section>
-        <h2>Process directives for response to request</h2>
+        <h2>Process response policy</h2>
         <p>Given a [response] (<var>response</var>) and a [request]
         (<var>request</var>), this algorithm extracts a <a>feature
         policy</a>.</p>
@@ -269,77 +288,110 @@
               "<code>modern</code>", and the [origin] of <var>response</var>’s
               [url] is not [potentially trustworthy].</li>
               <li><var>response</var>’s [header list] does not contain a
-              [header] whose [name] is "`Disable`".</li>
+              [header] whose [name] is "`Feature-Policy`".</li>
             </ol>
           </li>
           <li>Let <var>header</var> be the [value] of the [header] in
-          <var>response</var>’s [header list] whose name is "`Disable`".</li>
+          <var>response</var>’s [header list] whose name is
+          "`Feature-Policy`".</li>
           <li>Let <var>feature policy</var> be the result of executing
-            <a href="#parse-policy-from-value"></a> on <var>header</var>.
+            <a href="#parse-response-policy-from-value"></a> on
+            <var>header</var>.
           </li>
         </ol>
+        <section>
+          <h2>Parse response policy from <var>value</var></h2>
+          <p>Given a string (<var>value</var>) this algorithm will return a
+          <a>feature policy</a>.</p>
+          <ol>
+            <li>Let <var>list</var> be the result of executing the algorithm
+            defined in Section 4 of [[!HTTP-JFV]]. If that algorithm results in
+            an error, abort these steps.</li>
+            <li>Let <var>policy</var> be an empty list.</li>
+            <li>For each <var>item</var> in <var>list</var>:
+              <ol>
+                <li>Let <var>mode</var> be the <var>item</var>'s <a>mode
+                member</a>'s value.
+                </li>
+                <li>If <var>mode</var> is <var>null</var> or is not equal to
+                one of "`enforce`" or "`report`", set it to "`enforce`".</li>
+                <li>Let <var>target</var> be the <var>item</var>'s <a>mode
+                member</a>'s value.
+                </li>
+                <li>If <var>target</var> is <var>null</var> or is not equal to
+                one of "`self`" or "`cascade`", set it to "`cascade`".</li>
+                <li>Let <var>report to</var> be the <var>item</var>'s <a>report
+                member</a>'s value.
+                </li>
+                <li>If <var>report to</var> is not an ASCII string, set it to
+                <var>null</var>.</li>
+                <li>Let <var>disable list</var> be the result of executing
+                <a href="#parse-disable-features"></a> on the <var>item</var>'s
+                <a>disable member</a>'s value.
+                </li>
+                <li>Let <var>tuple</var> be a new <a>directive</a> containing
+                the following:
+                  <dl>
+                    <dt>"`mode`"</dt>
+                    <dd>Set to <var>mode</var>.</dd>
+                    <dt>"`target`"</dt>
+                    <dd>Set to <var>target</var>.</dd>
+                    <dt>"`report group`"</dt>
+                    <dd>Set to <var>report to</var>.</dd>
+                    <dt>"`disable list`"</dt>
+                    <dd>Set to <var>disable list</var>.</dd>
+                  </dl>
+                </li>
+                <li>Append <var>tuple</var> to <var>policy</var>'s
+                <var>directives</var>.</li>
+              </ol>
+            </li>
+            <li>Return <var>policy</var>.</li>
+          </ol>
+        </section>
       </section>
       <section>
-        <h2>Parse policy from <var>value</var></h2>
-        <p>Given a string (<var>value</var>) this algorithm will return a
-        <a>feature policy</a> that contains a set of <a data-lt=
-        "directive">directives</a> and a <a>report group</a>.</p>
+        <h2>Set request policy</h2>
+        <div class="issue">
+          <ul>
+            <li>Serialize response policy and advertise on all subresource
+            requests</li>
+            <li>Check that response matches the advertised policy, and reject
+            (?) the response otherwise</li>
+          </ul>
+        </div>
+      </section>
+    </section>
+  </section>
+  <section>
+    <h2>Disable Policy</h2>
+    <p>The <dfn>disable policy</dfn> allows a developer to turn off certain
+    features for a <code>Document</code> or <code>Worker</code>.</p>
+    <section>
+      <h2>Processing</h2>
+      <section>
+        <h2>Parse disable features</h2>
+        <p>Given a <var>list</var>, this algorithm returns a list of <a>valid
+        disable features</a>, which may be empty.</p>
         <ol>
-          <li>Let <var>list</var> be the result of executing the algorithm
-          defined in Section 4 of [[!HTTP-JFV]]. If that algorithm results in
-          an error, abort these steps.</li>
-          <li>Let <var>policy</var> be a new tuple containing the following:
-            <dl>
-              <dt><var>directives</var></dt>
-              <dd>Set to an empty list.</dd>
-              <dt><var>report group</var></dt>
-              <dd>Set to <var>null</var>.</dd>
-            </dl>
-          </li>
-          <li>If <var>list</var> contains a member (<var>item</var>) whose name
-          value is "`report-to`":
+          <li>Let <var>valid-features</var> be an empty list.</li>
+          <li>If <var>list</var> is <var>null</var> or empty, return
+          <var>valid-features</var>.</li>
+          <li>For each <var>item</var> in <var>list</var>:
             <ol>
-              <li>Remove <var>item</var> from <var>list</var>.</li>
-              <li>If <var>item</var>'s value is a string, set
-              <var>policy</var>'s <var>report group</var> value to
-              <var>item</var>'s value.</li>
+              <li>If <var>item</var>'s string value is not equal to one of <a>
+                valid disable features</a>, go to the next item.
+              </li>
+              <li>Append <var>item</var> to <var>valid-features</var>.</li>
             </ol>
           </li>
-          <li>For each <var>name</var>`/`<var>value</var> pair in
-          <var>list</var>:
-            <ol>
-              <li>If <var>name</var>'s string value is not equal to one of <a>
-                valid feature names</a>, or <var>value</var> is not a list of
-                members, skip to the next item in <var>list</var>.
-              </li>
-              <li>Let <var>tuple</var> be a new <a>directive</a> containing the
-              following:
-                <dl>
-                  <dt>"`name`"</dt>
-                  <dd><var>name</var>'s string value.</dd>
-                  <dt>"`mode`"</dt>
-                  <dd>
-                    <var>value</var>'s <a>mode member</a>'s string value if
-                    present, and "`enforce`" otherwise.
-                  </dd>
-                  <dt>"`target`"</dt>
-                  <dd>
-                    <var>value</var>'s <a>target member</a>'s string value if
-                    present, and "`cascade`" otherwise.
-                  </dd>
-                </dl>
-              </li>
-              <li>Append <var>tuple</var> to <var>policy</var>'s
-              <var>directives</var>.</li>
-            </ol>
-          </li>
-          <li>Return <var>policy</var>.</li>
+          <li>Return <var>valid-features</var>.</li>
         </ol>
       </section>
     </section>
     <section>
       <h2>Features</h2>
-      <p>This section defines the list of <dfn>valid feature names</dfn> and
+      <p>This section defines the list of <dfn>valid disable features</dfn> and
       their effect when applied via a <a>directive</a> as part of a <a>feature
       policy</a>.</p>
       <section>
@@ -393,6 +445,7 @@
           <ol>
             <li>Hook (where?) to check policy before invoking feature</li>
             <li>Queue a violation report if previous step fails</li>
+            <li>Q: violation reports for subframes? =/</li>
           </ol>
         </div>
       </section>
@@ -404,7 +457,7 @@
     following registration: [[!RFC3864]]:</p>
     <dl>
       <dt>Header field name</dt>
-      <dd>Disable</dd>
+      <dd>Feature-Policy</dd>
       <dt>Applicable protocol</dt>
       <dd>http</dd>
       <dt>Status</dt>
