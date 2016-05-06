@@ -586,7 +586,8 @@
                 <li>If <var>directive</var>'s <a>disable list</a> contains
                 <var>feature</var>:
                   <ol>
-                    <li><div class="issue">Queue a violation report for <var>feature</var> and <var>global</var></div></li>
+                    <li>Execute the <a href="#report-violation"></a> algorithm on
+                    <var>feature</var>, <var>directive</var>, and <var>global</var>.</li>
                     <li>Return "`Disabled`".</li>
                   </ol></li>
               </ol></li>
@@ -594,6 +595,35 @@
           </ol>
         </section>
       </section>
+    </section>
+  </section>
+  <section>
+    <h2>Reporting</h2>
+    <section>
+      <h3 id="report-violation">Report a violation for <var>feature</var>, <var>directive</var>, and <var>global</var></h3>
+      <p>Given a string (<var>feature</var>), a <a>directive</a> (<var>directive</var>),
+      and a global object (<var>global</var>), this algorithm will queue up a violation
+      report [[!REPORTING]]:
+      <ol>
+        <li>If <var>directive</var>'s <a>report group</a> is `null`, skip the remaining steps.
+        <li>Let <var>endpoint</var> be <var>directive</var>'s <a>report group</a>.
+        <li>Let <var>settings</var> be <var>global</var>'s setting object.
+        <li>Let <var>violation</var> be an dictionary whose members are set as follows:
+          <dl>
+            <dt>"`feature`"</dt>
+            <dd>Set to <var>feature</var>.</dd>
+          </dl>
+        </li>
+        <li><a href="https://w3c.github.io/reporting/#queue-report">Queue <var>violation</var> as "`feature-policy`" for <var>endpoint</var> on <var>settings</var></a>. [[!REPORTING]]
+      </ol>
+      <div class="issue">
+        <p>"`cascade`" is an issue here: we copy the directive down from the
+        parent, but it's not clear to what set of endpoints the cascaded
+        directive ought to report. Allowing a parent to force reports to
+        its own endpoint from a cross-origin embedee is a bit risky. Asking
+        the child to create a group for its parent's endpoints is unlikely to
+        catch bugs. What to do?</p>
+      </div>
     </section>
   </section>
   <section>
