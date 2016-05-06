@@ -455,7 +455,16 @@
       </section>
       <section>
         <h2><dfn>`sync-xhr`</dfn></h2>
-        <p>Disables synchronous <code>XMLHttpRequest</code> API.</p>
+        <p>Disables synchronous `XMLHttpRequest` API: when [open() method](xhr-open) is called with <var>async</var> argument set to <var>true</var>, an `InvalidAccessError` except will be thrown.</p>
+        <div class="example">
+          <p>Given the following header:</p>
+          <pre>
+  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>sync-xhr</a>"]}</pre>
+          <p>The following JavaScript code will throw a `InvalidAccessError` exception:</p>
+          <pre>
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/foo", true);</pre>
+        </div>
       </section>
       <section>
         <h2><dfn>`webrtc`</dfn></h2>
@@ -488,14 +497,14 @@
               <ol>
                 <li>If the document is a cookie-averse Document object, return the empty string.
                 <li>If the document's origin is an opaque origin, throw a "`SecurityError`" `DOMException`.
-                <li>If the <a href="is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`cookie`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`cookie`" and the document's global object, throw a "`SecurityError`" `DOMException`.
                 <li>Otherwise the user agent must return the cookie-string for the document's URL for a "non-HTTP" API, decoded using UTF-8 decode without BOM.
               </ol>
               <p>On setting:</p>
               <ol>
                 <li>If the document is a cookie-averse Document object, then the user agent must skip the remaining substeps.
                 <li>If the document's origin is an opaque origin, throw a "`SecurityError`" `DOMException`.
-                <li>If the <a href="is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`cookie`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`cookie`" and the document's global object, throw a "`SecurityError`" `DOMException`.
                 <li>Otherwise, the user agent must act as it would when receiving a set-cookie-string for the document's URL via a "non-HTTP" API, consisting of the new value encoded as UTF-8.
               </ol>
             </blockquote>
@@ -506,12 +515,12 @@
             <ol>
               <li>Add the following step after the current step 1 of the attribute's getter:
                 <ol>
-                  <li>If the <a href="is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`domain`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                  <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`domain`" and the document's global object, throw a "`SecurityError`" `DOMException`.
                 </ol>
               </li>
               <li>Add the following step after the current step 1 of the attribute's setter:
                 <ol>
-                  <li>If the <a href="is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`domain`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                  <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`domain`" and the document's global object, throw a "`SecurityError`" `DOMException`.
                 </ol>
               </li>
             </ol>
@@ -601,6 +610,16 @@
           </ol>
         </section>
       </section>
+      <section>
+        <h2>Integration with XMLHttpRequest</h2>
+        <p>The `open() method` calls into the <a href="#is-feature-disabled"></a> algorithm to determine whether or not to throw, as follows:</p>
+        <ol>
+          <li>Add the following step after the current step 3:</li>
+          <ol>
+            <li>If <var>async</var> is <var>false</var> and the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`sync-xhr`" and the document's global object, throw "`InvalidAccessError`" exception.
+          </ol>
+        </ol>
+      </section>
     </section>
   </section>
   <section>
@@ -673,3 +692,4 @@
 [header]: https://fetch.spec.whatwg.org/#concept-header
 [name]: https://fetch.spec.whatwg.org/#concept-header-name
 [value]: https://fetch.spec.whatwg.org/#concept-header-value
+[xhr-open]: https://xhr.spec.whatwg.org/#the-open()-method
