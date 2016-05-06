@@ -430,7 +430,15 @@
       </section>
       <section>
         <h2><dfn>`docwrite`</dfn></h2>
-        <p>Disables `document.write`.</p>
+        <p>Disables `document.write`: when called, throws "`NotSupportedError`" `DOMException`.</p>
+        <div class="example">
+          <p>Given the following header:</p>
+          <pre>
+  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>docwrite</a>"]}</pre>
+          <p>The following JavaScript code will throw a `NotSupportedError` exception:</p>
+          <pre>
+  document.write("...");</pre>
+        </div>
       </section>
       <section>
         <h2><dfn>`geolocation`</dfn></h2>
@@ -521,6 +529,15 @@
               <li>Add the following step after the current step 1 of the attribute's setter:
                 <ol>
                   <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`domain`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li><p>[`document.write` method](docwrite-method) calls into the <a href="#is-feature-disabled"></a> algorithm to determine whether or not to throw, as follows:</p>
+            <ol>
+              <li>Add the following step after the current step 1:
+                <ol>
+                  <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`docwrite`" and the document's global object, throw a "`NotSupportedError`" `DOMException`.</li>
                 </ol>
               </li>
             </ol>
@@ -693,3 +710,4 @@
 [name]: https://fetch.spec.whatwg.org/#concept-header-name
 [value]: https://fetch.spec.whatwg.org/#concept-header-value
 [xhr-open]: https://xhr.spec.whatwg.org/#the-open()-method
+[docwrite method]: https://html.spec.whatwg.org/#dom-document-write
