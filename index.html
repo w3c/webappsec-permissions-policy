@@ -205,9 +205,8 @@
     </section>
     <section>
       <h2>Directives</h2>
-      <p>Each <dfn>directive</dfn> consists of a:</p>
+      <p>Each <dfn>directive</dfn> is a tuple consisting of:</p>
       <ul>
-        <li>A <dfn>type</dfn> which is a non-empty ASCII string.</li>
         <li>A <dfn>mode</dfn> which is either <code>"enforce"</code> or
         <code>"report"</code>.</li>
         <li>A <dfn>target</dfn> which is either <code>"self"</code> or
@@ -330,8 +329,8 @@
                 <a href="#parse-disable-features"></a> on the <var>item</var>'s
                 <a>disable member</a>'s value.
                 </li>
-                <li>Let <var>tuple</var> be a new <a>directive</a> containing
-                the following:
+                <li>Let <var>tuple</var> be a new <a>directive</a> tuple whose
+                values are set as follows:
                   <dl>
                     <dt>"`mode`"</dt>
                     <dd>Set to <var>mode</var>.</dd>
@@ -343,8 +342,7 @@
                     <dd>Set to <var>disable list</var>.</dd>
                   </dl>
                 </li>
-                <li>Append <var>tuple</var> to <var>policy</var>'s
-                <var>directives</var>.</li>
+                <li>Append <var>tuple</var> to <var>policy</var>.</li>
               </ol>
             </li>
             <li>Return <var>policy</var>.</li>
