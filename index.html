@@ -278,7 +278,7 @@
       <section>
         <h2>Process response policy</h2>
         <p>Given a [response] (<var>response</var>) and a [request]
-        (<var>request</var>), this algorithm extracts a <a>feature
+        (<var>request</var>), this algorithm returns a <a>feature
         policy</a>.</p>
         <ol>
           <li>Abort these steps if any of the following conditions are true:
@@ -378,9 +378,10 @@
           <var>valid-features</var>.</li>
           <li>For each <var>item</var> in <var>list</var>:
             <ol>
-              <li>If <var>item</var>'s string value is not equal to one of <a>
-                valid disable features</a>, go to the next item.
-              </li>
+              <li>Convert <var>item</var> to ASCII-lowercase.</li>
+              <li>If <var>item</var>'s string value is not one of the <a>valid
+              disable features</a>, ignore <var>item</var>, and continue
+              to the next item.</li>
               <li>Append <var>item</var> to <var>valid-features</var>.</li>
             </ol>
           </li>
@@ -395,11 +396,31 @@
       policy</a>.</p>
       <section>
         <h2><dfn>`cookie`</dfn></h2>
-        <p>Disables `document.cookie`.</p>
+        <p>Disables `document.cookie`: when present, the attribute's getter and
+        setter will throw a <code>SecurityError</code>.</p>
+        <div class="example">
+          <p>Given the following header:</p>
+          <pre>
+  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>cookie</a>"]}</pre>
+          <p>The following JavaScript code will throw a `SecurityError` exception:</p>
+          <pre>
+  document.cookie = "a=b;Secure;SameSite";
+  alert(document.cookie);</pre>
+        </div>
       </section>
       <section>
         <h2><dfn>`domain`</dfn></h2>
-        <p>Disables `document.domain`.</p>
+        <p>Disables `document.domain`: when present, the attribute's getter and
+        setter will throw a <code>SecurityError</code>.</p>
+        <div class="example">
+          <p>Given the following header:</p>
+          <pre>
+  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>domain</a>"]}</pre>
+          <p>The following JavaScript code will throw a `SecurityError` exception:</p>
+          <pre>
+  document.domain = "example.com";
+  alert(document.domain);</pre>
+        </div>
       </section>
       <section>
         <h2><dfn>`docwrite`</dfn></h2>
@@ -436,17 +457,130 @@
       </section>
     </section>
     <section>
-      <h2>Enforcement</h2>
+      <h2>Integrations</h2>
+      <p>This document defines a set of algorithms which other specifications will
+      use in order to implement the restrictions which Feature Policy defines. The
+      integrations are outlined here for clarity, but those external documents are
+      the normative references which ought to be consulted for detailed
+      information.</p>
       <section>
-        <h2>Runtime enforcement</h2>
-        <div class="issue">
-          <p>TODO...</p>
+        <h3>Integration with HTML</h3>
+        <ol>
+          <li><code>Document</code> and <code>WorkerGlobalScope</code> objects
+          have a <dfn>Feature Policy List</dfn>, which is either the empty set
+          or a <a>feature policy</a>. This property is the empty set unless
+          otherwise specified, and is populated via the
+          <a href="#initialize-for-global"></a> algorithm.</li>
+          <li>The <a href="#initialize-for-global"></a> algorithm is called during
+          the "Initialising a new <code>Document</code> object" and "Run a Worker"
+          algorithms.</li>
+          <li><p>`document.cookie`'s <a href="https://html.spec.whatwg.org/#dom-document-cookie">getter and setter algorithms</a> call into the
+          <a href="#is-feature-disabled"></a> algorithm to determine whether or
+          not to throw, as follows:</p>
+            <blockquote>
+              <p>On getting:</p>
+              <ol>
+                <li>If the document is a cookie-averse Document object, return the empty string.
+                <li>If the document's origin is an opaque origin, throw a "`SecurityError`" `DOMException`.
+                <li>If the <a href="is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`cookie`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                <li>Otherwise the user agent must return the cookie-string for the document's URL for a "non-HTTP" API, decoded using UTF-8 decode without BOM.
+              </ol>
+              <p>On setting:</p>
+              <ol>
+                <li>If the document is a cookie-averse Document object, then the user agent must skip the remaining substeps.
+                <li>If the document's origin is an opaque origin, throw a "`SecurityError`" `DOMException`.
+                <li>If the <a href="is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`cookie`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                <li>Otherwise, the user agent must act as it would when receiving a set-cookie-string for the document's URL via a "non-HTTP" API, consisting of the new value encoded as UTF-8.
+              </ol>
+            </blockquote>
+          </li>
+          <li><p>`document.domain`'s <a href="https://html.spec.whatwg.org/#dom-document-domain">getter and setter algorithms</a> call into the
+          <a href="#is-feature-disabled"></a> algorithm to determine whether or
+          not to throw, as follows:</p>
+            <ol>
+              <li>Add the following step after the current step 1 of the attribute's getter:
+                <ol>
+                  <li>If the <a href="is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`domain`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                </ol>
+              </li>
+              <li>Add the following step after the current step 1 of the attribute's setter:
+                <ol>
+                  <li>If the <a href="is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`domain`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                </ol>
+              </li>
+            </ol>
+          </li>
+        </ol>
+        <div class="issue">Monkey-patching! As soon as we know that this is the
+        direction we wish to persuse, upstream all of this.</div>
+        <section>
+          <h4 id="initialize-for-global">
+            Initialize <var>global</var>'s Feature Policy from <var>response</var>
+          </h4>
+          <p>Given a [response] (<var>response</var>) and a global object
+          (<var>global</var>), this algorithm populates <var>global</var>'s
+          <a>Feature Policy List</a></p>
           <ol>
-            <li>Hook (where?) to check policy before invoking feature</li>
-            <li>Queue a violation report if previous step fails</li>
-            <li>Q: violation reports for subframes? =/</li>
+            <li>If <var>response</var>'s url's scheme is a local scheme:
+              <ol>
+                <li>Let <var>documents</var> be an empty list.
+                <li><p>If <var>global</var> is a `Window`:</p>
+                  <ol>
+                    <li>If <var>global</var>'s `Document` has an embedding
+                    document (<var>embedding</var>), then add <var>embedding</var>
+                    to <var>documents</var>.</li>
+                    <li>If <var>global</var>'s `Document` has an opener document
+                    document (<var>opener</var>), then add <var>opener</var>
+                    to <var>documents</var>.</li>
+                  </ol>
+                  <p>Otherwise, <var>global</var> is a `WorkerGlobalScope`, so:</p>
+                  <ol>
+                    <li>Let <var>documents</var> be <var>global</var>'s documents.
+                  </ol>
+                </li>
+                <li>For each <var>document</var> in <var>documents</var>:
+                  <ol>
+                    <li>For each <var>directive</var> in <var>document</var>'s
+                    <a>Feature Policy List</a>:
+                      <ol>
+                        <li>Add <var>directive</var> to <var>global</var>'s
+                        <a>Feature Policy List</a>
+                      </ol>
+                    </li>
+                  </ol>
+                </li>
+              </ol>
+            </li>
+            <li>Let <var>policy</var> be the result of executing
+            <a href="#process-response-policy"></a> on <var>response</var>.</li>
+            <li>For each <var>directive</var> in <var>policy</var>, add
+            <var>directive</var> to <var>global</var>'s <a>Feature Policy List</a>.</li>
           </ol>
-        </div>
+        </section>
+        <section>
+          <h4 id="is-feature-disabled">
+            Is <var>feature</var> disabled for <var>global</var>?
+          </h4>
+          <p>Given a string (<var>feature</var>) and a global object
+          (<var>global</var>), this algorithm returns "`Disabled`" if
+          <var>feature</var> should be considered disabled, and "`Enabled`"
+          otherwise.</p>
+          <ol>
+            <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy
+            List</a></li>
+            <li>If <var>policy</var> is empty, return "`Enabled`".</li>
+            <li>For each <var>directive</var> in <var>policy</var>:
+              <ol>
+                <li>If <var>directive</var>'s <a>disable list</a> contains
+                <var>feature</var>:
+                  <ol>
+                    <li><div class="issue">Queue a violation report for <var>feature</var> and <var>global</var></div></li>
+                    <li>Return "`Disabled`".</li>
+                  </ol></li>
+              </ol></li>
+            <li>Return "`Enabled`".</li>
+          </ol>
+        </section>
       </section>
     </section>
   </section>
