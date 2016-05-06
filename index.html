@@ -521,30 +521,42 @@
           (<var>global</var>), this algorithm populates <var>global</var>'s
           <a>Feature Policy List</a></p>
           <ol>
-            <li>If <var>response</var>'s url's scheme is a local scheme:
+            <li>If <var>global</var> is a `Window` and its `Document` has a parent
+            browsing context or opener browsing context (<var>context</var>):
               <ol>
-                <li>Let <var>documents</var> be an empty list.
-                <li><p>If <var>global</var> is a `Window`:</p>
+                <li>Let <var>document</var> be the active document in
+                <var>context</var>.</li>
+                <li>For each <var>directive</var> in <var>document</var>'s
+                <a>Feature Policy List</a>:
                   <ol>
-                    <li>If <var>global</var>'s `Document` has an embedding
-                    document (<var>embedding</var>), then add <var>embedding</var>
-                    to <var>documents</var>.</li>
-                    <li>If <var>global</var>'s `Document` has an opener document
-                    document (<var>opener</var>), then add <var>opener</var>
-                    to <var>documents</var>.</li>
-                  </ol>
-                  <p>Otherwise, <var>global</var> is a `WorkerGlobalScope`, so:</p>
-                  <ol>
-                    <li>Let <var>documents</var> be <var>global</var>'s documents.
+                    <li>Add <var>directive</var> to <var>global</var>'s
+                    `Document`'s <a>Feature Policy List</a> if either of the
+                    following are true:
+                      <ol>
+                        <li><var>directive</var>'s <a>target</a> is "`cascade`"
+                        <li><var>response</var>'s url's scheme is a local scheme
+                      </ol>
+                    </li>
                   </ol>
                 </li>
-                <li>For each <var>document</var> in <var>documents</var>:
+              </ol>
+            </li>
+            <li>If <var>global</var> is a `WorkerGlobalScope`: 
+              <ol>
+                <li>For each <var>document</var> in <var>global</var>'s
+                <a href="https://html.spec.whatwg.org/multipage/workers.html#the-worker's-documents">documents</a>:
                   <ol>
                     <li>For each <var>directive</var> in <var>document</var>'s
                     <a>Feature Policy List</a>:
                       <ol>
                         <li>Add <var>directive</var> to <var>global</var>'s
-                        <a>Feature Policy List</a>
+                        <a>Feature Policy List</a> if either of the following
+                        are true:
+                          <ol>
+                            <li><var>directive</var>'s <a>target</a> is "`cascade`"
+                            <li><var>response</var>'s url's scheme is a local scheme
+                          </ol>
+                        </li>
                       </ol>
                     </li>
                   </ol>
