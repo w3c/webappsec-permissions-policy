@@ -460,6 +460,23 @@
         <h2><dfn>`sync-script`</dfn></h2>
         <p>Disables synchronous `script` elements. When this policy is set,
         such scripts are ignored by the user agent.</p>
+        <div class="example">
+          <p>Given the following header:</p>
+          <pre>
+  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>sync-script</a>"]}</pre>
+          <p>The following HTML will not result in execution of `script1.js`, as it has neither a
+          [`defer`] nor an [`async`] attribute. `script2.js` and `script3.js` will execute
+          normally:</p>
+          <pre>
+  &lt;script src="/script1.js"&gt;&lt;/script&gt;
+  &lt;script src="/script2.js" <strong>async</strong>&gt;&lt;/script&gt;
+  &lt;script src="/script3.js" <strong>defer</strong>&gt;&lt;/script&gt;</pre>
+          <p>
+        </div>
+        <div class="issue">
+          Talk with Dominic about this; there's some strangeness around the "[non-blocking]"
+          flag that I don't entirely understand.
+        </div>
       </section>
       <section>
         <h2><dfn>`sync-xhr`</dfn></h2>
@@ -538,6 +555,19 @@
               <li>Add the following step after the current step 1:
                 <ol>
                   <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`docwrite`" and the document's global object, throw a "`NotSupportedError`" `DOMException`.</li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li><p>The "[prepare a script]" algorithm calls into <a href="#is-feature-disabled"></a> algorithm
+          to determine whether or not to execute a script, as follows:</p>
+            <ol>
+              <li>Add the following step before the current step 10 (which is the first of several "disabled" checks):
+                <ol>
+                  <li>If the `script` element's has neither an [`async`] nor a [`defer`] attribute, and the
+                  <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon
+                  "`sync-script`" and the document's global object, then abort these steps at this point.
+                  The script is not executed.</li>
                 </ol>
               </li>
             </ol>
@@ -711,3 +741,7 @@
 [value]: https://fetch.spec.whatwg.org/#concept-header-value
 [xhr-open]: https://xhr.spec.whatwg.org/#the-open()-method
 [docwrite method]: https://html.spec.whatwg.org/#dom-document-write
+[async]: https://html.spec.whatwg.org/#attr-script-async
+[defer]: https://html.spec.whatwg.org/#attr-script-defer
+[prepare a script]: https://html.spec.whatwg.org/#prepare-a-script
+[non-blocking]: https://html.spec.whatwg.org/#non-blocking
