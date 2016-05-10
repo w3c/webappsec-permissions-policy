@@ -241,9 +241,9 @@
                     ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
         </pre>
         <p>The policy is parsed as defined in <a href=
-        "#process-response-policy"></a>, and the header’s
-        value is interpreted as an array of JSON objects, as described in
-        Section 4 of [[!HTTP-JFV]].</p>
+        "#process-response-policy"></a>, and the header’s value is interpreted
+        as an array of JSON objects, as described in Section 4 of
+        [[!HTTP-JFV]].</p>
         <p>The following sections define the set of known members in each JSON
         object the header’s value defines. Future versions of this document may
         define additional such members, and user agents MUST ignore unknown
@@ -320,7 +320,6 @@
                 </li>
                 <li>If <var>mode</var> is <var>null</var> or is not equal to
                 one of "`enforce`" or "`report`", set it to "`enforce`".</li>
-
                 <li>Let <var>target</var> be the <var>item</var>'s <a>target
                 member</a>'s value.
                 </li>
@@ -386,8 +385,9 @@
             <ol>
               <li>Convert <var>item</var> to ASCII-lowercase.</li>
               <li>If <var>item</var>'s string value is not one of the <a>valid
-              disable features</a>, ignore <var>item</var>, and continue
-              to the next item.</li>
+              disable features</a>, ignore <var>item</var>, and continue to the
+              next item.
+              </li>
               <li>Append <var>item</var> to <var>valid-features</var>.</li>
             </ol>
           </li>
@@ -407,8 +407,10 @@
         <div class="example">
           <p>Given the following header:</p>
           <pre>
-  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>cookie</a>"]}</pre>
-          <p>The following JavaScript code will throw a `SecurityError` exception:</p>
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>cookie</a>"]}</pre>
+          <p>The following JavaScript code will throw a `SecurityError`
+          exception:</p>
           <pre>
   document.cookie = "a=b;Secure;SameSite";
   alert(document.cookie);</pre>
@@ -421,8 +423,10 @@
         <div class="example">
           <p>Given the following header:</p>
           <pre>
-  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>domain</a>"]}</pre>
-          <p>The following JavaScript code will throw a `SecurityError` exception:</p>
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>domain</a>"]}</pre>
+          <p>The following JavaScript code will throw a `SecurityError`
+          exception:</p>
           <pre>
   document.domain = "example.com";
   alert(document.domain);</pre>
@@ -430,12 +434,15 @@
       </section>
       <section>
         <h2><dfn>`docwrite`</dfn></h2>
-        <p>Disables `document.write`: when called, throws "`NotSupportedError`" `DOMException`.</p>
+        <p>Disables `document.write`: when called, throws "`NotSupportedError`"
+        `DOMException`.</p>
         <div class="example">
           <p>Given the following header:</p>
           <pre>
-  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>docwrite</a>"]}</pre>
-          <p>The following JavaScript code will throw a `NotSupportedError` exception:</p>
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>docwrite</a>"]}</pre>
+          <p>The following JavaScript code will throw a `NotSupportedError`
+          exception:</p>
           <pre>
   document.write("...");</pre>
         </div>
@@ -463,29 +470,33 @@
         <div class="example">
           <p>Given the following header:</p>
           <pre>
-  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>sync-script</a>"]}</pre>
-          <p>The following HTML will not result in execution of `script1.js`, as it has neither a
-          [`defer`] nor an [`async`] attribute. `script2.js` and `script3.js` will execute
-          normally:</p>
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>sync-script</a>"]}</pre>
+          <p>The following HTML will not result in execution of `script1.js`,
+          as it has neither a [`defer`] nor an [`async`] attribute.
+          `script2.js` and `script3.js` will execute normally:</p>
           <pre>
   &lt;script src="/script1.js"&gt;&lt;/script&gt;
   &lt;script src="/script2.js" <strong>async</strong>&gt;&lt;/script&gt;
   &lt;script src="/script3.js" <strong>defer</strong>&gt;&lt;/script&gt;</pre>
-          <p>
         </div>
         <div class="issue">
-          Talk with Dominic about this; there's some strangeness around the "[non-blocking]"
-          flag that I don't entirely understand.
+          Talk with Dominic about this; there's some strangeness around the
+          "[non-blocking]" flag that I don't entirely understand.
         </div>
       </section>
       <section>
         <h2><dfn>`sync-xhr`</dfn></h2>
-        <p>Disables synchronous `XMLHttpRequest` API: when [open() method](xhr-open) is called with <var>async</var> argument set to <var>true</var>, an `InvalidAccessError` except will be thrown.</p>
+        <p>Disables synchronous `XMLHttpRequest` API: when [open()
+        method](xhr-open) is called with <var>async</var> argument set to
+        <var>true</var>, an `InvalidAccessError` except will be thrown.</p>
         <div class="example">
           <p>Given the following header:</p>
           <pre>
-  <a>Feature-Policy</a>: {"<a data-lt="disable member">disable</a>":["<a>sync-xhr</a>"]}</pre>
-          <p>The following JavaScript code will throw a `InvalidAccessError` exception:</p>
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>sync-xhr</a>"]}</pre>
+          <p>The following JavaScript code will throw a `InvalidAccessError`
+          exception:</p>
           <pre>
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "/foo", true);</pre>
@@ -498,105 +509,159 @@
     </section>
     <section>
       <h2>Integrations</h2>
-      <p>This document defines a set of algorithms which other specifications will
-      use in order to implement the restrictions which Feature Policy defines. The
-      integrations are outlined here for clarity, but those external documents are
-      the normative references which ought to be consulted for detailed
-      information.</p>
+      <p>This document defines a set of algorithms which other specifications
+      will use in order to implement the restrictions which Feature Policy
+      defines. The integrations are outlined here for clarity, but those
+      external documents are the normative references which ought to be
+      consulted for detailed information.</p>
       <section>
         <h3>Integration with HTML</h3>
         <ol>
-          <li><code>Document</code> and <code>WorkerGlobalScope</code> objects
-          have a <dfn>Feature Policy List</dfn>, which is either the empty set
-          or a <a>feature policy</a>. This property is the empty set unless
-          otherwise specified, and is populated via the
-          <a href="#initialize-for-global"></a> algorithm.</li>
-          <li>The <a href="#initialize-for-global"></a> algorithm is called during
-          the "Initialising a new <code>Document</code> object" and "Run a Worker"
-          algorithms.</li>
-          <li><p>`document.cookie`'s <a href="https://html.spec.whatwg.org/#dom-document-cookie">getter and setter algorithms</a> call into the
-          <a href="#is-feature-disabled"></a> algorithm to determine whether or
-          not to throw, as follows:</p>
+          <li>
+            <code>Document</code> and <code>WorkerGlobalScope</code> objects
+            have a <dfn>Feature Policy List</dfn>, which is either the empty
+            set or a <a>feature policy</a>. This property is the empty set
+            unless otherwise specified, and is populated via the <a href=
+            "#initialize-for-global"></a> algorithm.
+          </li>
+          <li>The <a href="#initialize-for-global"></a> algorithm is called
+          during the "Initialising a new <code>Document</code> object" and "Run
+          a Worker" algorithms.
+          </li>
+          <li>
+            <p>`document.cookie`'s <a href=
+            "https://html.spec.whatwg.org/#dom-document-cookie">getter and
+            setter algorithms</a> call into the <a href=
+            "#is-feature-disabled"></a> algorithm to determine whether or not
+            to throw, as follows:</p>
             <blockquote>
               <p>On getting:</p>
               <ol>
-                <li>If the document is a cookie-averse Document object, return the empty string.
-                <li>If the document's origin is an opaque origin, throw a "`SecurityError`" `DOMException`.
-                <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`cookie`" and the document's global object, throw a "`SecurityError`" `DOMException`.
-                <li>Otherwise the user agent must return the cookie-string for the document's URL for a "non-HTTP" API, decoded using UTF-8 decode without BOM.
+                <li>If the document is a cookie-averse Document object, return
+                the empty string.</li>
+                <li>If the document's origin is an opaque origin, throw a
+                "`SecurityError`" `DOMException`.</li>
+                <li>If the <a href="#is-feature-disabled"></a> algorithm
+                returns "`Disabled`" when executed upon "`cookie`" and the
+                document's global object, throw a "`SecurityError`"
+                `DOMException`.
+                </li>
+                <li>Otherwise the user agent must return the cookie-string for
+                the document's URL for a "non-HTTP" API, decoded using UTF-8
+                decode without BOM.</li>
               </ol>
               <p>On setting:</p>
               <ol>
-                <li>If the document is a cookie-averse Document object, then the user agent must skip the remaining substeps.
-                <li>If the document's origin is an opaque origin, throw a "`SecurityError`" `DOMException`.
-                <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`cookie`" and the document's global object, throw a "`SecurityError`" `DOMException`.
-                <li>Otherwise, the user agent must act as it would when receiving a set-cookie-string for the document's URL via a "non-HTTP" API, consisting of the new value encoded as UTF-8.
+                <li>If the document is a cookie-averse Document object, then
+                the user agent must skip the remaining substeps.</li>
+                <li>If the document's origin is an opaque origin, throw a
+                "`SecurityError`" `DOMException`.</li>
+                <li>If the <a href="#is-feature-disabled"></a> algorithm
+                returns "`Disabled`" when executed upon "`cookie`" and the
+                document's global object, throw a "`SecurityError`"
+                `DOMException`.
+                </li>
+                <li>Otherwise, the user agent must act as it would when
+                receiving a set-cookie-string for the document's URL via a
+                "non-HTTP" API, consisting of the new value encoded as
+                UTF-8.</li>
               </ol>
             </blockquote>
           </li>
-          <li><p>`document.domain`'s <a href="https://html.spec.whatwg.org/#dom-document-domain">getter and setter algorithms</a> call into the
-          <a href="#is-feature-disabled"></a> algorithm to determine whether or
-          not to throw, as follows:</p>
+          <li>
+            <p>`document.domain`'s <a href=
+            "https://html.spec.whatwg.org/#dom-document-domain">getter and
+            setter algorithms</a> call into the <a href=
+            "#is-feature-disabled"></a> algorithm to determine whether or not
+            to throw, as follows:</p>
             <ol>
-              <li>Add the following step after the current step 1 of the attribute's getter:
+              <li>Add the following step after the current step 1 of the
+              attribute's getter:
                 <ol>
-                  <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`domain`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                  <li>If the <a href="#is-feature-disabled"></a> algorithm
+                  returns "`Disabled`" when executed upon "`domain`" and the
+                  document's global object, throw a "`SecurityError`"
+                  `DOMException`.
+                  </li>
                 </ol>
               </li>
-              <li>Add the following step after the current step 1 of the attribute's setter:
+              <li>Add the following step after the current step 1 of the
+              attribute's setter:
                 <ol>
-                  <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`domain`" and the document's global object, throw a "`SecurityError`" `DOMException`.
+                  <li>If the <a href="#is-feature-disabled"></a> algorithm
+                  returns "`Disabled`" when executed upon "`domain`" and the
+                  document's global object, throw a "`SecurityError`"
+                  `DOMException`.
+                  </li>
                 </ol>
               </li>
             </ol>
           </li>
-          <li><p>[`document.write` method](docwrite-method) calls into the <a href="#is-feature-disabled"></a> algorithm to determine whether or not to throw, as follows:</p>
+          <li>
+            <p>[`document.write` method](docwrite-method) calls into the
+            <a href="#is-feature-disabled"></a> algorithm to determine whether
+            or not to throw, as follows:</p>
             <ol>
               <li>Add the following step after the current step 1:
                 <ol>
-                  <li>If the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`docwrite`" and the document's global object, throw a "`NotSupportedError`" `DOMException`.</li>
+                  <li>If the <a href="#is-feature-disabled"></a> algorithm
+                  returns "`Disabled`" when executed upon "`docwrite`" and the
+                  document's global object, throw a "`NotSupportedError`"
+                  `DOMException`.
+                  </li>
                 </ol>
               </li>
             </ol>
           </li>
-          <li><p>The "[prepare a script]" algorithm calls into <a href="#is-feature-disabled"></a> algorithm
-          to determine whether or not to execute a script, as follows:</p>
+          <li>
+            <p>The "[prepare a script]" algorithm calls into <a href=
+            "#is-feature-disabled"></a> algorithm to determine whether or not
+            to execute a script, as follows:</p>
             <ol>
-              <li>Add the following step before the current step 10 (which is the first of several "disabled" checks):
+              <li>Add the following step before the current step 10 (which is
+              the first of several "disabled" checks):
                 <ol>
-                  <li>If the `script` element's has neither an [`async`] nor a [`defer`] attribute, and the
-                  <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon
-                  "`sync-script`" and the document's global object, then abort these steps at this point.
-                  The script is not executed.</li>
+                  <li>If the `script` element's has neither an [`async`] nor a
+                  [`defer`] attribute, and the <a href="#is-feature-disabled">
+                    </a> algorithm returns "`Disabled`" when executed upon
+                    "`sync-script`" and the document's global object, then
+                    abort these steps at this point. The script is not
+                    executed.
+                  </li>
                 </ol>
               </li>
             </ol>
           </li>
         </ol>
-        <div class="issue">Monkey-patching! As soon as we know that this is the
-        direction we wish to persuse, upstream all of this.</div>
+        <div class="issue">
+          Monkey-patching! As soon as we know that this is the direction we
+          wish to persuse, upstream all of this.
+        </div>
         <section>
-          <h4 id="initialize-for-global">
-            Initialize <var>global</var>'s Feature Policy from <var>response</var>
-          </h4>
+          <h4 id="initialize-for-global">Initialize <var>global</var>'s Feature
+          Policy from <var>response</var></h4>
           <p>Given a [response] (<var>response</var>) and a global object
           (<var>global</var>), this algorithm populates <var>global</var>'s
           <a>Feature Policy List</a></p>
           <ol>
-            <li>If <var>global</var> is a `Window` and its `Document` has a parent
-            browsing context or opener browsing context (<var>context</var>):
+            <li>If <var>global</var> is a `Window` and its `Document` has a
+            parent browsing context or opener browsing context
+            (<var>context</var>):
               <ol>
                 <li>Let <var>document</var> be the active document in
                 <var>context</var>.</li>
-                <li>For each <var>directive</var> in <var>document</var>'s
-                <a>Feature Policy List</a>:
+                <li>For each <var>directive</var> in <var>document</var>'s <a>
+                  Feature Policy List</a>:
                   <ol>
                     <li>Add <var>directive</var> to <var>global</var>'s
                     `Document`'s <a>Feature Policy List</a> if either of the
                     following are true:
                       <ol>
-                        <li><var>directive</var>'s <a>target</a> is "`cascade`"
-                        <li><var>response</var>'s url's scheme is a local scheme
+                        <li>
+                          <var>directive</var>'s <a>target</a> is "`cascade`"
+                        </li>
+                        <li><var>response</var>'s url's scheme is a local
+                        scheme</li>
                       </ol>
                     </li>
                   </ol>
@@ -606,17 +671,22 @@
             <li>If <var>global</var> is a `WorkerGlobalScope`:
               <ol>
                 <li>For each <var>document</var> in <var>global</var>'s
-                <a href="https://html.spec.whatwg.org/multipage/workers.html#the-worker's-documents">documents</a>:
+                  <a href="https://html.spec.whatwg.org/multipage/workers.html#the-worker's-documents">
+                  documents</a>:
                   <ol>
                     <li>For each <var>directive</var> in <var>document</var>'s
                     <a>Feature Policy List</a>:
                       <ol>
-                        <li>Add <var>directive</var> to <var>global</var>'s
-                        <a>Feature Policy List</a> if either of the following
-                        are true:
+                        <li>Add <var>directive</var> to <var>global</var>'s <a>
+                          Feature Policy List</a> if either of the following
+                          are true:
                           <ol>
-                            <li><var>directive</var>'s <a>target</a> is "`cascade`"
-                            <li><var>response</var>'s url's scheme is a local scheme
+                            <li>
+                              <var>directive</var>'s <a>target</a> is
+                              "`cascade`"
+                            </li>
+                            <li><var>response</var>'s url's scheme is a local
+                            scheme</li>
                           </ol>
                         </li>
                       </ol>
@@ -625,46 +695,60 @@
                 </li>
               </ol>
             </li>
-            <li>Let <var>policy</var> be the result of executing
-            <a href="#process-response-policy"></a> on <var>response</var>.</li>
+            <li>Let <var>policy</var> be the result of executing <a href=
+            "#process-response-policy"></a> on <var>response</var>.
+            </li>
             <li>For each <var>directive</var> in <var>policy</var>, add
-            <var>directive</var> to <var>global</var>'s <a>Feature Policy List</a>.</li>
+            <var>directive</var> to <var>global</var>'s <a>Feature Policy
+            List</a>.
+            </li>
           </ol>
         </section>
         <section>
-          <h4 id="is-feature-disabled">
-            Is <var>feature</var> disabled for <var>global</var>?
-          </h4>
+          <h4 id="is-feature-disabled">Is <var>feature</var> disabled for
+          <var>global</var>?</h4>
           <p>Given a string (<var>feature</var>) and a global object
           (<var>global</var>), this algorithm returns "`Disabled`" if
           <var>feature</var> should be considered disabled, and "`Enabled`"
           otherwise.</p>
           <ol>
             <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy
-            List</a></li>
+            List</a>
+            </li>
             <li>If <var>policy</var> is empty, return "`Enabled`".</li>
             <li>For each <var>directive</var> in <var>policy</var>:
               <ol>
                 <li>If <var>directive</var>'s <a>disable list</a> contains
                 <var>feature</var>:
                   <ol>
-                    <li>Execute the <a href="#report-violation"></a> algorithm on
-                    <var>feature</var>, <var>directive</var>, and <var>global</var>.</li>
+                    <li>Execute the <a href="#report-violation"></a> algorithm
+                    on <var>feature</var>, <var>directive</var>, and
+                    <var>global</var>.
+                    </li>
                     <li>Return "`Disabled`".</li>
-                  </ol></li>
-              </ol></li>
+                  </ol>
+                </li>
+              </ol>
+            </li>
             <li>Return "`Enabled`".</li>
           </ol>
         </section>
       </section>
       <section>
         <h2>Integration with XMLHttpRequest</h2>
-        <p>The `open() method` calls into the <a href="#is-feature-disabled"></a> algorithm to determine whether or not to throw, as follows:</p>
+        <p>The `open() method` calls into the <a href=
+        "#is-feature-disabled"></a> algorithm to determine whether or not to
+        throw, as follows:</p>
         <ol>
-          <li>Add the following step after the current step 3:</li>
-          <ol>
-            <li>If <var>async</var> is <var>false</var> and the <a href="#is-feature-disabled"></a> algorithm returns "`Disabled`" when executed upon "`sync-xhr`" and the document's global object, throw "`InvalidAccessError`" exception.
-          </ol>
+          <li>Add the following step after the current step 3:
+            <ol>
+              <li>If <var>async</var> is <var>false</var> and the <a href=
+              "#is-feature-disabled"></a> algorithm returns "`Disabled`" when
+              executed upon "`sync-xhr`" and the document's global object,
+              throw "`InvalidAccessError`" exception.
+              </li>
+            </ol>
+          </li>
         </ol>
       </section>
     </section>
@@ -672,29 +756,39 @@
   <section>
     <h2>Reporting</h2>
     <section>
-      <h3 id="report-violation">Report a violation for <var>feature</var>, <var>directive</var>, and <var>global</var></h3>
-      <p>Given a string (<var>feature</var>), a <a>directive</a> (<var>directive</var>),
-      and a global object (<var>global</var>), this algorithm will queue up a violation
-      report [[!REPORTING]]:
+      <h3 id="report-violation">Report a violation for <var>feature</var>,
+      <var>directive</var>, and <var>global</var></h3>
+      <p>Given a string (<var>feature</var>), a <a>directive</a>
+      (<var>directive</var>), and a global object (<var>global</var>), this
+      algorithm will queue up a violation report [[!REPORTING]]:</p>
       <ol>
-        <li>If <var>directive</var>'s <a>report group</a> is `null`, skip the remaining steps.
-        <li>Let <var>endpoint</var> be <var>directive</var>'s <a>report group</a>.
-        <li>Let <var>settings</var> be <var>global</var>'s setting object.
-        <li>Let <var>violation</var> be an dictionary whose members are set as follows:
+        <li>If <var>directive</var>'s <a>report group</a> is `null`, skip the
+        remaining steps.
+        </li>
+        <li>Let <var>endpoint</var> be <var>directive</var>'s <a>report
+        group</a>.
+        </li>
+        <li>Let <var>settings</var> be <var>global</var>'s setting object.</li>
+        <li>Let <var>violation</var> be an dictionary whose members are set as
+        follows:
           <dl>
             <dt>"`feature`"</dt>
             <dd>Set to <var>feature</var>.</dd>
           </dl>
         </li>
-        <li><a href="https://w3c.github.io/reporting/#queue-report">Queue <var>violation</var> as "`feature-policy`" for <var>endpoint</var> on <var>settings</var></a>. [[!REPORTING]]
+        <li>
+          <a href="https://w3c.github.io/reporting/#queue-report">Queue
+          <var>violation</var> as "`feature-policy`" for <var>endpoint</var> on
+          <var>settings</var></a>. [[!REPORTING]]
+        </li>
       </ol>
       <div class="issue">
         <p>"`cascade`" is an issue here: we copy the directive down from the
         parent, but it's not clear to what set of endpoints the cascaded
-        directive ought to report. Allowing a parent to force reports to
-        its own endpoint from a cross-origin embedee is a bit risky. Asking
-        the child to create a group for its parent's endpoints is unlikely to
-        catch bugs. What to do?</p>
+        directive ought to report. Allowing a parent to force reports to its
+        own endpoint from a cross-origin embedee is a bit risky. Asking the
+        child to create a group for its parent's endpoints is unlikely to catch
+        bugs. What to do?</p>
       </div>
     </section>
   </section>
