@@ -217,9 +217,9 @@
         <code>"report"</code>.</li>
         <li>A <dfn>target</dfn> which is either <code>"self"</code> or
         <code>"cascade"</code>.</li>
-        <li>A <dfn>report group</dfn> ([[!REPORTING]]) which is either
+        <li>A <dfn>report-to</dfn> group ([[!REPORTING]]) which is either
         <var>null</var>, or an ASCII string.</li>
-        <li>A <dfn>disable list</dfn> which is a list of <a>valid disable
+        <li>A <dfn>disable</dfn> list which is a set of <a>valid disable
         features</a>.
         </li>
       </ul>
@@ -269,8 +269,8 @@
           <p>The OPTIONAL <dfn>report member</dfn> defines the report group
           ([[!REPORTING]]) for the directive. The member's name is
           "`report-to`" and the recognized value is an ASCII string. If no
-          member namd "`report-to`" is present in the object, the
-          <a>directive</a>'s <a>report group</a> will be set to
+          member named "`report-to`" is present in the object, the
+          <a>directive</a>'s <a>report-to</a> will be set to
           <var>null</var>.</p>
         </section>
         <section>
@@ -330,9 +330,9 @@
                 </li>
                 <li>If <var>report to</var> is not an ASCII string, set it to
                 <var>null</var>.</li>
-                <li>Let <var>disable list</var> be the result of executing
-                <a href="#parse-disable-features"></a> on the <var>item</var>'s
-                <a>disable member</a>'s value.
+                <li>Let <var>disable</var> be the result of executing
+                  <a href="#parse-disable-features"></a> on the
+                  <var>item</var>'s <a>disable member</a>'s value.
                 </li>
                 <li>Let <var>tuple</var> be a new <a>directive</a> tuple whose
                 values are set as follows:
@@ -341,10 +341,10 @@
                     <dd>Set to <var>mode</var>.</dd>
                     <dt>"`target`"</dt>
                     <dd>Set to <var>target</var>.</dd>
-                    <dt>"`report group`"</dt>
+                    <dt>"`report-to`"</dt>
                     <dd>Set to <var>report to</var>.</dd>
-                    <dt>"`disable list`"</dt>
-                    <dd>Set to <var>disable list</var>.</dd>
+                    <dt>"`disable`"</dt>
+                    <dd>Set to <var>disable</var>.</dd>
                   </dl>
                 </li>
                 <li>Append <var>tuple</var> to <var>policy</var>.</li>
@@ -356,14 +356,25 @@
       </section>
       <section>
         <h2>Set request policy</h2>
-        <div class="issue">
-          <ul>
-            <li>Serialize response policy and advertise on all subresource
-            requests</li>
-            <li>Check that response matches the advertised policy, and reject
-            (?) the response otherwise</li>
-          </ul>
-        </div>
+        <p class="note">This monkey patches [fetching algorithm], by inserting
+        the following steps after current step #4.</p>
+        <ol>
+          <li>If [request] has an associated [client] that is not
+          <var>null</var> and whose [global object] has a non-empty <a>feature
+          policy list</a>, run the following steps:
+            <ol>
+              <li>Let <var>policy</var> be the [current global object]'s
+              <a>feature policy list</a>.
+              </li>
+              <li>Let <var>serialized feature policy</var> be the result of
+              executing the [sender requirements] algorithm on
+              <var>policy</var>, as defined in section 3 of [[!HTTP-JFV]].</li>
+              <li>[Append](header-append) <var>Feature-Policy/serialized
+              feature policy</var> to request's [header list].</li>
+            </ol>
+          </li>
+          <p class="issue" title="TODO">Add checks for reflected policy (~step 17, of [Main Fetch](https://fetch.spec.whatwg.org/#concept-main-fetch))? What behavior do we want here?</p>
+        </ol>
       </section>
     </section>
   </section>
@@ -718,7 +729,7 @@
             <li>If <var>policy</var> is empty, return "`Enabled`".</li>
             <li>For each <var>directive</var> in <var>policy</var>:
               <ol>
-                <li>If <var>directive</var>'s <a>disable list</a> contains
+                <li>If <var>directive</var>'s <a>disable</a> contains
                 <var>feature</var>:
                   <ol>
                     <li>Execute the <a href="#report-violation"></a> algorithm
@@ -762,11 +773,10 @@
       (<var>directive</var>), and a global object (<var>global</var>), this
       algorithm will queue up a violation report [[!REPORTING]]:</p>
       <ol>
-        <li>If <var>directive</var>'s <a>report group</a> is `null`, skip the
+        <li>If <var>directive</var>'s <a>report-to</a> is `null`, skip the
         remaining steps.
         </li>
-        <li>Let <var>endpoint</var> be <var>directive</var>'s <a>report
-        group</a>.
+        <li>Let <var>endpoint</var> be <var>directive</var>'s <a>report-to</a>.
         </li>
         <li>Let <var>settings</var> be <var>global</var>'s setting object.</li>
         <li>Let <var>violation</var> be an dictionary whose members are set as
@@ -839,3 +849,10 @@
 [defer]: https://html.spec.whatwg.org/#attr-script-defer
 [prepare a script]: https://html.spec.whatwg.org/#prepare-a-script
 [non-blocking]: https://html.spec.whatwg.org/#non-blocking
+[header-append]: https://fetch.spec.whatwg.org/#concept-header-list-append
+[header-list]: https://fetch.spec.whatwg.org/#concept-request-header-list
+[fetching algorithm]: https://fetch.spec.whatwg.org/#fetching
+[global object]: https://html.spec.whatwg.org/multipage/webappapis.html#global-object
+[current global object]: https://html.spec.whatwg.org/#current-global-object
+[client]: https://fetch.spec.whatwg.org/#concept-request-client
+[sender requirements]: https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html#rfc.section.3
