@@ -234,6 +234,14 @@
         is communicating the desired policy that should be enforced by the
         client, and in the latter, the client is communicating the policy that
         it will enforce.</p>
+        <p>The policy MUST be delivered via an HTTP response header field to be
+        processed by the client; the client MUST ignore any policy set via
+        `meta` element's `http-equiv` attribute.</p>
+        <p class="note">The feature policy needs to be set before the response
+        is processed and before any subresource requests are initiated. Once
+        active the policy also needs to apply for the lifetime of the document
+        and is not allowed to be modified at runtime. Due to these
+        requirements, `meta` element cannot be used to set the policy.</p>
         <p>The header's value is represented by the following ABNF
         [[!RFC5234]]:</p>
         <pre class="abnf">
