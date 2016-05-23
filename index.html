@@ -492,16 +492,18 @@
   <a>Feature-Policy</a>: {"<a data-lt=
 "disable member">disable</a>":["<a>sync-script</a>"]}</pre>
           <p>The following HTML will not result in execution of `script1.js`,
-          as it has neither a [`defer`] nor an [`async`] attribute.
-          `script2.js` and `script3.js` will execute normally:</p>
+          as it has neither a [`defer`] nor an [`async`] attribute. The
+          remaining scripts will execute normally because they have their
+          [non-blocking] flag set.</p>
           <pre>
   &lt;script src="/script1.js"&gt;&lt;/script&gt;
   &lt;script src="/script2.js" <strong>async</strong>&gt;&lt;/script&gt;
-  &lt;script src="/script3.js" <strong>defer</strong>&gt;&lt;/script&gt;</pre>
-        </div>
-        <div class="issue">
-          Talk with Dominic about this; there's some strangeness around the
-          "[non-blocking]" flag that I don't entirely understand.
+  &lt;script src="/script3.js" <strong>defer</strong>&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const scriptEl = document.createElement("script");
+    scriptEl.src = "/script4.js";
+    document.body.appendChild(scriptEl);
+  &lt;/script&gt;</pre>
         </div>
       </section>
       <section>
@@ -641,11 +643,11 @@
               the first of several "disabled" checks):
                 <ol>
                   <li>If the `script` element's has neither an [`async`] nor a
-                  [`defer`] attribute, and the <a href="#is-feature-disabled">
-                    </a> algorithm returns "`Disabled`" when executed upon
-                    "`sync-script`" and the document's global object, then
-                    abort these steps at this point. The script is not
-                    executed.
+                  [`defer`] attribute, the `script`'s type is "`classic`", and
+                  the <a href="#is-feature-disabled"></a> algorithm returns
+                  "`Disabled`" when executed upon the `script` element's node
+                  document's global object, then abort these steps at this
+                  point. The script is not executed.
                   </li>
                 </ol>
               </li>
@@ -864,3 +866,4 @@
 [current global object]: https://html.spec.whatwg.org/#current-global-object
 [client]: https://fetch.spec.whatwg.org/#concept-request-client
 [sender requirements]: https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html#rfc.section.3
+[non-blocking]: https://html.spec.whatwg.org/#non-blocking
