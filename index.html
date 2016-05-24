@@ -642,9 +642,9 @@
               <li>Add the following step before the current step 10 (which is
               the first of several "disabled" checks):
                 <ol>
-                  <li>If the `script` element's has neither an [`async`] nor a
-                  [`defer`] attribute, the `script`'s type is "`classic`", and
-                  the <a href="#is-feature-disabled"></a> algorithm returns
+                  <li>If the `script` element's "`non-blocking`" flag is
+                  unset, the `script`'s type is "`classic`", and the
+                  <a href="#is-feature-disabled"></a> algorithm returns
                   "`Disabled`" when executed upon the `script` element's node
                   document's global object, then abort these steps at this
                   point. The script is not executed.
