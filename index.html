@@ -114,8 +114,8 @@
       API's within their application.</li>
       <li>Configure each such policy to run in report only, enforce, or enforce
       and report modes.</li>
-      <li>Configure each such policy to be enforced at the top-level context,
-      or to also cascade to all subframes.</li>
+      <li>Configure each such policy to be enforced for a certain set of origins
+      embedded in a particular context.</li>
     </ul>
     <section>
       <h2>Examples</h2>
@@ -129,9 +129,10 @@
 "disable member">disable</a>":["<a>webrtc</a>","<a>geolocation</a>"]}
         </pre>
         <p>Unless specified otherwise, the default <a>mode</a> for each of the
-        above directives is "`enforce`" and <a>target</a> is "`cascade`", which
+        above directives is "`enforce`" and <a>target</a> is `"*"`, which
         means that both features will be disabled for the top level frame and
-        the same policy will cascade to all subframes of the application.</p>
+        the same policy will apply to all origins which the application
+        embeds.</p>
       </div>
       <div class="example">
         <p>SecureCorp Inc. wants to disable use of Geolocation API's within the
@@ -142,7 +143,7 @@
         <pre>
   <a>Feature-Policy</a>: {"<a data-lt=
 "disable member">disable</a>":["<a>geolocation</a>"], "<a data-lt=
-"target member">target</a>":"self"},
+"target member">target</a>":["https://example.com"]},
           {"<a data-lt=
 "disable member">disable</a>":["<a>cookie</a>"], "<a data-lt=
 "mode member">mode</a>":"report", "<a data-lt=
@@ -182,7 +183,7 @@
         element within their application.</li>
       </ul>
       <p>However, there are several limitations to the above mechanism: the
-      developer cannot automatically cascade a policy to all subframes, which
+      developer cannot automatically apply a policy to all subframes, which
       makes it hard or impossible to enforce consistently in some cases (e.g.
       due to third party content injecting frames); the sandbox mechanism uses
       a whitelist approach which is impossible to extend without compatibility
@@ -215,8 +216,8 @@
       <ul>
         <li>A <dfn>mode</dfn> which is either <code>"enforce"</code> or
         <code>"report"</code>.</li>
-        <li>A <dfn>target</dfn> which is either <code>"self"</code> or
-        <code>"cascade"</code>.</li>
+        <li>A <dfn>target</dfn> which is an array of serialized origins, or
+        "`*`".</li>
         <li>A <dfn>report-to</dfn> group ([[!REPORTING]]) which is either
         <var>null</var>, or an ASCII string.</li>
         <li>A <dfn>disable</dfn> list which is a set of <a>valid disable
@@ -266,11 +267,12 @@
         </section>
         <section>
           <h2>The <var>target member</var></h2>
-          <p>The OPTIONAL <dfn>target member</dfn> defines the enforcement mode
-          for the directive. The member's name is "`target`" and the recognized
-          values are "`self`" and "`cascade`". If an unknown value is
-          specified, or if no member named "`target`" is present in the object,
-          the <a>directive</a>'s <a>target</a> will be set to "`cascade`".</p>
+          <p>The OPTIONAL <dfn>target member</dfn> defines the scope in which
+          the directive is enforced. The member's name is "`target`" and the
+          recognized are either an array of serialized origins, or the string
+          "`*`". If an unknown value is specified, or if no member named
+          "`target`" is present in the object, the <a>directive</a>'s
+          <a>target</a> will be set to "`*`".</p>
         </section>
         <section>
           <h2>The <var>report member</var></h2>
@@ -328,11 +330,19 @@
                 </li>
                 <li>If <var>mode</var> is <var>null</var> or is not equal to
                 one of "`enforce`" or "`report`", set it to "`enforce`".</li>
-                <li>Let <var>target</var> be the <var>item</var>'s <a>target
-                member</a>'s value.
+                <li>Let <var>target</var> be an empty list.</li>
+                <li>If <var>item</var> has a <a>target member</a> whose value
+                is an array, then for each <var>origin</var> in the array:
+                  <ol>
+                    <li>Let <var>result</var> be the result of executing the
+                    <a>URL parser</a> on <var>origin</var></li>
+                    <li>If <var>result</var> is not `failure`, then append the
+                    <a data-lt="origin-of-url">origin of <var>result</var></a> to
+                    <var>target</var>.</li>
+                  </ol>
                 </li>
-                <li>If <var>target</var> is <var>null</var> or is not equal to
-                one of "`self`" or "`cascade`", set it to "`cascade`".</li>
+                <li>If <var>target</var> is still an empty list, set
+                <var>target</var> to "`*`".</li>
                 <li>Let <var>report to</var> be the <var>item</var>'s <a>report
                 member</a>'s value.
                 </li>
@@ -675,12 +685,12 @@
                   Feature Policy List</a>:
                   <ol>
                     <li>Add <var>directive</var> to <var>global</var>'s
-                    `Document`'s <a>Feature Policy List</a> if either of the
+                    `Document`'s <a>Feature Policy List</a> if any of the
                     following are true:
                       <ol>
-                        <li>
-                          <var>directive</var>'s <a>target</a> is "`cascade`"
-                        </li>
+                        <li><var>directive</var>'s <a>target</a> is "`*`"</li>
+                        <li><var>directive</var>'s <a>target</a> is an array
+                        containing <var>global</var>'s origin</li>
                         <li><var>response</var>'s url's scheme is a local
                         scheme</li>
                       </ol>
@@ -702,10 +712,9 @@
                           Feature Policy List</a> if either of the following
                           are true:
                           <ol>
-                            <li>
-                              <var>directive</var>'s <a>target</a> is
-                              "`cascade`"
-                            </li>
+                            <li><var>directive</var>'s <a>target</a> is "`*`"</li>
+                            <li><var>directive</var>'s <a>target</a> is an array
+                            containing <var>global</var>'s origin</li>
                             <li><var>response</var>'s url's scheme is a local
                             scheme</li>
                           </ol>
@@ -803,8 +812,8 @@
         </li>
       </ol>
       <div class="issue">
-        <p>"`cascade`" is an issue here: we copy the directive down from the
-        parent, but it's not clear to what set of endpoints the cascaded
+        <p><a>target</a> is an issue here: we copy the directive down from the
+        parent, but it's not clear to what set of endpoints the applied
         directive ought to report. Allowing a parent to force reports to its
         own endpoint from a cross-origin embedee is a bit risky. Asking the
         child to create a group for its parent's endpoints is unlikely to catch
@@ -867,3 +876,5 @@
 [client]: https://fetch.spec.whatwg.org/#concept-request-client
 [sender requirements]: https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html#rfc.section.3
 [non-blocking]: https://html.spec.whatwg.org/#non-blocking
+[URL parser]: https://url.spec.whatwg.org/#concept-url-parser
+[origin-of-url]: https://url.spec.whatwg.org/#concept-url-origin
