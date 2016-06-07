@@ -279,12 +279,10 @@
                 is an array, then for each <var>origin</var> in the array:
                   <ol>
                     <li>Let <var>result</var> be the result of executing the
-                    <a>URL parser</a> on <var>origin</var>
-                    </li>
+                    [URL parser] on <var>origin</var></li>
                     <li>If <var>result</var> is not `failure`, then append the
-                    <a data-lt="origin-of-url">origin of <var>result</var></a>
-                    to <var>target</var>.
-                    </li>
+                    [origin of <var>result</var>][origin-of-url] to
+                    <var>target</var>.</li>
                   </ol>
                 </li>
                 <li>If <var>target</var> is still an empty list, set
