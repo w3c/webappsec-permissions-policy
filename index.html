@@ -46,15 +46,6 @@
       }]
     }],
     localBiblio:  {
-      'REPORTING': {
-        title: 'Reporting API',
-        href: 'https://w3c.github.io/reporting',
-        authors: [
-          'Ilya Grigorik',
-          'Mike West'
-        ],
-        date: 'March 11 2016'
-      },
       'PERMISSION-DELEGATION': {
         title: 'Permission Delegation To Embedded Web Applications',
         href: 'https://noncombatant.github.io/permission-delegation-api/',
@@ -112,58 +103,42 @@
     <ul>
       <li>Selectively disable or modify the behavior of certain features and
       API's within their application.</li>
-      <li>Configure each such policy to run in report only, enforce, or enforce
-      and report modes.</li>
-      <li>Configure each such policy to be enforced for a certain set of origins
-      embedded in a particular context.</li>
+      <li>Configure each such policy to be enforced for a certain set of
+      origins embedded in a particular context.</li>
     </ul>
     <section>
       <h2>Examples</h2>
       <div class="example">
         <p>SecureCorp Inc. wants to disable use of WebRTC and Geolocation API's
-        within the top-level frame and all of the subframes of their
-        application. It can do so by delivering the following HTTP response
-        header to define a feature policy:</p>
+        within their applications. It can do so by delivering the following
+        HTTP response header to define a feature policy:</p>
         <pre>
   <a>Feature-Policy</a>: {"<a data-lt=
 "disable member">disable</a>":["<a>webrtc</a>","<a>geolocation</a>"]}
         </pre>
-        <p>Unless specified otherwise, the default <a>mode</a> for each of the
-        above directives is "`enforce`" and <a>target</a> is "`\*`", which
-        means that both features will be disabled for the top level frame and
-        the same policy will apply to all origins which the application
-        embeds.</p>
+        <p>Unless specified otherwise, the default <a>target</a> is "`\*`",
+        which means that the specified features will be disabled for the top
+        level frame and all embedded origins.</p>
       </div>
       <div class="example">
         <p>SecureCorp Inc. wants to disable use of Geolocation API's within the
-        top-level frame and allow the use but collect a violation report
-        whenever `document.cookie` API is used, within any frame of their
-        application. It can do so by delivering the following HTTP response
+        top-level frame. It can do so by delivering the following HTTP response
         header to define a feature policy:</p>
         <pre>
   <a>Feature-Policy</a>: {"<a data-lt=
 "disable member">disable</a>":["<a>geolocation</a>"], "<a data-lt=
-"target member">target</a>":["https://example.com"]},
-          {"<a data-lt=
-"disable member">disable</a>":["<a>cookie</a>"], "<a data-lt=
-"mode member">mode</a>":"report", "<a data-lt=
-"report member">report-to</a>":"default"}
+"target member">target</a>":["https://example.com"]}
         </pre>
-        <p>Feature policy reports will be delivered to the "default" group
-        configured via [[REPORTING]] API.</p>
+        <p class="issue">Should this be 'self'?</p>
       </div>
       <div class="example">
         <p>Fast App wants to disable use of synchronous `script` elements,
-        synchronous `XMLHttpRequest`'s and use of `document.write` within the
-        top-level and all of the subframes of their application. It also wants
-        to the browser to send violation reports of this policy to the
-        "perf-violations" group configured via [[REPORTING]] API. It can do so
-        by delivering the following HTTP response header to define a feature
-        policy:</p>
+        synchronous `XMLHttpRequest`'s and use of `document.write` within their
+        application. It can do so by delivering the following HTTP response
+        header to define a feature policy:</p>
         <pre>
   <a>Feature-Policy</a>: {"<a data-lt=
-"disable member">disable</a>":["<a>sync-xhr</a>","<a>sync-script</a>","<a>docwrite</a>"],
-          "<a data-lt="report member">report-to</a>":"perf-violations"}
+"disable member">disable</a>":["<a>sync-xhr</a>","<a>sync-script</a>","<a>docwrite</a>"]}
       </pre>
       </div>
     </section>
@@ -214,12 +189,8 @@
       <h2>Directives</h2>
       <p>Each <dfn>directive</dfn> is a tuple consisting of:</p>
       <ul>
-        <li>A <dfn>mode</dfn> which is either <code>"enforce"</code> or
-        <code>"report"</code>.</li>
         <li>A <dfn>target</dfn> which is an array of serialized origins, or
         "`\*`".</li>
-        <li>A <dfn>report-to</dfn> group ([[!REPORTING]]) which is either
-        <var>null</var>, or an ASCII string.</li>
         <li>A <dfn>disable</dfn> list which is a set of <a>valid disable
         features</a>.
         </li>
@@ -258,14 +229,6 @@
         define additional such members, and user agents MUST ignore unknown
         members when parsing the header.</p>
         <section>
-          <h2>The <var>mode member</var></h2>
-          <p>The OPTIONAL <dfn>mode member</dfn> defines the enforcement mode
-          for the directive. The member's name is "`mode`" and the recognized
-          values are "`enforce`" and "`report`". If an unknown value is
-          specified, or if no member named "`mode`" is present in the object,
-          the <a>directive</a>'s <a>mode</a> will be set to "`enforce`".</p>
-        </section>
-        <section>
           <h2>The <var>target member</var></h2>
           <p>The OPTIONAL <dfn>target member</dfn> defines the scope in which
           the directive is enforced. The member's name is "`target`" and the
@@ -273,15 +236,6 @@
           "`\*`". If an unknown value is specified, or if no member named
           "`target`" is present in the object, the <a>directive</a>'s
           <a>target</a> will be set to "`\*`".</p>
-        </section>
-        <section>
-          <h2>The <var>report member</var></h2>
-          <p>The OPTIONAL <dfn>report member</dfn> defines the report group
-          ([[!REPORTING]]) for the directive. The member's name is
-          "`report-to`" and the recognized value is an ASCII string. If no
-          member named "`report-to`" is present in the object, the
-          <a>directive</a>'s <a>report-to</a> will be set to
-          <var>null</var>.</p>
         </section>
         <section>
           <h2>The <var>disable member</var></h2>
@@ -325,29 +279,21 @@
             <li>Let <var>policy</var> be an empty list.</li>
             <li>For each <var>item</var> in <var>list</var>:
               <ol>
-                <li>Let <var>mode</var> be the <var>item</var>'s <a>mode
-                member</a>'s value.
-                </li>
-                <li>If <var>mode</var> is <var>null</var> or is not equal to
-                one of "`enforce`" or "`report`", set it to "`enforce`".</li>
                 <li>Let <var>target</var> be an empty list.</li>
                 <li>If <var>item</var> has a <a>target member</a> whose value
                 is an array, then for each <var>origin</var> in the array:
                   <ol>
                     <li>Let <var>result</var> be the result of executing the
-                    <a>URL parser</a> on <var>origin</var></li>
+                    <a>URL parser</a> on <var>origin</var>
+                    </li>
                     <li>If <var>result</var> is not `failure`, then append the
-                    <a data-lt="origin-of-url">origin of <var>result</var></a> to
-                    <var>target</var>.</li>
+                    <a data-lt="origin-of-url">origin of <var>result</var></a>
+                    to <var>target</var>.
+                    </li>
                   </ol>
                 </li>
                 <li>If <var>target</var> is still an empty list, set
                 <var>target</var> to "`\*`".</li>
-                <li>Let <var>report to</var> be the <var>item</var>'s <a>report
-                member</a>'s value.
-                </li>
-                <li>If <var>report to</var> is not an ASCII string, set it to
-                <var>null</var>.</li>
                 <li>Let <var>disable</var> be the result of executing
                   <a href="#parse-disable-features"></a> on the
                   <var>item</var>'s <a>disable member</a>'s value.
@@ -355,12 +301,8 @@
                 <li>Let <var>tuple</var> be a new <a>directive</a> tuple whose
                 values are set as follows:
                   <dl>
-                    <dt>"`mode`"</dt>
-                    <dd>Set to <var>mode</var>.</dd>
                     <dt>"`target`"</dt>
                     <dd>Set to <var>target</var>.</dd>
-                    <dt>"`report-to`"</dt>
-                    <dd>Set to <var>report to</var>.</dd>
                     <dt>"`disable`"</dt>
                     <dd>Set to <var>disable</var>.</dd>
                   </dl>
@@ -630,12 +572,12 @@
               <li>Add the following step before the current step 10 (which is
               the first of several "disabled" checks):
                 <ol>
-                  <li>If the `script` element's "`non-blocking`" flag is
-                  unset, the `script`'s type is "`classic`", and the
-                  <a href="#is-feature-disabled"></a> algorithm returns
-                  "`Disabled`" when executed upon the `script` element's node
-                  document's global object, then abort these steps at this
-                  point. The script is not executed.
+                  <li>If the `script` element's "`non-blocking`" flag is unset,
+                  the `script`'s type is "`classic`", and the <a href=
+                  "#is-feature-disabled"></a> algorithm returns "`Disabled`"
+                  when executed upon the `script` element's node document's
+                  global object, then abort these steps at this point. The
+                  script is not executed.
                   </li>
                 </ol>
               </li>
@@ -666,9 +608,13 @@
                     `Document`'s <a>Feature Policy List</a> if any of the
                     following are true:
                       <ol>
-                        <li><var>directive</var>'s <a>target</a> is "`\*`"</li>
-                        <li><var>directive</var>'s <a>target</a> is an array
-                        containing <var>global</var>'s origin</li>
+                        <li>
+                          <var>directive</var>'s <a>target</a> is "`\*`"
+                        </li>
+                        <li>
+                          <var>directive</var>'s <a>target</a> is an array
+                          containing <var>global</var>'s origin
+                        </li>
                         <li><var>response</var>'s url's scheme is a local
                         scheme</li>
                       </ol>
@@ -690,9 +636,13 @@
                           Feature Policy List</a> if either of the following
                           are true:
                           <ol>
-                            <li><var>directive</var>'s <a>target</a> is "`\*`"</li>
-                            <li><var>directive</var>'s <a>target</a> is an array
-                            containing <var>global</var>'s origin</li>
+                            <li>
+                              <var>directive</var>'s <a>target</a> is "`\*`"
+                            </li>
+                            <li>
+                              <var>directive</var>'s <a>target</a> is an array
+                              containing <var>global</var>'s origin
+                            </li>
                             <li><var>response</var>'s url's scheme is a local
                             scheme</li>
                           </ol>
@@ -729,10 +679,6 @@
                 <li>If <var>directive</var>'s <a>disable</a> contains
                 <var>feature</var>:
                   <ol>
-                    <li>Execute the <a href="#report-violation"></a> algorithm
-                    on <var>feature</var>, <var>directive</var>, and
-                    <var>global</var>.
-                    </li>
                     <li>Return "`Disabled`".</li>
                   </ol>
                 </li>
@@ -759,44 +705,6 @@
           </li>
         </ol>
       </section>
-    </section>
-  </section>
-  <section>
-    <h2>Reporting</h2>
-    <section>
-      <h3 id="report-violation">Report a violation for <var>feature</var>,
-      <var>directive</var>, and <var>global</var></h3>
-      <p>Given a string (<var>feature</var>), a <a>directive</a>
-      (<var>directive</var>), and a global object (<var>global</var>), this
-      algorithm will queue up a violation report [[!REPORTING]]:</p>
-      <ol>
-        <li>If <var>directive</var>'s <a>report-to</a> is `null`, skip the
-        remaining steps.
-        </li>
-        <li>Let <var>endpoint</var> be <var>directive</var>'s <a>report-to</a>.
-        </li>
-        <li>Let <var>settings</var> be <var>global</var>'s setting object.</li>
-        <li>Let <var>violation</var> be an dictionary whose members are set as
-        follows:
-          <dl>
-            <dt>"`feature`"</dt>
-            <dd>Set to <var>feature</var>.</dd>
-          </dl>
-        </li>
-        <li>
-          <a href="https://w3c.github.io/reporting/#queue-report">Queue
-          <var>violation</var> as "`feature-policy`" for <var>endpoint</var> on
-          <var>settings</var></a>. [[!REPORTING]]
-        </li>
-      </ol>
-      <div class="issue">
-        <p><a>target</a> is an issue here: we copy the directive down from the
-        parent, but it's not clear to what set of endpoints the applied
-        directive ought to report. Allowing a parent to force reports to its
-        own endpoint from a cross-origin embedee is a bit risky. Asking the
-        child to create a group for its parent's endpoints is unlikely to catch
-        bugs. What to do?</p>
-      </div>
     </section>
   </section>
   <section>
