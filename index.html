@@ -200,22 +200,9 @@
       <h2>Delivery</h2>
       <section>
         <h2>`Feature-Policy` HTTP Header Field</h2>
-        <p>The <dfn>Feature-Policy</dfn> HTTP header field can be used both in
-        the [response] (server to client) and a [request] (client to server) to
-        communicate the <a>feature policy</a>. In the former case, the server
-        is communicating the desired policy that should be enforced by the
-        client, and in the latter, the client is communicating the policy that
-        it will enforce.</p>
-        <p>The policy MUST be delivered via an HTTP response header field to be
-        processed by the client; the client MUST ignore any policy set via
-        `meta` element's `http-equiv` attribute.</p>
-        <p class="note">The feature policy needs to be set before the response
-        is processed and before any subresource requests are initiated. Once
-        active the policy also needs to apply for the lifetime of the document
-        and is not allowed to be modified at runtime. Due to these
-        requirements, `meta` element cannot be used to set the policy.</p>
-        <p>The header's value is represented by the following ABNF
-        [[!RFC5234]]:</p>
+        <p>The <dfn>Feature-Policy</dfn> HTTP [response] header field is used
+        to deliver a <a>feature policy</a> from a server to client. The
+        header's value is represented by the following ABNF [[!RFC5234]]:</p>
         <pre class="abnf">
           Disable = 1#json-field-value
                     ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
@@ -224,6 +211,14 @@
         "#process-response-policy"></a>, and the header’s value is interpreted
         as an array of JSON objects, as described in Section 4 of
         [[!HTTP-JFV]].</p>
+        <p>The policy MUST be delivered via an HTTP response header field to be
+        processed by the client; the client MUST ignore any policy set via
+        `meta` element's `http-equiv` attribute.</p>
+        <p class="note">The feature policy needs to be set before the response
+        is processed and before any subresource requests are initiated. Once
+        active the policy also needs to apply for the lifetime of the document
+        and is not allowed to be modified at runtime. Due to these
+        requirements, `meta` element cannot be used to set the policy.</p>
         <p>The following sections define the set of known members in each JSON
         object the header’s value defines. Future versions of this document may
         define additional such members, and user agents MUST ignore unknown
