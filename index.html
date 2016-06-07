@@ -129,7 +129,7 @@
 "disable member">disable</a>":["<a>webrtc</a>","<a>geolocation</a>"]}
         </pre>
         <p>Unless specified otherwise, the default <a>mode</a> for each of the
-        above directives is "`enforce`" and <a>target</a> is `"*"`, which
+        above directives is "`enforce`" and <a>target</a> is "`\*`", which
         means that both features will be disabled for the top level frame and
         the same policy will apply to all origins which the application
         embeds.</p>
@@ -217,7 +217,7 @@
         <li>A <dfn>mode</dfn> which is either <code>"enforce"</code> or
         <code>"report"</code>.</li>
         <li>A <dfn>target</dfn> which is an array of serialized origins, or
-        "`*`".</li>
+        "`\*`".</li>
         <li>A <dfn>report-to</dfn> group ([[!REPORTING]]) which is either
         <var>null</var>, or an ASCII string.</li>
         <li>A <dfn>disable</dfn> list which is a set of <a>valid disable
@@ -270,9 +270,9 @@
           <p>The OPTIONAL <dfn>target member</dfn> defines the scope in which
           the directive is enforced. The member's name is "`target`" and the
           recognized are either an array of serialized origins, or the string
-          "`*`". If an unknown value is specified, or if no member named
+          "`\*`". If an unknown value is specified, or if no member named
           "`target`" is present in the object, the <a>directive</a>'s
-          <a>target</a> will be set to "`*`".</p>
+          <a>target</a> will be set to "`\*`".</p>
         </section>
         <section>
           <h2>The <var>report member</var></h2>
@@ -342,7 +342,7 @@
                   </ol>
                 </li>
                 <li>If <var>target</var> is still an empty list, set
-                <var>target</var> to "`*`".</li>
+                <var>target</var> to "`\*`".</li>
                 <li>Let <var>report to</var> be the <var>item</var>'s <a>report
                 member</a>'s value.
                 </li>
@@ -666,7 +666,7 @@
                     `Document`'s <a>Feature Policy List</a> if any of the
                     following are true:
                       <ol>
-                        <li><var>directive</var>'s <a>target</a> is "`*`"</li>
+                        <li><var>directive</var>'s <a>target</a> is "`\*`"</li>
                         <li><var>directive</var>'s <a>target</a> is an array
                         containing <var>global</var>'s origin</li>
                         <li><var>response</var>'s url's scheme is a local
@@ -690,7 +690,7 @@
                           Feature Policy List</a> if either of the following
                           are true:
                           <ol>
-                            <li><var>directive</var>'s <a>target</a> is "`*`"</li>
+                            <li><var>directive</var>'s <a>target</a> is "`\*`"</li>
                             <li><var>directive</var>'s <a>target</a> is an array
                             containing <var>global</var>'s origin</li>
                             <li><var>response</var>'s url's scheme is a local
