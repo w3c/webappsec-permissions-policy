@@ -197,6 +197,9 @@
         <li>A <dfn>disable</dfn> list which is a set of <a>valid disable
         features</a>.
         </li>
+        <li>A <dfn>enable</dfn> list which is a set of <a>valid enable
+        features</a>.
+        </li>
       </ul>
     </section>
     <section>
@@ -239,8 +242,13 @@
           <h2>The <var>disable member</var></h2>
           <p>The OPTIONAL <dfn>disable member</dfn> defines the <a>disable
           policy</a> for the directive. The member's name is "`disable`" and
-          the value is a list of <a>valid disable features</a>. Unrecognized
-          features will be ignored by the user agent.</p>
+          the value is a list of ASCII strings.</p>
+        </section>
+        <section>
+          <h2>The <var>enable member</var></h2>
+          <p>The OPTIONAL <dfn>enable member</dfn> defines the <a>enable
+          policy</a> for the directive. The member's name is "`enable`" and the
+          value is a list of ASCII strings.</p>
         </section>
       </section>
       <section>
@@ -294,6 +302,10 @@
                   <a href="#parse-disable-features"></a> on the
                   <var>item</var>'s <a>disable member</a>'s value.
                 </li>
+                <li>Let <var>enable</var> be the result of executing <a href=
+                "#parse-enable-features"></a> on the <var>item</var>'s
+                <a>enable member</a>'s value.
+                </li>
                 <li>Let <var>tuple</var> be a new <a>directive</a> tuple whose
                 values are set as follows:
                   <dl>
@@ -301,6 +313,8 @@
                     <dd>Set to <var>target</var>.</dd>
                     <dt>"`disable`"</dt>
                     <dd>Set to <var>disable</var>.</dd>
+                    <dt>"`enable`"</dt>
+                    <dd>Set to <var>enable</var>.</dd>
                   </dl>
                 </li>
                 <li>Append <var>tuple</var> to <var>policy</var>.</li>
@@ -699,6 +713,33 @@
               </li>
             </ol>
           </li>
+        </ol>
+      </section>
+    </section>
+  </section>
+  <section>
+    <h2>Enable Policy</h2>
+    <p>The <dfn>enable policy</dfn> allows a developer to turn on certain
+    features for a <code>Document</code> or <code>Worker</code>.</p>
+    <section>
+      <h2>Processing</h2>
+      <section>
+        <h2>Parse enable features</h2>
+        <p>Given a <var>list</var>, this algorithm returns a list of <a>valid
+        enable features</a>, which may be empty.</p>
+        <ol>
+          <li>Let <var>valid-features</var> be an empty list.</li>
+          <li>If <var>list</var> is <var>null</var> or empty, return
+          <var>valid-features</var>.</li>
+          <li>For each <var>item</var> in <var>list</var>:
+            <ol>
+              <li>Convert <var>item</var> to ASCII-lowercase.</li>
+              <li>TODO... should we merge/refactor this with disable
+              parse?</li>
+              <li>Append <var>item</var> to <var>valid-features</var>.</li>
+            </ol>
+          </li>
+          <li>Return <var>valid-features</var>.</li>
         </ol>
       </section>
     </section>
