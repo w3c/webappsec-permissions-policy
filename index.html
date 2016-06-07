@@ -372,28 +372,6 @@
           </ol>
         </section>
       </section>
-      <section>
-        <h2>Set request policy</h2>
-        <p class="note">This monkey patches [fetching algorithm], by inserting
-        the following steps after current step #4.</p>
-        <ol>
-          <li>If [request] has an associated [client] that is not
-          <var>null</var> and whose [global object] has a non-empty <a>feature
-          policy list</a>, run the following steps:
-            <ol>
-              <li>Let <var>policy</var> be the [current global object]'s
-              <a>feature policy list</a>.
-              </li>
-              <li>Let <var>serialized feature policy</var> be the result of
-              executing the [sender requirements] algorithm on
-              <var>policy</var>, as defined in section 3 of [[!HTTP-JFV]].</li>
-              <li>[Append](header-append) <var>Feature-Policy/serialized
-              feature policy</var> to request's [header list].</li>
-            </ol>
-          </li>
-          <p class="issue" title="TODO">Add checks for reflected policy (~step 17, of [Main Fetch](https://fetch.spec.whatwg.org/#concept-main-fetch))? What behavior do we want here?</p>
-        </ol>
-      </section>
     </section>
   </section>
   <section>
