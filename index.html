@@ -69,8 +69,9 @@
 </head>
 <body>
   <section id='abstract'>
-    <p>This specification defines a mechanism that allows developers to modify
-    the behavior of, or disable, use of various browser features and API's.</p>
+    <p>This specification defines a mechanism that allows developers to
+    selectively enable and disable use of various browser features and
+    APIs.</p>
   </section>
   <section id='sotd'>
     <p>This is a <strong>work in progress</strong> and may change without any
@@ -81,65 +82,71 @@
     <p>The web-platform provides an ever-expanding set of features and APIs,
     offering richer functionality, better developer ergonomics, and improved
     performance. However, a missing piece is the ability for the developer to
-    selectively modify the behavior of, or disable, the use of some of these
-    browser features and API's within their application:</p>
+    selectively enable, disable, or modify the behavior of some of these
+    browser features and APIs within their application:</p>
     <ol>
-      <li>The developer may want to "lock down" their application against use
-      of certain features and API's, as a security or performance precaution,
-      to prevent third party content executing within their application from
-      introducing behaviors that regress their application.</li>
-      <li>The developer may want to similarly "lock down" their application
-      against "first party" content developed by other developers from
-      accidentally introducing behaviors that regress their application.</li>
-      <li>The developer may want to assert a promise to a client or an embedder
-      about the use—or lack of thereof—of certain features and API's. For
-      example, to enable certain types of "fast path" optimizations in the
-      browser, or to assert a promise about conformance with some requirements
-      set by other embedders (e.g. various social networks, search engines, and
-      so on).</li>
+      <li>The developer may want to selectively _disable_ access to certain
+      browser features and APIs to "lock down" their application, as a security
+      or performance precaution, to prevent own and third-party content
+      executing within their application from introducing unwanted or
+      unexpected behaviors within their application.</li>
+      <li>The developer may want to selectively _enable_ access to certain
+      browser features and APIs which may be disabled by default - e.g. some
+      features may be disabled by default in embedded context unless explicitly
+      enabled; some features may be subject to other policy requirements.</li>
+      <li>The developer may want to use the policy to assert a promise to a
+      client or an embedder about the use—or lack of thereof—of certain
+      features and APIs. For example, to enable certain types of "fast path"
+      optimizations in the browser, or to assert a promise about conformance
+      with some requirements set by other embedders - e.g. various social
+      networks, search engines, and so on.</li>
     </ol>
-    <p>This specification defines a mechanism which addresses the above
-    limitations by allowing the developer to:</p>
-    <ul>
-      <li>Selectively disable or modify the behavior of certain features and
-      API's within their application.</li>
-      <li>Configure each such policy to be enforced for a certain set of
-      origins embedded in a particular context.</li>
-    </ul>
+    <p>This specification defines a feature policy mechanism that addresses the
+    above use cases.</p>
     <section>
       <h2>Examples</h2>
       <div class="example">
-        <p>SecureCorp Inc. wants to disable use of WebRTC and Geolocation API's
-        within their applications. It can do so by delivering the following
-        HTTP response header to define a feature policy:</p>
-        <pre>
-  <a>Feature-Policy</a>: {"<a data-lt=
-"disable member">disable</a>":["<a>webrtc</a>","<a>geolocation</a>"]}
-        </pre>
+        <p>SecureCorp Inc. wants to disable use of WebRTC and Geolocation APIs
+        within their application. It can do so by delivering the following HTTP
+        response header to define a feature policy:</p>
+        <pre><a>Feature-Policy</a>: {"<a data-lt=
+        "disable member">disable</a>":["<a>webrtc</a>","<a>geolocation</a>"]}</pre>
         <p>Unless specified otherwise, the default <a>target</a> is "`\*`",
-        which means that the specified features will be disabled for the top
-        level frame and all embedded origins.</p>
+        which means that the specified features will be disabled for all
+        browsing contexts regardless of their origin.</p>
       </div>
       <div class="example">
-        <p>SecureCorp Inc. wants to disable use of Geolocation API's within the
-        top-level frame. It can do so by delivering the following HTTP response
-        header to define a feature policy:</p>
-        <pre>
-  <a>Feature-Policy</a>: {"<a data-lt=
-"disable member">disable</a>":["<a>geolocation</a>"], "<a data-lt=
-"target member">target</a>":["https://example.com"]}
-        </pre>
-        <p class="issue">Should this be 'self'?</p>
+        <p>SecureCorp Inc. wants to disable use of Geolocation API within all
+        browsing contexts whose origin is "`https://example.com`". It can do so
+        by delivering the following HTTP response header to define a feature
+        policy:</p>
+        <pre><a>Feature-Policy</a>: {"<a data-lt=
+        "disable member">disable</a>":["<a>geolocation</a>"], "<a data-lt=
+        "target member">target</a>":["https://example.com"]}</pre>
+        <p>The <a>target</a> is a list of one or more origins, which can
+        include the applications origin and any third-party origin.</p>
       </div>
       <div class="example">
-        <p>Fast App wants to disable use of synchronous `script` elements,
+        <p>SecureCorp Inc. is hosting an application on "`https://example.com`"
+        and wants to disable WebRTC on its origin but enable it for a
+        whitelisted embedee ("`https://other.com`"). It can do so by delivering
+        the following HTTP response header to define a feature policy:</p>
+        <pre><a>Feature-Policy</a>: {"<a data-lt=
+        "disable member">disable</a>":["<a>webrtc</a>"], "<a data-lt=
+        "target member">target</a>":["https://example.com"]},
+        {"<a data-lt=
+"enable member">enable</a>":["<a>webrtc</a>"], "<a data-lt="target member">target</a>":["https://other.com"]}</pre>
+        <p>Some features are disabled by default in embedded contexts. The
+        enable policy allows the application to selectively enable such
+        features for whitelisted origins.</p>
+      </div>
+      <div class="example">
+        <p>FastCorp Inc. wants to disable use of synchronous `script` elements,
         synchronous `XMLHttpRequest`'s and use of `document.write` within their
         application. It can do so by delivering the following HTTP response
         header to define a feature policy:</p>
-        <pre>
-  <a>Feature-Policy</a>: {"<a data-lt=
-"disable member">disable</a>":["<a>sync-xhr</a>","<a>sync-script</a>","<a>docwrite</a>"]}
-      </pre>
+        <pre><a>Feature-Policy</a>: {"<a data-lt=
+        "disable member">disable</a>":["<a>sync-xhr</a>","<a>sync-script</a>","<a>docwrite</a>"]}</pre>
       </div>
     </section>
     <section>
@@ -158,20 +165,16 @@
         element within their application.</li>
       </ul>
       <p>However, there are several limitations to the above mechanism: the
-      developer cannot automatically apply a policy to all subframes, which
+      developer cannot automatically apply a policy across all contexts, which
       makes it hard or impossible to enforce consistently in some cases (e.g.
-      due to third party content injecting frames); the sandbox mechanism uses
-      a whitelist approach which is impossible to extend without compatibility
-      risk; there is no mechanism to gather violations.</p>
+      due to third-party content injecting frames, which the developer does not
+      control); there is no mechanism to selectively enable features that may
+      be off by default; the sandbox mechanism uses a whitelist approach which
+      is impossible to extend without compatibility risk.</p>
       <p>Feature Policy is intended to be used in combination with the sandbox
       mechanism (i.e. it does not duplicate feature controls already covered by
       sandbox), and provides an extensible mechanism that addresses the above
       limitations.</p>
-      <p>The [[PERMISSION-DELEGATION]] API allows embedders to regulate the
-      embedees' use of powerful features. This API can be used in combination
-      with Feature Policy: to delegate the permission the top-level page must
-      hold said permission first; if the feature is disabled via Feature Policy
-      then delegation is a no-op.</p>
     </section>
   </section>
   <section>
