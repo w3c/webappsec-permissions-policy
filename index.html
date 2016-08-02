@@ -192,16 +192,37 @@
       <h2>Directives</h2>
       <p>Each <dfn>directive</dfn> is a tuple consisting of:</p>
       <ul>
-        <li>A <dfn>target</dfn> which is an array of serialized origins which
-        may contain the "`self`" keyword that refers to current global's
-        origin, or "`\*`".</li>
-        <li>A <dfn>disable</dfn> list which is a set of <a>valid disable
-        features</a>.
-        </li>
-        <li>A <dfn>enable</dfn> list which is a set of <a>valid enable
-        features</a>.
-        </li>
+        <li>A <dfn>target</dfn> set by the <var>target member</var>.</li>
+        <li>A <dfn>disable</dfn> list set by the <var>disable
+        member</var>.</li>
+        <li>A <dfn>enable</dfn> list set by the <var>enable member</var>.</li>
       </ul>
+      <p>The following sections define the set of known members in each JSON
+      object describing the policy. Future versions of this document may define
+      additional such members and user agents MUST ignore unknown members when
+      parsing the object.</p>
+      <section>
+        <h2>The <var>target member</var></h2>
+        <p>The OPTIONAL <dfn>target member</dfn> defines the scope in which the
+        directive is enforced. The member's name is "`target`" and the
+        recognized values are either an array of serialized origins which may
+        contain the "`self`" keyword that refers to current global's origin, or
+        the string "`\*`". If an unknown value is specified, or if no member
+        named "`target`" is present in the object, the <a>directive</a>'s
+        <a>target</a> will be set to "`\*`".</p>
+      </section>
+      <section>
+        <h2>The <var>disable member</var></h2>
+        <p>The OPTIONAL <dfn>disable member</dfn> defines the <a>disable
+        policy</a> for the directive. The member's name is "`disable`" and the
+        value is a list of ASCII strings.</p>
+      </section>
+      <section>
+        <h2>The <var>enable member</var></h2>
+        <p>The OPTIONAL <dfn>enable member</dfn> defines the <a>enable
+        policy</a> for the directive. The member's name is "`enable`" and the
+        value is a list of ASCII strings. [response]</p>
+      </section>
     </section>
     <section>
       <h2>Delivery</h2>
@@ -219,46 +240,12 @@
           Disable = 1#json-field-value
                     ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
         </pre>
-        <p>The policy is parsed as defined in <a href=
-        "#process-response-policy"></a>, and the header’s value is interpreted
-        as an array of JSON objects, as described in Section 4 of
-        [[!HTTP-JFV]].</p>
-        <p>The policy MUST be delivered via an HTTP response header field to be
-        processed by the client; the client MUST ignore any policy set via
-        `meta` element's `http-equiv` attribute.</p>
-        <p class="note">The feature policy needs to be set before the response
-        is processed and before any subresource requests are initiated. Once
-        active the policy also needs to apply for the lifetime of the document
-        and is not allowed to be modified at runtime. Due to these
-        requirements, `meta` element cannot be used to set the policy.</p>
-        <p>The following sections define the set of known members in each JSON
-        object the header’s value defines. Future versions of this document may
-        define additional such members, and user agents MUST ignore unknown
-        members when parsing the header.</p>
-        <section>
-          <h2>The <var>target member</var></h2>
-          <p>The OPTIONAL <dfn>target member</dfn> defines the scope in which
-          the directive is enforced. The member's name is "`target`" and the
-          recognized are either an array of serialized origins which may
-          contain the "`self`" keyword that refers to current global's origin,
-          or the string "`\*`". If an unknown value is specified, or if no
-          member named "`target`" is present in the object, the
-          <a>directive</a>'s <a>target</a> will be set to "`\*`".</p>
-        </section>
-        <section>
-          <h2>The <var>disable member</var></h2>
-          <p>The OPTIONAL <dfn>disable member</dfn> defines the <a>disable
-          policy</a> for the directive. The member's name is "`disable`" and
-          the value is a list of ASCII strings.</p>
-        </section>
-        <section>
-          <h2>The <var>enable member</var></h2>
-          <p>The OPTIONAL <dfn>enable member</dfn> defines the <a>enable
-          policy</a> for the directive. The member's name is "`enable`" and the
-          value is a list of ASCII strings.</p>
-        </section>
-      </section>
-      <section>
+        <p>When the user agent receives a `Feature-Policy` header field, it
+        MUST <a href="#process-response-policy">process</a> and <a>enforce</a>
+        the serialized policy as described in <a href=
+        "#integration-with-html"></a>. When the user agent [performs a
+        fetch][fetching algorithm], it MUST advertise the active <a>feature
+        policy</a> as described in <a href="#integration-with-fetch"></a>.</p>
         <h2>Process response policy</h2>
         <p>Given a [response] (<var>response</var>) and a [global object]
         (<var>global</var>), this algorithm returns a <a>feature
@@ -277,83 +264,102 @@
           <var>response</var>’s [header list] whose name is
           "`Feature-Policy`".</li>
           <li>Let <var>feature policy</var> be the result of executing
-            <a href="#parse-response-policy-from-value-and-global"></a> on
+            <a href="#parse-policy-from-value-and-global"></a> on
             <var>header</var> and <var>global</var>.
           </li>
         </ol>
+        <p class="issue">TODO: Is HTTPS restriction still necessary?</p>
+      </section>
+      <section>
+        <h2>The `meta` element</h2>
+        <p>A [Document] may deliver a policy via one or more HTML [meta]
+        elements whose [http-equiv] attributes are an [ASCII case-insensitive]
+        match for the string "`Feature-Policy`". For example:</p>
+        <pre class="example nolinks">
+&lt;meta http-equiv="Feature-Policy"
+  content='{"disable": ["webrtc"]},
+           {"enable":["geolocation"],"target":["https://example.com"}'&gt;
+        </pre>
+        <p>The `meta` policy is processed as defined in <a href=
+        "#process-meta-policy"></a> and modifications to the
+        [content][meta-content] attribute of a `meta` element after the element
+        has been parsed MUST be ignored.</p>
+        <p class="issue">TODO: talk about effect of multiple policies</p>
         <section>
-          <h2>Parse response policy from <var>value</var> and
-          <var>global</var></h2>
-          <p>Given a string (<var>value</var>) and [global object]
-          (<var>global</var>) this algorithm will return a <a>feature
-          policy</a>.</p>
+          <h2>Process meta policy</h2>
+          <p class="note">This section extends HTML's `meta` [pragma
+          directives].</p><strong>Feature policy state
+          (http-equiv="feature-policy")</strong>
           <ol>
-            <li>Let <var>list</var> be the result of executing the algorithm
-            defined in Section 4 of [[!HTTP-JFV]]. If that algorithm results in
-            an error, abort these steps.</li>
-            <li>Let <var>policy</var> be an empty list.</li>
-            <li>For each <var>item</var> in <var>list</var>:
-              <ol>
-                <li>Let <var>target</var> be an empty list.</li>
-                <li>If <var>item</var> has a <a>target member</a> whose value
-                is an array, then for each <var>origin</var> in the array:
-                  <ol>
-                    <li>If <var>origin</var> is an [ASCII case-insensitive]
-                    match for "`self`", let <var>result</var> be the
-                    <var>global</var>'s origin.</li>
-                    <li>Otherwise, let <var>result</var> be the result of
-                    executing the [URL parser] on <var>origin</var></li>
-                    <li>If <var>result</var> is not `failure`, then append the
-                    [origin of <var>result</var>][origin-of-url] to
-                    <var>target</var>.</li>
-                  </ol>
-                </li>
-                <li>If <var>target</var> is still an empty list, set
-                <var>target</var> to "`\*`".</li>
-                <li>Let <var>disable</var> be the result of executing
-                  <a href="#parse-disable-features"></a> on the
-                  <var>item</var>'s <a>disable member</a>'s value.
-                </li>
-                <li>Let <var>enable</var> be the result of executing <a href=
-                "#parse-enable-features"></a> on the <var>item</var>'s
-                <a>enable member</a>'s value.
-                </li>
-                <li>Let <var>tuple</var> be a new <a>directive</a> tuple whose
-                values are set as follows:
-                  <dl>
-                    <dt>"`target`"</dt>
-                    <dd>Set to <var>target</var>.</dd>
-                    <dt>"`disable`"</dt>
-                    <dd>Set to <var>disable</var>.</dd>
-                    <dt>"`enable`"</dt>
-                    <dd>Set to <var>enable</var>.</dd>
-                  </dl>
-                </li>
-                <li>Append <var>tuple</var> to <var>policy</var>.</li>
-              </ol>
+            <li>If the `meta` element is not a child of a `head` element, abort
+            these steps.</li>
+            <li>If the `meta` element is preceded by `script` element, abort
+            these steps.</li>
+            <li>If the `meta` element has no [content][meta-content] attribute,
+            or if that attribute's value is the empty string, then abort these
+            steps.</li>
+            <li>Let <var>policy</var> be the result of executing <a href=
+            "#parse-policy-from-value-and-global"></a> on the `meta` element's
+            [content][meta-content] attribute's value and the <var>current
+            document</var>'s global.
             </li>
-            <li>Return <var>policy</var>.</li>
+            <li>
+              <a>Enforce</a> the policy <var>policy</var>.
+            </li>
           </ol>
         </section>
       </section>
       <section>
-        <h2>Set request policy</h2>
-        <p>This monkey patches [fetching algorithm], by inserting the following
-        steps after current step #4:</p>
+        <h2>Parse policy from <var>value</var> and <var>global</var></h2>
+        <p>Given a string (<var>value</var>) and [global object]
+        (<var>global</var>) this algorithm will return a <a>feature
+        policy</a>.</p>
         <ol>
-          <li>If [request]'s [client] is not <var>null</var> and has a
-          non-empty <a>feature policy list</a>, run the following steps:
+          <li>Let <var>list</var> be the result of executing the algorithm
+          defined in Section 4 of [[!HTTP-JFV]]. If that algorithm results in
+          an error, abort these steps.</li>
+          <li>Let <var>policy</var> be an empty list.</li>
+          <li>For each <var>item</var> in <var>list</var>:
             <ol>
-              <li>Let <var>policy</var> be the [current global object]'s
-              <a>feature policy list</a>.
+              <li>Let <var>target</var> be an empty list.</li>
+              <li>If <var>item</var> has a <a>target member</a> whose value is
+              an array, then for each <var>origin</var> in the array:
+                <ol>
+                  <li>If <var>origin</var> is an [ASCII case-insensitive] match
+                  for "`self`", let <var>result</var> be the
+                  <var>global</var>'s origin.</li>
+                  <li>Otherwise, let <var>result</var> be the result of
+                  executing the [URL parser] on <var>origin</var></li>
+                  <li>If <var>result</var> is not `failure`, then append the
+                  [origin of <var>result</var>][origin-of-url] to
+                  <var>target</var>.</li>
+                </ol>
               </li>
-              <li>Let <var>serialized feature policy</var> be the result of
-              executing the [sender requirements] algorithm on
-              <var>policy</var>, as defined in section 3 of [[!HTTP-JFV]].</li>
-              <li>[Append](header-append) <var>Feature-Policy/serialized
-              feature policy</var> to request's [header list].</li>
+              <li>If <var>target</var> is still an empty list, set
+              <var>target</var> to "`\*`".</li>
+              <li>Let <var>disable</var> be the result of executing <a href=
+              "#parse-disable-features"></a> on the <var>item</var>'s
+              <a>disable member</a>'s value.
+              </li>
+              <li>Let <var>enable</var> be the result of executing <a href=
+              "#parse-enable-features"></a> on the <var>item</var>'s <a>enable
+              member</a>'s value.
+              </li>
+              <li>Let <var>tuple</var> be a new <a>directive</a> tuple whose
+              values are set as follows:
+                <dl>
+                  <dt>"`target`"</dt>
+                  <dd>Set to <var>target</var>.</dd>
+                  <dt>"`disable`"</dt>
+                  <dd>Set to <var>disable</var>.</dd>
+                  <dt>"`enable`"</dt>
+                  <dd>Set to <var>enable</var>.</dd>
+                </dl>
+              </li>
+              <li>Append <var>tuple</var> to <var>policy</var>.</li>
             </ol>
           </li>
+          <li>Return <var>policy</var>.</li>
         </ol>
       </section>
     </section>
@@ -500,255 +506,6 @@
         <p>Disables WebRTC. [[!WEBRTC]]</p>
       </section>
     </section>
-    <section>
-      <h2>Integrations</h2>
-      <p>This document defines a set of algorithms which other specifications
-      will use in order to implement the restrictions which Feature Policy
-      defines. The integrations are outlined here for clarity, but those
-      external documents are the normative references which ought to be
-      consulted for detailed information.</p>
-      <section>
-        <h3>Integration with HTML</h3>
-        <ol>
-          <li>
-            <code>Document</code> and <code>WorkerGlobalScope</code> objects
-            have a <dfn>Feature Policy List</dfn>, which is either the empty
-            set or a <a>feature policy</a>. This property is the empty set
-            unless otherwise specified, and is populated via the <a href=
-            "#initialize-for-global"></a> algorithm.
-          </li>
-          <li>The <a href="#initialize-for-global"></a> algorithm is called
-          during the "Initialising a new <code>Document</code> object" and "Run
-          a Worker" algorithms.
-          </li>
-          <li>
-            <p>`document.cookie`'s <a href=
-            "https://html.spec.whatwg.org/#dom-document-cookie">getter and
-            setter algorithms</a> call into the <a href=
-            "#is-feature-disabled"></a> algorithm to determine whether or not
-            to throw, as follows:</p>
-            <blockquote>
-              <p>On getting:</p>
-              <ol>
-                <li>If the document is a cookie-averse Document object, return
-                the empty string.</li>
-                <li>If the document's origin is an opaque origin, throw a
-                "`SecurityError`" `DOMException`.</li>
-                <li>If the <a href="#is-feature-disabled"></a> algorithm
-                returns "`Disabled`" when executed upon "`cookie`" and the
-                document's global object, throw a "`SecurityError`"
-                `DOMException`.
-                </li>
-                <li>Otherwise the user agent must return the cookie-string for
-                the document's URL for a "non-HTTP" API, decoded using UTF-8
-                decode without BOM.</li>
-              </ol>
-              <p>On setting:</p>
-              <ol>
-                <li>If the document is a cookie-averse Document object, then
-                the user agent must skip the remaining substeps.</li>
-                <li>If the document's origin is an opaque origin, throw a
-                "`SecurityError`" `DOMException`.</li>
-                <li>If the <a href="#is-feature-disabled"></a> algorithm
-                returns "`Disabled`" when executed upon "`cookie`" and the
-                document's global object, throw a "`SecurityError`"
-                `DOMException`.
-                </li>
-                <li>Otherwise, the user agent must act as it would when
-                receiving a set-cookie-string for the document's URL via a
-                "non-HTTP" API, consisting of the new value encoded as
-                UTF-8.</li>
-              </ol>
-            </blockquote>
-          </li>
-          <li>
-            <p>`document.domain`'s <a href=
-            "https://html.spec.whatwg.org/#dom-document-domain">getter and
-            setter algorithms</a> call into the <a href=
-            "#is-feature-disabled"></a> algorithm to determine whether or not
-            to throw, as follows:</p>
-            <ol>
-              <li>Add the following step after the current step 1 of the
-              attribute's getter:
-                <ol>
-                  <li>If the <a href="#is-feature-disabled"></a> algorithm
-                  returns "`Disabled`" when executed upon "`domain`" and the
-                  document's global object, throw a "`SecurityError`"
-                  `DOMException`.
-                  </li>
-                </ol>
-              </li>
-              <li>Add the following step after the current step 1 of the
-              attribute's setter:
-                <ol>
-                  <li>If the <a href="#is-feature-disabled"></a> algorithm
-                  returns "`Disabled`" when executed upon "`domain`" and the
-                  document's global object, throw a "`SecurityError`"
-                  `DOMException`.
-                  </li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-          <li>
-            <p>[`document.write` method](docwrite-method) calls into the
-            <a href="#is-feature-disabled"></a> algorithm to determine whether
-            or not to throw, as follows:</p>
-            <ol>
-              <li>Add the following step after the current step 1:
-                <ol>
-                  <li>If the <a href="#is-feature-disabled"></a> algorithm
-                  returns "`Disabled`" when executed upon "`docwrite`" and the
-                  document's global object, throw a "`NotSupportedError`"
-                  `DOMException`.
-                  </li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-          <li>
-            <p>The "[prepare a script]" algorithm calls into <a href=
-            "#is-feature-disabled"></a> algorithm to determine whether or not
-            to execute a script, as follows:</p>
-            <ol>
-              <li>Add the following step before the current step 10 (which is
-              the first of several "disabled" checks):
-                <ol>
-                  <li>If the `script` element's "`non-blocking`" flag is unset,
-                  the `script`'s type is "`classic`", and the <a href=
-                  "#is-feature-disabled"></a> algorithm returns "`Disabled`"
-                  when executed upon the `script` element's node document's
-                  global object, then abort these steps at this point. The
-                  script is not executed.
-                  </li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-        </ol>
-        <div class="issue">
-          Monkey-patching! As soon as we know that this is the direction we
-          wish to persuse, upstream all of this.
-        </div>
-        <section>
-          <h4 id="initialize-for-global">Initialize <var>global</var>'s Feature
-          Policy from <var>response</var></h4>
-          <p>Given a [response] (<var>response</var>) and a global object
-          (<var>global</var>), this algorithm populates <var>global</var>'s
-          <a>Feature Policy List</a></p>
-          <ol>
-            <li>If <var>global</var> is a `Window` and its `Document` has a
-            parent browsing context or opener browsing context
-            (<var>context</var>):
-              <ol>
-                <li>Let <var>document</var> be the active document in
-                <var>context</var>.</li>
-                <li>For each <var>directive</var> in <var>document</var>'s <a>
-                  Feature Policy List</a>:
-                  <ol>
-                    <li>Add <var>directive</var> to <var>global</var>'s
-                    `Document`'s <a>Feature Policy List</a> if any of the
-                    following are true:
-                      <ol>
-                        <li>
-                          <var>directive</var>'s <a>target</a> is "`\*`"
-                        </li>
-                        <li>
-                          <var>directive</var>'s <a>target</a> is an array
-                          containing <var>global</var>'s origin
-                        </li>
-                        <li><var>response</var>'s url's scheme is a local
-                        scheme</li>
-                      </ol>
-                    </li>
-                  </ol>
-                </li>
-              </ol>
-            </li>
-            <li>If <var>global</var> is a `WorkerGlobalScope`:
-              <ol>
-                <li>For each <var>document</var> in <var>global</var>'s
-                  <a href="https://html.spec.whatwg.org/multipage/workers.html#the-worker's-documents">
-                  documents</a>:
-                  <ol>
-                    <li>For each <var>directive</var> in <var>document</var>'s
-                    <a>Feature Policy List</a>:
-                      <ol>
-                        <li>Add <var>directive</var> to <var>global</var>'s <a>
-                          Feature Policy List</a> if either of the following
-                          are true:
-                          <ol>
-                            <li>
-                              <var>directive</var>'s <a>target</a> is "`\*`"
-                            </li>
-                            <li>
-                              <var>directive</var>'s <a>target</a> is an array
-                              containing <var>global</var>'s origin
-                            </li>
-                            <li><var>response</var>'s url's scheme is a local
-                            scheme</li>
-                          </ol>
-                        </li>
-                      </ol>
-                    </li>
-                  </ol>
-                </li>
-              </ol>
-            </li>
-            <li>Let <var>policy</var> be the result of executing <a href=
-            "#process-response-policy"></a> on <var>response</var> and
-            <var>global</var>.
-            </li>
-            <li>For each <var>directive</var> in <var>policy</var>, add
-            <var>directive</var> to <var>global</var>'s <a>Feature Policy
-            List</a>.
-            </li>
-          </ol>
-        </section>
-        <section>
-          <h4 id="is-feature-disabled">Is <var>feature</var> disabled for
-          <var>global</var>?</h4>
-          <p>Given a string (<var>feature</var>) and a global object
-          (<var>global</var>), this algorithm returns "`Disabled`" if
-          <var>feature</var> should be considered disabled, and "`Enabled`"
-          otherwise.</p>
-          <ol>
-            <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy
-            List</a>
-            </li>
-            <li>If <var>policy</var> is empty, return "`Enabled`".</li>
-            <li>For each <var>directive</var> in <var>policy</var>:
-              <ol>
-                <li>If <var>directive</var>'s <a>disable</a> contains
-                <var>feature</var>:
-                  <ol>
-                    <li>Return "`Disabled`".</li>
-                  </ol>
-                </li>
-              </ol>
-            </li>
-            <li>Return "`Enabled`".</li>
-          </ol>
-        </section>
-      </section>
-      <section>
-        <h2>Integration with XMLHttpRequest</h2>
-        <p>The `open() method` calls into the <a href=
-        "#is-feature-disabled"></a> algorithm to determine whether or not to
-        throw, as follows:</p>
-        <ol>
-          <li>Add the following step after the current step 3:
-            <ol>
-              <li>If <var>async</var> is <var>false</var> and the <a href=
-              "#is-feature-disabled"></a> algorithm returns "`Disabled`" when
-              executed upon "`sync-xhr`" and the document's global object,
-              throw "`InvalidAccessError`" exception.
-              </li>
-            </ol>
-          </li>
-        </ol>
-      </section>
-    </section>
   </section>
   <section>
     <h2>Enable Policy</h2>
@@ -775,6 +532,278 @@
           <li>Return <var>valid-features</var>.</li>
         </ol>
       </section>
+    </section>
+  </section>
+  <section>
+    <h2>Integrations</h2>
+    <p>This document defines a set of algorithms which other specifications
+    will use in order to implement the restrictions which Feature Policy
+    defines. The integrations are outlined here for clarity, but those external
+    documents are the normative references which ought to be consulted for
+    detailed information.</p>
+    <section>
+      <h3>Integration with HTML</h3>
+      <ol>
+        <li>
+          <code>Document</code> and <code>WorkerGlobalScope</code> objects have
+          a <dfn>Feature Policy List</dfn>, which is either the empty set or a
+          <a>feature policy</a>. This property is the empty set unless
+          otherwise specified, and is populated via the <a href=
+          "#initialize-for-global"></a> algorithm that is called during the
+          "Initialising a new <code>Document</code> object" and "Run a Worker"
+          algorithms.
+        </li>
+        <li>A <a>feature policy</a> is <dfn data-lt="enforce">enforced</dfn>
+        for a [global object] by inserting it into the [global object]'s
+        <a>Feature Policy list</a>.
+        </li>
+        <li>
+          <a>Feature policy</a> is enforced during <a href=
+          "#process-meta-policy">processing of the meta element’s
+          http-equiv</a>.
+        </li>
+        <li>
+          <p>`document.cookie`'s <a href=
+          "https://html.spec.whatwg.org/#dom-document-cookie">getter and setter
+          algorithms</a> call into the <a href="#is-feature-disabled"></a>
+          algorithm to determine whether or not to throw, as follows:</p>
+          <blockquote>
+            <p>On getting:</p>
+            <ol>
+              <li>If the document is a cookie-averse Document object, return
+              the empty string.</li>
+              <li>If the document's origin is an opaque origin, throw a
+              "`SecurityError`" `DOMException`.</li>
+              <li>If the <a href="#is-feature-disabled"></a> algorithm returns
+              "`Disabled`" when executed upon "`cookie`" and the document's
+              global object, throw a "`SecurityError`" `DOMException`.
+              </li>
+              <li>Otherwise the user agent must return the cookie-string for
+              the document's URL for a "non-HTTP" API, decoded using UTF-8
+              decode without BOM.</li>
+            </ol>
+            <p>On setting:</p>
+            <ol>
+              <li>If the document is a cookie-averse Document object, then the
+              user agent must skip the remaining substeps.</li>
+              <li>If the document's origin is an opaque origin, throw a
+              "`SecurityError`" `DOMException`.</li>
+              <li>If the <a href="#is-feature-disabled"></a> algorithm returns
+              "`Disabled`" when executed upon "`cookie`" and the document's
+              global object, throw a "`SecurityError`" `DOMException`.
+              </li>
+              <li>Otherwise, the user agent must act as it would when receiving
+              a set-cookie-string for the document's URL via a "non-HTTP" API,
+              consisting of the new value encoded as UTF-8.</li>
+            </ol>
+          </blockquote>
+        </li>
+        <li>
+          <p>`document.domain`'s <a href=
+          "https://html.spec.whatwg.org/#dom-document-domain">getter and setter
+          algorithms</a> call into the <a href="#is-feature-disabled"></a>
+          algorithm to determine whether or not to throw, as follows:</p>
+          <ol>
+            <li>Add the following step after the current step 1 of the
+            attribute's getter:
+              <ol>
+                <li>If the <a href="#is-feature-disabled"></a> algorithm
+                returns "`Disabled`" when executed upon "`domain`" and the
+                document's global object, throw a "`SecurityError`"
+                `DOMException`.
+                </li>
+              </ol>
+            </li>
+            <li>Add the following step after the current step 1 of the
+            attribute's setter:
+              <ol>
+                <li>If the <a href="#is-feature-disabled"></a> algorithm
+                returns "`Disabled`" when executed upon "`domain`" and the
+                document's global object, throw a "`SecurityError`"
+                `DOMException`.
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <p>[`document.write` method](docwrite-method) calls into the <a href=
+          "#is-feature-disabled"></a> algorithm to determine whether or not to
+          throw, as follows:</p>
+          <ol>
+            <li>Add the following step after the current step 1:
+              <ol>
+                <li>If the <a href="#is-feature-disabled"></a> algorithm
+                returns "`Disabled`" when executed upon "`docwrite`" and the
+                document's global object, throw a "`NotSupportedError`"
+                `DOMException`.
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <p>The "[prepare a script]" algorithm calls into <a href=
+          "#is-feature-disabled"></a> algorithm to determine whether or not to
+          execute a script, as follows:</p>
+          <ol>
+            <li>Add the following step before the current step 10 (which is the
+            first of several "disabled" checks):
+              <ol>
+                <li>If the `script` element's "`non-blocking`" flag is unset,
+                the `script`'s type is "`classic`", and the <a href=
+                "#is-feature-disabled"></a> algorithm returns "`Disabled`" when
+                executed upon the `script` element's node document's global
+                object, then abort these steps at this point. The script is not
+                executed.
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+      </ol>
+      <div class="issue">
+        Monkey-patching! As soon as we know that this is the direction we wish
+        to persuse, upstream all of this.
+      </div>
+      <section>
+        <h4 id="initialize-for-global">Initialize <var>global</var>'s Feature
+        Policy from <var>response</var></h4>
+        <p>Given a [response] (<var>response</var>) and a global object
+        (<var>global</var>), this algorithm populates <var>global</var>'s
+        <a>Feature Policy List</a></p>
+        <ol>
+          <li>If <var>global</var> is a `Window` and its `Document` has a
+          parent browsing context or opener browsing context
+          (<var>context</var>):
+            <ol>
+              <li>Let <var>document</var> be the active document in
+              <var>context</var>.</li>
+              <li>For each <var>directive</var> in <var>document</var>'s
+              <a>Feature Policy List</a>:
+                <ol>
+                  <li>Add <var>directive</var> to <var>global</var>'s
+                  `Document`'s <a>Feature Policy List</a> if any of the
+                  following are true:
+                    <ol>
+                      <li>
+                        <var>directive</var>'s <a>target</a> is "`\*`"
+                      </li>
+                      <li>
+                        <var>directive</var>'s <a>target</a> is an array
+                        containing <var>global</var>'s origin
+                      </li>
+                      <li><var>response</var>'s url's scheme is a local
+                      scheme</li>
+                    </ol>
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li>If <var>global</var> is a `WorkerGlobalScope`:
+            <ol>
+              <li>For each <var>document</var> in <var>global</var>'s
+                <a href="https://html.spec.whatwg.org/multipage/workers.html#the-worker's-documents">
+                documents</a>:
+                <ol>
+                  <li>For each <var>directive</var> in <var>document</var>'s
+                  <a>Feature Policy List</a>:
+                    <ol>
+                      <li>Add <var>directive</var> to <var>global</var>'s
+                      <a>Feature Policy List</a> if either of the following are
+                      true:
+                        <ol>
+                          <li>
+                            <var>directive</var>'s <a>target</a> is "`\*`"
+                          </li>
+                          <li>
+                            <var>directive</var>'s <a>target</a> is an array
+                            containing <var>global</var>'s origin
+                          </li>
+                          <li><var>response</var>'s url's scheme is a local
+                          scheme</li>
+                        </ol>
+                      </li>
+                    </ol>
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li>Let <var>policy</var> be the result of executing <a href=
+          "#process-response-policy"></a> on <var>response</var> and
+          <var>global</var>.
+          </li>
+          <li>
+            <a>Enforce</a> the policy <var>policy</var>.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h4 id="is-feature-disabled">Is <var>feature</var> disabled for
+        <var>global</var>?</h4>
+        <p>Given a string (<var>feature</var>) and a global object
+        (<var>global</var>), this algorithm returns "`Disabled`" if
+        <var>feature</var> should be considered disabled, and "`Enabled`"
+        otherwise.</p>
+        <ol>
+          <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy
+          List</a>
+          </li>
+          <li>If <var>policy</var> is empty, return "`Enabled`".</li>
+          <li>For each <var>directive</var> in <var>policy</var>:
+            <ol>
+              <li>If <var>directive</var>'s <a>disable</a> contains
+              <var>feature</var>:
+                <ol>
+                  <li>Return "`Disabled`".</li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li>Return "`Enabled`".</li>
+        </ol>
+      </section>
+    </section>
+    <section>
+      <h2>Integration with Fetch</h2>
+      <section>
+        <h2>Set request policy</h2>
+        <p>This monkey patches [fetching algorithm], by inserting the following
+        steps after current step #4:</p>
+        <ol>
+          <li>If [request]'s [client] is not <var>null</var> and has a
+          non-empty <a>feature policy list</a>, run the following steps:
+            <ol>
+              <li>Let <var>policy</var> be the [current global object]'s
+              <a>feature policy list</a>.
+              </li>
+              <li>Let <var>serialized feature policy</var> be the result of
+              executing the [sender requirements] algorithm on
+              <var>policy</var>, as defined in section 3 of [[!HTTP-JFV]].</li>
+              <li>[Append](header-append) <var>Feature-Policy/serialized
+              feature policy</var> to request's [header list].</li>
+            </ol>
+          </li>
+        </ol>
+      </section>
+    </section>
+    <section>
+      <h2>Integration with XMLHttpRequest</h2>
+      <p>The `open() method` calls into the <a href="#is-feature-disabled"></a>
+      algorithm to determine whether or not to throw, as follows:</p>
+      <ol>
+        <li>Add the following step after the current step 3:
+          <ol>
+            <li>If <var>async</var> is <var>false</var> and the <a href=
+            "#is-feature-disabled"></a> algorithm returns "`Disabled`" when
+            executed upon "`sync-xhr`" and the document's global object, throw
+            "`InvalidAccessError`" exception.
+            </li>
+          </ol>
+        </li>
+      </ol>
     </section>
   </section>
   <section>
@@ -835,3 +864,8 @@
 [URL parser]: https://url.spec.whatwg.org/#concept-url-parser
 [origin-of-url]: https://url.spec.whatwg.org/#concept-url-origin
 [ascii case-insensitive]: https://html.spec.whatwg.org/multipage/infrastructure.html#ascii-case-insensitive
+[document]: https://html.spec.whatwg.org/multipage/dom.html#document
+[meta]: https://html.spec.whatwg.org/#the-meta-element
+[http-equiv]: https://html.spec.whatwg.org/#attr-meta-http-equiv
+[meta-content]: https://html.spec.whatwg.org/#attr-meta-content
+[pragma directives]: https://html.spec.whatwg.org/#attr-meta-http-equiv-content-security-policy
