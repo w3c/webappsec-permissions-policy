@@ -207,9 +207,14 @@
       <h2>Delivery</h2>
       <section>
         <h2>`Feature-Policy` HTTP Header Field</h2>
-        <p>The <dfn>Feature-Policy</dfn> HTTP [response] header field is used
-        to deliver a <a>feature policy</a> from a server to client. The
-        header's value is represented by the following ABNF [[!RFC5234]]:</p>
+        <p>The <dfn>Feature-Policy</dfn> HTTP header field can be used both in
+        the [response] (server to client) and a [request] (client to server) to
+        communicate the <a>feature policy</a>. In the former case, the server
+        is communicating the desired policy that should be enforced by the
+        client, and in the latter, the client is communicating the policy that
+        it will enforce.</p>
+        <p>The header's value is represented by the following ABNF
+        [[!RFC5234]]:</p>
         <pre class="abnf">
           Disable = 1#json-field-value
                     ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
@@ -330,6 +335,26 @@
             <li>Return <var>policy</var>.</li>
           </ol>
         </section>
+      </section>
+      <section>
+        <h2>Set request policy</h2>
+        <p>This monkey patches [fetching algorithm], by inserting the following
+        steps after current step #4:</p>
+        <ol>
+          <li>If [request]'s [client] is not <var>null</var> and has a
+          non-empty <a>feature policy list</a>, run the following steps:
+            <ol>
+              <li>Let <var>policy</var> be the [current global object]'s
+              <a>feature policy list</a>.
+              </li>
+              <li>Let <var>serialized feature policy</var> be the result of
+              executing the [sender requirements] algorithm on
+              <var>policy</var>, as defined in section 3 of [[!HTTP-JFV]].</li>
+              <li>[Append](header-append) <var>Feature-Policy/serialized
+              feature policy</var> to request's [header list].</li>
+            </ol>
+          </li>
+        </ol>
       </section>
     </section>
   </section>
@@ -755,7 +780,7 @@
   <section>
     <h2>IANA Considerations</h2>
     <p>The permanent message header field registry should be updated with the
-    following registration: [[!RFC3864]]:</p>
+    following registration [[!RFC3864]]:</p>
     <dl>
       <dt>Header field name</dt>
       <dd>Feature-Policy</dd>
