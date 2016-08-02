@@ -192,8 +192,9 @@
       <h2>Directives</h2>
       <p>Each <dfn>directive</dfn> is a tuple consisting of:</p>
       <ul>
-        <li>A <dfn>target</dfn> which is an array of serialized origins, or
-        "`\*`".</li>
+        <li>A <dfn>target</dfn> which is an array of serialized origins which
+        may contain the "`self`" keyword that refers to current global's
+        origin, or "`\*`".</li>
         <li>A <dfn>disable</dfn> list which is a set of <a>valid disable
         features</a>.
         </li>
@@ -233,10 +234,11 @@
           <h2>The <var>target member</var></h2>
           <p>The OPTIONAL <dfn>target member</dfn> defines the scope in which
           the directive is enforced. The member's name is "`target`" and the
-          recognized are either an array of serialized origins, or the string
-          "`\*`". If an unknown value is specified, or if no member named
-          "`target`" is present in the object, the <a>directive</a>'s
-          <a>target</a> will be set to "`\*`".</p>
+          recognized are either an array of serialized origins which may
+          contain the "`self`" keyword that refers to current global's origin,
+          or the string "`\*`". If an unknown value is specified, or if no
+          member named "`target`" is present in the object, the
+          <a>directive</a>'s <a>target</a> will be set to "`\*`".</p>
         </section>
         <section>
           <h2>The <var>disable member</var></h2>
@@ -253,8 +255,9 @@
       </section>
       <section>
         <h2>Process response policy</h2>
-        <p>Given a [response] (<var>response</var>), this algorithm returns a
-        <a>feature policy</a>.</p>
+        <p>Given a [response] (<var>response</var>) and a [global object]
+        (<var>global</var>), this algorithm returns a <a>feature
+        policy</a>.</p>
         <ol>
           <li>Abort these steps if any of the following conditions are true:
             <ol>
@@ -269,14 +272,16 @@
           <var>response</var>’s [header list] whose name is
           "`Feature-Policy`".</li>
           <li>Let <var>feature policy</var> be the result of executing
-            <a href="#parse-response-policy-from-value"></a> on
-            <var>header</var>.
+            <a href="#parse-response-policy-from-value-and-global"></a> on
+            <var>header</var> and <var>global</var>.
           </li>
         </ol>
         <section>
-          <h2>Parse response policy from <var>value</var></h2>
-          <p>Given a string (<var>value</var>) this algorithm will return a
-          <a>feature policy</a>.</p>
+          <h2>Parse response policy from <var>value</var> and
+          <var>global</var></h2>
+          <p>Given a string (<var>value</var>) and [global object]
+          (<var>global</var>) this algorithm will return a <a>feature
+          policy</a>.</p>
           <ol>
             <li>Let <var>list</var> be the result of executing the algorithm
             defined in Section 4 of [[!HTTP-JFV]]. If that algorithm results in
@@ -288,8 +293,11 @@
                 <li>If <var>item</var> has a <a>target member</a> whose value
                 is an array, then for each <var>origin</var> in the array:
                   <ol>
-                    <li>Let <var>result</var> be the result of executing the
-                    [URL parser] on <var>origin</var></li>
+                    <li>If <var>origin</var> is an [ASCII case-insensitive]
+                    match for "`self`", let <var>result</var> be the
+                    <var>global</var>'s origin.</li>
+                    <li>Otherwise, let <var>result</var> be the result of
+                    executing the [URL parser] on <var>origin</var></li>
                     <li>If <var>result</var> is not `failure`, then append the
                     [origin of <var>result</var>][origin-of-url] to
                     <var>target</var>.</li>
@@ -663,7 +671,8 @@
               </ol>
             </li>
             <li>Let <var>policy</var> be the result of executing <a href=
-            "#process-response-policy"></a> on <var>response</var>.
+            "#process-response-policy"></a> on <var>response</var> and
+            <var>global</var>.
             </li>
             <li>For each <var>directive</var> in <var>policy</var>, add
             <var>directive</var> to <var>global</var>'s <a>Feature Policy
@@ -800,3 +809,4 @@
 [non-blocking]: https://html.spec.whatwg.org/#non-blocking
 [URL parser]: https://url.spec.whatwg.org/#concept-url-parser
 [origin-of-url]: https://url.spec.whatwg.org/#concept-url-origin
+[ascii case-insensitive]: https://html.spec.whatwg.org/multipage/infrastructure.html#ascii-case-insensitive
