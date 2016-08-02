@@ -247,19 +247,12 @@
         fetch][fetching algorithm], it MUST advertise the active <a>feature
         policy</a> as described in <a href="#integration-with-fetch"></a>.</p>
         <h2>Process response policy</h2>
-        <p>Given a [response] (<var>response</var>) and a [global object]
+        <p>Given a [response] (<var>response</var>) and [global object]
         (<var>global</var>), this algorithm returns a <a>feature
         policy</a>.</p>
         <ol>
-          <li>Abort these steps if any of the following conditions are true:
-            <ol>
-              <li><var>response</var>’s [HTTPS state] is not
-              "<code>modern</code>", and the [origin] of <var>response</var>’s
-              [url] is not [potentially trustworthy].</li>
-              <li><var>response</var>’s [header list] does not contain a
-              [header] whose [name] is "`Feature-Policy`".</li>
-            </ol>
-          </li>
+          <li>Abort these steps if the <var>response</var>’s [header list] does
+          not contain a [header] whose [name] is "`Feature-Policy`".</li>
           <li>Let <var>header</var> be the [value] of the [header] in
           <var>response</var>’s [header list] whose name is
           "`Feature-Policy`".</li>
@@ -268,7 +261,6 @@
             <var>header</var> and <var>global</var>.
           </li>
         </ol>
-        <p class="issue">TODO: Is HTTPS restriction still necessary?</p>
       </section>
       <section>
         <h2>The `meta` element</h2>
