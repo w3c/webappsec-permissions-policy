@@ -462,6 +462,15 @@
           </tr>
           <tr>
             <td>
+              <a>push</a>
+            </td>
+            <td>`self`</td>
+            <td>`null`</td>
+            <td>`null`</td>
+            <td>Controls access to [PushManager interface].</td>
+          </tr>
+          <tr>
+            <td>
               <a>usermedia</a>
             </td>
             <td>`self`</td>
@@ -573,6 +582,26 @@ interface PaymentRequest : EventTarget {};</pre>
         <p>The <a>payment</a> keyword controls whether the [PaymentRequest
         interface] ([[!PAYMENT-REQUEST]]) is [exposed] for [current global
         object].</p>
+        <ol>
+          <li>The default <a>enable policy</a> is `self` for [top-level
+          browsing context], and `null` for [nested browsing context].
+          </li>
+          <li>The default <a>disable policy</a> is `null`.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h2><dfn>`push`</dfn></h2>
+        <pre class="idl">
+partial interface ServiceWorkerRegistration {
+  [Feature=push] readonly attribute PushManager pushManager;
+};
+
+[Feature=push]
+interface PushManager {};
+</pre>
+        <p>The <a>push</a> keyword controls whether the [PushManager interface]
+        ([[!PUSH-API]]) is [exposed] for [current global object].</p>
         <ol>
           <li>The default <a>enable policy</a> is `self` for [top-level
           browsing context], and `null` for [nested browsing context].
@@ -988,3 +1017,4 @@ interface RTCPeerConnection : EventTarget {};</pre>
 [RTCPeerConnection interface]: http://w3c.github.io/webrtc-pc/#rtcpeerconnection-interface
 [Notification interface]: https://www.w3.org/TR/notifications/#notification
 [PaymentRequest interface]: https://www.w3.org/TR/payment-request/#paymentrequest-interface
+[PushManager interface]: https://w3c.github.io/push-api/#idl-def-PushManager
