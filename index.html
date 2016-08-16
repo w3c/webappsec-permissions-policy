@@ -480,6 +480,24 @@
           </tr>
           <tr>
             <td>
+              <a>sync-script</a>
+            </td>
+            <td>`\*`</td>
+            <td>`\*`</td>
+            <td>`null`</td>
+            <td>Controls use of synchronous `script` elements.</td>
+          </tr>
+          <tr>
+            <td>
+              <a>sync-xhr</a>
+            </td>
+            <td>`\*`</td>
+            <td>`\*`</td>
+            <td>`null`</td>
+            <td>Controls access to synchronous `XMLHttpRequest` API.</td>
+          </tr>
+          <tr>
+            <td>
               <a>usermedia</a>
             </td>
             <td>`self`</td>
@@ -643,6 +661,51 @@ interface PushManager {};
           <li>The default <a>disable policy</a> is `null`.
           </li>
         </ol>
+      </section>
+      <section>
+        <h2><dfn>`sync-script`</dfn></h2>
+        <p>The <a>sync-script</a> keyword controls use of synchronous `script`
+        elements, as defined in <a href="#integration-with-html"></a>. When
+        this feature is disabled, such scripts are ignored by the user
+        agent.</p>
+        <div class="example">
+          <p>Given the following header:</p>
+          <pre>
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>sync-script</a>"]}</pre>
+          <p>The following HTML will not result in execution of `script1.js`,
+          as it has neither a [`defer`] nor an [`async`] attribute. The
+          remaining scripts will execute normally because they have their
+          [non-blocking] flag set.</p>
+          <pre>
+  &lt;script src="/script1.js"&gt;&lt;/script&gt;
+  &lt;script src="/script2.js" <strong>async</strong>&gt;&lt;/script&gt;
+  &lt;script src="/script3.js" <strong>defer</strong>&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const scriptEl = document.createElement("script");
+    scriptEl.src = "/script4.js";
+    document.body.appendChild(scriptEl);
+  &lt;/script&gt;</pre>
+        </div>
+      </section>
+      <section>
+        <h2><dfn>`sync-xhr`</dfn></h2>
+        <p>The <a>sync-xhr</a> keyword controls use of synchronous
+        `XMLHttpRequest` API, as defined in <a href=
+        "#integration-with-xmlhttprequest"></a>. When [open() method](xhr-open)
+        is called with <var>async</var> argument set to <var>true</var>, an
+        `InvalidAccessError` except will be thrown.</p>
+        <div class="example">
+          <p>Given the following header:</p>
+          <pre>
+  <a>Feature-Policy</a>: {"<a data-lt=
+"disable member">disable</a>":["<a>sync-xhr</a>"]}</pre>
+          <p>The following JavaScript code will throw a `InvalidAccessError`
+          exception:</p>
+          <pre>
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/foo", true);</pre>
+        </div>
       </section>
       <section>
         <h2><dfn>`usermedia`</dfn></h2>
