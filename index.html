@@ -489,6 +489,15 @@
           </tr>
           <tr>
             <td>
+              <a>vibrate</a>
+            </td>
+            <td>`self`</td>
+            <td>`null`</td>
+            <td>`null`</td>
+            <td>Controls access to [vibrate method].</td>
+          </tr>
+          <tr>
+            <td>
               <a>webrtc</a>
             </td>
             <td>`\*`</td>
@@ -569,10 +578,10 @@ partial interface Navigator {
         <h2><dfn>`midi`</dfn></h2>
         <pre class="idl">
 partial interface Navigator {
-  [Feature=midi] Promise<MIDIAccess> requestMIDIAccess (optional MIDIOptions options);
+  [Feature=midi] Promise&lt;MIDIAccess&gt; requestMIDIAccess (optional MIDIOptions options);
 };</pre>
-        <p>The <a>midi</a> keyword controls whether the [requestMIDIAccess method] ([[!WEBMIDI]]) is [exposed] for [current global
-        object].</p>
+        <p>The <a>midi</a> keyword controls whether the [requestMIDIAccess
+        method] ([[!WEBMIDI]]) is [exposed] for [current global object].</p>
         <ol>
           <li>The default <a>enable policy</a> is `self` for [top-level
           browsing context], and `null` for [nested browsing context].
@@ -645,6 +654,22 @@ interface NavigatorUserMedia {
         <p>The <a>usermedia</a> keyword controls whether the
         [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]) is [exposed] for
         [current global object].</p>
+        <ol>
+          <li>The default <a>enable policy</a> is `self` for [top-level
+          browsing context], and `null` for [nested browsing context].
+          </li>
+          <li>The default <a>disable policy</a> is `null`.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h2><dfn>`vibrate`</dfn></h2>
+        <pre class="idl">
+partial interface Navigator {
+  [Feature=vibrate] boolean vibrate(VibratePattern pattern);
+};</pre>
+        <p>The <a>vibrate</a> keyword controls whether the [vibrate method]
+        ([[!VIBRATION]]) is [exposed] for [current global object].</p>
         <ol>
           <li>The default <a>enable policy</a> is `self` for [top-level
           browsing context], and `null` for [nested browsing context].
@@ -1044,3 +1069,4 @@ interface RTCPeerConnection : EventTarget {};</pre>
 [PaymentRequest interface]: https://www.w3.org/TR/payment-request/#paymentrequest-interface
 [PushManager interface]: https://w3c.github.io/push-api/#idl-def-PushManager
 [requestMIDIAccess method]: http://webaudio.github.io/web-midi-api/#requestMIDIAccess
+[vibrate method]: https://w3c.github.io/vibration/#idl-def-navigator-vibrate(vibratepattern)
