@@ -472,13 +472,13 @@
         </tbody>
       </table>
       <section>
-        <h2>`cookie`</h2>
+        <h2><dfn>`cookie`</dfn></h2>
         <pre class="idl">
 partial interface Document {
   [Feature=cookie] attribute USVString cookie;
 };</pre>
-        <p>The <dfn>cookie</dfn> keyword controls whether the [cookie
-        attribute] is [exposed] for [current global object].</p>
+        <p>The <a>cookie</a> keyword controls whether the [cookie attribute] is
+        [exposed] for [current global object].</p>
         <ol>
           <li>The default <a>enable policy</a> is `\*` for [top-level browsing
           context], and `\*` for [nested browsing context].
@@ -488,13 +488,13 @@ partial interface Document {
         </ol>
       </section>
       <section>
-        <h2>`domain`</h2>
+        <h2><dfn>`domain`</dfn></h2>
         <pre class="idl">
 partial interface Document {
   [Feature=domain] attribute USVString domain;
 };</pre>
-        <p>The <dfn>domain</dfn> keyword controls whether the [domain
-        attribute] is [exposed] for [current global object].</p>
+        <p>The <a>domain</a> keyword controls whether the [domain attribute] is
+        [exposed] for [current global object].</p>
         <ol>
           <li>The default <a>enable policy</a> is `\*` for [top-level browsing
           context], and `\*` for [nested browsing context].
@@ -504,15 +504,15 @@ partial interface Document {
         </ol>
       </section>
       <section>
-        <h2>`docwrite`</h2>
+        <h2><dfn>`docwrite`</dfn></h2>
         <pre class="idl">
 partial interface Document {
   [CEReactions, Feature=docwrite] void write(DOMString... text);
   [CEReactions, Feature=docwrite] void writeln(DOMString... text);
 };</pre>
-        <p>The <dfn>docwrite</dfn> keyword controls whether the
-        [document.write] and [document.writeln] methods are [exposed] for
-        [current global object].</p>
+        <p>The <a>docwrite</a> keyword controls whether the [document.write]
+        and [document.writeln] methods are [exposed] for [current global
+        object].</p>
         <ol>
           <li>The default <a>enable policy</a> is `\*` for [top-level browsing
           context], and `\*` for [nested browsing context].
@@ -522,12 +522,12 @@ partial interface Document {
         </ol>
       </section>
       <section>
-        <h2>`geolocation`</h2>
+        <h2><dfn>`geolocation`</dfn></h2>
         <pre class="idl">
 partial interface Navigator {
   [Feature=geolocation] readonly attribute Geolocation geolocation;
 };</pre>
-        <p>The <dfn>geolocation</dfn> keyword controls whether the [Geolocation
+        <p>The <a>geolocation</a> keyword controls whether the [Geolocation
         interface] ([[!GEOLOCATION-API]]) is [exposed] for [current global
         object].</p>
         <ol>
@@ -539,12 +539,12 @@ partial interface Navigator {
         </ol>
       </section>
       <section>
-        <h2>`notifications`</h2>
+        <h2><dfn>`notifications`</dfn></h2>
         <pre class="idl">
 [Constructor(DOMString title, optional NotificationOptions options),
 Feature=notifications]
 interface Notification : EventTarget {};</pre>
-        <p>The <dfn>notifications</dfn> keyword controls whether the
+        <p>The <a>notifications</a> keyword controls whether the
         [Notification interface] ([[!NOTIFICATIONS]]) is [exposed] for [current
         global object].</p>
         <ol>
@@ -556,13 +556,13 @@ interface Notification : EventTarget {};</pre>
         </ol>
       </section>
       <section>
-        <h2>`usermedia`</h2>
+        <h2><dfn>`usermedia`</dfn></h2>
         <pre class="idl">
 [Exposed=Window, NoInterfaceObject, Feature=usermedia]
 interface NavigatorUserMedia {
     [SameObject] readonly attribute MediaDevices mediaDevices;
 };</pre>
-        <p>The <dfn>usermedia</dfn> keyword controls whether the
+        <p>The <a>usermedia</a> keyword controls whether the
         [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]) is [exposed] for
         [current global object].</p>
         <ol>
@@ -574,13 +574,12 @@ interface NavigatorUserMedia {
         </ol>
       </section>
       <section>
-        <h2>`webrtc`</h2>
+        <h2><dfn>`webrtc`</dfn></h2>
         <pre class="idl">
 [Constructor(optional RTCConfiguration configuration), Feature=webrtc]
 interface RTCPeerConnection : EventTarget {};</pre>
-        <p>The <dfn>webrtc</dfn> keyword controls whether the
-        [RTCPeerConnection interface] ([[!WEBRTC]]) is [exposed] for [current
-        global object].</p>
+        <p>The <a>webrtc</a> keyword controls whether the [RTCPeerConnection
+        interface] ([[!WEBRTC]]) is [exposed] for [current global object].</p>
         <ol>
           <li>The default <a>enable policy</a> is `\*` for [top-level browsing
           context], and `\*` for [nested browsing context].
