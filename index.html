@@ -442,6 +442,24 @@
             <td>`null`</td>
             <td>Controls access to [Geolocation interface].</td>
           </tr>
+          <tr>
+            <td>
+              <a>usermedia</a>
+            </td>
+            <td>`self`</td>
+            <td>`null`</td>
+            <td>`null`</td>
+            <td>Controls access to [NavigatorUserMedia interface].</td>
+          </tr>
+          <tr>
+            <td>
+              <a>webrtc</a>
+            </td>
+            <td>`\*`</td>
+            <td>`\*`</td>
+            <td>`null`</td>
+            <td>Controls access to [RTCPeerConnection interface].</td>
+          </tr>
         </tbody>
       </table>
       <section>
@@ -506,6 +524,40 @@ partial interface Navigator {
         <ol>
           <li>The default <a>enable policy</a> is `self` for [top-level
           browsing context], and `null` for [nested browsing context].
+          </li>
+          <li>The default <a>disable policy</a> is `null`.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h2>`usermedia`</h2>
+        <pre class="idl">
+[Exposed=Window, NoInterfaceObject, Feature=usermedia]
+interface NavigatorUserMedia {
+    [SameObject] readonly attribute MediaDevices mediaDevices;
+};</pre>
+        <p>The <dfn>usermedia</dfn> keyword controls whether the
+        [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]) is [exposed] for
+        [current global object].</p>
+        <ol>
+          <li>The default <a>enable policy</a> is `self` for [top-level
+          browsing context], and `null` for [nested browsing context].
+          </li>
+          <li>The default <a>disable policy</a> is `null`.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h2>`webrtc`</h2>
+        <pre class="idl">
+[Constructor(optional RTCConfiguration configuration), Feature=webrtc]
+interface RTCPeerConnection : EventTarget {};</pre>
+        <p>The <dfn>webrtc</dfn> keyword controls whether the
+        [RTCPeerConnection interface] ([[!WEBRTC]]) is [exposed] for [current
+        global object].</p>
+        <ol>
+          <li>The default <a>enable policy</a> is `\*` for [top-level browsing
+          context], and `\*` for [nested browsing context].
           </li>
           <li>The default <a>disable policy</a> is `null`.
           </li>
@@ -881,3 +933,5 @@ partial interface Navigator {
 [document.write]: https://html.spec.whatwg.org/#dom-document-write
 [document.writeln]: https://html.spec.whatwg.org/#dom-document-writeln
 [Geolocation interface]: https://www.w3.org/TR/geolocation-API/#geolocation_interface
+[NavigatorUserMedia interface]: https://w3c.github.io/mediacapture-main/#navigatorusermedia
+[RTCPeerConnection interface]: http://w3c.github.io/webrtc-pc/#rtcpeerconnection-interface
