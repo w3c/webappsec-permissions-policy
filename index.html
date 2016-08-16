@@ -444,6 +444,15 @@
           </tr>
           <tr>
             <td>
+              <a>midi</a>
+            </td>
+            <td>`self`</td>
+            <td>`null`</td>
+            <td>`null`</td>
+            <td>Controls access to [requestMIDIAccess method].</td>
+          </tr>
+          <tr>
+            <td>
               <a>notifications</a>
             </td>
             <td>`self`</td>
@@ -547,6 +556,22 @@ partial interface Navigator {
 };</pre>
         <p>The <a>geolocation</a> keyword controls whether the [Geolocation
         interface] ([[!GEOLOCATION-API]]) is [exposed] for [current global
+        object].</p>
+        <ol>
+          <li>The default <a>enable policy</a> is `self` for [top-level
+          browsing context], and `null` for [nested browsing context].
+          </li>
+          <li>The default <a>disable policy</a> is `null`.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h2><dfn>`midi`</dfn></h2>
+        <pre class="idl">
+partial interface Navigator {
+  [Feature=midi] Promise<MIDIAccess> requestMIDIAccess (optional MIDIOptions options);
+};</pre>
+        <p>The <a>midi</a> keyword controls whether the [requestMIDIAccess method] ([[!WEBMIDI]]) is [exposed] for [current global
         object].</p>
         <ol>
           <li>The default <a>enable policy</a> is `self` for [top-level
@@ -1018,3 +1043,4 @@ interface RTCPeerConnection : EventTarget {};</pre>
 [Notification interface]: https://www.w3.org/TR/notifications/#notification
 [PaymentRequest interface]: https://www.w3.org/TR/payment-request/#paymentrequest-interface
 [PushManager interface]: https://w3c.github.io/push-api/#idl-def-PushManager
+[requestMIDIAccess method]: http://webaudio.github.io/web-midi-api/#requestMIDIAccess
