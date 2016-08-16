@@ -453,6 +453,15 @@
           </tr>
           <tr>
             <td>
+              <a>payment</a>
+            </td>
+            <td>`self`</td>
+            <td>`null`</td>
+            <td>`null`</td>
+            <td>Controls access to [PaymentRequest interface].</td>
+          </tr>
+          <tr>
+            <td>
               <a>usermedia</a>
             </td>
             <td>`self`</td>
@@ -544,9 +553,26 @@ partial interface Navigator {
 [Constructor(DOMString title, optional NotificationOptions options),
 Feature=notifications]
 interface Notification : EventTarget {};</pre>
-        <p>The <a>notifications</a> keyword controls whether the
-        [Notification interface] ([[!NOTIFICATIONS]]) is [exposed] for [current
-        global object].</p>
+        <p>The <a>notifications</a> keyword controls whether the [Notification
+        interface] ([[!NOTIFICATIONS]]) is [exposed] for [current global
+        object].</p>
+        <ol>
+          <li>The default <a>enable policy</a> is `self` for [top-level
+          browsing context], and `null` for [nested browsing context].
+          </li>
+          <li>The default <a>disable policy</a> is `null`.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h2><dfn>`payment`</dfn></h2>
+        <pre class="idl">
+[Constructor(sequence&lt;PaymentMethodData&gt; methodData, PaymentDetails details, optional PaymentOptions options),
+ SecureContext, Feature=payment]
+interface PaymentRequest : EventTarget {};</pre>
+        <p>The <a>payment</a> keyword controls whether the [PaymentRequest
+        interface] ([[!PAYMENT-REQUEST]]) is [exposed] for [current global
+        object].</p>
         <ol>
           <li>The default <a>enable policy</a> is `self` for [top-level
           browsing context], and `null` for [nested browsing context].
@@ -961,3 +987,4 @@ interface RTCPeerConnection : EventTarget {};</pre>
 [NavigatorUserMedia interface]: https://w3c.github.io/mediacapture-main/#navigatorusermedia
 [RTCPeerConnection interface]: http://w3c.github.io/webrtc-pc/#rtcpeerconnection-interface
 [Notification interface]: https://www.w3.org/TR/notifications/#notification
+[PaymentRequest interface]: https://www.w3.org/TR/payment-request/#paymentrequest-interface
