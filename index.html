@@ -693,7 +693,7 @@ interface PushManager {};
         <p>The <a>sync-xhr</a> keyword controls use of synchronous
         `XMLHttpRequest` API, as defined in <a href=
         "#integration-with-xmlhttprequest"></a>. When [open() method](xhr-open)
-        is called with <var>async</var> argument set to <var>true</var>, an
+        is called with <var>async</var> argument set to <var>false</var>, an
         `InvalidAccessError` except will be thrown.</p>
         <div class="example">
           <p>Given the following header:</p>
@@ -704,7 +704,7 @@ interface PushManager {};
           exception:</p>
           <pre>
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "/foo", true);</pre>
+  xhr.open("GET", "/foo", false);</pre>
         </div>
       </section>
       <section>
