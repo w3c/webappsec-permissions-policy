@@ -1,8 +1,12 @@
 # Feature Policy
 
-This specification defines a mechanism that allows developers to modify the behavior of, or disable, use of various browser features and API's
+A web platform API which gives a website the ability to whitelist the use of browser features in its own frame and in iframes that it embeds. Examples of features that could be controlled by feature policy include:
 
-* Read latest draft: https://wicg.github.io/feature-policy
-* Discuss on [WICG](https://discourse.wicg.io/t/proposal-sandbox-policy/1414)
+- Vibrate
+- Synchronous XHR
+- getUserMedia
+- ...
+
+For more details, use cases, etc., please refer to [the explainer document](https://docs.google.com/document/d/1k0Ua-ZWlM_PsFCFdLMa8kaVTo32PeNZ4G7FFHqpFx4E/edit).
 
 Questions, suggestions? Please open an issue or send a pull request!
