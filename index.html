@@ -193,7 +193,7 @@
       <p>A <dfn>feature policy</dfn> may be applied to a [Document] or
       [WorkerGlobalScope] and consists of:</p>
       <ul>
-        <li>A set of <a data-lt="inherited features">inherited features</a>.
+        <li>A set of <a data-lt="inherited policies">inherited policies</a>.
         </li>
         <li>A set of <a data-lt="declared policy">declared policies</a>.
         </li>
@@ -201,29 +201,36 @@
     </section>
     <section>
       <h2>Inherited policies</h2>
-      <p>Each document in a frame tree inherits a set of features from its
+      <p>Each document in a frame tree inherits a set of policies from its
       parent frame, or in the case of the top-level document, from the defined
       defaults for each feature. This inherited policy set determines the
       initial state (enabled or disabled) of each feature, and whether it can be
       controlled by a <a>declared policy</a> in the document.</p>
       <p>In a top-level document, or a [WorkerGlobalScope], the inherited
       feature set is based on defined defaults for each feature.<p>
-      <p>An <dfn>inherited policy</dfn> for a feature is a boolean associated
-      with a feature in a document or WorkerGlobalScope. It can take the value
-      Enabled or Disabled.</p>
-      <p>An <a>inherited policy</a> for a document or WorkerGlobalScope is
-      a set of <a>inherited policies</a> for each feature available in that
-      scope.</p>
+      <p>In a document in an nested browsing context, the inherited feature set
+      is based on the parent document's feature policy, as well as any allow
+      attributes defined on the browsing context container.</p>
+      <p>An <dfn>inherited policy</dfn> for a <a>feature</a> is a boolean
+      associated with that feature in a Document or WorkerGlobalScope. It can
+      take the value Enabled or Disabled.</p>
+      <p>An <dfn>inherited policy set</dfn> for a Document or WorkerGlobalScope
+      is the set of <a>inherited policies</a> for each <a>feature</a> available
+      in that scope.</p>
     </section>
     <section>
       <h2>Declared policies</h2>
-      <p>A <dfn>declared policy</dfn> is a dictionary, mapping <a>feature
+      <p>A <dfn>declared policy</dfn> is a set of <a>policy directives</a>.
+      <p>The declared policy is represented in HTTP headers and HTML attributes as a JSON string.
+    </section>
+    <section>
+      <h2>Policy directives</h2>
+      <p>A <dfn>policy directive</dfn> is a dictionary, mapping <a>feature
         names</a> to corresponding <a>whitelists</a> of origins.</p>
-      <p>The declared policy is represented in  as a JSON string
-      <p>The following sections define the set of known members in each JSON
-      object describing the policy. Future versions of this document may define
-      additional such members and user agents MUST ignore unknown members when
-      parsing the object.</p>
+      <p>The following sections define the set of known <a>feature names</a>.
+      Future versions of this document may define
+      additional such names and user agents MUST ignore policy directives with
+      unrecognized names when parsing the policy.</p>
       </section>
     <section>
       <h2>Whitelists</h2>
@@ -236,37 +243,21 @@
       "self" refers to the origin of the URL in the iframe element's src
       attribute.</p>
     </section>
-      <section>
-        <h2>The <var>target member</var></h2>
-        <p>The OPTIONAL <dfn>target member</dfn> defines the scope in which the
-        directive is enforced. The member's name is "`target`" and the
-        recognized values are either an array of serialized origins which may
-        contain the "`self`" keyword that refers to current global's origin, or
-        the string "`\*`". If an unknown value is specified, or if no member
-        named "`target`" is present in the object, the <a>directive</a>'s
-        <a>target</a> will be set to "`\*`".</p>
-      </section>
-      <section>
-        <h2>The <var>disable member</var></h2>
-        <p>The OPTIONAL <dfn>disable member</dfn> defines the <a>disable
-        policy</a> for the directive. The member's name is "`disable`" and the
-        value is a list of ASCII strings.</p>
-      </section>
-      <section>
-        <h2>The <var>enable member</var></h2>
-        <p>The OPTIONAL <dfn>enable member</dfn> defines the <a>enable
-        policy</a> for the directive. The member's name is "`enable`" and the
-        value is a list of ASCII strings. [response]</p>
-      </section>
-    </section>
+  </section>
   <section>
     <h2>Feature Policy Serialization</h2>
     <section>
       <h2>JSON Serialization</h2>
-      <p>Feature Policies are represented in HTTP headers and in HTML attributes as JSON strings. The structure of the JSON srting is as follows:
-      <p>A feature policy JSON serialization is the JSON encoding of a list of policy items
-      <p>A policy item is an object, whose keys are the string names of features, and whose values are whitelists.
-      <p>A whitelist is represented as an array of strings, each of which may be an origin, the string "*", or the string "self".
+      <p>Declared Policies are represented in HTTP headers and in HTML attributes as JSON strings. The structure of the JSON string is as follows:
+      <p>A feature policy JSON serialization is the JSON encoding of a list of policy directives
+      <p>A policy directive is an object, whose keys are the string names of features, and whose values are whitelists.
+      <p>A whitelist is a array of strings, each of which may be an origin, the string "\\*", or the string "self".
+      <p>Origins are represented by their ASCII serialization.
+      <p>The string "self" may be used as an origin. In this case, it will refer to the origin of the document
+      which contains the Feature Policy.
+      <div class="example">
+        Include an example here
+      </div>
     </section>
   </section>
   <section>
@@ -276,7 +267,7 @@
       <p>The <dfn>Feature-Policy</dfn> HTTP header field can be used in the
       [response] (server to client) to communicate the <a>feature policy</a>
       that should be enforced by the client.</p>
-      <p>The header's value is the JSON serialization of the declared policy:
+      <p>The header's value is the JSON serialization of the <a>declared policy</a>:
       </p>
       <pre class="abnf">
         FeaturePolicy = 1#json-field-value
@@ -306,14 +297,18 @@
     </section>
     <section>
       <h2>The `featurepolicy` attribute of the `iframe` element</h2>
+      <p>Iframe elements may have an "feature" attribute, which contains a space-separated list of feature names.
     </section>
     <section>
       <h2>The `allow` attribute of the `iframe` element</h2>
+      <p>Iframe elements may have an "allow" attribute, which contains a space-separated list of feature names.
     </section>
     <section>
       <h2>Additional attributes to support legacy features</h2>
+      <p>Some features controlled by Feature Policy have existing...
       <section>
         <h3>allowfullscreen</h3>
+        <p>The "`allowfullscreen`" iframe attribute controls access to [Fullscreen interface].
       </section>
       <section>
         <h3>allowpaymentrequest</h3>
@@ -327,69 +322,22 @@
       <p>Given a string (<var>value</var>) and [global object]
       (<var>global</var>) this algorithm will return a <a>feature
       policy</a>.</p>
-      <ol>
-        <li>Let <var>list</var> be the result of executing the algorithm
-        defined in Section 4 of [[!HTTP-JFV]]. If that algorithm results in
-        an error, abort these steps.</li>
-        <li>Let <var>policy</var> be an empty list.</li>
-        <li>For each <var>item</var> in <var>list</var>:
-          <ol>
-            <li>Let <var>target</var> be an empty list.</li>
-            <li>If <var>item</var> has a <a>target member</a> whose value is
-            an array, then for each <var>origin</var> in the array:
-              <ol>
-                <li>If <var>origin</var> is an [ASCII case-insensitive] match
-                for "`self`", let <var>result</var> be the
-                <var>global</var>'s origin.</li>
-                <li>Otherwise, let <var>result</var> be the result of
-                executing the [URL parser] on <var>origin</var></li>
-                <li>If <var>result</var> is not `failure`, then append the
-                [origin of <var>result</var>][origin-of-url] to
-                <var>target</var>.</li>
-              </ol>
-            </li>
-            <li>If <var>target</var> is still an empty list, set
-            <var>target</var> to "`\*`".</li>
-            <li>Let <var>disable</var> be the result of executing <a href=
-            "#parse-disable-features"></a> on the <var>item</var>'s
-            <a>disable member</a>'s value.
-            </li>
-            <li>Let <var>enable</var> be the result of executing <a href=
-            "#parse-enable-features"></a> on the <var>item</var>'s <a>enable
-            member</a>'s value.
-            </li>
-            <li>Let <var>tuple</var> be a new <a>directive</a> tuple whose
-            values are set as follows:
-              <dl>
-                <dt>"`target`"</dt>
-                <dd>Set to <var>target</var>.</dd>
-                <dt>"`disable`"</dt>
-                <dd>Set to <var>disable</var>.</dd>
-                <dt>"`enable`"</dt>
-                <dd>Set to <var>enable</var>.</dd>
-              </dl>
-            </li>
-            <li>Append <var>tuple</var> to <var>policy</var>.</li>
-          </ol>
-        </li>
-        <li>Return <var>policy</var>.</li>
-      </ol>
       <p>Given a string (value) and global object (global) this algorithm will return a declared feature policy.</p>
       <ol>
         <li>Let policy be an empty list.</li>
         <li>Let list be the result of executing the algorithm defined in Section 4 of [HTTP-JFV] on value. If that algorithm results in an error, return policy.</li>
-        <li>For each item in list:</li>
+        <li>For each directive in list:</li>
         <ol>
-          <li>If item is not an object, abort these steps and continue with the next item.</li>
-          <li>For each key and associated targetlist in item:</li>
+          <li>If directive is not an object, abort these steps and continue with the next item.</li>
+          <li>For each key and associated targetlist in directive:</li>
           <ol>
             <li>If key is not equal to the name of any recognized feature, abort these steps and continue with the next key and targetlist.</li>
             <li>If targetlist is not an array, abort these steps and continue with the next key and targetlist.</li>
             <li>Let whitelist be a new whitelist.</li>
-            <li>If targetlist contains the string “*”, set whitelist to match every origin.</li>
+            <li>If targetlist contains the string "`\*`", set whitelist to match every origin.</li>
             <li>Otherwise, for each origin in targetlist:</li>
             <ol>
-              <li>If origin is an ASCII case-insensitive match for "self", let result be global's origin.</li>
+              <li>If origin is an ASCII case-insensitive match for "`self`", let result be global's origin.</li>
               <li>Otherwise, let result be the result of executing the URL parser on origin.</li>
               <li>If result is not failure:</li>
               <ol>
@@ -415,18 +363,11 @@
     <table>
       <thead>
         <tr>
-          <th rowspan="2">Feature</th>
-          <th colspan="2">
-            <a>Enable policy</a>
+          <th>Feature name</th>
+          <th>
+            <a>Default policy</a>
           </th>
-          <th rowspan="2">
-            <a>Disable policy</a>
-          </th>
-          <th rowspan="2">Brief description</th>
-        </tr>
-        <tr>
-          <th>top-level context</th>
-          <th>nested context</th>
+          <th>Brief description</th>
         </tr>
       </thead>
       <tbody>
@@ -435,8 +376,6 @@
             <a>cookie</a>
           </td>
           <td>`\*`</td>
-          <td>`\*`</td>
-          <td>`null`</td>
           <td>Controls access to `document.cookie`.</td>
         </tr>
         <tr>
@@ -444,8 +383,6 @@
             <a>domain</a>
           </td>
           <td>`\*`</td>
-          <td>`\*`</td>
-          <td>`null`</td>
           <td>Controls access to `document.domain`.</td>
         </tr>
         <tr>
@@ -453,26 +390,20 @@
             <a>docwrite</a>
           </td>
           <td>`\*`</td>
-          <td>`\*`</td>
-          <td>`null`</td>
           <td>Controls access to `document.write`, `document.writeln`.</td>
         </tr>
         <tr>
           <td>
-            <a>...</a>
+            <a>fullscreen</a>
           </td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
+          <td>`self`</td>
+          <td>Controls access to [Fullscreen interface].</td>
         </tr>
         <tr>
           <td>
             <a>geolocation</a>
           </td>
           <td>`self`</td>
-          <td>`null`</td>
-          <td>`null`</td>
           <td>Controls access to [Geolocation interface].</td>
         </tr>
         <tr>
@@ -480,8 +411,6 @@
             <a>midi</a>
           </td>
           <td>`self`</td>
-          <td>`null`</td>
-          <td>`null`</td>
           <td>Controls access to [requestMIDIAccess method].</td>
         </tr>
         <tr>
@@ -489,8 +418,6 @@
             <a>notifications</a>
           </td>
           <td>`self`</td>
-          <td>`null`</td>
-          <td>`null`</td>
           <td>Controls access to [Notification interface].</td>
         </tr>
         <tr>
@@ -498,8 +425,6 @@
             <a>payment</a>
           </td>
           <td>`self`</td>
-          <td>`null`</td>
-          <td>`null`</td>
           <td>Controls access to [PaymentRequest interface].</td>
         </tr>
         <tr>
@@ -507,8 +432,6 @@
             <a>push</a>
           </td>
           <td>`self`</td>
-          <td>`null`</td>
-          <td>`null`</td>
           <td>Controls access to [PushManager interface].</td>
         </tr>
         <tr>
@@ -516,8 +439,6 @@
             <a>sync-script</a>
           </td>
           <td>`\*`</td>
-          <td>`\*`</td>
-          <td>`null`</td>
           <td>Controls use of synchronous `script` elements.</td>
         </tr>
         <tr>
@@ -525,8 +446,6 @@
             <a>sync-xhr</a>
           </td>
           <td>`\*`</td>
-          <td>`\*`</td>
-          <td>`null`</td>
           <td>Controls access to synchronous `XMLHttpRequest` API.</td>
         </tr>
         <tr>
@@ -534,8 +453,6 @@
             <a>usermedia</a>
           </td>
           <td>`self`</td>
-          <td>`null`</td>
-          <td>`null`</td>
           <td>Controls access to [NavigatorUserMedia interface].</td>
         </tr>
         <tr>
@@ -543,8 +460,6 @@
             <a>vibrate</a>
           </td>
           <td>`self`</td>
-          <td>`null`</td>
-          <td>`null`</td>
           <td>Controls access to [vibrate method].</td>
         </tr>
         <tr>
@@ -552,9 +467,14 @@
             <a>webrtc</a>
           </td>
           <td>`\*`</td>
-          <td>`\*`</td>
-          <td>`null`</td>
           <td>Controls access to [RTCPeerConnection interface].</td>
+        </tr>
+        <tr>
+          <td>
+            <a>webvr</a>
+          </td>
+          <td>`\*`</td>
+          <td>Controls access to [VRDisplay interface].</td>
         </tr>
       </tbody>
     </table>
@@ -974,6 +894,30 @@ interface RTCPeerConnection : EventTarget {};</pre>
         </ol>
       </section>
       <section>
+        <h4 id="define-inherited-policy">Define an inherited policy for when document is initialized</h4>
+        <ol>
+          <li>If current frame has a parent frame:
+            <ol>
+              <li>If feature is not enabled by the parent frame’s policy for the parent frame’s origin, return Disabled.</li>
+              <li>Otherwise, if feature appears in the iframe featurepolicy=”...” attribute of the owning `iframe` element:
+                <ol>
+                  <li>If origin is in the whitelist for feature, return Enabled.</li>
+                  <li>Otherwise return Disabled.</li>
+                </ol>
+              </li>
+              <li>Otherwise, if feature appears in the iframe enable=”...” attribute of the owning iframe:
+                <ol>
+                  <li>If origin matches the origin of the URL in the iframe src=”...” attribute of the owning iframe, return Enabled</li>
+                </ol>
+              </li>
+              <li>Otherwise, if feature is allowed by the parent frame’s policy for origin, return Enabled.</li>
+              <li>Otherwise, return Disabled.</li>
+            </ol>
+          </li>
+          <li>Otherwise, return Enabled.</li>
+        </ol>
+      </section>
+      <section>
         <h4 id="is-feature-disabled">Is <var>feature</var> disabled for
         <var>global</var>?</h4>
         <p>Given a string (<var>feature</var>) and a global object
@@ -997,6 +941,10 @@ interface RTCPeerConnection : EventTarget {};</pre>
           </li>
           <li>Return "`Enabled`".</li>
         </ol>
+      </section>
+      <section>
+        <h4>Allowed to use</h4>
+        <p>check the feature policy</p>
       </section>
     </section>
     <section>
