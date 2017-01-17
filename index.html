@@ -894,20 +894,24 @@ interface RTCPeerConnection : EventTarget {};</pre>
         </ol>
       </section>
       <section>
-        <h4 id="define-inherited-policy">Define an inherited policy for when document is initialized</h4>
+        <h4 id="define-inherited-policy">Define an inherited policy for <var>feature</var></h4>
+        <p>Given a string (<var>feature</var>) and a browsing context (<var>context</var>), this algorithm returns the inherited policy for that feature.
         <ol>
-          <li>If current frame has a parent frame:
+          <li>If <var>context</var> is a <a>nested browsing context</a>:
             <ol>
-              <li>If feature is not enabled by the parent frame’s policy for the parent frame’s origin, return Disabled.</li>
-              <li>Otherwise, if feature appears in the iframe featurepolicy=”...” attribute of the owning `iframe` element:
+              <li>let <var>parent</var> be <var>context</var>'s parent browsing context's active document.</li>
+              <li>If <var>feature</var> is not <a>enabled by</a> <var>parent</var>'s feature policy, for <var>parent</var>'s origin, return Disabled.</li>
+              <li>Let <var>container policy</var> be the result of running <a>parse feature policy declaration</a> on the value of the `featurepolicy` attribute of <var>context</var>'s browsing context container.</li>
+              <li>Otherwise, if <var>feature</var> is a key in <var>container policy</var>:
                 <ol>
-                  <li>If origin is in the whitelist for feature, return Enabled.</li>
+                  <li>If the <a>whitelist</a> for <var>feature</var> in <var>container policy</var> contains <var>origin</var>, return Enabled.</li>
                   <li>Otherwise return Disabled.</li>
                 </ol>
               </li>
-              <li>Otherwise, if feature appears in the iframe enable=”...” attribute of the owning iframe:
+              <li>Let <var>allowed features</var> be the result of parsing the value of the `enable` attribute of <var>context</var>'s browsing context container.</li>
+              <li>If <var>feature</var> is in <var>allowed features:
                 <ol>
-                  <li>If origin matches the origin of the URL in the iframe src=”...” attribute of the owning iframe, return Enabled</li>
+                  <li>If <var>origin</var> is same origin-domain with matches the origin of the URL in the `src` attribute of <var>context</var>'s browsing context container, return Enabled</li>
                 </ol>
               </li>
               <li>Otherwise, if feature is allowed by the parent frame’s policy for origin, return Enabled.</li>
