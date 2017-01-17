@@ -297,30 +297,42 @@
     </section>
     <section>
       <h2>The `featurepolicy` attribute of the `iframe` element</h2>
-      <p>Iframe elements may have an "feature" attribute, which contains a space-separated list of feature names.
+      <p>Iframe elements may have an "featurepolicy" attribute, which contains a JSON-serialized declared feature policy. This policy is intended to act as the parent policy for the framed content, which may have its own policy as well.</p>
+      <p>If the "featurepolicy" attribute declares a whitelist for a given feature, then the whitelist in the attribute will be used as if it were the declared whitelist for the feature in the page containing the element, when calculating the inherited policy set for the child document.
     </section>
     <section>
       <h2>The `allow` attribute of the `iframe` element</h2>
-      <p>Iframe elements may have an "allow" attribute, which contains a space-separated list of feature names.
+      <p>Iframe elements may have an "allow" attribute, which contains a space-separated list of feature names.</p>
+      <p>When present, the "allow" attribute provides a shorthand for the "featurepolicy" attribute. If a feature "featureName" is named in the "allow"attribute", this may be taken as equivalent to a "featurepolicy" attribute on the same iframe with the directive:
+      <pre>{ "featureName": ["self"] }</pre>
     </section>
     <section>
       <h2>Additional attributes to support legacy features</h2>
-      <p>Some features controlled by Feature Policy have existing...
+      <p>Some features controlled by Feature Policy have existing iframe attributes defined. This specification redefines these attributes to act as declared policies for the iframe element.</p>
       <section>
         <h3>allowfullscreen</h3>
         <p>The "`allowfullscreen`" iframe attribute controls access to [Fullscreen interface].
+        <p>The presence of an "allowfullscreen" attribute on an iframe should be treated as equivalent to a "featurepolicy" attribute on the same iframe with the directive:
+        <pre>{ "fullscreen": ["`\*`"] }</pre>
+        <div class="note">This is different from the behaviour of <code>&lt;iframe allow="fullscreen"&gt;</code>, and is for compatibility with existing uses of "`allowfullscreen`".</div>
       </section>
       <section>
         <h3>allowpaymentrequest</h3>
+        <p>The "`allowpaymentrequest`" iframe attribute controls access to [Payment interface].
+        <p>The presence of an "allowpaymentrequest" attribute on an iframe should be treated as equivalent to a "featurepolicy" attribute on the same iframe with the directive:
+        <pre>{ "payment": ["self"] }</pre>
       </section>
       <section>
         <h3>allowusermedia</h3>
+        <p>The "`allowusermedia`" iframe attribute controls access to [UserMedia interface].
+        <p>The presence of an "allowusermedia" attribute on an iframe should be treated as equivalent to a "featurepolicy" attribute on the same iframe with the directive:
+        <pre>{ "usermedia": ["self"] }</pre>
       </section>
     </section>
     <section>
       <h2>Parse policy from <var>value</var> and <var>global</var></h2>
       <p>Given a string (<var>value</var>) and [global object]
-      (<var>global</var>) this algorithm will return a <a>feature
+      (<var>global</var>) this algorithm will return a <a>declared feature
       policy</a>.</p>
       <p>Given a string (value) and global object (global) this algorithm will return a declared feature policy.</p>
       <ol>
@@ -712,42 +724,13 @@ interface RTCPeerConnection : EventTarget {};</pre>
     </section>
   </section>
   <section>
-    <h2>Disable Policy</h2>
-    <p>The <dfn>disable policy</dfn> allows a developer to turn off certain
-    features for a <code>Document</code> or <code>Worker</code>.</p>
-    <section>
-      <h2>Processing</h2>
-      <section>
-        <h2>Parse disable features</h2>
-        <p>Given a <var>list</var>, this algorithm returns a list of
-        <a>features</a>, which may be empty.</p>
-        <ol>
-          <li>Let <var>valid-features</var> be an empty list.</li>
-          <li>If <var>list</var> is <var>null</var> or empty, return
-          <var>valid-features</var>.</li>
-          <li>For each <var>item</var> in <var>list</var>:
-            <ol>
-              <li>Convert <var>item</var> to ASCII-lowercase.</li>
-              <li>If <var>item</var>'s string value is not one of the
-              <a>features</a>, ignore <var>item</var>, and continue to the next
-              item.
-              </li>
-              <li>Append <var>item</var> to <var>valid-features</var>.</li>
-            </ol>
-          </li>
-          <li>Return <var>valid-features</var>.</li>
-        </ol>
-      </section>
-    </section>
-  </section>
-  <section>
     <h2>Enable Policy</h2>
     <p>The <dfn>enable policy</dfn> allows a developer to turn on certain
     features for a <code>Document</code> or <code>Worker</code>.</p>
     <section>
       <h2>Processing</h2>
       <section>
-        <h2>Parse enable features</h2>
+        <h2>Parse allow attribute</h2>
         <p>Given a <var>list</var>, this algorithm returns a list of
         <a>features</a>, which may be empty.</p>
         <ol>
