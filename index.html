@@ -135,10 +135,10 @@
         "`https://example.com`". It can do so by delivering the following HTTP
          response header to define a feature
         policy:</p>
-        <pre><a>Feature-Policy</a>: {"<a>geolocation</a>": ["<a>self</a>", "https://example.com"]}</pre>
-        <p>The <a>origin list</a> is a list of one or more origins, which can
+        <pre><a>Feature-Policy</a>: {"<a>geolocation</a>": ["self", "https://example.com"]}</pre>
+        <p>The <a>whitelist</a> is a list of one or more origins, which can
         include the application's origin, optionally with the keyword
-        "<a>self</a>", and any third-party origin.</p>
+        "`self`", and any third-party origin.</p>
       </div>
       <div class="example">
         <p>SecureCorp Inc. is hosting an application on "`https://example.com`"
@@ -193,9 +193,9 @@
       <p>A <dfn>feature policy</dfn> may be applied to a [Document] or
       [WorkerGlobalScope] and consists of:</p>
       <ul>
-        <li>A set of <a data-lt="inherited policies">inherited policies</a>.
+        <li>A set of <a data-lt="inherited policy set">inherited policies</a>.
         </li>
-        <li>A set of <a data-lt="declared policy">declared policies</a>.
+        <li>A <a data-lt="declared policy">declared policy</a>.
         </li>
       </ul>
     </section>
@@ -208,10 +208,10 @@
       controlled by a <a>declared policy</a> in the document.</p>
       <p>In a top-level document, or a [WorkerGlobalScope], the inherited
       feature set is based on defined defaults for each feature.<p>
-      <p>In a document in an nested browsing context, the inherited feature set
+      <p>In a document in an [nested browsing context], the inherited feature set
       is based on the parent document's feature policy, as well as any allow
       attributes defined on the browsing context container.</p>
-      <p>An <dfn>inherited policy</dfn> for a <a>feature</a> is a boolean
+      <p>An <dfn data-lt="inherited policy|inherited policies">inherited policy</dfn> for a <a>feature</a> is a boolean
       associated with that feature in a Document or WorkerGlobalScope. It can
       take the value Enabled or Disabled.</p>
       <p>An <dfn>inherited policy set</dfn> for a Document or WorkerGlobalScope
@@ -225,7 +225,7 @@
     </section>
     <section>
       <h2>Policy directives</h2>
-      <p>A <dfn>policy directive</dfn> is a dictionary, mapping <a>feature
+      <p>A <dfn data-lt="policy directive|policy directives">policy directive</dfn> is a dictionary, mapping <a>feature
         names</a> to corresponding <a>whitelists</a> of origins.</p>
       <p>The following sections define the set of known <a>feature names</a>.
       Future versions of this document may define
@@ -234,7 +234,7 @@
       </section>
     <section>
       <h2>Whitelists</h2>
-      <p>A feature policy <dfn>whitelist</dfn> is a set of <a>origins</a>. A
+      <p>A feature policy <dfn data-lt="whitelist|whitelists">whitelist</dfn> is a set of origins. A
       <a>whitelist</a> may be <em>empty</em>, in which case it does not match
       any origin, or it may contain a list of origins, or it may match every
       origin. When defining a whitelist in a policy, the special origin "self"
@@ -334,7 +334,6 @@
       <p>Given a string (<var>value</var>) and [global object]
       (<var>global</var>) this algorithm will return a <a>declared feature
       policy</a>.</p>
-      <p>Given a string (value) and global object (global) this algorithm will return a declared feature policy.</p>
       <ol>
         <li>Let policy be an empty list.</li>
         <li>Let list be the result of executing the algorithm defined in Section 4 of [HTTP-JFV] on value. If that algorithm results in an error, return policy.</li>
@@ -349,7 +348,7 @@
             <li>If targetlist contains the string "`\*`", set whitelist to match every origin.</li>
             <li>Otherwise, for each origin in targetlist:</li>
             <ol>
-              <li>If origin is an ASCII case-insensitive match for "`self`", let result be global's origin.</li>
+              <li>If origin is an ASCII case-insensitive match for "`self`", let result be <var>global</var>'s origin.</li>
               <li>Otherwise, let result be the result of executing the URL parser on origin.</li>
               <li>If result is not failure:</li>
               <ol>
@@ -366,7 +365,7 @@
   </section>
   <section>
     <h2>Features</h2>
-    <p>This section defines <dfn>features</dfn> and their effect when applied
+    <p>This section defines <dfn data-lt="feature">features</dfn> and their effect when applied
     via a <a>directive</a> as part of a <a>feature policy</a>.</p>
     <p>The following table summarizes <a>features</a> defined by this
     specification, by their corresponding keywords. This table is
@@ -409,7 +408,7 @@
             <a>fullscreen</a>
           </td>
           <td>`self`</td>
-          <td>Controls access to [Fullscreen interface].</td>
+          <td>Controls whether [requestFullscreen] is allowed.</td>
         </tr>
         <tr>
           <td>
@@ -537,6 +536,15 @@ partial interface Document {
           context], and `\*` for [nested browsing context].
           </li>
           <li>The default <a>disable policy</a> is `null`.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h2><dfn>`fullscreen`</dfn></h2>
+        <p>The <a>fullscreen</a> keyword controls whether the [requestFullscreen]
+        method ([[!WHATWG-FULLSCREEN]]) is allowed to request fullscreen.</p>
+        <ol>
+          <li>The <a>default policy</a> is `self`.
           </li>
         </ol>
       </section>
@@ -721,6 +729,15 @@ interface RTCPeerConnection : EventTarget {};</pre>
           </li>
         </ol>
       </section>
+      <section>
+        <h2><dfn>`webvr`</dfn></h2>
+        <p>The <a>webvr</a> keyword controls whether the
+        [VRDisplay interface] ([WebVR]) is [exposed] for
+        [current global object].</p>
+        <ol>
+          <li>The <a>default policy</a> is `*`.</li>
+        </ol>
+      </section>
     </section>
   </section>
   <section>
@@ -762,9 +779,7 @@ interface RTCPeerConnection : EventTarget {};</pre>
       <ol>
         <li>
           <code>Document</code> and <code>WorkerGlobalScope</code> objects have
-          a <dfn>Feature Policy List</dfn>, which is either the empty set or a
-          <a>feature policy</a>. This property is the empty set unless
-          otherwise specified, and is populated via the <a href=
+          a <a>Feature Policy</a>, which is populated via the <a href=
           "#initialize-for-global"></a> algorithm that is called during the
           "Initialising a new <code>Document</code> object" and "Run a Worker"
           algorithms.
@@ -880,7 +895,7 @@ interface RTCPeerConnection : EventTarget {};</pre>
         <h4 id="define-inherited-policy">Define an inherited policy for <var>feature</var></h4>
         <p>Given a string (<var>feature</var>) and a browsing context (<var>context</var>), this algorithm returns the inherited policy for that feature.
         <ol>
-          <li>If <var>context</var> is a <a>nested browsing context</a>:
+          <li>If <var>context</var> is a [nested browsing context]:
             <ol>
               <li>let <var>parent</var> be <var>context</var>'s parent browsing context's active document.</li>
               <li>If <var>feature</var> is not <a>enabled by</a> <var>parent</var>'s feature policy, for <var>parent</var>'s origin, return Disabled.</li>
@@ -894,7 +909,7 @@ interface RTCPeerConnection : EventTarget {};</pre>
               <li>Let <var>allowed features</var> be the result of parsing the value of the `enable` attribute of <var>context</var>'s browsing context container.</li>
               <li>If <var>feature</var> is in <var>allowed features:
                 <ol>
-                  <li>If <var>origin</var> is same origin-domain with matches the origin of the URL in the `src` attribute of <var>context</var>'s browsing context container, return Enabled</li>
+                  <li>If <var>origin</var> is [same origin-domain] with the origin of the URL in the `src` attribute of <var>context</var>'s browsing context container, return Enabled</li>
                 </ol>
               </li>
               <li>Otherwise, if feature is allowed by the parent frame’s policy for origin, return Enabled.</li>
@@ -905,33 +920,35 @@ interface RTCPeerConnection : EventTarget {};</pre>
         </ol>
       </section>
       <section>
-        <h4 id="is-feature-disabled">Is <var>feature</var> disabled for
-        <var>global</var>?</h4>
+        <h4 id="is-feature-enabled">Is <var>feature</var> enabled for
+        <var>origin</var>?</h4>
         <p>Given a string (<var>feature</var>) and a global object
         (<var>global</var>), this algorithm returns "`Disabled`" if
         <var>feature</var> should be considered disabled, and "`Enabled`"
         otherwise.</p>
         <ol>
-          <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy
-          List</a>
+          <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy</a>
           </li>
-          <li>If <var>policy</var> is empty, return "`Enabled`".</li>
-          <li>For each <var>directive</var> in <var>policy</var>:
+          <li>If <var>feature</var> is not present in <var>policy</var>'s <a>inherited policy set</a>, return "`Disabled`".</li>
+          <li>If <var>feature</var> is present in <var>policy</var>'s <a>declared policy</a>:
             <ol>
-              <li>If <var>directive</var>'s <a>disable</a> contains
-              <var>feature</var>:
-                <ol>
-                  <li>Return "`Disabled`".</li>
-                </ol>
-              </li>
+              <li>If the <a>whitelist</a> for <var>feature</var> in <var>policy</var>'s <a>declared policy</a> contains <var>origin</var>, then return "`Enabled`".</li>
+              <li>Otherwise return "`Disabled`".</li>
             </ol>
           </li>
-          <li>Return "`Enabled`".</li>
+          <li>If <var>feature</var>'s <a>default policy</a> is "`*`", return "`Enabled`".</li>
+          <li>If <var>feature</var>'s <a>default policy</a> is "`self`", and <var>origin</var> is [same origin-domain] with <var>global</var>'s active document's origin, return "`Enabled`".</li>
+          <li>Return "`Disabled`".</li>
         </ol>
       </section>
       <section>
         <h4>Allowed to use</h4>
-        <p>check the feature policy</p>
+        <p>This monkey patches [allowed to use], by replacing steps #3 and #4
+        with the following step:</p>
+        <ol>
+          <li>If document's feature policy enables the feature indicated by
+            allowattribute for the origin of document, then return true.</li>
+        </ol>
       </section>
     </section>
     <section>
@@ -1069,6 +1086,7 @@ interface RTCPeerConnection : EventTarget {};</pre>
 [non-blocking]: https://html.spec.whatwg.org/#non-blocking
 [header-append]: https://fetch.spec.whatwg.org/#concept-header-list-append
 [header-list]: https://fetch.spec.whatwg.org/#concept-request-header-list
+[allowed to use]: https://html.spec.whatwg.org/multipage/embedded-content.html#allowed-to-use
 [fetching algorithm]: https://fetch.spec.whatwg.org/#fetching
 [global object]: https://html.spec.whatwg.org/multipage/webappapis.html#global-object
 [current global object]: https://html.spec.whatwg.org/#current-global-object
@@ -1093,6 +1111,7 @@ interface RTCPeerConnection : EventTarget {};</pre>
 [nested browsing context]: https://html.spec.whatwg.org/#nested-browsing-context
 [document.write]: https://html.spec.whatwg.org/#dom-document-write
 [document.writeln]: https://html.spec.whatwg.org/#dom-document-writeln
+[requestFullscreen]: https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen
 [Geolocation interface]: https://www.w3.org/TR/geolocation-API/#geolocation_interface
 [NavigatorUserMedia interface]: https://w3c.github.io/mediacapture-main/#navigatorusermedia
 [RTCPeerConnection interface]: http://w3c.github.io/webrtc-pc/#rtcpeerconnection-interface
@@ -1101,3 +1120,6 @@ interface RTCPeerConnection : EventTarget {};</pre>
 [PushManager interface]: https://w3c.github.io/push-api/#idl-def-PushManager
 [requestMIDIAccess method]: http://webaudio.github.io/web-midi-api/#requestMIDIAccess
 [vibrate method]: https://w3c.github.io/vibration/#idl-def-navigator-vibrate(vibratepattern)
+[same origin-domain]: https://html.spec.whatwg.org/#same-origin-domain
+[VRDisplay interface]: https://w3c.github.io/webvr/#interface-vrdisplay
+[WebVR]: https://w3c.github.io/webvr/
