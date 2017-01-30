@@ -526,11 +526,7 @@ partial interface Document {
         <p>The <a>domain</a> keyword controls whether access to the [domain attribute] is
         allowed for [current global object].</p>
         <ol>
-          <li>The default <a>enable policy</a> is `\*` for [top-level browsing
-          context], and `\*` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
-          </li>
+          <li>The <a>default whitelist</a> is `\*`. </li>
         </ol>
         <h2>Behavior when disabled</h2>
         <ol>
@@ -551,11 +547,7 @@ partial interface Document {
         <p>If a feature-policy-aware document, for which the docwrite feature is disabled, attempts to call [document.write] or [document.writeln], a securityerror exeption must be thrown.</p>
         <p>If a feature-policy-oblivious document, for which the docwrite feature is disabled, attempts to call [document.write] or [document.writeln], the document must be unloaded.</p>
         <ol>
-          <li>The default <a>enable policy</a> is `\*` for [top-level browsing
-          context], and `\*` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
-          </li>
+          <li>The <a>default whitelist</a> is `\*`. </li>
         </ol>
       </section>
       <section>
@@ -563,8 +555,7 @@ partial interface Document {
         <p>The <a>eme</a> keyword controls whether the [ENCRYPTED MEDIA EXTENSIONS]
         are available.</p>
         <ol>
-          <li>The <a>default whitelist</a> is `self`.
-          </li>
+          <li>The <a>default whitelist</a> is `self`.</li>
         </ol>
       </section>
       <section>
@@ -572,13 +563,12 @@ partial interface Document {
         <p>The <a>fullscreen</a> keyword controls whether the [requestFullscreen]
         method ([[!WHATWG-FULLSCREEN]]) is allowed to request fullscreen.</p>
         <ol>
-          <li>The <a>default policy</a> is `self`.
-          </li>
+          <li>The <a>default whitelist</a> is `self`.</li>
+<li>If disabled in any document, the document will not be allowed to use fullscreen. If enabled, the document will be allowed to use fullscreen.</li>
         </ol>
       </section>
       <section>
         <h2><dfn>`geolocation`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <pre class="idl">
 partial interface Navigator {
   [Feature=geolocation] readonly attribute Geolocation geolocation;
@@ -587,16 +577,12 @@ partial interface Navigator {
         interface] ([[!GEOLOCATION-API]]) is [exposed] for [current global
         object].</p>
         <ol>
-          <li>The default <a>enable policy</a> is `self` for [top-level
-          browsing context], and `null` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
-          </li>
+          <li>The <a>default whitelist</a> is `self`.</li>
+<li>If disabled in any document, calls to both getCurrentPosition and watchPosition must result in teh error callback being invoked with PERMISSION_DENIED.</li>
         </ol>
       </section>
       <section>
         <h2><dfn>`midi`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <pre class="idl">
 partial interface Navigator {
   [Feature=midi] Promise&lt;MIDIAccess&gt; requestMIDIAccess (optional MIDIOptions options);
@@ -604,16 +590,12 @@ partial interface Navigator {
         <p>The <a>midi</a> keyword controls whether the [requestMIDIAccess
         method] ([[!WEBMIDI]]) is [exposed] for [current global object].</p>
         <ol>
-          <li>The default <a>enable policy</a> is `self` for [top-level
-          browsing context], and `null` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
-          </li>
+          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>If disabled in a document, the promise returned by requestMIDIAccess must reject with a DOMException parameter.</li>
         </ol>
       </section>
       <section>
         <h2><dfn>`notifications`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <pre class="idl">
 [Constructor(DOMString title, optional NotificationOptions options),
 Feature=notifications]
@@ -622,16 +604,12 @@ interface Notification : EventTarget {};</pre>
         interface] ([[!NOTIFICATIONS]]) is [exposed] for [current global
         object].</p>
         <ol>
-          <li>The default <a>enable policy</a> is `self` for [top-level
-          browsing context], and `null` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
-          </li>
+          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>If disabled in a document, then...</li>
         </ol>
       </section>
       <section>
         <h2><dfn>`payment`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <pre class="idl">
 [Constructor(sequence&lt;PaymentMethodData&gt; methodData, PaymentDetails details, optional PaymentOptions options),
  SecureContext, Feature=payment]
@@ -640,16 +618,12 @@ interface PaymentRequest : EventTarget {};</pre>
         interface] ([[!PAYMENT-REQUEST]]) is [exposed] for [current global
         object].</p>
         <ol>
-          <li>The default <a>enable policy</a> is `self` for [top-level
-          browsing context], and `null` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
-          </li>
+          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>If disabled in a document, then...</li>
         </ol>
       </section>
       <section>
         <h2><dfn>`push`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <pre class="idl">
 partial interface ServiceWorkerRegistration {
   [Feature=push] readonly attribute PushManager pushManager;
@@ -661,11 +635,8 @@ interface PushManager {};
         <p>The <a>push</a> keyword controls whether the [PushManager interface]
         ([[!PUSH-API]]) is [exposed] for [current global object].</p>
         <ol>
-          <li>The default <a>enable policy</a> is `self` for [top-level
-          browsing context], and `null` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
-          </li>
+          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>If disabled in a document, then...</li>
         </ol>
       </section>
       <section>
@@ -717,7 +688,6 @@ interface PushManager {};
       </section>
       <section>
         <h2><dfn>`usermedia`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <pre class="idl">
 [Exposed=Window, NoInterfaceObject, Feature=usermedia]
 interface NavigatorUserMedia {
@@ -727,16 +697,12 @@ interface NavigatorUserMedia {
         [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]) is [exposed] for
         [current global object].</p>
         <ol>
-          <li>The default <a>enable policy</a> is `self` for [top-level
-          browsing context], and `null` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
-          </li>
+          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>If disabled in a document, then...</li>
         </ol>
       </section>
       <section>
         <h2><dfn>`vibrate`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <pre class="idl">
 partial interface Navigator {
   [Feature=vibrate] boolean vibrate(VibratePattern pattern);
@@ -744,11 +710,8 @@ partial interface Navigator {
         <p>The <a>vibrate</a> keyword controls whether the [vibrate method]
         ([[!VIBRATION]]) is [exposed] for [current global object].</p>
         <ol>
-          <li>The default <a>enable policy</a> is `self` for [top-level
-          browsing context], and `null` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
-          </li>
+          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>If disabled in a document, then calls to the [vibrate method] should silently do nothing. If enabled, the browser may allow the device to vibrate.</li>
         </ol>
       </section>
       <section>
