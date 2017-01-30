@@ -449,6 +449,13 @@
         </tr>
         <tr>
           <td>
+            <a>eme</a>
+          </td>
+          <td>`self`</td>
+          <td>Controls whether [requestMediaKeySystemAccess] is allowed.</td>
+        </tr>
+        <tr>
+          <td>
             <a>fullscreen</a>
           </td>
           <td>`self`</td>
@@ -593,6 +600,18 @@ partial interface Document {
         <ol>
           <li>The <a>default whitelist</a> is `["\*"]`.
           </li>
+        </ol>
+      </section>
+      <section>
+        <h2><dfn>`eme`</dfn></h2>
+        <p>The <a>eme</a> keyword controls whether encrypted media extensions
+        [[!encrypted-media]] are available.</p>
+        <ol>
+          <li>The <a>default whitelist</a> is `["self"]`.
+          </li>
+          <li>If disabled in a document, the promise returned by
+          [requestMediaKeySystemAccess] must reject with a
+          NotSupportedError.</li>
         </ol>
       </section>
       <section>
@@ -1284,3 +1303,4 @@ interface RTCPeerConnection : EventTarget {};</pre>
 [same origin-domain]: https://html.spec.whatwg.org/#same-origin-domain
 [VRDisplay interface]: https://w3c.github.io/webvr/#interface-vrdisplay
 [WebVR]: https://w3c.github.io/webvr/
+[requestMediaKeySystemAccess]: https://www.w3.org/TR/encrypted-media/#navigator-extension-requestmediakeysystemaccess
