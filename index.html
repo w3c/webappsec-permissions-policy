@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta name="generator" content=
-  "HTML Tidy for HTML5 for Mac OS X version 5.1.25">
+  "HTML Tidy for HTML5 for Linux version 5.3.15">
   <title>Feature Policy</title>
   <meta charset='utf-8'>
   <script src='https://www.w3.org/Tools/respec/respec-w3c-common' async class=
@@ -125,7 +125,8 @@
         <p>SecureCorp Inc. wants to disable use of WebRTC and Geolocation APIs
         within their application. It can do so by delivering the following HTTP
         response header to define a feature policy:</p>
-        <pre><a>Feature-Policy</a>: {"<a>webrtc</a>": [], "<a>geolocation</a>": []}</pre>
+        <pre>
+        <a>Feature-Policy</a>: {"<a>webrtc</a>": [], "<a>geolocation</a>": []}</pre>
         <p>By specifying an empty list of origins, the specified features will
         be disabled for all browsing contexts, regardless of their origin.</p>
       </div>
@@ -133,19 +134,20 @@
         <p>SecureCorp Inc. wants to disable use of Geolocation API within all
         browsing contexts except for its own origin and those whose origin is
         "`https://example.com`". It can do so by delivering the following HTTP
-         response header to define a feature
-        policy:</p>
-        <pre><a>Feature-Policy</a>: {"<a>geolocation</a>": ["self", "https://example.com"]}</pre>
+        response header to define a feature policy:</p>
+        <pre>
+        <a>Feature-Policy</a>: {"<a>geolocation</a>": ["self", "https://example.com"]}</pre>
         <p>The <a>whitelist</a> is a list of one or more origins, which can
-        include the application's origin, optionally with the keyword
-        "`self`", and any third-party origin.</p>
+        include the application's origin, optionally with the keyword "`self`",
+        and any third-party origin.</p>
       </div>
       <div class="example">
         <p>SecureCorp Inc. is hosting an application on "`https://example.com`"
         and wants to disable WebRTC on its own origin but enable it for a
         whitelisted embedee ("`https://other.com`"). It can do so by delivering
         the following HTTP response header to define a feature policy:</p>
-        <pre><a>Feature-Policy</a>: {"<a>webrtc</a>": ["https://other.com"]}</pre>
+        <pre>
+        <a>Feature-Policy</a>: {"<a>webrtc</a>": ["https://other.com"]}</pre>
         <p>Some features are disabled by default in embedded contexts. The
         enable policy allows the application to selectively enable such
         features for whitelisted origins.</p>
@@ -155,7 +157,8 @@
         synchronous `XMLHttpRequest`'s and use of `document.write` within their
         application. It can do so by delivering the following HTTP response
         header to define a feature policy:</p>
-        <pre><a>Feature-Policy</a>: {"<a>sync-xhr</a>": [],"<a>sync-script</a>": [],"<a>docwrite</a>": []}</pre>
+        <pre>
+        <a>Feature-Policy</a>: {"<a>sync-xhr</a>": [],"<a>sync-script</a>": [],"<a>docwrite</a>": []}</pre>
       </div>
       <div class="issue">
         Add an example with iframe attributes here
@@ -207,59 +210,99 @@
       <p>Each document in a frame tree inherits a set of policies from its
       parent frame, or in the case of the top-level document, from the defined
       defaults for each feature. This inherited policy set determines the
-      initial state (enabled or disabled) of each feature, and whether it can be
-      controlled by a <a>declared policy</a> in the document.</p>
+      initial state (enabled or disabled) of each feature, and whether it can
+      be controlled by a <a>declared policy</a> in the document.</p>
       <p>In a top-level document, or a [WorkerGlobalScope], the inherited
-      feature set is based on defined defaults for each feature.<p>
-      <p>In a document in an [nested browsing context], the inherited feature set
-      is based on the parent document's feature policy, as well as any allow
-      attributes defined on the browsing context container.</p>
-      <p>An <dfn data-lt="inherited policy|inherited policies">inherited policy</dfn> for a <a>feature</a> is a boolean
-      associated with that feature in a Document or WorkerGlobalScope. It can
-      take the value Enabled or Disabled.</p>
+      feature set is based on defined defaults for each feature.</p>
+      <p>In a document in an [nested browsing context], the inherited feature
+      set is based on the parent document's feature policy, as well as any
+      allow attributes defined on the browsing context container.</p>
+      <p>An <dfn data-lt="inherited policy|inherited policies">inherited
+      policy</dfn> for a <a>feature</a> is a boolean associated with that
+      feature in a Document or WorkerGlobalScope. It can take the value Enabled
+      or Disabled.</p>
       <p>An <dfn>inherited policy set</dfn> for a Document or WorkerGlobalScope
       is the set of <a>inherited policies</a> for each <a>feature</a> available
       in that scope.</p>
     </section>
     <section>
       <h2>Declared policies</h2>
-      <p>A <dfn>declared policy</dfn> is a set of <a>policy directives</a>, which may be the empty set.</p>
-      <p>The declared policy is represented in HTTP headers and HTML attributes as a JSON string.</p>
-      <p>A document is considered <dfn>feature-policy-aware</dfn> if it has a <a>declared policy</a> delivered via a Feature-Policy HTTP header.</p>
-      <p>A document is which is not <a>feature-policy-aware</a> is considered <dfn>feature-policy-oblivious</dfn>.</p>
+      <p>A <dfn data-lt="declared policy|declared feature policy">declared
+      policy</dfn> is a set of <a>policy directives</a>, which may be the empty
+      set.</p>
+      <p>The <a>declared policy</a> is represented in HTTP headers and HTML
+      attributes as a JSON string.</p>
+      <p>A document is considered <dfn>feature-policy-aware</dfn> if it has a
+      <a>declared policy</a> delivered via a Feature-Policy HTTP header.</p>
+      <p>A document is which is not <a>feature-policy-aware</a> is considered
+      <dfn>feature-policy-oblivious</dfn>.</p>
     </section>
     <section>
       <h2>Policy directives</h2>
-      <p>A <dfn data-lt="policy directive|policy directives">policy directive</dfn> is a dictionary, mapping <a>feature
-        names</a> to corresponding <a>whitelists</a> of origins.</p>
+      <p>A <dfn data-lt="policy directive|policy directives">policy
+      directive</dfn> is a dictionary, mapping <a>feature names</a> to
+      corresponding <a>whitelists</a> of origins.</p>
       <p>The following sections define the set of known <a>feature names</a>.
-      Future versions of this document may define
-      additional such names and user agents MUST ignore policy directives with
-      unrecognized names when parsing the policy.</p>
-      </section>
+      Future versions of this document may define additional such names and
+      user agents MUST ignore policy directives with unrecognized names when
+      parsing the policy.</p>
+    </section>
     <section>
       <h2>Whitelists</h2>
-      <p>A feature policy <dfn data-lt="whitelist|whitelists">whitelist</dfn> is a set of origins. A
-      <a>whitelist</a> may be <em>empty</em>, in which case it does not match
-      any origin, or it may contain a list of origins, or it may match every
-      origin. When defining a whitelist in a policy, the special origin "self"
-      may be used. In an HTTP header, "self" refers to the origin of the
-      document which the header is associated with. In an iframe attribute,
-      "self" refers to the origin of the URL in the iframe element's src
-      attribute.</p>
+      <p>A feature policy <dfn data-lt="whitelist|whitelists">whitelist</dfn>
+      is a set of origins. A <a>whitelist</a> may be <em>empty</em>, in which
+      case it does not match any origin, or it may contain a list of origins,
+      or it may match every origin. When defining a whitelist in a policy, the
+      special origin "self" may be used. In an HTTP header, "self" refers to
+      the origin of the document which the header is associated with. In an
+      iframe attribute, "self" refers to the origin of the URL in the iframe
+      element's src attribute.</p>
+      <p>A <a>whitelist</a> <dfn>matches</dfn> an origin <var>o</var> if it
+      matches every origin, or if it contains an origin which is [same
+      origin-domain] with <var>o</var>.</p>
+    </section>
+    <section>
+      <h2>Default Whitelists</h2>
+      <p>Every feature controlled by policy has a <dfn data-lt=
+      "default whitelist|default whitelists">default whitelist</dfn>, which is
+      a <a>whitelist</a>. The <a>default whitelist</a> controls the origins
+      which are allowed to access the feature when used in a top-level document
+      with no declared policy, and also determines whether access to a feature
+      is automatically delegated to child documents.</p>
+      <p>Features are currently defined to have one of these three <a>default
+      whitelists</a>:</p>
+      <dl>
+        <dt>["`\*`"]</dt>
+        <dd>The feature is allowed at the top level by default, and when
+        allowed, is allowed by default to documents in child frames.</dd>
+        <dt>["`self`"]</dt>
+        <dd>The feature is allowed at the top level by default, and when
+        allowed, is allowed by default to same-origin domain documents in child
+        frames, but is disallowed by default in cross-origin documents in child
+        frames.</dd>
+        <dt>[]</dt>
+        <dd>The feature is disallowed at the top level by default, and is also
+        disallowed by default to documents in child frames.</dd>
+      </dl>
     </section>
   </section>
   <section>
     <h2>Feature Policy Serialization</h2>
     <section>
       <h2><dfn>JSON serialization</dfn></h2>
-      <p>Declared Policies are represented in HTTP headers and in HTML attributes as JSON strings. The structure of the JSON string is as follows:
-      <p>A feature policy JSON serialization is the JSON encoding of an array of policy directives.</p>
-      <p>A policy directive is an object, whose keys are the string names of features, and whose values are whitelists.</p>
-      <p>A whitelist is a array of strings, each of which may be an origin, the string "\\*", or the string "self".</p>
+      <p>Declared Policies are represented in HTTP headers and in HTML
+      attributes as JSON strings. The structure of the JSON string is as
+      follows:</p>
+      <p>A feature policy JSON serialization is the JSON encoding of an array
+      of policy directives.</p>
+      <p>A policy directive is an object, whose keys are the string names of
+      features, and whose values are whitelists.</p>
+      <p>A whitelist is a array of strings, each of which may be an origin, the
+      string "\\*", or the string "self".</p>
       <p>Origins are represented by their ASCII serialization.</p>
-      <p>The string "self" may be used as an origin. In this case, it will refer to the origin of the document
-      which contains the Feature Policy.</p>
+      <p>The string "self" may be used as an origin. In this case, it will
+      refer to the origin of the document which contains the Feature
+      Policy.</p>
       <div class="example">
         Include an example here
       </div>
@@ -272,111 +315,106 @@
       <p>The <dfn>Feature-Policy</dfn> HTTP header field can be used in the
       [response] (server to client) to communicate the <a>feature policy</a>
       that should be enforced by the client.</p>
-      <p>The header's value is the <a>JSON serialization</a> of the elements of the <a>declared policy</a>:
-      </p>
-      <div class="issue">Define this without reference to the abandoned JFV proposal. Consider changing the "array of dictionaries" semantics required by JFV to a single dictionary, for simplicity.</div>
+      <p>The header's value is the <a>JSON serialization</a> of the elements of
+      the <a>declared policy</a>:</p>
+      <div class="issue">
+        Define this without reference to the abandoned JFV proposal. Consider
+        changing the "array of dictionaries" semantics required by JFV to a
+        single dictionary, for simplicity.
+      </div>
       <pre class="abnf">
         FeaturePolicy = 1#json-field-value
                   ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
       </pre>
-      <p>When the user agent receives a `Feature-Policy` header field, it
-      MUST <a href="#process-response-policy">process</a> and <a>enforce</a>
-      the serialized policy as described in <a href=
-      "#integration-with-html"></a>.
-    <h2>Process response policy</h2>
-<div class="issue">TODO: Update this section</div>
-      <p>Given a [response] (<var>response</var>) and [global object]
-      (<var>global</var>), this algorithm returns a <a>feature
-      policy</a>.</p>
-      <ol>
-        <li>Abort these steps if the <var>response</var>’s [header list] does
-        not contain a [header] whose [name] is "`Feature-Policy`".</li>
-        <li>Let <var>header</var> be the [value] of the [header] in
-        <var>response</var>’s [header list] whose name is
-        "`Feature-Policy`".</li>
-        <li>Let <var>feature policy</var> be the result of executing
-          <a href="#parse-policy-from-value-and-global"></a> on
-          <var>header</var> and <var>global</var>.
-        </li>
-      </ol>
+      <p>When the user agent receives a `Feature-Policy` header field, it MUST
+      <a href="#process-response-policy">process</a> and <a>enforce</a> the
+      serialized policy as described in <a href=
+      "#integration-with-html"></a>.</p>
     </section>
     <section>
-      <h2><dfn data-lt="featurepolicy-attr">The `featurepolicy` attribute of the `iframe` element</dfn></h2>
-      <p>Iframe elements may have an "featurepolicy" attribute, which contains a JSON-serialized feature policy directive. This policy is intended to override the inherited policy for the framed content, which may have its own policy as well.</p>
-      <p>If the "featurepolicy" attribute declares a whitelist for a given feature, then the whitelist in the attribute will be used as if it were the declared whitelist for the feature in the page containing the element, when calculating the inherited policy set for the child document.
+      <h2><dfn data-lt="featurepolicy-attr">The `featurepolicy` attribute of
+      the `iframe` element</dfn></h2>
+      <p>Iframe elements may have an "featurepolicy" attribute, which contains
+      a JSON-serialized feature policy directive. This policy is intended to
+      override the inherited policy for the framed content, which may have its
+      own policy as well.</p>
+      <p>If the "featurepolicy" attribute declares a whitelist for a given
+      feature, then the whitelist in the attribute will be used as if it were
+      the declared whitelist for the feature in the page containing the
+      element, when calculating the inherited policy set for the child
+      document.</p>
     </section>
     <section>
       <h2>The `allow` attribute of the `iframe` element</h2>
-      <p>Iframe elements may have an "allow" attribute, which contains an unordered set of unique space-separated tokens that are ASCII case-insensitive. The allowed values are names of features. Unrecognized values must be ignored.</p>
-      <p>When specified, the "allow" attribute provides a shorthand for the "<a data-lt="featurepolicy-attr">featurepolicy</a>" attribute. If a feature "featureName" is named in the "allow" attribute", this may be taken as equivalent to a "featurepolicy" attribute on the same iframe with the directive:
+      <p>Iframe elements may have an "allow" attribute, which contains an
+      unordered set of unique space-separated tokens that are ASCII
+      case-insensitive. The allowed values are names of features. Unrecognized
+      values must be ignored.</p>
+      <p>When specified, the "allow" attribute provides a shorthand for the
+      "<a data-lt="featurepolicy-attr">featurepolicy</a>" attribute. If a
+      feature "featureName" is named in the "allow" attribute", this may be
+      taken as equivalent to a "featurepolicy" attribute on the same iframe
+      with the directive:</p>
       <pre>{ "featureName": ["self"] }</pre>
     </section>
     <section>
       <h2>Additional attributes to support legacy features</h2>
-      <p>Some features controlled by Feature Policy have existing iframe attributes defined. This specification redefines these attributes to act as declared policies for the iframe element.</p>
+      <p>Some features controlled by Feature Policy have existing iframe
+      attributes defined. This specification redefines these attributes to act
+      as declared policies for the iframe element.</p>
       <section>
         <h3>allowfullscreen</h3>
-        <p>The "`allowfullscreen`" iframe attribute controls access to [Fullscreen interface].
-        <p>The presence of an "allowfullscreen" attribute on an iframe should be treated as equivalent to a "featurepolicy" attribute on the same iframe with the directive:
+        <p>The "`allowfullscreen`" iframe attribute controls access to
+        [Fullscreen interface].</p>
+        <p>The presence of an "allowfullscreen" attribute on an iframe should
+        be treated as equivalent to a "featurepolicy" attribute on the same
+        iframe with the directive:</p>
         <pre>{ "fullscreen": ["`\*`"] }</pre>
-        <div class="note">This is different from the behaviour of <code>&lt;iframe allow="fullscreen"&gt;</code>, and is for compatibility with existing uses of `allowfullscreen`. If `allow="fullscreen"` and `allowfullscreen` are both present on an iframe element, then the more restrictive whitelist of `allow="fullscreen"` will be used.</div>
+        <div class="note">
+          This is different from the behaviour of <code>&lt;iframe
+          allow="fullscreen"&gt;</code>, and is for compatibility with existing
+          uses of `allowfullscreen`. If `allow="fullscreen"` and
+          `allowfullscreen` are both present on an iframe element, then the
+          more restrictive whitelist of `allow="fullscreen"` will be used.
+        </div>
       </section>
       <section>
         <h3>allowpaymentrequest</h3>
-        <p>The "`allowpaymentrequest`" iframe attribute controls access to [Payment interface].
-        <p>The presence of an "allowpaymentrequest" attribute on an iframe should be treated as equivalent to a "featurepolicy" attribute on the same iframe with the directive:
+        <p>The "`allowpaymentrequest`" iframe attribute controls access to
+        [Payment interface].</p>
+        <p>The presence of an "allowpaymentrequest" attribute on an iframe
+        should be treated as equivalent to a "featurepolicy" attribute on the
+        same iframe with the directive:</p>
         <pre>{ "payment": ["`\*`"] }</pre>
-        <div class="note">This is different from the behaviour of <code>&lt;iframe allow="payment"&gt;</code>, and is for compatibility with existing uses of `allowpaymentrequest`. If `allow="payment"` and `allowpaymentrequest` are both present on an iframe element, then the more restrictive whitelist of `allow="payment"` will be used.</div>
+        <div class="note">
+          This is different from the behaviour of <code>&lt;iframe
+          allow="payment"&gt;</code>, and is for compatibility with existing
+          uses of `allowpaymentrequest`. If `allow="payment"` and
+          `allowpaymentrequest` are both present on an iframe element, then the
+          more restrictive whitelist of `allow="payment"` will be used.
+        </div>
       </section>
       <section>
         <h3>allowusermedia</h3>
-        <p>The "`allowusermedia`" iframe attribute controls access to [UserMedia interface].
-        <p>The presence of an "allowusermedia" attribute on an iframe should be treated as equivalent to a "featurepolicy" attribute on the same iframe with the directive:
+        <p>The "`allowusermedia`" iframe attribute controls access to
+        [UserMedia interface].</p>
+        <p>The presence of an "allowusermedia" attribute on an iframe should be
+        treated as equivalent to a "featurepolicy" attribute on the same iframe
+        with the directive:</p>
         <pre>{ "usermedia": ["self"] }</pre>
       </section>
-    </section>
-    <section>
-      <h2>Parse policy from <var>value</var> and <var>global</var></h2>
-      <p>Given a string (<var>value</var>) and [global object]
-      (<var>global</var>) this algorithm will return a <a>declared feature
-      policy</a>.</p>
-      <ol>
-        <li>Let policy be an empty list.</li>
-        <li>Let list be the result of executing the algorithm defined in Section 4 of [HTTP-JFV] on value. If that algorithm results in an error, return policy.</li>
-        <li>For each directive in list:</li>
-        <ol>
-          <li>If directive is not an object, abort these steps and continue with the next item.</li>
-          <li>For each key and associated targetlist in directive:</li>
-          <ol>
-            <li>If key is not equal to the name of any recognized feature, abort these steps and continue with the next key and targetlist.</li>
-            <li>If targetlist is not an array, abort these steps and continue with the next key and targetlist.</li>
-            <li>Let whitelist be a new whitelist.</li>
-            <li>If targetlist contains the string "`\*`", set whitelist to match every origin.</li>
-            <li>Otherwise, for each origin in targetlist:</li>
-            <ol>
-              <li>If origin is an ASCII case-insensitive match for "`self`", let result be <var>global</var>'s origin.</li>
-              <li>Otherwise, let result be the result of executing the URL parser on origin.</li>
-              <li>If result is not failure:</li>
-              <ol>
-                <li>Let target be the origin of result.</li>
-                <li>If target is not an opaque origin, append target to whitelist.</li>
-              </ol>
-            </ol>
-            <li>Append whitelist to policy.</li>
-          </ol>
-          <li>Return policy.</li>
-        </ol>
-      </ol>
     </section>
   </section>
   <section>
     <h2>Features</h2>
-    <p>This section defines <dfn data-lt="feature">features</dfn> and their effect when applied
-    via a <a>directive</a> as part of a <a>feature policy</a>.</p>
+    <p>This section defines <dfn data-lt="feature">features</dfn> and their
+    effect when applied via a <a data-lt="policy directive">directive</a> as
+    part of a <a>feature policy</a>.</p>
     <p>The following table summarizes <a>features</a> defined by this
-    specification, by their corresponding keywords. This table is
-    non-normative; the actual definitions are given in the following
-    sections.</p>
+    specification, by their corresponding <dfn data-lt=
+    "feature name|feature names|feature name keyword">feature name
+    keywords</dfn>. This table is non-normative; the actual definitions are
+    given in the following sections.</p>
     <table>
       <thead>
         <tr>
@@ -408,13 +446,6 @@
           </td>
           <td>`\*`</td>
           <td>Controls access to `document.write`, `document.writeln`.</td>
-        </tr>
-        <tr>
-          <td>
-            <a>eme</a>
-          </td>
-          <td>`self`</td>
-          <td>Controls whether [Encrypted Media Extensions] are allowed.</td>
         </tr>
         <tr>
           <td>
@@ -503,18 +534,23 @@
       </tbody>
     </table>
     <section>
-      <h2><dfn>`cookie`</dfn></h2>
-      <pre class="idl">
+      <section>
+        <h2><dfn>`cookie`</dfn></h2>
+        <pre class="idl">
 partial interface Document {
   [Feature=cookie] attribute USVString cookie;
 };</pre>
-
-        <p>The <a>cookie</a> keyword controls whether access to the [cookie attribute] is
-        allowed for [current global object].</p>
+        <p>The <a>cookie</a> keyword controls whether access to the [cookie
+        attribute] is allowed for [current global object].</p>
         <ol>
-          <li>The <a>default whitelist</a> is `\*`.
-          <li>When disabled in a feature policy aware document, attempting to read or write the [cookie attribute] must cause a security error exception to be thrown.</li>
-          <li>When disabled in a feature-policy-oblivious document, attempting to read or write the [cookie attribute] must cause the document to be unloaded.</li>
+          <li>The <a>default whitelist</a> is `["\*"]`.
+          </li>
+          <li>When disabled in a feature policy aware document, attempting to
+          read or write the [cookie attribute] must cause a security error
+          exception to be thrown.</li>
+          <li>When disabled in a feature-policy-oblivious document, attempting
+          to read or write the [cookie attribute] must cause the document to be
+          unloaded.</li>
         </ol>
       </section>
       <section>
@@ -523,15 +559,19 @@ partial interface Document {
 partial interface Document {
   [Feature=domain] attribute USVString domain;
 };</pre>
-        <p>The <a>domain</a> keyword controls whether access to the [domain attribute] is
-        allowed for [current global object].</p>
+        <p>The <a>domain</a> keyword controls whether access to the [domain
+        attribute] is allowed for [current global object].</p>
         <ol>
-          <li>The <a>default whitelist</a> is `\*`. </li>
+          <li>The <a>default whitelist</a> is `["\*"]`.
+          </li>
         </ol>
         <h2>Behavior when disabled</h2>
         <ol>
-          <li>In a feature-policy-aware document, attempting to write the [domain attribute] must cause a securityerror exception to be thrown.</li>
-          <li>In a feature-policy-oblivious document, attempting to write the [domain attribute] must cause the document to be unloaded.</li>
+          <li>In a feature-policy-aware document, attempting to write the
+          [domain attribute] must cause a securityerror exception to be
+          thrown.</li>
+          <li>In a feature-policy-oblivious document, attempting to write the
+          [domain attribute] must cause the document to be unloaded.</li>
         </ol>
       </section>
       <section>
@@ -541,30 +581,31 @@ partial interface Document {
   [CEReactions, Feature=docwrite] void write(DOMString... text);
   [CEReactions, Feature=docwrite] void writeln(DOMString... text);
 };</pre>
-        <p>The <a>docwrite</a> keyword controls whether use of the [document.write]
-        and [document.writeln] methods is allowed for [current global
-        object].</p>
-        <p>If a feature-policy-aware document, for which the docwrite feature is disabled, attempts to call [document.write] or [document.writeln], a securityerror exeption must be thrown.</p>
-        <p>If a feature-policy-oblivious document, for which the docwrite feature is disabled, attempts to call [document.write] or [document.writeln], the document must be unloaded.</p>
+        <p>The <a>docwrite</a> keyword controls whether use of the
+        [document.write] and [document.writeln] methods is allowed for [current
+        global object].</p>
+        <p>If a feature-policy-aware document, for which the docwrite feature
+        is disabled, attempts to call [document.write] or [document.writeln], a
+        securityerror exeption must be thrown.</p>
+        <p>If a feature-policy-oblivious document, for which the docwrite
+        feature is disabled, attempts to call [document.write] or
+        [document.writeln], the document must be unloaded.</p>
         <ol>
-          <li>The <a>default whitelist</a> is `\*`. </li>
-        </ol>
-      </section>
-      <section>
-        <h2><dfn>`eme`</dfn></h2>
-        <p>The <a>eme</a> keyword controls whether the [ENCRYPTED MEDIA EXTENSIONS]
-        are available.</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>The <a>default whitelist</a> is `["\*"]`.
+          </li>
         </ol>
       </section>
       <section>
         <h2><dfn>`fullscreen`</dfn></h2>
-        <p>The <a>fullscreen</a> keyword controls whether the [requestFullscreen]
-        method ([[!WHATWG-FULLSCREEN]]) is allowed to request fullscreen.</p>
+        <p>The <a>fullscreen</a> keyword controls whether the
+        [requestFullscreen] method ([[!WHATWG-FULLSCREEN]]) is allowed to
+        request fullscreen.</p>
         <ol>
-          <li>The <a>default whitelist</a> is `self`.</li>
-<li>If disabled in any document, the document will not be allowed to use fullscreen. If enabled, the document will be allowed to use fullscreen.</li>
+          <li>The <a>default whitelist</a> is `["self"]`.
+          </li>
+          <li>If disabled in any document, the document will not be allowed to
+          use fullscreen. If enabled, the document will be allowed to use
+          fullscreen.</li>
         </ol>
       </section>
       <section>
@@ -577,8 +618,11 @@ partial interface Navigator {
         interface] ([[!GEOLOCATION-API]]) is [exposed] for [current global
         object].</p>
         <ol>
-          <li>The <a>default whitelist</a> is `self`.</li>
-<li>If disabled in any document, calls to both getCurrentPosition and watchPosition must result in teh error callback being invoked with PERMISSION_DENIED.</li>
+          <li>The <a>default whitelist</a> is `["self"]`.
+          </li>
+          <li>If disabled in any document, calls to both getCurrentPosition and
+          watchPosition must result in the error callback being invoked with
+          PERMISSION_DENIED.</li>
         </ol>
       </section>
       <section>
@@ -590,8 +634,10 @@ partial interface Navigator {
         <p>The <a>midi</a> keyword controls whether the [requestMIDIAccess
         method] ([[!WEBMIDI]]) is [exposed] for [current global object].</p>
         <ol>
-          <li>The <a>default whitelist</a> is `self`.</li>
-          <li>If disabled in a document, the promise returned by requestMIDIAccess must reject with a DOMException parameter.</li>
+          <li>The <a>default whitelist</a> is `["self"]`.
+          </li>
+          <li>If disabled in a document, the promise returned by
+          requestMIDIAccess must reject with a DOMException parameter.</li>
         </ol>
       </section>
       <section>
@@ -604,7 +650,8 @@ interface Notification : EventTarget {};</pre>
         interface] ([[!NOTIFICATIONS]]) is [exposed] for [current global
         object].</p>
         <ol>
-          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>The <a>default whitelist</a> is `["self"]`.
+          </li>
           <li>If disabled in a document, then...</li>
         </ol>
       </section>
@@ -618,7 +665,8 @@ interface PaymentRequest : EventTarget {};</pre>
         interface] ([[!PAYMENT-REQUEST]]) is [exposed] for [current global
         object].</p>
         <ol>
-          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>The <a>default whitelist</a> is `["self"]`.
+          </li>
           <li>If disabled in a document, then...</li>
         </ol>
       </section>
@@ -635,22 +683,24 @@ interface PushManager {};
         <p>The <a>push</a> keyword controls whether the [PushManager interface]
         ([[!PUSH-API]]) is [exposed] for [current global object].</p>
         <ol>
-          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>The <a>default whitelist</a> is `["self"]`.
+          </li>
           <li>If disabled in a document, then...</li>
         </ol>
       </section>
       <section>
         <h2><dfn>`sync-script`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <p>The <a>sync-script</a> keyword controls use of synchronous `script`
         elements, as defined in <a href="#integration-with-html"></a>. When
         this feature is disabled, such scripts are ignored by the user
         agent.</p>
+        <ol>
+          <li>The <a>default whitelist</a> is `["\*"]`.
+          </li>
+        </ol>
         <div class="example">
           <p>Given the following header:</p>
-          <pre>
-  <a>Feature-Policy</a>: {"<a data-lt=
-"disable member">disable</a>":["<a>sync-script</a>"]}</pre>
+          <pre><a>Feature-Policy</a>: {"<a>sync-script</a>": []}</pre>
           <p>The following HTML will not result in execution of `script1.js`,
           as it has neither a [`defer`] nor an [`async`] attribute. The
           remaining scripts will execute normally because they have their
@@ -668,18 +718,20 @@ interface PushManager {};
       </section>
       <section>
         <h2><dfn>`sync-xhr`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <p>The <a>sync-xhr</a> keyword controls use of synchronous
         `XMLHttpRequest` API, as defined in <a href=
-        "#integration-with-xmlhttprequest"></a>. When [open() method](xhr-open)
-        is called with <var>async</var> argument set to <var>false</var>, an
-        `InvalidAccessError` except will be thrown.</p>
+        "#integration-with-xmlhttprequest"></a>. When this feature is disabled,
+        then when [open() method](xhr-open) is called with <var>async</var>
+        argument set to <var>false</var>, an `InvalidAccessError` exception
+        will be thrown.</p>
+        <ol>
+          <li>The <a>default whitelist</a> is `["\*"]`.
+          </li>
+        </ol>
         <div class="example">
           <p>Given the following header:</p>
-          <pre>
-  <a>Feature-Policy</a>: {"<a data-lt=
-"disable member">disable</a>":["<a>sync-xhr</a>"]}</pre>
-          <p>The following JavaScript code will throw a `InvalidAccessError`
+          <pre><a>Feature-Policy</a>: {"<a>sync-xhr</a>": []}</pre>
+          <p>The following JavaScript code will throw an `InvalidAccessError`
           exception:</p>
           <pre>
   var xhr = new XMLHttpRequest();
@@ -697,7 +749,8 @@ interface NavigatorUserMedia {
         [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]) is [exposed] for
         [current global object].</p>
         <ol>
-          <li>The <a>default whitelist</a> is `self`.</li>
+          <li>The <a>default whitelist</a> is `["self"]`.
+          </li>
           <li>If disabled in a document, then...</li>
         </ol>
       </section>
@@ -710,97 +763,32 @@ partial interface Navigator {
         <p>The <a>vibrate</a> keyword controls whether the [vibrate method]
         ([[!VIBRATION]]) is [exposed] for [current global object].</p>
         <ol>
-          <li>The <a>default whitelist</a> is `self`.</li>
-          <li>If disabled in a document, then calls to the [vibrate method] should silently do nothing. If enabled, the browser may allow the device to vibrate.</li>
+          <li>The <a>default whitelist</a> is `["self"]`.
+          </li>
+          <li>If disabled in a document, then calls to the [vibrate method]
+          should silently do nothing. If enabled, the browser may allow the
+          device to vibrate.</li>
         </ol>
       </section>
       <section>
         <h2><dfn>`webrtc`</dfn></h2>
-<div class="issue">TODO: Update this section</div>
         <pre class="idl">
 [Constructor(optional RTCConfiguration configuration), Feature=webrtc]
 interface RTCPeerConnection : EventTarget {};</pre>
         <p>The <a>webrtc</a> keyword controls whether the [RTCPeerConnection
         interface] ([[!WEBRTC]]) is [exposed] for [current global object].</p>
         <ol>
-          <li>The default <a>enable policy</a> is `\*` for [top-level browsing
-          context], and `\*` for [nested browsing context].
-          </li>
-          <li>The default <a>disable policy</a> is `null`.
+          <li>The <a>default whitelist</a> is `["\*"]`.
           </li>
         </ol>
       </section>
       <section>
         <h2><dfn>`webvr`</dfn></h2>
-        <p>The <a>webvr</a> keyword controls whether the
-        [VRDisplay interface] ([WebVR]) is [exposed] for
-        [current global object].</p>
+        <p>The <a>webvr</a> keyword controls whether the [VRDisplay interface]
+        ([WebVR]) is [exposed] for [current global object].</p>
         <ol>
-          <li>The <a>default policy</a> is `*`.</li>
-        </ol>
-      </section>
-    </section>
-  </section>
-  <section>
-<div class="issue">TODO: Update this section: it's named wrong</div>
-    <h2>Enable Policy</h2>
-    <p>The <dfn>enable policy</dfn> allows a developer to turn on certain
-    features for a <code>Document</code> or <code>Worker</code>.</p>
-    <section>
-      <h2>Processing</h2>
-      <section>
-        <h2>Process iframe feature policy attributes</h2>
-        <p>Given an iframe element <var>element</var>, this algorithm returns a declared feature policy, which may be empty.</p>
-        <ol>
-          <li>Let <var>policy</var> be the result of running <a>Parse declared feature policy</a> on the value of <var>element</var>'s feature policy attribute., with <var>origin</var> set to the origin of the URL in <var>element</var>'s src attribute.</li>
-          <li>Let <var>valid-features</var> be the result of running <a>Parse allow attribute</a> on the value of <var>element</var>'s allow attribute.</li>
-          <li>For each <var>feature</var> in <var>valid-features</var>:
-            <ol>
-              <li>If <var>policy</var> does not contain a whitelist for <var>feature</var>:
-              <ol>
-                 <li>Construct a new declaration for <var>feature</var>, whose whitelist is <var>origin</var>.
-                 <li>Add <var>declaration</var> to <var>policy</var>.</li>
-              </ol>
-            </ol>
+          <li>The <a>default whitelist</a> is `["\*"]`.
           </li>
-          <li>If <var>element</var>'s allowfullscreen attribute is specified, and <var>policy</var> does not contain a whitelist for fullscreen,
-            <ol>
-              <li>Construct a new declaration for fullscreen, whose whitelist matches all origins.
-              <li>Add <var>declaration</var> to <var>policy</var>.</li>
-            </ol>
-            <li>If <var>element</var>'s allowpaymentrequest attribute is specified, and <var>policy</var> does not contain a whitelist for paymentrequest,
-            <ol>
-              <li>Construct a new declaration for paymentrequest, whose whitelist matches all origins.
-              <li>Add <var>declaration</var> to <var>policy</var>.</li>
-            </ol>
-            <li>If <var>element</var>'s allowusermedia attribute is specified, and <var>policy</var> does not contain a whitelist for fullscreen,
-            <ol>
-              <li>Construct a new declaration for usermedia, whose whitelist matches all origins.
-              <li>Add <var>declaration</var> to <var>policy</var>.</li>
-            </ol>
-          </li>
-          <li>Return <var>valid-features</var>.</li>
-        </ol>
-      </section>
-      <section>
-        <h2>Parse allow attribute</h2>
-        <p>Given a <var>list</var>, this algorithm returns a list of
-        <a>features</a>, which may be empty.</p>
-        <ol>
-          <li>Let <var>valid-features</var> be an empty list.</li>
-          <li>If <var>list</var> is <var>null</var> or empty, return
-          <var>valid-features</var>.</li>
-          <li>For each <var>item</var> in <var>list</var>:
-            <ol>
-              <li>Convert <var>item</var> to ASCII-lowercase.</li>
-              <li>If <var>item</var> matches a defined <a>feature name</a> which is not present in  <var>valid-features</var>,
-                <ol>
-                  <li>Append <var>item</var> to <var>valid-features</var>.</li>
-                 </ol>
-              </li>
-            </ol>
-          </li>
-          <li>Return <var>valid-features</var>.</li>
         </ol>
       </section>
     </section>
@@ -822,14 +810,18 @@ interface RTCPeerConnection : EventTarget {};</pre>
           "Initialising a new <code>Document</code> object" and "Run a Worker"
           algorithms.
         </li>
-        <li>Replace the existing step 12 of "Initialising a new <code>Document</code> object" with the following step:
+        <li>Replace the existing step 12 of "Initialising a new
+        <code>Document</code> object" with the following step:
           <ul>
-            <li><a href="#initialize-for-global">Initialize the feature policy</a> for the <code>Document</code></li>
+            <li>
+              <a href="#initialize-for-global">Initialize the feature
+              policy</a> for the <code>Document</code>
+            </li>
           </ul>
         </li>
         <li>A <a>feature policy</a> is <dfn data-lt="enforce">enforced</dfn>
-        for a [global object] by setting it as the [global object]'s
-        <a>Feature Policy</a>.
+        for a [global object] by setting it as the [global object]'s <a>Feature
+        Policy</a>.
         </li>
         <li>
           <p>The "[prepare a script]" algorithm calls into <a href=
@@ -843,118 +835,41 @@ interface RTCPeerConnection : EventTarget {};</pre>
                 the `script`'s type is "`classic`", and the <a href=
                 "#is-feature-enabled"></a> algorithm returns "`Disabled`" when
                 executed upon the `script` element's node document's global
-                object for the feature "`sync-script`", then abort these steps at
-                this point. The script is not executed.
+                object for the feature "`sync-script`", then abort these steps
+                at this point. The script is not executed.
                 </li>
               </ul>
             </li>
           </ol>
         </li>
         <li>
-          <p>The "[allowed to use]" algorithm calls into <a href="#is-feature-enabled"></a>, as follows:</p>
+          <p>The "[allowed to use]" algorithm calls into <a href=
+          "#is-feature-enabled"></a>, as follows:</p>
           <ol>
             <li>Replace the current steps #3 and #4 with the following step:
               <ul>
-                <li>If `Document`'s <a>feature policy</a> enables the feature indicated
-                  by `allowattribute` for the origin of `Document`, then return
-                  true.</li>
+                <li>If `Document`'s <a>feature policy</a> enables the feature
+                indicated by `allowattribute` for the origin of `Document`,
+                then return true.
+                </li>
               </ul>
             </li>
           </ol>
         </li>
       </ol>
       <div class="issue">
-        Add idl for iframe allow attribute
+        Add idl for iframe `allow` and `featurepolicy` attributes
       </div>
       <div class="issue">
         Monkey-patching! As soon as we know that this is the direction we wish
         to pursue, upstream all of this.
       </div>
-      <section>
-<div class="issue">TODO: Clean this section up</div>
-        <h4 id="initialize-for-global">Initialize <var>global</var>'s Feature
-        Policy from <var>response</var></h4>
-        <p>Given a [response] (<var>response</var>) and a global object
-        (<var>global</var>), this algorithm populates <var>global</var>'s
-        <a>Feature Policy List</a></p>
-        <ol>
-          <li>Let inherited policy set be an empty set</li>
-          <li>Let declared policy set be an empty set.</li>
-          <li>For each feature supported,
-            <ol>
-              <li>Let inherited policy be the result of running define an inherited policy for feature in global</li>
-              <li>Add inherited policy to inherited policy set.</li>
-            </ol>
-          </li>
-          <li>Let <var>declared policy</var> be the result of executing <a href=
-          "#process-response-policy"></a> on <var>response</var> and
-          <var>global</var>.
-          <li>For each directive in declared policy:
-            <ol>
-              <li>if the inherited policy for directive's feature is true, then add directive to declared policy set</li>
-            </ol>
-          </li>
-          <li>Let policy be a new feature policy, with inherited policy set xxx and declared policy set xxx.</li>
-          <li>
-            <a>Enforce</a> the policy <var>policy</var>.
-          </li>
-        </ol>
-      </section>
-      <section>
-        <h4 id="define-inherited-policy">Define an inherited policy for <var>feature</var></h4>
-        <p>Given a string (<var>feature</var>) and a browsing context (<var>context</var>), this algorithm returns the inherited policy for that feature.
-        <ol>
-          <li>If <var>context</var> is a [nested browsing context]:
-            <ol>
-              <li>let <var>parent</var> be <var>context</var>'s parent browsing context's active document.</li>
-              <li>If <var>feature</var> is not <a>enabled by</a> <var>parent</var>'s feature policy, for <var>parent</var>'s origin, return Disabled.</li>
-              <li>Let <var>container policy</var> be the result of running <a>parse feature policy declaration</a> on the value of the `featurepolicy` attribute of <var>context</var>'s browsing context container.</li>
-              <li>If <var>feature</var> is a key in <var>container policy</var>:
-                <ol>
-                  <li>If the <a>whitelist</a> for <var>feature</var> in <var>container policy</var> contains <var>origin</var>, return Enabled.</li>
-                  <li>Otherwise return Disabled.</li>
-                </ol>
-              </li>
-              <li>Let <var>frame policy</var> be the result of processing the feature policy attributes of <var>context</var>'s browsing context container.</li>
-              <li>If <var>feature</var> is in <var>frame policy</var>:
-                <ol>
-                  <li>If <var>origin</var> is [same origin-domain] with the origin of the URL in the `src` attribute of <var>context</var>'s browsing context container, return Enabled</li>
-                </ol>
-              </li>
-              <li>Otherwise, if feature is allowed by the parent frame’s policy for origin, return Enabled.</li>
-              <li>Otherwise, return Disabled.</li>
-            </ol>
-          </li>
-          <li>Otherwise, return Enabled.</li>
-        </ol>
-      </section>
-      <section>
-<div class="issue">TODO: Update this section</div>
-        <h4 id="is-feature-enabled">Is <var>feature</var> enabled for
-        <var>origin</var>?</h4>
-        <p>Given a string (<var>feature</var>) and a global object
-        (<var>global</var>), this algorithm returns "`Disabled`" if
-        <var>feature</var> should be considered disabled, and "`Enabled`"
-        otherwise.</p>
-        <ol>
-          <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy</a>
-          </li>
-          <li>If <var>feature</var> is not present in <var>policy</var>'s <a>inherited policy set</a>, return "`Disabled`".</li>
-          <li>If <var>feature</var> is present in <var>policy</var>'s <a>declared policy</a>:
-            <ol>
-              <li>If the <a>whitelist</a> for <var>feature</var> in <var>policy</var>'s <a>declared policy</a> contains <var>origin</var>, then return "`Enabled`".</li>
-              <li>Otherwise return "`Disabled`".</li>
-            </ol>
-          </li>
-          <li>If <var>feature</var>'s <a>default policy</a> is "`*`", return "`Enabled`".</li>
-          <li>If <var>feature</var>'s <a>default policy</a> is "`self`", and <var>origin</var> is [same origin-domain] with <var>global</var>'s active document's origin, return "`Enabled`".</li>
-          <li>Return "`Disabled`".</li>
-        </ol>
-      </section>
     </section>
     <section>
       <h2>Integration with XMLHttpRequest</h2>
-<div class="issue">TODO: Update this section for fp-oblivious docs</div>
+      <div class="issue">
+        TODO: Update this section for fp-oblivious docs
+      </div>
       <p>The `open() method` calls into the <a href="#is-feature-disabled"></a>
       algorithm to determine whether or not to throw, as follows:</p>
       <ol>
@@ -970,7 +885,9 @@ interface RTCPeerConnection : EventTarget {};</pre>
       </ol>
     </section>
     <section>
-<div class="issue">TODO: Update this section: should no longer control exposure</div>
+      <div class="issue">
+        TODO: Update this section: should no longer control exposure
+      </div>
       <h2>Integration with WebIDL</h2>
       <p>This section defines an extended attribute whose presence affects only
       the ECMAScript binding.</p>
@@ -1015,6 +932,270 @@ interface RTCPeerConnection : EventTarget {};</pre>
         global</a> influences whether it is [exposed] in a given ECMAScript
         global environment.</p>
       </section>
+    </section>
+  </section>
+  <section>
+    <h2>Algorithms</h2>
+    <section>
+      <h2>Process response policy</h2>
+      <p>Given a [response] (<var>response</var>) and [global object]
+      (<var>global</var>), this algorithm returns a <a>declared feature
+      policy</a>.</p>
+      <ol>
+        <li>Abort these steps if the <var>response</var>’s [header list] does
+        not contain a [header] whose [name] is "`Feature-Policy`".</li>
+        <li>Let <var>header</var> be the [value] of the [header] in
+        <var>response</var>’s [header list] whose name is
+        "`Feature-Policy`".</li>
+        <li>Let <var>feature policy</var> be the result of executing <a href=
+        "#parse-policy-from-value-and-origin"></a> on <var>header</var> and
+        <var>global</var>'s origin.
+        </li>
+        <li>Return <var>feature policy</var>.</li>
+      </ol>
+    </section>
+    <section>
+      <h2><dfn>Parse policy from <var>value</var> and
+      <var>origin</var></dfn></h2>
+      <p>Given a string (<var>value</var>) and an [origin] (<var>origin</var>)
+      this algorithm will return a <a>declared feature policy</a>.</p>
+      <ol>
+        <li>Let <var>policy</var> be an empty list.</li>
+        <li>Let <var>list</var> be the result of executing the algorithm
+        defined in Section 4 of [HTTP-JFV] on <var>value</var>. If that
+        algorithm results in an error, return <var>policy</var>.</li>
+        <li>For each <var>directive</var> in <var>list</var>:
+          <ol>
+            <li>If <var>directive</var> is not an object, abort these steps and
+            continue with the next item.</li>
+            <li>For each <var>key</var> and associated <var>targetlist</var> in
+            <var>directive</var>:
+              <ol>
+                <li>If <var>key</var> is not equal to the name of any
+                recognized feature, abort these steps and continue with the
+                next <var>key</var> and <var>targetlist</var>.</li>
+                <li>If <var>targetlist</var> is not an array, abort these steps
+                and continue with the next <var>key</var> and
+                <var>targetlist</var>.</li>
+                <li>Let <var>whitelist</var> be a new <a>whitelist</a>.
+                </li>
+                <li>If <var>targetlist</var> contains the string "`\*`", set
+                <var>whitelist</var> to match every origin.</li>
+                <li>Otherwise, for each <var>element</var> in
+                <var>targetlist</var>:
+                  <ol>
+                    <li>If <var>element</var> is an ASCII case-insensitive
+                    match for "`self`", let result be <var>origin</var>.</li>
+                    <li>Otherwise, let <var>result</var> be the result of
+                    executing the URL parser on <var>element</var>.</li>
+                    <li>If <var>result</var> is not failure:
+                      <ol>
+                        <li>Let <var>target</var> be the origin of
+                        <var>result</var>.</li>
+                        <li>If <var>target</var> is not an opaque origin,
+                        append <var>target</var> to <var>whitelist</var>.</li>
+                      </ol>
+                    </li>
+                  </ol>
+                </li>
+                <li>Append <var>whitelist</var> to <var>policy</var>.</li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>Return <var>policy</var>.</li>
+      </ol>
+    </section>
+    <section>
+      <h2><dfn>Process feature policy attributes</dfn></h2>
+      <p>Given an element <var>element</var>, this algorithm returns a
+      <a>declared feature policy</a>, which may be empty.</p>
+      <ol>
+        <li>Let <var>policy</var> be the result of running <a href=
+        "#parse-policy-from-value-and-origin"></a> on the value of
+        <var>element</var>'s <a data-lt="featurepolicy-attr">featurepolicy</a>
+        attribute, with <var>origin</var> set to the origin of the URL in <var>
+          element</var>'s src attribute.
+        </li>
+        <li>Let <var>valid-features</var> be the result of running <a href=
+        "#parse-allow-attribute">Parse allow attribute</a> on the value of
+        <var>element</var>'s allow attribute.
+        </li>
+        <li>For each <var>feature</var> in <var>valid-features</var>:
+          <ol>
+            <li>If <var>policy</var> does not contain a whitelist for
+            <var>feature</var>:
+              <ol>
+                <li>Construct a new declaration for <var>feature</var>, whose
+                whitelist is <var>origin</var>.</li>
+                <li>Add <var>declaration</var> to <var>policy</var>.</li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>If <var>element</var> is an [iframe element]:
+          <ol>
+            <li>If <var>element</var>'s allowfullscreen attribute is specified,
+            and <var>policy</var> does not contain a whitelist for
+            <a>fullscreen</a>,
+              <ol>
+                <li>Construct a new declaration for <a>fullscreen</a>, whose
+                whitelist matches all origins.
+                </li>
+                <li>Add <var>declaration</var> to <var>policy</var>.</li>
+              </ol>
+            </li>
+            <li>If <var>element</var>'s allowpaymentrequest attribute is
+            specified, and <var>policy</var> does not contain a whitelist for
+            <a>payment</a>,
+              <ol>
+                <li>Construct a new declaration for <a>payment</a>, whose
+                whitelist matches all origins.
+                </li>
+                <li>Add <var>declaration</var> to <var>policy</var>.</li>
+              </ol>
+            </li>
+            <li>If <var>element</var>'s allowusermedia attribute is specified,
+            and <var>policy</var> does not contain a whitelist for
+            <a>usermedia</a>,
+              <ol>
+                <li>Construct a new declaration for <a>usermedia</a>, whose
+                whitelist matches all origins.
+                </li>
+                <li>Add <var>declaration</var> to <var>policy</var>.</li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>Return <var>policy</var>.</li>
+      </ol>
+    </section>
+    <section>
+      <h2><dfn>Parse allow attribute</dfn></h2>
+      <p>Given a <var>list</var>, this algorithm returns a list of <a>feature
+      name keywords</a>, which may be empty.</p>
+      <ol>
+        <li>Let <var>valid-features</var> be an empty list.</li>
+        <li>If <var>list</var> is <var>null</var> or empty, return
+        <var>valid-features</var>.</li>
+        <li>For each <var>item</var> in <var>list</var>:
+          <ol>
+            <li>Convert <var>item</var> to ASCII-lowercase.</li>
+            <li>If <var>item</var> matches a defined <a>feature name</a> which
+            is not present in <var>valid-features</var>,
+              <ol>
+                <li>Append <var>item</var> to <var>valid-features</var>.</li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>Return <var>valid-features</var>.</li>
+      </ol>
+    </section>
+    <section>
+      <h4 id="initialize-for-global">Initialize <var>global</var>'s Feature
+      Policy from <var>response</var></h4>
+      <p>Given a [response] (<var>response</var>) and a global object
+      (<var>global</var>), this algorithm populates <var>global</var>'s
+      <a>Feature Policy</a></p>
+      <ol>
+        <li>Let <var>ips</var> set be an empty set</li>
+        <li>Let <var>dps</var> set be an empty set.</li>
+        <li>For each <var>feature</var> supported,
+          <ol>
+            <li>Let <var>i</var> be the result of running <a href=
+            "#define-inherited-policy"></a> on <var>feature</var> and
+            <var>global</var>
+            </li>
+            <li>Add <var>i</var> to <var>ips</var>.</li>
+          </ol>
+        </li>
+        <li>Let <var>d</var> be the result of executing <a href=
+        "#process-response-policy"></a> on <var>response</var> and
+        <var>global</var>.
+        </li>
+        <li>For each <var>directive</var> in <var>d</var>:
+          <ol>
+            <li>if the inherited policy in <var>ips</var> for
+            <var>directive</var>'s feature is true, then add <var>d</var> to
+            <var>dps</var></li>
+          </ol>
+        </li>
+        <li>Let <var>policy</var> be a new <a>feature policy</a>, with
+        inherited policy set <var>ihs</var> and declared policy set
+        <var>dps</var>.
+        </li>
+        <li>
+          <a>Enforce</a> the policy <var>policy</var>.
+        </li>
+      </ol>
+    </section>
+    <section>
+      <h4 id="define-inherited-policy">Define an inherited policy for
+      <var>feature</var></h4>
+      <p>Given a string (<var>feature</var>) and a browsing context
+      (<var>context</var>), this algorithm returns the <a>inherited policy</a>
+      for that feature.</p>
+      <ol>
+        <li>If <var>context</var> is a [nested browsing context]:
+          <ol>
+            <li>let <var>parent</var> be <var>context</var>'s parent browsing
+            context's active document.</li>
+            <li>Let <var>container policy</var> be the result of running
+            <a>process feature policy attributes</a> on <var>context</var>'s
+            browsing context container.
+            </li>
+            <li>If <var>feature</var> is a key in <var>container policy</var>:
+              <ol>
+                <li>If the <a>whitelist</a> for <var>feature</var> in
+                <var>container policy</var> <a>matches</a> <var>origin</var>,
+                and <var>parent</var>'s <a>inherited policy</a> for
+                <var>feature</var> is Enabled, return Enabled.
+                </li>
+                <li>Otherwise return Disabled.</li>
+              </ol>
+            </li>
+            <li>Otherwise, if feature is allowed by <var>parent</var>’s
+            <a>feature policy</a> for <var>origin</var>, return Enabled.
+            </li>
+            <li>Otherwise, return Disabled.</li>
+          </ol>
+        </li>
+        <li>Otherwise, return Enabled.</li>
+      </ol>
+    </section>
+    <section>
+      <h4 id="is-feature-enabled">Is <var>feature</var> enabled in
+      <var>global</var> for <var>origin</var>?</h4>
+      <p>Given a string (<var>feature</var>) and a global object
+      (<var>global</var>), and an [origin] (<var>origin</var>), this algorithm
+      returns "`Disabled`" if <var>feature</var> should be considered disabled,
+      and "`Enabled`" otherwise.</p>
+      <ol>
+        <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy</a>
+        </li>
+        <li>If <var>feature</var> is not present in <var>policy</var>'s
+        <a>inherited policy set</a>, return "`Disabled`".
+        </li>
+        <li>If <var>feature</var> is present in <var>policy</var>'s <a>declared
+        policy</a>:
+          <ol>
+            <li>If the <a>whitelist</a> for <var>feature</var> in
+            <var>policy</var>'s <a>declared policy</a> <a>matches</a>
+            <var>origin</var>, then return "`Enabled`".
+            </li>
+            <li>Otherwise return "`Disabled`".</li>
+          </ol>
+        </li>
+        <li>If <var>feature</var>'s <a>default whitelist</a> is `["\*"]`,
+        return "`Enabled`".
+        </li>
+        <li>If <var>feature</var>'s <a>default whitelist</a> is `["self"]`, and
+        <var>origin</var> is [same origin-domain] with <var>global</var>'s
+        active document's origin, return "`Enabled`".
+        </li>
+        <li>Return "`Disabled`".</li>
+      </ol>
     </section>
   </section>
   <section>
