@@ -541,6 +541,7 @@
       </tbody>
     </table>
     <section>
+      <h2>Feature Definitions</h2>
       <section>
         <h2><dfn>`cookie`</dfn></h2>
         <pre class="idl">
@@ -549,16 +550,13 @@ partial interface Document {
 };</pre>
         <p>The <a>cookie</a> keyword controls whether access to the [cookie
         attribute] is allowed for [current global object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["\*"]`.
-          </li>
-          <li>When disabled in a feature policy aware document, attempting to
-          read or write the [cookie attribute] must cause a security error
-          exception to be thrown.</li>
-          <li>When disabled in a feature-policy-oblivious document, attempting
-          to read or write the [cookie attribute] must cause the document to be
-          unloaded.</li>
-        </ol>
+        <p>When disabled in a feature policy aware document, attempting to read
+        or write the [cookie attribute] must cause a security error exception
+        to be thrown.</p>
+        <p>When disabled in a feature-policy-oblivious document, attempting to
+        read or write the [cookie attribute] must cause the document to be
+        unloaded.</p>
+        <p>The <a>default whitelist</a> for <a>cookie</a> is `["\*"]`.</p>
       </section>
       <section>
         <h2><dfn>`domain`</dfn></h2>
@@ -568,18 +566,11 @@ partial interface Document {
 };</pre>
         <p>The <a>domain</a> keyword controls whether access to the [domain
         attribute] is allowed for [current global object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["\*"]`.
-          </li>
-        </ol>
-        <h2>Behavior when disabled</h2>
-        <ol>
-          <li>In a feature-policy-aware document, attempting to write the
-          [domain attribute] must cause a securityerror exception to be
-          thrown.</li>
-          <li>In a feature-policy-oblivious document, attempting to write the
-          [domain attribute] must cause the document to be unloaded.</li>
-        </ol>
+        <p>In a feature-policy-aware document, attempting to write the [domain
+        attribute] must cause a SecurityError exception to be thrown.</p>
+        <p>In a feature-policy-oblivious document, attempting to write the
+        [domain attribute] must cause the document to be unloaded.</p>
+        <p>The <a>default whitelist</a> for <a>domain</a> is `["\*"]`.</p>
       </section>
       <section>
         <h2><dfn>`docwrite`</dfn></h2>
@@ -591,41 +582,32 @@ partial interface Document {
         <p>The <a>docwrite</a> keyword controls whether use of the
         [document.write] and [document.writeln] methods is allowed for [current
         global object].</p>
-        <p>If a feature-policy-aware document, for which the docwrite feature
+        <p>In a feature-policy-aware document, for which the docwrite feature
         is disabled, attempts to call [document.write] or [document.writeln], a
         securityerror exeption must be thrown.</p>
-        <p>If a feature-policy-oblivious document, for which the docwrite
+        <p>In a feature-policy-oblivious document, for which the docwrite
         feature is disabled, attempts to call [document.write] or
         [document.writeln], the document must be unloaded.</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["\*"]`.
-          </li>
-        </ol>
+        <p>The <a>default whitelist</a> for <a>docwrite</a> is `["\*"]`.</p>
       </section>
       <section>
         <h2><dfn>`eme`</dfn></h2>
         <p>The <a>eme</a> keyword controls whether encrypted media extensions
         [[!encrypted-media]] are available.</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["self"]`.
-          </li>
-          <li>If disabled in a document, the promise returned by
-          [requestMediaKeySystemAccess] must reject with a
-          NotSupportedError.</li>
-        </ol>
+        <p>If disabled in a document, the promise returned by
+        [requestMediaKeySystemAccess] must reject with a NotSupportedError.</p>
+        <p>The <a>default whitelist</a> for <a>eme</a> is `["self"]`.</p>
       </section>
       <section>
         <h2><dfn>`fullscreen`</dfn></h2>
         <p>The <a>fullscreen</a> keyword controls whether the
         [requestFullscreen] method ([[!WHATWG-FULLSCREEN]]) is allowed to
         request fullscreen.</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["self"]`.
-          </li>
-          <li>If disabled in any document, the document will not be allowed to
-          use fullscreen. If enabled, the document will be allowed to use
-          fullscreen.</li>
-        </ol>
+        <p>If disabled in any document, the document will not be allowed to use
+        fullscreen. If enabled, the document will be allowed to use
+        fullscreen.</p>
+        <p>The <a>default whitelist</a> for <a>fullscreen</a> is
+        `["self"]`.</p>
       </section>
       <section>
         <h2><dfn>`geolocation`</dfn></h2>
@@ -636,13 +618,11 @@ partial interface Navigator {
         <p>The <a>geolocation</a> keyword controls whether the [Geolocation
         interface] ([[!GEOLOCATION-API]]) is [exposed] for [current global
         object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["self"]`.
-          </li>
-          <li>If disabled in any document, calls to both getCurrentPosition and
-          watchPosition must result in the error callback being invoked with
-          PERMISSION_DENIED.</li>
-        </ol>
+        <p>If disabled in any document, calls to both getCurrentPosition and
+        watchPosition must result in the error callback being invoked with
+        PERMISSION_DENIED.</p>
+        <p>The <a>default whitelist</a> for <a>geolocation</a> is
+        `["self"]`.</p>
       </section>
       <section>
         <h2><dfn>`midi`</dfn></h2>
@@ -652,12 +632,9 @@ partial interface Navigator {
 };</pre>
         <p>The <a>midi</a> keyword controls whether the [requestMIDIAccess
         method] ([[!WEBMIDI]]) is [exposed] for [current global object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["self"]`.
-          </li>
-          <li>If disabled in a document, the promise returned by
-          requestMIDIAccess must reject with a DOMException parameter.</li>
-        </ol>
+        <p>If disabled in a document, the promise returned by requestMIDIAccess
+        must reject with a DOMException parameter.</p>
+        <p>The <a>default whitelist</a> for <a>midi</a> is `["self"]`.</p>
       </section>
       <section>
         <h2><dfn>`notifications`</dfn></h2>
@@ -668,11 +645,9 @@ interface Notification : EventTarget {};</pre>
         <p>The <a>notifications</a> keyword controls whether the [Notification
         interface] ([[!NOTIFICATIONS]]) is [exposed] for [current global
         object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["self"]`.
-          </li>
-          <li>If disabled in a document, then...</li>
-        </ol>
+        <p>If disabled in a document, then...</p>
+        <p>The <a>default whitelist</a> for <a>notifications</a> is
+        `["self"]`.</p>
       </section>
       <section>
         <h2><dfn>`payment`</dfn></h2>
@@ -683,11 +658,8 @@ interface PaymentRequest : EventTarget {};</pre>
         <p>The <a>payment</a> keyword controls whether the [PaymentRequest
         interface] ([[!PAYMENT-REQUEST]]) is [exposed] for [current global
         object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["self"]`.
-          </li>
-          <li>If disabled in a document, then...</li>
-        </ol>
+        <p>If disabled in a document, then...</p>
+        <p>The <a>default whitelist</a> for <a>payment</a> is `["self"]`.</p>
       </section>
       <section>
         <h2><dfn>`push`</dfn></h2>
@@ -701,11 +673,8 @@ interface PushManager {};
 </pre>
         <p>The <a>push</a> keyword controls whether the [PushManager interface]
         ([[!PUSH-API]]) is [exposed] for [current global object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["self"]`.
-          </li>
-          <li>If disabled in a document, then...</li>
-        </ol>
+        <p>If disabled in a document, then...</p>
+        <p>The <a>default whitelist</a> for <a>push</a> is `["self"]`.</p>
       </section>
       <section>
         <h2><dfn>`sync-script`</dfn></h2>
@@ -713,10 +682,7 @@ interface PushManager {};
         elements, as defined in <a href="#integration-with-html"></a>. When
         this feature is disabled, such scripts are ignored by the user
         agent.</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["\*"]`.
-          </li>
-        </ol>
+        <p>The <a>default whitelist</a> for <a>sync-script</a> is `["\*"]`.</p>
         <div class="example">
           <p>Given the following header:</p>
           <pre><a>Feature-Policy</a>: {"<a>sync-script</a>": []}</pre>
@@ -743,10 +709,7 @@ interface PushManager {};
         then when [open() method](xhr-open) is called with <var>async</var>
         argument set to <var>false</var>, an `InvalidAccessError` exception
         will be thrown.</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["\*"]`.
-          </li>
-        </ol>
+        <p>The <a>default whitelist</a> for <a>sync-xhr</a> is `["\*"]`.</p>
         <div class="example">
           <p>Given the following header:</p>
           <pre><a>Feature-Policy</a>: {"<a>sync-xhr</a>": []}</pre>
@@ -767,11 +730,8 @@ interface NavigatorUserMedia {
         <p>The <a>usermedia</a> keyword controls whether the
         [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]) is [exposed] for
         [current global object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["self"]`.
-          </li>
-          <li>If disabled in a document, then...</li>
-        </ol>
+        <p>If disabled in a document, then...</p>
+        <p>The <a>default whitelist</a> for <a>usermedia</a> is `["self"]`.</p>
       </section>
       <section>
         <h2><dfn>`vibrate`</dfn></h2>
@@ -781,13 +741,10 @@ partial interface Navigator {
 };</pre>
         <p>The <a>vibrate</a> keyword controls whether the [vibrate method]
         ([[!VIBRATION]]) is [exposed] for [current global object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["self"]`.
-          </li>
-          <li>If disabled in a document, then calls to the [vibrate method]
-          should silently do nothing. If enabled, the browser may allow the
-          device to vibrate.</li>
-        </ol>
+        <p>If disabled in a document, then calls to the [vibrate method] should
+        silently do nothing. If enabled, the browser may allow the device to
+        vibrate.</p>
+        <p>The <a>default whitelist</a> for <a>vibrate</a> is `["self"]`.</p>
       </section>
       <section>
         <h2><dfn>`webrtc`</dfn></h2>
@@ -796,19 +753,13 @@ partial interface Navigator {
 interface RTCPeerConnection : EventTarget {};</pre>
         <p>The <a>webrtc</a> keyword controls whether the [RTCPeerConnection
         interface] ([[!WEBRTC]]) is [exposed] for [current global object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["\*"]`.
-          </li>
-        </ol>
+        <p>The <a>default whitelist</a> for <a>webrtc</a> is `["\*"]`.</p>
       </section>
       <section>
         <h2><dfn>`webvr`</dfn></h2>
         <p>The <a>webvr</a> keyword controls whether the [VRDisplay interface]
         ([WebVR]) is [exposed] for [current global object].</p>
-        <ol>
-          <li>The <a>default whitelist</a> is `["\*"]`.
-          </li>
-        </ol>
+        <p>The <a>default whitelist</a> for <a>webvr</a> is `["\*"]`.</p>
       </section>
     </section>
   </section>
