@@ -253,10 +253,8 @@
       is a set of origins. A <a>whitelist</a> may be <em>empty</em>, in which
       case it does not match any origin, or it may contain a list of origins,
       or it may match every origin. When defining a whitelist in a policy, the
-      special origin "self" may be used. In an HTTP header, "self" refers to
-      the origin of the document which the header is associated with. In an
-      iframe attribute, "self" refers to the origin of the URL in the iframe
-      element's src attribute.</p>
+      special origin "self" may be used, which refers to the origin of document
+      which the policy is associated with.</p>
       <p>A <a>whitelist</a> <dfn>matches</dfn> an origin <var>o</var> if it
       matches every origin, or if it contains an origin which is [same
       origin-domain] with <var>o</var>.</p>
@@ -355,7 +353,7 @@
       feature "featureName" is named in the "allow" attribute", this may be
       taken as equivalent to a "featurepolicy" attribute on the same iframe
       with the directive:</p>
-      <pre>{ "featureName": ["self"] }</pre>
+      <pre>{ "featureName": [&lt;origin of the iframe's src attribute&gt;] }</pre>
     </section>
     <section>
       <h2>Additional attributes to support legacy features</h2>
@@ -401,7 +399,7 @@
         <p>The presence of an "allowusermedia" attribute on an iframe should be
         treated as equivalent to a "featurepolicy" attribute on the same iframe
         with the directive:</p>
-        <pre>{ "usermedia": ["self"] }</pre>
+        <pre>{ "usermedia": [&lt;origin of the iframe's src attribute&gt;] }</pre>
       </section>
     </section>
   </section>
