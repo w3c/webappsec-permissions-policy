@@ -296,9 +296,9 @@
       <p>A policy directive is an object, whose keys are the string names of
       features, and whose values are whitelists.</p>
       <p>A whitelist is a array of strings, each of which may be an origin, the
-      string "\\*", or the string "self".</p>
+      string "`\*`", or the string "`self`".</p>
       <p>Origins are represented by their ASCII serialization.</p>
-      <p>The string "self" may be used as an origin. In this case, it will
+      <p>The string "`self`" may be used as an origin. In this case, it will
       refer to the origin of the document which contains the Feature
       Policy.</p>
       <div class="example">
@@ -330,30 +330,61 @@
       "#integration-with-html"></a>.</p>
     </section>
     <section>
+      <h2>The `meta` element</h2>
+      <p>A [Document] may deliver a policy via one or more HTML [meta] elements
+      whose [http-equiv] attributes are an [ASCII case-insensitive] match for
+      the string "`Feature-Policy`". For example:</p>
+      <pre class="example nolinks">
+    &lt;meta http-equiv="Feature-Policy"
+content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
+      </pre>
+      <p>The `meta` policy is processed as defined in <a href=
+      "#process-meta-policy"></a> and modifications to the
+      [content][meta-content] attribute of a `meta` element after the element
+      has been parsed MUST be ignored.</p>
+      <p>To ensure that the policy can be applied before any scripts are able
+      to execute within the [Document]'s [browsing context], the following
+      restrictions apply to `meta` policy:</p>
+      <ul>
+        <li>The elements containing the `meta` policy MUST be serialized
+        completely within the first 1024 bytes of the document.</li>
+        <li>The elements containing the `meta` policy MUST appear before any
+        [script] or [link] elements.</li>
+      </ul>
+      <div class="note">Since JSON serialization requires U+0022 QUOTATION MARK
+      as a string delimiter, it is recommended that the [content][meta-content]
+      attribute of the Feature Policy [meta] tag be delimited with U+0027
+      APOSTROPHE, to avoid having to encode JSON delimeters as
+      "<code>&amp;quot;</code>"</div>
+      <div class="issue">TODO: Ensure that inserting this element after scripts
+      can run has no effect.</div>
+    </section>
+    <section>
       <h2><dfn data-lt="featurepolicy-attr">The `featurepolicy` attribute of
       the `iframe` element</dfn></h2>
-      <p>Iframe elements may have an "featurepolicy" attribute, which contains
+      <p>Iframe elements may have a "`featurepolicy`" attribute, which contains
       a JSON-serialized feature policy directive. This policy is intended to
       override the inherited policy for the framed content, which may have its
       own policy as well.</p>
-      <p>If the "featurepolicy" attribute declares a whitelist for a given
-      feature, then the whitelist in the attribute will be used as if it were
-      the declared whitelist for the feature in the page containing the
-      element, when calculating the inherited policy set for the child
-      document.</p>
+      <p>If the <a data-lt="featurepolicy-attr">featurepolicy attribute</a>
+      declares a <a>whitelist</a> for a given feature, then the
+      <a>whitelist</a> in the attribute will be used as if it were the declared
+      whitelist for the feature in the page containing the element, when
+      calculating the <a>inherited policy set</a> for the child document.</p>
     </section>
     <section>
       <h2>The `allow` attribute of the `iframe` element</h2>
-      <p>Iframe elements may have an "allow" attribute, which contains an
+      <p>Iframe elements may have an "`allow`" attribute, which contains an
       unordered set of unique space-separated tokens that are ASCII
       case-insensitive. The allowed values are names of features. Unrecognized
       values must be ignored.</p>
       <p>When specified, the "allow" attribute provides a shorthand for the
-      "<a data-lt="featurepolicy-attr">featurepolicy</a>" attribute. If a
-      feature "featureName" is named in the "allow" attribute", this may be
-      taken as equivalent to a "featurepolicy" attribute on the same iframe
-      with the directive:</p>
-      <pre>{ "featureName": [&lt;origin of the iframe's src attribute&gt;] }</pre>
+      <a data-lt="featurepolicy-attr">featurepolicy attribute</a>. If a feature
+      "featureName" is named in the "`allow`" attribute", this may be taken as
+      equivalent to a "`featurepolicy`" attribute on the same iframe with the
+      directive:</p>
+      <pre>
+      { "featureName": [&lt;origin of the iframe's src attribute&gt;] }</pre>
     </section>
     <section>
       <h2>Additional attributes to support legacy features</h2>
@@ -399,7 +430,8 @@
         <p>The presence of an "allowusermedia" attribute on an iframe should be
         treated as equivalent to a "featurepolicy" attribute on the same iframe
         with the directive:</p>
-        <pre>{ "usermedia": [&lt;origin of the iframe's src attribute&gt;] }</pre>
+        <pre>
+        { "usermedia": [&lt;origin of the iframe's src attribute&gt;] }</pre>
       </section>
     </section>
   </section>
@@ -414,6 +446,7 @@
     keywords</dfn>. This table is non-normative; the actual definitions are
     given in the following sections.</p>
     <table>
+<!--
       <thead>
         <tr>
           <th>Feature name</th>
@@ -424,6 +457,7 @@
         </tr>
       </thead>
       <tbody>
+-->
         <tr>
           <td>
             <a>cookie</a>
@@ -536,7 +570,9 @@
           <td>`\*`</td>
           <td>Controls access to [VRDisplay interface].</td>
         </tr>
+        <!--
       </tbody>
+-->
     </table>
     <section>
       <h2>Feature Definitions</h2>
@@ -832,6 +868,26 @@ interface RTCPeerConnection : EventTarget {};</pre>
         Monkey-patching! As soon as we know that this is the direction we wish
         to pursue, upstream all of this.
       </div>
+      <section>
+        <h2>Process meta policy</h2>
+        <p class="note">This section extends HTML's `meta` [pragma
+        directives].</p><strong>Feature policy state
+        (http-equiv="feature-policy")</strong>
+        <p>This pragma extends the declared feature policy for a
+        [Document].</p>
+        <ol>
+          <li>If the [meta] element has no [content] attribute, or if that
+          attribute's value is the empty string, then abort these steps.</li>
+          <li>If the [meta] element is not being inserted in into the
+          [Document]'s [head] element, or if is inserted after any [script] or
+          [link] elements, then abort these steps.</li>
+          <li>Let document be the meta element's node document</li>
+          <li>Let declared policy be the result of running parse declared
+          policy on the vakye if the [meta] element's [content]
+          attribute.M</li>
+          <li>...</li>
+        </ol>
+      </section>
     </section>
     <section>
       <h2>Integration with XMLHttpRequest</h2>
