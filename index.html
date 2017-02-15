@@ -970,9 +970,11 @@ partial interface HTMLIFrameElement {
       <h2>Feature Definitions</h2>
       <section>
         <h2><dfn>camera</dfn></h2>
-        <p>The <a>camera</a> feature controls access to video input devices requested
-        through the [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]).
-        <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant access to video input devices in that document.</p>
+        <p>The <a>camera</a> feature controls access to video input devices
+        requested through the [NavigatorUserMedia interface]
+        ([[!MEDIACAPTURE-API]]).</p>
+        <p>If disabled in a document, then calls to getUserMedia() MUST NOT
+        grant access to video input devices in that document.</p>
         <p>The <a>default whitelist</a> for <a>camera</a> is
         <code>["self"]</code>.</p>
       </section>
@@ -999,7 +1001,8 @@ partial interface HTMLIFrameElement {
       <section>
         <h2><dfn>geolocation</dfn></h2>
         <p>The <a>geolocation</a> keyword controls whether the current document
-        is alowed to use the [Geolocation interface] ([[!GEOLOCATION-API]]).</p>
+        is alowed to use the [Geolocation interface]
+        ([[!GEOLOCATION-API]]).</p>
         <p>If disabled in any document, calls to both getCurrentPosition and
         watchPosition must result in the error callback being invoked with
         PERMISSION_DENIED.</p>
@@ -1008,17 +1011,18 @@ partial interface HTMLIFrameElement {
       </section>
       <section>
         <h2><dfn>microphone</dfn></h2>
-        <p>The <a>microphone</a> feature controls access to audio input devices requested
-        through the [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]).
-        <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant access to audio input devices in that document.</p>
+        <p>The <a>microphone</a> feature controls access to audio input devices
+        requested through the [NavigatorUserMedia interface]
+        ([[!MEDIACAPTURE-API]]).</p>
+        <p>If disabled in a document, then calls to getUserMedia() MUST NOT
+        grant access to audio input devices in that document.</p>
         <p>The <a>default whitelist</a> for <a>microphone</a> is
         <code>["self"]</code>.</p>
       </section>
       <section>
         <h2><dfn>midi</dfn></h2>
         <p>The <a>midi</a> keyword controls whether the current document is
-        allowed to use the [requestMIDIAccess
-        method] ([[!WEBMIDI]]).</p>
+        allowed to use the [requestMIDIAccess method] ([[!WEBMIDI]]).</p>
         <p>If disabled in a document, the promise returned by requestMIDIAccess
         must reject with a DOMException parameter.</p>
         <p>The <a>default whitelist</a> for <a>midi</a> is
@@ -1027,16 +1031,20 @@ partial interface HTMLIFrameElement {
       <section>
         <h2><dfn>payment</dfn></h2>
         <p>The <a>payment</a> keyword controls whether the current document is
-        allowed to use the [PaymentRequest interface] ([[!PAYMENT-REQUEST]]).</p>
-        <p>If disabled in a document, then calls to the PaymentRequest constuctor MUST throw a SecurityError.</p>
+        allowed to use the [PaymentRequest interface]
+        ([[!PAYMENT-REQUEST]]).</p>
+        <p>If disabled in a document, then calls to the PaymentRequest
+        constuctor MUST throw a SecurityError.</p>
         <p>The <a>default whitelist</a> for <a>payment</a> is
         <code>["self"]</code>.</p>
       </section>
       <section>
         <h2><dfn>speaker</dfn></h2>
-        <p>The <a>speaker</a> feature controls access to audio output devices requested
-        through the [NavigatorUserMedia interface] ([[!audio-output]]).
-        <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant access to audio output devices in that document.</p>
+        <p>The <a>speaker</a> feature controls access to audio output devices
+        requested through the [NavigatorUserMedia interface]
+        ([[!audio-output]]).</p>
+        <p>If disabled in a document, then calls to getUserMedia() MUST NOT
+        grant access to audio output devices in that document.</p>
         <p>The <a>default whitelist</a> for <a>speaker</a> is
         <code>["self"]</code>.</p>
       </section>
