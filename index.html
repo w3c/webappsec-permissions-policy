@@ -397,13 +397,17 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
     <section>
       <h2>The <code>allow</code> attribute of the <code>iframe</code>
       element</h2>
-      <p>Iframe elements may have an "<code>allow</code>" attribute, which
-      contains an unordered set of unique space-separated tokens that are ASCII
+      <pre class="idl">
+partial interface HTMLIFrameElement {
+    [CEReactions, SameObject, PutForwards=value] readonly attribute DOMTokenList allow;
+};</pre>
+      <p>Iframe elements have an "<code>allow</code>" attribute, which contains
+      an unordered set of unique space-separated tokens that are ASCII
       case-insensitive. The allowed values are names of features. Unrecognized
       values must be ignored.</p>
-      <p>When specified, the "allow" attribute will result in adding a
-      <a>whitelist</a> for each reognized feature to the frame's <a>container
-      policy</a>, when it is contructed.</p>
+      <p>When not empty, the "<code>allow</code>" attribute will result in
+      adding a <a>whitelist</a> for each recognized feature to the frame's
+      <a>container policy</a>, when it is contructed.</p>
       <p>The <a>whitelist</a> will contain a single origin, which is the origin
       of URL in the iframe's <code>src</code> attribute.</p>
     </section>
@@ -520,10 +524,6 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
           </ol>
         </li>
       </ol>
-      <div class="issue">
-        Add idl for iframe <code>allow</code> and <code>featurepolicy</code>
-        attributes
-      </div>
       <div class="issue">
         Monkey-patching! As soon as we know that this is the direction we wish
         to pursue, upstream all of this.
