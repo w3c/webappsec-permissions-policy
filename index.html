@@ -121,9 +121,9 @@
     <section>
       <h2>Examples</h2>
       <div class="example">
-        <p>SecureCorp Inc. wants to disable use of Vibration and Geolocation APIs
-        within their application. It can do so by delivering the following HTTP
-        response header to define a feature policy:</p>
+        <p>SecureCorp Inc. wants to disable use of Vibration and Geolocation
+        APIs within their application. It can do so by delivering the following
+        HTTP response header to define a feature policy:</p>
         <pre>
         <a>Feature-Policy</a>: {"<a>vibrate</a>": [], "<a>geolocation</a>": []}</pre>
         <p>By specifying an empty list of origins, the specified features will
@@ -142,10 +142,10 @@
       </div>
       <div class="example">
         <p>SecureCorp Inc. is hosting an application on
-        "<code>https://example.com</code>" and wants to disable camera and microphone input on its
-        own origin but enable it for a whitelisted embedee
-        ("<code>https://other.com</code>"). It can do so by delivering the
-        following HTTP response header to define a feature policy:</p>
+        "<code>https://example.com</code>" and wants to disable camera and
+        microphone input on its own origin but enable it for a whitelisted
+        embedee ("<code>https://other.com</code>"). It can do so by delivering
+        the following HTTP response header to define a feature policy:</p>
         <pre>
 <a>Feature-Policy</a>: {"<a>camera</a>": ["https://other.com"], "<a>microphone</a>": ["https://other.com"]}</pre>
         <p>Some features are disabled by default in embedded contexts. The
@@ -153,15 +153,19 @@
         features for whitelisted origins.</p>
       </div>
       <div class="example">
-        <p>FastCorp Inc. wants to disable geolocation for all browsing contexts, except for a specific iframe. It can
-        do so by delivering the following HTTP response header to define a
-        feature policy:</p>
+        <p>FastCorp Inc. wants to disable geolocation for all browsing
+        contexts, except for a specific iframe. It can do so by delivering the
+        following HTTP response header to define a feature policy:</p>
         <pre>
 <a>Feature-Policy</a>: {"<a>geolocation</a>": ["self"]}</pre>
-        <p>and including an "<code>allow</code>" attribute on the iframe element:</p>
+        <p>and including an "<code>allow</code>" attribute on the iframe
+        element:</p>
         <pre>
-&lt;iframe src="https://other.com/map" <a href="#the-allow-attribute-of-the-iframe-element">allow</a>="<a>geolocation</a>"&gt;&lt;/iframe&gt;</pre>
-        <p>Iframe attributes can selectively enable features in certain frames, and not in others, even if those contain documents from the same origin.</p>
+&lt;iframe src="https://other.com/map" <a href=
+"#the-allow-attribute-of-the-iframe-element">allow</a>="<a>geolocation</a>"&gt;&lt;/iframe&gt;</pre>
+        <p>Iframe attributes can selectively enable features in certain frames,
+        and not in others, even if those contain documents from the same
+        origin.</p>
       </div>
     </section>
     <section>
