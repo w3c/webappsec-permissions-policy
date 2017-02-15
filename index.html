@@ -971,25 +971,10 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
       <tbody>
         <tr>
           <td>
-            <a>cookie</a>
+            <a>camera</a>
           </td>
-          <td><code>*</code></td>
-          <td>Controls access to <code>document.cookie</code>.</td>
-        </tr>
-        <tr>
-          <td>
-            <a>domain</a>
-          </td>
-          <td><code>*</code></td>
-          <td>Controls access to <code>document.domain</code>.</td>
-        </tr>
-        <tr>
-          <td>
-            <a>docwrite</a>
-          </td>
-          <td><code>*</code></td>
-          <td>Controls access to <code>document.write</code>,
-          <code>document.writeln</code>.</td>
+          <td><code>self</code></td>
+          <td>Controls access to video input devices.</td>
         </tr>
         <tr>
           <td>
@@ -1014,17 +999,17 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
         </tr>
         <tr>
           <td>
+            <a>microphone</a>
+          </td>
+          <td><code>self</code></td>
+          <td>Controls access to audio input devices.</td>
+        </tr>
+        <tr>
+          <td>
             <a>midi</a>
           </td>
           <td><code>self</code></td>
           <td>Controls access to [requestMIDIAccess method].</td>
-        </tr>
-        <tr>
-          <td>
-            <a>notifications</a>
-          </td>
-          <td><code>self</code></td>
-          <td>Controls access to [Notification interface].</td>
         </tr>
         <tr>
           <td>
@@ -1035,32 +1020,10 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
         </tr>
         <tr>
           <td>
-            <a>push</a>
+            <a>speaker</a>
           </td>
           <td><code>self</code></td>
-          <td>Controls access to [PushManager interface].</td>
-        </tr>
-        <tr>
-          <td>
-            <a>sync-script</a>
-          </td>
-          <td><code>*</code></td>
-          <td>Controls use of synchronous <code>script</code> elements.</td>
-        </tr>
-        <tr>
-          <td>
-            <a>sync-xhr</a>
-          </td>
-          <td><code>*</code></td>
-          <td>Controls access to synchronous <code>XMLHttpRequest</code>
-          API.</td>
-        </tr>
-        <tr>
-          <td>
-            <a>usermedia</a>
-          </td>
-          <td><code>self</code></td>
-          <td>Controls access to [NavigatorUserMedia interface].</td>
+          <td>Controls access to audio output devices.</td>
         </tr>
         <tr>
           <td>
@@ -1069,74 +1032,17 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
           <td><code>self</code></td>
           <td>Controls access to [vibrate method].</td>
         </tr>
-        <tr>
-          <td>
-            <a>webrtc</a>
-          </td>
-          <td><code>*</code></td>
-          <td>Controls access to [RTCPeerConnection interface].</td>
-        </tr>
-        <tr>
-          <td>
-            <a>webvr</a>
-          </td>
-          <td><code>*</code></td>
-          <td>Controls access to [VRDisplay interface].</td>
-        </tr>
       </tbody>
     </table>
     <section>
       <h2>Feature Definitions</h2>
       <section>
-        <h2><dfn><code>cookie</code></dfn></h2>
-        <pre class="idl">
-partial interface Document {
-  [Feature=cookie] attribute USVString cookie;
-};</pre>
-        <p>The <a>cookie</a> keyword controls whether access to the [cookie
-        attribute] is allowed for [current global object].</p>
-        <p>When disabled in a feature policy aware document, attempting to read
-        or write the [cookie attribute] must cause a security error exception
-        to be thrown.</p>
-        <p>When disabled in a feature-policy-oblivious document, attempting to
-        read or write the [cookie attribute] must cause the document to be
-        unloaded.</p>
-        <p>The <a>default whitelist</a> for <a>cookie</a> is
-        <code>["*"]</code>.</p>
-      </section>
-      <section>
-        <h2><dfn>domain</dfn></h2>
-        <pre class="idl">
-partial interface Document {
-  [Feature=domain] attribute USVString domain;
-};</pre>
-        <p>The <a>domain</a> keyword controls whether access to the [domain
-        attribute] is allowed for [current global object].</p>
-        <p>In a feature-policy-aware document, attempting to write the [domain
-        attribute] must cause a SecurityError exception to be thrown.</p>
-        <p>In a feature-policy-oblivious document, attempting to write the
-        [domain attribute] must cause the document to be unloaded.</p>
-        <p>The <a>default whitelist</a> for <a>domain</a> is
-        <code>["*"]</code>.</p>
-      </section>
-      <section>
-        <h2><dfn>docwrite</dfn></h2>
-        <pre class="idl">
-partial interface Document {
-  [CEReactions, Feature=docwrite] void write(DOMString... text);
-  [CEReactions, Feature=docwrite] void writeln(DOMString... text);
-};</pre>
-        <p>The <a>docwrite</a> keyword controls whether use of the
-        [document.write] and [document.writeln] methods is allowed for [current
-        global object].</p>
-        <p>In a feature-policy-aware document, for which the docwrite feature
-        is disabled, attempts to call [document.write] or [document.writeln], a
-        securityerror exeption must be thrown.</p>
-        <p>In a feature-policy-oblivious document, for which the docwrite
-        feature is disabled, attempts to call [document.write] or
-        [document.writeln], the document must be unloaded.</p>
-        <p>The <a>default whitelist</a> for <a>docwrite</a> is
-        <code>["*"]</code>.</p>
+        <h2><dfn>camera</dfn></h2>
+        <p>The <a>camera</a> feature controls access to video input devices requested
+        through the [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]).
+        <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant access to video input devices in that document.</p>
+        <p>The <a>default whitelist</a> for <a>camera</a> is
+        <code>["self"]</code>.</p>
       </section>
       <section>
         <h2><dfn>eme</dfn></h2>
@@ -1160,13 +1066,8 @@ partial interface Document {
       </section>
       <section>
         <h2><dfn>geolocation</dfn></h2>
-        <pre class="idl">
-partial interface Navigator {
-  [Feature=geolocation] readonly attribute Geolocation geolocation;
-};</pre>
-        <p>The <a>geolocation</a> keyword controls whether the [Geolocation
-        interface] ([[!GEOLOCATION-API]]) is [exposed] for [current global
-        object].</p>
+        <p>The <a>geolocation</a> keyword controls whether the current document
+        is alowed to use the [Geolocation interface] ([[!GEOLOCATION-API]]).</p>
         <p>If disabled in any document, calls to both getCurrentPosition and
         watchPosition must result in the error callback being invoked with
         PERMISSION_DENIED.</p>
@@ -1174,126 +1075,41 @@ partial interface Navigator {
         <code>["self"]</code>.</p>
       </section>
       <section>
+        <h2><dfn>microphone</dfn></h2>
+        <p>The <a>microphone</a> feature controls access to audio input devices requested
+        through the [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]).
+        <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant access to audio input devices in that document.</p>
+        <p>The <a>default whitelist</a> for <a>microphone</a> is
+        <code>["self"]</code>.</p>
+      </section>
+      <section>
         <h2><dfn>midi</dfn></h2>
-        <pre class="idl">
-partial interface Navigator {
-  [Feature=midi] Promise&lt;MIDIAccess&gt; requestMIDIAccess (optional MIDIOptions options);
-};</pre>
-        <p>The <a>midi</a> keyword controls whether the [requestMIDIAccess
-        method] ([[!WEBMIDI]]) is [exposed] for [current global object].</p>
+        <p>The <a>midi</a> keyword controls whether the current document is
+        allowed to use the [requestMIDIAccess
+        method] ([[!WEBMIDI]]).</p>
         <p>If disabled in a document, the promise returned by requestMIDIAccess
         must reject with a DOMException parameter.</p>
         <p>The <a>default whitelist</a> for <a>midi</a> is
         <code>["self"]</code>.</p>
       </section>
       <section>
-        <h2><dfn>notifications</dfn></h2>
-        <pre class="idl">
-[Constructor(DOMString title, optional NotificationOptions options),
-Feature=notifications]
-interface Notification : EventTarget {};</pre>
-        <p>The <a>notifications</a> keyword controls whether the [Notification
-        interface] ([[!NOTIFICATIONS]]) is [exposed] for [current global
-        object].</p>
-        <p>If disabled in a document, then...</p>
-        <p>The <a>default whitelist</a> for <a>notifications</a> is
-        <code>["self"]</code>.</p>
-      </section>
-      <section>
         <h2><dfn>payment</dfn></h2>
-        <pre class="idl">
-[Constructor(sequence&lt;PaymentMethodData&gt; methodData, PaymentDetails details, optional PaymentOptions options),
- SecureContext, Feature=payment]
-interface PaymentRequest : EventTarget {};</pre>
-        <p>The <a>payment</a> keyword controls whether the [PaymentRequest
-        interface] ([[!PAYMENT-REQUEST]]) is [exposed] for [current global
-        object].</p>
-        <p>If disabled in a document, then...</p>
+        <p>The <a>payment</a> keyword controls whether the current document is
+        allowed to use the [PaymentRequest interface] ([[!PAYMENT-REQUEST]]).</p>
+        <p>If disabled in a document, then calls to the PaymentRequest constuctor MUST throw a SecurityError.</p>
         <p>The <a>default whitelist</a> for <a>payment</a> is
         <code>["self"]</code>.</p>
       </section>
       <section>
-        <h2><dfn>push</dfn></h2>
-        <pre class="idl">
-partial interface ServiceWorkerRegistration {
-  [Feature=push] readonly attribute PushManager pushManager;
-};
-
-[Feature=push]
-interface PushManager {};
-</pre>
-        <p>The <a>push</a> keyword controls whether the [PushManager interface]
-        ([[!PUSH-API]]) is [exposed] for [current global object].</p>
-        <p>If disabled in a document, then...</p>
-        <p>The <a>default whitelist</a> for <a>push</a> is
-        <code>["self"]</code>.</p>
-      </section>
-      <section>
-        <h2><dfn>sync-script</dfn></h2>
-        <p>The <a>sync-script</a> keyword controls use of synchronous
-        <code>script</code> elements, as defined in <a href=
-        "#integration-with-html"></a>. When this feature is disabled, such
-        scripts are ignored by the user agent.</p>
-        <p>The <a>default whitelist</a> for <a>sync-script</a> is
-        <code>["*"]</code>.</p>
-        <div class="example">
-          <p>Given the following header:</p>
-          <pre><a>Feature-Policy</a>: {"<a>sync-script</a>": []}</pre>
-          <p>The following HTML will not result in execution of
-          <code>script1.js</code>, as it has neither a [<code>defer</code>] nor
-          an [<code>async</code>] attribute. The remaining scripts will execute
-          normally because they have their [non-blocking] flag set.</p>
-          <pre>
-  &lt;script src="/script1.js"&gt;&lt;/script&gt;
-  &lt;script src="/script2.js" <strong>async</strong>&gt;&lt;/script&gt;
-  &lt;script src="/script3.js" <strong>defer</strong>&gt;&lt;/script&gt;
-  &lt;script&gt;
-    const scriptEl = document.createElement("script");
-    scriptEl.src = "/script4.js";
-    document.body.appendChild(scriptEl);
-  &lt;/script&gt;</pre>
-        </div>
-      </section>
-      <section>
-        <h2><dfn>sync-xhr</dfn></h2>
-        <p>The <a>sync-xhr</a> keyword controls use of synchronous
-        <code>XMLHttpRequest</code> API, as defined in <a href=
-        "#integration-with-xmlhttprequest"></a>. When this feature is disabled,
-        then when [open() method](xhr-open) is called with <var>async</var>
-        argument set to <var>false</var>, an <code>InvalidAccessError</code>
-        exception will be thrown.</p>
-        <p>The <a>default whitelist</a> for <a>sync-xhr</a> is
-        <code>["*"]</code>.</p>
-        <div class="example">
-          <p>Given the following header:</p>
-          <pre><a>Feature-Policy</a>: {"<a>sync-xhr</a>": []}</pre>
-          <p>The following JavaScript code will throw an
-          <code>InvalidAccessError</code> exception:</p>
-          <pre>
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "/foo", false);</pre>
-        </div>
-      </section>
-      <section>
-        <h2><dfn>usermedia</dfn></h2>
-        <pre class="idl">
-[Exposed=Window, NoInterfaceObject, Feature=usermedia]
-interface NavigatorUserMedia {
-    [SameObject] readonly attribute MediaDevices mediaDevices;
-};</pre>
-        <p>The <a>usermedia</a> keyword controls whether the
-        [NavigatorUserMedia interface] ([[!MEDIACAPTURE-API]]) is [exposed] for
-        [current global object].</p>
-        <p>If disabled in a document, then...</p>
-        <p>The <a>default whitelist</a> for <a>usermedia</a> is
+        <h2><dfn>speaker</dfn></h2>
+        <p>The <a>speaker</a> feature controls access to audio output devices requested
+        through the [NavigatorUserMedia interface] ([[!audio-output]]).
+        <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant access to audio output devices in that document.</p>
+        <p>The <a>default whitelist</a> for <a>speaker</a> is
         <code>["self"]</code>.</p>
       </section>
       <section>
         <h2><dfn>vibrate</dfn></h2>
-        <pre class="idl">
-partial interface Navigator {
-  [Feature=vibrate] boolean vibrate(VibratePattern pattern);
-};</pre>
         <p>The <a>vibrate</a> keyword controls whether the [vibrate method]
         ([[!VIBRATION]]) is [exposed] for [current global object].</p>
         <p>If disabled in a document, then calls to the [vibrate method] should
@@ -1301,23 +1117,6 @@ partial interface Navigator {
         vibrate.</p>
         <p>The <a>default whitelist</a> for <a>vibrate</a> is
         <code>["self"]</code>.</p>
-      </section>
-      <section>
-        <h2><dfn>webrtc</dfn></h2>
-        <pre class="idl">
-[Constructor(optional RTCConfiguration configuration), Feature=webrtc]
-interface RTCPeerConnection : EventTarget {};</pre>
-        <p>The <a>webrtc</a> keyword controls whether the [RTCPeerConnection
-        interface] ([[!WEBRTC]]) is [exposed] for [current global object].</p>
-        <p>The <a>default whitelist</a> for <a>webrtc</a> is
-        <code>["*"]</code>.</p>
-      </section>
-      <section>
-        <h2><dfn>webvr</dfn></h2>
-        <p>The <a>webvr</a> keyword controls whether the [VRDisplay interface]
-        ([WebVR]) is [exposed] for [current global object].</p>
-        <p>The <a>default whitelist</a> for <a>webvr</a> is
-        <code>["*"]</code>.</p>
       </section>
     </section>
   </section>
