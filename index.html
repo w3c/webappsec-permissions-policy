@@ -240,6 +240,33 @@
       <dfn>feature-policy-oblivious</dfn>.</p>
     </section>
     <section>
+      <h2>Header policies</h2>
+      <p>A <dfn>header policy</dfn> is a declared policy delivered via an HTTP
+      header with the document, or in an HTML meta element in the document's
+      HEAD. These form the document's <a>feature policy</a>'s <a>declared
+      policy</a>.</p>
+    </section>
+    <section>
+      <h2>Container policies</h2>
+      <p>In addition to the <a>header policy</a>, each frame has a
+      <dfn>container policy</dfn>, which is a <a>policy directive</a>, which
+      may be empty. The <a>container policy</a> can set by attributes on the
+      browsing context container.</p>
+      <p>The <a>container policy</a> for a frame influences the <a>inherited
+      policy</a> of any document loaded into that frame. (See <a href=
+      "#define-inherited-policy"></a>)</p>
+      <div class="note">
+        Currently, the <a>container policy</a> cannot be set directly, but is
+        indirectly set by <code>iframe</code> "<a href=
+        "#allowfullscreen"><code>allowfullscreen</code></a>", "<a href=
+        "#allowpaymentrequest"><code>allowpaymentrequest</code></a>", and
+        "<a href=
+        "#the-allow-attribute-of-the-iframe-element"><code>allow</code></a>"
+        attributes. Future revisions to this spec may introduce a mechanism to
+        explicitly declare the full <a>container policy</a>.
+      </div>
+    </section>
+    <section>
       <h2>Policy directives</h2>
       <p>A <dfn data-lt="policy directive|policy directives">policy
       directive</dfn> is a dictionary, mapping <a>feature names</a> to
@@ -365,32 +392,17 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
       </div>
     </section>
     <section>
-      <h2><dfn data-lt="featurepolicy-attr">The <code>featurepolicy</code>
-      attribute of the <code>iframe</code> element</dfn></h2>
-      <p>Iframe elements may have a "<code>featurepolicy</code>" attribute,
-      which contains a JSON-serialized feature policy directive. This policy is
-      intended to override the inherited policy for the framed content, which
-      may have its own policy as well.</p>
-      <p>If the <a data-lt="featurepolicy-attr">featurepolicy attribute</a>
-      declares a <a>whitelist</a> for a given feature, then the
-      <a>whitelist</a> in the attribute will be used as if it were the declared
-      whitelist for the feature in the page containing the element, when
-      calculating the <a>inherited policy set</a> for the child document.</p>
-    </section>
-    <section>
       <h2>The <code>allow</code> attribute of the <code>iframe</code>
       element</h2>
       <p>Iframe elements may have an "<code>allow</code>" attribute, which
       contains an unordered set of unique space-separated tokens that are ASCII
       case-insensitive. The allowed values are names of features. Unrecognized
       values must be ignored.</p>
-      <p>When specified, the "allow" attribute provides a shorthand for the
-      <a data-lt="featurepolicy-attr">featurepolicy attribute</a>. If a feature
-      "featureName" is named in the "<code>allow</code>" attribute", this may
-      be taken as equivalent to a "<code>featurepolicy</code>" attribute on the
-      same iframe with the directive:</p>
-      <pre>
-      { "featureName": [&lt;origin of the iframe's src attribute&gt;] }</pre>
+      <p>When specified, the "allow" attribute will result in adding a
+      <a>whitelist</a> for each reognized feature to the frame's <a>container
+      policy</a>, when it is contructed.</p>
+      <p>The <a>whitelist</a> will contain a single origin, which is the origin
+      of URL in the iframe's <code>src</code> attribute.</p>
     </section>
     <section>
       <h2>Additional attributes to support legacy features</h2>
@@ -401,10 +413,13 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
         <h3>allowfullscreen</h3>
         <p>The "<code>allowfullscreen</code>" iframe attribute controls access
         to [Fullscreen interface].</p>
-        <p>The presence of an "allowfullscreen" attribute on an iframe should
-        be treated as equivalent to a "featurepolicy" attribute on the same
-        iframe with the directive:</p>
-        <pre>{ "fullscreen": ["<code>*</code>"] }</pre>
+        <p>If the iframe element has an "<code>allow</code>" attribute whose
+        value contains the token "<code>fullscreen</code>", then the
+        "<code>allowfullscreen</code> attribute should have no effect.</p>
+        <p>Otherwise, the presence of an "allowfullscreen" attribute on an
+        iframe will result in adding a <a>whitelist</a> of ["<code>*</code>"]
+        for the "fullscreen" feature to the frame's <a>container policy</a>,
+        when it is constructed.</p>
         <div class="note">
           This is different from the behaviour of <code>&lt;iframe
           allow="fullscreen"&gt;</code>, and is for compatibility with existing
@@ -418,10 +433,13 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
         <h3>allowpaymentrequest</h3>
         <p>The "<code>allowpaymentrequest</code>" iframe attribute controls
         access to [Payment interface].</p>
-        <p>The presence of an "allowpaymentrequest" attribute on an iframe
-        should be treated as equivalent to a "featurepolicy" attribute on the
-        same iframe with the directive:</p>
-        <pre>{ "payment": ["<code>*</code>"] }</pre>
+        <p>If the iframe element has an "<code>allow</code>" attribute whose
+        value contains the token "<code>payment</code>", then the
+        "<code>allowpaymentrequest</code> attribute should have no effect.</p>
+        <p>Otherwise, the presence of an "allowpaymentrequest" attribute on an
+        iframe will result in adding a <a>whitelist</a> of ["<code>*</code>"]
+        for the "payment" feature to the frame's <a>container policy</a>, when
+        it is constructed.</p>
         <div class="note">
           This is different from the behaviour of <code>&lt;iframe
           allow="payment"&gt;</code>, and is for compatibility with existing
@@ -430,16 +448,6 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;
           both present on an iframe element, then the more restrictive
           whitelist of <code>allow="payment"</code> will be used.
         </div>
-      </section>
-      <section>
-        <h3>allowusermedia</h3>
-        <p>The "<code>allowusermedia</code>" iframe attribute controls access
-        to [UserMedia interface].</p>
-        <p>The presence of an "allowusermedia" attribute on an iframe should be
-        treated as equivalent to a "featurepolicy" attribute on the same iframe
-        with the directive:</p>
-        <pre>
-        { "usermedia": [&lt;origin of the iframe's src attribute&gt;] }</pre>
       </section>
     </section>
   </section>
@@ -1113,15 +1121,11 @@ interface RTCPeerConnection : EventTarget {};</pre>
       <p>Given an element <var>element</var>, this algorithm returns a
       <a>declared feature policy</a>, which may be empty.</p>
       <ol>
-        <li>Let <var>policy</var> be the result of running <a href=
-        "#parse-policy-from-value-and-origin"></a> on the value of
-        <var>element</var>'s <a data-lt="featurepolicy-attr">featurepolicy</a>
-        attribute, with <var>origin</var> set to the origin of the URL in <var>
-          element</var>'s src attribute.
+        <li>Let <var>policy</var> be a new <a>policy directive</a>.
         </li>
         <li>Let <var>valid-features</var> be the result of running <a href=
         "#parse-allow-attribute">Parse allow attribute</a> on the value of
-        <var>element</var>'s allow attribute.
+        <var>element</var>'s <code>allow</code> attribute.
         </li>
         <li>For each <var>feature</var> in <var>valid-features</var>:
           <ol>
@@ -1137,9 +1141,9 @@ interface RTCPeerConnection : EventTarget {};</pre>
         </li>
         <li>If <var>element</var> is an [iframe element]:
           <ol>
-            <li>If <var>element</var>'s allowfullscreen attribute is specified,
-            and <var>policy</var> does not contain a whitelist for
-            <a>fullscreen</a>,
+            <li>If <var>element</var>'s <code>allowfullscreen</code> attribute
+            is specified, and <var>policy</var> does not contain a whitelist
+            for <a>fullscreen</a>,
               <ol>
                 <li>Construct a new declaration for <a>fullscreen</a>, whose
                 whitelist matches all origins.
@@ -1147,21 +1151,11 @@ interface RTCPeerConnection : EventTarget {};</pre>
                 <li>Add <var>declaration</var> to <var>policy</var>.</li>
               </ol>
             </li>
-            <li>If <var>element</var>'s allowpaymentrequest attribute is
-            specified, and <var>policy</var> does not contain a whitelist for
-            <a>payment</a>,
+            <li>If <var>element</var>'s <code>allowpaymentrequest</code>
+            attribute is specified, and <var>policy</var> does not contain a
+            whitelist for <a>payment</a>,
               <ol>
                 <li>Construct a new declaration for <a>payment</a>, whose
-                whitelist matches all origins.
-                </li>
-                <li>Add <var>declaration</var> to <var>policy</var>.</li>
-              </ol>
-            </li>
-            <li>If <var>element</var>'s allowusermedia attribute is specified,
-            and <var>policy</var> does not contain a whitelist for
-            <a>usermedia</a>,
-              <ol>
-                <li>Construct a new declaration for <a>usermedia</a>, whose
                 whitelist matches all origins.
                 </li>
                 <li>Add <var>declaration</var> to <var>policy</var>.</li>
