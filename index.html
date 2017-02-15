@@ -321,20 +321,28 @@
     <section>
       <h2><dfn>JSON serialization</dfn></h2>
       <p>Declared Policies are represented in HTTP headers and in HTML
-      attributes as JSON strings. The structure of the JSON string is as
-      follows:</p>
-      <p>A feature policy JSON serialization is the JSON encoding of an array
-      of policy directives.</p>
-      <p>A policy directive is an object, whose keys are the string names of
-      features, and whose values are whitelists.</p>
-      <p>A whitelist is a array of strings, each of which may be an origin, the
-      string "<code>*</code>", or the string "<code>self</code>".</p>
-      <p>Origins are represented by their ASCII serialization.</p>
-      <p>The string "<code>self</code>" may be used as an origin. In this case,
-      it will refer to the origin of the document which contains the Feature
-      Policy.</p>
-      <div class="example">
-        Include an example here
+      attributes as JSON strings.</p>
+      <p>The following ABNF rules define the structure of the feature policy
+      JSON serialization. It makes use of definitions found in [[!JSON]]</p>
+      <pre class="bnf">
+      declared-policy = begin-array directive *(value-separator directive) end-array
+      directive = begin-object feature-declaration *(value-separator feature-declaration) end-object
+      feature-declaration = quotation-mark feature-name quotation-mark name-separator whitelist
+      feature-name = string
+      whitelist = begin-array quoted-origin-value *(value-separator quoted-origin-value) end-array
+      quoted-origin-value = quotation-mark origin-value quotation-mark
+      origin-value = "*" / "self" / origin</pre>
+      <div class="note">
+        The string "<code>self</code>" may be used as an origin in a whitelist.
+        When it is used in this way, it will refer to the origin of the
+        document which contains the feature policy.
+      </div>
+      <div class="note">
+        The begin-array and end-array marks ("[" and "]") are semantically part
+        of the JSON representation of the declared policy, but they do not
+        appear in the HTTP headers or meta elements. Those characters are added
+        to the HTTP headers before parsing, so that the entire set of
+        concatenated headers are parsed as a single array.
       </div>
     </section>
   </section>
