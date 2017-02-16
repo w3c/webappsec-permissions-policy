@@ -100,12 +100,12 @@
     selectively enable, disable, or modify the behavior of some of these
     browser features and APIs within their application:</p>
     <ol>
-      <li>The developer may want to selectively _disable_ access to certain
+      <li>The developer may want to selectively <em>disable</em> access to certain
       browser features and APIs to "lock down" their application, as a security
       or performance precaution, to prevent own and third-party content
       executing within their application from introducing unwanted or
       unexpected behaviors within their application.</li>
-      <li>The developer may want to selectively _enable_ access to certain
+      <li>The developer may want to selectively <em>enable</em> access to certain
       browser features and APIs which may be disabled by default - e.g. some
       features may be disabled by default in embedded context unless explicitly
       enabled; some features may be subject to other policy requirements.</li>
@@ -1059,7 +1059,7 @@ partial interface HTMLIFrameElement {
       <section>
         <h2><dfn>vibrate</dfn></h2>
         <p>The <a>vibrate</a> keyword controls whether the [vibrate method]
-        ([[!VIBRATION]]) is [exposed] for [current global object].</p>
+        ([[!VIBRATION]]) is allowed to cause device vibration.</p>
         <p>If disabled in a document, then calls to the [vibrate method] should
         silently do nothing. If enabled, the browser may allow the device to
         vibrate.</p>
@@ -1072,63 +1072,39 @@ partial interface HTMLIFrameElement {
 </html>
 
 <!-- spec references. preserve before running tidy! -->
+<!--
+  These references are used by markdown; please figure out a good way to do this
+  in ReSpec without markdown.
+
 [sandbox attribute]: https://html.spec.whatwg.org/multipage/the-iframe-element.html#attr-iframe-sandbox
 [sandbox directive]: https://www.w3.org/TR/2014/WD-CSP11-20140211/#sandbox
-[window]: https://www.w3.org/TR/html5/browsers.html#dom-window
 [workerglobalscope]: https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope
 [response]: https://fetch.spec.whatwg.org/#concept-response
-[request]: https://fetch.spec.whatwg.org/#concept-request
-[HTTPS state]: https://fetch.spec.whatwg.org/#concept-response-https-state
 [origin]: https://url.spec.whatwg.org/#concept-url-origin
 [url]: https://fetch.spec.whatwg.org/#concept-response-url
-[potentially trustworthy]: https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy
 [header list]: https://fetch.spec.whatwg.org/#concept-response-header-list
 [header]: https://fetch.spec.whatwg.org/#concept-header
 [name]: https://fetch.spec.whatwg.org/#concept-header-name
 [value]: https://fetch.spec.whatwg.org/#concept-header-value
-[xhr-open]: https://xhr.spec.whatwg.org/#the-open()-method
-[docwrite method]: https://html.spec.whatwg.org/#dom-document-write
-[async]: https://html.spec.whatwg.org/#attr-script-async
-[defer]: https://html.spec.whatwg.org/#attr-script-defer
 [prepare a script]: https://html.spec.whatwg.org/#prepare-a-script
-[non-blocking]: https://html.spec.whatwg.org/#non-blocking
 [header-append]: https://fetch.spec.whatwg.org/#concept-header-list-append
 [header-list]: https://fetch.spec.whatwg.org/#concept-request-header-list
 [allowed to use]: https://html.spec.whatwg.org/multipage/embedded-content.html#allowed-to-use
 [fetching algorithm]: https://fetch.spec.whatwg.org/#fetching
 [global object]: https://html.spec.whatwg.org/multipage/webappapis.html#global-object
 [current global object]: https://html.spec.whatwg.org/#current-global-object
-[client]: https://fetch.spec.whatwg.org/#concept-request-client
-[sender requirements]: https://greenbytes.de/tech/webdav/draft-ietf-httpbis-jfv-02.html#rfc.section.3
-[non-blocking]: https://html.spec.whatwg.org/#non-blocking
-[URL parser]: https://url.spec.whatwg.org/#concept-url-parser
-[origin-of-url]: https://url.spec.whatwg.org/#concept-url-origin
-[ascii case-insensitive]: https://html.spec.whatwg.org/multipage/infrastructure.html#ascii-case-insensitive
 [document]: https://html.spec.whatwg.org/multipage/dom.html#document
 [meta]: https://html.spec.whatwg.org/#the-meta-element
 [http-equiv]: https://html.spec.whatwg.org/#attr-meta-http-equiv
 [meta-content]: https://html.spec.whatwg.org/#attr-meta-content
 [pragma directives]: https://html.spec.whatwg.org/#attr-meta-http-equiv-content-security-policy
-[extended attribute]: https://heycam.github.io/webidl/#dfn-extended-attribute
-[take an identifier]: https://heycam.github.io/webidl/#dfn-xattr-identifier
-[global name]: https://heycam.github.io/webidl/#dfn-global-name
-[exposed]: https://heycam.github.io/webidl/#dfn-exposed
-[cookie attribute]: https://html.spec.whatwg.org/#dom-document-cookie
-[domain attribute]: https://html.spec.whatwg.org/#dom-document-domain
-[top-level browsing context]: https://html.spec.whatwg.org/#top-level-browsing-context
 [nested browsing context]: https://html.spec.whatwg.org/#nested-browsing-context
-[document.write]: https://html.spec.whatwg.org/#dom-document-write
-[document.writeln]: https://html.spec.whatwg.org/#dom-document-writeln
 [requestFullscreen]: https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen
 [Geolocation interface]: https://www.w3.org/TR/geolocation-API/#geolocation_interface
 [NavigatorUserMedia interface]: https://w3c.github.io/mediacapture-main/#navigatorusermedia
-[RTCPeerConnection interface]: http://w3c.github.io/webrtc-pc/#rtcpeerconnection-interface
-[Notification interface]: https://www.w3.org/TR/notifications/#notification
 [PaymentRequest interface]: https://www.w3.org/TR/payment-request/#paymentrequest-interface
-[PushManager interface]: https://w3c.github.io/push-api/#idl-def-PushManager
 [requestMIDIAccess method]: http://webaudio.github.io/web-midi-api/#requestMIDIAccess
 [vibrate method]: https://w3c.github.io/vibration/#idl-def-navigator-vibrate(vibratepattern)
 [same origin-domain]: https://html.spec.whatwg.org/#same-origin-domain
-[VRDisplay interface]: https://w3c.github.io/webvr/#interface-vrdisplay
-[WebVR]: https://w3c.github.io/webvr/
 [requestMediaKeySystemAccess]: https://www.w3.org/TR/encrypted-media/#navigator-extension-requestmediakeysystemaccess
+-->
