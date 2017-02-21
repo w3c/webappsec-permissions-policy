@@ -1474,8 +1474,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li><a href="#header-policies"><span class="secno">4.4</span> <span class="content">Header policies</span></a>
       <li><a href="#container-policies"><span class="secno">4.5</span> <span class="content">Container policies</span></a>
       <li><a href="#policy-directives"><span class="secno">4.6</span> <span class="content">Policy directives</span></a>
-      <li><a href="#whitelists"><span class="secno">4.7</span> <span class="content">Whitelists</span></a>
-      <li><a href="#default-whitelists"><span class="secno">4.8</span> <span class="content">Default Whitelists</span></a>
+      <li><a href="#allowlists"><span class="secno">4.7</span> <span class="content">Allowlists</span></a>
+      <li><a href="#default-allowlists"><span class="secno">4.8</span> <span class="content">Default Allowlists</span></a>
      </ol>
     <li>
      <a href="#serialization"><span class="secno">5</span> <span class="content">Feature Policy Serialization</span></a>
@@ -1485,11 +1485,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li>
      <a href="#delivery"><span class="secno">6</span> <span class="content">Delivery</span></a>
      <ol class="toc">
-      <li><a href="#feature-policy-http-header-field"><span class="secno">6.1</span> <span class="content">Feature-Policy HTTP Header Field</span></a>
+      <li><a href="#feature-policy-http-header-field"><span class="secno">6.1</span> <span class="content">Feature-Policy HTTP Header
+    Field</span></a>
       <li><a href="#feature-policy-meta-element"><span class="secno">6.2</span> <span class="content">The <code>meta</code> element</span></a>
       <li><a href="#iframe-allow-attribute"><span class="secno">6.3</span> <span class="content">The <code>allow</code> attribute of the <code>iframe</code> element</span></a>
       <li>
-       <a href="#legacy-attributes"><span class="secno">6.4</span> <span class="content">Additional attributes to support legacy features</span></a>
+       <a href="#legacy-attributes"><span class="secno">6.4</span> <span class="content">Additional attributes to support legacy
+    features</span></a>
        <ol class="toc">
         <li><a href="#iframe-allowfullscreen-attribute"><span class="secno">6.4.1</span> <span class="content">allowfullscreen</span></a>
         <li><a href="#iframe-allowpaymentrequest-attribute"><span class="secno">6.4.2</span> <span class="content">allowpaymentrequest</span></a>
@@ -1510,11 +1512,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li><a href="#process-response-policy"><span class="secno">8.1</span> <span class="content">Process response policy</span></a>
       <li><a href="#parse-header"><span class="secno">8.2</span> <span class="content">Parse header from <var>value</var> and <var>origin</var></span></a>
       <li><a href="#parse-policy-directive"><span class="secno">8.3</span> <span class="content">Parse policy directive from <var>value</var> and <var>origin</var></span></a>
-      <li><a href="#merge-directive-with-declared-policy"><span class="secno">8.4</span> <span class="content">Merge directive with declared policy</span></a>
-      <li><a href="#process-feature-policy-attributes"><span class="secno">8.5</span> <span class="content">Process feature policy attributes</span></a>
+      <li><a href="#merge-directive-with-declared-policy"><span class="secno">8.4</span> <span class="content">Merge directive with declared
+    policy</span></a>
+      <li><a href="#process-feature-policy-attributes"><span class="secno">8.5</span> <span class="content">Process feature policy
+    attributes</span></a>
       <li><a href="#parse-allow-attribute"><span class="secno">8.6</span> <span class="content">Parse allow attribute</span></a>
       <li><a href="#initialize-for-global"><span class="secno">8.7</span> <span class="content">Initialize <var>global</var>’s Feature
-      Policy from <var>response</var></span></a>
+    Policy from <var>response</var></span></a>
       <li><a href="#define-inherited-policy"><span class="secno">8.8</span> <span class="content">Define an inherited policy for <var>feature</var></span></a>
       <li><a href="#is-feature-enabled"><span class="secno">8.9</span> <span class="content">Is <var>feature</var> enabled in <var>global</var> for <var>origin</var>?</span></a>
      </ol>
@@ -1558,109 +1562,109 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <section>
     <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
     <p>The web-platform provides an ever-expanding set of features and APIs,
-offering richer functionality, better developer ergonomics, and improved
-performance. However, a missing piece is the ability for the developer to
-selectively enable, disable, or modify the behavior of some of these
-browser features and APIs within their application:</p>
+  offering richer functionality, better developer ergonomics, and improved
+  performance. However, a missing piece is the ability for the developer to
+  selectively enable, disable, or modify the behavior of some of these browser
+  features and APIs within their application:</p>
     <ol>
      <li>The developer may want to selectively <em>disable</em> access to certain
-      browser features and APIs to "lock down" their application, as a security
-      or performance precaution, to prevent own and third-party content
-      executing within their application from introducing unwanted or
-      unexpected behaviors within their application.
+    browser features and APIs to "lock down" their application, as a security
+    or performance precaution, to prevent own and third-party content executing
+    within their application from introducing unwanted or unexpected behaviors
+    within their application.
      <li>The developer may want to selectively <em>enable</em> access to certain
-      browser features and APIs which may be disabled by default - e.g. some
-      features may be disabled by default in embedded context unless explicitly
-      enabled; some features may be subject to other policy requirements.
+    browser features and APIs which may be disabled by default - e.g. some
+    features may be disabled by default in embedded context unless explicitly
+    enabled; some features may be subject to other policy requirements.
      <li>The developer may want to use the policy to assert a promise to a
-      client or an embedder about the use—or lack of thereof—of certain
-      features and APIs. For example, to enable certain types of "fast path"
-      optimizations in the browser, or to assert a promise about conformance
-      with some requirements set by other embedders - e.g. various social
-      networks, search engines, and so on.
+    client or an embedder about the use—or lack of thereof—of certain features
+    and APIs. For example, to enable certain types of "fast path" optimizations
+    in the browser, or to assert a promise about conformance with some
+    requirements set by other embedders - e.g. various social networks, search
+    engines, and so on.
     </ol>
-    <p>This specification defines a feature policy mechanism that addresses the above use cases.</p>
+    <p>This specification defines a feature policy mechanism that addresses the
+  above use cases.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="2" id="examples"><span class="secno">2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
-    <div class="example" id="example-c43ed375">
-     <a class="self-link" href="#example-c43ed375"></a> 
-     <p>SecureCorp Inc. wants to disable use of Vibration and Geolocation
-        APIs within their application. It can do so by delivering the following
-        HTTP response header to define a feature policy:</p>
-<pre><a data-link-type="dfn" href="#feature-policy0" id="ref-for-feature-policy0-1">Feature-Policy</a>: {"<a data-link-type="dfn" href="#vibrate" id="ref-for-vibrate-1">vibrate</a>": [], "<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-1">geolocation</a>": []}</pre>
-     <p>By specifying an empty list of origins, the specified features will
-        be disabled for all browsing contexts, regardless of their origin.</p>
+    <div class="example" id="example-52d29d08">
+     <a class="self-link" href="#example-52d29d08"></a> 
+     <p>SecureCorp Inc. wants to disable use of Vibration and Geolocation APIs
+    within their application. It can do so by delivering the following HTTP
+    response header to define a feature policy:</p>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-1">Feature-Policy</a>: {"<a data-link-type="dfn" href="#vibrate" id="ref-for-vibrate-1">vibrate</a>": [], "<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-1">geolocation</a>": []}</pre>
+     <p>By specifying an empty list of origins, the specified features will be
+    disabled for all browsing contexts, regardless of their origin.</p>
     </div>
-    <div class="example" id="example-558bc040">
-     <a class="self-link" href="#example-558bc040"></a> 
+    <div class="example" id="example-dbaf5c3d">
+     <a class="self-link" href="#example-dbaf5c3d"></a> 
      <p>SecureCorp Inc. wants to disable use of Geolocation API within all
-        browsing contexts except for its own origin and those whose origin is
-        "<code>https://example.com</code>". It can do so by delivering the
-        following HTTP response header to define a feature policy:</p>
-<pre><a data-link-type="dfn" href="#feature-policy0" id="ref-for-feature-policy0-2">Feature-Policy</a>: {"<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-2">geolocation</a>": ["self", "https://example.com"]}</pre>
-     <p>The <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-1">whitelist</a> is a list of one or more origins, which can
-        include the application’s origin, optionally with the keyword
-        "<code>self</code>", and any third-party origin.</p>
+    browsing contexts except for its own origin and those whose origin is
+    "<code>https://example.com</code>". It can do so by delivering the
+    following HTTP response header to define a feature policy:</p>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-2">Feature-Policy</a>: {"<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-2">geolocation</a>": ["self", "https://example.com"]}</pre>
+     <p>The <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-1">allowlist</a> is a list of one or more origins, which can include
+    the application’s origin, optionally with the keyword "<code>self</code>",
+    and any third-party origin.</p>
     </div>
-    <div class="example" id="example-f3668179">
-     <a class="self-link" href="#example-f3668179"></a> 
+    <div class="example" id="example-1a39f611">
+     <a class="self-link" href="#example-1a39f611"></a> 
      <p>SecureCorp Inc. is hosting an application on
-        "<code>https://example.com</code>" and wants to disable camera and
-        microphone input on its own origin but enable it for a whitelisted
-        embedee ("<code>https://other.com</code>"). It can do so by delivering
-        the following HTTP response header to define a feature policy:</p>
-<pre><a data-link-type="dfn" href="#feature-policy0" id="ref-for-feature-policy0-3">Feature-Policy</a>: {"<a data-link-type="dfn" href="#camera" id="ref-for-camera-1">camera</a>": ["https://other.com"], "<a data-link-type="dfn" href="#microphone" id="ref-for-microphone-1">microphone</a>": ["https://other.com"]}</pre>
-     <p>Some features are disabled by default in embedded contexts. The
-        enable policy allows the application to selectively enable such
-        features for whitelisted origins.</p>
+    "<code>https://example.com</code>" and wants to disable camera and
+    microphone input on its own origin but enable it for a whitelisted embedee
+    ("<code>https://other.com</code>"). It can do so by delivering the
+    following HTTP response header to define a feature policy:</p>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-3">Feature-Policy</a>: {"<a data-link-type="dfn" href="#camera" id="ref-for-camera-1">camera</a>": ["https://other.com"], "<a data-link-type="dfn" href="#microphone" id="ref-for-microphone-1">microphone</a>": ["https://other.com"]}</pre>
+     <p>Some features are disabled by default in embedded contexts. The enable
+    policy allows the application to selectively enable such features for
+    whitelisted origins.</p>
     </div>
-    <div class="example" id="example-d209113f">
-     <a class="self-link" href="#example-d209113f"></a> 
-     <p>FastCorp Inc. wants to disable geolocation for all browsing
-        contexts, except for a specific iframe. It can do so by delivering the
-        following HTTP response header to define a feature policy:</p>
-<pre><a data-link-type="dfn" href="#feature-policy0" id="ref-for-feature-policy0-4">Feature-Policy</a>: {"<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-3">geolocation</a>": ["self"]}</pre>
+    <div class="example" id="example-98245816">
+     <a class="self-link" href="#example-98245816"></a> 
+     <p>FastCorp Inc. wants to disable geolocation for all cross-origin child
+    frames, except for a specific iframe. It can do so by delivering the
+    following HTTP response header to define a feature policy:</p>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-4">Feature-Policy</a>: {"<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-3">geolocation</a>": ["self"]}</pre>
      <p>and including an "<code>allow</code>" attribute on the iframe
-        element:</p>
+    element:</p>
 <pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-4">geolocation</a>">&lt;/iframe></pre>
-     <p>Iframe attributes can selectively enable features in certain frames,
-        and not in others, even if those contain documents from the same
-        origin.</p>
+     <p>Iframe attributes can selectively enable features in certain frames, and
+    not in others, even if those contain documents from the same origin.</p>
     </div>
    </section>
    <section>
     <h2 class="heading settled" data-level="3" id="other-and-related-mechanisms"><span class="secno">3. </span><span class="content">Other and related mechanisms</span><a class="self-link" href="#other-and-related-mechanisms"></a></h2>
-    <p><a data-link-type="biblio" href="#biblio-html5">[HTML5]</a> defines a [[sandbox attribute]] for <code>iframe</code> elements that allows developers to reduce the risk of including
-      potentially untrusted content by imposing restrictions on content’s
-      abilities - e.g. prevent it from submitting forms, running scripts and
-      plugins, and more. The [sandbox directive] defined by <a data-link-type="biblio" href="#biblio-csp2">[CSP2]</a> extends
-      this capability to any resource, framed or not, to ask for the same set
-      of restrictions - e.g. via an HTTP response header
-      (<code>Content-Security-Policy: sandbox</code>). These mechanisms enable
-      the developer to:</p>
+    <p><a data-link-type="biblio" href="#biblio-html5">[HTML5]</a> defines a [[sandbox attribute]] for <code>iframe</code> elements
+  that allows developers to reduce the risk of including potentially untrusted
+  content by imposing restrictions on content’s abilities - e.g. prevent it
+  from submitting forms, running scripts and plugins, and more. The [sandbox
+  directive] defined by <a data-link-type="biblio" href="#biblio-csp2">[CSP2]</a> extends this capability to any resource,
+  framed or not, to ask for the same set of restrictions - e.g. via an HTTP
+  response header (<code>Content-Security-Policy: sandbox</code>). These
+  mechanisms enable the developer to:</p>
     <ul>
      <li>Set and customize a sandbox policy on any resource via CSP.
      <li>Set and customize individual sandbox policies on each <code>iframe</code> element within their application.
     </ul>
     <p>However, there are several limitations to the above mechanism: the
-      developer cannot automatically apply a policy across all contexts, which
-      makes it hard or impossible to enforce consistently in some cases (e.g.
-      due to third-party content injecting frames, which the developer does not
-      control); there is no mechanism to selectively enable features that may
-      be off by default; the sandbox mechanism uses a whitelist approach which
-      is impossible to extend without compatibility risk.</p>
+  developer cannot automatically apply a policy across all contexts, which
+  makes it hard or impossible to enforce consistently in some cases (e.g. due
+  to third-party content injecting frames, which the developer does not
+  control); there is no mechanism to selectively enable features that may be
+  off by default; the sandbox mechanism uses a whietlist approach which is
+  impossible to extend without compatibility risk.</p>
     <p>Feature Policy is intended to be used in combination with the sandbox
-      mechanism (i.e. it does not duplicate feature controls already covered by
-      sandbox), and provides an extensible mechanism that addresses the above
-      limitations.</p>
+  mechanism (i.e. it does not duplicate feature controls already covered by
+  sandbox), and provides an extensible mechanism that addresses the above
+  limitations.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="4" id="framwork"><span class="secno">4. </span><span class="content">Framework</span><a class="self-link" href="#framwork"></a></h2>
     <section>
      <h3 class="heading settled" data-level="4.1" id="policies"><span class="secno">4.1. </span><span class="content">Policies</span><a class="self-link" href="#policies"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-policy">feature policy</dfn> may be applied to a [Document] or
-      [WorkerGlobalScope] and consists of:</p>
+     <p>A [Document] or [WorkerGlobalScope] has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-policy">feature policy</dfn>,
+    which consists of:</p>
      <ul>
       <li>A set of <a data-link-type="dfn" href="#inherited-policy-set" id="ref-for-inherited-policy-set-1">inherited policies</a>. 
       <li>A <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-1">declared policy</a>. 
@@ -1668,97 +1672,99 @@ browser features and APIs within their application:</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.2" id="inherited-policies"><span class="secno">4.2. </span><span class="content">Inherited policies</span><a class="self-link" href="#inherited-policies"></a></h3>
-     <p>Each document in a frame tree inherits a set of policies from its
-      parent frame, or in the case of the top-level document, from the defined
-      defaults for each feature. This inherited policy set determines the
-      initial state (enabled or disabled) of each feature, and whether it can
-      be controlled by a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-2">declared policy</a> in the document.</p>
-     <p>In a top-level document, or a [WorkerGlobalScope], the inherited
-      feature set is based on defined defaults for each feature.</p>
-     <p>In a document in an [nested browsing context], the inherited feature
-      set is based on the parent document’s feature policy, as well as any
-      allow attributes defined on the browsing context container.</p>
+     <p>Each document in a frame tree inherits a set of policies from its parent
+    frame, or in the case of the top-level document, from the defined defaults
+    for each feature. This inherited policy set determines the initial state
+    (enabled or disabled) of each feature, and whether it can be controlled by
+    a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-2">declared policy</a> in the document.</p>
+     <p>In a top-level document, or a [WorkerGlobalScope], the inherited feature
+    set is based on defined defaults for each feature.</p>
+     <p>In a document in a [nested browsing context], the inherited feature set
+    is based on the parent document’s feature policy, as well as any allow
+    attributes defined on the browsing context container.</p>
      <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="inherited policy|inherited policies" data-noexport="" id="inherited-policy">inherited
-      policy</dfn> for a <a data-link-type="dfn" href="#feature" id="ref-for-feature-1">feature</a> is a boolean associated with that
-      feature in a Document or WorkerGlobalScope. It can take the value Enabled
-      or Disabled.</p>
+    policy</dfn> for a <a data-link-type="dfn" href="#feature" id="ref-for-feature-1">feature</a> is a boolean associated with that feature
+    in a Document or WorkerGlobalScope. It can take the value Enabled or
+    Disabled.</p>
      <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="inherited-policy-set">inherited policy set</dfn> for a Document or WorkerGlobalScope
-      is the set of <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-1">inherited policies</a> for each <a data-link-type="dfn" href="#feature" id="ref-for-feature-2">feature</a> available
-      in that scope.</p>
+    is the set of <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-1">inherited policies</a> for each <a data-link-type="dfn" href="#feature" id="ref-for-feature-2">feature</a> available
+    in that scope.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.3" id="declared-policies"><span class="secno">4.3. </span><span class="content">Declared policies</span><a class="self-link" href="#declared-policies"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="declared policy|declared feature policy" data-noexport="" id="declared-policy">declared
-      policy</dfn> is a set of <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-1">policy directives</a>, which may be the empty
-      set.</p>
+    policy</dfn> is a set of <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-1">policy directives</a>, which may be the empty
+    set.</p>
      <p>The <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-3">declared policy</a> is represented in HTTP headers and HTML
-      attributes as a JSON string.</p>
-     <p>A document is considered <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-policy-aware">feature-policy-aware</dfn> if it has a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-4">declared policy</a> delivered via a Feature-Policy HTTP header.</p>
-     <p>A document is which is not <a data-link-type="dfn" href="#feature-policy-aware" id="ref-for-feature-policy-aware-1">feature-policy-aware</a> is considered <dfn data-dfn-type="dfn" data-noexport="" id="feature-policy-oblivious">feature-policy-oblivious<a class="self-link" href="#feature-policy-oblivious"></a></dfn>.</p>
+    attributes as a JSON string.</p>
+     <p>A Document or WorkerGlobalScope is considered <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-policy-aware">feature-policy-aware</dfn> if it has a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-4">declared policy</a> delivered
+    via a Feature-Policy HTTP header.</p>
+     <p>A Document or WorkerGlobalScope is which is not <a data-link-type="dfn" href="#feature-policy-aware" id="ref-for-feature-policy-aware-1">feature-policy-aware</a> is considered <dfn data-dfn-type="dfn" data-noexport="" id="feature-policy-oblivious">feature-policy-oblivious<a class="self-link" href="#feature-policy-oblivious"></a></dfn>.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.4" id="header-policies"><span class="secno">4.4. </span><span class="content">Header policies</span><a class="self-link" href="#header-policies"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="header-policy">header policy</dfn> is a declared policy delivered via an HTTP
-      header with the document, or in an HTML meta element in the document’s
-      HEAD. These form the document’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-1">feature policy</a>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-5">declared
-      policy</a>.</p>
+    header with the document, or in an HTML meta element in the document’s
+    HEAD. These form the document’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-1">feature policy</a>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-5">declared
+    policy</a>.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.5" id="container-policies"><span class="secno">4.5. </span><span class="content">Container policies</span><a class="self-link" href="#container-policies"></a></h3>
-     <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy-1">header policy</a>, each frame has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="container-policy">container policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-2">policy directive</a>, which
-      may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-1">container policy</a> can set by attributes on the
-      browsing context container.</p>
+     <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy-1">header policy</a>, each frame has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="container policy" data-noexport="" id="container-policy">container
+    policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-2">policy directive</a>, which may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-1">container policy</a> can set by attributes on the browsing context
+    container.</p>
      <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-2">container policy</a> for a frame influences the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-2">inherited
-      policy</a> of any document loaded into that frame. (See <a href="#define-inherited-policy">§8.8 Define an inherited policy for
-      feature</a>)</p>
+    policy</a> of any document loaded into that frame. (See <a href="#define-inherited-policy">§8.8 Define an inherited policy for
+    feature</a>)</p>
      <div class="note" role="note"> Currently, the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-3">container policy</a> cannot be set directly, but is
-        indirectly set by <code>iframe</code> "<a href="#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>", "<a href="#iframe-allowpaymentrequest-attribute"><code>allowpaymentrequest</code></a>", and
-        "<a href="#iframe-allow-attribute"><code>allow</code></a>"
-        attributes. Future revisions to this spec may introduce a mechanism to
-        explicitly declare the full <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-4">container policy</a>. </div>
+      indirectly set by <code>iframe</code> "<a href="#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
+      "<a href="#iframe-allowpaymentrequest-attribute"><code>allowpaymentrequest</code></a>",
+      and "<a href="#iframe-allow-attribute"><code>allow</code></a>"
+      attributes. Future revisions to this spec may introduce a mechanism to
+      explicitly declare the full <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-4">container policy</a>. </div>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.6" id="policy-directives"><span class="secno">4.6. </span><span class="content">Policy directives</span><a class="self-link" href="#policy-directives"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="policy directive|policy directives" data-noexport="" id="policy-directive">policy
-      directive</dfn> is a dictionary, mapping <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-1">feature names</a> to
-      corresponding <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-2">whitelists</a> of origins.</p>
+    directive</dfn> is a dictionary, mapping <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-1">feature names</a> to
+    corresponding <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-2">allowlists</a> of origins.</p>
      <p>The following sections define the set of known <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-2">feature names</a>.
-      Future versions of this document may define additional such names and
-      user agents MUST ignore policy directives with unrecognized names when
-      parsing the policy.</p>
+    Future versions of this document may define additional such names, as user
+    agents ignore policy directives with unrecognized names when parsing the
+    policy.</p>
     </section>
     <section>
-     <h3 class="heading settled" data-level="4.7" id="whitelists"><span class="secno">4.7. </span><span class="content">Whitelists</span><a class="self-link" href="#whitelists"></a></h3>
-     <p>A feature policy <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="whitelist|whitelists" data-noexport="" id="whitelist">whitelist</dfn> is a set of origins. A <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-3">whitelist</a> may be <em>empty</em>, in which
-      case it does not match any origin, or it may contain a list of origins,
-      or it may match every origin. When defining a whitelist in a policy, the
-      special origin "self" may be used, which refers to the origin of document
-      which the policy is associated with.</p>
-     <p>A <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-4">whitelist</a> <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="matches">matches</dfn> an origin <var>o</var> if it
-      matches every origin, or if it contains an origin which is [same
-      origin-domain] with <var>o</var>.</p>
+     <h3 class="heading settled" data-level="4.7" id="allowlists"><span class="secno">4.7. </span><span class="content">Allowlists</span><a class="self-link" href="#allowlists"></a></h3>
+     <p>A feature policy <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="allowlist|allowlists" data-noexport="" id="allowlist">allowlist</dfn> is
+    a set of origins. An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-3">allowlist</a> may be <em>empty</em>, in which case
+    it does not match any origin, or it may contain a list of origins, or it
+    may match every origin. When defining an allowlist in a policy, the special
+    origin "self" may be used, which refers to the origin of document which the
+    policy is associated with.</p>
+     <p>An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-4">allowlist</a> <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="matches">matches</dfn> an origin <var>o</var> if it
+    matches every origin, or if it contains an origin which is [same
+    origin-domain] with <var>o</var>.</p>
     </section>
     <section>
-     <h3 class="heading settled" data-level="4.8" id="default-whitelists"><span class="secno">4.8. </span><span class="content">Default Whitelists</span><a class="self-link" href="#default-whitelists"></a></h3>
-     <p>Every feature controlled by policy has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="default whitelist|default whitelists" data-noexport="" id="default-whitelist">default whitelist</dfn>, which is
-      a <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-5">whitelist</a>. The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-1">default whitelist</a> controls the origins
-      which are allowed to access the feature when used in a top-level document
-      with no declared policy, and also determines whether access to a feature
-      is automatically delegated to child documents.</p>
-     <p>Features are currently defined to have one of these three <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-2">default
-      whitelists</a>:</p>
+     <h3 class="heading settled" data-level="4.8" id="default-allowlists"><span class="secno">4.8. </span><span class="content">Default Allowlists</span><a class="self-link" href="#default-allowlists"></a></h3>
+     <p>Every feature controlled by policy has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="default allowlist|default allowlists" data-noexport="" id="default-allowlist">default allowlist</dfn>, which is an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-5">allowlist</a>. The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-1">default allowlist</a> controls the origins which
+    are allowed to access the feature when used in a top-level document with no
+    declared policy, and also determines whether access to a feature is
+    automatically delegated to child documents.</p>
+     <p>Features are currently defined to have one of these three <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-2">default
+    allowlists</a>:</p>
      <dl>
       <dt>["<code>*</code>"]
-      <dd>The feature is allowed at the top level by default, and when
-        allowed, is allowed by default to documents in child frames.
+      <dd>The feature is allowed at the top level by default, and when allowed,
+      is allowed by default to documents in child frames.
       <dt>["<code>self</code>"]
-      <dd>The feature is allowed at the top level by default, and when
-        allowed, is allowed by default to same-origin domain documents in child
-        frames, but is disallowed by default in cross-origin documents in child
-        frames.
+      <dd>The feature is allowed at the top level by default, and when allowed,
+      is allowed by default to same-origin domain documents in child frames,
+      but is disallowed by default in cross-origin documents in child
+      frames.
       <dt>[]
       <dd>The feature is disallowed at the top level by default, and is also
-        disallowed by default to documents in child frames.
+      disallowed by default to documents in child frames.
      </dl>
     </section>
    </section>
@@ -1766,8 +1772,8 @@ browser features and APIs within their application:</p>
     <h2 class="heading settled" data-level="5" id="serialization"><span class="secno">5. </span><span class="content">Feature Policy Serialization</span><a class="self-link" href="#serialization"></a></h2>
     <section>
      <h3 class="heading settled" data-level="5.1" id="json-serialization"><span class="secno">5.1. </span><span class="content">JSON serialization</span><a class="self-link" href="#json-serialization"></a></h3>
-     <p>Declared Policies are represented in HTTP headers and in HTML
-      attributes as JSON strings.</p>
+     <p>Declared Policies are represented in HTTP headers and in HTML attributes
+    as JSON strings.</p>
      <div class="railroad">
       <svg class="railroad-diagram" height="237" viewBox="0 0 900 237" width="900">
        <g transform="translate(.5 .5)">
@@ -2018,59 +2024,56 @@ browser features and APIs within their application:</p>
       </svg>
      </div>
      <div class="issue" id="issue-8b739ef1"><a class="self-link" href="#issue-8b739ef1"></a> Define origin, feature-name here. </div>
-     <div class="note" role="note"> The string "<code>self</code>" may be used as an origin in a whitelist.
-        When it is used in this way, it will refer to the origin of the
-        document which contains the feature policy. </div>
+     <div class="note" role="note"> The string "<code>self</code>" may be used as an origin in an allowlist.
+      When it is used in this way, it will refer to the origin of the document
+      which contains the feature policy. </div>
      <div class="note" role="note"> The begin-array and end-array marks ("[" and "]") are semantically part
-        of the JSON representation of the declared policy, but they do not
-        appear in the HTTP headers or meta elements. Those characters are added
-        to the HTTP headers before parsing, so that the entire set of
-        concatenated headers are parsed as a single array. </div>
+      of the JSON representation of the declared policy, but they do not appear
+      in the HTTP headers or meta elements. Those characters are added to the
+      HTTP headers before parsing, so that the entire set of concatenated
+      headers are parsed as a single array. </div>
     </section>
    </section>
    <section>
     <h2 class="heading settled" data-level="6" id="delivery"><span class="secno">6. </span><span class="content">Delivery</span><a class="self-link" href="#delivery"></a></h2>
     <section>
-     <h3 class="heading settled" data-level="6.1" id="feature-policy-http-header-field"><span class="secno">6.1. </span><span class="content">Feature-Policy HTTP Header Field</span><a class="self-link" href="#feature-policy-http-header-field"></a></h3>
-     <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-policy0">Feature-Policy</dfn> HTTP header field can be used in the
-      [response] (server to client) to communicate the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-2">feature policy</a> that should be enforced by the client.</p>
-     <p>The header’s value is the <a href="#json-serialization">§5.1 JSON serialization</a> of the elements of
-      the <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-6">declared policy</a>:</p>
-     <div class="issue" id="issue-bac4e7a6"><a class="self-link" href="#issue-bac4e7a6"></a> Define this without reference to the abandoned JFV proposal. Consider
-        changing the "array of dictionaries" semantics required by JFV to a
-        single dictionary, for simplicity. </div>
+     <h3 class="heading settled" data-level="6.1" id="feature-policy-http-header-field"><span class="secno">6.1. </span><span class="content">Feature-Policy HTTP Header
+    Field</span><a class="self-link" href="#feature-policy-http-header-field"></a></h3>
+     <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="feature-policy-header" data-noexport="" id="feature-policy-header">Feature-Policy</dfn> HTTP header field can be used in the
+    [response] (server to client) to communicate the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-2">feature policy</a> that
+    should be enforced by the client.</p>
+     <p>The header’s value is the <a href="#json-serialization">§5.1 JSON serialization</a> of the
+    elements of the <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-6">declared policy</a>:</p>
 <pre class="abnf">FeaturePolicy = 1#json-field-value
           ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
 </pre>
-     <p>When the user agent receives a <code>Feature-Policy</code> header
-      field, it MUST <a href="#process-response-policy">process</a> and <a data-link-type="dfn" href="#enforce" id="ref-for-enforce-1">enforce</a> the serialized policy as described in <a href="#integration-with-html">§7.1 Integration with HTML</a>.</p>
+     <p>When the user agent receives a <code>Feature-Policy</code> header field,
+    it MUST <a href="#process-response-policy">process</a> and <a data-link-type="dfn" href="#enforce" id="ref-for-enforce-1">enforce</a> the serialized policy as described in <a href="#integration-with-html">§7.1 Integration with HTML</a>.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.2" id="feature-policy-meta-element"><span class="secno">6.2. </span><span class="content">The <code>meta</code> element</span><a class="self-link" href="#feature-policy-meta-element"></a></h3>
      <p>A [Document] may deliver a policy via one or more HTML [meta] elements
-      whose [http-equiv] attributes are an [ASCII case-insensitive] match for
-      the string "<code>Feature-Policy</code>". For example:</p>
-<pre class="example" id="example-2adb7232"><a class="self-link" href="#example-2adb7232"></a>    &lt;meta http-equiv="Feature-Policy"
-content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
-</pre>
+    whose [http-equiv] attributes are an [ASCII case-insensitive] match for the
+    string "<code>Feature-Policy</code>". For example:</p>
+<pre class="example" id="example-64676863"><a class="self-link" href="#example-64676863"></a>&lt;meta http-equiv="Feature-Policy" content='{"webrtc": [], "geolocation": ["https://example.com"]}'></pre>
      <p>The <code>meta</code> policy is processed as defined in <a href="#process-meta-policy">§7.1.1 Process meta policy</a> and modifications to the
-      [content][meta-content] attribute of a <code>meta</code> element after
-      the element has been parsed MUST be ignored.</p>
-     <p>To ensure that the policy can be applied before any scripts are able
-      to execute within the [Document]'s [browsing context], the following
-      restrictions apply to <code>meta</code> policy:</p>
+    [content][meta-content] attribute of a <code>meta</code> element after the
+    element has been parsed MUST be ignored.</p>
+     <p>To ensure that the policy can be applied before any scripts are able to
+    execute within the [Document]'s [browsing context], the following
+    restrictions apply to <code>meta</code> policy:</p>
      <ul>
       <li>The elements containing the <code>meta</code> policy MUST be
-        serialized completely within the first 1024 bytes of the document.
+      serialized completely within the first 1024 bytes of the document.
       <li>The elements containing the <code>meta</code> policy MUST appear
-        before any [script] or [link] elements.
+      before any [script] or [link] elements.
      </ul>
      <div class="note" role="note"> Since JSON serialization requires U+0022 QUOTATION MARK as a string
-        delimiter, it is recommended that the [content][meta-content] attribute
-        of the Feature Policy [meta] tag be delimited with U+0027 APOSTROPHE,
-        to avoid having to encode JSON delimeters as "<code>&amp;quot;</code>" </div>
-     <div class="issue" id="issue-dfe222d2"><a class="self-link" href="#issue-dfe222d2"></a> TODO: Ensure that inserting this element after scripts can run has no
-        effect. </div>
+      delimiter, it is recommended that the [content][meta-content] attribute
+      of the Feature Policy [meta] tag be delimited with U+0027 APOSTROPHE, to
+      avoid having to encode JSON delimeters as "<code>&amp;quot;</code>" </div>
+     <div class="issue" id="issue-7c854c21"><a class="self-link" href="#issue-7c854c21"></a> TODO: Ensure that inserting this element after scripts can run has no
+      effect. </div>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.3" id="iframe-allow-attribute"><span class="secno">6.3. </span><span class="content">The <code>allow</code> attribute of the <code>iframe</code> element</span><a class="self-link" href="#iframe-allow-attribute"></a></h3>
@@ -2078,130 +2081,113 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
     [<a class="nv idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/scripting.html#cereactions">CEReactions</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject">SameObject</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards">PutForwards</a>=<a class="n idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value">value</a>] <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist">DOMTokenList</a> <dfn class="nv idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMTokenList" id="dom-htmliframeelement-allow">allow<a class="self-link" href="#dom-htmliframeelement-allow"></a></dfn>;
 };</pre>
      <p>Iframe elements have an "<code>allow</code>" attribute, which contains
-      an unordered set of unique space-separated tokens that are ASCII
-      case-insensitive. The allowed values are names of features. Unrecognized
-      values must be ignored.</p>
-     <p>When not empty, the "<code>allow</code>" attribute will result in
-      adding a <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-6">whitelist</a> for each recognized feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-5">container policy</a>, when it is contructed.</p>
-     <p>The <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-7">whitelist</a> will contain a single origin, which is the origin
-      of URL in the iframe’s <code>src</code> attribute.</p>
+    an unordered set of unique space-separated tokens that are ASCII
+    case-insensitive. The allowed values are names of features. Unrecognized
+    values must be ignored.</p>
+     <p>When not empty, the "<code>allow</code>" attribute will result in adding
+    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-6">allowlist</a> for each recognized feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-5">container
+    policy</a>, when it is contructed.</p>
+     <p>The <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-7">allowlist</a> will contain a single origin, which is the origin
+    of URL in the iframe’s <code>src</code> attribute.</p>
     </section>
     <section>
-     <h3 class="heading settled" data-level="6.4" id="legacy-attributes"><span class="secno">6.4. </span><span class="content">Additional attributes to support legacy features</span><a class="self-link" href="#legacy-attributes"></a></h3>
+     <h3 class="heading settled" data-level="6.4" id="legacy-attributes"><span class="secno">6.4. </span><span class="content">Additional attributes to support legacy
+    features</span><a class="self-link" href="#legacy-attributes"></a></h3>
      <p>Some features controlled by Feature Policy have existing iframe
-      attributes defined. This specification redefines these attributes to act
-      as declared policies for the iframe element.</p>
+    attributes defined. This specification redefines these attributes to act as
+    declared policies for the iframe element.</p>
      <section>
       <h4 class="heading settled" data-level="6.4.1" id="iframe-allowfullscreen-attribute"><span class="secno">6.4.1. </span><span class="content">allowfullscreen</span><a class="self-link" href="#iframe-allowfullscreen-attribute"></a></h4>
-      <p>The "<code>allowfullscreen</code>" iframe attribute controls access
-        to [Fullscreen interface].</p>
+      <p>The "<code>allowfullscreen</code>" iframe attribute controls access to
+      [Fullscreen interface].</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
-        value contains the token "<code>fullscreen</code>", then the
-        "<code>allowfullscreen</code> attribute should have no effect.</p>
-      <p>Otherwise, the presence of an "allowfullscreen" attribute on an
-        iframe will result in adding a <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-8">whitelist</a> of ["<code>*</code>"]
-        for the "fullscreen" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-6">container policy</a>,
-        when it is constructed.</p>
+      value contains the token "<code>fullscreen</code>", then the
+      "<code>allowfullscreen</code> attribute should have no effect.</p>
+      <p>Otherwise, the presence of an "allowfullscreen" attribute on an iframe
+      will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-8">allowlist</a> of ["<code>*</code>"] for the
+      "fullscreen" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-6">container policy</a>, when it is
+      constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
-          allow="fullscreen"></code>, and is for compatibility with existing
-          uses of <code>allowfullscreen</code>. If <code>allow="fullscreen"</code> and <code>allowfullscreen</code> are
-          both present on an iframe element, then the more restrictive
-          whitelist of <code>allow="fullscreen"</code> will be used. </div>
+        allow="fullscreen"></code>, and is for compatibility with existing
+        uses of <code>allowfullscreen</code>. If <code>allow="fullscreen"</code> and <code>allowfullscreen</code> are
+        both present on an iframe element, then the more restrictive allowlist
+        of <code>allow="fullscreen"</code> will be used. </div>
      </section>
      <section>
       <h4 class="heading settled" data-level="6.4.2" id="iframe-allowpaymentrequest-attribute"><span class="secno">6.4.2. </span><span class="content">allowpaymentrequest</span><a class="self-link" href="#iframe-allowpaymentrequest-attribute"></a></h4>
       <p>The "<code>allowpaymentrequest</code>" iframe attribute controls
-        access to [Payment interface].</p>
+      access to [Payment interface].</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
-        value contains the token "<code>payment</code>", then the
-        "<code>allowpaymentrequest</code> attribute should have no effect.</p>
+      value contains the token "<code>payment</code>", then the
+      "<code>allowpaymentrequest</code> attribute should have no effect.</p>
       <p>Otherwise, the presence of an "allowpaymentrequest" attribute on an
-        iframe will result in adding a <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-9">whitelist</a> of ["<code>*</code>"]
-        for the "payment" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-7">container policy</a>, when
-        it is constructed.</p>
+      iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-9">allowlist</a> of ["<code>*</code>"] for
+      the "payment" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-7">container policy</a>, when it is
+      constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
-          allow="payment"></code>, and is for compatibility with existing
-          uses of <code>allowpaymentrequest</code>. If <code>allow="payment"</code> and <code>allowpaymentrequest</code> are
-          both present on an iframe element, then the more restrictive
-          whitelist of <code>allow="payment"</code> will be used. </div>
+        allow="payment"></code>, and is for compatibility with existing uses
+        of <code>allowpaymentrequest</code>. If <code>allow="payment"</code> and <code>allowpaymentrequest</code> are both present on an iframe
+        element, then the more restrictive allowlist of <code>allow="payment"</code> will be used. </div>
      </section>
     </section>
    </section>
    <section>
     <h2 class="heading settled" data-level="7" id="integrations"><span class="secno">7. </span><span class="content">Integrations</span><a class="self-link" href="#integrations"></a></h2>
-    <p>This document defines a set of algorithms which other specifications
-    will use in order to implement the restrictions which Feature Policy
-    defines. The integrations are outlined here for clarity, but those external
-    documents are the normative references which ought to be consulted for
-    detailed information.</p>
+    <p>This document defines a set of algorithms which other specifications will
+  use in order to implement the restrictions which Feature Policy defines. The
+  integrations are outlined here for clarity, but those external documents are
+  the normative references which ought to be consulted for detailed
+  information.</p>
     <section>
      <h3 class="heading settled" data-level="7.1" id="integration-with-html"><span class="secno">7.1. </span><span class="content">Integration with HTML</span><a class="self-link" href="#integration-with-html"></a></h3>
      <ol>
-      <li> <code>Document</code> and <code>WorkerGlobalScope</code> objects have
-          a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-3">Feature Policy</a>, which is populated via the <a href="#initialize-for-global">§8.7 Initialize global’s Feature
-      Policy from response</a> algorithm that is called during the
-          "Initialising a new <code>Document</code> object" and "Run a Worker"
-          algorithms. 
+      <li> <code>Document</code> and <code>WorkerGlobalScope</code> objects have a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-3">Feature Policy</a>, which is populated via the <a href="#initialize-for-global">§8.7 Initialize global’s Feature
+    Policy from response</a> algorithm that is called during the
+        "Initialising a new <code>Document</code> object" and "Run a Worker"
+        algorithms. 
       <li>
        Replace the existing step 12 of "Initialising a new <code>Document</code> object" with the following step: 
        <ul>
-        <li> <a href="#initialize-for-global">Initialize the feature
-              policy</a> for the <code>Document</code> 
+        <li> <a href="#initialize-for-global">Initialize the feature policy</a> for the <code>Document</code> 
        </ul>
-      <li>A <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-4">feature policy</a> is <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="enforce" data-noexport="" id="enforce">enforced</dfn> for a [global object] by setting it as the [global object]'s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-5">Feature
-        Policy</a>. 
-      <li>
-       <p>The "[prepare a script]" algorithm calls into <a href="#is-feature-enabled">§8.9 Is feature enabled in
-      global for origin?</a> algorithm to determine whether or not to
-          execute a script, as follows:</p>
-       <ol>
-        <li>
-         Add the following step before the current step 10 (which is the
-            first of several "disabled" checks): 
-         <ul>
-          <li>If the <code>script</code> element’s
-                "<code>non-blocking</code>" flag is unset, the <code>script</code>’s type is "<code>classic</code>", and the <a href="#is-feature-enabled">§8.9 Is feature enabled in
-      global for origin?</a> algorithm returns
-                "<code>Disabled</code>" when executed upon the <code>script</code> element’s node document’s global object for
-                the feature "<code>sync-script</code>", then abort these steps
-                at this point. The script is not executed. 
-         </ul>
-       </ol>
+      <li>A <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-4">feature policy</a> is <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="enforce" data-noexport="" id="enforce">enforced</dfn> for
+      a [Document] or [WorkerGlobalScope] by setting it as the [Document] or
+      [WorkerGlobalScope]'s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-5">Feature Policy</a>. 
       <li>
        <p>The "[allowed to use]" algorithm calls into <a href="#is-feature-enabled">§8.9 Is feature enabled in
-      global for origin?</a>, as follows:</p>
+    global for origin?</a>, as follows:</p>
        <ol>
         <li>
          Replace the current steps #3 and #4 with the following step: 
          <ul>
-          <li>If <code>Document</code>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-6">feature policy</a> enables
-                the feature indicated by <code>allowattribute</code> for the
-                origin of <code>Document</code>, then return true. 
+          <li>If <code>Document</code>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-6">feature policy</a> enables the
+              feature indicated by <code>allowattribute</code> for the origin
+              of <code>Document</code>, then return true. 
          </ul>
        </ol>
      </ol>
-     <div class="issue" id="issue-15bcbd0e"><a class="self-link" href="#issue-15bcbd0e"></a> Monkey-patching! As soon as we know that this is the direction we wish
-        to pursue, upstream all of this. </div>
+     <div class="issue" id="issue-7605d231"><a class="self-link" href="#issue-7605d231"></a> Monkey-patching! As soon as we know that this is the direction we wish to
+      pursue, upstream all of this. </div>
      <section>
       <h4 class="heading settled" data-level="7.1.1" id="process-meta-policy"><span class="secno">7.1.1. </span><span class="content">Process meta policy</span><a class="self-link" href="#process-meta-policy"></a></h4>
       <div class="note" role="note"> This section extends HTML’s <code>meta</code> [pragma directives]. </div>
-      <strong>Feature policy state
-        (http-equiv="feature-policy")</strong> 
-      <p>This pragma extends the declared feature policy for a
-        [Document].</p>
+      <strong>Feature policy state (http-equiv="feature-policy")</strong> 
+      <p>This pragma extends the declared feature policy for a [Document].</p>
       <ol>
        <li>If the [meta] element has no [content] attribute, or if that
-          attribute’s value is the empty string, then abort these steps.
+        attribute’s value is the empty string, then abort these steps.
        <li>If the [meta] element is not being inserted in into the
-          [Document]'s [head] element, or if is inserted after any [script] or
-          [link] elements, then abort these steps.
+        [Document]'s [head] element, or if is inserted after any [script] or
+        [link] elements, then abort these steps.
        <li>Let document be the meta element’s node document
        <li>Let <var>value</var> be the result of parsing the value of [meta]
-          element’s [content] attribute with a [JSON parser].
+        element’s [content] attribute with a [JSON parser].
        <li>If parsing returns an error, or <var>value</var> is not a [JSON
-          object], then abort these steps.
-       <li>Let <var>directive</var> be the result of running <a href="#parse-policy-directive">§8.3 Parse policy directive from value and origin</a> on <var>value</var> and <var>document</var>’s [origin]. 
-       <li>Run <a href="#merge-directive-with-declared-policy">§8.4 Merge directive with declared policy</a> with <var>directive</var> and document’s feature policy’s declared policy 
+        object], then abort these steps.
+       <li>Let <var>directive</var> be the result of running <a href="#parse-policy-directive">§8.3 Parse policy directive from
+    value and origin</a> on <var>value</var> and <var>document</var>’s [origin]. 
+       <li>Run <a href="#merge-directive-with-declared-policy">§8.4 Merge directive with declared
+    policy</a> with <var> directive</var> and document’s feature policy’s declared policy 
       </ol>
      </section>
     </section>
@@ -2211,38 +2197,40 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
     <section>
      <h3 class="heading settled" data-level="8.1" id="process-response-policy"><span class="secno">8.1. </span><span class="content">Process response policy</span><a class="self-link" href="#process-response-policy"></a></h3>
      <p>Given a [response] (<var>response</var>) and [global object]
-      (<var>global</var>), this algorithm returns a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-7">declared feature
-      policy</a>.</p>
+    (<var>global</var>), this algorithm returns a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-7">declared feature
+    policy</a>.</p>
      <ol>
-      <li>Abort these steps if the <var>response</var>’s [header list] does
-        not contain a [header] whose [name] is
-        "<code>Feature-Policy</code>".
+      <li>Abort these steps if the <var>response</var>’s [header list] does not
+      contain a [header] whose [name] is "<code>Feature-Policy</code>".
       <li>Let <var>header</var> be the concatenation of the [value]s of all
-        [header] fiels in <var>response</var>’s [header list] whose name is
-        "<code>Feature-Policy</code>", according to [RFC7230, 3.2.2]
+      [header] fields in <var>response</var>’s [header list] whose name is
+      "<code>Feature-Policy</code>", separated by commas (according to
+      [RFC7230, 3.2.2]).
       <li>Add a leading "[" U+005B character, and a trailing "]" U+005D
-        character to <var>header</var>.
-      <li>Let <var>feature policy</var> be the result of executing <a href="#parse-header">§8.2 Parse header from value and origin</a> on <var>header</var> and <var>global</var>’s origin. 
+      character to <var>header</var>.
+      <li>Let <var>feature policy</var> be the result of executing <a href="#parse-header">§8.2 Parse header from value and
+    origin</a> on <var>header</var> and <var>global</var>’s origin. 
       <li>Return <var>feature policy</var>.
      </ol>
     </section>
     <section>
      <h3 class="heading settled" data-level="8.2" id="parse-header"><span class="secno">8.2. </span><span class="content">Parse header from <var>value</var> and <var>origin</var></span><a class="self-link" href="#parse-header"></a></h3>
      <p>Given a string (<var>value</var>) and an [origin] (<var>origin</var>)
-      this algorithm will return a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-8">declared feature policy</a>.</p>
+    this algorithm will return a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-8">declared feature policy</a>.</p>
      <ol>
       <li>Let <var>policy</var> be an empty list.
-      <li>Let <var>list</var> be the result of parsing <var>value</var> with
-        a [JSON Parser]. If <var>value</var> cannot be parsed, return <var>policy</var>.
+      <li>Let <var>list</var> be the result of parsing <var>value</var> with a
+      [JSON Parser]. If <var>value</var> cannot be parsed, return <var>policy</var>.
       <li>Note: If <var>value</var> can be parsed, <var>list</var> must be a
-        valid [JSON Array].
+      valid [JSON Array].
       <li>
        For each <var>element</var> in <var>list</var>: 
        <ol>
-        <li>If <var>element</var> is not a JSON object, skip these steps
-            and continue with the next element.
-        <li>Let <var>directive</var> be the result of executing <a href="#parse-policy-directive">§8.3 Parse policy directive from value and origin</a> on <var>element</var> and <var>origin</var> 
-        <li>Run <a href="#merge-directive-with-declared-policy">§8.4 Merge directive with declared policy</a> on <var>directive</var> and <var>policy</var>. 
+        <li>If <var>element</var> is not a JSON object, then continue.
+        <li>Let <var>directive</var> be the result of executing <a href="#parse-policy-directive">§8.3 Parse policy directive from
+    value and origin</a> on <var>element</var> and <var>origin</var> 
+        <li>Run <a href="#merge-directive-with-declared-policy">§8.4 Merge directive with declared
+    policy</a> on <var> directive</var> and <var>policy</var>. 
        </ol>
       <li>Return <var>policy</var>.
      </ol>
@@ -2250,56 +2238,57 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
     <section>
      <h3 class="heading settled" data-level="8.3" id="parse-policy-directive"><span class="secno">8.3. </span><span class="content">Parse policy directive from <var>value</var> and <var>origin</var></span><a class="self-link" href="#parse-policy-directive"></a></h3>
      <p>Given a JSON object (<var>value</var>) and an [origin]
-      (<var>origin</var>) this algorithm will return a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-3">policy
-      directive</a>.</p>
+    (<var>origin</var>) this algorithm will return a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-3">policy
+    directive</a>.</p>
      <ol>
-      <li>Let <var>directive</var> be a new dictionary, mapping features to <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-10">whitelist</a>s. 
+      <li>Let <var>directive</var> be a new dictionary, mapping features to <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-10">allowlist</a>s. 
       <li>
        For each <var>key</var> and associated <var>targetlist</var> in <var>value</var>: 
        <ol>
         <li>If <var>key</var> is not equal to the name of any recognized
-            feature, abort these steps and continue with the next <var>key</var> and <var>targetlist</var>.
+          feature, then continue.
         <li>Let <var>feature</var> be the feature named by <var>key</var>.
-        <li>If <var>targetlist</var> is not an array, abort these steps and
-            continue with the next <var>key</var> and <var>targetlist</var>.
-        <li>Let <var>whitelist</var> be a new <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-11">whitelist</a>. 
+        <li>If <var>targetlist</var> is not an array, then continue.
+        <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-11">allowlist</a>. 
         <li>If <var>targetlist</var> contains the string "<code>*</code>",
-            set <var>whitelist</var> to match every origin.
+          set <var>allowlist</var> to match every origin.
         <li>
          Otherwise, for each <var>element</var> in <var>targetlist</var>: 
          <ol>
-          <li>If <var>element</var> is an ASCII case-insensitive match
-                for "<code>self</code>", let result be <var>origin</var>.
+          <li>If <var>element</var> is an ASCII case-insensitive match for
+              "<code>self</code>", let result be <var>origin</var>.
           <li>Otherwise, let <var>result</var> be the result of executing
-                the URL parser on <var>element</var>.
+              the URL parser on <var>element</var>.
           <li>
            If <var>result</var> is not failure: 
            <ol>
             <li>Let <var>target</var> be the origin of <var>result</var>.
-            <li>If <var>target</var> is not an opaque origin, append <var>target</var> to <var>whitelist</var>.
+            <li>If <var>target</var> is not an opaque origin, append <var>target</var> to <var>allowlist</var>.
            </ol>
          </ol>
-        <li>Insert <var>whitelist</var> into <var>directive</var> as the
-            value for the key <var>feature</var>.
+        <li>Insert <var>allowlist</var> into <var>directive</var> as the
+          value for the key <var>feature</var>.
        </ol>
       <li>Return <var>directive</var>
      </ol>
     </section>
     <section>
-     <h3 class="heading settled" data-level="8.4" id="merge-directive-with-declared-policy"><span class="secno">8.4. </span><span class="content">Merge directive with declared policy</span><a class="self-link" href="#merge-directive-with-declared-policy"></a></h3>
+     <h3 class="heading settled" data-level="8.4" id="merge-directive-with-declared-policy"><span class="secno">8.4. </span><span class="content">Merge directive with declared
+    policy</span><a class="self-link" href="#merge-directive-with-declared-policy"></a></h3>
      <p>Given a policy direcive (<var>directive</var>) and a declared policy
-      (<var>policy</var>), this algorithm will modify <var>policy</var> to
-      account for the new directive.</p>
+    (<var>policy</var>), this algorithm will modify <var>policy</var> to
+    account for the new directive.</p>
      <ol>
       <li>
-       For each <var>feature</var> and associated <var>whitelist</var> in <var>directive</var>: 
+       For each <var>feature</var> and associated <var>allowlist</var> in <var>directive</var>: 
        <ol>
-        <li>If <var>policy</var> does not contain a whitelist for <var>feature</var>, then add <var>whitelist</var> to <var>policy</var> as the whitelist for <var>feature</var>.
+        <li>If <var>policy</var> does not contain an allowlist for <var>feature</var>, then add <var>allowlist</var> to <var>policy</var> as the allowlist for <var>feature</var>.
        </ol>
      </ol>
     </section>
     <section>
-     <h3 class="heading settled" data-level="8.5" id="process-feature-policy-attributes"><span class="secno">8.5. </span><span class="content">Process feature policy attributes</span><a class="self-link" href="#process-feature-policy-attributes"></a></h3>
+     <h3 class="heading settled" data-level="8.5" id="process-feature-policy-attributes"><span class="secno">8.5. </span><span class="content">Process feature policy
+    attributes</span><a class="self-link" href="#process-feature-policy-attributes"></a></h3>
      <p>Given an element <var>element</var>, this algorithm returns a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-9">declared feature policy</a>, which may be empty.</p>
      <ol>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-4">policy directive</a>. 
@@ -2308,10 +2297,10 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
        For each <var>feature</var> in <var>valid-features</var>: 
        <ol>
         <li>
-         If <var>policy</var> does not contain a whitelist for <var>feature</var>: 
+         If <var>policy</var> does not contain an allowlist for <var>feature</var>: 
          <ol>
           <li>Construct a new declaration for <var>feature</var>, whose
-                whitelist is <var>origin</var>.
+              allowlist is <var>origin</var>.
           <li>Add <var>declaration</var> to <var>policy</var>.
          </ol>
        </ol>
@@ -2319,20 +2308,19 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
        If <var>element</var> is an [iframe element]: 
        <ol>
         <li>
-         If <var>element</var>’s <code>allowfullscreen</code> attribute
-            is specified, and <var>policy</var> does not contain a whitelist
-            for <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-1">fullscreen</a>, 
+         If <var>element</var>’s <code>allowfullscreen</code> attribute is
+          specified, and <var>policy</var> does not contain an allowlist for <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-1">fullscreen</a>, 
          <ol>
           <li>Construct a new declaration for <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-2">fullscreen</a>, whose
-                whitelist matches all origins. 
+              allowlist matches all origins. 
           <li>Add <var>declaration</var> to <var>policy</var>.
          </ol>
         <li>
-         If <var>element</var>’s <code>allowpaymentrequest</code> attribute is specified, and <var>policy</var> does not contain a
-            whitelist for <a data-link-type="dfn" href="#payment" id="ref-for-payment-1">payment</a>, 
+         If <var>element</var>’s <code>allowpaymentrequest</code> attribute is specified, and <var>policy</var> does not contain an
+          allowlist for <a data-link-type="dfn" href="#payment" id="ref-for-payment-1">payment</a>, 
          <ol>
           <li>Construct a new declaration for <a data-link-type="dfn" href="#payment" id="ref-for-payment-2">payment</a>, whose
-                whitelist matches all origins. 
+              allowlist matches all origins. 
           <li>Add <var>declaration</var> to <var>policy</var>.
          </ol>
        </ol>
@@ -2342,17 +2330,17 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
     <section>
      <h3 class="heading settled" data-level="8.6" id="parse-allow-attribute"><span class="secno">8.6. </span><span class="content">Parse allow attribute</span><a class="self-link" href="#parse-allow-attribute"></a></h3>
      <p>Given a <var>list</var>, this algorithm returns a list of <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-3">feature
-      name keywords</a>, which may be empty.</p>
+    name keywords</a>, which may be empty.</p>
      <ol>
       <li>Let <var>valid-features</var> be an empty list.
-      <li>If <var>list</var> is <var>null</var> or empty, return <var>valid-features</var>.
+      <li>If <var>list</var> is <code>null</code> or empty, return <var>valid-features</var>.
       <li>
        For each <var>item</var> in <var>list</var>: 
        <ol>
         <li>Convert <var>item</var> to ASCII-lowercase.
         <li>
-         If <var>item</var> matches a defined <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-4">feature name</a> which
-            is not present in <var>valid-features</var>, 
+         If <var>item</var> matches a defined <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-4">feature name</a> which is
+          not present in <var>valid-features</var>, 
          <ol>
           <li>Append <var>item</var> to <var>valid-features</var>.
          </ol>
@@ -2362,9 +2350,9 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
     </section>
     <section>
      <h3 class="heading settled" data-level="8.7" id="initialize-for-global"><span class="secno">8.7. </span><span class="content">Initialize <var>global</var>’s Feature
-      Policy from <var>response</var></span><a class="self-link" href="#initialize-for-global"></a></h3>
+    Policy from <var>response</var></span><a class="self-link" href="#initialize-for-global"></a></h3>
      <p>Given a [response] (<var>response</var>) and a global object
-      (<var>global</var>), this algorithm populates <var>global</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-7">Feature Policy</a></p>
+    (<var>global</var>), this algorithm populates <var>global</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-7">Feature Policy</a></p>
      <ol>
       <li>Let <var>ips</var> set be an empty set
       <li>Let <var>dps</var> set be an empty set.
@@ -2372,7 +2360,7 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
        For each <var>feature</var> supported, 
        <ol>
         <li>Let <var>i</var> be the result of running <a href="#define-inherited-policy">§8.8 Define an inherited policy for
-      feature</a> on <var>feature</var> and <var>global</var> 
+    feature</a> on <var>feature</var> and <var>global</var> 
         <li>Add <var>i</var> to <var>ips</var>.
        </ol>
       <li>Let <var>d</var> be the result of executing <a href="#process-response-policy">§8.1 Process response policy</a> on <var>response</var> and <var>global</var>. 
@@ -2381,28 +2369,28 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
        <ol>
         <li>if the inherited policy in <var>ips</var> for <var>directive</var>’s feature is true, then add <var>d</var> to <var>dps</var>
        </ol>
-      <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-8">feature policy</a>, with
-        inherited policy set <var>ihs</var> and declared policy set <var>dps</var>. 
+      <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-8">feature policy</a>, with inherited
+      policy set <var>ips</var> and declared policy set <var>dps</var>. 
       <li> <a data-link-type="dfn" href="#enforce" id="ref-for-enforce-2">Enforce</a> the policy <var>policy</var>. 
      </ol>
     </section>
     <section>
      <h3 class="heading settled" data-level="8.8" id="define-inherited-policy"><span class="secno">8.8. </span><span class="content">Define an inherited policy for <var>feature</var></span><a class="self-link" href="#define-inherited-policy"></a></h3>
      <p>Given a string (<var>feature</var>) and a browsing context
-      (<var>context</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-3">inherited policy</a> for that feature.</p>
+    (<var>context</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-3">inherited policy</a> for that feature.</p>
      <ol>
       <li>
        If <var>context</var> is a [nested browsing context]: 
        <ol>
-        <li>let <var>parent</var> be <var>context</var>’s parent browsing
-            context’s active document.
-        <li>Let <var>container policy</var> be the result of running <a href="#process-feature-policy-attributes">§8.5 Process feature policy attributes</a> on <var>context</var>’s
-            browsing context container. 
+        <li>Let <var>parent</var> be <var>context</var>’s parent browsing
+          context’s active document.
+        <li>Let <var>origin</var> be <var>parent</var>’s [origin]
+        <li>Let <var>container policy</var> be the result of running <a href="#process-feature-policy-attributes">§8.5 Process feature policy
+    attributes</a> on <var>context</var>’s browsing context container. 
         <li>
          If <var>feature</var> is a key in <var>container policy</var>: 
          <ol>
-          <li>If the <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-12">whitelist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches-1">matches</a> <var>origin</var>,
-                and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-4">inherited policy</a> for <var>feature</var> is Enabled, return Enabled. 
+          <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-12">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches-1">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-4">inherited policy</a> for <var>feature</var> is Enabled, return Enabled. 
           <li>Otherwise return Disabled.
          </ol>
         <li>Otherwise, if feature is allowed by <var>parent</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-9">feature policy</a> for <var>origin</var>, return Enabled. 
@@ -2414,23 +2402,22 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
     <section>
      <h3 class="heading settled" data-level="8.9" id="is-feature-enabled"><span class="secno">8.9. </span><span class="content">Is <var>feature</var> enabled in <var>global</var> for <var>origin</var>?</span><a class="self-link" href="#is-feature-enabled"></a></h3>
      <p>Given a string (<var>feature</var>) and a global object
-      (<var>global</var>), and an [origin] (<var>origin</var>), this algorithm
-      returns "<code>Disabled</code>" if <var>feature</var> should be
-      considered disabled, and "<code>Enabled</code>" otherwise.</p>
+    (<var>global</var>), and an [origin] (<var>origin</var>), this algorithm
+    returns "<code>Disabled</code>" if <var>feature</var> should be considered
+    disabled, and "<code>Enabled</code>" otherwise.</p>
      <ol>
       <li>Let <var>policy</var> be <var>global</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-10">Feature Policy</a> 
       <li>If <var>feature</var> is not present in <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy-set" id="ref-for-inherited-policy-set-2">inherited policy set</a>, return "<code>Disabled</code>". 
       <li>
        If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-10">declared
-        policy</a>: 
+      policy</a>: 
        <ol>
-        <li>If the <a data-link-type="dfn" href="#whitelist" id="ref-for-whitelist-13">whitelist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-11">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches-2">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
+        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-13">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-11">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches-2">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
         <li>Otherwise return "<code>Disabled</code>".
        </ol>
-      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-3">default whitelist</a> is <code>["*"]</code>, return "<code>Enabled</code>". 
-      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-4">default whitelist</a> is <code>["self"]</code>, and <var>origin</var> is [same origin-domain]
-        with <var>global</var>’s active document’s origin, return
-        "<code>Enabled</code>". 
+      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-3">default allowlist</a> is <code>["*"]</code>, return "<code>Enabled</code>". 
+      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-4">default allowlist</a> is <code>["self"]</code>, and <var>origin</var> is [same origin-domain] with <var>global</var>’s active document’s origin, return
+      "<code>Enabled</code>". 
       <li>Return "<code>Disabled</code>".
      </ol>
     </section>
@@ -2438,7 +2425,7 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
    <section>
     <h2 class="heading settled" data-level="9" id="iana-considerations"><span class="secno">9. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
     <p>The permanent message header field registry should be updated with the
-    following registration <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a>:</p>
+  following registration <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a>:</p>
     <dl>
      <dt>Header field name
      <dd>Feature-Policy
@@ -2459,17 +2446,17 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
    <section class="appendix">
     <h2 class="heading settled" data-level="11" id="features"><span class="secno">11. </span><span class="content">Features</span><a class="self-link" href="#features"></a></h2>
     <p>This appendix is a reference to currently-defined valid <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="feature" data-noexport="" id="feature">features</dfn>, their <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="feature name|feature names|feature name keyword" data-noexport="" id="feature-name">feature name
-    keywords</dfn>, and their effect when applied via a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-5">directive</a> as part of a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-11">feature policy</a>. This
-    reference is non-normative; the actual definitions are given in subsections
-    below.</p>
-    <div class="issue" id="issue-ef0f0981"><a class="self-link" href="#issue-ef0f0981"></a> As soon as possible, move the definitions to their respective controlling
-      specifications, and link to those specifications from this one. This spec
-      shouldn’t be required to enumerate every feature. </div>
+  keywords</dfn>, and their effect when applied via a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-5">directive</a> as part of a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-11">feature policy</a>. This
+  reference is non-normative; the actual definitions are given in subsections
+  below.</p>
+    <div class="issue" id="issue-e7336d80"><a class="self-link" href="#issue-e7336d80"></a> As soon as possible, move the definitions to their respective controlling
+    specifications, and link to those specifications from this one. This spec
+    shouldn’t be required to enumerate every feature. </div>
     <table>
      <thead>
       <tr>
        <th>Feature name
-       <th> <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-5">Default whitelist</a> 
+       <th> <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-5">Default allowlist</a> 
        <th>Brief description
      <tbody>
       <tr>
@@ -2511,86 +2498,86 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
     </table>
     <section>
      <h3 class="heading settled" data-level="11.1" id="feature-definitions"><span class="secno">11.1. </span><span class="content">Feature Definitions</span><a class="self-link" href="#feature-definitions"></a></h3>
-     <div class="issue" id="issue-d90015c1"><a class="self-link" href="#issue-d90015c1"></a>Replace "keyword" with "feature"; define keywords as well.</div>
+     <div class="issue" id="issue-d90015c1"><a class="self-link" href="#issue-d90015c1"></a> Replace "keyword" with "feature"; define keywords as well. </div>
      <section>
       <h4 class="heading settled" data-level="11.1.1" id="camera-feature"><span class="secno">11.1.1. </span><span class="content">camera</span><a class="self-link" href="#camera-feature"></a></h4>
       <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="camera">camera</dfn> feature controls access to video input devices
-        requested through the [NavigatorUserMedia interface]
-        (<a data-link-type="biblio" href="#biblio-mediacapture-api">[MEDIACAPTURE-API]</a>).</p>
-      <p>If disabled in a document, then calls to getUserMedia() MUST NOT
-        grant access to video input devices in that document.</p>
-      <p>The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-6">default whitelist</a> for <a data-link-type="dfn" href="#camera" id="ref-for-camera-3">camera</a> is <code>["self"]</code>.</p>
+      requested through the [NavigatorUserMedia interface]
+      (<a data-link-type="biblio" href="#biblio-mediacapture-api">[MEDIACAPTURE-API]</a>).</p>
+      <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
+      access to video input devices in that document.</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-6">default allowlist</a> for <a data-link-type="dfn" href="#camera" id="ref-for-camera-3">camera</a> is <code>["self"]</code>.</p>
      </section>
      <section>
       <h4 class="heading settled" data-level="11.1.2" id="eme-feature"><span class="secno">11.1.2. </span><span class="content">eme</span><a class="self-link" href="#eme-feature"></a></h4>
       <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="eme">eme</dfn> keyword controls whether encrypted media extensions <a data-link-type="biblio" href="#biblio-encrypted-media">[encrypted-media]</a> are available.</p>
       <p>If disabled in a document, the promise returned by
-        [requestMediaKeySystemAccess] must reject with a NotSupportedError.</p>
-      <p>The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-7">default whitelist</a> for <a data-link-type="dfn" href="#eme" id="ref-for-eme-2">eme</a> is <code>["self"]</code>.</p>
+      [requestMediaKeySystemAccess] must reject with a NotSupportedError.</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-7">default allowlist</a> for <a data-link-type="dfn" href="#eme" id="ref-for-eme-2">eme</a> is <code>["self"]</code>.</p>
      </section>
      <section>
       <h4 class="heading settled" data-level="11.1.3" id="fullscreen-feature"><span class="secno">11.1.3. </span><span class="content">fullscreen</span><a class="self-link" href="#fullscreen-feature"></a></h4>
       <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="fullscreen">fullscreen</dfn> keyword controls whether the
-        [requestFullscreen] method (<a data-link-type="biblio" href="#biblio-whatwg-fullscreen">[WHATWG-FULLSCREEN]</a>) is allowed to
-        request fullscreen.</p>
+      [requestFullscreen] method (<a data-link-type="biblio" href="#biblio-whatwg-fullscreen">[WHATWG-FULLSCREEN]</a>) is allowed to request
+      fullscreen.</p>
       <p>If disabled in any document, the document will not be allowed to use
-        fullscreen. If enabled, the document will be allowed to use
-        fullscreen.</p>
-      <p>The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-8">default whitelist</a> for <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-4">fullscreen</a> is <code>["self"]</code>.</p>
+      fullscreen. If enabled, the document will be allowed to use
+      fullscreen.</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-8">default allowlist</a> for <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-4">fullscreen</a> is <code>["self"]</code>.</p>
      </section>
      <section>
       <h4 class="heading settled" data-level="11.1.4" id="geolocation-feature"><span class="secno">11.1.4. </span><span class="content">geolocation</span><a class="self-link" href="#geolocation-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="geolocation">geolocation</dfn> keyword controls whether the current document
-        is alowed to use the [Geolocation interface]
-        (<a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a>).</p>
+      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="geolocation">geolocation</dfn> keyword controls whether the current
+      document is alowed to use the [Geolocation interface]
+      (<a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a>).</p>
       <p>If disabled in any document, calls to both getCurrentPosition and
-        watchPosition must result in the error callback being invoked with
-        PERMISSION_DENIED.</p>
-      <p>The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-9">default whitelist</a> for <a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-6">geolocation</a> is <code>["self"]</code>.</p>
+      watchPosition must result in the error callback being invoked with
+      PERMISSION_DENIED.</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-9">default allowlist</a> for <a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-6">geolocation</a> is <code>["self"]</code>.</p>
      </section>
      <section>
       <h4 class="heading settled" data-level="11.1.5" id="microphone-feature"><span class="secno">11.1.5. </span><span class="content">microphone</span><a class="self-link" href="#microphone-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="microphone">microphone</dfn> feature controls access to audio input devices
-        requested through the [NavigatorUserMedia interface]
-        (<a data-link-type="biblio" href="#biblio-mediacapture-api">[MEDIACAPTURE-API]</a>).</p>
-      <p>If disabled in a document, then calls to getUserMedia() MUST NOT
-        grant access to audio input devices in that document.</p>
-      <p>The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-10">default whitelist</a> for <a data-link-type="dfn" href="#microphone" id="ref-for-microphone-3">microphone</a> is <code>["self"]</code>.</p>
+      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="microphone">microphone</dfn> feature controls access to audio input
+      devices requested through the [NavigatorUserMedia interface]
+      (<a data-link-type="biblio" href="#biblio-mediacapture-api">[MEDIACAPTURE-API]</a>).</p>
+      <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
+      access to audio input devices in that document.</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-10">default allowlist</a> for <a data-link-type="dfn" href="#microphone" id="ref-for-microphone-3">microphone</a> is <code>["self"]</code>.</p>
      </section>
      <section>
       <h4 class="heading settled" data-level="11.1.6" id="midi-feature"><span class="secno">11.1.6. </span><span class="content">midi</span><a class="self-link" href="#midi-feature"></a></h4>
       <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="midi">midi</dfn> keyword controls whether the current document is
-        allowed to use the [requestMIDIAccess method] (<a data-link-type="biblio" href="#biblio-webmidi">[WEBMIDI]</a>).</p>
+      allowed to use the [requestMIDIAccess method] (<a data-link-type="biblio" href="#biblio-webmidi">[WEBMIDI]</a>).</p>
       <p>If disabled in a document, the promise returned by requestMIDIAccess
-        must reject with a DOMException parameter.</p>
-      <p>The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-11">default whitelist</a> for <a data-link-type="dfn" href="#midi" id="ref-for-midi-2">midi</a> is <code>["self"]</code>.</p>
+      must reject with a DOMException parameter.</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-11">default allowlist</a> for <a data-link-type="dfn" href="#midi" id="ref-for-midi-2">midi</a> is <code>["self"]</code>.</p>
      </section>
      <section>
       <h4 class="heading settled" data-level="11.1.7" id="payment-feature"><span class="secno">11.1.7. </span><span class="content">payment</span><a class="self-link" href="#payment-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="payment">payment</dfn> keyword controls whether the current document is
-        allowed to use the [PaymentRequest interface]
-        (<a data-link-type="biblio" href="#biblio-payment-request">[PAYMENT-REQUEST]</a>).</p>
-      <p>If disabled in a document, then calls to the PaymentRequest
-        constuctor MUST throw a SecurityError.</p>
-      <p>The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-12">default whitelist</a> for <a data-link-type="dfn" href="#payment" id="ref-for-payment-4">payment</a> is <code>["self"]</code>.</p>
+      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="payment">payment</dfn> keyword controls whether the current document
+      is allowed to use the [PaymentRequest interface]
+      (<a data-link-type="biblio" href="#biblio-payment-request">[PAYMENT-REQUEST]</a>).</p>
+      <p>If disabled in a document, then calls to the PaymentRequest constuctor
+      MUST throw a SecurityError.</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-12">default allowlist</a> for <a data-link-type="dfn" href="#payment" id="ref-for-payment-4">payment</a> is <code>["self"]</code>.</p>
      </section>
      <section>
       <h4 class="heading settled" data-level="11.1.8" id="speaker-feature"><span class="secno">11.1.8. </span><span class="content">speaker</span><a class="self-link" href="#speaker-feature"></a></h4>
       <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="speaker">speaker</dfn> feature controls access to audio output devices
-        requested through the [NavigatorUserMedia interface]
-        (<a data-link-type="biblio" href="#biblio-audio-output">[audio-output]</a>).</p>
-      <p>If disabled in a document, then calls to getUserMedia() MUST NOT
-        grant access to audio output devices in that document.</p>
-      <p>The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-13">default whitelist</a> for <a data-link-type="dfn" href="#speaker" id="ref-for-speaker-2">speaker</a> is <code>["self"]</code>.</p>
+      requested through the [NavigatorUserMedia interface]
+      (<a data-link-type="biblio" href="#biblio-audio-output">[audio-output]</a>).</p>
+      <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
+      access to audio output devices in that document.</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-13">default allowlist</a> for <a data-link-type="dfn" href="#speaker" id="ref-for-speaker-2">speaker</a> is <code>["self"]</code>.</p>
      </section>
      <section>
       <h4 class="heading settled" data-level="11.1.9" id="vibrate-feature"><span class="secno">11.1.9. </span><span class="content">vibrate</span><a class="self-link" href="#vibrate-feature"></a></h4>
       <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="vibrate">vibrate</dfn> keyword controls whether the [vibrate method]
-        (<a data-link-type="biblio" href="#biblio-vibration">[VIBRATION]</a>) is allowed to cause device vibration.</p>
+      (<a data-link-type="biblio" href="#biblio-vibration">[VIBRATION]</a>) is allowed to cause device vibration.</p>
       <p>If disabled in a document, then calls to the [vibrate method] should
-        silently do nothing. If enabled, the browser may allow the device to
-        vibrate.</p>
-      <p>The <a data-link-type="dfn" href="#default-whitelist" id="ref-for-default-whitelist-14">default whitelist</a> for <a data-link-type="dfn" href="#vibrate" id="ref-for-vibrate-3">vibrate</a> is <code>["self"]</code>.</p>
+      silently do nothing. If enabled, the browser may allow the device to
+      vibrate.</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-14">default allowlist</a> for <a data-link-type="dfn" href="#vibrate" id="ref-for-vibrate-3">vibrate</a> is <code>["self"]</code>.</p>
      </section>
     </section>
    </section>
@@ -2745,12 +2732,14 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
    <li><a href="#dom-htmliframeelement-allow">allow</a><span>, in §6.3</span>
+   <li><a href="#allowlist">allowlist</a><span>, in §4.7</span>
+   <li><a href="#allowlist">allowlists</a><span>, in §4.7</span>
    <li><a href="#camera">camera</a><span>, in §11.1.1</span>
    <li><a href="#container-policy">container policy</a><span>, in §4.5</span>
    <li><a href="#declared-policy">declared feature policy</a><span>, in §4.3</span>
    <li><a href="#declared-policy">declared policy</a><span>, in §4.3</span>
-   <li><a href="#default-whitelist">default whitelist</a><span>, in §4.8</span>
-   <li><a href="#default-whitelist">default whitelists</a><span>, in §4.8</span>
+   <li><a href="#default-allowlist">default allowlist</a><span>, in §4.8</span>
+   <li><a href="#default-allowlist">default allowlists</a><span>, in §4.8</span>
    <li><a href="#eme">eme</a><span>, in §11.1.2</span>
    <li><a href="#enforce">enforce</a><span>, in §7.1</span>
    <li><a href="#feature">feature</a><span>, in §11</span>
@@ -2758,8 +2747,8 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
    <li><a href="#feature-name">feature name keyword</a><span>, in §11</span>
    <li><a href="#feature-name">feature names</a><span>, in §11</span>
    <li><a href="#feature-policy">feature policy</a><span>, in §4.1</span>
-   <li><a href="#feature-policy0">Feature-Policy</a><span>, in §6.1</span>
    <li><a href="#feature-policy-aware">feature-policy-aware</a><span>, in §4.3</span>
+   <li><a href="#feature-policy-header">feature-policy-header</a><span>, in §6.1</span>
    <li><a href="#feature-policy-oblivious">feature-policy-oblivious</a><span>, in §4.3</span>
    <li><a href="#fullscreen">fullscreen</a><span>, in §11.1.3</span>
    <li><a href="#geolocation">geolocation</a><span>, in §11.1.4</span>
@@ -2775,8 +2764,6 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
    <li><a href="#policy-directive">policy directives</a><span>, in §4.6</span>
    <li><a href="#speaker">speaker</a><span>, in §11.1.8</span>
    <li><a href="#vibrate">vibrate</a><span>, in §11.1.9</span>
-   <li><a href="#whitelist">whitelist</a><span>, in §4.7</span>
-   <li><a href="#whitelist">whitelists</a><span>, in §4.7</span>
   </ul>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
@@ -2844,31 +2831,29 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
    <div class="issue"> Define origin, feature-name here. <a href="#issue-8b739ef1"> ↵ </a></div>
-   <div class="issue"> Define this without reference to the abandoned JFV proposal. Consider
-        changing the "array of dictionaries" semantics required by JFV to a
-        single dictionary, for simplicity. <a href="#issue-bac4e7a6"> ↵ </a></div>
    <div class="issue"> TODO: Ensure that inserting this element after scripts can run has no
-        effect. <a href="#issue-dfe222d2"> ↵ </a></div>
-   <div class="issue"> Monkey-patching! As soon as we know that this is the direction we wish
-        to pursue, upstream all of this. <a href="#issue-15bcbd0e"> ↵ </a></div>
+      effect. <a href="#issue-7c854c21"> ↵ </a></div>
+   <div class="issue"> Monkey-patching! As soon as we know that this is the direction we wish to
+      pursue, upstream all of this. <a href="#issue-7605d231"> ↵ </a></div>
    <div class="issue">TODO<a href="#issue-b7b1e314"> ↵ </a></div>
    <div class="issue"> As soon as possible, move the definitions to their respective controlling
-      specifications, and link to those specifications from this one. This spec
-      shouldn’t be required to enumerate every feature. <a href="#issue-ef0f0981"> ↵ </a></div>
-   <div class="issue">Replace "keyword" with "feature"; define keywords as well.<a href="#issue-d90015c1"> ↵ </a></div>
+    specifications, and link to those specifications from this one. This spec
+    shouldn’t be required to enumerate every feature. <a href="#issue-e7336d80"> ↵ </a></div>
+   <div class="issue"> Replace "keyword" with "feature"; define keywords as well. <a href="#issue-d90015c1"> ↵ </a></div>
   </div>
   <aside class="dfn-panel" data-for="feature-policy">
    <b><a href="#feature-policy">#feature-policy</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-feature-policy-1">4.4. Header policies</a>
-    <li><a href="#ref-for-feature-policy-2">6.1. Feature-Policy HTTP Header Field</a>
+    <li><a href="#ref-for-feature-policy-2">6.1. Feature-Policy HTTP Header
+    Field</a>
     <li><a href="#ref-for-feature-policy-3">7.1. Integration with HTML</a> <a href="#ref-for-feature-policy-4">(2)</a> <a href="#ref-for-feature-policy-5">(3)</a> <a href="#ref-for-feature-policy-6">(4)</a>
     <li><a href="#ref-for-feature-policy-7">8.7. Initialize global’s Feature
-      Policy from response</a> <a href="#ref-for-feature-policy-8">(2)</a>
+    Policy from response</a> <a href="#ref-for-feature-policy-8">(2)</a>
     <li><a href="#ref-for-feature-policy-9">8.8. Define an inherited policy for
-      feature</a>
+    feature</a>
     <li><a href="#ref-for-feature-policy-10">8.9. Is feature enabled in
-      global for origin?</a>
+    global for origin?</a>
     <li><a href="#ref-for-feature-policy-11">11. Features</a>
    </ul>
   </aside>
@@ -2878,7 +2863,7 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
     <li><a href="#ref-for-inherited-policy-1">4.2. Inherited policies</a>
     <li><a href="#ref-for-inherited-policy-2">4.5. Container policies</a>
     <li><a href="#ref-for-inherited-policy-3">8.8. Define an inherited policy for
-      feature</a> <a href="#ref-for-inherited-policy-4">(2)</a>
+    feature</a> <a href="#ref-for-inherited-policy-4">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="inherited-policy-set">
@@ -2886,7 +2871,7 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
    <ul>
     <li><a href="#ref-for-inherited-policy-set-1">4.1. Policies</a>
     <li><a href="#ref-for-inherited-policy-set-2">8.9. Is feature enabled in
-      global for origin?</a>
+    global for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="declared-policy">
@@ -2896,12 +2881,15 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
     <li><a href="#ref-for-declared-policy-2">4.2. Inherited policies</a>
     <li><a href="#ref-for-declared-policy-3">4.3. Declared policies</a> <a href="#ref-for-declared-policy-4">(2)</a>
     <li><a href="#ref-for-declared-policy-5">4.4. Header policies</a>
-    <li><a href="#ref-for-declared-policy-6">6.1. Feature-Policy HTTP Header Field</a>
+    <li><a href="#ref-for-declared-policy-6">6.1. Feature-Policy HTTP Header
+    Field</a>
     <li><a href="#ref-for-declared-policy-7">8.1. Process response policy</a>
-    <li><a href="#ref-for-declared-policy-8">8.2. Parse header from value and origin</a>
-    <li><a href="#ref-for-declared-policy-9">8.5. Process feature policy attributes</a>
+    <li><a href="#ref-for-declared-policy-8">8.2. Parse header from value and
+    origin</a>
+    <li><a href="#ref-for-declared-policy-9">8.5. Process feature policy
+    attributes</a>
     <li><a href="#ref-for-declared-policy-10">8.9. Is feature enabled in
-      global for origin?</a> <a href="#ref-for-declared-policy-11">(2)</a>
+    global for origin?</a> <a href="#ref-for-declared-policy-11">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="feature-policy-aware">
@@ -2920,8 +2908,8 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
    <b><a href="#container-policy">#container-policy</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-container-policy-1">4.5. Container policies</a> <a href="#ref-for-container-policy-2">(2)</a> <a href="#ref-for-container-policy-3">(3)</a> <a href="#ref-for-container-policy-4">(4)</a>
-    <li><a href="#ref-for-container-policy-5">6.3. The allow attribute of the iframe
-      element</a>
+    <li><a href="#ref-for-container-policy-5">6.3. The allow attribute of the
+    iframe element</a>
     <li><a href="#ref-for-container-policy-6">6.4.1. allowfullscreen</a>
     <li><a href="#ref-for-container-policy-7">6.4.2. allowpaymentrequest</a>
    </ul>
@@ -2931,68 +2919,72 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
    <ul>
     <li><a href="#ref-for-policy-directive-1">4.3. Declared policies</a>
     <li><a href="#ref-for-policy-directive-2">4.5. Container policies</a>
-    <li><a href="#ref-for-policy-directive-3">8.3. Parse policy directive from value and origin</a>
-    <li><a href="#ref-for-policy-directive-4">8.5. Process feature policy attributes</a>
+    <li><a href="#ref-for-policy-directive-3">8.3. Parse policy directive from
+    value and origin</a>
+    <li><a href="#ref-for-policy-directive-4">8.5. Process feature policy
+    attributes</a>
     <li><a href="#ref-for-policy-directive-5">11. Features</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="whitelist">
-   <b><a href="#whitelist">#whitelist</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="allowlist">
+   <b><a href="#allowlist">#allowlist</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-whitelist-1">2. Examples</a>
-    <li><a href="#ref-for-whitelist-2">4.6. Policy directives</a>
-    <li><a href="#ref-for-whitelist-3">4.7. Whitelists</a> <a href="#ref-for-whitelist-4">(2)</a>
-    <li><a href="#ref-for-whitelist-5">4.8. Default Whitelists</a>
-    <li><a href="#ref-for-whitelist-6">6.3. The allow attribute of the iframe
-      element</a> <a href="#ref-for-whitelist-7">(2)</a>
-    <li><a href="#ref-for-whitelist-8">6.4.1. allowfullscreen</a>
-    <li><a href="#ref-for-whitelist-9">6.4.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-whitelist-10">8.3. Parse policy directive from value and origin</a> <a href="#ref-for-whitelist-11">(2)</a>
-    <li><a href="#ref-for-whitelist-12">8.8. Define an inherited policy for
-      feature</a>
-    <li><a href="#ref-for-whitelist-13">8.9. Is feature enabled in
-      global for origin?</a>
+    <li><a href="#ref-for-allowlist-1">2. Examples</a>
+    <li><a href="#ref-for-allowlist-2">4.6. Policy directives</a>
+    <li><a href="#ref-for-allowlist-3">4.7. Allowlists</a> <a href="#ref-for-allowlist-4">(2)</a>
+    <li><a href="#ref-for-allowlist-5">4.8. Default Allowlists</a>
+    <li><a href="#ref-for-allowlist-6">6.3. The allow attribute of the
+    iframe element</a> <a href="#ref-for-allowlist-7">(2)</a>
+    <li><a href="#ref-for-allowlist-8">6.4.1. allowfullscreen</a>
+    <li><a href="#ref-for-allowlist-9">6.4.2. allowpaymentrequest</a>
+    <li><a href="#ref-for-allowlist-10">8.3. Parse policy directive from
+    value and origin</a> <a href="#ref-for-allowlist-11">(2)</a>
+    <li><a href="#ref-for-allowlist-12">8.8. Define an inherited policy for
+    feature</a>
+    <li><a href="#ref-for-allowlist-13">8.9. Is feature enabled in
+    global for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="matches">
    <b><a href="#matches">#matches</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-matches-1">8.8. Define an inherited policy for
-      feature</a>
+    feature</a>
     <li><a href="#ref-for-matches-2">8.9. Is feature enabled in
-      global for origin?</a>
+    global for origin?</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="default-whitelist">
-   <b><a href="#default-whitelist">#default-whitelist</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="default-allowlist">
+   <b><a href="#default-allowlist">#default-allowlist</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-default-whitelist-1">4.8. Default Whitelists</a> <a href="#ref-for-default-whitelist-2">(2)</a>
-    <li><a href="#ref-for-default-whitelist-3">8.9. Is feature enabled in
-      global for origin?</a> <a href="#ref-for-default-whitelist-4">(2)</a>
-    <li><a href="#ref-for-default-whitelist-5">11. Features</a>
-    <li><a href="#ref-for-default-whitelist-6">11.1.1. camera</a>
-    <li><a href="#ref-for-default-whitelist-7">11.1.2. eme</a>
-    <li><a href="#ref-for-default-whitelist-8">11.1.3. fullscreen</a>
-    <li><a href="#ref-for-default-whitelist-9">11.1.4. geolocation</a>
-    <li><a href="#ref-for-default-whitelist-10">11.1.5. microphone</a>
-    <li><a href="#ref-for-default-whitelist-11">11.1.6. midi</a>
-    <li><a href="#ref-for-default-whitelist-12">11.1.7. payment</a>
-    <li><a href="#ref-for-default-whitelist-13">11.1.8. speaker</a>
-    <li><a href="#ref-for-default-whitelist-14">11.1.9. vibrate</a>
+    <li><a href="#ref-for-default-allowlist-1">4.8. Default Allowlists</a> <a href="#ref-for-default-allowlist-2">(2)</a>
+    <li><a href="#ref-for-default-allowlist-3">8.9. Is feature enabled in
+    global for origin?</a> <a href="#ref-for-default-allowlist-4">(2)</a>
+    <li><a href="#ref-for-default-allowlist-5">11. Features</a>
+    <li><a href="#ref-for-default-allowlist-6">11.1.1. camera</a>
+    <li><a href="#ref-for-default-allowlist-7">11.1.2. eme</a>
+    <li><a href="#ref-for-default-allowlist-8">11.1.3. fullscreen</a>
+    <li><a href="#ref-for-default-allowlist-9">11.1.4. geolocation</a>
+    <li><a href="#ref-for-default-allowlist-10">11.1.5. microphone</a>
+    <li><a href="#ref-for-default-allowlist-11">11.1.6. midi</a>
+    <li><a href="#ref-for-default-allowlist-12">11.1.7. payment</a>
+    <li><a href="#ref-for-default-allowlist-13">11.1.8. speaker</a>
+    <li><a href="#ref-for-default-allowlist-14">11.1.9. vibrate</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="feature-policy0">
-   <b><a href="#feature-policy0">#feature-policy0</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="feature-policy-header">
+   <b><a href="#feature-policy-header">#feature-policy-header</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-feature-policy0-1">2. Examples</a> <a href="#ref-for-feature-policy0-2">(2)</a> <a href="#ref-for-feature-policy0-3">(3)</a> <a href="#ref-for-feature-policy0-4">(4)</a>
+    <li><a href="#ref-for-feature-policy-header-1">2. Examples</a> <a href="#ref-for-feature-policy-header-2">(2)</a> <a href="#ref-for-feature-policy-header-3">(3)</a> <a href="#ref-for-feature-policy-header-4">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="enforce">
    <b><a href="#enforce">#enforce</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-enforce-1">6.1. Feature-Policy HTTP Header Field</a>
+    <li><a href="#ref-for-enforce-1">6.1. Feature-Policy HTTP Header
+    Field</a>
     <li><a href="#ref-for-enforce-2">8.7. Initialize global’s Feature
-      Policy from response</a>
+    Policy from response</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="feature">
@@ -3026,7 +3018,8 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
   <aside class="dfn-panel" data-for="fullscreen">
    <b><a href="#fullscreen">#fullscreen</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-fullscreen-1">8.5. Process feature policy attributes</a> <a href="#ref-for-fullscreen-2">(2)</a>
+    <li><a href="#ref-for-fullscreen-1">8.5. Process feature policy
+    attributes</a> <a href="#ref-for-fullscreen-2">(2)</a>
     <li><a href="#ref-for-fullscreen-3">11. Features</a>
     <li><a href="#ref-for-fullscreen-4">11.1.3. fullscreen</a>
    </ul>
@@ -3057,7 +3050,8 @@ content='{"webrtc": [], "geolocation": ["https://example.com"]}'>
   <aside class="dfn-panel" data-for="payment">
    <b><a href="#payment">#payment</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-payment-1">8.5. Process feature policy attributes</a> <a href="#ref-for-payment-2">(2)</a>
+    <li><a href="#ref-for-payment-1">8.5. Process feature policy
+    attributes</a> <a href="#ref-for-payment-2">(2)</a>
     <li><a href="#ref-for-payment-3">11. Features</a>
     <li><a href="#ref-for-payment-4">11.1.7. payment</a>
    </ul>
