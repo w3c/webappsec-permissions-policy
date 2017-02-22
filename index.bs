@@ -1,4 +1,4 @@
-<pre class='metadata'>
+<pre class="metadata">
 Title: Feature Policy
 Shortname: feature-policy
 Level: 1
@@ -10,6 +10,18 @@ Editor: Mike West, Google, mkwst@google.com
 Abstract: This specification defines a mechanism that allows developers to selectively enable and disable use of various browser features and APIs.
 Repository: https://github.com/wicg/feature-policy/
 Markup Shorthands: css no, markdown yes
+</pre>
+<pre class="link-defaults">
+spec:html; type:interface; for:/; text:Document
+spec:url; type:dfn; text:origin
+spec:fetch; type:dfn; for:Response; text:response
+spec:html; type:dfn; for:/; text:browsing context
+spec:html; type:element; text:script
+spec:html; type:element; text:link
+spec:html; type:dfn; for:/; text:global object
+spec:html; type:dfn; for:/; text:header list
+spec:fetch; type:dfn; text:name
+spec:fetch; type:dfn; text:value
 </pre>
 <section>
   <h2 id="introduction">Introduction</h2>
@@ -85,13 +97,13 @@ Markup Shorthands: css no, markdown yes
 </section>
 <section>
   <h2 id="other-and-related-mechanisms">Other and related mechanisms</h2>
-  <p>[[HTML5]] defines a [[sandbox attribute]] for <code>iframe</code> elements
+  <p>[[HTML5]] defines a <{iframe/sandbox}> attribute for <{iframe}> elements
   that allows developers to reduce the risk of including potentially untrusted
   content by imposing restrictions on content's abilities - e.g. prevent it
-  from submitting forms, running scripts and plugins, and more. The [sandbox
-  directive] defined by [[CSP2]] extends this capability to any resource,
-  framed or not, to ask for the same set of restrictions - e.g. via an HTTP
-  response header (<code>Content-Security-Policy: sandbox</code>). These
+  from submitting forms, running scripts and plugins, and more. The
+  [=sandbox=] directive defined by [[CSP2]] extends this capability to any
+  resource, framed or not, to ask for the same set of restrictions - e.g. via an
+  HTTP response header (<code>Content-Security-Policy: sandbox</code>). These
   mechanisms enable the developer to:</p>
   <ul>
     <li>Set and customize a sandbox policy on any resource via CSP.</li>
@@ -114,7 +126,7 @@ Markup Shorthands: css no, markdown yes
   <h2 id="framwork">Framework</h2>
   <section>
     <h3 id="policies">Policies</h3>
-    <p>A [Document] or [WorkerGlobalScope] has a <dfn>feature policy</dfn>,
+    <p>A {{Document}} or {{WorkerGlobalScope}} has a <dfn>feature policy</dfn>,
     which consists of:</p>
     <ul>
       <li>A set of <a data-lt="inherited policy set">inherited policies</a>.
@@ -130,18 +142,20 @@ Markup Shorthands: css no, markdown yes
     for each feature. This inherited policy set determines the initial state
     (enabled or disabled) of each feature, and whether it can be controlled by
     a <a>declared policy</a> in the document.</p>
-    <p>In a top-level document, or a [WorkerGlobalScope], the inherited feature
-    set is based on defined defaults for each feature.</p>
-    <p>In a document in a [nested browsing context], the inherited feature set
-    is based on the parent document's feature policy, as well as any allow
-    attributes defined on the browsing context container.</p>
+    <p>In a {{Document}} in a [=top-level browsing context=], or in a
+    {{WorkerGlobalScope}}, the inherited feature set is based on defined
+    defaults for each feature.</p>
+    <p>In a {{Document}} in a [=nested browsing context=], the inherited feature
+    set is based on the parent document's feature policy, as well as any
+    <a href="#iframe-allow-attribute">allow attributes</a> defined on the
+    browsing context container.</p>
     <p>An <dfn data-lt="inherited policy|inherited policies">inherited
     policy</dfn> for a <a>feature</a> is a boolean associated with that feature
     in a Document or WorkerGlobalScope. It can take the value Enabled or
     Disabled.</p>
-    <p>An <dfn>inherited policy set</dfn> for a Document or WorkerGlobalScope
-    is the set of <a>inherited policies</a> for each <a>feature</a> available
-    in that scope.</p>
+    <p>An <dfn>inherited policy set</dfn> for a {{Document}} or
+    {{WorkerGlobalScope}} is the set of <a>inherited policies</a> for each
+    <a>feature</a> available in that scope.</p>
   </section>
   <section>
     <h3 id="declared-policies">Declared policies</h3>
@@ -150,10 +164,10 @@ Markup Shorthands: css no, markdown yes
     set.</p>
     <p>The <a>declared policy</a> is represented in HTTP headers and HTML
     attributes as a JSON string.</p>
-    <p>A Document or WorkerGlobalScope is considered
+    <p>A {{Document}} or {{WorkerGlobalScope}} is considered
     <dfn>feature-policy-aware</dfn> if it has a <a>declared policy</a> delivered
     via a Feature-Policy HTTP header.</p>
-    <p>A Document or WorkerGlobalScope is which is not
+    <p>A {{Document}} or {{WorkerGlobalScope}} is which is not
     <a>feature-policy-aware</a> is considered
     <dfn>feature-policy-oblivious</dfn>.</p>
   </section>
@@ -203,8 +217,8 @@ Markup Shorthands: css no, markdown yes
     origin "self" may be used, which refers to the origin of document which the
     policy is associated with.</p>
     <p>An <a>allowlist</a> <dfn>matches</dfn> an origin <var>o</var> if it
-    matches every origin, or if it contains an origin which is [same
-    origin-domain] with <var>o</var>.</p>
+    matches every origin, or if it contains an origin which is
+    [=same origin-domain=] with <var>o</var>.</p>
   </section>
   <section>
     <h3 id="default-allowlists">Default Allowlists</h3>
@@ -285,9 +299,9 @@ Markup Shorthands: css no, markdown yes
   <section>
     <h3 id="feature-policy-http-header-field">Feature-Policy HTTP Header
     Field</h3>
-    <p>The <dfn lt="feature-policy-header">Feature-Policy</dfn> HTTP header field can be used in the
-    [response] (server to client) to communicate the <a>feature policy</a> that
-    should be enforced by the client.</p>
+    <p>The <dfn lt="feature-policy-header">Feature-Policy</dfn> HTTP header
+    field can be used in the [=response=] (server to client) to communicate the
+    <a>feature policy</a> that should be enforced by the client.</p>
     <p>The header's value is the <a href="#json-serialization"></a> of the
     elements of the <a>declared policy</a>:</p>
     <pre class="abnf">
@@ -301,27 +315,28 @@ Markup Shorthands: css no, markdown yes
   </section>
   <section>
     <h3 id="feature-policy-meta-element">The <code>meta</code> element</h3>
-    <p>A [Document] may deliver a policy via one or more HTML [meta] elements
-    whose [http-equiv] attributes are an [ASCII case-insensitive] match for the
-    string "<code>Feature-Policy</code>". For example:</p>
+    <p>A {{Document}} may deliver a policy via one or more HTML <{meta}>
+    elements whose <{meta/http-equiv}> attributes are an
+    [=ASCII case-insensitive=] match for the string
+    "<code>Feature-Policy</code>". For example:</p>
     <pre class="example">&lt;meta http-equiv="Feature-Policy" content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;</pre>
     <p>The <code>meta</code> policy is processed as defined in <a href=
     "#process-meta-policy"></a> and modifications to the
-    [content][meta-content] attribute of a <code>meta</code> element after the
+    <{meta/content}> attribute of a <{meta}> element after the
     element has been parsed MUST be ignored.</p>
     <p>To ensure that the policy can be applied before any scripts are able to
-    execute within the [Document]'s [browsing context], the following
+    execute within the {{Document}}'s [=browsing context=], the following
     restrictions apply to <code>meta</code> policy:</p>
     <ul>
       <li>The elements containing the <code>meta</code> policy MUST be
       serialized completely within the first 1024 bytes of the document.</li>
       <li>The elements containing the <code>meta</code> policy MUST appear
-      before any [script] or [link] elements.</li>
+        before any <{script}> or <{link}> elements.</li>
     </ul>
     <div class="note">
       Since JSON serialization requires U+0022 QUOTATION MARK as a string
-      delimiter, it is recommended that the [content][meta-content] attribute
-      of the Feature Policy [meta] tag be delimited with U+0027 APOSTROPHE, to
+      delimiter, it is recommended that the <{meta/content}> attribute
+      of the Feature Policy <{meta}> tag be delimited with U+0027 APOSTROPHE, to
       avoid having to encode JSON delimeters as "<code>&amp;quot;</code>"
     </div>
     <div class="issue">
@@ -336,15 +351,15 @@ Markup Shorthands: css no, markdown yes
 partial interface HTMLIFrameElement {
     [CEReactions, SameObject, PutForwards=value] readonly attribute DOMTokenList allow;
 };</pre>
-    <p>Iframe elements have an "<code>allow</code>" attribute, which contains
-    an unordered set of unique space-separated tokens that are ASCII
+    <p><{iframe}> elements have an "<code>allow</code>" attribute, which
+    contains an unordered set of unique space-separated tokens that are ASCII
     case-insensitive. The allowed values are names of features. Unrecognized
     values must be ignored.</p>
     <p>When not empty, the "<code>allow</code>" attribute will result in adding
     an <a>allowlist</a> for each recognized feature to the frame's <a>container
     policy</a>, when it is contructed.</p>
     <p>The <a>allowlist</a> will contain a single origin, which is the origin
-    of URL in the iframe's <code>src</code> attribute.</p>
+    of URL in the iframe's <{iframe/src}> attribute.</p>
   </section>
   <section>
     <h3 id="legacy-attributes">Additional attributes to support legacy
@@ -355,7 +370,7 @@ partial interface HTMLIFrameElement {
     <section>
       <h4 id="iframe-allowfullscreen-attribute">allowfullscreen</h4>
       <p>The "<code>allowfullscreen</code>" iframe attribute controls access to
-      [Fullscreen interface].</p>
+      {{requestFullscreen()}}.</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
       value contains the token "<code>fullscreen</code>", then the
       "<code>allowfullscreen</code> attribute should have no effect.</p>
@@ -375,7 +390,7 @@ partial interface HTMLIFrameElement {
     <section>
       <h4 id="iframe-allowpaymentrequest-attribute">allowpaymentrequest</h4>
       <p>The "<code>allowpaymentrequest</code>" iframe attribute controls
-      access to [Payment interface].</p>
+      access to [=Payment interface=].</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
       value contains the token "<code>payment</code>", then the
       "<code>allowpaymentrequest</code> attribute should have no effect.</p>
@@ -405,7 +420,7 @@ partial interface HTMLIFrameElement {
     <h3 id="integration-with-html">Integration with HTML</h3>
     <ol>
       <li>
-        <code>Document</code> and <code>WorkerGlobalScope</code> objects have a
+        {{Document}} and {{WorkerGlobalScope}} objects have a
         <a>Feature Policy</a>, which is populated via the <a href=
         "#initialize-for-global"></a> algorithm that is called during the
         "Initialising a new <code>Document</code> object" and "Run a Worker"
@@ -421,11 +436,11 @@ partial interface HTMLIFrameElement {
         </ul>
       </li>
       <li>A <a>feature policy</a> is <dfn data-lt="enforce">enforced</dfn> for
-      a [Document] or [WorkerGlobalScope] by setting it as the [Document] or
-      [WorkerGlobalScope]'s <a>Feature Policy</a>.
+      a {{Document}} or {{WorkerGlobalScope}} by setting it as the {{Document}}
+      or {{WorkerGlobalScope}}'s <a>Feature Policy</a>.
       </li>
       <li>
-        <p>The "[allowed to use]" algorithm calls into <a href=
+        <p>The "[=allowed to use=]" algorithm calls into <a href=
         "#is-feature-enabled"></a>, as follows:</p>
         <ol>
           <li>Replace the current steps #3 and #4 with the following step:
@@ -448,12 +463,12 @@ partial interface HTMLIFrameElement {
       <div class="note">
         This section extends HTML's <code>meta</code> [pragma directives].
       </div><strong>Feature policy state (http-equiv="feature-policy")</strong>
-      <p>This pragma extends the declared feature policy for a [Document].</p>
+      <p>This pragma extends the declared feature policy for a {{Document}}.</p>
       <ol>
         <li>If the [meta] element has no [content] attribute, or if that
         attribute's value is the empty string, then abort these steps.</li>
         <li>If the [meta] element is not being inserted in into the
-        [Document]'s [head] element, or if is inserted after any [script] or
+        {{Document}}'s [head] element, or if is inserted after any [script] or
         [link] elements, then abort these steps.</li>
         <li>Let document be the meta element's node document</li>
         <li>Let <var>value</var> be the result of parsing the value of [meta]
@@ -475,14 +490,15 @@ partial interface HTMLIFrameElement {
   <h2 id="algorithms">Algorithms</h2>
   <section>
     <h3 id="process-response-policy">Process response policy</h3>
-    <p>Given a [response] (<var>response</var>) and [global object]
+    <p>Given a [=response=] (<var>response</var>) and [=global object=]
     (<var>global</var>), this algorithm returns a <a>declared feature
     policy</a>.</p>
     <ol>
-      <li>Abort these steps if the <var>response</var>’s [header list] does not
-      contain a [header] whose [name] is "<code>Feature-Policy</code>".</li>
-      <li>Let <var>header</var> be the concatenation of the [value]s of all
-      [header] fields in <var>response</var>’s [header list] whose name is
+      <li>Abort these steps if the <var>response</var>’s [=header list=] does
+      not contain a [=header=] whose [=name=] is "<code>Feature-Policy</code>".
+      </li>
+      <li>Let <var>header</var> be the concatenation of the [=value=]s of all
+      [=header=] fields in <var>response</var>’s [=header list=] whose name is
       "<code>Feature-Policy</code>", separated by commas (according to
       [RFC7230, 3.2.2]).</li>
       <li>Add a leading "[" U+005B character, and a trailing "]" U+005D
@@ -496,15 +512,15 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="parse-header">Parse header from <var>value</var> and
     <var>origin</var></h3>
-    <p>Given a string (<var>value</var>) and an [origin] (<var>origin</var>)
+    <p>Given a string (<var>value</var>) and an [=origin=] (<var>origin</var>)
     this algorithm will return a <a>declared feature policy</a>.</p>
     <ol>
       <li>Let <var>policy</var> be an empty list.</li>
       <li>Let <var>list</var> be the result of parsing <var>value</var> with a
-      [JSON Parser]. If <var>value</var> cannot be parsed, return
+      [=JSON Parser=]. If <var>value</var> cannot be parsed, return
       <var>policy</var>.</li>
       <li>Note: If <var>value</var> can be parsed, <var>list</var> must be a
-      valid [JSON Array].</li>
+      valid [=JSON Array=].</li>
       <li>For each <var>element</var> in <var>list</var>:
         <ol>
           <li>If <var>element</var> is not a JSON object, then continue.</li>
@@ -523,7 +539,7 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="parse-policy-directive">Parse policy directive from
     <var>value</var> and <var>origin</var></h3>
-    <p>Given a JSON object (<var>value</var>) and an [origin]
+    <p>Given a JSON object (<var>value</var>) and an [=origin=]
     (<var>origin</var>) this algorithm will return a <a>policy
     directive</a>.</p>
     <ol>
@@ -606,7 +622,7 @@ partial interface HTMLIFrameElement {
           </li>
         </ol>
       </li>
-      <li>If <var>element</var> is an [iframe element]:
+      <li>If <var>element</var> is an <{iframe}> element:
         <ol>
           <li>If <var>element</var>'s <code>allowfullscreen</code> attribute is
           specified, and <var>policy</var> does not contain an allowlist for
@@ -658,7 +674,7 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="initialize-for-global">Initialize <var>global</var>'s Feature
     Policy from <var>response</var></h3>
-    <p>Given a [response] (<var>response</var>) and a global object
+    <p>Given a [=response=] (<var>response</var>) and a global object
     (<var>global</var>), this algorithm populates <var>global</var>'s
     <a>Feature Policy</a></p>
     <ol>
@@ -699,11 +715,11 @@ partial interface HTMLIFrameElement {
     (<var>context</var>), this algorithm returns the <a>inherited policy</a>
     for that feature.</p>
     <ol>
-      <li>If <var>context</var> is a [nested browsing context]:
+      <li>If <var>context</var> is a [=nested browsing context=]:
         <ol>
           <li>Let <var>parent</var> be <var>context</var>'s parent browsing
           context's active document.</li>
-          <li>Let <var>origin</var> be <var>parent</var>'s [origin]</li>
+          <li>Let <var>origin</var> be <var>parent</var>'s [=origin=]</li>
           <li>Let <var>container policy</var> be the result of running
             <a href="#process-feature-policy-attributes"></a> on
             <var>context</var>'s browsing context container.
@@ -731,7 +747,7 @@ partial interface HTMLIFrameElement {
     <h3 id="is-feature-enabled">Is <var>feature</var> enabled in
     <var>global</var> for <var>origin</var>?</h3>
     <p>Given a string (<var>feature</var>) and a global object
-    (<var>global</var>), and an [origin] (<var>origin</var>), this algorithm
+    (<var>global</var>), and an [=origin=] (<var>origin</var>), this algorithm
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
     <ol>
@@ -754,8 +770,8 @@ partial interface HTMLIFrameElement {
       <code>["*"]</code>, return "<code>Enabled</code>".
       </li>
       <li>If <var>feature</var>'s <a>default allowlist</a> is
-      <code>["self"]</code>, and <var>origin</var> is [same origin-domain] with
-      <var>global</var>'s active document's origin, return
+      <code>["self"]</code>, and <var>origin</var> is [=same origin-domain=]
+      with <var>global</var>'s active document's origin, return
       "<code>Enabled</code>".
       </li>
       <li>Return "<code>Disabled</code>".</li>
@@ -822,21 +838,21 @@ partial interface HTMLIFrameElement {
           <a>eme</a>
         </td>
         <td><code>self</code></td>
-        <td>Controls whether [requestMediaKeySystemAccess] is allowed.</td>
+        <td>Controls whether {{requestMediaKeySystemAccess()}} is allowed.</td>
       </tr>
       <tr>
         <td>
           <a>fullscreen</a>
         </td>
         <td><code>self</code></td>
-        <td>Controls whether [requestFullscreen] is allowed.</td>
+        <td>Controls whether {{requestFullscreen()}} is allowed.</td>
       </tr>
       <tr>
         <td>
           <a>geolocation</a>
         </td>
         <td><code>self</code></td>
-        <td>Controls access to [Geolocation interface].</td>
+        <td>Controls access to [=Geolocation interface=].</td>
       </tr>
       <tr>
         <td>
@@ -850,14 +866,14 @@ partial interface HTMLIFrameElement {
           <a>midi</a>
         </td>
         <td><code>self</code></td>
-        <td>Controls access to [requestMIDIAccess method].</td>
+        <td>Controls access to {{requestMIDIAccess()}} method.</td>
       </tr>
       <tr>
         <td>
           <a>payment</a>
         </td>
         <td><code>self</code></td>
-        <td>Controls access to [PaymentRequest interface].</td>
+        <td>Controls access to [=PaymentRequest interface=].</td>
       </tr>
       <tr>
         <td>
@@ -871,7 +887,7 @@ partial interface HTMLIFrameElement {
           <a>vibrate</a>
         </td>
         <td><code>self</code></td>
-        <td>Controls access to [vibrate method].</td>
+        <td>Controls access to {{vibrate()}} method.</td>
       </tr>
     </tbody>
   </table>
@@ -883,8 +899,8 @@ partial interface HTMLIFrameElement {
     <section>
       <h4 id="camera-feature">camera</h4>
       <p>The <dfn>camera</dfn> feature controls access to video input devices
-      requested through the [NavigatorUserMedia interface]
-      ([[!MEDIACAPTURE-API]]).</p>
+      requested through the [=NavigatorUserMedia interface=]
+      ([[MEDIACAPTURE-API]]).</p>
       <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
       access to video input devices in that document.</p>
       <p>The <a>default allowlist</a> for <a>camera</a> is
@@ -893,17 +909,18 @@ partial interface HTMLIFrameElement {
     <section>
       <h4 id="eme-feature">eme</h4>
       <p>The <dfn>eme</dfn> keyword controls whether encrypted media extensions
-      [[!encrypted-media]] are available.</p>
+      [[encrypted-media]] are available.</p>
       <p>If disabled in a document, the promise returned by
-      [requestMediaKeySystemAccess] must reject with a NotSupportedError.</p>
+      {{requestMediaKeySystemAccess()}} must reject with a NotSupportedError.
+      </p>
       <p>The <a>default allowlist</a> for <a>eme</a> is
       <code>["self"]</code>.</p>
     </section>
     <section>
       <h4 id="fullscreen-feature">fullscreen</h4>
       <p>The <dfn>fullscreen</dfn> keyword controls whether the
-      [requestFullscreen] method ([[!WHATWG-FULLSCREEN]]) is allowed to request
-      fullscreen.</p>
+      {{requestFullscreen()}} method ([[WHATWG-FULLSCREEN]]) is allowed to
+      request fullscreen.</p>
       <p>If disabled in any document, the document will not be allowed to use
       fullscreen. If enabled, the document will be allowed to use
       fullscreen.</p>
@@ -913,8 +930,8 @@ partial interface HTMLIFrameElement {
     <section>
       <h4 id="geolocation-feature">geolocation</h4>
       <p>The <dfn>geolocation</dfn> keyword controls whether the current
-      document is alowed to use the [Geolocation interface]
-      ([[!GEOLOCATION-API]]).</p>
+      document is alowed to use the [=Geolocation interface=]
+      ([[GEOLOCATION-API]]).</p>
       <p>If disabled in any document, calls to both getCurrentPosition and
       watchPosition must result in the error callback being invoked with
       PERMISSION_DENIED.</p>
@@ -924,8 +941,8 @@ partial interface HTMLIFrameElement {
     <section>
       <h4 id="microphone-feature">microphone</h4>
       <p>The <dfn>microphone</dfn> feature controls access to audio input
-      devices requested through the [NavigatorUserMedia interface]
-      ([[!MEDIACAPTURE-API]]).</p>
+      devices requested through the [=NavigatorUserMedia interface=]
+      ([[MEDIACAPTURE-API]]).</p>
       <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
       access to audio input devices in that document.</p>
       <p>The <a>default allowlist</a> for <a>microphone</a> is
@@ -934,7 +951,7 @@ partial interface HTMLIFrameElement {
     <section>
       <h4 id="midi-feature">midi</h4>
       <p>The <dfn>midi</dfn> keyword controls whether the current document is
-      allowed to use the [requestMIDIAccess method] ([[!WEBMIDI]]).</p>
+      allowed to use the {{requestMIDIAccess()}} method ([[WEBMIDI]]).</p>
       <p>If disabled in a document, the promise returned by requestMIDIAccess
       must reject with a DOMException parameter.</p>
       <p>The <a>default allowlist</a> for <a>midi</a> is
@@ -943,8 +960,8 @@ partial interface HTMLIFrameElement {
     <section>
       <h4 id="payment-feature">payment</h4>
       <p>The <dfn>payment</dfn> keyword controls whether the current document
-      is allowed to use the [PaymentRequest interface]
-      ([[!PAYMENT-REQUEST]]).</p>
+      is allowed to use the [=PaymentRequest interface=]
+      ([[PAYMENT-REQUEST]]).</p>
       <p>If disabled in a document, then calls to the PaymentRequest constuctor
       MUST throw a SecurityError.</p>
       <p>The <a>default allowlist</a> for <a>payment</a> is
@@ -953,8 +970,8 @@ partial interface HTMLIFrameElement {
     <section>
       <h4 id="speaker-feature">speaker</h4>
       <p>The <dfn>speaker</dfn> feature controls access to audio output devices
-      requested through the [NavigatorUserMedia interface]
-      ([[!audio-output]]).</p>
+      requested through the [=NavigatorUserMedia interface=]
+      ([[audio-output]]).</p>
       <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
       access to audio output devices in that document.</p>
       <p>The <a>default allowlist</a> for <a>speaker</a> is
@@ -962,51 +979,13 @@ partial interface HTMLIFrameElement {
     </section>
     <section>
       <h4 id="vibrate-feature">vibrate</h4>
-      <p>The <dfn>vibrate</dfn> keyword controls whether the [vibrate method]
-      ([[!VIBRATION]]) is allowed to cause device vibration.</p>
-      <p>If disabled in a document, then calls to the [vibrate method] should
-      silently do nothing. If enabled, the browser may allow the device to
-      vibrate.</p>
+      <p>The <dfn>vibrate</dfn> keyword controls whether the {{vibrate()}}
+      method ([[VIBRATION]]) is allowed to cause device vibration.</p>
+      <p>If disabled in a document, then calls to the {{vibrate()}} method
+      should silently do nothing. If enabled, the browser may allow the device
+      to vibrate.</p>
       <p>The <a>default allowlist</a> for <a>vibrate</a> is
       <code>["self"]</code>.</p>
     </section>
   </section>
 </section>
-
-<!-- spec references. preserve before running tidy! -->
-<!--
-  These references are used by markdown; please figure out a good way to do this
-  in ReSpec without markdown.
-
-[sandbox attribute]: https://html.spec.whatwg.org/multipage/the-iframe-element.html#attr-iframe-sandbox
-[sandbox directive]: https://www.w3.org/TR/2014/WD-CSP11-20140211/#sandbox
-[workerglobalscope]: https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope
-[response]: https://fetch.spec.whatwg.org/#concept-response
-[origin]: https://url.spec.whatwg.org/#concept-url-origin
-[url]: https://fetch.spec.whatwg.org/#concept-response-url
-[header list]: https://fetch.spec.whatwg.org/#concept-response-header-list
-[header]: https://fetch.spec.whatwg.org/#concept-header
-[name]: https://fetch.spec.whatwg.org/#concept-header-name
-[value]: https://fetch.spec.whatwg.org/#concept-header-value
-[prepare a script]: https://html.spec.whatwg.org/#prepare-a-script
-[header-append]: https://fetch.spec.whatwg.org/#concept-header-list-append
-[header-list]: https://fetch.spec.whatwg.org/#concept-request-header-list
-[allowed to use]: https://html.spec.whatwg.org/multipage/embedded-content.html#allowed-to-use
-[fetching algorithm]: https://fetch.spec.whatwg.org/#fetching
-[global object]: https://html.spec.whatwg.org/multipage/webappapis.html#global-object
-[current global object]: https://html.spec.whatwg.org/#current-global-object
-[document]: https://html.spec.whatwg.org/multipage/dom.html#document
-[meta]: https://html.spec.whatwg.org/#the-meta-element
-[http-equiv]: https://html.spec.whatwg.org/#attr-meta-http-equiv
-[meta-content]: https://html.spec.whatwg.org/#attr-meta-content
-[pragma directives]: https://html.spec.whatwg.org/#attr-meta-http-equiv-content-security-policy
-[nested browsing context]: https://html.spec.whatwg.org/#nested-browsing-context
-[requestFullscreen]: https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen
-[Geolocation interface]: https://www.w3.org/TR/geolocation-API/#geolocation_interface
-[NavigatorUserMedia interface]: https://w3c.github.io/mediacapture-main/#navigatorusermedia
-[PaymentRequest interface]: https://www.w3.org/TR/payment-request/#paymentrequest-interface
-[requestMIDIAccess method]: http://webaudio.github.io/web-midi-api/#requestMIDIAccess
-[vibrate method]: https://w3c.github.io/vibration/#idl-def-navigator-vibrate(vibratepattern)
-[same origin-domain]: https://html.spec.whatwg.org/#same-origin-domain
-[requestMediaKeySystemAccess]: https://www.w3.org/TR/encrypted-media/#navigator-extension-requestmediakeysystemaccess
--->
