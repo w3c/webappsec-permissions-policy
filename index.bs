@@ -125,6 +125,22 @@ spec:fetch; type:dfn; text:value
 <section>
   <h2 id="framwork">Framework</h2>
   <section>
+    <h3 id="features">Features</h3>
+    <p>A <dfn>feature</dfn> controlled by this framework is an API or behaviour
+    which can be enabled or disabled in a document or web worker by referring to
+    it in a <a>feature policy</a>.
+    <p><a>Features</a> have a <dfn>feature name</dfn> keyword, which is a token
+    used in <a>policy directives</a>, and a <a>default allowlist</a>, which
+    defines whether the <a>feature</a> is available to top-level documents, and
+    how access to that feature is inherited by cross-origin frames.</p>
+    <p>A user agent has a set of <dfn>supported features</dfn>, which is the set
+    of <a>features</a> which it allows to be controlled through policies. User
+    agents are not required to support every <a>feature</a>.</p>
+    <p><a>Features</a> themselves are not themselves part of this framework. A
+    non-normative list of currently-defined features is included as an appendix
+    to this specification.
+  </section>
+  <section>
     <h3 id="policies">Policies</h3>
     <p>A {{Document}} or {{WorkerGlobalScope}} has a <dfn>feature policy</dfn>,
     which consists of:</p>
@@ -250,7 +266,7 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="json-serialization">JSON serialization</h3>
     <p>Declared Policies are represented in HTTP headers and in HTML attributes
-    as JSON strings.</p>
+    as JSON text [[!RFC7159]].</p>
     <pre class="railroad">
     Sequence:
       T: [
@@ -277,9 +293,8 @@ spec:fetch; type:dfn; text:value
         T: ,
       T: ]
     </pre>
-    <div class="issue">
-      Define origin, feature-name here.
-    </div>
+    <p><code>origin</code> is the [=ASCII serialization of an origin=].</p>
+    <p><code>feature-name</code> is a JSON string.</p>
     <div class="note">
       The string "<code>self</code>" may be used as an origin in an allowlist.
       When it is used in this way, it will refer to the origin of the document
@@ -754,9 +769,8 @@ partial interface HTMLIFrameElement {
     <ol>
       <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy</a>
       </li>
-      <li>If <var>feature</var> is not present in <var>policy</var>'s
-      <a>inherited policy set</a>, return "<code>Disabled</code>".
-      </li>
+      <li>If <var>policy</var>'s <a>inherited policy</a> for <var>feature</var>
+      is Disabled, return "<code>Disabled</code>".</li>
       <li>If <var>feature</var> is present in <var>policy</var>'s <a>declared
       policy</a>:
         <ol>
@@ -803,14 +817,12 @@ partial interface HTMLIFrameElement {
   <p class="issue">TODO</p>
 </section>
 <section class="appendix">
-  <h2 id="features">Appendix A: Features</h2>
-  <p>This appendix is a reference to currently-defined valid <dfn data-lt=
-  "feature">features</dfn>, their <dfn data-lt=
-  "feature name|feature names|feature name keyword">feature name
-  keywords</dfn>, and their effect when applied via a <a data-lt=
-  "policy directive">directive</a> as part of a <a>feature policy</a>. This
-  reference is non-normative; the actual definitions are given in subsections
-  below.</p>
+  <h2 id="defined-features">Appendix A: Features</h2>
+  <p>This appendix is a reference to currently-defined valid <a data-lt=
+  "feature">features</a>, their <a>feature name</a> keywords, and their effect
+  effect when applied via a <a data-lt="policy directive">directive</a> as part
+  of a <a>feature policy</a>. This reference is non-normative; the actual
+  definitions are given in subsections below.</p>
   <div class="issue">
     As soon as possible, move the definitions to their respective controlling
     specifications, and link to those specifications from this one. This spec
@@ -894,9 +906,6 @@ partial interface HTMLIFrameElement {
   </table>
   <section>
     <h3 id="feature-definitions">Feature Definitions</h3>
-    <div class="issue">
-      Replace "keyword" with "feature"; define keywords as well.
-    </div>
     <section>
       <h4 id="camera-feature">camera</h4>
       <p>The <dfn>camera</dfn> feature controls access to video input devices
@@ -904,6 +913,7 @@ partial interface HTMLIFrameElement {
       ([[MEDIACAPTURE-API]]).</p>
       <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
       access to video input devices in that document.</p>
+      <p>The <a>feature name</a> for <a>camera</a> is "<code>camera</code>"</p>
       <p>The <a>default allowlist</a> for <a>camera</a> is
       <code>["self"]</code>.</p>
     </section>
@@ -914,6 +924,7 @@ partial interface HTMLIFrameElement {
       <p>If disabled in a document, the promise returned by
       {{requestMediaKeySystemAccess()}} must reject with a NotSupportedError.
       </p>
+      <p>The <a>feature name</a> for <a>eme</a> is "<code>eme</code>"</p>
       <p>The <a>default allowlist</a> for <a>eme</a> is
       <code>["self"]</code>.</p>
     </section>
@@ -925,6 +936,8 @@ partial interface HTMLIFrameElement {
       <p>If disabled in any document, the document will not be allowed to use
       fullscreen. If enabled, the document will be allowed to use
       fullscreen.</p>
+      <p>The <a>feature name</a> for <a>fullscreen</a> is
+      "<code>fullscreen</code>"</p>
       <p>The <a>default allowlist</a> for <a>fullscreen</a> is
       <code>["self"]</code>.</p>
     </section>
@@ -936,6 +949,8 @@ partial interface HTMLIFrameElement {
       <p>If disabled in any document, calls to both getCurrentPosition and
       watchPosition must result in the error callback being invoked with
       PERMISSION_DENIED.</p>
+      <p>The <a>feature name</a> for <a>geolocation</a> is
+      "<code>geolocation</code>"</p>
       <p>The <a>default allowlist</a> for <a>geolocation</a> is
       <code>["self"]</code>.</p>
     </section>
@@ -946,6 +961,8 @@ partial interface HTMLIFrameElement {
       ([[MEDIACAPTURE-API]]).</p>
       <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
       access to audio input devices in that document.</p>
+      <p>The <a>feature name</a> for <a>microphone</a> is "<code>microphone</code>"
+      </p>
       <p>The <a>default allowlist</a> for <a>microphone</a> is
       <code>["self"]</code>.</p>
     </section>
@@ -955,16 +972,19 @@ partial interface HTMLIFrameElement {
       allowed to use the {{requestMIDIAccess()}} method ([[WEBMIDI]]).</p>
       <p>If disabled in a document, the promise returned by requestMIDIAccess
       must reject with a DOMException parameter.</p>
+      <p>The <a>feature name</a> for <a>midi</a> is "<code>midi</code>"
+      </p>
       <p>The <a>default allowlist</a> for <a>midi</a> is
       <code>["self"]</code>.</p>
     </section>
     <section>
       <h4 id="payment-feature">payment</h4>
-      <p>The <dfn>payment</dfn> keyword controls whether the current document
+      <p>The <dfn>payment</dfn> feature controls whether the current document
       is allowed to use the [=PaymentRequest interface=]
       ([[PAYMENT-REQUEST]]).</p>
       <p>If disabled in a document, then calls to the PaymentRequest constuctor
       MUST throw a SecurityError.</p>
+      <p>The <a>feature name</a> for payment is "<code>payment</code>"</p>
       <p>The <a>default allowlist</a> for <a>payment</a> is
       <code>["self"]</code>.</p>
     </section>
@@ -975,16 +995,20 @@ partial interface HTMLIFrameElement {
       ([[audio-output]]).</p>
       <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
       access to audio output devices in that document.</p>
+      <p>The <a>feature name</a> for <a>speaker</a> is "<code>speaker</code>"
+      </p>
       <p>The <a>default allowlist</a> for <a>speaker</a> is
       <code>["self"]</code>.</p>
     </section>
     <section>
       <h4 id="vibrate-feature">vibrate</h4>
-      <p>The <dfn>vibrate</dfn> keyword controls whether the {{vibrate()}}
+      <p>The <dfn>vibrate</dfn> feature controls whether the {{vibrate()}}
       method ([[VIBRATION]]) is allowed to cause device vibration.</p>
       <p>If disabled in a document, then calls to the {{vibrate()}} method
       should silently do nothing. If enabled, the browser may allow the device
       to vibrate.</p>
+      <p>The <a>feature name</a> for <a>vibrate</a> is "<code>vibrate</code>"
+      </p>
       <p>The <a>default allowlist</a> for <a>vibrate</a> is
       <code>["self"]</code>.</p>
     </section>
