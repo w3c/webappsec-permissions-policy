@@ -802,7 +802,7 @@ partial interface HTMLIFrameElement {
   <p class="issue">TODO</p>
 </section>
 <section class="appendix">
-  <h2 id="features">Features</h2>
+  <h2 id="features">Appendix A: Features</h2>
   <p>This appendix is a reference to currently-defined valid <dfn data-lt=
   "feature">features</dfn>, their <dfn data-lt=
   "feature name|feature names|feature name keyword">feature name
