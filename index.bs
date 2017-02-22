@@ -678,15 +678,16 @@ partial interface HTMLIFrameElement {
     (<var>global</var>), this algorithm populates <var>global</var>'s
     <a>Feature Policy</a></p>
     <ol>
-      <li>Let <var>ips</var> set be an empty set</li>
-      <li>Let <var>dps</var> set be an empty set.</li>
+      <li>Let <var>inherited policies</var> be a new ordered map.</li>
+      <li>Let <var>declared policies</var> be a new ordered map.</li>
       <li>For each <var>feature</var> supported,
         <ol>
-          <li>Let <var>i</var> be the result of running <a href=
+          <li>Let <var>isInherited</var> be the result of running <a href=
           "#define-inherited-policy"></a> on <var>feature</var> and
-          <var>global</var>
+          <var>global</var>.
           </li>
-          <li>Add <var>i</var> to <var>ips</var>.</li>
+          <li>Set <var>inherited policies</var>[<var>feature</var>] to
+            <var>isInherited</var>.</li>
         </ol>
       </li>
       <li>Let <var>d</var> be the result of executing <a href=
@@ -695,13 +696,13 @@ partial interface HTMLIFrameElement {
       </li>
       <li>For each <var>directive</var> in <var>d</var>:
         <ol>
-          <li>if the inherited policy in <var>ips</var> for
-          <var>directive</var>'s feature is true, then add <var>d</var> to
-          <var>dps</var></li>
+          <li>If <var>inherited policies</var>[ in <var>inherited policies</var> for
+          <var>directive</var>'s feature is true, then append <var>d</var> to
+          <var>declared policies</var></li>
         </ol>
       </li>
       <li>Let <var>policy</var> be a new <a>feature policy</a>, with inherited
-      policy set <var>ips</var> and declared policy set <var>dps</var>.
+      policy set <var>inherited policies</var> and declared policy set <var>declared policies</var>.
       </li>
       <li>
         <a>Enforce</a> the policy <var>policy</var>.
