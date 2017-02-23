@@ -190,9 +190,8 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="header-policies">Header policies</h3>
     <p>A <dfn>header policy</dfn> is a declared policy delivered via an HTTP
-    header with the document, or in an HTML meta element in the document's
-    HEAD. These form the document's <a>feature policy</a>'s <a>declared
-    policy</a>.</p>
+    header with the document. This forms the document's <a>feature policy</a>'s
+    <a>declared policy</a>.</p>
   </section>
   <section>
     <h3 id="container-policies">Container policies</h3>
@@ -303,9 +302,9 @@ spec:fetch; type:dfn; text:value
     <div class="note">
       The begin-array and end-array marks ("[" and "]") are semantically part
       of the JSON representation of the declared policy, but they do not appear
-      in the HTTP headers or meta elements. Those characters are added to the
-      HTTP headers before parsing, so that the entire set of concatenated
-      headers are parsed as a single array.
+      in the HTTP headers. Those characters are added to the HTTP headers before
+      parsing, so that the entire set of concatenated headers are parsed as a
+      single array.
     </div>
   </section>
 </section>
@@ -327,37 +326,6 @@ spec:fetch; type:dfn; text:value
     it MUST <a href="#process-response-policy">process</a> and <a>enforce</a>
     the serialized policy as described in <a href=
     "#integration-with-html"></a>.</p>
-  </section>
-  <section>
-    <h3 id="feature-policy-meta-element">The <code>meta</code> element</h3>
-    <p>A {{Document}} may deliver a policy via one or more HTML <{meta}>
-    elements whose <{meta/http-equiv}> attributes are an
-    [=ASCII case-insensitive=] match for the string
-    "<code>Feature-Policy</code>". For example:</p>
-    <pre class="example">&lt;meta http-equiv="Feature-Policy" content='{"webrtc": [], "geolocation": ["https://example.com"]}'&gt;</pre>
-    <p>The <code>meta</code> policy is processed as defined in <a href=
-    "#process-meta-policy"></a> and modifications to the
-    <{meta/content}> attribute of a <{meta}> element after the
-    element has been parsed MUST be ignored.</p>
-    <p>To ensure that the policy can be applied before any scripts are able to
-    execute within the {{Document}}'s [=browsing context=], the following
-    restrictions apply to <code>meta</code> policy:</p>
-    <ul>
-      <li>The elements containing the <code>meta</code> policy MUST be
-      serialized completely within the first 1024 bytes of the document.</li>
-      <li>The elements containing the <code>meta</code> policy MUST appear
-        before any <{script}> or <{link}> elements.</li>
-    </ul>
-    <div class="note">
-      Since JSON serialization requires U+0022 QUOTATION MARK as a string
-      delimiter, it is recommended that the <{meta/content}> attribute
-      of the Feature Policy <{meta}> tag be delimited with U+0027 APOSTROPHE, to
-      avoid having to encode JSON delimeters as "<code>&amp;quot;</code>"
-    </div>
-    <div class="issue">
-      TODO: Ensure that inserting this element after scripts can run has no
-      effect.
-    </div>
   </section>
   <section>
     <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the
@@ -473,32 +441,6 @@ partial interface HTMLIFrameElement {
       Monkey-patching! As soon as we know that this is the direction we wish to
       pursue, upstream all of this.
     </div>
-    <section>
-      <h4 id="process-meta-policy">Process meta policy</h4>
-      <div class="note">
-        This section extends HTML's <code>meta</code> [pragma directives].
-      </div><strong>Feature policy state (http-equiv="feature-policy")</strong>
-      <p>This pragma extends the declared feature policy for a {{Document}}.</p>
-      <ol>
-        <li>If the [meta] element has no [content] attribute, or if that
-        attribute's value is the empty string, then abort these steps.</li>
-        <li>If the [meta] element is not being inserted in into the
-        {{Document}}'s [head] element, or if is inserted after any [script] or
-        [link] elements, then abort these steps.</li>
-        <li>Let document be the meta element's node document</li>
-        <li>Let <var>value</var> be the result of parsing the value of [meta]
-        element's [content] attribute with a [JSON parser].</li>
-        <li>If parsing returns an error, or <var>value</var> is not a [JSON
-        object], then abort these steps.</li>
-        <li>Let <var>directive</var> be the result of running <a href=
-        "#parse-policy-directive"></a> on <var>value</var> and
-        <var ignore>document</var>'s [origin].
-        </li>
-        <li>Run <a href="#merge-directive-with-declared-policy"></a> with <var>
-          directive</var> and document's feature policy's declared policy
-        </li>
-      </ol>
-    </section>
   </section>
 </section>
 <section>

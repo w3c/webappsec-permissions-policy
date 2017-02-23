@@ -1488,24 +1488,19 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <ol class="toc">
       <li><a href="#feature-policy-http-header-field"><span class="secno">6.1</span> <span class="content">Feature-Policy HTTP Header
     Field</span></a>
-      <li><a href="#feature-policy-meta-element"><span class="secno">6.2</span> <span class="content">The <code>meta</code> element</span></a>
-      <li><a href="#iframe-allow-attribute"><span class="secno">6.3</span> <span class="content">The <code>allow</code> attribute of the <code>iframe</code> element</span></a>
+      <li><a href="#iframe-allow-attribute"><span class="secno">6.2</span> <span class="content">The <code>allow</code> attribute of the <code>iframe</code> element</span></a>
       <li>
-       <a href="#legacy-attributes"><span class="secno">6.4</span> <span class="content">Additional attributes to support legacy
+       <a href="#legacy-attributes"><span class="secno">6.3</span> <span class="content">Additional attributes to support legacy
     features</span></a>
        <ol class="toc">
-        <li><a href="#iframe-allowfullscreen-attribute"><span class="secno">6.4.1</span> <span class="content">allowfullscreen</span></a>
-        <li><a href="#iframe-allowpaymentrequest-attribute"><span class="secno">6.4.2</span> <span class="content">allowpaymentrequest</span></a>
+        <li><a href="#iframe-allowfullscreen-attribute"><span class="secno">6.3.1</span> <span class="content">allowfullscreen</span></a>
+        <li><a href="#iframe-allowpaymentrequest-attribute"><span class="secno">6.3.2</span> <span class="content">allowpaymentrequest</span></a>
        </ol>
      </ol>
     <li>
      <a href="#integrations"><span class="secno">7</span> <span class="content">Integrations</span></a>
      <ol class="toc">
-      <li>
-       <a href="#integration-with-html"><span class="secno">7.1</span> <span class="content">Integration with HTML</span></a>
-       <ol class="toc">
-        <li><a href="#process-meta-policy"><span class="secno">7.1.1</span> <span class="content">Process meta policy</span></a>
-       </ol>
+      <li><a href="#integration-with-html"><span class="secno">7.1</span> <span class="content">Integration with HTML</span></a>
      </ol>
     <li>
      <a href="#algorithms"><span class="secno">8</span> <span class="content">Algorithms</span></a>
@@ -1718,9 +1713,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="4.5" id="header-policies"><span class="secno">4.5. </span><span class="content">Header policies</span><a class="self-link" href="#header-policies"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="header-policy">header policy</dfn> is a declared policy delivered via an HTTP
-    header with the document, or in an HTML meta element in the document’s
-    HEAD. These form the document’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-2">feature policy</a>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-5">declared
-    policy</a>.</p>
+    header with the document. This forms the document’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-2">feature policy</a>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-5">declared policy</a>.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.6" id="container-policies"><span class="secno">4.6. </span><span class="content">Container policies</span><a class="self-link" href="#container-policies"></a></h3>
@@ -2043,9 +2036,9 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       which contains the feature policy. </div>
      <div class="note" role="note"> The begin-array and end-array marks ("[" and "]") are semantically part
       of the JSON representation of the declared policy, but they do not appear
-      in the HTTP headers or meta elements. Those characters are added to the
-      HTTP headers before parsing, so that the entire set of concatenated
-      headers are parsed as a single array. </div>
+      in the HTTP headers. Those characters are added to the HTTP headers before
+      parsing, so that the entire set of concatenated headers are parsed as a
+      single array. </div>
     </section>
    </section>
    <section>
@@ -2064,30 +2057,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     it MUST <a href="#process-response-policy">process</a> and <a data-link-type="dfn" href="#enforce" id="ref-for-enforce-1">enforce</a> the serialized policy as described in <a href="#integration-with-html">§7.1 Integration with HTML</a>.</p>
     </section>
     <section>
-     <h3 class="heading settled" data-level="6.2" id="feature-policy-meta-element"><span class="secno">6.2. </span><span class="content">The <code>meta</code> element</span><a class="self-link" href="#feature-policy-meta-element"></a></h3>
-     <p>A <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-document">Document</a></code> may deliver a policy via one or more HTML <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#meta">meta</a></code> elements whose <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv">http-equiv</a></code> attributes are an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive">ASCII case-insensitive</a> match for the string
-    "<code>Feature-Policy</code>". For example:</p>
-<pre class="example" id="example-64676863"><a class="self-link" href="#example-64676863"></a>&lt;meta http-equiv="Feature-Policy" content='{"webrtc": [], "geolocation": ["https://example.com"]}'></pre>
-     <p>The <code>meta</code> policy is processed as defined in <a href="#process-meta-policy">§7.1.1 Process meta policy</a> and modifications to the <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-content">content</a></code> attribute of a <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#meta">meta</a></code> element after the
-    element has been parsed MUST be ignored.</p>
-     <p>To ensure that the policy can be applied before any scripts are able to
-    execute within the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-document">Document</a></code>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">browsing context</a>, the following
-    restrictions apply to <code>meta</code> policy:</p>
-     <ul>
-      <li>The elements containing the <code>meta</code> policy MUST be
-      serialized completely within the first 1024 bytes of the document.
-      <li>The elements containing the <code>meta</code> policy MUST appear
-        before any <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/scripting.html#script">script</a></code> or <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element">link</a></code> elements.
-     </ul>
-     <div class="note" role="note"> Since JSON serialization requires U+0022 QUOTATION MARK as a string
-      delimiter, it is recommended that the <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-content">content</a></code> attribute
-      of the Feature Policy <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/semantics.html#meta">meta</a></code> tag be delimited with U+0027 APOSTROPHE, to
-      avoid having to encode JSON delimeters as "<code>&amp;quot;</code>" </div>
-     <div class="issue" id="issue-7c854c21"><a class="self-link" href="#issue-7c854c21"></a> TODO: Ensure that inserting this element after scripts can run has no
-      effect. </div>
-    </section>
-    <section>
-     <h3 class="heading settled" data-level="6.3" id="iframe-allow-attribute"><span class="secno">6.3. </span><span class="content">The <code>allow</code> attribute of the <code>iframe</code> element</span><a class="self-link" href="#iframe-allow-attribute"></a></h3>
+     <h3 class="heading settled" data-level="6.2" id="iframe-allow-attribute"><span class="secno">6.2. </span><span class="content">The <code>allow</code> attribute of the <code>iframe</code> element</span><a class="self-link" href="#iframe-allow-attribute"></a></h3>
 <pre class="idl highlight def"><span class="kt">partial</span> <span class="kt">interface</span> <a class="nv idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmliframeelement">HTMLIFrameElement</a> {
     [<a class="nv idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/scripting.html#cereactions">CEReactions</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject">SameObject</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards">PutForwards</a>=<a class="n idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value">value</a>] <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist">DOMTokenList</a> <dfn class="nv idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMTokenList" id="dom-htmliframeelement-allow">allow<a class="self-link" href="#dom-htmliframeelement-allow"></a></dfn>;
 };</pre>
@@ -2102,13 +2072,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     of URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-src">src</a></code> attribute.</p>
     </section>
     <section>
-     <h3 class="heading settled" data-level="6.4" id="legacy-attributes"><span class="secno">6.4. </span><span class="content">Additional attributes to support legacy
+     <h3 class="heading settled" data-level="6.3" id="legacy-attributes"><span class="secno">6.3. </span><span class="content">Additional attributes to support legacy
     features</span><a class="self-link" href="#legacy-attributes"></a></h3>
      <p>Some features controlled by Feature Policy have existing iframe
     attributes defined. This specification redefines these attributes to act as
     declared policies for the iframe element.</p>
      <section>
-      <h4 class="heading settled" data-level="6.4.1" id="iframe-allowfullscreen-attribute"><span class="secno">6.4.1. </span><span class="content">allowfullscreen</span><a class="self-link" href="#iframe-allowfullscreen-attribute"></a></h4>
+      <h4 class="heading settled" data-level="6.3.1" id="iframe-allowfullscreen-attribute"><span class="secno">6.3.1. </span><span class="content">allowfullscreen</span><a class="self-link" href="#iframe-allowfullscreen-attribute"></a></h4>
       <p>The "<code>allowfullscreen</code>" iframe attribute controls access to <code class="idl"><a data-link-type="idl">requestFullscreen()</a></code>.</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
       value contains the token "<code>fullscreen</code>", then the
@@ -2124,7 +2094,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         of <code>allow="fullscreen"</code> will be used. </div>
      </section>
      <section>
-      <h4 class="heading settled" data-level="6.4.2" id="iframe-allowpaymentrequest-attribute"><span class="secno">6.4.2. </span><span class="content">allowpaymentrequest</span><a class="self-link" href="#iframe-allowpaymentrequest-attribute"></a></h4>
+      <h4 class="heading settled" data-level="6.3.2" id="iframe-allowpaymentrequest-attribute"><span class="secno">6.3.2. </span><span class="content">allowpaymentrequest</span><a class="self-link" href="#iframe-allowpaymentrequest-attribute"></a></h4>
       <p>The "<code>allowpaymentrequest</code>" iframe attribute controls
       access to <a data-link-type="dfn">Payment interface</a>.</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
@@ -2177,27 +2147,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      </ol>
      <div class="issue" id="issue-7605d231"><a class="self-link" href="#issue-7605d231"></a> Monkey-patching! As soon as we know that this is the direction we wish to
       pursue, upstream all of this. </div>
-     <section>
-      <h4 class="heading settled" data-level="7.1.1" id="process-meta-policy"><span class="secno">7.1.1. </span><span class="content">Process meta policy</span><a class="self-link" href="#process-meta-policy"></a></h4>
-      <div class="note" role="note"> This section extends HTML’s <code>meta</code> [pragma directives]. </div>
-      <strong>Feature policy state (http-equiv="feature-policy")</strong> 
-      <p>This pragma extends the declared feature policy for a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-document">Document</a></code>.</p>
-      <ol>
-       <li>If the [meta] element has no [content] attribute, or if that
-        attribute’s value is the empty string, then abort these steps.
-       <li>If the [meta] element is not being inserted in into the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-document">Document</a></code>'s [head] element, or if is inserted after any [script] or
-        [link] elements, then abort these steps.
-       <li>Let document be the meta element’s node document
-       <li>Let <var>value</var> be the result of parsing the value of [meta]
-        element’s [content] attribute with a [JSON parser].
-       <li>If parsing returns an error, or <var>value</var> is not a [JSON
-        object], then abort these steps.
-       <li>Let <var>directive</var> be the result of running <a href="#parse-policy-directive">§8.3 Parse policy directive from
-    value and origin</a> on <var>value</var> and <var>document</var>’s [origin]. 
-       <li>Run <a href="#merge-directive-with-declared-policy">§8.4 Merge directive with declared
-    policy</a> with <var> directive</var> and document’s feature policy’s declared policy 
-      </ol>
-     </section>
     </section>
    </section>
    <section>
@@ -2737,7 +2686,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li><a href="#dom-htmliframeelement-allow">allow</a><span>, in §6.3</span>
+   <li><a href="#dom-htmliframeelement-allow">allow</a><span>, in §6.2</span>
    <li><a href="#allowlist">allowlist</a><span>, in §4.8</span>
    <li><a href="#allowlist">allowlists</a><span>, in §4.8</span>
    <li><a href="#camera">camera</a><span>, in §Unnumbered section</span>
@@ -2800,25 +2749,14 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <li><a href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a>
      <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#allowed-to-use">allowed to use</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#ascii-serialisation-of-an-origin">ascii serialization of an origin</a>
-     <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">browsing context</a>
-     <li><a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-content">content</a>
      <li><a href="https://html.spec.whatwg.org/multipage/webappapis.html#global-object">global object</a>
      <li><a href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-header-list">header list</a>
-     <li><a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv">http-equiv</a>
      <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a>
-     <li><a href="https://html.spec.whatwg.org/multipage/semantics.html#the-link-element">link</a>
-     <li><a href="https://html.spec.whatwg.org/multipage/semantics.html#meta">meta</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context">nested browsing context</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#same-origin-domain">same origin-domain</a>
      <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-sandbox">sandbox</a>
-     <li><a href="https://html.spec.whatwg.org/multipage/scripting.html#script">script</a>
      <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-src">src</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context">top-level browsing context</a>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[INFRA]</a> defines the following terms:
-    <ul>
-     <li><a href="https://infra.spec.whatwg.org/#ascii-case-insensitive">ascii case-insensitive</a>
     </ul>
    <li>
     <a data-link-type="biblio">[WHATWG-URL]</a> defines the following terms:
@@ -2841,8 +2779,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
-   <dt id="biblio-infra">[INFRA]
-   <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-rfc3864">[RFC3864]
@@ -2886,8 +2822,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
 </pre>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
-   <div class="issue"> TODO: Ensure that inserting this element after scripts can run has no
-      effect. <a href="#issue-7c854c21"> ↵ </a></div>
    <div class="issue"> Monkey-patching! As soon as we know that this is the direction we wish to
       pursue, upstream all of this. <a href="#issue-7605d231"> ↵ </a></div>
    <div class="issue">TODO<a href="#issue-b7b1e314"> ↵ </a></div>
@@ -2988,10 +2922,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <b><a href="#container-policy">#container-policy</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-container-policy-1">4.6. Container policies</a> <a href="#ref-for-container-policy-2">(2)</a> <a href="#ref-for-container-policy-3">(3)</a> <a href="#ref-for-container-policy-4">(4)</a>
-    <li><a href="#ref-for-container-policy-5">6.3. The allow attribute of the
+    <li><a href="#ref-for-container-policy-5">6.2. The allow attribute of the
     iframe element</a>
-    <li><a href="#ref-for-container-policy-6">6.4.1. allowfullscreen</a>
-    <li><a href="#ref-for-container-policy-7">6.4.2. allowpaymentrequest</a>
+    <li><a href="#ref-for-container-policy-6">6.3.1. allowfullscreen</a>
+    <li><a href="#ref-for-container-policy-7">6.3.2. allowpaymentrequest</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="policy-directive">
@@ -3014,10 +2948,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li><a href="#ref-for-allowlist-2">4.7. Policy directives</a>
     <li><a href="#ref-for-allowlist-3">4.8. Allowlists</a> <a href="#ref-for-allowlist-4">(2)</a>
     <li><a href="#ref-for-allowlist-5">4.9. Default Allowlists</a>
-    <li><a href="#ref-for-allowlist-6">6.3. The allow attribute of the
+    <li><a href="#ref-for-allowlist-6">6.2. The allow attribute of the
     iframe element</a> <a href="#ref-for-allowlist-7">(2)</a>
-    <li><a href="#ref-for-allowlist-8">6.4.1. allowfullscreen</a>
-    <li><a href="#ref-for-allowlist-9">6.4.2. allowpaymentrequest</a>
+    <li><a href="#ref-for-allowlist-8">6.3.1. allowfullscreen</a>
+    <li><a href="#ref-for-allowlist-9">6.3.2. allowpaymentrequest</a>
     <li><a href="#ref-for-allowlist-10">8.3. Parse policy directive from
     value and origin</a> <a href="#ref-for-allowlist-11">(2)</a>
     <li><a href="#ref-for-allowlist-12">8.8. Define an inherited policy for
