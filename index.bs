@@ -388,7 +388,7 @@ partial interface HTMLIFrameElement {
       {{requestFullscreen()}}.</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
       value contains the token "<code>fullscreen</code>", then the
-      "<code>allowfullscreen</code> attribute should have no effect.</p>
+      "<code>allowfullscreen</code> attribute must have no effect.</p>
       <p>Otherwise, the presence of an "allowfullscreen" attribute on an iframe
       will result in adding an <a>allowlist</a> of ["<code>*</code>"] for the
       "fullscreen" feature to the frame's <a>container policy</a>, when it is
@@ -408,7 +408,7 @@ partial interface HTMLIFrameElement {
       access to [=Payment interface=].</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
       value contains the token "<code>payment</code>", then the
-      "<code>allowpaymentrequest</code> attribute should have no effect.</p>
+      "<code>allowpaymentrequest</code> attribute must have no effect.</p>
       <p>Otherwise, the presence of an "allowpaymentrequest" attribute on an
       iframe will result in adding an <a>allowlist</a> of ["<code>*</code>"] for
       the "payment" feature to the frame's <a>container policy</a>, when it is
