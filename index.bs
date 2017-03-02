@@ -5,8 +5,7 @@ Level: 1
 Status: CG-DRAFT
 Group: WICG
 URL: https://wicg.github.io/feature-policy/
-Editor: Ilya Grigorik, Google, igrigorik@google.com
-Editor: Mike West, Google, mkwst@google.com
+Editor: Ian Clelland, Google, iclelland@google.com
 Abstract: This specification defines a mechanism that allows developers to selectively enable and disable use of various browser features and APIs.
 Repository: https://github.com/wicg/feature-policy/
 Markup Shorthands: css no, markdown yes
