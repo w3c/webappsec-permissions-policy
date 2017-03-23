@@ -165,9 +165,7 @@ spec:fetch; type:dfn; text:value
     <a href="#iframe-allow-attribute">allow attributes</a> defined on the
     browsing context container.</p>
     <p>An <dfn data-lt="inherited policy|inherited policies">inherited
-    policy</dfn> for a <a>feature</a> is a boolean associated with that feature
-    in a Document or WorkerGlobalScope. It can take the value Enabled or
-    Disabled.</p>
+    policy</dfn> declares a <a>feature</a> as Enabled or Disabled.</p>
     <p>An <dfn>inherited policy set</dfn> for a {{Document}} or
     {{WorkerGlobalScope}} is the set of <a>inherited policies</a> for each
     <a>feature</a> available in that scope.</p>
@@ -175,22 +173,20 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="declared-policies">Declared policies</h3>
     <p>A <dfn data-lt="declared policy|declared feature policy">declared
-    policy</dfn> is a set of <a>policy directives</a>, which may be the empty
-    set.</p>
-    <p>The <a>declared policy</a> is represented in HTTP headers and HTML
-    attributes as a JSON string.</p>
+    policy</dfn> is an ordered map from <a>features</a> to <a>allowlists</a>.
+    </p>
     <p>A {{Document}} or {{WorkerGlobalScope}} is considered
-    <dfn>feature-policy-aware</dfn> if it has a <a>declared policy</a> delivered
-    via a Feature-Policy HTTP header.</p>
+    <dfn>feature-policy-aware</dfn> if it has a <a>declared policy</a> which is
+    not empty.</p>
     <p>A {{Document}} or {{WorkerGlobalScope}} is which is not
     <a>feature-policy-aware</a> is considered
     <dfn>feature-policy-oblivious</dfn>.</p>
   </section>
   <section>
     <h3 id="header-policies">Header policies</h3>
-    <p>A <dfn>header policy</dfn> is a declared policy delivered via an HTTP
-    header with the document. This forms the document's <a>feature policy</a>'s
-    <a>declared policy</a>.</p>
+    <p>A <dfn>header policy</dfn> is a list of <a>policy directives</a>
+    delivered via an HTTP header with the document. This forms the document's
+    <a>feature policy</a>'s <a>declared policy</a>.</p>
   </section>
   <section>
     <h3 id="container-policies">Container policies</h3>
@@ -215,8 +211,10 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="policy-directives">Policy directives</h3>
     <p>A <dfn data-lt="policy directive|policy directives">policy
-    directive</dfn> is a dictionary, mapping <a>feature names</a> to
+    directive</dfn> is an ordered map, mapping <a>feature names</a> to
     corresponding <a>allowlists</a> of origins.</p>
+    <p>A <a>policy directive</a> is represented in HTTP headers and HTML
+    attributes as the string serialization of a JSON object.</p>
     <p>The following sections define the set of known <a>feature names</a>.
     Future versions of this document may define additional such names, as user
     agents ignore policy directives with unrecognized names when parsing the
@@ -263,8 +261,9 @@ spec:fetch; type:dfn; text:value
   <h2 id="serialization">Feature Policy Serialization</h2>
   <section>
     <h3 id="json-serialization">JSON serialization</h3>
-    <p>Declared Policies are represented in HTTP headers and in HTML attributes
-    as JSON text [[!RFC7159]].</p>
+    <p><a>Policy Directives</a> are represented in HTTP headers and in HTML
+    attributes as JSON text [[!RFC7159]].</p>
+    <p><dfn>policy-directive-json</dfn> must match:</p>
     <pre class="railroad">
     Sequence:
       T: [
@@ -315,11 +314,10 @@ spec:fetch; type:dfn; text:value
     <p>The <dfn lt="feature-policy-header">Feature-Policy</dfn> HTTP header
     field can be used in the [=response=] (server to client) to communicate the
     <a>feature policy</a> that should be enforced by the client.</p>
-    <p>The header's value is the <a href="#json-serialization"></a> of the
-    elements of the <a>declared policy</a>:</p>
+    <p>The header's value is the <a href="#json-serialization"></a> of one or
+    more <a>policy directive</a>s:.</p>
     <pre class="abnf">
-      FeaturePolicy = 1#json-field-value
-                ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
+      FeaturePolicy = <a>policy-directive-json</a> *("," <a>policy-directive-json</a>)
     </pre>
     <p>When the user agent receives a <code>Feature-Policy</code> header field,
     it MUST <a href="#process-response-policy">process</a> and <a>enforce</a>
@@ -474,10 +472,10 @@ partial interface HTMLIFrameElement {
       <li>Let <var>policy</var> be an empty list.</li>
       <li>Let <var>list</var> be the result of parsing <var>value</var> with a
       [=JSON Parser=]. If <var>value</var> cannot be parsed, return
-      <var>policy</var>.</li>
-      <li>Note: If <var>value</var> can be parsed, <var>list</var> must be a
-      valid [=JSON Array=].</li>
-      <li>For each <var>element</var> in <var>list</var>:
+      <var>policy</var>.
+      <div class="note">Note: If <var>value</var> can be parsed, <var>list</var>
+      must be a valid [=JSON Array=].</div></li>
+      <li>For each <var>element</var> of <var>list</var>:
         <ol>
           <li>If <var>element</var> is not a JSON object, then continue.</li>
           <li>Let <var>directive</var> be the result of executing <a href=
@@ -499,10 +497,8 @@ partial interface HTMLIFrameElement {
     (<var>origin</var>) this algorithm will return a <a>policy
     directive</a>.</p>
     <ol>
-      <li>Let <var>directive</var> be a new dictionary, mapping features to
-        <a>allowlist</a>s.
-      </li>
-      <li>For each <var>key</var> and associated <var>targetlist</var> in
+      <li>Let <var>directive</var> be an empty ordered map.</li>
+      <li>For each <var>key</var> → <var>targetlist</var> of
         <var>value</var>:
         <ol>
           <li>If <var>key</var> is not equal to the name of any recognized
@@ -530,8 +526,8 @@ partial interface HTMLIFrameElement {
               </li>
             </ol>
           </li>
-          <li>Insert <var>allowlist</var> into <var>directive</var> as the
-          value for the key <var>feature</var>.</li>
+          <li>Set <var>directive</var>[<var>feature</var>] to
+	  <var>allowlist</var>.</li>
         </ol>
       </li>
       <li>Return <var>directive</var></li>
@@ -544,12 +540,12 @@ partial interface HTMLIFrameElement {
     (<var>policy</var>), this algorithm will modify <var>policy</var> to
     account for the new directive.</p>
     <ol>
-      <li>For each <var>feature</var> and associated <var>allowlist</var> in
+      <li>For each <var>feature</var> → <var>allowlist</var> of
       <var>directive</var>:
         <ol>
           <li>If <var>policy</var> does not contain an allowlist for
-          <var>feature</var>, then add <var>allowlist</var> to
-          <var>policy</var> as the allowlist for <var>feature</var>.</li>
+          <var>feature</var>, then set <var>policy</var>[<var>feature</var>] to
+	  <var>allowlist</var>.</li>
         </ol>
       </li>
     </ol>
@@ -613,7 +609,7 @@ partial interface HTMLIFrameElement {
       <li>Let <var>valid-features</var> be an empty list.</li>
       <li>If <var>list</var> is <code>null</code> or empty, return
       <var>valid-features</var>.</li>
-      <li>For each <var>item</var> in <var>list</var>:
+      <li>For each <var>item</var> of <var>list</var>:
         <ol>
           <li>Convert <var>item</var> to ASCII-lowercase.</li>
           <li>If <var>item</var> matches a defined <a>feature name</a> which is
@@ -650,15 +646,16 @@ partial interface HTMLIFrameElement {
       "#process-response-policy"></a> on <var>response</var> and
       <var>global</var>.
       </li>
-      <li>For each <var>directive</var> in <var>d</var>:
+      <li>For each <var>feature</var> -> <var>allowlist</var> of <var>d</var>:
         <ol>
-          <li>If <var>inherited policies</var>[ in <var>inherited policies</var> for
-          <var>directive</var>'s feature is true, then append <var>d</var> to
-          <var>declared policies</var></li>
+          <li>If <var>inherited policies</var>[<var>feature</var>] is true, then
+	  set <var>declared policies</var>[<var>feature</var>] to
+	  <var>allowlist</var>.</li>
         </ol>
       </li>
       <li>Let <var>policy</var> be a new <a>feature policy</a>, with inherited
-      policy set <var>inherited policies</var> and declared policy set <var>declared policies</var>.
+      policy set <var>inherited policies</var> and declared policy set
+      <var>declared policies</var>.
       </li>
       <li>
         <a>Enforce</a> the policy <var>policy</var>.
@@ -860,7 +857,7 @@ partial interface HTMLIFrameElement {
     </section>
     <section>
       <h4 id="eme-feature">eme</h4>
-      <p>The <dfn>eme</dfn> keyword controls whether encrypted media extensions
+      <p>The <dfn>eme</dfn> feature controls whether encrypted media extensions
       [[encrypted-media]] are available.</p>
       <p>If disabled in a document, the promise returned by
       {{requestMediaKeySystemAccess()}} must reject with a NotSupportedError.
@@ -871,7 +868,7 @@ partial interface HTMLIFrameElement {
     </section>
     <section>
       <h4 id="fullscreen-feature">fullscreen</h4>
-      <p>The <dfn>fullscreen</dfn> keyword controls whether the
+      <p>The <dfn>fullscreen</dfn> feature controls whether the
       {{requestFullscreen()}} method ([[WHATWG-FULLSCREEN]]) is allowed to
       request fullscreen.</p>
       <p>If disabled in any document, the document will not be allowed to use
@@ -884,7 +881,7 @@ partial interface HTMLIFrameElement {
     </section>
     <section>
       <h4 id="geolocation-feature">geolocation</h4>
-      <p>The <dfn>geolocation</dfn> keyword controls whether the current
+      <p>The <dfn>geolocation</dfn> feature controls whether the current
       document is alowed to use the [=Geolocation interface=]
       ([[GEOLOCATION-API]]).</p>
       <p>If disabled in any document, calls to both getCurrentPosition and
@@ -902,14 +899,15 @@ partial interface HTMLIFrameElement {
       ([[MEDIACAPTURE-API]]).</p>
       <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
       access to audio input devices in that document.</p>
-      <p>The <a>feature name</a> for <a>microphone</a> is "<code>microphone</code>"
+      <p>The <a>feature name</a> for <a>microphone</a> is
+      "<code>microphone</code>"
       </p>
       <p>The <a>default allowlist</a> for <a>microphone</a> is
       <code>["self"]</code>.</p>
     </section>
     <section>
       <h4 id="midi-feature">midi</h4>
-      <p>The <dfn>midi</dfn> keyword controls whether the current document is
+      <p>The <dfn>midi</dfn> feature controls whether the current document is
       allowed to use the {{requestMIDIAccess()}} method ([[WEBMIDI]]).</p>
       <p>If disabled in a document, the promise returned by requestMIDIAccess
       must reject with a DOMException parameter.</p>
