@@ -125,7 +125,7 @@ spec:fetch; type:dfn; text:value
   <h2 id="framwork">Framework</h2>
   <section>
     <h3 id="features">Policy-controlled Features</h3>
-    <p>A <dfn data-lt="feature|policy-controlled feature">policy-controlled feature</dfn>
+    <p>A <dfn export data-lt="policy-controlled feature">policy-controlled feature</dfn>
     is an API or behaviour which can be enabled or disabled in a document or web
     worker by referring to it in a <a>feature policy</a>.
     <div class="note">For brevity, policy-controlled features will often be
@@ -139,8 +139,9 @@ spec:fetch; type:dfn; text:value
     is available to top-level documents, and how access to that feature is
     inherited by cross-origin frames.</p>
     <p>A user agent has a set of <dfn>supported features</dfn>, which is the set
-    of <a>features</a> which it allows to be controlled through policies. User
-    agents are not required to support every <a>feature</a>.</p>
+    of <a data-lt="policy-controlled feature">features</a> which it allows to be
+    controlled through policies. User agents are not required to support every
+    <a data-lt="policy-controlled feature">feature</a>.</p>
     <p>The <a>policy-controlled features</a> themselves are not themselves part
     of this framework. A non-normative list of currently-defined features is
     included as an appendix to this specification.
@@ -172,15 +173,17 @@ spec:fetch; type:dfn; text:value
     <a href="#iframe-allow-attribute">allow attributes</a> defined on the
     browsing context container.</p>
     <p>An <dfn data-lt="inherited policy|inherited policies">inherited
-    policy</dfn> declares a <a>feature</a> as Enabled or Disabled.</p>
+    policy</dfn> declares a <a data-lt="policy-controlled feature">feature</a>
+    as Enabled or Disabled.</p>
     <p>An <dfn>inherited policy set</dfn> for a {{Document}} or
     {{WorkerGlobalScope}} is the set of <a>inherited policies</a> for each
-    <a>feature</a> available in that scope.</p>
+    <a data-lt="policy-controlled feature">feature</a> available in that scope.</p>
   </section>
   <section>
     <h3 id="declared-policies">Declared policies</h3>
     <p>A <dfn data-lt="declared policy|declared feature policy">declared
-    policy</dfn> is an ordered map from <a>features</a> to <a>allowlists</a>.
+    policy</dfn> is an ordered map from
+    <a data-lt="policy-controlled feature">features</a> to <a>allowlists</a>.
     </p>
     <p>A {{Document}} or {{WorkerGlobalScope}} is considered
     <dfn>feature-policy-aware</dfn> if it has a <a>declared policy</a> which is
@@ -343,7 +346,8 @@ partial interface HTMLIFrameElement {
     case-insensitive. The allowed values are names of features. Unrecognized
     values must be ignored.</p>
     <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a>allowlist</a> for each recognized <a>feature</a> to the frame's
+    an <a>allowlist</a> for each recognized
+    <a data-lt="policy-controlled feature">feature</a> to the frame's
     <a>container policy</a>, when it is contructed.</p>
     <p>The <a>allowlist</a> will contain a single origin, which is the origin
     of the URL in the iframe's <{iframe/src}> attribute.</p>
@@ -351,9 +355,10 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="legacy-attributes">Additional attributes to support legacy
     features</h3>
-    <p>Some <a>features</a> controlled by Feature Policy have existing iframe
-    attributes defined. This specification redefines these attributes to act as
-    declared policies for the iframe element.</p>
+    <p>Some <a data-lt="policy-controlled feature">features</a> controlled by
+    Feature Policy have existing iframe attributes defined. This specification
+    redefines these attributes to act as declared policies for the iframe
+    element.</p>
     <section>
       <h4 id="iframe-allowfullscreen-attribute">allowfullscreen</h4>
       <p>The "<code>allowfullscreen</code>" iframe attribute controls access to

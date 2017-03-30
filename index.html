@@ -1657,21 +1657,21 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <h2 class="heading settled" data-level="4" id="framwork"><span class="secno">4. </span><span class="content">Framework</span><a class="self-link" href="#framwork"></a></h2>
     <section>
      <h3 class="heading settled" data-level="4.1" id="features"><span class="secno">4.1. </span><span class="content">Policy-controlled Features</span><a class="self-link" href="#features"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="feature|policy-controlled feature" data-noexport="" id="feature">policy-controlled feature</dfn> is an API or behaviour which can be enabled or disabled in a document or web
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" id="policy-controlled-feature">policy-controlled feature</dfn> is an API or behaviour which can be enabled or disabled in a document or web
     worker by referring to it in a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-1">feature policy</a>. </p>
      <div class="note" role="note">For brevity, policy-controlled features will often be
     referred to in this document simply as "Features". Unless otherwise
-    indicated, the term "feature" refers to <a data-link-type="dfn" href="#feature" id="ref-for-feature-1">policy-controlled features</a>.
+    indicated, the term "feature" refers to <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-1">policy-controlled features</a>.
     Other specification, defining such features, should use the longer term to
     avoid any ambiguity.</div>
-     <p><a data-link-type="dfn" href="#feature" id="ref-for-feature-2">Policy-controlled features</a> have a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-name">feature name</dfn> keyword,
+     <p><a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-2">Policy-controlled features</a> have a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-name">feature name</dfn> keyword,
     which is a token used in <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-1">policy directives</a>, and a <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-1">default
-    allowlist</a>, which defines whether the <a data-link-type="dfn" href="#feature" id="ref-for-feature-3">policy-controlled feature</a> is available to top-level documents, and how access to that feature is
+    allowlist</a>, which defines whether the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-3">policy-controlled feature</a> is available to top-level documents, and how access to that feature is
     inherited by cross-origin frames.</p>
      <p>A user agent has a set of <dfn data-dfn-type="dfn" data-noexport="" id="supported-features">supported features<a class="self-link" href="#supported-features"></a></dfn>, which is the set
-    of <a data-link-type="dfn" href="#feature" id="ref-for-feature-4">features</a> which it allows to be controlled through policies. User
-    agents are not required to support every <a data-link-type="dfn" href="#feature" id="ref-for-feature-5">feature</a>.</p>
-     <p>The <a data-link-type="dfn" href="#feature" id="ref-for-feature-6">policy-controlled features</a> themselves are not themselves part
+    of <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-4">features</a> which it allows to be
+    controlled through policies. User agents are not required to support every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-5">feature</a>.</p>
+     <p>The <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-6">policy-controlled features</a> themselves are not themselves part
     of this framework. A non-normative list of currently-defined features is
     included as an appendix to this specification. </p>
     </section>
@@ -1688,7 +1688,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <h3 class="heading settled" data-level="4.3" id="inherited-policies"><span class="secno">4.3. </span><span class="content">Inherited policies</span><a class="self-link" href="#inherited-policies"></a></h3>
      <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
-    for each <a data-link-type="dfn" href="#feature" id="ref-for-feature-7">policy-controlled feature</a>. This inherited policy set
+    for each <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-7">policy-controlled feature</a>. This inherited policy set
     determines the initial state (enabled or disabled) of each feature, and
     whether it can be controlled by a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-2">declared policy</a> in the document. </p>
      <p>In a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-document">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context">top-level browsing context</a>, or in a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code>, the inherited feature set is based on defined
@@ -1697,13 +1697,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     set is based on the parent document’s feature policy, as well as any <a href="#iframe-allow-attribute">allow attributes</a> defined on the
     browsing context container.</p>
      <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="inherited policy|inherited policies" data-noexport="" id="inherited-policy">inherited
-    policy</dfn> declares a <a data-link-type="dfn" href="#feature" id="ref-for-feature-8">feature</a> as Enabled or Disabled.</p>
-     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="inherited-policy-set">inherited policy set</dfn> for a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-document">Document</a></code> or <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> is the set of <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-1">inherited policies</a> for each <a data-link-type="dfn" href="#feature" id="ref-for-feature-9">feature</a> available in that scope.</p>
+    policy</dfn> declares a <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-8">feature</a> as Enabled or Disabled.</p>
+     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="inherited-policy-set">inherited policy set</dfn> for a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-document">Document</a></code> or <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> is the set of <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-1">inherited policies</a> for each <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-9">feature</a> available in that scope.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.4" id="declared-policies"><span class="secno">4.4. </span><span class="content">Declared policies</span><a class="self-link" href="#declared-policies"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="declared policy|declared feature policy" data-noexport="" id="declared-policy">declared
-    policy</dfn> is an ordered map from <a data-link-type="dfn" href="#feature" id="ref-for-feature-10">features</a> to <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-2">allowlists</a>. </p>
+    policy</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-10">features</a> to <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-2">allowlists</a>. </p>
      <p>A <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-document">Document</a></code> or <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> is considered <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-policy-aware">feature-policy-aware</dfn> if it has a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-3">declared policy</a> which is
     not empty.</p>
      <p>A <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-document">Document</a></code> or <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> is which is not <a data-link-type="dfn" href="#feature-policy-aware" id="ref-for-feature-policy-aware-1">feature-policy-aware</a> is considered <dfn data-dfn-type="dfn" data-noexport="" id="feature-policy-oblivious">feature-policy-oblivious<a class="self-link" href="#feature-policy-oblivious"></a></dfn>.</p>
@@ -1752,7 +1752,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="4.9" id="default-allowlists"><span class="secno">4.9. </span><span class="content">Default Allowlists</span><a class="self-link" href="#default-allowlists"></a></h3>
-     <p>Every <a data-link-type="dfn" href="#feature" id="ref-for-feature-11">policy-controlled feature</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="default allowlist|default allowlists" data-noexport="" id="default-allowlist">default allowlist</dfn>, which is an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-6">allowlist</a>. The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-2">default allowlist</a> controls the origins which
+     <p>Every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-11">policy-controlled feature</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="default allowlist|default allowlists" data-noexport="" id="default-allowlist">default allowlist</dfn>, which is an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-6">allowlist</a>. The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-2">default allowlist</a> controls the origins which
     are allowed to access the feature when used in a top-level document with no
     declared policy, and also determines whether access to the feature is
     automatically delegated to child documents.</p>
@@ -2065,16 +2065,17 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     case-insensitive. The allowed values are names of features. Unrecognized
     values must be ignored.</p>
      <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-7">allowlist</a> for each recognized <a data-link-type="dfn" href="#feature" id="ref-for-feature-12">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-5">container policy</a>, when it is contructed.</p>
+    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-7">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-12">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-5">container policy</a>, when it is contructed.</p>
      <p>The <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-8">allowlist</a> will contain a single origin, which is the origin
     of the URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-src">src</a></code> attribute.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.3" id="legacy-attributes"><span class="secno">6.3. </span><span class="content">Additional attributes to support legacy
     features</span><a class="self-link" href="#legacy-attributes"></a></h3>
-     <p>Some <a data-link-type="dfn" href="#feature" id="ref-for-feature-13">features</a> controlled by Feature Policy have existing iframe
-    attributes defined. This specification redefines these attributes to act as
-    declared policies for the iframe element.</p>
+     <p>Some <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-13">features</a> controlled by
+    Feature Policy have existing iframe attributes defined. This specification
+    redefines these attributes to act as declared policies for the iframe
+    element.</p>
      <section>
       <h4 class="heading settled" data-level="6.3.1" id="iframe-allowfullscreen-attribute"><span class="secno">6.3.1. </span><span class="content">allowfullscreen</span><a class="self-link" href="#iframe-allowfullscreen-attribute"></a></h4>
       <p>The "<code>allowfullscreen</code>" iframe attribute controls access to <code class="idl"><a data-link-type="idl">requestFullscreen()</a></code>.</p>
@@ -2196,8 +2197,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li>
        For each <var>key</var> → <var>targetlist</var> of <var>value</var>: 
        <ol>
-        <li>If <var>key</var> is not equal to the name of any recognized <a data-link-type="dfn" href="#feature" id="ref-for-feature-14">policy-controlled feature</a>, then continue.
-        <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#feature" id="ref-for-feature-15">policy-controlled feature</a> named by <var>key</var>.
+        <li>If <var>key</var> is not equal to the name of any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-14">policy-controlled feature</a>, then continue.
+        <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-15">policy-controlled feature</a> named by <var>key</var>.
         <li>If <var>targetlist</var> is not an array, then continue.
         <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-11">allowlist</a>. 
         <li>If <var>targetlist</var> contains the string "<code>*</code>",
@@ -2395,7 +2396,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    </section>
    <section class="appendix">
     <h2 class="heading settled" id="defined-features"><span class="content">Appendix A: Policy-Controlled Features</span><a class="self-link" href="#defined-features"></a></h2>
-    <p>This appendix is a reference to currently-defined valid <a data-link-type="dfn" href="#feature" id="ref-for-feature-16">policy-controlled features</a>, their <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-4">feature name</a> keywords, and
+    <p>This appendix is a reference to currently-defined valid <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-16">policy-controlled features</a>, their <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-4">feature name</a> keywords, and
   their effect effect when applied via a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-9">directive</a> as part of a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-12">feature policy</a>. This reference is non-normative; the actual definitions
   are given in subsections below.</p>
     <div class="issue" id="issue-3f060b31"><a class="self-link" href="#issue-3f060b31"></a> As soon as possible, move the definitions to their respective controlling
@@ -2694,7 +2695,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <li><a href="#default-allowlist">default allowlists</a><span>, in §4.9</span>
    <li><a href="#eme">eme</a><span>, in §Unnumbered section</span>
    <li><a href="#enforce">enforce</a><span>, in §7.1</span>
-   <li><a href="#feature">feature</a><span>, in §4.1</span>
    <li><a href="#feature-name">feature name</a><span>, in §4.1</span>
    <li><a href="#feature-policy">feature policy</a><span>, in §4.2</span>
    <li><a href="#feature-policy-aware">feature-policy-aware</a><span>, in §4.4</span>
@@ -2710,7 +2710,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <li><a href="#microphone">microphone</a><span>, in §Unnumbered section</span>
    <li><a href="#midi">midi</a><span>, in §Unnumbered section</span>
    <li><a href="#payment">payment</a><span>, in §Unnumbered section</span>
-   <li><a href="#feature">policy-controlled feature</a><span>, in §4.1</span>
+   <li><a href="#policy-controlled-feature">policy-controlled feature</a><span>, in §4.1</span>
    <li><a href="#policy-directive">policy directive</a><span>, in §4.7</span>
    <li><a href="#policy-directive-json">policy-directive-json</a><span>, in §5.1</span>
    <li><a href="#policy-directive">policy directives</a><span>, in §4.7</span>
@@ -2828,20 +2828,20 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     specifications, and link to those specifications from this one. This spec
     shouldn’t be required to enumerate every policy-controlled feature. <a href="#issue-3f060b31"> ↵ </a></div>
   </div>
-  <aside class="dfn-panel" data-for="feature">
-   <b><a href="#feature">#feature</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="policy-controlled-feature">
+   <b><a href="#policy-controlled-feature">#policy-controlled-feature</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-feature-1">4.1. Policy-controlled Features</a> <a href="#ref-for-feature-2">(2)</a> <a href="#ref-for-feature-3">(3)</a> <a href="#ref-for-feature-4">(4)</a> <a href="#ref-for-feature-5">(5)</a> <a href="#ref-for-feature-6">(6)</a>
-    <li><a href="#ref-for-feature-7">4.3. Inherited policies</a> <a href="#ref-for-feature-8">(2)</a> <a href="#ref-for-feature-9">(3)</a>
-    <li><a href="#ref-for-feature-10">4.4. Declared policies</a>
-    <li><a href="#ref-for-feature-11">4.9. Default Allowlists</a>
-    <li><a href="#ref-for-feature-12">6.2. The allow attribute of the
+    <li><a href="#ref-for-policy-controlled-feature-1">4.1. Policy-controlled Features</a> <a href="#ref-for-policy-controlled-feature-2">(2)</a> <a href="#ref-for-policy-controlled-feature-3">(3)</a> <a href="#ref-for-policy-controlled-feature-4">(4)</a> <a href="#ref-for-policy-controlled-feature-5">(5)</a> <a href="#ref-for-policy-controlled-feature-6">(6)</a>
+    <li><a href="#ref-for-policy-controlled-feature-7">4.3. Inherited policies</a> <a href="#ref-for-policy-controlled-feature-8">(2)</a> <a href="#ref-for-policy-controlled-feature-9">(3)</a>
+    <li><a href="#ref-for-policy-controlled-feature-10">4.4. Declared policies</a>
+    <li><a href="#ref-for-policy-controlled-feature-11">4.9. Default Allowlists</a>
+    <li><a href="#ref-for-policy-controlled-feature-12">6.2. The allow attribute of the
     iframe element</a>
-    <li><a href="#ref-for-feature-13">6.3. Additional attributes to support legacy
+    <li><a href="#ref-for-policy-controlled-feature-13">6.3. Additional attributes to support legacy
     features</a>
-    <li><a href="#ref-for-feature-14">8.3. Parse policy directive from
-    value and origin</a> <a href="#ref-for-feature-15">(2)</a>
-    <li><a href="#ref-for-feature-16">Appendix A: Policy-Controlled Features</a>
+    <li><a href="#ref-for-policy-controlled-feature-14">8.3. Parse policy directive from
+    value and origin</a> <a href="#ref-for-policy-controlled-feature-15">(2)</a>
+    <li><a href="#ref-for-policy-controlled-feature-16">Appendix A: Policy-Controlled Features</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="feature-name">
