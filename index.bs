@@ -124,20 +124,27 @@ spec:fetch; type:dfn; text:value
 <section>
   <h2 id="framwork">Framework</h2>
   <section>
-    <h3 id="features">Features</h3>
-    <p>A <dfn>feature</dfn> controlled by this framework is an API or behaviour
-    which can be enabled or disabled in a document or web worker by referring to
-    it in a <a>feature policy</a>.
-    <p><a>Features</a> have a <dfn>feature name</dfn> keyword, which is a token
-    used in <a>policy directives</a>, and a <a>default allowlist</a>, which
-    defines whether the <a>feature</a> is available to top-level documents, and
-    how access to that feature is inherited by cross-origin frames.</p>
+    <h3 id="features">Policy-controlled Features</h3>
+    <p>A <dfn export data-lt="policy-controlled feature">policy-controlled feature</dfn>
+    is an API or behaviour which can be enabled or disabled in a document or web
+    worker by referring to it in a <a>feature policy</a>.
+    <div class="note">For brevity, policy-controlled features will often be
+    referred to in this document simply as "Features". Unless otherwise
+    indicated, the term "feature" refers to <a>policy-controlled features</a>.
+    Other specification, defining such features, should use the longer term to
+    avoid any ambiguity.</div>
+    <p><a>Policy-controlled features</a> have a <dfn>feature name</dfn> keyword,
+    which is a token used in <a>policy directives</a>, and a <a>default
+    allowlist</a>, which defines whether the <a>policy-controlled feature</a>
+    is available to top-level documents, and how access to that feature is
+    inherited by cross-origin frames.</p>
     <p>A user agent has a set of <dfn>supported features</dfn>, which is the set
-    of <a>features</a> which it allows to be controlled through policies. User
-    agents are not required to support every <a>feature</a>.</p>
-    <p><a>Features</a> themselves are not themselves part of this framework. A
-    non-normative list of currently-defined features is included as an appendix
-    to this specification.
+    of <a data-lt="policy-controlled feature">features</a> which it allows to be
+    controlled through policies. User agents are not required to support every
+    <a data-lt="policy-controlled feature">feature</a>.</p>
+    <p>The <a>policy-controlled features</a> themselves are not themselves part
+    of this framework. A non-normative list of currently-defined features is
+    included as an appendix to this specification.
   </section>
   <section>
     <h3 id="policies">Policies</h3>
@@ -154,9 +161,10 @@ spec:fetch; type:dfn; text:value
     <h3 id="inherited-policies">Inherited policies</h3>
     <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
-    for each feature. This inherited policy set determines the initial state
-    (enabled or disabled) of each feature, and whether it can be controlled by
-    a <a>declared policy</a> in the document.</p>
+    for each <a>policy-controlled feature</a>. This inherited policy set
+    determines the initial state (enabled or disabled) of each feature, and
+    whether it can be controlled by a <a>declared policy</a> in the document.
+    </p>
     <p>In a {{Document}} in a [=top-level browsing context=], or in a
     {{WorkerGlobalScope}}, the inherited feature set is based on defined
     defaults for each feature.</p>
@@ -165,15 +173,17 @@ spec:fetch; type:dfn; text:value
     <a href="#iframe-allow-attribute">allow attributes</a> defined on the
     browsing context container.</p>
     <p>An <dfn data-lt="inherited policy|inherited policies">inherited
-    policy</dfn> declares a <a>feature</a> as Enabled or Disabled.</p>
+    policy</dfn> declares a <a data-lt="policy-controlled feature">feature</a>
+    as Enabled or Disabled.</p>
     <p>An <dfn>inherited policy set</dfn> for a {{Document}} or
     {{WorkerGlobalScope}} is the set of <a>inherited policies</a> for each
-    <a>feature</a> available in that scope.</p>
+    <a data-lt="policy-controlled feature">feature</a> available in that scope.</p>
   </section>
   <section>
     <h3 id="declared-policies">Declared policies</h3>
     <p>A <dfn data-lt="declared policy|declared feature policy">declared
-    policy</dfn> is an ordered map from <a>features</a> to <a>allowlists</a>.
+    policy</dfn> is an ordered map from
+    <a data-lt="policy-controlled feature">features</a> to <a>allowlists</a>.
     </p>
     <p>A {{Document}} or {{WorkerGlobalScope}} is considered
     <dfn>feature-policy-aware</dfn> if it has a <a>declared policy</a> which is
@@ -234,11 +244,11 @@ spec:fetch; type:dfn; text:value
   </section>
   <section>
     <h3 id="default-allowlists">Default Allowlists</h3>
-    <p>Every feature controlled by policy has a <dfn lt=
+    <p>Every <a>policy-controlled feature</a> has a <dfn lt=
     "default allowlist|default allowlists">default allowlist</dfn>, which is an
     <a>allowlist</a>. The <a>default allowlist</a> controls the origins which
     are allowed to access the feature when used in a top-level document with no
-    declared policy, and also determines whether access to a feature is
+    declared policy, and also determines whether access to the feature is
     automatically delegated to child documents.</p>
     <p>Features are currently defined to have one of these three <a>default
     allowlists</a>:</p>
@@ -336,17 +346,19 @@ partial interface HTMLIFrameElement {
     case-insensitive. The allowed values are names of features. Unrecognized
     values must be ignored.</p>
     <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a>allowlist</a> for each recognized feature to the frame's <a>container
-    policy</a>, when it is contructed.</p>
+    an <a>allowlist</a> for each recognized
+    <a data-lt="policy-controlled feature">feature</a> to the frame's
+    <a>container policy</a>, when it is contructed.</p>
     <p>The <a>allowlist</a> will contain a single origin, which is the origin
-    of URL in the iframe's <{iframe/src}> attribute.</p>
+    of the URL in the iframe's <{iframe/src}> attribute.</p>
   </section>
   <section>
     <h3 id="legacy-attributes">Additional attributes to support legacy
     features</h3>
-    <p>Some features controlled by Feature Policy have existing iframe
-    attributes defined. This specification redefines these attributes to act as
-    declared policies for the iframe element.</p>
+    <p>Some <a data-lt="policy-controlled feature">features</a> controlled by
+    Feature Policy have existing iframe attributes defined. This specification
+    redefines these attributes to act as declared policies for the iframe
+    element.</p>
     <section>
       <h4 id="iframe-allowfullscreen-attribute">allowfullscreen</h4>
       <p>The "<code>allowfullscreen</code>" iframe attribute controls access to
@@ -502,9 +514,9 @@ partial interface HTMLIFrameElement {
         <var>value</var>:
         <ol>
           <li>If <var>key</var> is not equal to the name of any recognized
-          feature, then continue.</li>
-          <li>Let <var>feature</var> be the feature named by
-          <var>key</var>.</li>
+          <a>policy-controlled feature</a>, then continue.</li>
+          <li>Let <var>feature</var> be the <a>policy-controlled feature</a>
+	  named by <var>key</var>.</li>
           <li>If <var>targetlist</var> is not an array, then continue.</li>
           <li>Let <var>allowlist</var> be a new <a>allowlist</a>.
           </li>
@@ -755,16 +767,17 @@ partial interface HTMLIFrameElement {
   <p class="issue">TODO</p>
 </section>
 <section class="appendix">
-  <h2 id="defined-features">Appendix A: Features</h2>
-  <p>This appendix is a reference to currently-defined valid <a data-lt=
-  "feature">features</a>, their <a>feature name</a> keywords, and their effect
-  effect when applied via a <a data-lt="policy directive">directive</a> as part
-  of a <a>feature policy</a>. This reference is non-normative; the actual
-  definitions are given in subsections below.</p>
+  <h2 id="defined-features">Appendix A: Policy-Controlled Features</h2>
+  <p>This appendix is a reference to currently-defined valid
+  <a>policy-controlled features</a>, their <a>feature name</a> keywords, and
+  their effect effect when applied via a
+  <a data-lt="policy directive">directive</a> as part of a
+  <a>feature policy</a>. This reference is non-normative; the actual definitions
+  are given in subsections below.</p>
   <div class="issue">
     As soon as possible, move the definitions to their respective controlling
     specifications, and link to those specifications from this one. This spec
-    shouldn't be required to enumerate every feature.
+    shouldn't be required to enumerate every policy-controlled feature.
   </div>
   <table>
     <thead>
