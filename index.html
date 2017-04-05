@@ -1425,7 +1425,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-03-30">30 March 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-04-05">5 April 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1742,11 +1742,11 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="4.8" id="allowlists"><span class="secno">4.8. </span><span class="content">Allowlists</span><a class="self-link" href="#allowlists"></a></h3>
      <p>A feature policy <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="allowlist|allowlists" data-noexport="" id="allowlist">allowlist</dfn> is
-    a set of origins. An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-4">allowlist</a> may be <em>empty</em>, in which case
-    it does not match any origin, or it may contain a list of origins, or it
-    may match every origin. When defining an allowlist in a policy, the special
-    origin "self" may be used, which refers to the origin of document which the
-    policy is associated with.</p>
+    a set of <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origins</a>. An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-4">allowlist</a> may be <em>empty</em>, in which
+    case it does not match any origin, or it may contain a list of origins, or
+    it may match every origin. When defining an allowlist in a policy, the
+    special string "self" may be used, which refers to the origin of the
+    document which the policy is associated with.</p>
      <p>An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-5">allowlist</a> <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="matches">matches</dfn> an origin <var>o</var> if it
     matches every origin, or if it contains an origin which is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#same-origin-domain">same origin-domain</a> with <var>o</var>.</p>
     </section>
