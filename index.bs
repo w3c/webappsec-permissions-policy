@@ -233,11 +233,11 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="allowlists">Allowlists</h3>
     <p>A feature policy <dfn lt="allowlist|allowlists">allowlist</dfn> is
-    a set of origins. An <a>allowlist</a> may be <em>empty</em>, in which case
-    it does not match any origin, or it may contain a list of origins, or it
-    may match every origin. When defining an allowlist in a policy, the special
-    origin "self" may be used, which refers to the origin of document which the
-    policy is associated with.</p>
+    a set of [=origins=]. An <a>allowlist</a> may be <em>empty</em>, in which
+    case it does not match any origin, or it may contain a list of origins, or
+    it may match every origin. When defining an allowlist in a policy, the
+    special string "self" may be used, which refers to the origin of the
+    document which the policy is associated with.</p>
     <p>An <a>allowlist</a> <dfn>matches</dfn> an origin <var>o</var> if it
     matches every origin, or if it contains an origin which is
     [=same origin-domain=] with <var>o</var>.</p>
