@@ -799,7 +799,7 @@ partial interface HTMLIFrameElement {
       </tr>
       <tr>
         <td>
-          <a>eme</a>
+          <a>encrypted-media</a>
         </td>
         <td><code>self</code></td>
         <td>Controls whether {{requestMediaKeySystemAccess()}} is allowed.</td>
@@ -869,14 +869,15 @@ partial interface HTMLIFrameElement {
       <code>["self"]</code>.</p>
     </section>
     <section>
-      <h4 id="eme-feature">eme</h4>
-      <p>The <dfn>eme</dfn> feature controls whether encrypted media extensions
-      [[encrypted-media]] are available.</p>
+      <h4 id="encrypted-media-feature">encrypted-media</h4>
+      <p>The <dfn>encrypted-media</dfn> feature controls whether encrypted media
+      extensions [[encrypted-media]] are available.</p>
       <p>If disabled in a document, the promise returned by
       {{requestMediaKeySystemAccess()}} must reject with a NotSupportedError.
       </p>
-      <p>The <a>feature name</a> for <a>eme</a> is "<code>eme</code>"</p>
-      <p>The <a>default allowlist</a> for <a>eme</a> is
+      <p>The <a>feature name</a> for <a>encrypted-media</a> is
+      "<code>encrypted-media</code>"</p>
+      <p>The <a>default allowlist</a> for <a>encrypted-media</a> is
       <code>["self"]</code>.</p>
     </section>
     <section>
