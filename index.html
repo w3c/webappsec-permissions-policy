@@ -1425,7 +1425,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-04-05">5 April 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-04-25">25 April 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1526,7 +1526,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <a href="#feature-definitions"><span class="secno"></span> <span class="content">Feature Definitions</span></a>
        <ol class="toc">
         <li><a href="#camera-feature"><span class="secno"></span> <span class="content">camera</span></a>
-        <li><a href="#eme-feature"><span class="secno"></span> <span class="content">eme</span></a>
+        <li><a href="#encrypted-media-feature"><span class="secno"></span> <span class="content">encrypted-media</span></a>
         <li><a href="#fullscreen-feature"><span class="secno"></span> <span class="content">fullscreen</span></a>
         <li><a href="#geolocation-feature"><span class="secno"></span> <span class="content">geolocation</span></a>
         <li><a href="#microphone-feature"><span class="secno"></span> <span class="content">microphone</span></a>
@@ -2414,7 +2414,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <td><code>self</code>
        <td>Controls access to video input devices.
       <tr>
-       <td> <a data-link-type="dfn" href="#eme" id="ref-for-eme-1">eme</a> 
+       <td> <a data-link-type="dfn" href="#encrypted-media" id="ref-for-encrypted-media-1">encrypted-media</a> 
        <td><code>self</code>
        <td>Controls whether <code class="idl"><a data-link-type="idl">requestMediaKeySystemAccess()</a></code> is allowed.
       <tr>
@@ -2458,11 +2458,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-7">default allowlist</a> for <a data-link-type="dfn" href="#camera" id="ref-for-camera-4">camera</a> is <code>["self"]</code>.</p>
      </section>
      <section>
-      <h4 class="heading settled" id="eme-feature"><span class="content">eme</span><a class="self-link" href="#eme-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="eme">eme</dfn> feature controls whether encrypted media extensions <a data-link-type="biblio" href="#biblio-encrypted-media">[encrypted-media]</a> are available.</p>
+      <h4 class="heading settled" id="encrypted-media-feature"><span class="content">encrypted-media</span><a class="self-link" href="#encrypted-media-feature"></a></h4>
+      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="encrypted-media">encrypted-media</dfn> feature controls whether encrypted media
+      extensions <a data-link-type="biblio" href="#biblio-encrypted-media">[encrypted-media]</a> are available.</p>
       <p>If disabled in a document, the promise returned by <code class="idl"><a data-link-type="idl">requestMediaKeySystemAccess()</a></code> must reject with a NotSupportedError. </p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-6">feature name</a> for <a data-link-type="dfn" href="#eme" id="ref-for-eme-2">eme</a> is "<code>eme</code>"</p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-8">default allowlist</a> for <a data-link-type="dfn" href="#eme" id="ref-for-eme-3">eme</a> is <code>["self"]</code>.</p>
+      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-6">feature name</a> for <a data-link-type="dfn" href="#encrypted-media" id="ref-for-encrypted-media-2">encrypted-media</a> is
+      "<code>encrypted-media</code>"</p>
+      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-8">default allowlist</a> for <a data-link-type="dfn" href="#encrypted-media" id="ref-for-encrypted-media-3">encrypted-media</a> is <code>["self"]</code>.</p>
      </section>
      <section>
       <h4 class="heading settled" id="fullscreen-feature"><span class="content">fullscreen</span><a class="self-link" href="#fullscreen-feature"></a></h4>
@@ -2693,7 +2695,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <li><a href="#declared-policy">declared policy</a><span>, in §4.4</span>
    <li><a href="#default-allowlist">default allowlist</a><span>, in §4.9</span>
    <li><a href="#default-allowlist">default allowlists</a><span>, in §4.9</span>
-   <li><a href="#eme">eme</a><span>, in §Unnumbered section</span>
+   <li><a href="#encrypted-media">encrypted-media</a><span>, in §Unnumbered section</span>
    <li><a href="#enforce">enforce</a><span>, in §7.1</span>
    <li><a href="#feature-name">feature name</a><span>, in §4.1</span>
    <li><a href="#feature-policy">feature policy</a><span>, in §4.2</span>
@@ -2851,7 +2853,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li><a href="#ref-for-feature-name-3">8.6. Parse allow attribute</a>
     <li><a href="#ref-for-feature-name-4">Appendix A: Policy-Controlled Features</a>
     <li><a href="#ref-for-feature-name-5">camera</a>
-    <li><a href="#ref-for-feature-name-6">eme</a>
+    <li><a href="#ref-for-feature-name-6">encrypted-media</a>
     <li><a href="#ref-for-feature-name-7">fullscreen</a>
     <li><a href="#ref-for-feature-name-8">geolocation</a>
     <li><a href="#ref-for-feature-name-9">microphone</a>
@@ -2988,7 +2990,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     global for origin?</a> <a href="#ref-for-default-allowlist-5">(2)</a>
     <li><a href="#ref-for-default-allowlist-6">Appendix A: Policy-Controlled Features</a>
     <li><a href="#ref-for-default-allowlist-7">camera</a>
-    <li><a href="#ref-for-default-allowlist-8">eme</a>
+    <li><a href="#ref-for-default-allowlist-8">encrypted-media</a>
     <li><a href="#ref-for-default-allowlist-9">fullscreen</a>
     <li><a href="#ref-for-default-allowlist-10">geolocation</a>
     <li><a href="#ref-for-default-allowlist-11">microphone</a>
@@ -3028,11 +3030,11 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li><a href="#ref-for-camera-3">camera</a> <a href="#ref-for-camera-4">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="eme">
-   <b><a href="#eme">#eme</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="encrypted-media">
+   <b><a href="#encrypted-media">#encrypted-media</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-eme-1">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-eme-2">eme</a> <a href="#ref-for-eme-3">(2)</a>
+    <li><a href="#ref-for-encrypted-media-1">Appendix A: Policy-Controlled Features</a>
+    <li><a href="#ref-for-encrypted-media-2">encrypted-media</a> <a href="#ref-for-encrypted-media-3">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="fullscreen">
