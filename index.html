@@ -1425,7 +1425,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-04-05">5 April 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-06-09">9 June 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1519,23 +1519,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      </ol>
     <li><a href="#iana-considerations"><span class="secno">9</span> <span class="content">IANA Considerations</span></a>
     <li><a href="#privacy-and-security"><span class="secno">10</span> <span class="content">Privacy and Security</span></a>
-    <li>
-     <a href="#defined-features"><span class="secno"></span> <span class="content">Appendix A: Policy-Controlled Features</span></a>
-     <ol class="toc">
-      <li>
-       <a href="#feature-definitions"><span class="secno"></span> <span class="content">Feature Definitions</span></a>
-       <ol class="toc">
-        <li><a href="#camera-feature"><span class="secno"></span> <span class="content">camera</span></a>
-        <li><a href="#eme-feature"><span class="secno"></span> <span class="content">eme</span></a>
-        <li><a href="#fullscreen-feature"><span class="secno"></span> <span class="content">fullscreen</span></a>
-        <li><a href="#geolocation-feature"><span class="secno"></span> <span class="content">geolocation</span></a>
-        <li><a href="#microphone-feature"><span class="secno"></span> <span class="content">microphone</span></a>
-        <li><a href="#midi-feature"><span class="secno"></span> <span class="content">midi</span></a>
-        <li><a href="#payment-feature"><span class="secno"></span> <span class="content">payment</span></a>
-        <li><a href="#speaker-feature"><span class="secno"></span> <span class="content">speaker</span></a>
-        <li><a href="#vibrate-feature"><span class="secno"></span> <span class="content">vibrate</span></a>
-       </ol>
-     </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -1588,7 +1571,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <p>SecureCorp Inc. wants to disable use of Vibration and Geolocation APIs
     within their application. It can do so by delivering the following HTTP
     response header to define a feature policy:</p>
-<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-1">Feature-Policy</a>: {"<a data-link-type="dfn" href="#vibrate" id="ref-for-vibrate-1">vibrate</a>": [], "<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-1">geolocation</a>": []}</pre>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-1">Feature-Policy</a>: {"<a data-link-type="dfn">vibrate</a>": [], "<a data-link-type="dfn">geolocation</a>": []}</pre>
      <p>By specifying an empty list of origins, the specified features will be
     disabled for all browsing contexts, regardless of their origin.</p>
     </div>
@@ -1598,7 +1581,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     browsing contexts except for its own origin and those whose origin is
     "<code>https://example.com</code>". It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-2">Feature-Policy</a>: {"<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-2">geolocation</a>": ["self", "https://example.com"]}</pre>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-2">Feature-Policy</a>: {"<a data-link-type="dfn">geolocation</a>": ["self", "https://example.com"]}</pre>
      <p>The <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-1">allowlist</a> is a list of one or more origins, which can include
     the application’s origin, optionally with the keyword "<code>self</code>",
     and any third-party origin.</p>
@@ -1610,7 +1593,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     microphone input on its own origin but enable it for a whitelisted embedee
     ("<code>https://other.com</code>"). It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-3">Feature-Policy</a>: {"<a data-link-type="dfn" href="#camera" id="ref-for-camera-1">camera</a>": ["https://other.com"], "<a data-link-type="dfn" href="#microphone" id="ref-for-microphone-1">microphone</a>": ["https://other.com"]}</pre>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-3">Feature-Policy</a>: {"<a data-link-type="dfn">camera</a>": ["https://other.com"], "<a data-link-type="dfn">microphone</a>": ["https://other.com"]}</pre>
      <p>Some features are disabled by default in embedded contexts. The enable
     policy allows the application to selectively enable such features for
     whitelisted origins.</p>
@@ -1620,10 +1603,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <p>FastCorp Inc. wants to disable geolocation for all cross-origin child
     frames, except for a specific iframe. It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-4">Feature-Policy</a>: {"<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-3">geolocation</a>": ["self"]}</pre>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-4">Feature-Policy</a>: {"<a data-link-type="dfn">geolocation</a>": ["self"]}</pre>
      <p>and including an "<code>allow</code>" attribute on the iframe
     element:</p>
-<pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="<a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-4">geolocation</a>">&lt;/iframe></pre>
+<pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="<a data-link-type="dfn">geolocation</a>">&lt;/iframe></pre>
      <p>Iframe attributes can selectively enable features in certain frames, and
     not in others, even if those contain documents from the same origin.</p>
     </div>
@@ -2259,17 +2242,17 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <ol>
         <li>
          If <var>element</var>’s <code>allowfullscreen</code> attribute is
-          specified, and <var>policy</var> does not contain an allowlist for <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-1">fullscreen</a>, 
+          specified, and <var>policy</var> does not contain an allowlist for <a data-link-type="dfn">fullscreen</a>, 
          <ol>
-          <li>Construct a new declaration for <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-2">fullscreen</a>, whose
+          <li>Construct a new declaration for <a data-link-type="dfn">fullscreen</a>, whose
               allowlist matches all origins. 
           <li>Add <var>declaration</var> to <var>policy</var>.
          </ol>
         <li>
          If <var>element</var>’s <code>allowpaymentrequest</code> attribute is specified, and <var>policy</var> does not contain an
-          allowlist for <a data-link-type="dfn" href="#payment" id="ref-for-payment-1">payment</a>, 
+          allowlist for <a data-link-type="dfn">payment</a>, 
          <ol>
-          <li>Construct a new declaration for <a data-link-type="dfn" href="#payment" id="ref-for-payment-2">payment</a>, whose
+          <li>Construct a new declaration for <a data-link-type="dfn">payment</a>, whose
               allowlist matches all origins. 
           <li>Add <var>declaration</var> to <var>policy</var>.
          </ol>
@@ -2393,146 +2376,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <section class="informative" id="privacy">
     <h2 class="heading settled" data-level="10" id="privacy-and-security"><span class="secno">10. </span><span class="content">Privacy and Security</span><a class="self-link" href="#privacy-and-security"></a></h2>
     <p class="issue" id="issue-b7b1e314"><a class="self-link" href="#issue-b7b1e314"></a>TODO</p>
-   </section>
-   <section class="appendix">
-    <h2 class="heading settled" id="defined-features"><span class="content">Appendix A: Policy-Controlled Features</span><a class="self-link" href="#defined-features"></a></h2>
-    <p>This appendix is a reference to currently-defined valid <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-16">policy-controlled features</a>, their <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-4">feature name</a> keywords, and
-  their effect effect when applied via a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-9">directive</a> as part of a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-12">feature policy</a>. This reference is non-normative; the actual definitions
-  are given in subsections below.</p>
-    <div class="issue" id="issue-3f060b31"><a class="self-link" href="#issue-3f060b31"></a> As soon as possible, move the definitions to their respective controlling
-    specifications, and link to those specifications from this one. This spec
-    shouldn’t be required to enumerate every policy-controlled feature. </div>
-    <table>
-     <thead>
-      <tr>
-       <th>Feature name
-       <th> <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-6">Default allowlist</a> 
-       <th>Brief description
-     <tbody>
-      <tr>
-       <td> <a data-link-type="dfn" href="#camera" id="ref-for-camera-2">camera</a> 
-       <td><code>self</code>
-       <td>Controls access to video input devices.
-      <tr>
-       <td> <a data-link-type="dfn" href="#eme" id="ref-for-eme-1">eme</a> 
-       <td><code>self</code>
-       <td>Controls whether <code class="idl"><a data-link-type="idl">requestMediaKeySystemAccess()</a></code> is allowed.
-      <tr>
-       <td> <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-3">fullscreen</a> 
-       <td><code>self</code>
-       <td>Controls whether <code class="idl"><a data-link-type="idl">requestFullscreen()</a></code> is allowed.
-      <tr>
-       <td> <a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-5">geolocation</a> 
-       <td><code>self</code>
-       <td>Controls access to <a data-link-type="dfn">Geolocation interface</a>.
-      <tr>
-       <td> <a data-link-type="dfn" href="#microphone" id="ref-for-microphone-2">microphone</a> 
-       <td><code>self</code>
-       <td>Controls access to audio input devices.
-      <tr>
-       <td> <a data-link-type="dfn" href="#midi" id="ref-for-midi-1">midi</a> 
-       <td><code>self</code>
-       <td>Controls access to <code class="idl"><a data-link-type="idl">requestMIDIAccess()</a></code> method.
-      <tr>
-       <td> <a data-link-type="dfn" href="#payment" id="ref-for-payment-3">payment</a> 
-       <td><code>self</code>
-       <td>Controls access to <a data-link-type="dfn">PaymentRequest interface</a>.
-      <tr>
-       <td> <a data-link-type="dfn" href="#speaker" id="ref-for-speaker-1">speaker</a> 
-       <td><code>self</code>
-       <td>Controls access to audio output devices.
-      <tr>
-       <td> <a data-link-type="dfn" href="#vibrate" id="ref-for-vibrate-2">vibrate</a> 
-       <td><code>self</code>
-       <td>Controls access to <code class="idl"><a data-link-type="idl">vibrate()</a></code> method.
-    </table>
-    <section>
-     <h3 class="heading settled" id="feature-definitions"><span class="content">Feature Definitions</span><a class="self-link" href="#feature-definitions"></a></h3>
-     <section>
-      <h4 class="heading settled" id="camera-feature"><span class="content">camera</span><a class="self-link" href="#camera-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="camera">camera</dfn> feature controls access to video input devices
-      requested through the <a data-link-type="dfn">NavigatorUserMedia interface</a> (<a data-link-type="biblio" href="#biblio-mediacapture-api">[MEDIACAPTURE-API]</a>).</p>
-      <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
-      access to video input devices in that document.</p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-5">feature name</a> for <a data-link-type="dfn" href="#camera" id="ref-for-camera-3">camera</a> is "<code>camera</code>"</p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-7">default allowlist</a> for <a data-link-type="dfn" href="#camera" id="ref-for-camera-4">camera</a> is <code>["self"]</code>.</p>
-     </section>
-     <section>
-      <h4 class="heading settled" id="eme-feature"><span class="content">eme</span><a class="self-link" href="#eme-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="eme">eme</dfn> feature controls whether encrypted media extensions <a data-link-type="biblio" href="#biblio-encrypted-media">[encrypted-media]</a> are available.</p>
-      <p>If disabled in a document, the promise returned by <code class="idl"><a data-link-type="idl">requestMediaKeySystemAccess()</a></code> must reject with a NotSupportedError. </p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-6">feature name</a> for <a data-link-type="dfn" href="#eme" id="ref-for-eme-2">eme</a> is "<code>eme</code>"</p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-8">default allowlist</a> for <a data-link-type="dfn" href="#eme" id="ref-for-eme-3">eme</a> is <code>["self"]</code>.</p>
-     </section>
-     <section>
-      <h4 class="heading settled" id="fullscreen-feature"><span class="content">fullscreen</span><a class="self-link" href="#fullscreen-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="fullscreen">fullscreen</dfn> feature controls whether the <code class="idl"><a data-link-type="idl">requestFullscreen()</a></code> method (<a data-link-type="biblio" href="#biblio-whatwg-fullscreen">[WHATWG-FULLSCREEN]</a>) is allowed to
-      request fullscreen.</p>
-      <p>If disabled in any document, the document will not be allowed to use
-      fullscreen. If enabled, the document will be allowed to use
-      fullscreen.</p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-7">feature name</a> for <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-4">fullscreen</a> is
-      "<code>fullscreen</code>"</p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-9">default allowlist</a> for <a data-link-type="dfn" href="#fullscreen" id="ref-for-fullscreen-5">fullscreen</a> is <code>["self"]</code>.</p>
-     </section>
-     <section>
-      <h4 class="heading settled" id="geolocation-feature"><span class="content">geolocation</span><a class="self-link" href="#geolocation-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="geolocation">geolocation</dfn> feature controls whether the current
-      document is alowed to use the <a data-link-type="dfn">Geolocation interface</a> (<a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a>).</p>
-      <p>If disabled in any document, calls to both getCurrentPosition and
-      watchPosition must result in the error callback being invoked with
-      PERMISSION_DENIED.</p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-8">feature name</a> for <a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-6">geolocation</a> is
-      "<code>geolocation</code>"</p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-10">default allowlist</a> for <a data-link-type="dfn" href="#geolocation" id="ref-for-geolocation-7">geolocation</a> is <code>["self"]</code>.</p>
-     </section>
-     <section>
-      <h4 class="heading settled" id="microphone-feature"><span class="content">microphone</span><a class="self-link" href="#microphone-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="microphone">microphone</dfn> feature controls access to audio input
-      devices requested through the <a data-link-type="dfn">NavigatorUserMedia interface</a> (<a data-link-type="biblio" href="#biblio-mediacapture-api">[MEDIACAPTURE-API]</a>).</p>
-      <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
-      access to audio input devices in that document.</p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-9">feature name</a> for <a data-link-type="dfn" href="#microphone" id="ref-for-microphone-3">microphone</a> is
-      "<code>microphone</code>" </p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-11">default allowlist</a> for <a data-link-type="dfn" href="#microphone" id="ref-for-microphone-4">microphone</a> is <code>["self"]</code>.</p>
-     </section>
-     <section>
-      <h4 class="heading settled" id="midi-feature"><span class="content">midi</span><a class="self-link" href="#midi-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="midi">midi</dfn> feature controls whether the current document is
-      allowed to use the <code class="idl"><a data-link-type="idl">requestMIDIAccess()</a></code> method (<a data-link-type="biblio" href="#biblio-webmidi">[WEBMIDI]</a>).</p>
-      <p>If disabled in a document, the promise returned by requestMIDIAccess
-      must reject with a DOMException parameter.</p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-10">feature name</a> for <a data-link-type="dfn" href="#midi" id="ref-for-midi-2">midi</a> is "<code>midi</code>" </p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-12">default allowlist</a> for <a data-link-type="dfn" href="#midi" id="ref-for-midi-3">midi</a> is <code>["self"]</code>.</p>
-     </section>
-     <section>
-      <h4 class="heading settled" id="payment-feature"><span class="content">payment</span><a class="self-link" href="#payment-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="payment">payment</dfn> feature controls whether the current document
-      is allowed to use the <a data-link-type="dfn">PaymentRequest interface</a> (<a data-link-type="biblio" href="#biblio-payment-request">[PAYMENT-REQUEST]</a>).</p>
-      <p>If disabled in a document, then calls to the PaymentRequest constuctor
-      MUST throw a SecurityError.</p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-11">feature name</a> for payment is "<code>payment</code>"</p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-13">default allowlist</a> for <a data-link-type="dfn" href="#payment" id="ref-for-payment-4">payment</a> is <code>["self"]</code>.</p>
-     </section>
-     <section>
-      <h4 class="heading settled" id="speaker-feature"><span class="content">speaker</span><a class="self-link" href="#speaker-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="speaker">speaker</dfn> feature controls access to audio output devices
-      requested through the <a data-link-type="dfn">NavigatorUserMedia interface</a> (<a data-link-type="biblio" href="#biblio-audio-output">[audio-output]</a>).</p>
-      <p>If disabled in a document, then calls to getUserMedia() MUST NOT grant
-      access to audio output devices in that document.</p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-12">feature name</a> for <a data-link-type="dfn" href="#speaker" id="ref-for-speaker-2">speaker</a> is "<code>speaker</code>" </p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-14">default allowlist</a> for <a data-link-type="dfn" href="#speaker" id="ref-for-speaker-3">speaker</a> is <code>["self"]</code>.</p>
-     </section>
-     <section>
-      <h4 class="heading settled" id="vibrate-feature"><span class="content">vibrate</span><a class="self-link" href="#vibrate-feature"></a></h4>
-      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="vibrate">vibrate</dfn> feature controls whether the <code class="idl"><a data-link-type="idl">vibrate()</a></code> method (<a data-link-type="biblio" href="#biblio-vibration">[VIBRATION]</a>) is allowed to cause device vibration.</p>
-      <p>If disabled in a document, then calls to the <code class="idl"><a data-link-type="idl">vibrate()</a></code> method
-      should silently do nothing. If enabled, the browser may allow the device
-      to vibrate.</p>
-      <p>The <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-13">feature name</a> for <a data-link-type="dfn" href="#vibrate" id="ref-for-vibrate-3">vibrate</a> is "<code>vibrate</code>" </p>
-      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-15">default allowlist</a> for <a data-link-type="dfn" href="#vibrate" id="ref-for-vibrate-4">vibrate</a> is <code>["self"]</code>.</p>
-     </section>
-    </section>
    </section>
   </main>
   <div data-fill-with="conformance">
@@ -2687,36 +2530,27 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <li><a href="#dom-htmliframeelement-allow">allow</a><span>, in §6.2</span>
    <li><a href="#allowlist">allowlist</a><span>, in §4.8</span>
    <li><a href="#allowlist">allowlists</a><span>, in §4.8</span>
-   <li><a href="#camera">camera</a><span>, in §Unnumbered section</span>
    <li><a href="#container-policy">container policy</a><span>, in §4.6</span>
    <li><a href="#declared-policy">declared feature policy</a><span>, in §4.4</span>
    <li><a href="#declared-policy">declared policy</a><span>, in §4.4</span>
    <li><a href="#default-allowlist">default allowlist</a><span>, in §4.9</span>
    <li><a href="#default-allowlist">default allowlists</a><span>, in §4.9</span>
-   <li><a href="#eme">eme</a><span>, in §Unnumbered section</span>
    <li><a href="#enforce">enforce</a><span>, in §7.1</span>
    <li><a href="#feature-name">feature name</a><span>, in §4.1</span>
    <li><a href="#feature-policy">feature policy</a><span>, in §4.2</span>
    <li><a href="#feature-policy-aware">feature-policy-aware</a><span>, in §4.4</span>
    <li><a href="#feature-policy-header">feature-policy-header</a><span>, in §6.1</span>
    <li><a href="#feature-policy-oblivious">feature-policy-oblivious</a><span>, in §4.4</span>
-   <li><a href="#fullscreen">fullscreen</a><span>, in §Unnumbered section</span>
-   <li><a href="#geolocation">geolocation</a><span>, in §Unnumbered section</span>
    <li><a href="#header-policy">header policy</a><span>, in §4.5</span>
    <li><a href="#inherited-policy">inherited policies</a><span>, in §4.3</span>
    <li><a href="#inherited-policy">inherited policy</a><span>, in §4.3</span>
    <li><a href="#inherited-policy-set">inherited policy set</a><span>, in §4.3</span>
    <li><a href="#matches">matches</a><span>, in §4.8</span>
-   <li><a href="#microphone">microphone</a><span>, in §Unnumbered section</span>
-   <li><a href="#midi">midi</a><span>, in §Unnumbered section</span>
-   <li><a href="#payment">payment</a><span>, in §Unnumbered section</span>
    <li><a href="#policy-controlled-feature">policy-controlled feature</a><span>, in §4.1</span>
    <li><a href="#policy-directive">policy directive</a><span>, in §4.7</span>
    <li><a href="#policy-directive-json">policy-directive-json</a><span>, in §5.1</span>
    <li><a href="#policy-directive">policy directives</a><span>, in §4.7</span>
-   <li><a href="#speaker">speaker</a><span>, in §Unnumbered section</span>
    <li><a href="#supported-features">supported features</a><span>, in §4.1</span>
-   <li><a href="#vibrate">vibrate</a><span>, in §Unnumbered section</span>
   </ul>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
@@ -2793,26 +2627,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
-   <dt id="biblio-audio-output">[AUDIO-OUTPUT]
-   <dd>Justin Uberti; Guido Urdaneta. <a href="https://w3c.github.io/mediacapture-output/">Audio Output Devices API</a>. URL: <a href="https://w3c.github.io/mediacapture-output/">https://w3c.github.io/mediacapture-output/</a>
    <dt id="biblio-csp2">[CSP2]
    <dd>Mike West; Adam Barth; Daniel Veditz. <a href="https://w3c.github.io/webappsec-csp/">Content Security Policy Level 2</a>. URL: <a href="https://w3c.github.io/webappsec-csp/">https://w3c.github.io/webappsec-csp/</a>
-   <dt id="biblio-encrypted-media">[ENCRYPTED-MEDIA]
-   <dd>David Dorwin; et al. <a href="https://w3c.github.io/encrypted-media/">Encrypted Media Extensions</a>. URL: <a href="https://w3c.github.io/encrypted-media/">https://w3c.github.io/encrypted-media/</a>
-   <dt id="biblio-geolocation-api">[GEOLOCATION-API]
-   <dd>Andrei Popescu. <a href="http://dev.w3.org/geo/api/spec-source.html">Geolocation API Specification 2nd Edition</a>. URL: <a href="http://dev.w3.org/geo/api/spec-source.html">http://dev.w3.org/geo/api/spec-source.html</a>
    <dt id="biblio-html5">[HTML5]
    <dd>Ian Hickson; et al. <a href="https://www.w3.org/html/wg/drafts/html/master/">HTML5</a>. URL: <a href="https://www.w3.org/html/wg/drafts/html/master/">https://www.w3.org/html/wg/drafts/html/master/</a>
-   <dt id="biblio-mediacapture-api">[MEDIACAPTURE-API]
-   <dd>Dzung D Tran; Ilkka Oksanen; Ingmar Kliche. <a href="http://dev.w3.org/2009/dap/camera/Overview-API.html">The Media Capture API</a>. 3 September 2010. ED. URL: <a href="http://dev.w3.org/2009/dap/camera/Overview-API.html">http://dev.w3.org/2009/dap/camera/Overview-API.html</a>
-   <dt id="biblio-payment-request">[PAYMENT-REQUEST]
-   <dd>Adrian Bateman; Zach Koch; Roy McElmurry. <a href="https://w3c.github.io/browser-payment-api/">Payment Request API</a>. URL: <a href="https://w3c.github.io/browser-payment-api/">https://w3c.github.io/browser-payment-api/</a>
-   <dt id="biblio-vibration">[VIBRATION]
-   <dd>Anssi Kostiainen. <a href="https://w3c.github.io/vibration/">Vibration API (Second Edition)</a>. URL: <a href="https://w3c.github.io/vibration/">https://w3c.github.io/vibration/</a>
-   <dt id="biblio-webmidi">[WEBMIDI]
-   <dd>Chris Wilson; Jussi Kalliokoski. <a href="https://webaudio.github.io/web-midi-api/">Web MIDI API</a>. URL: <a href="https://webaudio.github.io/web-midi-api/">https://webaudio.github.io/web-midi-api/</a>
-   <dt id="biblio-whatwg-fullscreen">[WHATWG-FULLSCREEN]
-   <dd>Anne van Kesteren. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
 <pre class="idl def"><span class="kt">partial</span> <span class="kt">interface</span> <a class="nv idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmliframeelement">HTMLIFrameElement</a> {
@@ -2824,9 +2642,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <div class="issue"> Monkey-patching! As soon as we know that this is the direction we wish to
       pursue, upstream all of this. <a href="#issue-7605d231"> ↵ </a></div>
    <div class="issue">TODO<a href="#issue-b7b1e314"> ↵ </a></div>
-   <div class="issue"> As soon as possible, move the definitions to their respective controlling
-    specifications, and link to those specifications from this one. This spec
-    shouldn’t be required to enumerate every policy-controlled feature. <a href="#issue-3f060b31"> ↵ </a></div>
   </div>
   <aside class="dfn-panel" data-for="policy-controlled-feature">
    <b><a href="#policy-controlled-feature">#policy-controlled-feature</a></b><b>Referenced in:</b>
@@ -2841,7 +2656,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     features</a>
     <li><a href="#ref-for-policy-controlled-feature-14">8.3. Parse policy directive from
     value and origin</a> <a href="#ref-for-policy-controlled-feature-15">(2)</a>
-    <li><a href="#ref-for-policy-controlled-feature-16">Appendix A: Policy-Controlled Features</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="feature-name">
@@ -2849,16 +2663,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <ul>
     <li><a href="#ref-for-feature-name-1">4.7. Policy directives</a> <a href="#ref-for-feature-name-2">(2)</a>
     <li><a href="#ref-for-feature-name-3">8.6. Parse allow attribute</a>
-    <li><a href="#ref-for-feature-name-4">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-feature-name-5">camera</a>
-    <li><a href="#ref-for-feature-name-6">eme</a>
-    <li><a href="#ref-for-feature-name-7">fullscreen</a>
-    <li><a href="#ref-for-feature-name-8">geolocation</a>
-    <li><a href="#ref-for-feature-name-9">microphone</a>
-    <li><a href="#ref-for-feature-name-10">midi</a>
-    <li><a href="#ref-for-feature-name-11">payment</a>
-    <li><a href="#ref-for-feature-name-12">speaker</a>
-    <li><a href="#ref-for-feature-name-13">vibrate</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="feature-policy">
@@ -2875,7 +2679,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     feature</a>
     <li><a href="#ref-for-feature-policy-11">8.9. Is feature enabled in
     global for origin?</a>
-    <li><a href="#ref-for-feature-policy-12">Appendix A: Policy-Controlled Features</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="inherited-policy">
@@ -2947,7 +2750,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     value and origin</a>
     <li><a href="#ref-for-policy-directive-8">8.5. Process feature policy
     attributes</a>
-    <li><a href="#ref-for-policy-directive-9">Appendix A: Policy-Controlled Features</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="allowlist">
@@ -2986,16 +2788,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li><a href="#ref-for-default-allowlist-2">4.9. Default Allowlists</a> <a href="#ref-for-default-allowlist-3">(2)</a>
     <li><a href="#ref-for-default-allowlist-4">8.9. Is feature enabled in
     global for origin?</a> <a href="#ref-for-default-allowlist-5">(2)</a>
-    <li><a href="#ref-for-default-allowlist-6">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-default-allowlist-7">camera</a>
-    <li><a href="#ref-for-default-allowlist-8">eme</a>
-    <li><a href="#ref-for-default-allowlist-9">fullscreen</a>
-    <li><a href="#ref-for-default-allowlist-10">geolocation</a>
-    <li><a href="#ref-for-default-allowlist-11">microphone</a>
-    <li><a href="#ref-for-default-allowlist-12">midi</a>
-    <li><a href="#ref-for-default-allowlist-13">payment</a>
-    <li><a href="#ref-for-default-allowlist-14">speaker</a>
-    <li><a href="#ref-for-default-allowlist-15">vibrate</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="policy-directive-json">
@@ -3018,77 +2810,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     Field</a>
     <li><a href="#ref-for-enforce-2">8.7. Initialize global’s Feature
     Policy from response</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="camera">
-   <b><a href="#camera">#camera</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-camera-1">2. Examples</a>
-    <li><a href="#ref-for-camera-2">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-camera-3">camera</a> <a href="#ref-for-camera-4">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="eme">
-   <b><a href="#eme">#eme</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-eme-1">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-eme-2">eme</a> <a href="#ref-for-eme-3">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="fullscreen">
-   <b><a href="#fullscreen">#fullscreen</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-fullscreen-1">8.5. Process feature policy
-    attributes</a> <a href="#ref-for-fullscreen-2">(2)</a>
-    <li><a href="#ref-for-fullscreen-3">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-fullscreen-4">fullscreen</a> <a href="#ref-for-fullscreen-5">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="geolocation">
-   <b><a href="#geolocation">#geolocation</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-geolocation-1">2. Examples</a> <a href="#ref-for-geolocation-2">(2)</a> <a href="#ref-for-geolocation-3">(3)</a> <a href="#ref-for-geolocation-4">(4)</a>
-    <li><a href="#ref-for-geolocation-5">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-geolocation-6">geolocation</a> <a href="#ref-for-geolocation-7">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="microphone">
-   <b><a href="#microphone">#microphone</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-microphone-1">2. Examples</a>
-    <li><a href="#ref-for-microphone-2">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-microphone-3">microphone</a> <a href="#ref-for-microphone-4">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="midi">
-   <b><a href="#midi">#midi</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-midi-1">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-midi-2">midi</a> <a href="#ref-for-midi-3">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="payment">
-   <b><a href="#payment">#payment</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-payment-1">8.5. Process feature policy
-    attributes</a> <a href="#ref-for-payment-2">(2)</a>
-    <li><a href="#ref-for-payment-3">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-payment-4">payment</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="speaker">
-   <b><a href="#speaker">#speaker</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-speaker-1">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-speaker-2">speaker</a> <a href="#ref-for-speaker-3">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="vibrate">
-   <b><a href="#vibrate">#vibrate</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-vibrate-1">2. Examples</a>
-    <li><a href="#ref-for-vibrate-2">Appendix A: Policy-Controlled Features</a>
-    <li><a href="#ref-for-vibrate-3">vibrate</a> <a href="#ref-for-vibrate-4">(2)</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */
