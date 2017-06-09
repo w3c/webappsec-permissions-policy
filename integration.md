@@ -1,4 +1,4 @@
-#Defining Policy-Controlled Features
+# Defining Policy-Controlled Features
 
 This guide is for authors of other standards who want to use Feature Policy as
 a mechanism for enabling and disabling their features. It's a collection of
@@ -9,25 +9,25 @@ web, or something brand new.
 ## Referencing the Feature Policy spec
 
 There is no central registry for policy-controlled features. Feature authors who
- wish to allow Feature Policy to control their features on the web can do so by
+wish to allow Feature Policy to control their features on the web can do so by
 referencing the Feature Policy specification.
 
 The following example shows how a feature could be declared as a
 policy-controlled feature:
 
 > Example:
-
->###Section N: Feature Policy Integration
+>
+>### Section N: Feature Policy Integration
 > The Sample API is a *policy-controlled feature*, as defined by
-[Feature Policy](https://wicg.github.io/feature-policy/).
-
+> [Feature Policy](https://wicg.github.io/feature-policy/).
+>
 > * The **feature name** for the Sample API is "`sample`".
 > * The **default allowlist** for the Sample API is `["self"]`.
-
+>
 > When disabled in a document, the `getArbitrarySamples()` method MUST return a
-promise which rejects with a `SecurityException` object as its parameter.
+> promise which rejects with a `SecurityException` object as its parameter.
 
-##Choosing a default allowlist
+## Choosing a default allowlist
 
 As described in the
 [spec](https://wicg.github.io/feature-policy/#default-allowlists), the default
@@ -48,7 +48,7 @@ but the default behaviour is to disable it.
 * A default allowlist of `[]` should be restricted to new features, as a
 Feature Policy header is *required* in order to enable it in any document.
 
-##Considerations for behavior when disallowed
+## Considerations for behavior when disallowed
 
 It is important for feature authors to carefully consider the mechanism by
 which their feature is disabled when disallowed in a document, for ease of
@@ -63,12 +63,12 @@ New features should attempt to fail in a way which allows authors to detect
 that the feature is disabled.
 
 > Example:
-
+>
 > The fullscreen API has existed on the web for some time, and is being
 > implemented as a policy-controlled feature. Developers have always had to
 > contend with the fact that fullscreen may not be allowed, and the API has a
 > method of signalling that.
-
+>
 > As a policy-controlled feature, the fullscreen API can specify that when
 > disabled, `document.fullscreenEnabled` must return `false`, and
 > `Element.requestFullscreen()` must fire a `fullscreenerror` event, and return
@@ -86,16 +86,16 @@ Feature Policy (and hence the possiblity that the API could fail) and in a
 document written without that knowledge.
 
 > Example:
-
+>
 > document.write API has existed on the web since roughly the dawn of
 > JavaScript, and has no failure modes. This means that if a page contains a
 > script like this:
-
+>
 >     <html>
 >       <head>
 >         <script>document.write('<script src="important-security-feature.js"></scr'+'ipt>')</script>
 >         ...
-
+>
 > then an attacker could embed the site in a frame with the `document.write`
 > feature disabled, and bypass the critical security script.
 >
@@ -106,7 +106,7 @@ document written without that knowledge.
 > error page which provides the option to open the page that violated the policy
 > in a new top-level browsing context.
 
-##Allow versus Deny features
+## Allow versus Deny features
 
 In some cases, when defining a new policy-controlled feature, it may not be
 obvious whether allowing or restricting an action should be considered the
@@ -121,7 +121,7 @@ that document or any of its children.
 > productivity measure,) and wanted to make this a policy-controlled feature,
 > then the developers would have a choice -- whether to define the new feature
 > as "block cat pictures", or as "load cat pictures".
-
+>
 > If the goal is to block cat pictures, such that they cannot be loaded into a
 > document at all, then defining the feature as "load cat pictures" makes
 > sense, and the feature would be given a default allowlist of `[*]`. This way,
