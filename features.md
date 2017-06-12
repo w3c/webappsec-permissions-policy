@@ -55,7 +55,7 @@ If disabled in any document, calls to both [`getCurrentPosition`](https://dev.w3
 * The **feature name** for *geolocation* is "`geolocation`"
 * The **default allowlist** for *geolocation* is `["self"]`.
 
-###microphone
+### microphone
 
 The *microphone* feature controls access to audio input devices requested through the [NavigatorUserMedia interface](https://w3c.github.io/mediacapture-main/getusermedia.html#navigatorusermedia).
 
@@ -64,7 +64,7 @@ If disabled in a document, then calls to [`getUserMedia()`](https://w3c.github.i
 * The **feature name** for *microphone* is "`microphone`"
 * The **default allowlist** for *microphone* is `["self"]`.
 
-###midi
+### midi
 
 The *midi* feature controls whether the current document is allowed to use the [Web MIDI API](https://webaudio.github.io/web-midi-api/).
 
@@ -73,7 +73,7 @@ If disabled in a document, the promise returned by [`requestMIDIAccess()`](https
 * The **feature name** for *midi* is "`midi`"
 * The **default allowlist** for *midi* is `["self"]`.
 
-###payment
+### payment
 
 The *payment* feature controls whether the current document is allowed to use the [PaymentRequest interface](https://w3c.github.io/browser-payment-api/).
 
@@ -82,7 +82,7 @@ If disabled in a document, then calls to the [`PaymentRequest` constuctor](https
 * The **feature name** for *payment* is "`payment`"
 * The **default allowlist** for *payment* is `["self"]`.
 
-###speaker
+### speaker
 
 The *speaker* feature controls access to audio output devices requested through the [NavigatorUserMedia interface](https://w3c.github.io/mediacapture-main/getusermedia.html#navigatorusermedia).
 
@@ -91,7 +91,7 @@ If disabled in a document, then calls to [`getUserMedia()`](https://w3c.github.i
 * The **feature name** for *speaker* is "`speaker`"
 * The **default allowlist** for *speaker* is `["self"]`.
 
-###vibrate
+### vibrate
 
 The *vibrate* feature controls whether the [Vibration API](https://w3c.github.io/vibration/) is allowed to cause device vibration.
 
