@@ -144,7 +144,9 @@ spec:fetch; type:dfn; text:value
     <a data-lt="policy-controlled feature">feature</a>.</p>
     <p>The <a>policy-controlled features</a> themselves are not themselves part
     of this framework. A non-normative list of currently-defined features is
-    included as an appendix to this specification.
+    maintained as a
+    <a href="https://github.com/WICG/feature-policy/blob/gh-pages/features.md">companion
+    document</a> alongside this specification.
   </section>
   <section>
     <h3 id="policies">Policies</h3>
