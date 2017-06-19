@@ -87,24 +87,27 @@ document written without that knowledge.
 
 > Example:
 >
-> document.write API has existed on the web since roughly the dawn of
-> JavaScript, and has no failure modes. This means that if a page contains a
-> script like this:
+> The `document.write` API has existed on the web since roughly the dawn of
+> JavaScript, and has no failure modes.
+>
+> One means of disallowing this feature via Feature Policy would be to declare that
+> any calls to `document.write()` will silently fail. However, this would mean that
+> if a page contained a script like this:
 >
 >     <html>
 >       <head>
 >         <script>document.write('<script src="important-security-feature.js"></scr'+'ipt>')</script>
 >         ...
 >
-> then an attacker could embed the site in a frame with the `document.write`
+> then an attacker could embed that page in a frame with the `document.write`
 > feature disabled, and bypass the critical security script.
 >
-> To avoid this, if disallowed in a feature-policy-aware document, calling
-> `document.write()` will fire a `SecurityError` exception on the `document`
-> object. If disallowed in a feature-policy-oblivious document, calling
-> `document.write()` feature must cause the current page to be navigated to an
-> error page which provides the option to open the page that violated the policy
-> in a new top-level browsing context.
+> To avoid this, a better way to disable it woudl to to declare that, if
+> disallowed in a *feature-policy-aware* document, calling `document.write()` will
+> fire a `SecurityError` exception on the `document` object, but if disallowed in
+> a *feature-policy-oblivious* document, calling `document.write()` API must cause
+> the current page to be navigated to an error page which provides the option to open
+> the page that violated the policy in a new top-level browsing context.
 
 ## Allow versus Deny features
 
@@ -128,3 +131,7 @@ that document or any of its children.
 > cat pictures would be allowed by default on the entire web, but once disabled
 > in a document, would not be available anywhere in that document, even in
 > child frames.
+
+In general, framing features in the positive sense, as 'allow' rather than 'deny',
+will be the right choice. This also avoids potentially-confusing double-negatives,
+and means that features will behave more consistently with each other.
