@@ -96,30 +96,66 @@ spec:fetch; type:dfn; text:value
 </section>
 <section>
   <h2 id="other-and-related-mechanisms">Other and related mechanisms</h2>
-  <p>[[HTML5]] defines a <{iframe/sandbox}> attribute for <{iframe}> elements
-  that allows developers to reduce the risk of including potentially untrusted
-  content by imposing restrictions on content's abilities - e.g. prevent it
-  from submitting forms, running scripts and plugins, and more. The
-  [=sandbox=] directive defined by [[CSP2]] extends this capability to any
-  resource, framed or not, to ask for the same set of restrictions - e.g. via an
-  HTTP response header (<code>Content-Security-Policy: sandbox</code>). These
-  mechanisms enable the developer to:</p>
+  <i>This section is non-normative</i>
+  <p>Several other specifications also define ways in which specific web
+  platform features are enabled and disabled. These include (among others):</p>
   <ul>
-    <li>Set and customize a sandbox policy on any resource via CSP.</li>
-    <li>Set and customize individual sandbox policies on each
-    <code>iframe</code> element within their application.</li>
+    <li>Content Security Policy</li>
+    <li>Sandbox</li>
+    <li>Fullscreen</li>
+    <li>PaymentRequest</li>
+    <li>WebRTC</li>
   </ul>
-  <p>However, there are several limitations to the above mechanism: the
-  developer cannot automatically apply a policy across all contexts, which
-  makes it hard or impossible to enforce consistently in some cases (e.g. due
-  to third-party content injecting frames, which the developer does not
-  control); there is no mechanism to selectively enable features that may be
-  off by default; the sandbox mechanism uses a whietlist approach which is
-  impossible to extend without compatibility risk.</p>
-  <p>Feature Policy is intended to be used in combination with the sandbox
-  mechanism (i.e. it does not duplicate feature controls already covered by
-  sandbox), and provides an extensible mechanism that addresses the above
-  limitations.</p>
+  <p>Feature Policy intends to become a uniform mechanism for enabling and
+  disabling features on the web, including features which are currently defined
+  by those specifications. Feature policy is designed to be extensible, such
+  that other APIs can adopt it by declaring new features and specifying their
+  behavior.</p>
+  <p>Doing so automatically grants web developers the ability to craft policies
+  for their sites, and for the pages which their sites embed, which enable and
+  disable these features in a consistent way.</p>
+  <h3>Relationship with Content Security Policy</h3>
+    <p>Content Security Policy is mostly independent of Feature Policy, as it
+    is mostly concerned with resource loading, and not with API availability.
+    The one exception to this is the 'sandbox' directive defined by CSP2, which
+    can be used to disable the same set of features as the <{iframe/sandbox}>
+    attribute. (See below)</p>
+  <h3>Relationship with Sandbox</h3>
+    <p>[[HTML5]] defines a <{iframe/sandbox}> attribute for <{iframe}> elements
+    that allows developers to reduce the risk of including potentially untrusted
+    content by imposing restrictions on content's abilities - e.g. prevent it
+    from submitting forms, running scripts and plugins, and more.</p>
+    <p>Iframe sandboxing currently provides two distinct behaviours: it isolates
+    frames from their embedding page by enforcing an opaque origin; and it
+    restricts which APIs are available in the sandboxed frames (disabling all of
+    them by default, but allowing a developer to enable APIs selectively
+    per-frame).</p>
+    <p>Feature Policy does not currently control any of the features which
+    sandboxing restricts, but it is designed such that they could easily be
+    redefined as policy-controlled features, in which case developers would be
+    able to control them independently of sandboxing. In such a world,
+    sandboxing would still be used to provide an origin boundary between frames,
+    but Feature Policy would be the mechanism to control, in any frame, features
+    such as:</p>
+    <ul>
+      <li>Top-frame navigation</li>
+      <li>Form submission</li>
+      <li>Script execution</li>
+      <li>Popups</li>
+      <li>Pointer lock</li>
+      <li>Modal dialogs</li>
+      <li>Orientation lock</li>
+      <li>Presentation API</li>
+    </ul>
+    <p>Feature Policy is also intended to address some of the limitations of the
+    sandbox attribute's approach to disabling features: Sandbox does not allow
+    sites any way to automatically apply a policy to all nested browsing
+    contexts (or all contexts at a given origin), and it uses a whitelist
+    approach which is impossible to extend without compatibility risk. Feature
+    policy provides an HTTP header, to declare a policy at the document level
+    for all embedded content, and is designed to be extensible, such that new
+    features can be added without requiring all developers to update their sites
+    to take them into account.</p>
 </section>
 <section>
   <h2 id="framwork">Framework</h2>

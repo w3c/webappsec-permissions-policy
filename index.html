@@ -1425,7 +1425,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-06-12">12 June 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-08-18">18 August 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1463,7 +1463,12 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <ol class="toc" role="directory">
     <li><a href="#introduction"><span class="secno">1</span> <span class="content">Introduction</span></a>
     <li><a href="#examples"><span class="secno">2</span> <span class="content">Examples</span></a>
-    <li><a href="#other-and-related-mechanisms"><span class="secno">3</span> <span class="content">Other and related mechanisms</span></a>
+    <li>
+     <a href="#other-and-related-mechanisms"><span class="secno">3</span> <span class="content">Other and related mechanisms</span></a>
+     <ol class="toc">
+      <li><a href="#relationship-with-content-security-policy"><span class="secno">3.1</span> <span class="content">Relationship with Content Security Policy</span></a>
+      <li><a href="#relationship-with-sandbox"><span class="secno">3.2</span> <span class="content">Relationship with Sandbox</span></a>
+     </ol>
     <li>
      <a href="#framwork"><span class="secno">4</span> <span class="content">Framework</span></a>
      <ol class="toc">
@@ -1613,28 +1618,65 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    </section>
    <section>
     <h2 class="heading settled" data-level="3" id="other-and-related-mechanisms"><span class="secno">3. </span><span class="content">Other and related mechanisms</span><a class="self-link" href="#other-and-related-mechanisms"></a></h2>
-    <p><a data-link-type="biblio" href="#biblio-html5">[HTML5]</a> defines a <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-sandbox">sandbox</a></code> attribute for <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> elements
-  that allows developers to reduce the risk of including potentially untrusted
-  content by imposing restrictions on content’s abilities - e.g. prevent it
-  from submitting forms, running scripts and plugins, and more. The <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#sandbox">sandbox</a> directive defined by <a data-link-type="biblio" href="#biblio-csp2">[CSP2]</a> extends this capability to any
-  resource, framed or not, to ask for the same set of restrictions - e.g. via an
-  HTTP response header (<code>Content-Security-Policy: sandbox</code>). These
-  mechanisms enable the developer to:</p>
+     <i>This section is non-normative</i> 
+    <p>Several other specifications also define ways in which specific web
+  platform features are enabled and disabled. These include (among others):</p>
     <ul>
-     <li>Set and customize a sandbox policy on any resource via CSP.
-     <li>Set and customize individual sandbox policies on each <code>iframe</code> element within their application.
+     <li>Content Security Policy
+     <li>Sandbox
+     <li>Fullscreen
+     <li>PaymentRequest
+     <li>WebRTC
     </ul>
-    <p>However, there are several limitations to the above mechanism: the
-  developer cannot automatically apply a policy across all contexts, which
-  makes it hard or impossible to enforce consistently in some cases (e.g. due
-  to third-party content injecting frames, which the developer does not
-  control); there is no mechanism to selectively enable features that may be
-  off by default; the sandbox mechanism uses a whietlist approach which is
-  impossible to extend without compatibility risk.</p>
-    <p>Feature Policy is intended to be used in combination with the sandbox
-  mechanism (i.e. it does not duplicate feature controls already covered by
-  sandbox), and provides an extensible mechanism that addresses the above
-  limitations.</p>
+    <p>Feature Policy intends to become a uniform mechanism for enabling and
+  disabling features on the web, including features which are currently defined
+  by those specifications. Feature policy is designed to be extensible, such
+  that other APIs can adopt it by declaring new features and specifying their
+  behavior.</p>
+    <p>Doing so automatically grants web developers the ability to craft policies
+  for their sites, and for the pages which their sites embed, which enable and
+  disable these features in a consistent way.</p>
+    <h3 class="heading settled" data-level="3.1" id="relationship-with-content-security-policy"><span class="secno">3.1. </span><span class="content">Relationship with Content Security Policy</span><a class="self-link" href="#relationship-with-content-security-policy"></a></h3>
+    <p>Content Security Policy is mostly independent of Feature Policy, as it
+    is mostly concerned with resource loading, and not with API availability.
+    The one exception to this is the 'sandbox' directive defined by CSP2, which
+    can be used to disable the same set of features as the <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-sandbox">sandbox</a></code> attribute. (See below)</p>
+    <h3 class="heading settled" data-level="3.2" id="relationship-with-sandbox"><span class="secno">3.2. </span><span class="content">Relationship with Sandbox</span><a class="self-link" href="#relationship-with-sandbox"></a></h3>
+    <p><a data-link-type="biblio" href="#biblio-html5">[HTML5]</a> defines a <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-sandbox">sandbox</a></code> attribute for <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> elements
+    that allows developers to reduce the risk of including potentially untrusted
+    content by imposing restrictions on content’s abilities - e.g. prevent it
+    from submitting forms, running scripts and plugins, and more.</p>
+    <p>Iframe sandboxing currently provides two distinct behaviours: it isolates
+    frames from their embedding page by enforcing an opaque origin; and it
+    restricts which APIs are available in the sandboxed frames (disabling all of
+    them by default, but allowing a developer to enable APIs selectively
+    per-frame).</p>
+    <p>Feature Policy does not currently control any of the features which
+    sandboxing restricts, but it is designed such that they could easily be
+    redefined as policy-controlled features, in which case developers would be
+    able to control them independently of sandboxing. In such a world,
+    sandboxing would still be used to provide an origin boundary between frames,
+    but Feature Policy would be the mechanism to control, in any frame, features
+    such as:</p>
+    <ul>
+     <li>Top-frame navigation
+     <li>Form submission
+     <li>Script execution
+     <li>Popups
+     <li>Pointer lock
+     <li>Modal dialogs
+     <li>Orientation lock
+     <li>Presentation API
+    </ul>
+    <p>Feature Policy is also intended to address some of the limitations of the
+    sandbox attribute’s approach to disabling features: Sandbox does not allow
+    sites any way to automatically apply a policy to all nested browsing
+    contexts (or all contexts at a given origin), and it uses a whitelist
+    approach which is impossible to extend without compatibility risk. Feature
+    policy provides an HTTP header, to declare a policy at the document level
+    for all embedded content, and is designed to be extensible, such that new
+    features can be added without requiring all developers to update their sites
+    to take them into account.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="4" id="framwork"><span class="secno">4. </span><span class="content">Framework</span><a class="self-link" href="#framwork"></a></h2>
@@ -2556,11 +2598,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
-    <a data-link-type="biblio">[CSP3]</a> defines the following terms:
-    <ul>
-     <li><a href="https://w3c.github.io/webappsec-csp/#sandbox">sandbox</a>
-    </ul>
-   <li>
     <a data-link-type="biblio">[WHATWG-DOM]</a> defines the following terms:
     <ul>
      <li><a href="https://dom.spec.whatwg.org/#domtokenlist">DOMTokenList</a>
@@ -2607,8 +2644,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
-   <dt id="biblio-csp3">[CSP3]
-   <dd>Mike West. <a href="https://w3c.github.io/webappsec-csp/">Content Security Policy Level 3</a>. URL: <a href="https://w3c.github.io/webappsec-csp/">https://w3c.github.io/webappsec-csp/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
@@ -2628,8 +2663,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
-   <dt id="biblio-csp2">[CSP2]
-   <dd>Mike West; Adam Barth; Daniel Veditz. <a href="https://w3c.github.io/webappsec-csp/">Content Security Policy Level 2</a>. URL: <a href="https://w3c.github.io/webappsec-csp/">https://w3c.github.io/webappsec-csp/</a>
    <dt id="biblio-html5">[HTML5]
    <dd>Ian Hickson; et al. <a href="https://www.w3.org/html/wg/drafts/html/master/">HTML5</a>. URL: <a href="https://www.w3.org/html/wg/drafts/html/master/">https://www.w3.org/html/wg/drafts/html/master/</a>
   </dl>
