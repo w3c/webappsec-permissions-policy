@@ -169,14 +169,10 @@ spec:fetch; type:dfn; text:value
     <p>A feature is <dfn>allowed</dfn> if it is not <a>disallowed</a>.</p>
     <p>A feature may be <dfn>allowed by default</dfn> in a {{Document}} or
     {{WorkerGlobalScope}}. If a feature is <a>allowed by default</a>, then it
-    is <a>allowed</a> unless a <a>declared policy</a> <a>disallows</a> it, or if
-    in a frame, if its <a>container policy</a> or its parent frame's
-    <a>feature policy</a> <a>disallows</a> it for that frame.</p>
+    is <a>allowed</a> if no other policy disallows it.</p>
     <p>A feature may be <dfn>disallowed by default</dfn> in a {{Document}} or
     {{WorkerGlobalScope}}. If a feature is <a>disallowed by default</a>, then it
-    is <a>disallowed</a> unless in a frame, in whose parent frame the feature is
-    <a>allowed</a>, and whose parent frame's <a>feature policy</a> or
-    <a>container policy</a> <a>allows</a> it.</p>
+    is <a>disallowed</a> unless explicitly allowed by policy.</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
@@ -399,6 +395,35 @@ partial interface HTMLIFrameElement {
       </div>
     </section>
   </section>
+</section>
+<section>
+  <h2 id="combining-policies">Combining Policies from different sources</h2>
+  <p>To determine the effective feature policy for a given document, several
+  pieces of information are required:</p>
+  <ul>
+    <li>The default allowlists for all features supported by the user agent</li>
+    <li>The header policy for the document</li>
+    <li>The origin of the document</li>
+  </ul>
+  <p>If the document is in a frame, then this is also required:</p>
+  <ul>
+    <li>The feature policy of the document in the parent frame</li>
+    <li>The container policy defined for the document's frame by its parent.
+    </li>
+  </ul>
+  <p>Then, for each supported feature, we go through these steps:</p>
+  <ol>
+    <li>Use the parent's policy and the container policy to define the
+    <a>inherited policy</a> for the new document.
+    For each feature, if it is allowed by the parent for the new document's origin,
+    and not disallowed by the container policy, then it is enabled in the inherited policy. Otherwise, it is disabled.</li>
+    <li>Use the inherited policy and the document's header policy to determine the
+    effective policy for the new document.
+    For each feature, if it is disabled in the inherited policy, then its allowlist will be empty.
+    If it is enabled, and there is a declaration for that feature in the header policy, then its allowlist will be the declared list from the header.
+    If it is enabled, and there is no declaration for that feature in the header policy, then its allowlist will be the default allowlist for the feature (with 'self' replaced with the origin of the document).
+    </li>
+  </ol>
 </section>
 <section>
   <h2 id="integrations">Integrations</h2>
