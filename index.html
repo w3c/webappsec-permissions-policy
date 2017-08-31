@@ -1361,8 +1361,6 @@ Possible extra rowspan handling
 
         .dfn-paneled { cursor: pointer; }
         </style>
-<style>/* style-railroad */
-svg.railroad-diagram{background-color:hsl(30,20%,95%);}svg.railroad-diagram path{stroke-width:3;stroke:black;fill:rgba(0,0,0,0);}svg.railroad-diagram text{font:bold 14px monospace;text-anchor:middle;}svg.railroad-diagram text.label{text-anchor:start;}svg.railroad-diagram text.comment{font:italic 12px monospace;}svg.railroad-diagram rect{stroke-width:3;stroke:black;fill:hsl(120,100%,90%);}</style>
 <style>/* style-syntax-highlighting */
 pre.idl.highlight { color: #708090; }
         .highlight:not(.idl) { background: hsl(24, 20%, 95%); }
@@ -1425,7 +1423,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-06-12">12 June 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-08-31">31 August 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1480,7 +1478,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li>
      <a href="#serialization"><span class="secno">5</span> <span class="content">Feature Policy Serialization</span></a>
      <ol class="toc">
-      <li><a href="#json-serialization"><span class="secno">5.1</span> <span class="content">JSON serialization</span></a>
+      <li><a href="#ascii-serialization"><span class="secno">5.1</span> <span class="content">ASCII serialization</span></a>
      </ol>
     <li>
      <a href="#delivery"><span class="secno">6</span> <span class="content">Delivery</span></a>
@@ -1566,44 +1564,45 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    </section>
    <section>
     <h2 class="heading settled" data-level="2" id="examples"><span class="secno">2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
-    <div class="example" id="example-52d29d08">
-     <a class="self-link" href="#example-52d29d08"></a> 
+    <div class="example" id="example-b3a9bb9e">
+     <a class="self-link" href="#example-b3a9bb9e"></a> 
      <p>SecureCorp Inc. wants to disable use of Vibration and Geolocation APIs
     within their application. It can do so by delivering the following HTTP
     response header to define a feature policy:</p>
-<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-1">Feature-Policy</a>: {"<a data-link-type="dfn">vibrate</a>": [], "<a data-link-type="dfn">geolocation</a>": []}</pre>
-     <p>By specifying an empty list of origins, the specified features will be
-    disabled for all browsing contexts, regardless of their origin.</p>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-1">Feature-Policy</a>: vibrate 'none'; geolocation 'none'</pre>
+     <p>By specifying the "<code>'none'</code>"keyword for the origin list, the
+    specified features will be disabled for all browsing contexts, regardless of
+    their origin.</p>
     </div>
-    <div class="example" id="example-dbaf5c3d">
-     <a class="self-link" href="#example-dbaf5c3d"></a> 
+    <div class="example" id="example-2b1704d2">
+     <a class="self-link" href="#example-2b1704d2"></a> 
      <p>SecureCorp Inc. wants to disable use of Geolocation API within all
     browsing contexts except for its own origin and those whose origin is
     "<code>https://example.com</code>". It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-2">Feature-Policy</a>: {"<a data-link-type="dfn">geolocation</a>": ["self", "https://example.com"]}</pre>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-2">Feature-Policy</a>: geolocation 'self' https://example.com</pre>
      <p>The <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-1">allowlist</a> is a list of one or more origins, which can include
-    the application’s origin, optionally with the keyword "<code>self</code>",
+    the application’s origin, optionally with the keyword "<code>'self'</code>",
     and any third-party origin.</p>
     </div>
-    <div class="example" id="example-1a39f611">
-     <a class="self-link" href="#example-1a39f611"></a> 
+    <div class="example" id="example-c6357bc9">
+     <a class="self-link" href="#example-c6357bc9"></a> 
      <p>SecureCorp Inc. is hosting an application on
     "<code>https://example.com</code>" and wants to disable camera and
     microphone input on its own origin but enable it for a whitelisted embedee
     ("<code>https://other.com</code>"). It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-3">Feature-Policy</a>: {"<a data-link-type="dfn">camera</a>": ["https://other.com"], "<a data-link-type="dfn">microphone</a>": ["https://other.com"]}</pre>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-3">Feature-Policy</a>: camera https://other.com; microphone https://other.com</pre>
      <p>Some features are disabled by default in embedded contexts. The enable
     policy allows the application to selectively enable such features for
     whitelisted origins.</p>
     </div>
-    <div class="example" id="example-98245816">
-     <a class="self-link" href="#example-98245816"></a> 
+    <div class="example" id="example-b0e0e47a">
+     <a class="self-link" href="#example-b0e0e47a"></a> 
      <p>FastCorp Inc. wants to disable geolocation for all cross-origin child
     frames, except for a specific iframe. It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-4">Feature-Policy</a>: {"<a data-link-type="dfn">geolocation</a>": ["self"]}</pre>
+<pre><a href="#feature-policy-header" id="ref-for-feature-policy-header-4">Feature-Policy</a>: geolocation 'self'</pre>
      <p>and including an "<code>allow</code>" attribute on the iframe
     element:</p>
 <pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="<a data-link-type="dfn">geolocation</a>">&lt;/iframe></pre>
@@ -1717,7 +1716,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     directive</dfn> is an ordered map, mapping <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-1">feature names</a> to
     corresponding <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-3">allowlists</a> of origins.</p>
      <p>A <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-4">policy directive</a> is represented in HTTP headers and HTML
-    attributes as the string serialization of a JSON object.</p>
+    attributes as its ASCII serialization.</p>
      <p>The following sections define the set of known <a data-link-type="dfn" href="#feature-name" id="ref-for-feature-name-2">feature names</a>.
     Future versions of this document may define additional such names, as user
     agents ignore policy directives with unrecognized names when parsing the
@@ -1760,269 +1759,19 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <section>
     <h2 class="heading settled" data-level="5" id="serialization"><span class="secno">5. </span><span class="content">Feature Policy Serialization</span><a class="self-link" href="#serialization"></a></h2>
     <section>
-     <h3 class="heading settled" data-level="5.1" id="json-serialization"><span class="secno">5.1. </span><span class="content">JSON serialization</span><a class="self-link" href="#json-serialization"></a></h3>
+     <h3 class="heading settled" data-level="5.1" id="ascii-serialization"><span class="secno">5.1. </span><span class="content">ASCII serialization</span><a class="self-link" href="#ascii-serialization"></a></h3>
      <p><a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-5">Policy Directives</a> are represented in HTTP headers and in HTML
-    attributes as JSON text <a data-link-type="biblio" href="#biblio-rfc7159">[RFC7159]</a>.</p>
-     <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="policy-directive-json">policy-directive-json</dfn> must match:</p>
-     <div class="railroad">
-      <svg class="railroad-diagram" height="237" viewBox="0 0 900 237" width="900">
-       <g transform="translate(.5 .5)">
-        <path d="M 20 46 v 20 m 10 -20 v 20 m -10 -10 h 20.5"></path>
-        <path d="M40 56h10"></path>
-        <g>
-         <path d="M50 56h0"></path>
-         <path d="M850 56h0"></path>
-         <g class="terminal">
-          <path d="M50 56h0"></path>
-          <path d="M78 56h0"></path>
-          <rect height="22" rx="10" ry="10" width="28" x="50" y="45"></rect>
-          <a href="">
-           <text x="64" y="60">[</text>
-           <text x="64" y="60">[</text>
-          </a>
-         </g>
-         <path d="M78 56h10"></path>
-         <g>
-          <path d="M88 56h0"></path>
-          <path d="M812 56h0"></path>
-          <path d="M88 56a10 10 0 0 0 10 -10v-16a10 10 0 0 1 10 -10"></path>
-          <g>
-           <path d="M108 20h684"></path>
-          </g>
-          <path d="M792 20a10 10 0 0 1 10 10v16a10 10 0 0 0 10 10"></path>
-          <path d="M88 56h20"></path>
-          <g>
-           <path d="M108 56h0"></path>
-           <path d="M792 56h0"></path>
-           <path d="M108 56h10"></path>
-           <g>
-            <path d="M118 56h0"></path>
-            <path d="M782 56h0"></path>
-            <g class="terminal">
-             <path d="M118 56h0"></path>
-             <path d="M146 56h0"></path>
-             <rect height="22" rx="10" ry="10" width="28" x="118" y="45"></rect>
-             <a href="">
-              <text x="132" y="60">{</text>
-              <text x="132" y="60">{</text>
-             </a>
-            </g>
-            <path d="M146 56h10"></path>
-            <g>
-             <path d="M156 56h0"></path>
-             <path d="M744 56h0"></path>
-             <path d="M156 56a10 10 0 0 0 10 -10v-8a10 10 0 0 1 10 -10"></path>
-             <g>
-              <path d="M176 28h548"></path>
-             </g>
-             <path d="M724 28a10 10 0 0 1 10 10v8a10 10 0 0 0 10 10"></path>
-             <path d="M156 56h20"></path>
-             <g>
-              <path d="M176 56h0"></path>
-              <path d="M724 56h0"></path>
-              <path d="M176 56h10"></path>
-              <g>
-               <path d="M186 56h0"></path>
-               <path d="M714 56h0"></path>
-               <g class="terminal">
-                <path d="M186 56h0"></path>
-                <path d="M214 56h0"></path>
-                <rect height="22" rx="10" ry="10" width="28" x="186" y="45"></rect>
-                <a href="">
-                 <text x="200" y="60">"</text>
-                 <text x="200" y="60">"</text>
-                </a>
-               </g>
-               <path d="M214 56h10"></path>
-               <path d="M224 56h10"></path>
-               <g class="non-terminal">
-                <path d="M234 56h0"></path>
-                <path d="M350 56h0"></path>
-                <rect height="22" width="116" x="234" y="45"></rect>
-                <a href="">
-                 <text x="292" y="60">feature-name</text>
-                 <text x="292" y="60">feature-name</text>
-                </a>
-               </g>
-               <path d="M350 56h10"></path>
-               <path d="M360 56h10"></path>
-               <g class="terminal">
-                <path d="M370 56h0"></path>
-                <path d="M422 56h0"></path>
-                <rect height="22" rx="10" ry="10" width="52" x="370" y="45"></rect>
-                <a href="">
-                 <text x="396" y="60">": [</text>
-                 <text x="396" y="60">": [</text>
-                </a>
-               </g>
-               <path d="M422 56h10"></path>
-               <g>
-                <path d="M432 56h0"></path>
-                <path d="M676 56h0"></path>
-                <path d="M432 56a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path>
-                <g>
-                 <path d="M452 36h204"></path>
-                </g>
-                <path d="M656 36a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path>
-                <path d="M432 56h20"></path>
-                <g>
-                 <path d="M452 56h0"></path>
-                 <path d="M656 56h0"></path>
-                 <path d="M452 56h10"></path>
-                 <g>
-                  <path d="M462 56h0"></path>
-                  <path d="M646 56h0"></path>
-                  <g class="terminal">
-                   <path d="M462 56h0"></path>
-                   <path d="M490 56h0"></path>
-                   <rect height="22" rx="10" ry="10" width="28" x="462" y="45"></rect>
-                   <a href="">
-                    <text x="476" y="60">"</text>
-                    <text x="476" y="60">"</text>
-                   </a>
-                  </g>
-                  <path d="M490 56h10"></path>
-                  <g>
-                   <path d="M500 56h0"></path>
-                   <path d="M608 56h0"></path>
-                   <path d="M500 56h20"></path>
-                   <g class="non-terminal">
-                    <path d="M520 56h0"></path>
-                    <path d="M588 56h0"></path>
-                    <rect height="22" width="68" x="520" y="45"></rect>
-                    <a href="">
-                     <text x="554" y="60">origin</text>
-                     <text x="554" y="60">origin</text>
-                    </a>
-                   </g>
-                   <path d="M588 56h20"></path>
-                   <path d="M500 56a10 10 0 0 1 10 10v10a10 10 0 0 0 10 10"></path>
-                   <g class="terminal">
-                    <path d="M520 86h8"></path>
-                    <path d="M580 86h8"></path>
-                    <rect height="22" rx="10" ry="10" width="52" x="528" y="75"></rect>
-                    <a href="">
-                     <text x="554" y="90">self</text>
-                     <text x="554" y="90">self</text>
-                    </a>
-                   </g>
-                   <path d="M588 86a10 10 0 0 0 10 -10v-10a10 10 0 0 1 10 -10"></path>
-                   <path d="M500 56a10 10 0 0 1 10 10v40a10 10 0 0 0 10 10"></path>
-                   <g class="terminal">
-                    <path d="M520 116h20"></path>
-                    <path d="M568 116h20"></path>
-                    <rect height="22" rx="10" ry="10" width="28" x="540" y="105"></rect>
-                    <a href="">
-                     <text x="554" y="120">*</text>
-                     <text x="554" y="120">*</text>
-                    </a>
-                   </g>
-                   <path d="M588 116a10 10 0 0 0 10 -10v-40a10 10 0 0 1 10 -10"></path>
-                  </g>
-                  <path d="M608 56h10"></path>
-                  <g class="terminal">
-                   <path d="M618 56h0"></path>
-                   <path d="M646 56h0"></path>
-                   <rect height="22" rx="10" ry="10" width="28" x="618" y="45"></rect>
-                   <a href="">
-                    <text x="632" y="60">"</text>
-                    <text x="632" y="60">"</text>
-                   </a>
-                  </g>
-                 </g>
-                 <path d="M646 56h10"></path>
-                 <path d="M462 56a10 10 0 0 0 -10 10v70a10 10 0 0 0 10 10"></path>
-                 <g class="terminal">
-                  <path d="M462 146h78"></path>
-                  <path d="M568 146h78"></path>
-                  <rect height="22" rx="10" ry="10" width="28" x="540" y="135"></rect>
-                  <a href="">
-                   <text x="554" y="150">,</text>
-                   <text x="554" y="150">,</text>
-                  </a>
-                 </g>
-                 <path d="M646 146a10 10 0 0 0 10 -10v-70a10 10 0 0 0 -10 -10"></path>
-                </g>
-                <path d="M656 56h20"></path>
-               </g>
-               <path d="M676 56h10"></path>
-               <g class="terminal">
-                <path d="M686 56h0"></path>
-                <path d="M714 56h0"></path>
-                <rect height="22" rx="10" ry="10" width="28" x="686" y="45"></rect>
-                <a href="">
-                 <text x="700" y="60">]</text>
-                 <text x="700" y="60">]</text>
-                </a>
-               </g>
-              </g>
-              <path d="M714 56h10"></path>
-              <path d="M186 56a10 10 0 0 0 -10 10v100a10 10 0 0 0 10 10"></path>
-              <g class="terminal">
-               <path d="M186 176h250"></path>
-               <path d="M464 176h250"></path>
-               <rect height="22" rx="10" ry="10" width="28" x="436" y="165"></rect>
-               <a href="">
-                <text x="450" y="180">,</text>
-                <text x="450" y="180">,</text>
-               </a>
-              </g>
-              <path d="M714 176a10 10 0 0 0 10 -10v-100a10 10 0 0 0 -10 -10"></path>
-             </g>
-             <path d="M724 56h20"></path>
-            </g>
-            <path d="M744 56h10"></path>
-            <g class="terminal">
-             <path d="M754 56h0"></path>
-             <path d="M782 56h0"></path>
-             <rect height="22" rx="10" ry="10" width="28" x="754" y="45"></rect>
-             <a href="">
-              <text x="768" y="60">}</text>
-              <text x="768" y="60">}</text>
-             </a>
-            </g>
-           </g>
-           <path d="M782 56h10"></path>
-           <path d="M118 56a10 10 0 0 0 -10 10v130a10 10 0 0 0 10 10"></path>
-           <g class="terminal">
-            <path d="M118 206h318"></path>
-            <path d="M464 206h318"></path>
-            <rect height="22" rx="10" ry="10" width="28" x="436" y="195"></rect>
-            <a href="">
-             <text x="450" y="210">,</text>
-             <text x="450" y="210">,</text>
-            </a>
-           </g>
-           <path d="M782 206a10 10 0 0 0 10 -10v-130a10 10 0 0 0 -10 -10"></path>
-          </g>
-          <path d="M792 56h20"></path>
-         </g>
-         <path d="M812 56h10"></path>
-         <g class="terminal">
-          <path d="M822 56h0"></path>
-          <path d="M850 56h0"></path>
-          <rect height="22" rx="10" ry="10" width="28" x="822" y="45"></rect>
-          <a href="">
-           <text x="836" y="60">]</text>
-           <text x="836" y="60">]</text>
-          </a>
-         </g>
-        </g>
-        <path d="M850 56h10"></path>
-        <path d="M 860 56 h 20 m -10 -10 v 20 m 10 -20 v 20"></path>
-       </g>
-      </svg>
-     </div>
+    attributes as ASCII text <a data-link-type="biblio" href="#biblio-rfc7159">[RFC7159]</a>.</p>
+<pre class="abnf"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="serialized-feature-policy">serialized-feature-policy</dfn> = <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive-1">serialized-policy-directive</a> *(";" <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive-2">serialized-policy-directive</a>)
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="serialized-policy-directive">serialized-policy-directive</dfn> = <a data-link-type="dfn" href="#feature-name0" id="ref-for-feature-name0-1">feature-name</a> RWS <a data-link-type="dfn" href="#allow-list" id="ref-for-allow-list-1">allow-list</a>
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-name0">feature-name</dfn> = 1*( ALPHA / DIGIT / "-")
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list">allow-list</dfn> = <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value-1">allow-list-value</a> *(RWS <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value-2">allow-list-value</a>)
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list-value">allow-list-value</dfn> = <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> / "*" / "'self'" / "'src'" / "'none'"
+</pre>
      <p><code>origin</code> is the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#ascii-serialisation-of-an-origin">ASCII serialization of an origin</a>.</p>
-     <p><code>feature-name</code> is a JSON string.</p>
-     <div class="note" role="note"> The string "<code>self</code>" may be used as an origin in an allowlist.
+     <div class="note" role="note"> The string "<code>'self'</code>" may be used as an origin in an allowlist.
       When it is used in this way, it will refer to the origin of the document
       which contains the feature policy. </div>
-     <div class="note" role="note"> The begin-array and end-array marks ("[" and "]") are semantically part
-      of the JSON representation of the declared policy, but they do not appear
-      in the HTTP headers. Those characters are added to the HTTP headers before
-      parsing, so that the entire set of concatenated headers are parsed as a
-      single array. </div>
     </section>
    </section>
    <section>
@@ -2032,9 +1781,9 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     Field</span><a class="self-link" href="#feature-policy-http-header-field"></a></h3>
      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="feature-policy-header" data-noexport="" id="feature-policy-header">Feature-Policy</dfn> HTTP header
     field can be used in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response">response</a> (server to client) to communicate the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-3">feature policy</a> that should be enforced by the client.</p>
-     <p>The header’s value is the <a href="#json-serialization">§5.1 JSON serialization</a> of one or
+     <p>The header’s value is the <a href="#ascii-serialization">§5.1 ASCII serialization</a> of one or
     more <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-6">policy directive</a>s:.</p>
-<pre class="abnf">FeaturePolicy = <a data-link-type="dfn" href="#policy-directive-json" id="ref-for-policy-directive-json-1">policy-directive-json</a> *("," <a data-link-type="dfn" href="#policy-directive-json" id="ref-for-policy-directive-json-2">policy-directive-json</a>)
+<pre class="abnf">FeaturePolicy = <a data-link-type="dfn" href="#serialized-feature-policy" id="ref-for-serialized-feature-policy-1">serialized-feature-policy</a> *("," <a data-link-type="dfn" href="#serialized-feature-policy" id="ref-for-serialized-feature-policy-2">serialized-feature-policy</a>)
 </pre>
      <p>When the user agent receives a <code>Feature-Policy</code> header field,
     it MUST <a href="#process-response-policy">process</a> and <a data-link-type="dfn" href="#enforce" id="ref-for-enforce-1">enforce</a> the serialized policy as described in <a href="#integration-with-html">§7.1 Integration with HTML</a>.</p>
@@ -2042,16 +1791,16 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="6.2" id="iframe-allow-attribute"><span class="secno">6.2. </span><span class="content">The <code>allow</code> attribute of the <code>iframe</code> element</span><a class="self-link" href="#iframe-allow-attribute"></a></h3>
 <pre class="idl highlight def"><span class="kt">partial</span> <span class="kt">interface</span> <a class="nv idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmliframeelement">HTMLIFrameElement</a> {
-    [<a class="nv idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/scripting.html#cereactions">CEReactions</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject">SameObject</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards">PutForwards</a>=<a class="n idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value">value</a>] <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist">DOMTokenList</a> <dfn class="nv idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMTokenList" id="dom-htmliframeelement-allow">allow<a class="self-link" href="#dom-htmliframeelement-allow"></a></dfn>;
+    [<a class="nv idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/scripting.html#cereactions">CEReactions</a>, <a class="nv idl-code" data-link-type="extended-attribute">Reflect</a>] <span class="kt">attribute</span> <span class="kt">DOMString</span> <dfn class="nv idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export="" data-type="DOMString" id="dom-htmliframeelement-allow">allow<a class="self-link" href="#dom-htmliframeelement-allow"></a></dfn>;
 };</pre>
      <p><code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> elements have an "<code>allow</code>" attribute, which
-    contains an unordered set of unique space-separated tokens that are ASCII
-    case-insensitive. The allowed values are names of features. Unrecognized
-    values must be ignored.</p>
+    contains an <a href="#serialized-policy-directive" id="ref-for-serialized-policy-directive-3">ASCII-serialized policy
+    directive</a>.</p>
+     <p>The allowlist for the features named in the attribute may be empty; in
+    that case, the default value for the allowlist is <code>'src'</code>, which
+    represents the origin of the URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-src">src</a></code> attribute. </p>
      <p>When not empty, the "<code>allow</code>" attribute will result in adding
     an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-7">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-12">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-5">container policy</a>, when it is contructed.</p>
-     <p>The <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-8">allowlist</a> will contain a single origin, which is the origin
-    of the URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-src">src</a></code> attribute.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.3" id="legacy-attributes"><span class="secno">6.3. </span><span class="content">Additional attributes to support legacy
@@ -2067,7 +1816,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       value contains the token "<code>fullscreen</code>", then the
       "<code>allowfullscreen</code> attribute must have no effect.</p>
       <p>Otherwise, the presence of an "allowfullscreen" attribute on an iframe
-      will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-9">allowlist</a> of ["<code>*</code>"] for the
+      will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-8">allowlist</a> of ["<code>*</code>"] for the
       "fullscreen" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-6">container policy</a>, when it is
       constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
@@ -2084,7 +1833,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       value contains the token "<code>payment</code>", then the
       "<code>allowpaymentrequest</code> attribute must have no effect.</p>
       <p>Otherwise, the presence of an "allowpaymentrequest" attribute on an
-      iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-10">allowlist</a> of ["<code>*</code>"] for
+      iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-9">allowlist</a> of ["<code>*</code>"] for
       the "payment" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-7">container policy</a>, when it is
       constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
@@ -2153,6 +1902,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="8.2" id="parse-header"><span class="secno">8.2. </span><span class="content">Parse header from <var>value</var> and <var>origin</var></span><a class="self-link" href="#parse-header"></a></h3>
+     <div class="issue" id="issue-ff2002a0"><a class="self-link" href="#issue-ff2002a0"></a>This section is out of date; the header format is no
+    longer JSON.</div>
      <p>Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> (<var>origin</var>)
     this algorithm will return a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-6">declared feature policy</a>.</p>
      <ol>
@@ -2174,6 +1925,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="8.3" id="parse-policy-directive"><span class="secno">8.3. </span><span class="content">Parse policy directive from <var>value</var> and <var>origin</var></span><a class="self-link" href="#parse-policy-directive"></a></h3>
+     <div class="issue" id="issue-ff2002a00"><a class="self-link" href="#issue-ff2002a00"></a>This section is out of date; the header format is no
+    longer JSON.</div>
      <p>Given a JSON object (<var>value</var>) and an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> (<var>origin</var>) this algorithm will return a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive-7">policy
     directive</a>.</p>
      <ol>
@@ -2184,7 +1937,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>If <var>key</var> is not equal to the name of any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-14">policy-controlled feature</a>, then continue.
         <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature-15">policy-controlled feature</a> named by <var>key</var>.
         <li>If <var>targetlist</var> is not an array, then continue.
-        <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-11">allowlist</a>. 
+        <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-10">allowlist</a>. 
         <li>If <var>targetlist</var> contains the string "<code>*</code>",
           set <var>allowlist</var> to match every origin.
         <li>
@@ -2325,7 +2078,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>
          If <var>feature</var> is a key in <var>container policy</var>: 
          <ol>
-          <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-12">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches-1">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-4">inherited policy</a> for <var>feature</var> is Enabled, return Enabled. 
+          <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-11">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches-1">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy-4">inherited policy</a> for <var>feature</var> is Enabled, return Enabled. 
           <li>Otherwise return Disabled.
          </ol>
         <li>Otherwise, if feature is allowed by <var>parent</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy-10">feature policy</a> for <var>origin</var>, return Enabled. 
@@ -2347,7 +2100,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-8">declared
       policy</a>: 
        <ol>
-        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-13">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-9">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches-2">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
+        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-12">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-9">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches-2">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
         <li>Otherwise return "<code>Disabled</code>".
        </ol>
       <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-4">default allowlist</a> is <code>["*"]</code>, return "<code>Enabled</code>". 
@@ -2530,7 +2283,9 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <ul class="index">
    <li><a href="#dom-htmliframeelement-allow">allow</a><span>, in §6.2</span>
    <li><a href="#allowlist">allowlist</a><span>, in §4.8</span>
+   <li><a href="#allow-list">allow-list</a><span>, in §5.1</span>
    <li><a href="#allowlist">allowlists</a><span>, in §4.8</span>
+   <li><a href="#allow-list-value">allow-list-value</a><span>, in §5.1</span>
    <li><a href="#container-policy">container policy</a><span>, in §4.6</span>
    <li><a href="#declared-policy">declared feature policy</a><span>, in §4.4</span>
    <li><a href="#declared-policy">declared policy</a><span>, in §4.4</span>
@@ -2538,6 +2293,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <li><a href="#default-allowlist">default allowlists</a><span>, in §4.9</span>
    <li><a href="#enforce">enforce</a><span>, in §7.1</span>
    <li><a href="#feature-name">feature name</a><span>, in §4.1</span>
+   <li><a href="#feature-name0">feature-name</a><span>, in §5.1</span>
    <li><a href="#feature-policy">feature policy</a><span>, in §4.2</span>
    <li><a href="#feature-policy-aware">feature-policy-aware</a><span>, in §4.4</span>
    <li><a href="#feature-policy-header">feature-policy-header</a><span>, in §6.1</span>
@@ -2549,8 +2305,9 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <li><a href="#matches">matches</a><span>, in §4.8</span>
    <li><a href="#policy-controlled-feature">policy-controlled feature</a><span>, in §4.1</span>
    <li><a href="#policy-directive">policy directive</a><span>, in §4.7</span>
-   <li><a href="#policy-directive-json">policy-directive-json</a><span>, in §5.1</span>
    <li><a href="#policy-directive">policy directives</a><span>, in §4.7</span>
+   <li><a href="#serialized-feature-policy">serialized-feature-policy</a><span>, in §5.1</span>
+   <li><a href="#serialized-policy-directive">serialized-policy-directive</a><span>, in §5.1</span>
    <li><a href="#supported-features">supported features</a><span>, in §4.1</span>
   </ul>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -2559,12 +2316,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <a data-link-type="biblio">[CSP3]</a> defines the following terms:
     <ul>
      <li><a href="https://w3c.github.io/webappsec-csp/#sandbox">sandbox</a>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[WHATWG-DOM]</a> defines the following terms:
-    <ul>
-     <li><a href="https://dom.spec.whatwg.org/#domtokenlist">DOMTokenList</a>
-     <li><a href="https://dom.spec.whatwg.org/#dom-domtokenlist-value">value</a>
     </ul>
    <li>
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
@@ -2597,12 +2348,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <ul>
      <li><a href="https://url.spec.whatwg.org/#concept-url-origin">origin</a>
     </ul>
-   <li>
-    <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
-    <ul>
-     <li><a href="https://heycam.github.io/webidl/#PutForwards">PutForwards</a>
-     <li><a href="https://heycam.github.io/webidl/#SameObject">SameObject</a>
-    </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
@@ -2619,10 +2364,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://tools.ietf.org/html/rfc3864">Registration Procedures for Message Header Fields</a>. September 2004. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc3864">https://tools.ietf.org/html/rfc3864</a>
    <dt id="biblio-rfc7159">[RFC7159]
    <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc7159">The JavaScript Object Notation (JSON) Data Interchange Format</a>. March 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a>
-   <dt id="biblio-webidl">[WebIDL]
-   <dd>Cameron McCormack; Boris Zbarsky; Tobie Langel. <a href="https://heycam.github.io/webidl/">Web IDL</a>. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
-   <dt id="biblio-whatwg-dom">[WHATWG-DOM]
-   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-whatwg-url">[WHATWG-URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
   </dl>
@@ -2635,13 +2376,17 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
 <pre class="idl def"><span class="kt">partial</span> <span class="kt">interface</span> <a class="nv idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmliframeelement">HTMLIFrameElement</a> {
-    [<a class="nv idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/scripting.html#cereactions">CEReactions</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject">SameObject</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards">PutForwards</a>=<a class="n idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value">value</a>] <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist">DOMTokenList</a> <a class="nv" data-readonly="" data-type="DOMTokenList" href="#dom-htmliframeelement-allow">allow</a>;
+    [<a class="nv idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/scripting.html#cereactions">CEReactions</a>, <a class="nv idl-code" data-link-type="extended-attribute">Reflect</a>] <span class="kt">attribute</span> <span class="kt">DOMString</span> <a class="nv" data-type="DOMString" href="#dom-htmliframeelement-allow">allow</a>;
 };
 </pre>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
    <div class="issue"> Monkey-patching! As soon as we know that this is the direction we wish to
       pursue, upstream all of this. <a href="#issue-7605d231"> ↵ </a></div>
+   <div class="issue">This section is out of date; the header format is no
+    longer JSON.<a href="#issue-ff2002a0"> ↵ </a></div>
+   <div class="issue">This section is out of date; the header format is no
+    longer JSON.<a href="#issue-ff2002a00"> ↵ </a></div>
    <div class="issue">TODO<a href="#issue-b7b1e314"> ↵ </a></div>
   </div>
   <aside class="dfn-panel" data-for="policy-controlled-feature">
@@ -2744,7 +2489,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li><a href="#ref-for-policy-directive-2">4.5. Header policies</a>
     <li><a href="#ref-for-policy-directive-3">4.6. Container policies</a>
     <li><a href="#ref-for-policy-directive-4">4.7. Policy directives</a>
-    <li><a href="#ref-for-policy-directive-5">5.1. JSON serialization</a>
+    <li><a href="#ref-for-policy-directive-5">5.1. ASCII serialization</a>
     <li><a href="#ref-for-policy-directive-6">6.1. Feature-Policy HTTP Header
     Field</a>
     <li><a href="#ref-for-policy-directive-7">8.3. Parse policy directive from
@@ -2762,14 +2507,14 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li><a href="#ref-for-allowlist-4">4.8. Allowlists</a> <a href="#ref-for-allowlist-5">(2)</a>
     <li><a href="#ref-for-allowlist-6">4.9. Default Allowlists</a>
     <li><a href="#ref-for-allowlist-7">6.2. The allow attribute of the
-    iframe element</a> <a href="#ref-for-allowlist-8">(2)</a>
-    <li><a href="#ref-for-allowlist-9">6.3.1. allowfullscreen</a>
-    <li><a href="#ref-for-allowlist-10">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-allowlist-11">8.3. Parse policy directive from
+    iframe element</a>
+    <li><a href="#ref-for-allowlist-8">6.3.1. allowfullscreen</a>
+    <li><a href="#ref-for-allowlist-9">6.3.2. allowpaymentrequest</a>
+    <li><a href="#ref-for-allowlist-10">8.3. Parse policy directive from
     value and origin</a>
-    <li><a href="#ref-for-allowlist-12">8.8. Define an inherited policy for
+    <li><a href="#ref-for-allowlist-11">8.8. Define an inherited policy for
     feature</a>
-    <li><a href="#ref-for-allowlist-13">8.9. Is feature enabled in
+    <li><a href="#ref-for-allowlist-12">8.9. Is feature enabled in
     global for origin?</a>
    </ul>
   </aside>
@@ -2791,11 +2536,37 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     global for origin?</a> <a href="#ref-for-default-allowlist-5">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="policy-directive-json">
-   <b><a href="#policy-directive-json">#policy-directive-json</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="serialized-feature-policy">
+   <b><a href="#serialized-feature-policy">#serialized-feature-policy</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-policy-directive-json-1">6.1. Feature-Policy HTTP Header
-    Field</a> <a href="#ref-for-policy-directive-json-2">(2)</a>
+    <li><a href="#ref-for-serialized-feature-policy-1">6.1. Feature-Policy HTTP Header
+    Field</a> <a href="#ref-for-serialized-feature-policy-2">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="serialized-policy-directive">
+   <b><a href="#serialized-policy-directive">#serialized-policy-directive</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-serialized-policy-directive-1">5.1. ASCII serialization</a> <a href="#ref-for-serialized-policy-directive-2">(2)</a>
+    <li><a href="#ref-for-serialized-policy-directive-3">6.2. The allow attribute of the
+    iframe element</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="feature-name0">
+   <b><a href="#feature-name0">#feature-name0</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-feature-name0-1">5.1. ASCII serialization</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="allow-list">
+   <b><a href="#allow-list">#allow-list</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-allow-list-1">5.1. ASCII serialization</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="allow-list-value">
+   <b><a href="#allow-list-value">#allow-list-value</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-allow-list-value-1">5.1. ASCII serialization</a> <a href="#ref-for-allow-list-value-2">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="feature-policy-header">
