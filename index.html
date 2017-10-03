@@ -1423,7 +1423,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-08-31">31 August 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-10-03">3 October 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1766,9 +1766,12 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="serialized-policy-directive">serialized-policy-directive</dfn> = <a data-link-type="dfn" href="#feature-name0" id="ref-for-feature-name0-1">feature-name</a> RWS <a data-link-type="dfn" href="#allow-list" id="ref-for-allow-list-1">allow-list</a>
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-name0">feature-name</dfn> = 1*( ALPHA / DIGIT / "-")
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list">allow-list</dfn> = <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value-1">allow-list-value</a> *(RWS <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value-2">allow-list-value</a>)
-<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list-value">allow-list-value</dfn> = <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> / "*" / "'self'" / "'src'" / "'none'"
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list-value">allow-list-value</dfn> = <a data-link-type="dfn">serialized-origin</a> / "*" / "'self'" / "'src'" / "'none'"
 </pre>
-     <p><code>origin</code> is the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#ascii-serialisation-of-an-origin">ASCII serialization of an origin</a>.</p>
+     <p><code>serialized-origin</code> is the ASCII serialization of an origin
+    from <a data-link-type="biblio" href="#biblio-origin">[ORIGIN]</a>. However, the characters <code>"'"</code>, <code>"*"</code>, <code>","</code> and <code>";"</code> MUST
+    NOT appear in the serialization. If they are required, they must be
+    percent-encoded as <code>"%27"</code>, <code>"%2A"</code>, <code>"%2C"</code> or <code>"%3B"</code>, respectively.</p>
      <div class="note" role="note"> The string "<code>'self'</code>" may be used as an origin in an allowlist.
       When it is used in this way, it will refer to the origin of the document
       which contains the feature policy. </div>
@@ -2333,7 +2336,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#htmliframeelement">HTMLIFrameElement</a>
      <li><a href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a>
      <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#allowed-to-use">allowed to use</a>
-     <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#ascii-serialisation-of-an-origin">ascii serialization of an origin</a>
      <li><a href="https://html.spec.whatwg.org/multipage/webappapis.html#global-object">global object</a>
      <li><a href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-header-list">header list</a>
      <li><a href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a>
@@ -2358,6 +2360,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-origin">[ORIGIN]
+   <dd>A. Barth. <a href="https://tools.ietf.org/html/rfc6454">The Web Origin Concept</a>. December 2011. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6454">https://tools.ietf.org/html/rfc6454</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-rfc3864">[RFC3864]
