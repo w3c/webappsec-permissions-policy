@@ -25,7 +25,8 @@ policy-controlled feature:
 > * The **default allowlist** for the Sample API is `["self"]`.
 >
 > When disabled in a document, the `getArbitrarySamples()` method MUST return a
-> promise which rejects with a `SecurityException` object as its parameter.
+> promise which rejects with a `SecurityError` DOMException object as its
+> parameter.
 
 ## Choosing a default allowlist
 
