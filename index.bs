@@ -56,9 +56,10 @@ spec:fetch; type:dfn; text:value
     within their application. It can do so by delivering the following HTTP
     response header to define a feature policy:</p>
     <pre>
-      <a href="#feature-policy-header">Feature-Policy</a>: {"<a>vibrate</a>": [], "<a>geolocation</a>": []}</pre>
-    <p>By specifying an empty list of origins, the specified features will be
-    disabled for all browsing contexts, regardless of their origin.</p>
+      <a href="#feature-policy-header">Feature-Policy</a>: vibrate 'none'; geolocation 'none'</pre>
+    <p>By specifying the "<code>'none'</code>"keyword for the origin list, the
+    specified features will be disabled for all browsing contexts, regardless of
+    their origin.</p>
   </div>
   <div class="example">
     <p>SecureCorp Inc. wants to disable use of Geolocation API within all
@@ -66,9 +67,9 @@ spec:fetch; type:dfn; text:value
     "<code>https://example.com</code>". It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
     <pre>
-      <a href="#feature-policy-header">Feature-Policy</a>: {"<a>geolocation</a>": ["self", "https://example.com"]}</pre>
+      <a href="#feature-policy-header">Feature-Policy</a>: geolocation 'self' https://example.com</pre>
     <p>The <a>allowlist</a> is a list of one or more origins, which can include
-    the application's origin, optionally with the keyword "<code>self</code>",
+    the application's origin, optionally with the keyword "<code>'self'</code>",
     and any third-party origin.</p>
   </div>
   <div class="example">
@@ -77,7 +78,7 @@ spec:fetch; type:dfn; text:value
     microphone input on its own origin but enable it for a whitelisted embedee
     ("<code>https://other.com</code>"). It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-    <pre><a href="#feature-policy-header">Feature-Policy</a>: {"<a>camera</a>": ["https://other.com"], "<a>microphone</a>": ["https://other.com"]}</pre>
+    <pre><a href="#feature-policy-header">Feature-Policy</a>: camera https://other.com; microphone https://other.com</pre>
     <p>Some features are disabled by default in embedded contexts. The enable
     policy allows the application to selectively enable such features for
     whitelisted origins.</p>
@@ -86,7 +87,7 @@ spec:fetch; type:dfn; text:value
     <p>FastCorp Inc. wants to disable geolocation for all cross-origin child
     frames, except for a specific iframe. It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-    <pre><a href="#feature-policy-header">Feature-Policy</a>: {"<a>geolocation</a>": ["self"]}</pre>
+    <pre><a href="#feature-policy-header">Feature-Policy</a>: geolocation 'self'</pre>
     <p>and including an "<code>allow</code>" attribute on the iframe
     element:</p>
     <pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="<a>geolocation</a>"&gt;&lt;/iframe&gt;</pre>
@@ -226,7 +227,7 @@ spec:fetch; type:dfn; text:value
     directive</dfn> is an ordered map, mapping <a>feature names</a> to
     corresponding <a>allowlists</a> of origins.</p>
     <p>A <a>policy directive</a> is represented in HTTP headers and HTML
-    attributes as the string serialization of a JSON object.</p>
+    attributes as its ASCII serialization.</p>
     <p>The following sections define the set of known <a>feature names</a>.
     Future versions of this document may define additional such names, as user
     agents ignore policy directives with unrecognized names when parsing the
@@ -272,49 +273,24 @@ spec:fetch; type:dfn; text:value
 <section>
   <h2 id="serialization">Feature Policy Serialization</h2>
   <section>
-    <h3 id="json-serialization">JSON serialization</h3>
+    <h3 id="ascii-serialization">ASCII serialization</h3>
     <p><a>Policy Directives</a> are represented in HTTP headers and in HTML
-    attributes as JSON text [[!RFC7159]].</p>
-    <p><dfn>policy-directive-json</dfn> must match:</p>
-    <pre class="railroad">
-    Sequence:
-      T: [
-      ZeroOrMore:
-        Sequence:
-          T: {
-          ZeroOrMore:
-            Sequence:
-              T: "
-              N: feature-name
-              T: ": [
-              ZeroOrMore:
-                Sequence:
-                  T: "
-                  Choice:
-                    N: origin
-                    T: self
-                    T: *
-                  T: "
-                T: ,
-              T: ]
-            T: ,
-          T: }
-        T: ,
-      T: ]
+    attributes as ASCII text [[!RFC7159]].</p>
+    <pre class="abnf">
+      <dfn>serialized-feature-policy</dfn> = <a>serialized-policy-directive</a> *(";" <a>serialized-policy-directive</a>)
+      <dfn>serialized-policy-directive</dfn> = <a>feature-name</a> RWS <a>allow-list</a>
+      <dfn>feature-name</dfn> = 1*( ALPHA / DIGIT / "-")
+      <dfn>allow-list</dfn> = <a>allow-list-value</a> *(RWS <a>allow-list-value</a>)
+      <dfn>allow-list-value</dfn> = <a>serialized-origin</a> / "*" / "'self'" / "'src'" / "'none'"
     </pre>
-    <p><code>origin</code> is the [=ASCII serialization of an origin=].</p>
-    <p><code>feature-name</code> is a JSON string.</p>
+    <p><code>serialized-origin</code> is the ASCII serialization of an origin
+    from [[!ORIGIN]]. However, the characters `"'"`, `"*"`, `","` and `";"` MUST
+    NOT appear in the serialization. If they are required, they must be
+    percent-encoded as `"%27"`, `"%2A"`, `"%2C"` or `"%3B"`, respectively.</p>
     <div class="note">
-      The string "<code>self</code>" may be used as an origin in an allowlist.
+      The string "<code>'self'</code>" may be used as an origin in an allowlist.
       When it is used in this way, it will refer to the origin of the document
       which contains the feature policy.
-    </div>
-    <div class="note">
-      The begin-array and end-array marks ("[" and "]") are semantically part
-      of the JSON representation of the declared policy, but they do not appear
-      in the HTTP headers. Those characters are added to the HTTP headers before
-      parsing, so that the entire set of concatenated headers are parsed as a
-      single array.
     </div>
   </section>
 </section>
@@ -326,10 +302,10 @@ spec:fetch; type:dfn; text:value
     <p>The <dfn lt="feature-policy-header">Feature-Policy</dfn> HTTP header
     field can be used in the [=response=] (server to client) to communicate the
     <a>feature policy</a> that should be enforced by the client.</p>
-    <p>The header's value is the <a href="#json-serialization"></a> of one or
+    <p>The header's value is the <a href="#ascii-serialization"></a> of one or
     more <a>policy directive</a>s:.</p>
     <pre class="abnf">
-      FeaturePolicy = <a>policy-directive-json</a> *("," <a>policy-directive-json</a>)
+      FeaturePolicy = <a>serialized-feature-policy</a> *("," <a>serialized-feature-policy</a>)
     </pre>
     <p>When the user agent receives a <code>Feature-Policy</code> header field,
     it MUST <a href="#process-response-policy">process</a> and <a>enforce</a>
@@ -341,18 +317,19 @@ spec:fetch; type:dfn; text:value
     <code>iframe</code> element</h3>
     <pre class="idl">
 partial interface HTMLIFrameElement {
-    [CEReactions, SameObject, PutForwards=value] readonly attribute DOMTokenList allow;
+    [CEReactions, Reflect] attribute DOMString allow;
 };</pre>
     <p><{iframe}> elements have an "<code>allow</code>" attribute, which
-    contains an unordered set of unique space-separated tokens that are ASCII
-    case-insensitive. The allowed values are names of features. Unrecognized
-    values must be ignored.</p>
+    contains an <a href="#serialized-policy-directive">ASCII-serialized policy
+    directive</a>.</p>
+    <p>The allowlist for the features named in the attribute may be empty; in
+    that case, the default value for the allowlist is <code>'src'</code>, which
+    represents the origin of the URL in the iframe's <{iframe/src}> attribute.
+    </p>
     <p>When not empty, the "<code>allow</code>" attribute will result in adding
     an <a>allowlist</a> for each recognized
     <a data-lt="policy-controlled feature">feature</a> to the frame's
     <a>container policy</a>, when it is contructed.</p>
-    <p>The <a>allowlist</a> will contain a single origin, which is the origin
-    of the URL in the iframe's <{iframe/src}> attribute.</p>
   </section>
   <section>
     <h3 id="legacy-attributes">Additional attributes to support legacy
@@ -480,6 +457,8 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="parse-header">Parse header from <var>value</var> and
     <var>origin</var></h3>
+    <div class="issue">This section is out of date; the header format is no
+    longer JSON.</div>
     <p>Given a string (<var>value</var>) and an [=origin=] (<var>origin</var>)
     this algorithm will return a <a>declared feature policy</a>.</p>
     <ol>
@@ -507,6 +486,8 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="parse-policy-directive">Parse policy directive from
     <var>value</var> and <var>origin</var></h3>
+    <div class="issue">This section is out of date; the header format is no
+    longer JSON.</div>
     <p>Given a JSON object (<var>value</var>) and an [=origin=]
     (<var>origin</var>) this algorithm will return a <a>policy
     directive</a>.</p>
