@@ -256,15 +256,15 @@ spec:fetch; type:dfn; text:value
     <p>Features are currently defined to have one of these three <a>default
     allowlists</a>:</p>
     <dl>
-      <dt>["<code>*</code>"]</dt>
+      <dt><code>'*'</code></dt>
       <dd>The feature is allowed at the top level by default, and when allowed,
       is allowed by default to documents in child frames.</dd>
-      <dt>["<code>self</code>"]</dt>
+      <dt><code>'self'</code></dt>
       <dd>The feature is allowed at the top level by default, and when allowed,
       is allowed by default to same-origin domain documents in child frames,
       but is disallowed by default in cross-origin documents in child
       frames.</dd>
-      <dt>[]</dt>
+      <dt>'none'</dt>
       <dd>The feature is disallowed at the top level by default, and is also
       disallowed by default to documents in child frames.</dd>
     </dl>
@@ -346,7 +346,7 @@ partial interface HTMLIFrameElement {
       value contains the token "<code>fullscreen</code>", then the
       "<code>allowfullscreen</code> attribute must have no effect.</p>
       <p>Otherwise, the presence of an "allowfullscreen" attribute on an iframe
-      will result in adding an <a>allowlist</a> of ["<code>*</code>"] for the
+      will result in adding an <a>allowlist</a> of <code>'*'</code> for the
       "fullscreen" feature to the frame's <a>container policy</a>, when it is
       constructed.</p>
       <div class="note">
@@ -366,7 +366,7 @@ partial interface HTMLIFrameElement {
       value contains the token "<code>payment</code>", then the
       "<code>allowpaymentrequest</code> attribute must have no effect.</p>
       <p>Otherwise, the presence of an "allowpaymentrequest" attribute on an
-      iframe will result in adding an <a>allowlist</a> of ["<code>*</code>"] for
+      iframe will result in adding an <a>allowlist</a> of <code>'*'</code> for
       the "payment" feature to the frame's <a>container policy</a>, when it is
       constructed.</p>
       <div class="note">
@@ -715,10 +715,10 @@ partial interface HTMLIFrameElement {
         </ol>
       </li>
       <li>If <var>feature</var>'s <a>default allowlist</a> is
-      <code>["*"]</code>, return "<code>Enabled</code>".
+      <code>'*'</code>, return "<code>Enabled</code>".
       </li>
       <li>If <var>feature</var>'s <a>default allowlist</a> is
-      <code>["self"]</code>, and <var>origin</var> is [=same origin-domain=]
+      <code>'self'</code>, and <var>origin</var> is [=same origin-domain=]
       with <var>global</var>'s active document's origin, return
       "<code>Enabled</code>".
       </li>

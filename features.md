@@ -28,7 +28,7 @@ The *camera* feature controls access to video input devices requested through th
 If disabled in a document, then calls to [`getUserMedia()`](https://w3c.github.io/mediacapture-main/getusermedia.html#dom-mediadevices-getusermedia()) MUST NOT grant access to video input devices in that document.
 
 * The **feature name** for *camera* is "`camera`"
-* The **default allowlist** for *camera* is `["self"]`.
+* The **default allowlist** for *camera* is `'self'`.
 
 ### encrypted-media
 
@@ -37,7 +37,7 @@ The *encrypted-media* feature controls whether [encrypted media extensions](http
 If disabled in a document, the promise returned by [`requestMediaKeySystemAccess()`](https://w3c.github.io/encrypted-media/#navigator-extension-requestmediakeysystemaccess) must reject with a `NotSupportedError`.
 
 * The **feature name** for *encrypted-media* is "`encrypted-media`"
-* The **default allowlist** for *encrypted-media* is `["self"]`.
+* The **default allowlist** for *encrypted-media* is `'self'`.
 
 ### fullscreen
 
@@ -46,7 +46,7 @@ The *fullscreen* feature controls whether the [`requestFullscreen()`](https://fu
 If disabled in any document, the document will not be allowed to use fullscreen. If enabled, the document will be allowed to use fullscreen.
 
 * The **feature name** for *fullscreen* is "`fullscreen`"
-* The **default allowlist** for *fullscreen* is `["self"]`.
+* The **default allowlist** for *fullscreen* is `'self'`.
 
 ### geolocation
 
@@ -55,7 +55,7 @@ The *geolocation* feature controls whether the current document is allowed to us
 If disabled in any document, calls to both [`getCurrentPosition`](https://dev.w3.org/geo/api/spec-source.html#get-current-position) and [`watchPosition`](https://dev.w3.org/geo/api/spec-source.html#watch-position) must result in the error callback being invoked with `PERMISSION_DENIED`.
 
 * The **feature name** for *geolocation* is "`geolocation`"
-* The **default allowlist** for *geolocation* is `["self"]`.
+* The **default allowlist** for *geolocation* is `'self'`.
 
 ### microphone
 
@@ -64,7 +64,7 @@ The *microphone* feature controls access to audio input devices requested throug
 If disabled in a document, then calls to [`getUserMedia()`](https://w3c.github.io/mediacapture-main/getusermedia.html#dom-mediadevices-getusermedia()) MUST NOT grant access to audio input devices in that document.
 
 * The **feature name** for *microphone* is "`microphone`"
-* The **default allowlist** for *microphone* is `["self"]`.
+* The **default allowlist** for *microphone* is `'self'`.
 
 ### midi
 
@@ -73,7 +73,7 @@ The *midi* feature controls whether the current document is allowed to use the [
 If disabled in a document, the promise returned by [`requestMIDIAccess()`](https://webaudio.github.io/web-midi-api/#dom-navigator-requestmidiaccess) must reject with a `DOMException` parameter.
 
 * The **feature name** for *midi* is "`midi`"
-* The **default allowlist** for *midi* is `["self"]`.
+* The **default allowlist** for *midi* is `'self'`.
 
 ### payment
 
@@ -82,7 +82,7 @@ The *payment* feature controls whether the current document is allowed to use th
 If disabled in a document, then calls to the [`PaymentRequest` constuctor](https://w3c.github.io/browser-payment-api/#constructor) MUST throw a `SecurityError`.
 
 * The **feature name** for *payment* is "`payment`"
-* The **default allowlist** for *payment* is `["self"]`.
+* The **default allowlist** for *payment* is `'self'`.
 
 ### speaker
 
@@ -91,7 +91,7 @@ The *speaker* feature controls access to audio output devices requested through 
 If disabled in a document, then calls to [`getUserMedia()`](https://w3c.github.io/mediacapture-main/getusermedia.html#dom-mediadevices-getusermedia()) MUST NOT grant access to audio output devices in that document.
 
 * The **feature name** for *speaker* is "`speaker`"
-* The **default allowlist** for *speaker* is `["self"]`.
+* The **default allowlist** for *speaker* is `'self'`.
 
 ### usb
 
@@ -100,7 +100,7 @@ The *usb* feature controls whether the current document is allowed to use the [W
 If disabled in a document, then calls to the [`getDevices()`](https://wicg.github.io/webusb/#dom-usb-getdevices) should return a promise which rejects with a SecurityError DOMException.
 
 * The **feature name** for *usb* is "`usb`"
-* The **default allowlist** for *usb* is `["self"]`.
+* The **default allowlist** for *usb* is `'self'`.
 
 ### vibrate
 
@@ -109,7 +109,7 @@ The *vibrate* feature controls whether the [Vibration API](https://w3c.github.io
 If disabled in a document, then calls to the [`vibrate()`](https://w3c.github.io/vibration/#dom-navigator-vibrate) method should silently do nothing. If enabled, the browser may allow the device to vibrate.
 
 * The **feature name** for *vibrate* is "`vibrate`"
-* The **default allowlist** for *vibrate* is `["self"]`.
+* The **default allowlist** for *vibrate* is `'self'`.
 
 ### vr
 
@@ -118,4 +118,4 @@ The *vr* feature controls whether the current document is allowed to use the [We
 If disabled in a document, then calls to the [`getVRDisplays()`](https://w3c.github.io/webvr/spec/1.1/#navigator-getvrdisplays-attribute) should return a promise which rejects with a SecurityError DOMException.
 
 * The **feature name** for *vr* is "`vr`"
-* The **default allowlist** for *vr* is `["self"]`.
+* The **default allowlist** for *vr* is `'self'`.
