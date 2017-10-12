@@ -1423,7 +1423,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-10-04">4 October 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-10-12">12 October 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1742,7 +1742,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <p>Features are currently defined to have one of these three <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-3">default
     allowlists</a>:</p>
      <dl>
-      <dt><code>'*'</code>
+      <dt><code>*</code>
       <dd>The feature is allowed at the top level by default, and when allowed,
       is allowed by default to documents in child frames.
       <dt><code>'self'</code>
@@ -1819,7 +1819,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       value contains the token "<code>fullscreen</code>", then the
       "<code>allowfullscreen</code> attribute must have no effect.</p>
       <p>Otherwise, the presence of an "allowfullscreen" attribute on an iframe
-      will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-8">allowlist</a> of <code>'*'</code> for the
+      will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-8">allowlist</a> of <code>*</code> for the
       "fullscreen" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-6">container policy</a>, when it is
       constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
@@ -1836,7 +1836,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       value contains the token "<code>payment</code>", then the
       "<code>allowpaymentrequest</code> attribute must have no effect.</p>
       <p>Otherwise, the presence of an "allowpaymentrequest" attribute on an
-      iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-9">allowlist</a> of <code>'*'</code> for
+      iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-9">allowlist</a> of <code>*</code> for
       the "payment" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy-7">container policy</a>, when it is
       constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
@@ -2106,7 +2106,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist-12">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy-9">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches-2">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
         <li>Otherwise return "<code>Disabled</code>".
        </ol>
-      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-4">default allowlist</a> is <code>'*'</code>, return "<code>Enabled</code>". 
+      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-4">default allowlist</a> is <code>*</code>, return "<code>Enabled</code>". 
       <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist-5">default allowlist</a> is <code>'self'</code>, and <var>origin</var> is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#same-origin-domain">same origin-domain</a> with <var>global</var>’s active document’s origin, return
       "<code>Enabled</code>". 
       <li>Return "<code>Disabled</code>".
