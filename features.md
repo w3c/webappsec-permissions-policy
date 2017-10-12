@@ -15,7 +15,9 @@ of these features all belong in their respective specs.
 |`midi`|`self`|Controls access to `requestMIDIAccess()` method.|
 |`payment`|`self`|Controls access to PaymentRequest interface.|
 |`speaker`|`self`|Controls access to audio output devices.|
+|`usb`|`self`|Controls access to USB devices.|
 |`vibrate`|`self`|Controls access to `vibrate()` method.|
+|`vr`|`self`|Controls access to VR displays.|
 
 ## Feature Definitions
 
@@ -91,6 +93,15 @@ If disabled in a document, then calls to [`getUserMedia()`](https://w3c.github.i
 * The **feature name** for *speaker* is "`speaker`"
 * The **default allowlist** for *speaker* is `["self"]`.
 
+### usb
+
+The *usb* feature controls whether the current document is allowed to use the [WebUSB API](https://wicg.github.io/webusb/).
+
+If disabled in a document, then calls to the [`getDevices()`](https://wicg.github.io/webusb/#dom-usb-getdevices) should return a promise which rejects with a SecurityError DOMException.
+
+* The **feature name** for *usb* is "`usb`"
+* The **default allowlist** for *usb* is `["self"]`.
+
 ### vibrate
 
 The *vibrate* feature controls whether the [Vibration API](https://w3c.github.io/vibration/) is allowed to cause device vibration.
@@ -99,3 +110,12 @@ If disabled in a document, then calls to the [`vibrate()`](https://w3c.github.io
 
 * The **feature name** for *vibrate* is "`vibrate`"
 * The **default allowlist** for *vibrate* is `["self"]`.
+
+### vr
+
+The *vr* feature controls whether the current document is allowed to use the [WebVR API](https://w3c.github.io/webvr/spec/1.1/).
+
+If disabled in a document, then calls to the [`getVRDisplays()`](https://w3c.github.io/webvr/spec/1.1/#navigator-getvrdisplays-attribute) should return a promise which rejects with a SecurityError DOMException.
+
+* The **feature name** for *vr* is "`vr`"
+* The **default allowlist** for *vr* is `["self"]`.
