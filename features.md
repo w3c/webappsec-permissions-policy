@@ -34,7 +34,7 @@ If disabled in a document, then calls to [`getUserMedia()`](https://w3c.github.i
 
 The *encrypted-media* feature controls whether [encrypted media extensions](https://w3c.github.io/encrypted-media/) are available.
 
-If disabled in a document, the promise returned by [`requestMediaKeySystemAccess()`](https://w3c.github.io/encrypted-media/#navigator-extension-requestmediakeysystemaccess) must reject with a `NotSupportedError`.
+If disabled in a document, the promise returned by [`requestMediaKeySystemAccess()`](https://w3c.github.io/encrypted-media/#navigator-extension-requestmediakeysystemaccess) must return a promise which rejects with a `SecurityError` DOMException object as its parameter.
 
 * The **feature name** for *encrypted-media* is "`encrypted-media`"
 * The **default allowlist** for *encrypted-media* is `'self'`.
