@@ -159,6 +159,20 @@ spec:fetch; type:dfn; text:value
       <li>A <a data-lt="declared policy">declared policy</a>.
       </li>
     </ul>
+    <p>The <a>feature policy</a> for a {{Document}} or {{WorkerGlobalScope}}
+    determines whether a feature is <a>allowed</a> or <a>disallowed</a> in that
+    context.</p>
+    <p>A feature which is <dfn>disallowed</dfn> should be disabled, or be made
+    unavailable for use in the Document or web worker. Each feature may have a
+    different mechanism for being disabled when <a>disallowed</a>, which should
+    be defined in that feature's specification.</p>
+    <p>A feature is <dfn>allowed</dfn> if it is not <a>disallowed</a>.</p>
+    <p>A feature may be <dfn>allowed by default</dfn> in a {{Document}} or
+    {{WorkerGlobalScope}}. If a feature is <a>allowed by default</a>, then it
+    is <a>allowed</a> if no other policy disallows it.</p>
+    <p>A feature may be <dfn>disallowed by default</dfn> in a {{Document}} or
+    {{WorkerGlobalScope}}. If a feature is <a>disallowed by default</a>, then it
+    is <a>disallowed</a> unless explicitly allowed by policy.</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
@@ -257,16 +271,18 @@ spec:fetch; type:dfn; text:value
     allowlists</a>:</p>
     <dl>
       <dt><code>*</code></dt>
-      <dd>The feature is allowed at the top level by default, and when allowed,
-      is allowed by default to documents in child frames.</dd>
+      <dd>The feature is <a>allowed by default</a> in top-level documents. If
+      allowed in a frame, the feature is <a>allowed by default</a> in that
+      frame's children.</dd>
       <dt><code>'self'</code></dt>
-      <dd>The feature is allowed at the top level by default, and when allowed,
-      is allowed by default to same-origin domain documents in child frames,
-      but is disallowed by default in cross-origin documents in child
-      frames.</dd>
+      <dd>The feature is <a>allowed by default</a> in top-level documents. If
+      allowed in a frame, the feature is <a>allowed by default</a> in
+      same-origin documents in child frames, and is <a>disallowed by default</a>
+      in cross-origin documents in child frames.</dd>
       <dt>'none'</dt>
-      <dd>The feature is disallowed at the top level by default, and is also
-      disallowed by default to documents in child frames.</dd>
+      <dd>The feature is <a>disallowed by default</a> in top-level documents,
+      and is also <a>disallowed by default</a> in documents in child frames.
+      </dd>
     </dl>
   </section>
 </section>
@@ -379,6 +395,35 @@ partial interface HTMLIFrameElement {
       </div>
     </section>
   </section>
+</section>
+<section>
+  <h2 id="combining-policies">Combining Policies from different sources</h2>
+  <p>To determine the effective feature policy for a given document, several
+  pieces of information are required:</p>
+  <ul>
+    <li>The default allowlists for all features supported by the user agent</li>
+    <li>The header policy for the document</li>
+    <li>The origin of the document</li>
+  </ul>
+  <p>If the document is in a frame, then this is also required:</p>
+  <ul>
+    <li>The feature policy of the document in the parent frame</li>
+    <li>The container policy defined for the document's frame by its parent.
+    </li>
+  </ul>
+  <p>Then, for each supported feature, we go through these steps:</p>
+  <ol>
+    <li>Use the parent's policy and the container policy to define the
+    <a>inherited policy</a> for the new document.
+    For each feature, if it is allowed by the parent for the new document's origin,
+    and not disallowed by the container policy, then it is enabled in the inherited policy. Otherwise, it is disabled.</li>
+    <li>Use the inherited policy and the document's header policy to determine the
+    effective policy for the new document.
+    For each feature, if it is disabled in the inherited policy, then its allowlist will be empty.
+    If it is enabled, and there is a declaration for that feature in the header policy, then its allowlist will be the declared list from the header.
+    If it is enabled, and there is no declaration for that feature in the header policy, then its allowlist will be the default allowlist for the feature (with 'self' replaced with the origin of the document).
+    </li>
+  </ol>
 </section>
 <section>
   <h2 id="integrations">Integrations</h2>
