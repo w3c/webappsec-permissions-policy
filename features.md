@@ -7,6 +7,7 @@ of these features all belong in their respective specs.
 
 | Feature name | Default allowlist | Brief Description |
 | ------ | ------ | - |
+| `autoplay` | `self` | Controls access to autoplay through `play()` and `autoplay`. |
 | `camera` | `self` | Controls access to video input devices.|
 | `encrypted-media`| `self`|Controls whether `requestMediaKeySystemAccess()` is allowed.|
 | `fullscreen`|`self`|Controls whether `requestFullscreen()` is allowed.|
@@ -20,6 +21,15 @@ of these features all belong in their respective specs.
 |`vr`|`self`|Controls access to VR displays.|
 
 ## Feature Definitions
+
+### autoplay
+
+The *autoplay* feature controls access to autoplay of media requested through the [HTMLMediaElement interface](http://w3c.github.io/html/semantics-embedded-content.html#htmlmediaelement).
+
+If disabled in a document, then calls to [`play()`](http://w3c.github.io/html/semantics-embedded-content.html#dom-htmlmediaelement-play) without a user gesutre will reject the promise with a `NotAllowedError` DOMException object as its parameter. The [`autoplay`](http://w3c.github.io/html/semantics-embedded-content.html#dom-htmlmediaelement-autoplay) attribute will be ignored.
+
+* The **feature name** for *autoplay* is "`autoplay`"
+* The **default allowlist** for *autoplay* is `'self'`.
 
 ### camera
 
