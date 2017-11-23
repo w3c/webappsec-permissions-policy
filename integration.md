@@ -22,7 +22,7 @@ policy-controlled feature:
 > [Feature Policy](https://wicg.github.io/feature-policy/).
 >
 > * The **feature name** for the Sample API is "`sample`".
-> * The **default allowlist** for the Sample API is `["self"]`.
+> * The **default allowlist** for the Sample API is `'self'`.
 >
 > When disabled in a document, the `getArbitrarySamples()` method MUST return a
 > promise which rejects with a `SecurityError` DOMException object as its
@@ -36,17 +36,17 @@ allowlist chosen affects how the feature behaves when there are no declared
 policies present. As a rough guide:
 
 * Features which have already been widely available on the web platform, but
-which Feature Policy can now disable selectively, should use `[*]`. This
+which Feature Policy can now disable selectively, should use `*`. This
 ensures that the majority of documents on the web, as well as documents which
 are framed without their knowledge, will continue to behave as expected by
 their original authors.
 * New powerful features are often specified such that they are available in
 top-level browsing contexts only, and are not available in cross-origin child
 frames, for security. These kinds of features should use a default allowlist of
-`["self"]` to provide this behaviour. In this case, Feature Policy also grants
+`'self'` to provide this behaviour. In this case, Feature Policy also grants
 site authors the ability to selectively enable the feature in other origins,
 but the default behaviour is to disable it.
-* A default allowlist of `[]` should be restricted to new features, as a
+* A default allowlist of `'none'` should be restricted to new features, as a
 Feature Policy header is *required* in order to enable it in any document.
 
 ## Considerations for behavior when disallowed
@@ -128,7 +128,7 @@ that document or any of its children.
 >
 > If the goal is to block cat pictures, such that they cannot be loaded into a
 > document at all, then defining the feature as "load cat pictures" makes
-> sense, and the feature would be given a default allowlist of `[*]`. This way,
+> sense, and the feature would be given a default allowlist of `*`. This way,
 > cat pictures would be allowed by default on the entire web, but once disabled
 > in a document, would not be available anywhere in that document, even in
 > child frames.
