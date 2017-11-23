@@ -457,20 +457,13 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="parse-header">Parse header from <var>value</var> and
     <var>origin</var></h3>
-    <div class="issue">This section is out of date; the header format is no
-    longer JSON.</div>
     <p>Given a string (<var>value</var>) and an [=origin=] (<var>origin</var>)
     this algorithm will return a <a>declared feature policy</a>.</p>
     <ol>
-      <li>Let <var>policy</var> be an empty list.</li>
-      <li>Let <var>list</var> be the result of parsing <var>value</var> with a
-      [=JSON Parser=]. If <var>value</var> cannot be parsed, return
-      <var>policy</var>.
-      <div class="note">Note: If <var>value</var> can be parsed, <var>list</var>
-      must be a valid [=JSON Array=].</div></li>
-      <li>For each <var>element</var> of <var>list</var>:
+      <li>Let <var>policy</var> be an empty ordered map.</li>
+      <li>For each <var>element</var> returned by splitting <var>value</var> on
+      commas:
         <ol>
-          <li>If <var>element</var> is not a JSON object, then continue.</li>
           <li>Let <var>directive</var> be the result of executing <a href=
           "#parse-policy-directive"></a> on <var>element</var> and
           <var>origin</var>
@@ -486,21 +479,24 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="parse-policy-directive">Parse policy directive from
     <var>value</var> and <var>origin</var></h3>
-    <div class="issue">This section is out of date; the header format is no
-    longer JSON.</div>
-    <p>Given a JSON object (<var>value</var>) and an [=origin=]
-    (<var>origin</var>) this algorithm will return a <a>policy
-    directive</a>.</p>
+    <p>Given a string (<var>value</var>) and an [=origin=] (<var>origin</var>)
+    this algorithm will return a <a>policy directive</a>.</p>
     <ol>
       <li>Let <var>directive</var> be an empty ordered map.</li>
-      <li>For each <var>key</var> → <var>targetlist</var> of
-        <var>value</var>:
+      <li>For each <var>serialized-declaration</var> returned by strictly
+      splitting <var>value</var> on the character ";" U+003B:
         <ol>
-          <li>If <var>key</var> is not equal to the name of any recognized
-          <a>policy-controlled feature</a>, then continue.</li>
+	  <li>Let <var>tokens</var> be the result of splitting
+	  <var>serialized-declaration</var> on ASCII whitespace.</li>
+	  <li>If <var>tokens</var> is an empty list, then continue.</li>
+          <li>Let <var>feature-name</var> be the first element of
+	  <var>tokens</var>.</li>
+          <li>If <var>feature-name</var> is not equal to the name of any
+	  recognized <a>policy-controlled feature</a>, then continue.</li>
           <li>Let <var>feature</var> be the <a>policy-controlled feature</a>
-	  named by <var>key</var>.</li>
-          <li>If <var>targetlist</var> is not an array, then continue.</li>
+	  named by <var>feature-name</var>.</li>
+          <li>Let <var>targetlist</var> be the remaining elements, if any, of
+	  <var>tokens</var>.
           <li>Let <var>allowlist</var> be a new <a>allowlist</a>.
           </li>
           <li>If <var>targetlist</var> contains the string "<code>*</code>",
@@ -531,7 +527,7 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="merge-directive-with-declared-policy">Merge directive with declared
     policy</h3>
-    <p>Given a policy direcive (<var>directive</var>) and a declared policy
+    <p>Given a policy directive (<var>directive</var>) and a declared policy
     (<var>policy</var>), this algorithm will modify <var>policy</var> to
     account for the new directive.</p>
     <ol>
@@ -548,74 +544,100 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="process-feature-policy-attributes">Process feature policy
     attributes</h3>
-    <p>Given an element <var>element</var>, this algorithm returns a
-    <a>declared feature policy</a>, which may be empty.</p>
+    <p>Given an element (<var>element</var>), this algorithm returns a
+    <a>container policy</a>, which may be empty.</p>
     <ol>
       <li>Let <var>policy</var> be a new <a>policy directive</a>.
       </li>
-      <li>Let <var>valid-features</var> be the result of running <a href=
+      <li>Let <var>container policy</var> be the result of running <a href=
       "#parse-allow-attribute">Parse allow attribute</a> on the value of
-        <var>element</var>'s <code>allow</code> attribute.
-      </li>
-      <li>For each <var>feature</var> in <var>valid-features</var>:
-        <ol>
-          <li>If <var>policy</var> does not contain an allowlist for
-          <var>feature</var>:
-            <ol>
-              <li>Construct a new declaration for <var>feature</var>, whose
-              allowlist is <var>origin</var>.</li>
-              <li>Add <var>declaration</var> to <var>policy</var>.</li>
-            </ol>
-          </li>
-        </ol>
+        <var>element</var>'s <code>allow</code> attribute, with <var>container
+	origin</var> set to the origin of <var>element</var>'s node document,
+	and <var>target origin</var> set to the origin of the URL in
+	<var>element</var>'s <code>src</code> attribute.
       </li>
       <li>If <var>element</var> is an <{iframe}> element:
         <ol>
           <li>If <var>element</var>'s <code>allowfullscreen</code> attribute is
-          specified, and <var>policy</var> does not contain an allowlist for
-            <a>fullscreen</a>,
+          specified, and <var>container policy</var> does not contain an
+	  allowlist for <a>fullscreen</a>,
             <ol>
               <li>Construct a new declaration for <a>fullscreen</a>, whose
               allowlist matches all origins.
               </li>
-              <li>Add <var>declaration</var> to <var>policy</var>.</li>
+              <li>Add <var>declaration</var> to <var>container policy</var>.
+	      </li>
             </ol>
           </li>
           <li>If <var>element</var>'s <code>allowpaymentrequest</code>
-          attribute is specified, and <var>policy</var> does not contain an
-          allowlist for <a>payment</a>,
+          attribute is specified, and <var>container policy</var> does not
+	  contain an allowlist for <a>payment</a>,
             <ol>
               <li>Construct a new declaration for <a>payment</a>, whose
               allowlist matches all origins.
               </li>
-              <li>Add <var>declaration</var> to <var>policy</var>.</li>
+              <li>Add <var>declaration</var> to <var>container policy</var>.
+	      </li>
             </ol>
           </li>
         </ol>
       </li>
-      <li>Return <var>policy</var>.</li>
+      <li>Return <var>container policy</var>.</li>
     </ol>
   </section>
   <section>
     <h3 id="parse-allow-attribute">Parse allow attribute</h3>
-    <p>Given a <var>list</var>, this algorithm returns a list of <a>feature
-    name keywords</a>, which may be empty.</p>
+    <p>Given a string (<var>value</var>), and two origins
+    (<var>container origin</var> and <var>target origin</var>), this algorithm
+    returns a <a>policy directive</a>.
+    </p>
     <ol>
-      <li>Let <var>valid-features</var> be an empty list.</li>
-      <li>If <var>list</var> is <code>null</code> or empty, return
-      <var>valid-features</var>.</li>
-      <li>For each <var>item</var> of <var>list</var>:
+      <li>Let <var>directive</var> be an empty ordered map.</li>
+      <li>For each <var>serialized-declaration</var> returned by strictly
+      splitting <var>value</var> on the character ";" U+003B:
         <ol>
-          <li>Convert <var>item</var> to ASCII-lowercase.</li>
-          <li>If <var>item</var> matches a defined <a>feature name</a> which is
-          not present in <var>valid-features</var>,
+	  <li>Let <var>tokens</var> be the result of splitting
+	  <var>serialized-declaration</var> on ASCII whitespace.</li>
+	  <li>If <var>tokens</var> is an empty list, then continue.</li>
+          <li>Let <var>feature-name</var> be the first element of
+	  <var>tokens</var>.</li>
+          <li>If <var>feature-name</var> is not equal to the name of any
+	  recognized <a>policy-controlled feature</a>, then continue.</li>
+          <li>Let <var>feature</var> be the <a>policy-controlled feature</a>
+	  named by <var>feature-name</var>.</li>
+          <li>Let <var>targetlist</var> be the remaining elements, if any, of
+	  <var>tokens</var>.
+          <li>Let <var>allowlist</var> be a new <a>allowlist</a>.
+          </li>
+          <li>If <var>targetlist</var> is empty, append <var>target origin</var>
+	  to <var>allowlist</var>.
+	  </li>
+	  <li>If <var>targetlist</var> contains the string "<code>*</code>",
+          set <var>allowlist</var> to match every origin.</li>
+          <li>Otherwise, for each <var>element</var> in <var>targetlist</var>:
             <ol>
-              <li>Append <var>item</var> to <var>valid-features</var>.</li>
+              <li>If <var>element</var> is an ASCII case-insensitive match for
+              "<code>self</code>", let result be <var>container origin</var>.
+	      </li>
+              <li>If <var>element</var> is an ASCII case-insensitive match for
+	      "<code>src</code>", let result be <var>target origin</var>.</li>
+              <li>Otherwise, let <var>result</var> be the result of executing
+              the URL parser on <var>element</var>.</li>
+              <li>If <var>result</var> is not failure:
+                <ol>
+                  <li>Let <var>target</var> be the origin of
+                  <var>result</var>.</li>
+                  <li>If <var>target</var> is not an opaque origin, append
+                  <var>target</var> to <var>allowlist</var>.</li>
+                </ol>
+              </li>
             </ol>
           </li>
+          <li>Set <var>directive</var>[<var>feature</var>] to
+	  <var>allowlist</var>.</li>
         </ol>
       </li>
-      <li>Return <var>valid-features</var>.</li>
+      <li>Return <var>directive</var></li>
     </ol>
   </section>
   <section>
@@ -641,7 +663,7 @@ partial interface HTMLIFrameElement {
       "#process-response-policy"></a> on <var>response</var> and
       <var>global</var>.
       </li>
-      <li>For each <var>feature</var> -> <var>allowlist</var> of <var>d</var>:
+      <li>For each <var>feature</var> → <var>allowlist</var> of <var>d</var>:
         <ol>
           <li>If <var>inherited policies</var>[<var>feature</var>] is true, then
 	  set <var>declared policies</var>[<var>feature</var>] to
