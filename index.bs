@@ -383,6 +383,29 @@ partial interface HTMLIFrameElement {
         <code>allow="payment"</code> will be used.
       </div>
     </section>
+    <section>
+      <h4 id="iframe-allowusermedia-attribute">allowusermedia</h4>
+      <p>The "<code>allowusermedia</code>" iframe attribute controls
+      access to [=Payment interface=].</p>
+      <p>If the iframe element has an "<code>allow</code>" attribute whose
+      value contains the token "<code>payment</code>", then the
+      "<code>allowusermedia</code> attribute must have no effect.</p>
+      <p>Otherwise, the presence of an "allowusermedia" attribute on an
+      iframe will result in adding an <a>allowlist</a> of <code>*</code> for
+      each of the "camera" and "microphone" features to the frame's <a>container
+      policy</a>, when it is constructed.</p>
+      <div class="note">
+        This is different from the behaviour of <code>&lt;iframe
+        allow="camera; microphone"&gt;</code>, and is for compatibility with
+	existing uses of <code>allowusermedia</code>. If <code>allow="camera;
+	microphone"</code> and <code>allowusermedia</code> are both present on
+	an iframe element, then the more restrictive allowlist of
+        <code>allow="camera; microphone"</code> will be used. Similarly, if only
+	one of <code>allow="camera"</code> or <code>allow="microphone"</code> is
+	present, then the more restrictive allowlist will be used for that
+	feature, while the other will use the less restrictive <code>*</code>.
+      </div>
+    </section>
   </section>
 </section>
 <section>
@@ -565,9 +588,9 @@ partial interface HTMLIFrameElement {
         <ol>
           <li>If <var>element</var>'s <code>allowfullscreen</code> attribute is
           specified, and <var>container policy</var> does not contain an
-	  allowlist for <a>fullscreen</a>,
+	  allowlist for <code>fullscreen</code>,
             <ol>
-              <li>Construct a new declaration for <a>fullscreen</a>, whose
+              <li>Construct a new declaration for <code>fullscreen</code>, whose
               allowlist matches all origins.
               </li>
               <li>Add <var>declaration</var> to <var>container policy</var>.
@@ -576,13 +599,37 @@ partial interface HTMLIFrameElement {
           </li>
           <li>If <var>element</var>'s <code>allowpaymentrequest</code>
           attribute is specified, and <var>container policy</var> does not
-	  contain an allowlist for <a>payment</a>,
+	  contain an allowlist for <code>payment</code>,
             <ol>
-              <li>Construct a new declaration for <a>payment</a>, whose
+              <li>Construct a new declaration for <code>payment</code>, whose
               allowlist matches all origins.
               </li>
               <li>Add <var>declaration</var> to <var>container policy</var>.
 	      </li>
+            </ol>
+          </li>
+          <li>If <var>element</var>'s <code>allowusermediarequest</code>
+          attribute is specified:
+	    <ol>
+	      <li>If <var>container policy</var> does not contain an allowlist
+	      for <code>camera</code>,
+                <ol>
+                  <li>Construct a new declaration for <code>camera</code>, whose
+                  allowlist matches all origins.
+                  </li>
+                  <li>Add <var>declaration</var> to <var>policy</var>.</li>
+                </ol>
+              </li>
+	      <li>If <var>policy</var> does not contain an allowlist for
+	      <code>microphone</code>,
+                <ol>
+                  <li>Construct a new declaration for <code>microphone</code>,
+		  whose allowlist matches all origins.
+                  </li>
+                  <li>Add <var>declaration</var> to <var>container policy</var>.
+		  </li>
+                </ol>
+              </li>
             </ol>
           </li>
         </ol>
