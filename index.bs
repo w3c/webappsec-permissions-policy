@@ -127,8 +127,8 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="features">Policy-controlled Features</h3>
     <p>A <dfn export data-lt="policy-controlled feature">policy-controlled feature</dfn>
-    is an API or behaviour which can be enabled or disabled in a document or web
-    worker by referring to it in a <a>feature policy</a>.
+    is an API or behaviour which can be enabled or disabled in a document by
+    referring to it in a <a>feature policy</a>.
     <div class="note">For brevity, policy-controlled features will often be
     referred to in this document simply as "Features". Unless otherwise
     indicated, the term "feature" refers to <a>policy-controlled features</a>.
@@ -153,14 +153,16 @@ spec:fetch; type:dfn; text:value
   </section>
   <section>
     <h3 id="policies">Policies</h3>
-    <p>A {{Document}} or {{WorkerGlobalScope}} has a <dfn>feature policy</dfn>,
-    which consists of:</p>
+    <p>A {{Document}} has a <dfn>feature policy</dfn>, which consists of:</p>
     <ul>
       <li>A set of <a data-lt="inherited policy set">inherited policies</a>.
       </li>
       <li>A <a data-lt="declared policy">declared policy</a>.
       </li>
     </ul>
+    <p>An <dfn>empty feature policy</dfn> has an <a>inherited policy set</a>
+    which contains 'Enabled' for every <a>policy-controlled feature</a>
+    available, and a <a>declared policy</a> which is an empty map.</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
@@ -170,9 +172,8 @@ spec:fetch; type:dfn; text:value
     determines the initial state (enabled or disabled) of each feature, and
     whether it can be controlled by a <a>declared policy</a> in the document.
     </p>
-    <p>In a {{Document}} in a [=top-level browsing context=], or in a
-    {{WorkerGlobalScope}}, the inherited feature set is based on defined
-    defaults for each feature.</p>
+    <p>In a {{Document}} in a [=top-level browsing context=], the inherited
+    feature set is based on defined defaults for each feature.</p>
     <p>In a {{Document}} in a [=nested browsing context=], the inherited feature
     set is based on the parent document's feature policy, as well as any
     <a href="#iframe-allow-attribute">allow attributes</a> defined on the
@@ -180,9 +181,9 @@ spec:fetch; type:dfn; text:value
     <p>An <dfn data-lt="inherited policy|inherited policies">inherited
     policy</dfn> declares a <a data-lt="policy-controlled feature">feature</a>
     as Enabled or Disabled.</p>
-    <p>An <dfn>inherited policy set</dfn> for a {{Document}} or
-    {{WorkerGlobalScope}} is the set of <a>inherited policies</a> for each
-    <a data-lt="policy-controlled feature">feature</a> available in that scope.</p>
+    <p>An <dfn>inherited policy set</dfn> for a {{Document}} is the set of
+    <a>inherited policies</a> for each <a
+    data-lt="policy-controlled feature">feature</a> available in that scope.</p>
   </section>
   <section>
     <h3 id="declared-policies">Declared policies</h3>
@@ -190,11 +191,9 @@ spec:fetch; type:dfn; text:value
     policy</dfn> is an ordered map from
     <a data-lt="policy-controlled feature">features</a> to <a>allowlists</a>.
     </p>
-    <p>A {{Document}} or {{WorkerGlobalScope}} is considered
-    <dfn>feature-policy-aware</dfn> if it has a <a>declared policy</a> which is
-    not empty.</p>
-    <p>A {{Document}} or {{WorkerGlobalScope}} is which is not
-    <a>feature-policy-aware</a> is considered
+    <p>A {{Document}} is considered <dfn>feature-policy-aware</dfn> if it has a
+    <a>declared policy</a> which is not empty.</p>
+    <p>A {{Document}} which is not <a>feature-policy-aware</a> is considered
     <dfn>feature-policy-oblivious</dfn>.</p>
   </section>
   <section>
@@ -419,38 +418,82 @@ partial interface HTMLIFrameElement {
     <h3 id="integration-with-html">Integration with HTML</h3>
     <ol>
       <li>
-        {{Document}} and {{WorkerGlobalScope}} objects have a
-        <a>Feature Policy</a>, which is populated via the <a href=
-        "#initialize-for-global"></a> algorithm that is called during the
-        "Initialising a new <code>Document</code> object" and "Run a Worker"
-        algorithms.
+        {{Document}} objects have a <a>Feature Policy</a>, which is initially
+	<a data-lt="empty feature policy">empty</a>.
       </li>
-      <li>Replace the existing step 12 of "Initialising a new
+      <li>Replace the existing step 12 of "Create a new browsing context" with
+      with the following step:
+        <ul>
+          <li>
+            Execute the <a href="#initialize-for-document">Initialize document's Feature Policy</a> algorithm on the {{Document}} object.
+          </li>
+        </ul>
+      </li>
+      <li>Replace the existing step 8 of "Initialising a new
       <code>Document</code> object" with the following step:
         <ul>
           <li>
-            <a href="#initialize-for-global">Initialize the feature policy</a>
-            for the <code>Document</code>
+            Execute the <a href="#initialize-from-response">Initialize document's Feature Policy from response</a> algorithm on the {{Document}} object and the response used to generate the document.
           </li>
         </ul>
       </li>
       <li>A <a>feature policy</a> is <dfn data-lt="enforce">enforced</dfn> for
-      a {{Document}} or {{WorkerGlobalScope}} by setting it as the {{Document}}
-      or {{WorkerGlobalScope}}'s <a>Feature Policy</a>.
+      a {{Document}} by setting it as the {{Document}}'s <a>Feature Policy</a>.
       </li>
       <li>
-        <p>The "[=allowed to use=]" algorithm calls into <a href=
-        "#is-feature-enabled"></a>, as follows:</p>
+        <p>The "[=allowed to use=]" algorithm is replaced with the following:
+	</p>
+
+        <p>To determine whether a {{Document}} object <var>document</var>
+        is <dfn>allowed to use</dfn> the policy-controlled-feature named
+        <var>feature name</var>, run these steps:</p>
         <ol>
-          <li>Replace the current steps #3 and #4 with the following step:
-            <ul>
-              <li>If <code>Document</code>'s <a>feature policy</a> enables the
-              feature indicated by <code>allowattribute</code> for the origin
-              of <code>Document</code>, then return true.
-              </li>
-            </ul>
-          </li>
+         <li><p>If <var>document</var> has no [=browsing context=], then return
+	 false.</p></li>
+         <li><p>If <var>document</var>'s [=browsing context=]'s [=active
+	 document=] is not <var>document</var>, then return false.</p></li>
+         <li><p>If <var>document</var>'s <a>feature policy</a> <a
+	 href="#is-feature-enabled">enables the feature indicated by
+	 <var>feature name</var> for the origin of <var>document</var></a>, then
+	 return true.<p></li>
+         <li><p>Return false.</p></li>
         </ol>
+      </li>
+      <li><p>The description of the behavior of the <{iframe/allowfullscreen}>,
+      <{iframe/allowpaymentrequest}> and <{iframe/allowusermedia}> attributes is
+      changed to refer to this specification:
+      <p>The <{iframe/allowfullscreen}> attribute is a boolean attribute. When
+      specified, it indicates that {{Document}} objects in the <{iframe}>
+      element's [=browsing context=] should be initialized with a <a>feature
+      policy</a> which allows the <code>fullscreen</code> feature to be used
+      from any origin. This is enforced by the <a
+      href="#process-feature-policy-attributes">Process feature policy
+      attributes</a> algorithm. Note that this will only allow use of the
+      <code>fullscreen</code> feature if the <{iframe}> element's [=node
+      document=] is also <a>allowed to use</a> <code>fullscreen</code>.
+      <p>The <{iframe/allowpaymentrequest}> attribute is a boolean attribute.
+      When specified, it indicates that {{Document}} objects in the <{iframe}>
+      element's [=browsing context=] should be initialized with a <a>feature
+      policy</a> which allows the <code>PaymentRequest</code> feature to be used
+      to make payment rquests from any origin. This is enforced by the <a
+      href="#process-feature-policy-attributes">Process feature policy
+      attributes</a> algorithm. Note that this will only allow use of the
+      <code>PaymentRequest</code> interface if the <{iframe}> element's [=node
+      document=] is also <a>allowed to use</a> the feature.
+      <p>The <{iframe/allowusermedia}> attribute is a boolean attribute. When
+      specified, it indicates that {{Document}} objects in the <{iframe}>
+      element's [=browsing context=] should be initialized with a <a>feature
+      policy</a> which allows the <code>Camera</code> and
+      <code>Microphone</code> features to be used to call
+      <code>getUserMedia()</code> from any origin. This is enforced by the <a
+      href="#process-feature-policy-attributes">Process feature policy
+      attributes</a> algorithm. Note that this will only allow use of the
+      <code>getUserMedia()</code> interface if the <{iframe}> element's [=node
+      document=] is also <a>allowed to use</a> the feature.
+      </li>
+      <li>The <a
+      href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#set-the-allow*-flags">set
+      the allow* flags</a> algorithm is removed, as it is no longer referenced.
       </li>
     </ol>
     <div class="issue">
@@ -693,11 +736,10 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="initialize-for-global">Initialize <var>global</var>'s Feature
-    Policy from <var>response</var></h3>
-    <p>Given a [=response=] (<var>response</var>) and a global object
-    (<var>global</var>), this algorithm populates <var>global</var>'s
-    <a>Feature Policy</a></p>
+    <h3 id="initialize-for-document">Initialize <var>document</var>'s Feature
+    Policy</var></h3>
+    <p>Given a Document object (<var>document</var>), this algorithm
+    initialises <var>document</var>'s <a>Feature Policy</a></p>
     <ol>
       <li>Let <var>inherited policies</var> be a new ordered map.</li>
       <li>Let <var>declared policies</var> be a new ordered map.</li>
@@ -705,16 +747,32 @@ partial interface HTMLIFrameElement {
         <ol>
           <li>Let <var>isInherited</var> be the result of running <a href=
           "#define-inherited-policy"></a> on <var>feature</var> and
-          <var>global</var>.
+          <var>document's</var> browsing context.
           </li>
           <li>Set <var>inherited policies</var>[<var>feature</var>] to
             <var>isInherited</var>.</li>
         </ol>
       </li>
-      <li>Let <var>d</var> be the result of executing <a href=
-      "#process-response-policy"></a> on <var>response</var> and
-      <var>global</var>.
+      <li>Let <var>policy</var> be a new <a>feature policy</a>, with inherited
+      policy set <var>inherited policies</var> and declared policy set
+      <var>declared policies</var>.
       </li>
+      <li>
+        <a>Enforce</a> the policy <var>policy</var> on <var>document</var>.
+      </li>
+    </ol>
+  </section>
+  <section>
+    <h3 id="initialize-from-response">Initialize <var>document</var>'s Feature
+    Policy from <var>response</var></h3>
+    <p>Given a [=response=] (<var>response</var>) and a Document
+    (<var>document</var>), this algorithm populates <var>document</var>'s
+    <a>Feature Policy</a></p>
+    <ol>
+      <li>Initialize <var>document</var>'s Feature Policy</li>
+      <li>Let <var>inherited policies</var> be <var>global</var>'s Feature
+      Policy's inherited policy set.</li>
+      <li>Let <var>declared policies</var> be a new ordered map.</li>
       <li>For each <var>feature</var> → <var>allowlist</var> of <var>d</var>:
         <ol>
           <li>If <var>inherited policies</var>[<var>feature</var>] is true, then
@@ -727,7 +785,7 @@ partial interface HTMLIFrameElement {
       <var>declared policies</var>.
       </li>
       <li>
-        <a>Enforce</a> the policy <var>policy</var>.
+        <a>Enforce</a> the policy <var>policy</var> on <var>document</var>.
       </li>
     </ol>
   </section>
@@ -757,8 +815,8 @@ partial interface HTMLIFrameElement {
               <li>Otherwise return Disabled.</li>
             </ol>
           </li>
-          <li>Otherwise, if feature is allowed by <var>parent</var>’s
-          <a>feature policy</a> for <var>origin</var>, return Enabled.
+          <li>Otherwise, if feature is enabled in <var>parent</var> for
+	  <var>origin</var>, return Enabled.
           </li>
           <li>Otherwise, return Disabled.</li>
         </ol>
@@ -768,13 +826,13 @@ partial interface HTMLIFrameElement {
   </section>
   <section>
     <h3 id="is-feature-enabled">Is <var>feature</var> enabled in
-    <var>global</var> for <var>origin</var>?</h3>
-    <p>Given a string (<var>feature</var>) and a global object
-    (<var>global</var>), and an [=origin=] (<var>origin</var>), this algorithm
+    <var>document</var> for <var>origin</var>?</h3>
+    <p>Given a string (<var>feature</var>) and a Document object
+    (<var>document</var>), and an [=origin=] (<var>origin</var>), this algorithm
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
     <ol>
-      <li>Let <var>policy</var> be <var>global</var>'s <a>Feature Policy</a>
+      <li>Let <var>policy</var> be <var>document</var>'s <a>Feature Policy</a>
       </li>
       <li>If <var>policy</var>'s <a>inherited policy</a> for <var>feature</var>
       is Disabled, return "<code>Disabled</code>".</li>
@@ -793,8 +851,7 @@ partial interface HTMLIFrameElement {
       </li>
       <li>If <var>feature</var>'s <a>default allowlist</a> is
       <code>'self'</code>, and <var>origin</var> is [=same origin-domain=]
-      with <var>global</var>'s active document's origin, return
-      "<code>Enabled</code>".
+      with <var>document</var>'s origin, return "<code>Enabled</code>".
       </li>
       <li>Return "<code>Disabled</code>".</li>
     </ol>
