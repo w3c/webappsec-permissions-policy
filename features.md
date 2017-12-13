@@ -11,7 +11,7 @@ of these features all belong in their respective specs.
 | `camera` | `self` | Controls access to video input devices.|
 | `encrypted-media`| `self`|Controls whether `requestMediaKeySystemAccess()` is allowed.|
 | `fullscreen`|`self`|Controls whether `requestFullscreen()` is allowed.|
-|`geolocation`|`self`| Controls access to Geolocation interface=]. |
+|`geolocation`|`self`| Controls access to Geolocation interface. |
 |`microphone`|`self` | Controls access to audio input devices. |
 |`midi`|`self`|Controls access to `requestMIDIAccess()` method.|
 |`payment`|`self`|Controls access to PaymentRequest interface.|
