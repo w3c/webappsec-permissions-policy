@@ -459,6 +459,13 @@ partial interface HTMLIFrameElement {
          <li><p>Return false.</p></li>
         </ol>
       </li>
+      <li><p>The <a href="#iframe-allow-attribute">allow attribute</a> is added
+      to the IDL for the <{iframe}> element, with the description:</p>
+      <p>The allow attribute, when specified, determines the <a>container
+      policy</a> that will be used when the <a>feature policy</a> for the
+      <{iframe}>'s [=nested browsing context=] is initialized. Its value must be
+      the <a href="#ascii-serialization"></a> of a <a>policy directive</a>.</p>
+      </li>
       <li><p>The description of the behavior of the <{iframe/allowfullscreen}>,
       <{iframe/allowpaymentrequest}> and <{iframe/allowusermedia}> attributes is
       changed to refer to this specification:
