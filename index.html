@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version b43bcf8d18510de03d8b56c5e878eea93e955427" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="9bfe629f893b8a763e9a574e0c8919157790c4e4" name="document-revision">
+  <meta content="144f5f613508dd98a521b19125e147b2377ae151" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-12-15">15 December 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-12-20">20 December 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1729,7 +1729,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="4.8" id="allowlists"><span class="secno">4.8. </span><span class="content">Allowlists</span><a class="self-link" href="#allowlists"></a></h3>
      <p>A feature policy <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="allowlist|allowlists" data-noexport="" id="allowlist">allowlist</dfn> is
-    a set of <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin">origins</a>. An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist③">allowlist</a> may be <em>empty</em>, in which
+    a set of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin">origins</a>. An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist③">allowlist</a> may be <em>empty</em>, in which
     case it does not match any origin, or it may contain a list of origins, or
     it may match every origin. When defining an allowlist in a policy, the
     special string "self" may be used, which refers to the origin of the
@@ -1965,7 +1965,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="8.2" id="parse-header"><span class="secno">8.2. </span><span class="content">Parse header from <var>value</var> and <var>origin</var></span><a class="self-link" href="#parse-header"></a></h3>
-     <p>Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin①">origin</a> (<var>origin</var>)
+     <p>Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin①">origin</a> (<var>origin</var>)
     this algorithm will return a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑥">declared feature policy</a>.</p>
      <ol>
       <li>Let <var>policy</var> be an empty ordered map.
@@ -1983,7 +1983,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="8.3" id="parse-policy-directive"><span class="secno">8.3. </span><span class="content">Parse policy directive from <var>value</var> and <var>origin</var></span><a class="self-link" href="#parse-policy-directive"></a></h3>
-     <p>Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin②">origin</a> (<var>origin</var>)
+     <p>Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin②">origin</a> (<var>origin</var>)
     this algorithm will return a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑦">policy directive</a>.</p>
      <ol>
       <li>Let <var>directive</var> be an empty ordered map.
@@ -2180,7 +2180,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <ol>
         <li>Let <var>parent</var> be <var>context</var>’s parent browsing
           context’s active document.
-        <li>Let <var>origin</var> be <var>parent</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin③">origin</a>
+        <li>Let <var>origin</var> be <var>parent</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin③">origin</a>
         <li>Let <var>container policy</var> be the result of running <a href="#process-feature-policy-attributes">§8.5 Process feature policy
     attributes</a> on <var>context</var>’s browsing context container. 
         <li>
@@ -2198,7 +2198,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="8.10" id="is-feature-enabled"><span class="secno">8.10. </span><span class="content">Is <var>feature</var> enabled in <var>document</var> for <var>origin</var>?</span><a class="self-link" href="#is-feature-enabled"></a></h3>
      <p>Given a string (<var>feature</var>) and a Document object
-    (<var>document</var>), and an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin④">origin</a> (<var>origin</var>), this algorithm
+    (<var>document</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin④">origin</a> (<var>origin</var>), this algorithm
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
      <ol>
@@ -2459,15 +2459,11 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <li><a href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-header-list">header list</a>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">iframe</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context">nested browsing context</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin">origin</a>
      <li><a href="https://html.spec.whatwg.org/multipage/origin.html#same-origin-domain">same origin-domain</a>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox">sandbox</a>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-src">src</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context">top-level browsing context</a>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[URL]</a> defines the following terms:
-    <ul>
-     <li><a href="https://url.spec.whatwg.org/#concept-url-origin">origin</a>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
@@ -2496,8 +2492,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://tools.ietf.org/html/rfc3864">Registration Procedures for Message Header Fields</a>. September 2004. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc3864">https://tools.ietf.org/html/rfc3864</a>
    <dt id="biblio-rfc7159">[RFC7159]
    <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc7159">The JavaScript Object Notation (JSON) Data Interchange Format</a>. March 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a>
-   <dt id="biblio-url">[URL]
-   <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WebIDL]
    <dd>Cameron McCormack; Boris Zbarsky; Tobie Langel. <a href="https://heycam.github.io/webidl/">Web IDL</a>. 15 December 2016. ED. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
   </dl>

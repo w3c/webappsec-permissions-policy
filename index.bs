@@ -12,7 +12,7 @@ Markup Shorthands: css no, markdown yes
 </pre>
 <pre class="link-defaults">
 spec:html; type:interface; for:/; text:Document
-spec:url; type:dfn; text:origin
+spec:html; type:dfn; for:/; text:origin
 spec:fetch; type:dfn; for:Response; text:response
 spec:html; type:dfn; for:/; text:browsing context
 spec:html; type:element; text:script
