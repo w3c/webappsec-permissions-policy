@@ -321,7 +321,7 @@ spec:fetch; type:dfn; text:value
     <code>iframe</code> element</h3>
     <pre class="idl">
 partial interface HTMLIFrameElement {
-    [CEReactions, Reflect] attribute DOMString allow;
+    [CEReactions] attribute DOMString allow;
 };</pre>
     <p><{iframe}> elements have an "<code>allow</code>" attribute, which
     contains an <a href="#serialized-policy-directive">ASCII-serialized policy
