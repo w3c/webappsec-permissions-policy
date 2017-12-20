@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version b43bcf8d18510de03d8b56c5e878eea93e955427" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="d2d421ca243e183676373e12c85a3e085c644e08" name="document-revision">
+  <meta content="94fae1e3252f33b04d51925d52c22a9da358f4b3" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1773,9 +1773,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list-value">allow-list-value</dfn> = <a data-link-type="dfn">serialized-origin</a> / "*" / "'self'" / "'src'" / "'none'"
 </pre>
      <p><code>serialized-origin</code> is the ASCII serialization of an origin
-    from <a data-link-type="biblio" href="#biblio-origin">[ORIGIN]</a>. However, the characters <code>"'"</code>, <code>"*"</code>, <code>","</code> and <code>";"</code> MUST
-    NOT appear in the serialization. If they are required, they must be
-    percent-encoded as <code>"%27"</code>, <code>"%2A"</code>, <code>"%2C"</code> or <code>"%3B"</code>, respectively.</p>
+    from <a data-link-type="biblio" href="#biblio-origin">[ORIGIN]</a>. However, the code points U+0027 ('), U+0021 (*), U+002C
+    (,) and U+003B (;) MUST NOT appear in the serialization. If they are
+    required, they must be percent-encoded as "<code>%27</code>", "<code>%2A</code>", "<code>%2C</code>" or
+    "<code>%3B</code>", respectively.</p>
      <div class="note" role="note"> The string "<code>'self'</code>" may be used as an origin in an allowlist.
       When it is used in this way, it will refer to the origin of the document
       which contains the feature policy. </div>
@@ -1954,10 +1955,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li>Abort these steps if the <var>response</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-header-list" id="ref-for-concept-request-header-list">header list</a> does
       not contain a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header">header</a> whose <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-name" id="ref-for-concept-header-name">name</a> is "<code>Feature-Policy</code>". 
       <li>Let <var>header</var> be the concatenation of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-value" id="ref-for-concept-header-value">value</a>s of all <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header①">header</a> fields in <var>response</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-header-list" id="ref-for-concept-request-header-list①">header list</a> whose name is
-      "<code>Feature-Policy</code>", separated by commas (according to
+      "<code>Feature-Policy</code>", separated by U+002C (,) (according to
       [RFC7230, 3.2.2]).
-      <li>Add a leading "[" U+005B character, and a trailing "]" U+005D
-      character to <var>header</var>.
       <li>Let <var>feature policy</var> be the result of executing <a href="#parse-header">§8.2 Parse header from value and
     origin</a> on <var>header</var> and <var>global</var>’s origin. 
       <li>Return <var>feature policy</var>.
@@ -1970,8 +1969,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <ol>
       <li>Let <var>policy</var> be an empty ordered map.
       <li>
-       For each <var>element</var> returned by splitting <var>value</var> on
-      commas: 
+       For each <var>element</var> returned by <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#split-on-commas" id="ref-for-split-on-commas">splitting <var>value</var> on commas</a>: 
        <ol>
         <li>Let <var>directive</var> be the result of executing <a href="#parse-policy-directive">§8.3 Parse policy directive from
     value and origin</a> on <var>element</var> and <var>origin</var> 
@@ -1988,10 +1986,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <ol>
       <li>Let <var>directive</var> be an empty ordered map.
       <li>
-       For each <var>serialized-declaration</var> returned by strictly
-      splitting <var>value</var> on the character ";" U+003B: 
+       For each <var>serialized-declaration</var> returned by <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#strictly-split" id="ref-for-strictly-split">strictly splitting <var>value</var> on the delimiter
+      U+003B (;)</a>: 
        <ol>
-        <li>Let <var>tokens</var> be the result of splitting <var>serialized-declaration</var> on ASCII whitespace.
+        <li>Let <var>tokens</var> be the result of <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#split-on-ascii-whitespace" id="ref-for-split-on-ascii-whitespace">splitting <var>serialized-declaration</var> on ASCII whitespace.</a>
         <li>If <var>tokens</var> is an empty list, then continue.
         <li>Let <var>feature-name</var> be the first element of <var>tokens</var>.
         <li>If <var>feature-name</var> is not equal to the name of any
@@ -2094,10 +2092,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <ol>
       <li>Let <var>directive</var> be an empty ordered map.
       <li>
-       For each <var>serialized-declaration</var> returned by strictly
-      splitting <var>value</var> on the character ";" U+003B: 
+       For each <var>serialized-declaration</var> returned by <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#strictly-split" id="ref-for-strictly-split①">strictly splitting <var>value</var> on the delimiter
+      U+003B (;)</a>: 
        <ol>
-        <li>Let <var>tokens</var> be the result of splitting <var>serialized-declaration</var> on ASCII whitespace.
+        <li>Let <var>tokens</var> be the result of <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#split-on-ascii-whitespace" id="ref-for-split-on-ascii-whitespace①">splitting <var>serialized-declaration</var> on ASCII whitespace.</a>
         <li>If <var>tokens</var> is an empty list, then continue.
         <li>Let <var>feature-name</var> be the first element of <var>tokens</var>.
         <li>If <var>feature-name</var> is not equal to the name of any
@@ -2466,6 +2464,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context">top-level browsing context</a>
     </ul>
    <li>
+    <a data-link-type="biblio">[INFRA]</a> defines the following terms:
+    <ul>
+     <li><a href="https://infra.spec.whatwg.org/#split-on-ascii-whitespace">split on ascii whitespace</a>
+     <li><a href="https://infra.spec.whatwg.org/#split-on-commas">split on commas</a>
+     <li><a href="https://infra.spec.whatwg.org/#strictly-split">strictly split</a>
+    </ul>
+   <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
      <li><a href="https://heycam.github.io/webidl/#idl-DOMString">DOMString</a>
@@ -2484,6 +2489,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dd>Anne van Kesteren. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-infra">[INFRA]
+   <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-origin">[ORIGIN]
    <dd>A. Barth. <a href="https://tools.ietf.org/html/rfc6454">The Web Origin Concept</a>. December 2011. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6454">https://tools.ietf.org/html/rfc6454</a>
    <dt id="biblio-rfc2119">[RFC2119]
