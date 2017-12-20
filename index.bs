@@ -288,9 +288,10 @@ spec:fetch; type:dfn; text:value
       <dfn>allow-list-value</dfn> = <a>serialized-origin</a> / "*" / "'self'" / "'src'" / "'none'"
     </pre>
     <p><code>serialized-origin</code> is the ASCII serialization of an origin
-    from [[!ORIGIN]]. However, the characters `"'"`, `"*"`, `","` and `";"` MUST
-    NOT appear in the serialization. If they are required, they must be
-    percent-encoded as `"%27"`, `"%2A"`, `"%2C"` or `"%3B"`, respectively.</p>
+    from [[!ORIGIN]]. However, the code points U+0027 ('), U+0021 (*), U+002C
+    (,) and U+003B (;) MUST NOT appear in the serialization. If they are
+    required, they must be percent-encoded as "`%27`", "`%2A`", "`%2C`" or
+    "`%3B`", respectively.</p>
     <div class="note">
       The string "<code>'self'</code>" may be used as an origin in an allowlist.
       When it is used in this way, it will refer to the origin of the document
@@ -522,10 +523,8 @@ partial interface HTMLIFrameElement {
       </li>
       <li>Let <var>header</var> be the concatenation of the [=value=]s of all
       [=header=] fields in <var>response</var>’s [=header list=] whose name is
-      "<code>Feature-Policy</code>", separated by commas (according to
+      "<code>Feature-Policy</code>", separated by U+002C (,) (according to
       [RFC7230, 3.2.2]).</li>
-      <li>Add a leading "[" U+005B character, and a trailing "]" U+005D
-      character to <var>header</var>.</li>
       <li>Let <var>feature policy</var> be the result of executing <a href=
       "#parse-header"></a> on <var>header</var> and <var>global</var>'s origin.
       </li>
@@ -539,8 +538,8 @@ partial interface HTMLIFrameElement {
     this algorithm will return a <a>declared feature policy</a>.</p>
     <ol>
       <li>Let <var>policy</var> be an empty ordered map.</li>
-      <li>For each <var>element</var> returned by splitting <var>value</var> on
-      commas:
+      <li>For each <var>element</var> returned by <a
+      lt="split on commas">splitting <var>value</var> on commas</a>:
         <ol>
           <li>Let <var>directive</var> be the result of executing <a href=
           "#parse-policy-directive"></a> on <var>element</var> and
@@ -561,11 +560,13 @@ partial interface HTMLIFrameElement {
     this algorithm will return a <a>policy directive</a>.</p>
     <ol>
       <li>Let <var>directive</var> be an empty ordered map.</li>
-      <li>For each <var>serialized-declaration</var> returned by strictly
-      splitting <var>value</var> on the character ";" U+003B:
+      <li>For each <var>serialized-declaration</var> returned by <a
+      lt="strictly split">strictly splitting <var>value</var> on the delimiter
+      U+003B (;)</a>:
         <ol>
-	  <li>Let <var>tokens</var> be the result of splitting
-	  <var>serialized-declaration</var> on ASCII whitespace.</li>
+	  <li>Let <var>tokens</var> be the result of <a
+	  lt="split on ascii whitespace">splitting
+	  <var>serialized-declaration</var> on ASCII whitespace.</a></li>
 	  <li>If <var>tokens</var> is an empty list, then continue.</li>
           <li>Let <var>feature-name</var> be the first element of
 	  <var>tokens</var>.</li>
@@ -695,11 +696,13 @@ partial interface HTMLIFrameElement {
     </p>
     <ol>
       <li>Let <var>directive</var> be an empty ordered map.</li>
-      <li>For each <var>serialized-declaration</var> returned by strictly
-      splitting <var>value</var> on the character ";" U+003B:
+      <li>For each <var>serialized-declaration</var> returned by <a
+      lt="strictly split">strictly splitting <var>value</var> on the delimiter
+      U+003B (;)</a>:
         <ol>
-	  <li>Let <var>tokens</var> be the result of splitting
-	  <var>serialized-declaration</var> on ASCII whitespace.</li>
+	  <li>Let <var>tokens</var> be the result of <a
+	  lt="split on ascii whitespace">splitting
+	  <var>serialized-declaration</var> on ASCII whitespace.</a></li>
 	  <li>If <var>tokens</var> is an empty list, then continue.</li>
           <li>Let <var>feature-name</var> be the first element of
 	  <var>tokens</var>.</li>
