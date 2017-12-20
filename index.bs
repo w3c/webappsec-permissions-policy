@@ -584,7 +584,7 @@ partial interface HTMLIFrameElement {
               <li>If <var>element</var> is an ASCII case-insensitive match for
               "<code>self</code>", let result be <var>origin</var>.</li>
               <li>Otherwise, let <var>result</var> be the result of executing
-              the URL parser on <var>element</var>.</li>
+              the <a>URL parser</a> on <var>element</var>.</li>
               <li>If <var>result</var> is not failure:
                 <ol>
                   <li>Let <var>target</var> be the origin of
@@ -726,7 +726,7 @@ partial interface HTMLIFrameElement {
               <li>If <var>element</var> is an ASCII case-insensitive match for
 	      "<code>src</code>", let result be <var>target origin</var>.</li>
               <li>Otherwise, let <var>result</var> be the result of executing
-              the URL parser on <var>element</var>.</li>
+              the <a>URL parser</a> on <var>element</var>.</li>
               <li>If <var>result</var> is not failure:
                 <ol>
                   <li>Let <var>target</var> be the origin of
