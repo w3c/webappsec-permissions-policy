@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version b43bcf8d18510de03d8b56c5e878eea93e955427" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="fee874aa4c427ff1034be0bd8afddf9c45b793ca" name="document-revision">
+  <meta content="fab0f5e570196b908b92ae0108d1992cb6a26964" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -2004,7 +2004,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
           <li>If <var>element</var> is an ASCII case-insensitive match for
               "<code>self</code>", let result be <var>origin</var>.
           <li>Otherwise, let <var>result</var> be the result of executing
-              the URL parser on <var>element</var>.
+              the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>element</var>.
           <li>
            If <var>result</var> is not failure: 
            <ol>
@@ -2113,7 +2113,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
           <li>If <var>element</var> is an ASCII case-insensitive match for
 	      "<code>src</code>", let result be <var>target origin</var>.
           <li>Otherwise, let <var>result</var> be the result of executing
-              the URL parser on <var>element</var>.
+              the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser①">URL parser</a> on <var>element</var>.
           <li>
            If <var>result</var> is not failure: 
            <ol>
@@ -2471,6 +2471,11 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <li><a href="https://infra.spec.whatwg.org/#strictly-split">strictly split</a>
     </ul>
    <li>
+    <a data-link-type="biblio">[URL]</a> defines the following terms:
+    <ul>
+     <li><a href="https://url.spec.whatwg.org/#concept-url-parser">url parser</a>
+    </ul>
+   <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
      <li><a href="https://heycam.github.io/webidl/#idl-DOMString">DOMString</a>
@@ -2497,6 +2502,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://tools.ietf.org/html/rfc3864">Registration Procedures for Message Header Fields</a>. September 2004. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc3864">https://tools.ietf.org/html/rfc3864</a>
    <dt id="biblio-rfc7159">[RFC7159]
    <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc7159">The JavaScript Object Notation (JSON) Data Interchange Format</a>. March 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a>
+   <dt id="biblio-url">[URL]
+   <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WebIDL]
    <dd>Cameron McCormack; Boris Zbarsky; Tobie Langel. <a href="https://heycam.github.io/webidl/">Web IDL</a>. 15 December 2016. ED. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
   </dl>
