@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version b43bcf8d18510de03d8b56c5e878eea93e955427" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="94fae1e3252f33b04d51925d52c22a9da358f4b3" name="document-revision">
+  <meta content="fee874aa4c427ff1034be0bd8afddf9c45b793ca" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1772,11 +1772,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list">allow-list</dfn> = <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value">allow-list-value</a> *(RWS <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value①">allow-list-value</a>)
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list-value">allow-list-value</dfn> = <a data-link-type="dfn">serialized-origin</a> / "*" / "'self'" / "'src'" / "'none'"
 </pre>
-     <p><code>serialized-origin</code> is the ASCII serialization of an origin
-    from <a data-link-type="biblio" href="#biblio-origin">[ORIGIN]</a>. However, the code points U+0027 ('), U+0021 (*), U+002C
-    (,) and U+003B (;) MUST NOT appear in the serialization. If they are
-    required, they must be percent-encoded as "<code>%27</code>", "<code>%2A</code>", "<code>%2C</code>" or
-    "<code>%3B</code>", respectively.</p>
+     <p><code>serialized-origin</code> is the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin">serialization of an origin</a>.
+    However, the code points U+0027 ('), U+0021 (*), U+002C (,) and U+003B (;)
+    MUST NOT appear in the serialization. If they are required, they must be
+    percent-encoded as "<code>%27</code>", "<code>%2A</code>", "<code>%2C</code>" or "<code>%3B</code>", respectively.</p>
      <div class="note" role="note"> The string "<code>'self'</code>" may be used as an origin in an allowlist.
       When it is used in this way, it will refer to the origin of the document
       which contains the feature policy. </div>
@@ -2460,6 +2459,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <li><a href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin">origin</a>
      <li><a href="https://html.spec.whatwg.org/multipage/origin.html#same-origin-domain">same origin-domain</a>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox">sandbox</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin">serialization of an origin</a>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-src">src</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context">top-level browsing context</a>
     </ul>
@@ -2491,8 +2491,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
-   <dt id="biblio-origin">[ORIGIN]
-   <dd>A. Barth. <a href="https://tools.ietf.org/html/rfc6454">The Web Origin Concept</a>. December 2011. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6454">https://tools.ietf.org/html/rfc6454</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-rfc3864">[RFC3864]

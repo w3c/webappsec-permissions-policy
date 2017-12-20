@@ -287,11 +287,10 @@ spec:fetch; type:dfn; text:value
       <dfn>allow-list</dfn> = <a>allow-list-value</a> *(RWS <a>allow-list-value</a>)
       <dfn>allow-list-value</dfn> = <a>serialized-origin</a> / "*" / "'self'" / "'src'" / "'none'"
     </pre>
-    <p><code>serialized-origin</code> is the ASCII serialization of an origin
-    from [[!ORIGIN]]. However, the code points U+0027 ('), U+0021 (*), U+002C
-    (,) and U+003B (;) MUST NOT appear in the serialization. If they are
-    required, they must be percent-encoded as "`%27`", "`%2A`", "`%2C`" or
-    "`%3B`", respectively.</p>
+    <p><code>serialized-origin</code> is the <a>serialization of an origin</a>.
+    However, the code points U+0027 ('), U+0021 (*), U+002C (,) and U+003B (;)
+    MUST NOT appear in the serialization. If they are required, they must be
+    percent-encoded as "`%27`", "`%2A`", "`%2C`" or "`%3B`", respectively.</p>
     <div class="note">
       The string "<code>'self'</code>" may be used as an origin in an allowlist.
       When it is used in this way, it will refer to the origin of the document
