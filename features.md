@@ -7,11 +7,15 @@ of these features all belong in their respective specs.
 
 | Feature name | Default allowlist | Brief Description |
 | ------ | ------ | - |
+|`accelerometer`|`self`|Controls access to accelerometer sensors on the device |
+|`ambient-light-sensor`|`self`|Controls access to ambient light sensors on the device |
 | `autoplay` | `self` | Controls access to autoplay through `play()` and `autoplay`. |
 | `camera` | `self` | Controls access to video input devices.|
 | `encrypted-media`| `self`|Controls whether `requestMediaKeySystemAccess()` is allowed.|
 | `fullscreen`|`self`|Controls whether `requestFullscreen()` is allowed.|
 |`geolocation`|`self`| Controls access to Geolocation interface. |
+|`gyroscope`|`self`|Controls access to gyroscope sensors on the device |
+|`magnetometer`|`self`|Controls access to magnetometer sensors on the device |
 |`microphone`|`self` | Controls access to audio input devices. |
 |`midi`|`self`|Controls access to `requestMIDIAccess()` method.|
 |`payment`|`self`|Controls access to PaymentRequest interface.|
@@ -103,6 +107,37 @@ If disabled in a document, then calls to [`requestPictureInPicture()`](https://w
 
 * The **feature name** for *picture-in-picture* is "`picture-in-picture`"
 * The **default allowlist** for *picture-in-picture* is `'self'`.
+
+### sensor features
+
+The sensor policy-controlled features are *ambient-light-sensor*, *accelerometer*,  *gyroscope*, and *magnetometer*.
+
+A sensor feature controls access to a device sensor of a certain type requested either through an associated [Sensor](https://w3c.github.io/sensors/#the-sensor-interface)-based interface or through an event specified in the [DeviceOrientation Event Specification](https://www.w3.org/TR/orientation-event/).
+
+If an interface (or an event) requires access to multiple sensors of different types than each of the corresponding sensor features MUST be allowed in order to use this interface. The table below shows which sensor features are required by the existing interfaces and events.
+
+| Interface name | Required sensor policy-controlled features |
+| ------ | ------ |
+| [AmbientLightSensor interface](https://w3c.github.io/ambient-light/#ambient-light-sensor-interface) | *ambient-light-sensor* |
+| [Accelerometer interface](https://w3c.github.io/accelerometer/#accelerometer-interface) | *accelerometer* |
+| [LinearAccelerationSensor interface](https://w3c.github.io/accelerometer/#linearaccelerationsensor-interface) | *accelerometer* |
+| [GravitySensor interface](https://w3c.github.io/accelerometer/#gravitysensor-interface) | *accelerometer* |
+| [Gyroscope interface](https://w3c.github.io/gyroscope/#gyroscope-interface) | *gyroscope* |
+| [AbsoluteOrientationSensor interface](https://w3c.github.io/orientation-sensor/#absoluteorientationsensor-interface) |*accelerometer*,  *gyroscope*, *magnetometer* |
+| [RelativeOrientationSensor interface](https://w3c.github.io/orientation-sensor/#relativeorientationsensor-interface) | *accelerometer*, *gyroscope* |
+| [deviceorientation Event](https://www.w3.org/TR/2016/CR-orientation-event-20160818/#deviceorientation) | *accelerometer*, *gyroscope* |
+| [deviceorientationabsolute Event](https://www.w3.org/TR/2016/CR-orientation-event-20160818/#deviceorientationabsolute) | *accelerometer*, *gyroscope*, *magnetometer* |
+| [devicemotion Event](https://www.w3.org/TR/2016/CR-orientation-event-20160818/#devicemotion)| *accelerometer*, *gyroscope* |
+| [compassneedscalibration Event](https://www.w3.org/TR/2016/CR-orientation-event-20160818/#compassneedscalibration)| *magnetometer*|
+
+If a required sensor feature is disabled in a document, then constructing of a [Sensor](https://w3c.github.io/sensors/#the-sensor-interface)-based interface object MUST throw a `SecurityError`. The events are not fired.
+
+|Sensor feature| feature name | default allow list |
+| ------ | ------ | ------ |
+| *accelerometer* | "`accelerometer`" | `'self'` |
+| *ambient-light-sensor* | "`ambient-light-sensor`" | `'self'` |
+| *gyroscope* | "`gyroscope`" | `'self'` |
+| *magnetometer* | "`magnetometer`" | `'self'` |
 
 ### speaker
 
