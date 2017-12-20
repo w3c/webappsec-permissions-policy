@@ -115,7 +115,7 @@ spec:fetch; type:dfn; text:value
   makes it hard or impossible to enforce consistently in some cases (e.g. due
   to third-party content injecting frames, which the developer does not
   control); there is no mechanism to selectively enable features that may be
-  off by default; the sandbox mechanism uses a whietlist approach which is
+  off by default; the sandbox mechanism uses a whitelist approach which is
   impossible to extend without compatibility risk.</p>
   <p>Feature Policy is intended to be used in combination with the sandbox
   mechanism (i.e. it does not duplicate feature controls already covered by
