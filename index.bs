@@ -240,25 +240,44 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="allowlists">Allowlists</h3>
     <p>A feature policy <dfn lt="allowlist|allowlists">allowlist</dfn> is
-    a set of [=origins=]. An <a>allowlist</a> may be <em>empty</em>, in which
-    case it does not match any origin, or it may contain a list of origins, or
-    it may match every origin. When defining an allowlist in a policy, the
-    special string "self" may be used, which refers to the origin of the
-    document which the policy is associated with.</p>
-    <p>An <a>allowlist</a> <dfn>matches</dfn> an origin <var>o</var> if it
-    matches every origin, or if it contains an origin which is
-    [=same origin-domain=] with <var>o</var>.</p>
+    conceptually a set of [=origins=]. An <a>allowlist</a> may be either:
+    <ul>
+      <li><dfn>The special value <code>*</code></dfn>, which represents every
+      origin, or</li>
+      <li>An <a>ordered set</a> of [=origins=]</li>
+    </ul>
+    <div class="note">
+      The keywords <code>'self'</code>, <code>'src'</code>, and
+      <code>'none'</code> can appear in the text representation of allowlists in
+      headers and attribute strings. These keywords are always interpreted in
+      context during parsing, and only the origins which they refer to are
+      stored in the allowlist. The keywords themselves are not part of the
+      allowlist.
+    </div>
+    <p>To determine whether an <a>allowlist</a> <dfn>matches</dfn> an origin
+    <var>origin</var>, run these steps:
+    <ol>
+      <li>If the <a>allowlist</a> is <a>the special value <code>*</code></a>,
+      then return true.</li>
+      <li>Otherwise, for each <var>item</var> in the <a>allowlist</a>:
+        <ol>
+	  <li>If <var>item</var> is [=same origin-domain=] with
+	  <var>origin</var>, then return true.</li>
+	</ol>
+      </li>
+      <li>return false.</li>
+    </ol>
   </section>
   <section>
     <h3 id="default-allowlists">Default Allowlists</h3>
     <p>Every <a>policy-controlled feature</a> has a <dfn lt=
-    "default allowlist|default allowlists">default allowlist</dfn>, which is an
-    <a>allowlist</a>. The <a>default allowlist</a> controls the origins which
-    are allowed to access the feature when used in a top-level document with no
-    declared policy, and also determines whether access to the feature is
-    automatically delegated to child documents.</p>
-    <p>Features are currently defined to have one of these three <a>default
-    allowlists</a>:</p>
+    "default allowlist|default allowlists">default allowlist</dfn>. The
+    <a>default allowlist</a> controls the origins which are allowed to access
+    the feature when used in a top-level document with no declared policy, and
+    also determines whether access to the feature is automatically delegated to
+    child documents.</p>
+    <p>The <a>default allowlist</a> for a <a
+    data-lt="policy-controlled feature">feature</a> is one of these values:</p>
     <dl>
       <dt><code>*</code></dt>
       <dd>The feature is allowed at the top level by default, and when allowed,
@@ -577,20 +596,27 @@ partial interface HTMLIFrameElement {
 	  <var>tokens</var>.
           <li>Let <var>allowlist</var> be a new <a>allowlist</a>.
           </li>
-          <li>If <var>targetlist</var> contains the string "<code>*</code>",
-          set <var>allowlist</var> to match every origin.</li>
-          <li>Otherwise, for each <var>element</var> in <var>targetlist</var>:
-            <ol>
-              <li>If <var>element</var> is an ASCII case-insensitive match for
-              "<code>self</code>", let result be <var>origin</var>.</li>
-              <li>Otherwise, let <var>result</var> be the result of executing
-              the <a>URL parser</a> on <var>element</var>.</li>
-              <li>If <var>result</var> is not failure:
+          <li>If any element of <var>targetlist</var> is the string
+	  "<code>*</code>", set <var>allowlist</var> to <a>the special value
+	  <code>*</code></a>.</li>
+          <li>Otherwise:
+	    <ol>
+	      <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
+	      <li>For each <var>element</var> in <var>targetlist</var>:
                 <ol>
-                  <li>Let <var>target</var> be the origin of
-                  <var>result</var>.</li>
-                  <li>If <var>target</var> is not an opaque origin, append
-                  <var>target</var> to <var>allowlist</var>.</li>
+                  <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
+		  match for the string "<code>self</code>", let result be
+		  <var>origin</var>.</li>
+                  <li>Otherwise, let <var>result</var> be the result of
+		  executing the <a>URL parser</a> on <var>element</var>.</li>
+                  <li>If <var>result</var> is not failure:
+                    <ol>
+                      <li>Let <var>target</var> be the origin of
+                      <var>result</var>.</li>
+                      <li>If <var>target</var> is not an opaque origin, append
+                      <var>target</var> to <var>allowlist</var>.</li>
+                    </ol>
+                  </li>
                 </ol>
               </li>
             </ol>
@@ -641,8 +667,7 @@ partial interface HTMLIFrameElement {
 	  allowlist for <code>fullscreen</code>,
             <ol>
               <li>Construct a new declaration for <code>fullscreen</code>, whose
-              allowlist matches all origins.
-              </li>
+              allowlist is <a>the special value <code>*</code></a>.</li>
               <li>Add <var>declaration</var> to <var>container policy</var>.
 	      </li>
             </ol>
@@ -652,8 +677,7 @@ partial interface HTMLIFrameElement {
 	  contain an allowlist for <code>payment</code>,
             <ol>
               <li>Construct a new declaration for <code>payment</code>, whose
-              allowlist matches all origins.
-              </li>
+              allowlist is <a>the special value <code>*</code></a>.</li>
               <li>Add <var>declaration</var> to <var>container policy</var>.
 	      </li>
             </ol>
@@ -665,8 +689,7 @@ partial interface HTMLIFrameElement {
 	      for <code>camera</code>,
                 <ol>
                   <li>Construct a new declaration for <code>camera</code>, whose
-                  allowlist matches all origins.
-                  </li>
+                  allowlist is <a>the special value <code>*</code></a>.</li>
                   <li>Add <var>declaration</var> to <var>policy</var>.</li>
                 </ol>
               </li>
@@ -674,8 +697,7 @@ partial interface HTMLIFrameElement {
 	      <code>microphone</code>,
                 <ol>
                   <li>Construct a new declaration for <code>microphone</code>,
-		  whose allowlist matches all origins.
-                  </li>
+                  allowlist is <a>the special value <code>*</code></a>.</li>
                   <li>Add <var>declaration</var> to <var>container policy</var>.
 		  </li>
                 </ol>
@@ -713,26 +735,32 @@ partial interface HTMLIFrameElement {
 	  <var>tokens</var>.
           <li>Let <var>allowlist</var> be a new <a>allowlist</a>.
           </li>
-          <li>If <var>targetlist</var> is empty, append <var>target origin</var>
-	  to <var>allowlist</var>.
-	  </li>
-	  <li>If <var>targetlist</var> contains the string "<code>*</code>",
-          set <var>allowlist</var> to match every origin.</li>
-          <li>Otherwise, for each <var>element</var> in <var>targetlist</var>:
-            <ol>
-              <li>If <var>element</var> is an ASCII case-insensitive match for
-              "<code>self</code>", let result be <var>container origin</var>.
-	      </li>
-              <li>If <var>element</var> is an ASCII case-insensitive match for
-	      "<code>src</code>", let result be <var>target origin</var>.</li>
-              <li>Otherwise, let <var>result</var> be the result of executing
-              the <a>URL parser</a> on <var>element</var>.</li>
-              <li>If <var>result</var> is not failure:
+          <li>If any element of <var>targetlist</var> is the string
+	  "<code>*</code>", set <var>allowlist</var> to <a>the special value
+	  <code>*</code></a>.</li>
+          <li>Otherwise:
+	    <ol>
+	      <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
+              <li>If <var>targetlist</var> is empty, append <var>target
+	      origin</var> to <var>allowlist</var>.
+	      <li>For each <var>element</var> in <var>targetlist</var>:
                 <ol>
-                  <li>Let <var>target</var> be the origin of
-                  <var>result</var>.</li>
-                  <li>If <var>target</var> is not an opaque origin, append
-                  <var>target</var> to <var>allowlist</var>.</li>
+                  <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
+		  match for "<code>self</code>", let result be <var>container
+		  origin</var>.</li>
+                  <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
+		  match for "<code>src</code>", let result be <var>target
+		  origin</var>.</li>
+		  <li>Otherwise, let <var>result</var> be the result of
+		  executing the <a>URL parser</a> on <var>element</var>.</li>
+                  <li>If <var>result</var> is not failure:
+                    <ol>
+                      <li>Let <var>target</var> be the origin of
+                      <var>result</var>.</li>
+                      <li>If <var>target</var> is not an opaque origin, append
+                      <var>target</var> to <var>allowlist</var>.</li>
+                    </ol>
+                  </li>
                 </ol>
               </li>
             </ol>
