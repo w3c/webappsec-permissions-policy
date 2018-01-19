@@ -103,7 +103,7 @@ If disabled in a document, then calls to the [`PaymentRequest` constuctor](https
 
 The *picture-in-picture* feature controls whether the current document is allowed to use [Picture In Picture](http://wicg.github.io/picture-in-picture).
 
-If disabled in a document, then calls to [`requestPictureInPicture()`](https://wicg.github.io/picture-in-picture/#dom-htmlvideoelement-requestpictureinpicture) and [`exitPictureInPicture()`](https://wicg.github.io/picture-in-picture/#dom-document-exitpictureinpicture) MUST throw a `SecurityError` and [`pictureInPictureEnabled`](https://wicg.github.io/picture-in-picture/#dom-document-pictureinpictureenabled) MUST return `false`.
+If disabled in a document, then calls to [`requestPictureInPicture()`](https://wicg.github.io/picture-in-picture/#dom-htmlvideoelement-requestpictureinpicture) MUST throw a `SecurityError` and [`pictureInPictureEnabled`](https://wicg.github.io/picture-in-picture/#dom-document-pictureinpictureenabled) MUST return `false`.
 
 * The **feature name** for *picture-in-picture* is "`picture-in-picture`"
 * The **default allowlist** for *picture-in-picture* is `'self'`.
