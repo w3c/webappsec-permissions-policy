@@ -1176,9 +1176,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version b43bcf8d18510de03d8b56c5e878eea93e955427" name="generator">
+  <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="b9331a5e2835f8fbeeb2d6e9a811ef8ea43bbd77" name="document-revision">
+  <meta content="660ebbf447eed714780e610b714afc044f83d02e" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-12-22">22 December 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-01-23">23 January 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1438,7 +1438,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2017 the Contributors to the Feature Policy Specification, published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a> under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
+   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2018 the Contributors to the Feature Policy Specification, published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a> under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
 A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available. </p>
    <hr title="Separator for header">
   </div>
@@ -1569,8 +1569,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    </section>
    <section>
     <h2 class="heading settled" data-level="2" id="examples"><span class="secno">2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
-    <div class="example" id="example-b3a9bb9e">
-     <a class="self-link" href="#example-b3a9bb9e"></a> 
+    <div class="example" id="example-0c54ca1e">
+     <a class="self-link" href="#example-0c54ca1e"></a> 
      <p>SecureCorp Inc. wants to disable use of Vibration and Geolocation APIs
     within their application. It can do so by delivering the following HTTP
     response header to define a feature policy:</p>
@@ -1579,8 +1579,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     specified features will be disabled for all browsing contexts, regardless of
     their origin.</p>
     </div>
-    <div class="example" id="example-2b1704d2">
-     <a class="self-link" href="#example-2b1704d2"></a> 
+    <div class="example" id="example-62067a6e">
+     <a class="self-link" href="#example-62067a6e"></a> 
      <p>SecureCorp Inc. wants to disable use of Geolocation API within all
     browsing contexts except for its own origin and those whose origin is
     "<code>https://example.com</code>". It can do so by delivering the
@@ -1590,8 +1590,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     the application’s origin, optionally with the keyword "<code>'self'</code>",
     and any third-party origin.</p>
     </div>
-    <div class="example" id="example-c6357bc9">
-     <a class="self-link" href="#example-c6357bc9"></a> 
+    <div class="example" id="example-c1764cb2">
+     <a class="self-link" href="#example-c1764cb2"></a> 
      <p>SecureCorp Inc. is hosting an application on
     "<code>https://example.com</code>" and wants to disable camera and
     microphone input on its own origin but enable it for a whitelisted embedee
@@ -1602,8 +1602,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     policy allows the application to selectively enable such features for
     whitelisted origins.</p>
     </div>
-    <div class="example" id="example-b0e0e47a">
-     <a class="self-link" href="#example-b0e0e47a"></a> 
+    <div class="example" id="example-b2c2369d">
+     <a class="self-link" href="#example-b2c2369d"></a> 
      <p>FastCorp Inc. wants to disable geolocation for all cross-origin child
     frames, except for a specific iframe. It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
@@ -1779,7 +1779,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="5.1" id="ascii-serialization"><span class="secno">5.1. </span><span class="content">ASCII serialization</span><a class="self-link" href="#ascii-serialization"></a></h3>
      <p><a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive④">Policy Directives</a> are represented in HTTP headers and in HTML
-    attributes as ASCII text <a data-link-type="biblio" href="#biblio-rfc7159">[RFC7159]</a>.</p>
+    attributes as ASCII text <a data-link-type="biblio" href="#biblio-rfc8269">[RFC8269]</a>.</p>
 <pre class="abnf"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="serialized-feature-policy">serialized-feature-policy</dfn> = <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive">serialized-policy-directive</a> *(";" <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive①">serialized-policy-directive</a>)
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="serialized-policy-directive">serialized-policy-directive</dfn> = <a data-link-type="dfn" href="#feature-name①" id="ref-for-feature-name①">feature-name</a> RWS <a data-link-type="dfn" href="#allow-list" id="ref-for-allow-list">allow-list</a>
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-name①">feature-name</dfn> = 1*( ALPHA / DIGIT / "-")
@@ -2162,7 +2162,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        For each <var>feature</var> supported, 
        <ol>
         <li>Let <var>isInherited</var> be the result of running <a href="#define-inherited-policy">§8.9 Define an inherited policy for
-    feature</a> on <var>feature</var> and <var>document’s</var> browsing context. 
+    feature</a> on <var>feature</var> and <var>document</var>’s browsing context. 
         <li>Set <var>inherited policies</var>[<var>feature</var>] to <var>isInherited</var>.
        </ol>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①②">feature policy</a>, with inherited
@@ -2180,6 +2180,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li>Let <var>inherited policies</var> be <var>global</var>’s Feature
       Policy’s inherited policy set.
       <li>Let <var>declared policies</var> be a new ordered map.
+      <li>Let <var>d</var> be the result of running <a href="#process-response-policy">Process response policy</a> on <var>response</var> and <var>document</var>.
       <li>
        For each <var>feature</var> → <var>allowlist</var> of <var>d</var>: 
        <ol>
@@ -2527,8 +2528,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-rfc3864">[RFC3864]
    <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://tools.ietf.org/html/rfc3864">Registration Procedures for Message Header Fields</a>. September 2004. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc3864">https://tools.ietf.org/html/rfc3864</a>
-   <dt id="biblio-rfc7159">[RFC7159]
-   <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc7159">The JavaScript Object Notation (JSON) Data Interchange Format</a>. March 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a>
+   <dt id="biblio-rfc8269">[RFC8269]
+   <dd>W. Kim; et al. <a href="https://tools.ietf.org/html/rfc8269">The ARIA Algorithm and Its Use with the Secure Real-Time Transport Protocol (SRTP)</a>. October 2017. Informational. URL: <a href="https://tools.ietf.org/html/rfc8269">https://tools.ietf.org/html/rfc8269</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WebIDL]

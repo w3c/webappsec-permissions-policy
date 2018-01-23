@@ -298,7 +298,7 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="ascii-serialization">ASCII serialization</h3>
     <p><a>Policy Directives</a> are represented in HTTP headers and in HTML
-    attributes as ASCII text [[!RFC7159]].</p>
+    attributes as ASCII text [[!RFC8269]].</p>
     <pre class="abnf">
       <dfn>serialized-feature-policy</dfn> = <a>serialized-policy-directive</a> *(";" <a>serialized-policy-directive</a>)
       <dfn>serialized-policy-directive</dfn> = <a>feature-name</a> RWS <a>allow-list</a>
@@ -784,7 +784,7 @@ partial interface HTMLIFrameElement {
         <ol>
           <li>Let <var>isInherited</var> be the result of running <a href=
           "#define-inherited-policy"></a> on <var>feature</var> and
-          <var>document's</var> browsing context.
+          <var>document</var>'s browsing context.
           </li>
           <li>Set <var>inherited policies</var>[<var>feature</var>] to
             <var>isInherited</var>.</li>
@@ -810,6 +810,9 @@ partial interface HTMLIFrameElement {
       <li>Let <var>inherited policies</var> be <var>global</var>'s Feature
       Policy's inherited policy set.</li>
       <li>Let <var>declared policies</var> be a new ordered map.</li>
+      <li>Let <var>d</var> be the result of running <a
+      href="#process-response-policy">Process response policy</a> on
+      <var>response</var> and <var>document</var>.</li>
       <li>For each <var>feature</var> → <var>allowlist</var> of <var>d</var>:
         <ol>
           <li>If <var>inherited policies</var>[<var>feature</var>] is true, then
