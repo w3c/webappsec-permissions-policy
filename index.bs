@@ -17,7 +17,6 @@ spec:fetch; type:dfn; for:Response; text:response
 spec:html; type:dfn; for:/; text:browsing context
 spec:html; type:element; text:script
 spec:html; type:element; text:link
-spec:html; type:dfn; for:/; text:global object
 spec:html; type:dfn; for:/; text:header list
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
@@ -525,8 +524,8 @@ partial interface HTMLIFrameElement {
   <h2 id="algorithms">Algorithms</h2>
   <section>
     <h3 id="process-response-policy">Process response policy</h3>
-    <p>Given a [=response=] (<var>response</var>) and [=global object=]
-    (<var>global</var>), this algorithm returns a <a>declared feature
+    <p>Given a [=response=] (<var>response</var>) and an [=origin=]
+    (<var>origin</var>), this algorithm returns a <a>declared feature
     policy</a>.</p>
     <ol>
       <li>Abort these steps if the <var>response</var>’s [=header list=] does
@@ -537,7 +536,7 @@ partial interface HTMLIFrameElement {
       "<code>Feature-Policy</code>", separated by U+002C (,) (according to
       [RFC7230, 3.2.2]).</li>
       <li>Let <var>feature policy</var> be the result of executing <a href=
-      "#parse-header"></a> on <var>header</var> and <var>global</var>'s origin.
+      "#parse-header"></a> on <var>header</var> and <var>origin</var>.
       </li>
       <li>Return <var>feature policy</var>.</li>
     </ol>
@@ -800,12 +799,12 @@ partial interface HTMLIFrameElement {
     <a>Feature Policy</a></p>
     <ol>
       <li>Initialize <var>document</var>'s Feature Policy</li>
-      <li>Let <var>inherited policies</var> be <var>global</var>'s Feature
+      <li>Let <var>inherited policies</var> be <var>document</var>'s Feature
       Policy's inherited policy set.</li>
       <li>Let <var>declared policies</var> be a new ordered map.</li>
       <li>Let <var>d</var> be the result of running <a
       href="#process-response-policy">Process response policy</a> on
-      <var>response</var> and <var>document</var>.</li>
+      <var>response</var> and <var>document</var>'s origin.</li>
       <li>For each <var>feature</var> → <var>allowlist</var> of <var>d</var>:
         <ol>
           <li>If <var>inherited policies</var>[<var>feature</var>] is true, then

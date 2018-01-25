@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="ccbd6b3734514c5696a99af229a5a0342d7a635d" name="document-revision">
+  <meta content="d59daa62c0338a162a4dae624ea271c0e6829f0f" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-01-23">23 January 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-01-25">25 January 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1954,7 +1954,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <h2 class="heading settled" data-level="8" id="algorithms"><span class="secno">8. </span><span class="content">Algorithms</span><a class="self-link" href="#algorithms"></a></h2>
     <section>
      <h3 class="heading settled" data-level="8.1" id="process-response-policy"><span class="secno">8.1. </span><span class="content">Process response policy</span><a class="self-link" href="#process-response-policy"></a></h3>
-     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response①">response</a> (<var>response</var>) and <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#global-object" id="ref-for-global-object">global object</a> (<var>global</var>), this algorithm returns a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑤">declared feature
+     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response①">response</a> (<var>response</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin②">origin</a> (<var>origin</var>), this algorithm returns a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑤">declared feature
     policy</a>.</p>
      <ol>
       <li>Abort these steps if the <var>response</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-header-list" id="ref-for-concept-request-header-list">header list</a> does
@@ -1963,13 +1963,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       "<code>Feature-Policy</code>", separated by U+002C (,) (according to
       [RFC7230, 3.2.2]).
       <li>Let <var>feature policy</var> be the result of executing <a href="#parse-header">§8.2 Parse header from value and
-    origin</a> on <var>header</var> and <var>global</var>’s origin. 
+    origin</a> on <var>header</var> and <var>origin</var>. 
       <li>Return <var>feature policy</var>.
      </ol>
     </section>
     <section>
      <h3 class="heading settled" data-level="8.2" id="parse-header"><span class="secno">8.2. </span><span class="content">Parse header from <var>value</var> and <var>origin</var></span><a class="self-link" href="#parse-header"></a></h3>
-     <p>Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin②">origin</a> (<var>origin</var>)
+     <p>Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin③">origin</a> (<var>origin</var>)
     this algorithm will return a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑥">declared feature policy</a>.</p>
      <ol>
       <li>Let <var>policy</var> be an empty ordered map.
@@ -1986,7 +1986,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="8.3" id="parse-policy-directive"><span class="secno">8.3. </span><span class="content">Parse policy directive from <var>value</var> and <var>origin</var></span><a class="self-link" href="#parse-policy-directive"></a></h3>
-     <p>Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin③">origin</a> (<var>origin</var>)
+     <p>Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin④">origin</a> (<var>origin</var>)
     this algorithm will return a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑦">policy directive</a>.</p>
      <ol>
       <li>Let <var>directive</var> be an empty ordered map.
@@ -2167,10 +2167,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     (<var>document</var>), this algorithm populates <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①③">Feature Policy</a></p>
      <ol>
       <li>Initialize <var>document</var>’s Feature Policy
-      <li>Let <var>inherited policies</var> be <var>global</var>’s Feature
+      <li>Let <var>inherited policies</var> be <var>document</var>’s Feature
       Policy’s inherited policy set.
       <li>Let <var>declared policies</var> be a new ordered map.
-      <li>Let <var>d</var> be the result of running <a href="#process-response-policy">Process response policy</a> on <var>response</var> and <var>document</var>.
+      <li>Let <var>d</var> be the result of running <a href="#process-response-policy">Process response policy</a> on <var>response</var> and <var>document</var>’s origin.
       <li>
        For each <var>feature</var> → <var>allowlist</var> of <var>d</var>: 
        <ol>
@@ -2192,7 +2192,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <ol>
         <li>Let <var>parent</var> be <var>context</var>’s parent browsing
           context’s active document.
-        <li>Let <var>origin</var> be <var>parent</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin④">origin</a>
+        <li>Let <var>origin</var> be <var>parent</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑤">origin</a>
         <li>Let <var>container policy</var> be the result of running <a href="#process-feature-policy-attributes">§8.5 Process feature policy
     attributes</a> on <var>context</var>’s browsing context container. 
         <li>
@@ -2210,7 +2210,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="8.10" id="is-feature-enabled"><span class="secno">8.10. </span><span class="content">Is <var>feature</var> enabled in <var>document</var> for <var>origin</var>?</span><a class="self-link" href="#is-feature-enabled"></a></h3>
      <p>Given a feature (<var>feature</var>), a Document object
-    (<var>document</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑤">origin</a> (<var>origin</var>), this algorithm
+    (<var>document</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑥">origin</a> (<var>origin</var>), this algorithm
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
      <ol>
@@ -2467,7 +2467,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowpaymentrequest">allowpaymentrequest</a>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowusermedia">allowusermedia</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">browsing context</a>
-     <li><a href="https://html.spec.whatwg.org/multipage/webappapis.html#global-object">global object</a>
      <li><a href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-header-list">header list</a>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">iframe</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context">nested browsing context</a>
