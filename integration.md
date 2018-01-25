@@ -18,15 +18,23 @@ policy-controlled feature:
 > Example:
 >
 >### Section N: Feature Policy Integration
-> The Sample API is a *policy-controlled feature*, as defined by
-> [Feature Policy](https://wicg.github.io/feature-policy/).
+> The Sample API defines a [*policy-controlled feature*](https://wicg.github.io/feature-policy/#policy-controlled-feature)
+> identified by the string "`sample`". Its [default allowlist](https://wicg.github.io/feature-policy/#default-allowlist)
+> is `'self'` \[[FEATURE-POLICY](https://wicg.github.io/feature-policy/)\].
+
+The specification can then refer to this feature, and test whether it is enabled
+or not in a specific document, with text similar to this:
+
+> Example:
 >
-> * The **feature name** for the Sample API is "`sample`".
-> * The **default allowlist** for the Sample API is `'self'`.
->
-> When disabled in a document, the `getArbitrarySamples()` method MUST return a
-> promise which rejects with a `SecurityError` DOMException object as its
-> parameter.
+> If the [responsible document](https://html.spec.whatwg.org/multipage/webappapis.html#responsible-document)
+> is not [allowed to use](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use)
+> the `sample` feature, then throw a `SecurityError`
+> [DOMException](https://heycam.github.io/webidl/#dfn-DOMException) and abort these steps.
+
+(This is an example only. The actual behavior of any algorithm when a
+policy-controlled feature is disabled is left up to the specification which
+defines that feature.)
 
 ## Choosing a default allowlist
 
