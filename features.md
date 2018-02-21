@@ -19,7 +19,7 @@ of these features all belong in their respective specs.
 |`microphone`|`self` | Controls access to audio input devices. |
 |`midi`|`self`|Controls access to `requestMIDIAccess()` method.|
 |`payment`|`self`|Controls access to PaymentRequest interface.|
-|`picture-in-picture`|`self`|Controls access to Picture in Picture.|
+|`picture-in-picture`|`*`|Controls access to Picture in Picture.|
 |`speaker`|`self`|Controls access to audio output devices.|
 |`usb`|`self`|Controls access to USB devices.|
 |`vibrate`|`self`|Controls access to `vibrate()` method.|
@@ -106,7 +106,7 @@ The *picture-in-picture* feature controls whether the current document is allowe
 If disabled in a document, then calls to [`requestPictureInPicture()`](https://wicg.github.io/picture-in-picture/#dom-htmlvideoelement-requestpictureinpicture) MUST throw a `SecurityError` and [`pictureInPictureEnabled`](https://wicg.github.io/picture-in-picture/#dom-document-pictureinpictureenabled) MUST return `false`.
 
 * The **feature name** for *picture-in-picture* is "`picture-in-picture`"
-* The **default allowlist** for *picture-in-picture* is `'self'`.
+* The **default allowlist** for *picture-in-picture* is `*`.
 
 ### sensor features
 
