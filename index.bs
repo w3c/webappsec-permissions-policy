@@ -342,10 +342,6 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the
     <code>iframe</code> element</h3>
-    <pre class="idl">
-partial interface HTMLIFrameElement {
-    [CEReactions] attribute DOMString allow;
-};</pre>
     <p><{iframe}> elements have an "<code>allow</code>" attribute, which
     contains an <a href="#serialized-policy-directive">ASCII-serialized policy
     directive</a>.</p>
@@ -432,6 +428,52 @@ partial interface HTMLIFrameElement {
   </section>
 </section>
 <section>
+  <h2 id="introspection">Policy Introspection with JavaScript</h2>
+  The current policy which is in effect in a document can be observed by scripts. This can be used to make decisions, for instance, about
+  what user interface to display, when it is not possible to determine otherwise
+  whether a feature is enabled or not. (Some features may not have any observable
+  failure mode, or may ...)
+  To retreive the currently effective policy, use document.policy(). This returns
+  a policy object, which can be queried to find the actual policy for any feature.
+
+  Example:
+
+  let policy = document.policy();
+
+  // True if this document can use web usb
+  let can_use_usb = policy.allowsFeature('usb');
+
+  // True if a new frame at https://example.com will be allowed to use WebVR
+  if (policy.allowsFeature('vr', 'https://example.com')) {
+    // Show UI to create frame
+
+  // Get the list of origins which are allowed to request payment. The result
+  // will be a list of explicit origins, or the single element ['*'] if all
+  // origins are allowed.
+  let allowed_payment_origins = policy.getAllowlistForFeature('payment');
+
+  It is also possible to inspect the policy on an iframe element, from the
+  document which contains it.
+
+  var iframe_element = document.getElementById("frame");
+  var iframe_policy = iframe_element.policy();
+
+
+  if (iframe_policy.allowsFeature('vr')) {
+    // display vr controls
+  }
+
+  The policy on an iframe element is independent of any actual content loaded
+  into the frame. (To avoid cross-origin information leakage)
+
+  var new_frame = document.createElement('iframe');
+  new_frame.allow = 'syncxhr';
+  var is_syncxhr_allowed = new_frame.policy.allowsFeature('syncxhr');
+
+
+
+</section>
+<section>
   <h2 id="integrations">Integrations</h2>
   <p>This document defines a set of algorithms which other specifications will
   use in order to implement the restrictions which Feature Policy defines. The
@@ -440,6 +482,22 @@ partial interface HTMLIFrameElement {
   information.</p>
   <section>
     <h3 id="integration-with-html">Integration with HTML</h3>
+    <pre class="idl">
+[NoInterfaceObject]
+interface Policy {
+  boolean allowsFeature(DOMString feature, optional DOMString origin);
+  sequence&lt;DOMString&gt; allowedFeatures();
+  sequence&lt;DOMString&gt; getAllowlistForFeature(DOMString feature);
+};
+
+partial interface Document {
+    readonly attribute Policy policy;
+};
+
+partial interface HTMLIFrameElement {
+    [CEReactions, Reflect] attribute DOMString allow;
+    readonly attribute Policy policy;
+};</pre>
     <ol>
       <li>
         {{Document}} objects have a <a>Feature Policy</a>, which is initially
