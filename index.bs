@@ -292,7 +292,7 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="ascii-serialization">ASCII serialization</h3>
     <p><a>Policy Directives</a> are represented in HTTP headers and in HTML
-    attributes as ASCII text [[!RFC8269]].</p>
+    attributes as ASCII text.</p>
     <pre class="abnf">
       <dfn>serialized-feature-policy</dfn> = <a>serialized-policy-directive</a> *(";" <a>serialized-policy-directive</a>)
       <dfn>serialized-policy-directive</dfn> = <a>feature-identifier</a> RWS <a>allow-list</a>
