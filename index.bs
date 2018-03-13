@@ -133,7 +133,7 @@ spec:fetch; type:dfn; text:value
     <div class="note">For brevity, policy-controlled features will often be
     referred to in this document simply as "Features". Unless otherwise
     indicated, the term "feature" refers to <a>policy-controlled features</a>.
-    Other specification, defining such features, should use the longer term to
+    Other specifications, defining such features, should use the longer term to
     avoid any ambiguity.</div>
     <p><a>Policy-controlled features</a> are identified by tokens, which are
     character strings used in <a>policy directives</a>.
@@ -347,7 +347,7 @@ partial interface HTMLIFrameElement {
     <p>When not empty, the "<code>allow</code>" attribute will result in adding
     an <a>allowlist</a> for each recognized
     <a data-lt="policy-controlled feature">feature</a> to the frame's
-    <a>container policy</a>, when it is contructed.</p>
+    <a>container policy</a>, when it is constructed.</p>
   </section>
   <section>
     <h3 id="legacy-attributes">Additional attributes to support legacy
