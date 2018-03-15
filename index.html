@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="c834f4af4733115d958ceb356e60f6ae7dbeb33f" name="document-revision">
+  <meta content="ca4482a53b8dca05f8815ff36fa4a8cd2304ca7a" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-02-23">23 February 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-03-15">15 March 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1650,7 +1650,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <div class="note" role="note">For brevity, policy-controlled features will often be
     referred to in this document simply as "Features". Unless otherwise
     indicated, the term "feature" refers to <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature">policy-controlled features</a>.
-    Other specification, defining such features, should use the longer term to
+    Other specifications, defining such features, should use the longer term to
     avoid any ambiguity.</div>
      <p><a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①">Policy-controlled features</a> are identified by tokens, which are
     character strings used in <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive">policy directives</a>. </p>
@@ -1818,7 +1818,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     that case, the default value for the allowlist is <code>'src'</code>, which
     represents the origin of the URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-src" id="ref-for-attr-iframe-src">src</a></code> attribute. </p>
      <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①④">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>, when it is contructed.</p>
+    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①④">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>, when it is constructed.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.3" id="legacy-attributes"><span class="secno">6.3. </span><span class="content">Additional attributes to support legacy
@@ -2010,7 +2010,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
           <li>
            For each <var>element</var> in <var>targetlist</var>: 
            <ol>
-            <li>If <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive">ASCII case-insensitive</a> match for the string "<code>self</code>", let result be <var>origin</var>.
+            <li>If <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive">ASCII case-insensitive</a> match for the string "<code>'self'</code>", let result be <var>origin</var>.
             <li>Otherwise, let <var>result</var> be the result of
 		  executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>element</var>.
             <li>
@@ -2121,9 +2121,9 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
           <li>
            For each <var>element</var> in <var>targetlist</var>: 
            <ol>
-            <li>If <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive①">ASCII case-insensitive</a> match for "<code>self</code>", let result be <var>container
+            <li>If <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive①">ASCII case-insensitive</a> match for "<code>'self'</code>", let result be <var>container
 		  origin</var>.
-            <li>If <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive②">ASCII case-insensitive</a> match for "<code>src</code>", let result be <var>target
+            <li>If <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive②">ASCII case-insensitive</a> match for "<code>'src'</code>", let result be <var>target
 		  origin</var>.
             <li>Otherwise, let <var>result</var> be the result of
 		  executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser①">URL parser</a> on <var>element</var>.
