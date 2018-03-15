@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="c834f4af4733115d958ceb356e60f6ae7dbeb33f" name="document-revision">
+  <meta content="1118a2f35938172b6ab11787e34e64080c9e8f17" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-02-23">23 February 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-03-15">15 March 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1590,17 +1590,17 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     the application’s origin, optionally with the keyword "<code>'self'</code>",
     and any third-party origin.</p>
     </div>
-    <div class="example" id="example-c1764cb2">
-     <a class="self-link" href="#example-c1764cb2"></a> 
+    <div class="example" id="example-18bf7fd3">
+     <a class="self-link" href="#example-18bf7fd3"></a> 
      <p>SecureCorp Inc. is hosting an application on
     "<code>https://example.com</code>" and wants to disable camera and
-    microphone input on its own origin but enable it for a whitelisted embedee
+    microphone input on its own origin but enable it for a specific embedee
     ("<code>https://other.com</code>"). It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
 <pre><a href="#feature-policy-header" id="ref-for-feature-policy-header②">Feature-Policy</a>: camera https://other.com; microphone https://other.com</pre>
-     <p>Some features are disabled by default in embedded contexts. The enable
-    policy allows the application to selectively enable such features for
-    whitelisted origins.</p>
+     <p>Some features are disabled by default in embedded contexts. The policy
+    allows the application to selectively enable such features for specified
+    origins.</p>
     </div>
     <div class="example" id="example-7dbc71c4">
      <a class="self-link" href="#example-7dbc71c4"></a> 
@@ -1633,8 +1633,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   makes it hard or impossible to enforce consistently in some cases (e.g. due
   to third-party content injecting frames, which the developer does not
   control); there is no mechanism to selectively enable features that may be
-  off by default; the sandbox mechanism uses a whitelist approach which is
-  impossible to extend without compatibility risk.</p>
+  off by default; the sandbox mechanism automatically disables all sandbox
+  features, and requires the developer to opt back in to each of them, so it is
+  impossible to extend the set of sandbox features without significant
+  compatibility risk.</p>
     <p>Feature Policy is intended to be used in combination with the sandbox
   mechanism (i.e. it does not duplicate feature controls already covered by
   sandbox), and provides an extensible mechanism that addresses the above
@@ -1650,7 +1652,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <div class="note" role="note">For brevity, policy-controlled features will often be
     referred to in this document simply as "Features". Unless otherwise
     indicated, the term "feature" refers to <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature">policy-controlled features</a>.
-    Other specification, defining such features, should use the longer term to
+    Other specifications, defining such features, should use the longer term to
     avoid any ambiguity.</div>
      <p><a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①">Policy-controlled features</a> are identified by tokens, which are
     character strings used in <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive">policy directives</a>. </p>
@@ -1818,7 +1820,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     that case, the default value for the allowlist is <code>'src'</code>, which
     represents the origin of the URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-src" id="ref-for-attr-iframe-src">src</a></code> attribute. </p>
      <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①④">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>, when it is contructed.</p>
+    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①④">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>, when it is constructed.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.3" id="legacy-attributes"><span class="secno">6.3. </span><span class="content">Additional attributes to support legacy
