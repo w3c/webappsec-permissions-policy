@@ -604,7 +604,7 @@ partial interface HTMLIFrameElement {
 	      <li>For each <var>element</var> in <var>targetlist</var>:
                 <ol>
                   <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-		  match for the string "<code>self</code>", let result be
+		  match for the string "<code>'self'</code>", let result be
 		  <var>origin</var>.</li>
                   <li>Otherwise, let <var>result</var> be the result of
 		  executing the <a>URL parser</a> on <var>element</var>.</li>
@@ -745,10 +745,10 @@ partial interface HTMLIFrameElement {
 	      <li>For each <var>element</var> in <var>targetlist</var>:
                 <ol>
                   <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-		  match for "<code>self</code>", let result be <var>container
+		  match for "<code>'self'</code>", let result be <var>container
 		  origin</var>.</li>
                   <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-		  match for "<code>src</code>", let result be <var>target
+		  match for "<code>'src'</code>", let result be <var>target
 		  origin</var>.</li>
 		  <li>Otherwise, let <var>result</var> be the result of
 		  executing the <a>URL parser</a> on <var>element</var>.</li>
