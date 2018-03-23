@@ -1176,9 +1176,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
+  <meta content="Bikeshed version ae5d415446a9edf0c07d32303ac1d21767d86d57" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="ca4482a53b8dca05f8815ff36fa4a8cd2304ca7a" name="document-revision">
+  <meta content="8361c83b7e839c8743b38d75edbe0b66a2136754" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-03-15">15 March 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-03-23">23 March 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1590,17 +1590,17 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     the application’s origin, optionally with the keyword "<code>'self'</code>",
     and any third-party origin.</p>
     </div>
-    <div class="example" id="example-c1764cb2">
-     <a class="self-link" href="#example-c1764cb2"></a> 
+    <div class="example" id="example-18bf7fd3">
+     <a class="self-link" href="#example-18bf7fd3"></a> 
      <p>SecureCorp Inc. is hosting an application on
     "<code>https://example.com</code>" and wants to disable camera and
-    microphone input on its own origin but enable it for a whitelisted embedee
+    microphone input on its own origin but enable it for a specific embedee
     ("<code>https://other.com</code>"). It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
 <pre><a href="#feature-policy-header" id="ref-for-feature-policy-header②">Feature-Policy</a>: camera https://other.com; microphone https://other.com</pre>
-     <p>Some features are disabled by default in embedded contexts. The enable
-    policy allows the application to selectively enable such features for
-    whitelisted origins.</p>
+     <p>Some features are disabled by default in embedded contexts. The policy
+    allows the application to selectively enable such features for specified
+    origins.</p>
     </div>
     <div class="example" id="example-7dbc71c4">
      <a class="self-link" href="#example-7dbc71c4"></a> 
@@ -1633,8 +1633,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   makes it hard or impossible to enforce consistently in some cases (e.g. due
   to third-party content injecting frames, which the developer does not
   control); there is no mechanism to selectively enable features that may be
-  off by default; the sandbox mechanism uses a whitelist approach which is
-  impossible to extend without compatibility risk.</p>
+  off by default; the sandbox mechanism automatically disables all sandbox
+  features, and requires the developer to opt back in to each of them, so it is
+  impossible to extend the set of sandbox features without significant
+  compatibility risk.</p>
     <p>Feature Policy is intended to be used in combination with the sandbox
   mechanism (i.e. it does not duplicate feature controls already covered by
   sandbox), and provides an extensible mechanism that addresses the above
@@ -2510,7 +2512,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fullscreen">[FULLSCREEN]
-   <dd>Anne van Kesteren. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
+   <dd>Philip Jägenstedt. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
