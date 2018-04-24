@@ -94,7 +94,7 @@ In this example, "legacy-image-formats" is disabled for all frames including the
 <p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!-- <img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing"> -->
 
    </td>
    <td>
@@ -102,7 +102,7 @@ In this example, "legacy-image-formats" is disabled for all frames including the
 <p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!-- <img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing"> -->
 
    </td>
   </tr>
@@ -168,7 +168,7 @@ In this example, "maximum-downscaling-image" is disabled for all frames includin
 <p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
    <td>
@@ -176,7 +176,7 @@ In this example, "maximum-downscaling-image" is disabled for all frames includin
 <p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
   </tr>
@@ -209,7 +209,7 @@ For an <img> element, if neither the width or the height of the source image exc
 <p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
    <td>
@@ -217,7 +217,7 @@ For an <img> element, if neither the width or the height of the source image exc
 <p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
   </tr>
@@ -250,7 +250,7 @@ For an <img> element, if neither the width or the height of the source image exc
 <p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
    <td>
@@ -258,7 +258,7 @@ For an <img> element, if neither the width or the height of the source image exc
 <p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
   </tr>
@@ -327,7 +327,7 @@ In this example, "image-compression" is disabled for all frames including the ma
 <p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
    <td>
@@ -335,7 +335,7 @@ In this example, "image-compression" is disabled for all frames including the ma
 <p id="gdcalert10" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert11">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
 
-<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">
+<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
   </tr>
