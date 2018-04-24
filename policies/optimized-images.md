@@ -1,4 +1,4 @@
-# Bonsai Web -- Optimized Image Policies Explainer
+Optimized Image Policies Explainer
 
 loonybear@, last updated: 4/25/2018
 
@@ -35,12 +35,14 @@ Optimized image policies are aiming to solve problems with sites shipping images
 ## Detailed policy discussion
 
 <a name="legacy-image-formats">
+
 ### "legacy-image-formats" policy
+
 </a>
 
-Image formats affect file size, loading speed and appearance. Modern image formats yield large byte savings and performance improvement. `legacy-image-formats` is a policy controlled feature that restricts images to be one of certain modern formats.
+Image formats affect file size, loading speed and appearance. Modern image formats yield large byte savings and performance improvement. "legacy-image-formats" is a policy controlled feature that restricts images to be one of certain modern formats.
 
-When a document is disallowed to use `legacy-image-formats` policy, its `<img>` elements will render images of "legacy" formats with inverted colors. 
+When a document is disallowed to use "legacy-image-formats" policy, its `<img>` elements will render images of "legacy" formats with inverted colors. 
 
 
 #### Specification
@@ -57,7 +59,8 @@ In practice, they would look something like this:
 <iframe allow="legacy-image-formats(JPEG, PNG, TIFF)"></iframe>
 ```
 
-That would apply a policy in which just those three formats can be allowed. 
+That would apply a policy in which just those three formats (JPEG, PNG, TIFF) can be allowed. 
+
 
 Feature policies combine in subframes, so if that frame embedded another, which
 the syntax:
@@ -70,18 +73,18 @@ then the child frame would be allowed to render images of just "JPEG" format.
 
 ---
 
-The default allowlist for `legacy-image-formats` is *. This means for pages of all origins, `<img>` elements with "legacy" formats will be allowed and rendered correctly by default.
+The default allowlist for "legacy-image-formats" is *. This means for pages of all origins, `<img>` elements with "legacy" formats will be allowed and rendered correctly by default.
 
-A `legacy-image-formats` policy can be specified via:
+A "legacy-image-formats" policy can be specified via:
 
-1. **HTTP "Feature-Policy" response header**:
+1. http "feature-policy" response header:
 ```html
-Feature-Policy: legacy-image-formats 'none'; <more policies>
+feature-policy: legacy-image-formats 'none';
 ```
 
 In this example, `legacy-image-formats` is disabled for all frames including the main frame. All `<img>` elements with "legacy" formats will be rendered with inverted colors.
 
-2. **"allow" attribute in <iframe>**:
+2. "allow" attribute in <iframe>:
 ```html
 <iframe src="https://example.com" allow="legacy-image-formats 'self' https://foo.com;">
 ```
@@ -100,70 +103,93 @@ In this example, `legacy-image-formats` is disabled everywhere except on the ori
   </tr>
   <tr>
    <td>
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 <!-- <img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing"> -->
-
    </td>
    <td>
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 <!-- <img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing"> -->
-
    </td>
   </tr>
   <tr>
-   <td colspan="2" ><code>example.com</code>
+   <td colspan="2" >"example.com"
 <p>
-<code><img id="modern-formats" <strong>src="test.png"</strong>></code>
-<code><img id="legacy-formats" <strong>src="test.bmp"</strong>></code>
+<code> <img id="modern-formats" <strong>src="test.png"</strong> > </code>
+<code> <img id="legacy-formats" <strong>src="test.bmp"</strong> > </code>
    </td>
   </tr>
 </table>
 
+For an `<img>` element, if its src is one of the modern image formats, the image will be rendered correctly; otherwise the image will be rendered with inverted colors.
 
-For an <img> element, if its src is one of the modern image formats, the image will be rendered correctly; otherwise the image will be rendered with inverted colors.
-
+<a name="maximum-downscaling-image">
 
 ### "maximum-downscaling-image" policy
 
-On a web page, the number of pixels of a container determines the resolution of an image served inside. It is unnecessary to use an image that is much larger than what the viewing device can actually render; for example, serving a desktop image to mobile contexts, or serving an image intended for high-pixel-density screens to a low-pixel-density device. This results in unnecessary network traffic and downloaded bytes. "maximum-downscaling-image" is a [policy controlled](https://docs.google.com/document/d/1k0Ua-ZWlM_PsFCFdLMa8kaVTo32PeNZ4G7FFHqpFx4E/edit) feature that restricts images to be no more than X times bigger than the container size. 
+</a>
 
-When a document is disallowed to use "maximum-downscaling-image" policy, its <img> elements that are more than X times larger than its container size will be rendered with inverted colors. 
+On a web page, the number of pixels of a container determines the resolution of an image served inside. It is unnecessary to use an image that is much larger than what the viewing device can actually render; for example, serving a desktop image to mobile contexts, or serving an image intended for high-pixel-density screens to a low-pixel-density device. This results in unnecessary network traffic and downloaded bytes. "maximum-downscaling-image" is a policy controlled feature that restricts images to be no more than X times bigger than the container size. 
+
+When a document is disallowed to use "maximum-downscaling-image" policy, its `<img>` elements that are more than X times larger than its container size will be rendered with inverted colors. 
 
 
 #### Specification
 
 The default downscaling ratio is 2. 
 
-Note: with support of "list values", web developers will be able to specify their own ratio.
+---
 
-The default allowlist for "maximum-downscaling-image" is *. This means for pages of all origins, <img> elements that are more than X times larger than its container size will be allowed and rendered correctly.
+**Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying the maxmimum downscaling ratio to be allowed.  
 
-A "maximum-downscaling-image" policy can be specified via: \
+In practice, they would look something like this:
 
+```html
+<iframe allow="maximum-downscaling-image(4)"></iframe>
+```
 
-
-
-1.  **HTTP "Feature-Policy" response header** \
-`Feature-Policy: maximum-downscaling-image 'none'; <more policies> ` \
- \
-In this example, "maximum-downscaling-image" is disabled for all frames including the main frame. All <img> elements that are more than X times larger than its container size will be rendered with inverted colors.
-1.  **"allow" attribute in <iframe>** \
-`<iframe src="https://example.com" allow="maximum-downscaling-image 'self' https://foo.com;"> \
- \
-`In this example, "maximum-downscaling-image" is disabled everywhere except on the origin of the main document and on "https://foo.com".  
+That would apply a policy in which the maximum downscaling ratio allowed is set
+to 4. 
 
 
-#### 
+Feature policies combine in subframes, and the minimum value of the downscaling
+ratio will be applied, so if that frame embedded another, which the syntax:
+
+```html
+<iframe allow="maximum-downscaling-image(5)"></iframe>
+```
+
+then the child frame would be allowed to render images with maximum downscaling
+ratio of 4.
+
+If that frame embedded another child frame of the syntax:
+
+```html
+<iframe allow="maximum-downscaling-image(3)"></iframe>
+```
+
+then the other child frame would be allowed to render images with maximum downscaling
+ratio of 3.
+
+---
+
+The default allowlist for "maximum-downscaling-image" is *. This means for pages of all origins, '<img>' elements that are more than X times larger than its container size will be allowed and rendered correctly.
+
+A "maximum-downscaling-image" policy can be specified via:
+
+1. http "feature-policy" response header:
+```html
+feature-policy: maximum-downscaling-image 'none';
+```
+
+In this example, `maximum-downscaling-image` is disabled for all frames including the main frame. All <img> elements that are more than X times larger than its container size will be rendered with inverted colors.
+
+2. "allow" attribute in <iframe>:
+```html
+<iframe src="https://example.com" allow="maximum-downscaling-image 'self' https://foo.com;">
+```
+ 
+In this example, "maximum-downscaling-image" is disabled everywhere except on the origin of the main document and on `https://foo.com`.  
 
 
 #### Examples
-
 
 <table>
   <tr>
@@ -174,24 +200,14 @@ In this example, "maximum-downscaling-image" is disabled for all frames includin
   </tr>
   <tr>
    <td>
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 <!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
-
    </td>
    <td>
-
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 <!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
-
    </td>
   </tr>
   <tr>
-   <td colspan="2" ><code>example0.com</code>
+   <td colspan="2" >"example0.com"
 <p>
 <code>test.png: 150px X 150px </code>
 <p>
@@ -202,8 +218,7 @@ In this example, "maximum-downscaling-image" is disabled for all frames includin
   </tr>
 </table>
 
-
-For an <img> element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width of height), the image will be rendered correctly;  if both the width and the height of the source image exceed the limit, the image will be rendered with inverted colors.
+For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width of height), the image will be rendered correctly;  if both the width and the height of the source image exceed the limit, the image will be rendered with inverted colors.
 
 
 <table>
@@ -216,23 +231,17 @@ For an <img> element, if neither the width or the height of the source image exc
   <tr>
    <td>
 
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 <!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
    <td>
-
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
 
 <!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
   </tr>
   <tr>
-   <td colspan="2" ><code>example1.com</code>
+   <td colspan="2" >"example1.com"
 <p>
 <code>test.png: 150px X 150px </code>
 <p>
@@ -244,7 +253,7 @@ For an <img> element, if neither the width or the height of the source image exc
 </table>
 
 
-For an <img> element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the width the source image exceeds the limit, the image will be rendered with inverted colors.
+For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the width the source image exceeds the limit, the image will be rendered with inverted colors.
 
 
 <table>
@@ -256,24 +265,14 @@ For an <img> element, if neither the width or the height of the source image exc
   </tr>
   <tr>
    <td>
-
-<p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 <!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
-
    </td>
    <td>
-
-<p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 <!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
-
    </td>
   </tr>
   <tr>
-   <td colspan="2" ><code>example2.com</code>
+   <td colspan="2" >"example2.com"</code>
 <p>
 <code>test.png: 150px X 150px </code>
 <p>
@@ -284,11 +283,14 @@ For an <img> element, if neither the width or the height of the source image exc
   </tr>
 </table>
 
+For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the height the source image exceeds the limit, the image will be rendered with inverted colors.
 
-For an <img> element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the height the source image exceeds the limit, the image will be rendered with inverted colors.
 
+<a name="image-compression">
 
 ### "image-compression" policy
+
+</a>
 
 When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, or using image compression, is a common way to optimize an image's file size. "image-compression" is a [policy controlled](https://docs.google.com/document/d/1k0Ua-ZWlM_PsFCFdLMa8kaVTo32PeNZ4G7FFHqpFx4E/edit) feature that restricts images to have a file size (in terms of number of bytes) no more than X times bigger than the image size (width * height) on the web page.
 
