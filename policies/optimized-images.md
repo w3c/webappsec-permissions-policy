@@ -1,4 +1,4 @@
-Optimized Image Policies Explainer
+# Optimized Image Policies Explainer
 
 loonybear@, last updated: 4/25/2018
 
@@ -77,9 +77,9 @@ The default allowlist for "legacy-image-formats" is *. This means for pages of a
 
 A "legacy-image-formats" policy can be specified via:
 
-1. http "feature-policy" response header:
+1. HTTP "feature-policy" response header:
 ```html
-feature-policy: legacy-image-formats 'none';
+Feature-Policy: legacy-image-formats 'none';
 ```
 
 In this example, `legacy-image-formats` is disabled for all frames including the main frame. All `<img>` elements with "legacy" formats will be rendered with inverted colors.
@@ -119,6 +119,8 @@ In this example, `legacy-image-formats` is disabled everywhere except on the ori
 </table>
 
 For an `<img>` element, if its src is one of the modern image formats, the image will be rendered correctly; otherwise the image will be rendered with inverted colors.
+
+
 
 <a name="maximum-downscaling-image">
 
@@ -170,16 +172,17 @@ ratio of 3.
 
 ---
 
-The default allowlist for "maximum-downscaling-image" is *. This means for pages of all origins, '<img>' elements that are more than X times larger than its container size will be allowed and rendered correctly.
+The default allowlist for "maximum-downscaling-image" is *. This means for pages of all origins,
+`<img>` elements that are more than X times larger than its container size will be allowed and rendered correctly.
 
 A "maximum-downscaling-image" policy can be specified via:
 
-1. http "feature-policy" response header:
+1. HTTP "feature-policy" response header:
 ```html
-feature-policy: maximum-downscaling-image 'none';
+Feature-Policy: maximum-downscaling-image 'none';
 ```
 
-In this example, `maximum-downscaling-image` is disabled for all frames including the main frame. All <img> elements that are more than X times larger than its container size will be rendered with inverted colors.
+In this example, `maximum-downscaling-image` is disabled for all frames including the main frame. All `<img>` elements that are more than X times larger than its container size will be rendered with inverted colors.
 
 2. "allow" attribute in <iframe>:
 ```html
@@ -286,15 +289,16 @@ For an `<img>` element, if neither the width or the height of the source image e
 For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the height the source image exceeds the limit, the image will be rendered with inverted colors.
 
 
+
 <a name="image-compression">
 
 ### "image-compression" policy
 
 </a>
 
-When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, or using image compression, is a common way to optimize an image's file size. "image-compression" is a [policy controlled](https://docs.google.com/document/d/1k0Ua-ZWlM_PsFCFdLMa8kaVTo32PeNZ4G7FFHqpFx4E/edit) feature that restricts images to have a file size (in terms of number of bytes) no more than X times bigger than the image size (width * height) on the web page.
+When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, or using image compression, is a common way to optimize an image's file size. "image-compression" is a policy controlled feature that restricts images to have a file size (in terms of number of bytes) no more than X times bigger than the image size (width * height) on the web page.
 
-When a document is disallowed to use "image-compression" policy, its <img> elements whose file sizes are too big will be rendered with inverted colors. 
+When a document is disallowed to use "image-compression" policy, its `<img>` elements whose file sizes are too big will be rendered with inverted colors. 
 
 
 #### Specification
@@ -303,49 +307,77 @@ The default compression ratio is tentatively 10.
 
 Note: with support of "list values", web developers will be able to specify their own ratio.
 
-The default allowlist for "image-compression" is *. This means for pages of all origins, <img> elements whose file sizes exceeds the compression ratio will be allowed and rendered correctly.
+---
 
-A "image-compression" policy can be specified via: \
+**Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying their own ratio. 
 
+In practice, they would look something like this:
 
+```html
+<iframe allow="image-compression(12)"></iframe>
+```
 
-
-1.  **HTTP "Feature-Policy" response header** \
-`Feature-Policy: image-compression 'none'; <more policies> ` \
- \
-In this example, "image-compression" is disabled for all frames including the main frame. All <img> elements whose file sizes exceeds the compression ratio will be rendered with inverted colors.
-1.  **"allow" attribute in <iframe>** \
-`<iframe src="https://example.com" allow="image-compression 'self' https://foo.com;"> \
- \
-`In this example, "image-compression" is disabled everywhere except on the origin of the main document and on "https://foo.com".  
+That would apply a policy in which the maximum compression ratio allowed is set
+to 12. 
 
 
-#### 
+Feature policies combine in subframes, and the minimum value of the compression
+ratio will be applied, so if that frame embedded another, which the syntax:
+
+```html
+<iframe allow="maximum-downscaling-image(15)"></iframe>
+```
+
+then the child frame would be allowed to render images with maximum compression
+ratio of 12.
+
+If that frame embedded another child frame of the syntax:
+
+```html
+<iframe allow="maximum-downscaling-image(9)"></iframe>
+```
+
+then the other child frame would be allowed to render images with maximum
+compression ratio of 9.
+
+---
+
+The default allowlist for "image-compression" is *. This means for pages of all origins, `<img>` elements whose file sizes exceeds the compression ratio will be allowed and rendered correctly.
+
+
+A "image-compression" policy can be specified via:
+
+1. HTTP "feature-policy" response header:
+```html
+Feature-Policy: image-compression 'none'; <more policies> 
+```
+
+In this example, "image-compression" is disabled for all frames including the main frame. All `<img>` elements whose file sizes exceeds the compression ratio will be rendered with inverted colors.
+
+2. "allow" attribute in <iframe>:
+```html
+<iframe src="https://example.com" allow="image-compression 'self' https://foo.com;">
+```
+ 
+In this example, "image-compression" is disabled everywhere except on the origin of the main document and on `https://foo.com`.  
 
 
 #### Examples
 
-
 <table>
   <tr>
-   <td><code>Feature-Policy: image-compression 'none';</code>
+   <td>"Feature-Policy: image-compression 'none';"
    </td>
-   <td><code>Feature-Policy: image-compression *;</code>
+   <td>"Feature-Policy: image-compression *;"
    </td>
   </tr>
   <tr>
    <td>
 
-<p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 <!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
    </td>
    <td>
-
-<p id="gdcalert10" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert11">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
 
 <!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
 
@@ -362,5 +394,5 @@ In this example, "image-compression" is disabled for all frames including the ma
 </table>
 
 
-For an <img> element, if its file size is within the compression limit, the image will be rendered correctly; otherwise the image will be rendered with inverted colors.
+For an `<img>` element, if its file size is within the compression limit, the image will be rendered correctly; otherwise the image will be rendered with inverted colors.
 
