@@ -45,10 +45,10 @@ Unsized media policy is aiming to fix the problem by requiring all media element
   </tr>
   <tr align="center">
    <td>
-<img src="unsized-media-exmple0.png" width="80%">
+<img src="resources/unsized-media-exmple0.png" width="80%">
    </td>
    <td>
-<img src="unsized-media-exmple0.png" width="80%">
+<img src="resources/unsized-media-exmple0.png" width="80%">
    </td>
   </tr>
   <tr align="center">
