@@ -67,33 +67,33 @@ When a document is disallowed to use `legacy-image-formats` policy, its `<img>` 
 
 - A `legacy-image-formats` policy can be specified via:
 
-    1. HTTP "Feature-Policy" response header:
+    **1. HTTP "Feature-Policy" response header:**
 
-    ```html
-    Feature-Policy: legacy-image-formats 'none';
-    ```
-    In this example, `legacy-image-formats` is disabled for all frames including the main frame. All `<img>` elements with "legacy" formats will be rendered with inverted colors.
+        ```html
+        Feature-Policy: legacy-image-formats 'none';
+        ```
+        In this example, `legacy-image-formats` is disabled for all frames including the main frame. All `<img>` elements with "legacy" formats will be rendered with inverted colors.
 
-    2. "allow" attribute in <iframe>:
+    **2. "allow" attribute in <iframe>:**
 
-    ```html
-    <iframe src="https://example.com" allow="legacy-image-formats 'self' https://foo.com;">
-    ```
-    In this example, `legacy-image-formats` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+        ```html
+        <iframe src="https://example.com" allow="legacy-image-formats 'self' https://foo.com;">
+        ```
+        In this example, `legacy-image-formats` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
 
 
 #### Example
 
 <table>
   <tr align="center">
-   <td>Feature-Policy: legacy-image-formats 'none';</td>
-   <td>Feature-Policy: legacy-image-formats *;</td>
+   <td width=50%>Feature-Policy: legacy-image-formats 'none';</td>
+   <td width=50%>Feature-Policy: legacy-image-formats *;</td>
   </tr>
   <tr align="center">
-   <td>
+   <td width=50%>
  <img src="resources/legacy-image-formats-disabled.png" width="80%"> 
    </td>
-   <td>
+   <td width=50%>
  <img src="resources/legacy-image-formats-enabled.png" width="80%"> 
    </td>
   </tr>
@@ -155,33 +155,33 @@ When a document is disallowed to use `maximum-downscaling-image` policy, its `<i
 
 - A `maximum-downscaling-image` policy can be specified via:
 
-    1. HTTP "feature-policy" response header:
+    **1. HTTP "feature-policy" response header:**
 
-    ```html
-    Feature-Policy: maximum-downscaling-image 'none';
-    ```
-    In this example, `maximum-downscaling-image` is disabled for all frames including the main frame. All `<img>` elements that are more than X times larger than its container size will be rendered with inverted colors.
+        ```html
+        Feature-Policy: maximum-downscaling-image 'none';
+        ```
+        In this example, `maximum-downscaling-image` is disabled for all frames including the main frame. All `<img>` elements that are more than X times larger than its container size will be rendered with inverted colors.
 
-    2. "allow" attribute in <iframe>:
+    **2. "allow" attribute in <iframe>:**
 
-    ```html
-    <iframe src="https://example.com" allow="maximum-downscaling-image 'self' https://foo.com;">
-    ```
-    In this example, "maximum-downscaling-image" is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+        ```html
+        <iframe src="https://example.com" allow="maximum-downscaling-image 'self' https://foo.com;">
+        ```
+        In this example, "maximum-downscaling-image" is disabled everywhere except on the origin of the main document and on `https://foo.com`.
 
 
 #### Examples
 
 <table>
   <tr align="center">
-   <td>Feature-Policy: maximum-downscaling-image 'none';</td>
-   <td>Feature-Policy: maximum-downscaling-image *;</td>
+   <td width=50%>Feature-Policy: maximum-downscaling-image 'none';</td>
+   <td width=50%>Feature-Policy: maximum-downscaling-image *;</td>
   </tr>
   <tr aligh="center">
-   <td>
+   <td width=50%>
 <img src="resources/max-ds-img-disabled0.png" width="80%">
    </td>
-   <td>
+   <td width=50%>
 <img src="resources/max-ds-img-enabled0.png" width="80%">
    </td>
   </tr>
@@ -203,14 +203,14 @@ For an `<img>` element, if neither the width or the height of the source image e
 
 <table>
   <tr align="center">
-   <td>Feature-Policy: maximum-downscaling-image 'none';</td>
-   <td>Feature-Policy: maximum-downscaling-image *;</td>
+   <td width=50%>Feature-Policy: maximum-downscaling-image 'none';</td>
+   <td width=50%>Feature-Policy: maximum-downscaling-image *;</td>
   </tr>
   <tr aligh="center">
-   <td>
+   <td width=50%>
 <img src="resources/max-ds-img-disabled1.png" width="80%">
    </td>
-   <td>
+   <td width=50%>
 <img src="resources/max-ds-img-enabled1.png" width="80%">
    </td>
   </tr>
@@ -232,14 +232,14 @@ For an `<img>` element, if neither the width or the height of the source image e
 
 <table>
   <tr align="center">
-   <td>Feature-Policy: maximum-downscaling-image 'none';</td>
-   <td>Feature-Policy: maximum-downscaling-image *;</td>
+   <td width=50%>Feature-Policy: maximum-downscaling-image 'none';</td>
+   <td width=50%>Feature-Policy: maximum-downscaling-image *;</td>
   </tr>
   <tr aligh="center">
-   <td>
+   <td width=50%>
 <img src="resources/max-ds-img-disabled2.png" width="80%">
    </td>
-   <td>
+   <td width=50%>
 <img src="resources/max-ds-img-enabled2.png" width="80%">
    </td>
   </tr>
@@ -264,101 +264,84 @@ For an `<img>` element, if neither the width or the height of the source image e
 
 </a>
 
-When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, or using image compression, is a common way to optimize an image's file size. "image-compression" is a policy controlled feature that restricts images to have a file size (in terms of number of bytes) no more than X times bigger than the image size (width * height) on the web page.
+When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, or using image compression, is a common way to optimize an image's file size. `image-compression` is a policy controlled feature that restricts images to have a file size (in terms of number of bytes) no more than X times bigger than the image size (width * height) on the web page.
 
-When a document is disallowed to use "image-compression" policy, its `<img>` elements whose file sizes are too big will be rendered with inverted colors. 
+When a document is disallowed to use `image-compression` policy, its `<img>` elements whose file sizes are too big will be rendered with inverted colors.
 
 
 #### Specification
 
-The default compression ratio is tentatively 10. 
+- The default compression ratio is tentatively 10.
 
----
+    **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying their own ratio.
 
-**Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying their own ratio. 
+    In practice, they would look something like this:
 
-In practice, they would look something like this:
+    ```html
+    <iframe allow="image-compression(12)"></iframe>
+    ```
+    That would apply a policy in which the maximum compression ratio allowed is set to 12.
 
-```html
-<iframe allow="image-compression(12)"></iframe>
-```
+    Feature policies combine in subframes, and the minimum value of the compression ratio will be applied, so if that frame embedded another, which the syntax:
 
-That would apply a policy in which the maximum compression ratio allowed is set
-to 12. 
+    ```html
+    <iframe allow="maximum-downscaling-image(15)"></iframe>
+    ```
+    then the child frame would be allowed to render images with maximum compression ratio of 12.
 
+    If that frame embedded another child frame of the syntax:
 
-Feature policies combine in subframes, and the minimum value of the compression
-ratio will be applied, so if that frame embedded another, which the syntax:
+    ```html
+    <iframe allow="maximum-downscaling-image(9)"></iframe>
+    ```
+    then the other child frame would be allowed to render images with maximum compression ratio of 9.
 
-```html
-<iframe allow="maximum-downscaling-image(15)"></iframe>
-```
-
-then the child frame would be allowed to render images with maximum compression
-ratio of 12.
-
-If that frame embedded another child frame of the syntax:
-
-```html
-<iframe allow="maximum-downscaling-image(9)"></iframe>
-```
-
-then the other child frame would be allowed to render images with maximum
-compression ratio of 9.
-
----
-
-The default allowlist for "image-compression" is *. This means for pages of all origins, `<img>` elements whose file sizes exceeds the compression ratio will be allowed and rendered correctly.
+- The default allowlist for `image-compression` is `*`. This means for pages of all origins, `<img>` elements whose file sizes exceeds the compression ratio will be allowed and rendered correctly.
 
 
-A "image-compression" policy can be specified via:
+- A `image-compression` policy can be specified via:
 
-1. HTTP "feature-policy" response header:
-```html
-Feature-Policy: image-compression 'none'; <more policies> 
-```
+    **1. HTTP "feature-policy" response header:**
 
-In this example, "image-compression" is disabled for all frames including the main frame. All `<img>` elements whose file sizes exceeds the compression ratio will be rendered with inverted colors.
+        ```html
+        Feature-Policy: image-compression 'none';
+        ```
+        In this example, `image-compression` is disabled for all frames including the main frame. All `<img>` elements whose file sizes exceeds the compression ratio will be rendered with inverted colors.
 
-2. "allow" attribute in <iframe>:
-```html
-<iframe src="https://example.com" allow="image-compression 'self' https://foo.com;">
-```
- 
-In this example, "image-compression" is disabled everywhere except on the origin of the main document and on `https://foo.com`.  
+    **2. "allow" attribute in <iframe>:**
+
+        ```html
+        <iframe src="https://example.com" allow="image-compression 'self' https://foo.com;">
+        ```
+        In this example, `image-compression` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
 
 
 #### Examples
 
 <table>
-  <tr>
-   <td>"Feature-Policy: image-compression 'none';"
+  <tr align="center">
+   <td width=50%>Feature-Policy: image-compression 'none'; </td>
+   <td width=50%>Feature-Policy: image-compression *; </td>
+  </tr>
+  <tr align="center">
+   <td width=50%>
+ <img src="resources/image-compression-disabled.png" width="80%"> 
    </td>
-   <td>"Feature-Policy: image-compression *;"
+   <td width=50%>
+ <img src="resources/image-compression-enabled.png" width="80%"> 
    </td>
   </tr>
-  <tr>
-   <td>
+  <tr align="center">
+   <td colspan="2" >
 
-<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
-
-   </td>
-   <td>
-
-<!--<img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing">-->
-
-   </td>
-  </tr>
-  <tr>
-   <td colspan="2" ><code>example.com</code>
-<p>
-<code><img id="normal-size" src="test.png"></code>
-<p>
-<code><img id="oversized" src="test-oversized.png"></code>
+```html
+"example.com"
+<img id="normal-size" src="test.png">
+<img id="oversized" src="test-oversized.png">
+```
    </td>
   </tr>
 </table>
-
 
 For an `<img>` element, if its file size is within the compression limit, the image will be rendered correctly; otherwise the image will be rendered with inverted colors.
 
