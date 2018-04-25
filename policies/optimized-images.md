@@ -244,6 +244,7 @@ For an `<img>` element, if neither the width or the height of the source image e
 
 ```html
 "example2.com"
+test.png: 150px X 150px
 <img id="within-range" width="100" height="100" src="test.png">
 <img id="over-width" width="50" height="100" src="test.png">
 ```
