@@ -22,6 +22,7 @@ Unsized media policy is aiming to fix the problem by requiring all media element
 - The default allowlist for `unsized-media` is `*`. In other words, `unsized-media` is enabled for all origins by default. This means for pages of all origins, `<img>`, `<video>`, and `<svg:image>` elements will be rendered by their intrinsic sizes if unspecified.
 
 - An `unsized-media` policy can be specified via:
+
     **1.  HTTP "Feature-Policy" response header**
     ```html
     Feature-Policy: unsized-media 'none';
