@@ -84,14 +84,14 @@ When a document is disallowed to use `legacy-image-formats` policy, its `<img>` 
 
 <table>
   <tr align="center">
-   <td width=50%>Feature-Policy: legacy-image-formats 'none';</td>
-   <td width=50%>Feature-Policy: legacy-image-formats *;</td>
+   <td width="400">Feature-Policy: legacy-image-formats 'none';</td>
+   <td width="400">Feature-Policy: legacy-image-formats *;</td>
   </tr>
   <tr align="center">
-   <td width=50%>
+   <td>
  <img src="resources/legacy-image-formats-disabled.png" width="80%"> 
    </td>
-   <td width=50%>
+   <td>
  <img src="resources/legacy-image-formats-enabled.png" width="80%"> 
    </td>
   </tr>
@@ -170,14 +170,14 @@ When a document is disallowed to use `maximum-downscaling-image` policy, its `<i
 
 <table>
   <tr align="center">
-   <td width=50%>Feature-Policy: maximum-downscaling-image 'none';</td>
-   <td width=50%>Feature-Policy: maximum-downscaling-image *;</td>
+   <td width="400">Feature-Policy: maximum-downscaling-image 'none';</td>
+   <td width="400">Feature-Policy: maximum-downscaling-image *;</td>
   </tr>
-  <tr aligh="center">
-   <td width=50%>
+  <tr align="center">
+   <td>
 <img src="resources/max-ds-img-disabled0.png" width="80%">
    </td>
-   <td width=50%>
+   <td>
 <img src="resources/max-ds-img-enabled0.png" width="80%">
    </td>
   </tr>
@@ -199,14 +199,14 @@ For an `<img>` element, if neither the width or the height of the source image e
 
 <table>
   <tr align="center">
-   <td width=50%>Feature-Policy: maximum-downscaling-image 'none';</td>
-   <td width=50%>Feature-Policy: maximum-downscaling-image *;</td>
+   <td width="400">Feature-Policy: maximum-downscaling-image 'none';</td>
+   <td width="400">Feature-Policy: maximum-downscaling-image *;</td>
   </tr>
-  <tr aligh="center">
-   <td width=50%>
+  <tr align="center">
+   <td>
 <img src="resources/max-ds-img-disabled1.png" width="80%">
    </td>
-   <td width=50%>
+   <td>
 <img src="resources/max-ds-img-enabled1.png" width="80%">
    </td>
   </tr>
@@ -228,14 +228,14 @@ For an `<img>` element, if neither the width or the height of the source image e
 
 <table>
   <tr align="center">
-   <td width=50%>Feature-Policy: maximum-downscaling-image 'none';</td>
-   <td width=50%>Feature-Policy: maximum-downscaling-image *;</td>
+   <td width="400">Feature-Policy: maximum-downscaling-image 'none';</td>
+   <td width="400">Feature-Policy: maximum-downscaling-image *;</td>
   </tr>
-  <tr aligh="center">
-   <td width=50%>
+  <tr align="center">
+   <td>
 <img src="resources/max-ds-img-disabled2.png" width="80%">
    </td>
-   <td width=50%>
+   <td>
 <img src="resources/max-ds-img-enabled2.png" width="80%">
    </td>
   </tr>
@@ -314,14 +314,14 @@ When a document is disallowed to use `image-compression` policy, its `<img>` ele
 
 <table>
   <tr align="center">
-   <td width=50%>Feature-Policy: image-compression 'none'; </td>
-   <td width=50%>Feature-Policy: image-compression *; </td>
+   <td width="400">Feature-Policy: image-compression 'none'; </td>
+   <td width="400">Feature-Policy: image-compression *; </td>
   </tr>
   <tr align="center">
-   <td width=50%>
+   <td>
  <img src="resources/image-compression-disabled.png" width="80%"> 
    </td>
-   <td width=50%>
+   <td>
  <img src="resources/image-compression-enabled.png" width="80%"> 
    </td>
   </tr>
