@@ -9,7 +9,7 @@ loonybear@, last updated: 4/25/2018
 
 Layout instability is one of the existing problems that are aggravating web experiences. For example, when the size of an `<img>` element is unspecified, it will cause the content around the `<img>` element to jump around. This is because the renderer does not know how much space to reserve for an image until the image is loaded, and once the image size is known the renderer will have to re-layout everything, causing the content to shift on the web page.
 
-Unsized Media Policy is aiming to fix the problem by requiring all media elements to provide a size; if they don't, a default will be chosen, so that the image doesn't change size after loading.
+Unsized media policy is aiming to fix the problem by requiring all media elements to provide a size; if they don't, a default will be chosen, so that the image doesn't change size after loading.
 
 
 ## What is "unsized-media"?
@@ -22,6 +22,7 @@ Unsized Media Policy is aiming to fix the problem by requiring all media element
 - The default allowlist for `unsized-media` is `*`. In other words, `unsized-media` is enabled for all origins by default. This means for pages of all origins, `<img>`, `<video>`, and `<svg:image>` elements will be rendered by their intrinsic sizes if unspecified.
 
 - An `unsized-media` policy can be specified via:
+
     **1.  HTTP "Feature-Policy" response header**
     ```html
     Feature-Policy: unsized-media 'none';
