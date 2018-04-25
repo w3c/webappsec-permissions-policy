@@ -45,10 +45,10 @@ Unsized media policy is aiming to fix the problem by requiring all media element
   </tr>
   <tr align="center">
    <td>
-<img src="unsized-media-exmple0.png" width="80%">
+<img src="resources/unsized-media-exmple0.png" width="80%">
    </td>
    <td>
-<img src="unsized-media-exmple0.png" width="80%">
+<img src="resources/unsized-media-exmple0.png" width="80%">
    </td>
   </tr>
   <tr align="center">
@@ -73,10 +73,10 @@ For an `<img>`, `<video>`, or `<svg:image>` element, if its size is specified, t
   </tr>
   <tr align="center">
    <td>
-<img src="unsized-media-disabled1.png" width="80%">
+<img src="resources/unsized-media-disabled1.png" width="80%">
    </td>
    <td>
-<img src="unsized-media-enabled1.png" width="80%">
+<img src="resources/unsized-media-enabled1.png" width="80%">
    </td>
   </tr>
   <tr align="center">
@@ -101,10 +101,10 @@ For an `<img>`, `<video>`, or `<svg:image>` element, if one dimension is specifi
   </tr>
   <tr align="center">
    <td>
-<img src="unsized-media-disabled2.png" width="80%">
+<img src="resources/unsized-media-disabled2.png" width="80%">
    </td>
    <td>
-<img src="unsized-media-enabled2.png" width="80%">
+<img src="resources/unsized-media-enabled2.png" width="80%">
    </td>
   </tr>
   <tr align="center">
