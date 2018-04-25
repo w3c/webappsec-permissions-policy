@@ -22,7 +22,6 @@ Unsized media policy is aiming to fix the problem by requiring all media element
 - The default allowlist for `unsized-media` is `*`. In other words, `unsized-media` is enabled for all origins by default. This means for pages of all origins, `<img>`, `<video>`, and `<svg:image>` elements will be rendered by their intrinsic sizes if unspecified.
 
 - An `unsized-media` policy can be specified via:
-
     **1.  HTTP "Feature-Policy" response header**
     ```html
     Feature-Policy: unsized-media 'none';
@@ -33,7 +32,7 @@ Unsized media policy is aiming to fix the problem by requiring all media element
     ```html
     <iframe src="https://example.com" allow="unsized-media 'self' https://foo.com;">
     ```
-    In this example, `unsized-media` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+    In this example, `unsized-media` is disabled everywhere except on the origin of the main document and on "https://foo.com".
 
 
 ### Examples
@@ -45,10 +44,10 @@ Unsized media policy is aiming to fix the problem by requiring all media element
   </tr>
   <tr align="center">
    <td>
-<img src="resources/unsized-media-example0.png" width="80%">
+<img src="png" width="80%">
    </td>
    <td>
-<img src="resources/unsized-media-example0.png" width="80%">
+<img src="png" width="80%">
    </td>
   </tr>
   <tr align="center">
@@ -84,8 +83,8 @@ For an `<img>`, `<video>`, or `<svg:image>` element, if its size is specified, t
 
 ```html
 "example1.com"
-<img width="300" src="cat.jpg">
-<img style="height:300px;" src="cat.jpg">
+<img width="300" src="foo.jpg">
+<img style="height:280px;" src="foo.jpg">
 ```
    </td>
   </tr>
@@ -118,7 +117,6 @@ For an `<img>`, `<video>`, or `<svg:image>` element, if one dimension is specifi
   </tr>
 </table>
 
-For an `<img>`, `<video>`, or `<svg:image>` element, if both dimensions are unspecified, default dimensions will be used, when `unsized-media` is disallowed.
 
 
 ## intrinsicsize="" Attribute on Media Elements
