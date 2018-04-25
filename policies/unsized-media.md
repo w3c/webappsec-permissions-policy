@@ -123,5 +123,5 @@ For an `<img>`, `<video>`, or `<svg:image>` element, if both dimensions are unsp
 
 ## intrinsicsize="" Attribute on Media Elements
 
-The caveat of the policy is that it is challenging to maintain an aspect ratio of a media element when the width is set to be proportional to the screen. One potential solution is to introduce an intrisicsize="" attribute on media elements. Please read the explainer for [Transfer Size Policy](https://github.com/WICG/transfer-size) for more details.
+The caveat of the policy is that it is challenging to maintain an aspect ratio of a media element when the width is set to be proportional to the screen. One potential solution is to introduce an intrisicsize="" attribute on media elements. Please read the explainer for [Transfer Size Policy](https://github.com/ojanvafai/intrinsicsize-attribute) for more details.
 
