@@ -9,27 +9,25 @@ loonybear@, last updated: 4/25/2018
 
 Images make up majority of the downloaded bytes on websites. In addition, images often occupy a significant amount of visual space. Optimizing images can improve loading performance and reduce network traffic. Surprisingly, more than half of the sites on the web, including advanced ones, are shipping unoptimized images. This means these sites can all achieve a performance improvement by serving optimized images.
 
- 
-
 Optimized image policies are aiming to solve problems with sites shipping images that are poorly compressed or unnecessarily large.
 
 
 ## What are "Optimized Image Policies"?
 
-"Optimized Image Policies" introduce a set of restrictions (policies) on images that can be applied with dev-time enforcement. An image will be rendered with **inverted colors** when violating a policy, making it easy for web developers to identify and fix the error. 
+Optimized image policies introduce a set of restrictions (policies) on images that can be applied with dev-time enforcement. An image will be rendered with **inverted colors** when violating a policy, making it easy for web developers to identify and fix the error.
 
 
 ### Optimized image policies
 
-*   **["legacy-image-formats" policy](#legacy-image-formats)** 
+*   **["legacy-image-formats" policy](#legacy-image-formats)**
     *   Images must be of one of the _**modern formats***_ (JPEG, PNG, WEBP, etc).
 *   **["maximum-downscaling-image" policy](#maximum-downscaling-image)**
-    *   Images must not be bigger than its container size by more than _**X times***_ . 
+    *   Images must not be bigger than its container size by more than _**X times***_ .
 *   **["image-compression" policy](#image-compression)**
-    *   Images used in rendering must not include too much metadata. 
-    *   Images must not be more than _**X bits***_ per compressed pixel. 
+    *   Images used in rendering must not include too much metadata.
+    *   Images must not be more than _**X bits***_ per compressed pixel.
 
-**Note**: * means developers will eventrually be able to specify the "value" of the policy. For example, `maximum-downscaling-image(2)` specifies the maximum ratio (2) images are allowed to be downscaled by. 
+**Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. * means developers will eventrually be able to specify the "value" of the policy. For example, `maximum-downscaling-image(2)` specifies the maximum ratio (2) images are allowed to be downscaled by.
 
 
 ## Detailed policy discussion
@@ -40,27 +38,25 @@ Optimized image policies are aiming to solve problems with sites shipping images
 
 </a>
 
-Image formats affect file size, loading speed and appearance. Modern image formats yield large byte savings and performance improvement. "legacy-image-formats" is a policy controlled feature that restricts images to be one of certain modern formats.
+Image formats affect file size, loading speed and appearance. Modern image formats yield large byte savings and performance improvement. `legacy-image-formats` is a policy controlled feature that restricts images to be one of certain modern formats.
 
-When a document is disallowed to use "legacy-image-formats" policy, its `<img>` elements will render images of "legacy" formats with inverted colors. 
+When a document is disallowed to use `legacy-image-formats` policy, its `<img>` elements will render images of "legacy" formats with inverted colors.
 
 
 #### Specification
 
-The default list of modern image formats is: JPEG, PNG, GIF, WEBP, and SVG. 
+- The default list of modern image formats is: JPEG, PNG, GIF, WEBP, and SVG.
 
 ---
 
-**Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying which modern formats can be allowed. The developer can choose this minimum set (default list), or can add additional formats which they either know can be rendered fast, or just need for their site. 
+**Note**: The goal is to eventually introduce a syntax for specifying which modern formats can be allowed. The developer can choose this minimum set (default list), or can add additional formats which they either know can be rendered fast, or just need for their site.
 
 In practice, they would look something like this:
 
 ```html
 <iframe allow="legacy-image-formats(JPEG, PNG, TIFF)"></iframe>
 ```
-
-That would apply a policy in which just those three formats (JPEG, PNG, TIFF) can be allowed. 
-
+That would apply a policy in which just those three formats (JPEG, PNG, TIFF) can be allowed.
 
 Feature policies combine in subframes, so if that frame embedded another, which
 the syntax:
@@ -68,52 +64,47 @@ the syntax:
 ```html
 <iframe allow="legacy-image-formats(JPEG, GIF, BMP)"></iframe>
 ```
-
 then the child frame would be allowed to render images of just "JPEG" format.
 
 ---
 
-The default allowlist for "legacy-image-formats" is *. This means for pages of all origins, `<img>` elements with "legacy" formats will be allowed and rendered correctly by default.
+- The default allowlist for `legacy-image-formats` is `*`. This means for pages of all origins, `<img>` elements with "legacy" formats will be allowed and rendered correctly by default.
 
-A "legacy-image-formats" policy can be specified via:
+- A `legacy-image-formats` policy can be specified via:
 
-1. HTTP "feature-policy" response header:
-```html
-Feature-Policy: legacy-image-formats 'none';
-```
+    1. HTTP "Feature-Policy" response header:
+    ```html
+    Feature-Policy: legacy-image-formats 'none';
+    ```
+    In this example, `legacy-image-formats` is disabled for all frames including the main frame. All `<img>` elements with "legacy" formats will be rendered with inverted colors.
 
-In this example, `legacy-image-formats` is disabled for all frames including the main frame. All `<img>` elements with "legacy" formats will be rendered with inverted colors.
-
-2. "allow" attribute in <iframe>:
-```html
-<iframe src="https://example.com" allow="legacy-image-formats 'self' https://foo.com;">
-```
-
-In this example, `legacy-image-formats` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+    2. "allow" attribute in <iframe>:
+    ```html
+    <iframe src="https://example.com" allow="legacy-image-formats 'self' https://foo.com;">
+    ```
+    In this example, `legacy-image-formats` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
 
 
 #### Example
 
-<table>
+<table  align="center">
   <tr>
-   <td><code>Feature-Policy: legacy-image-formats 'none';</code>
-   </td>
-   <td><code>Feature-Policy: legacy-image-formats *;</code>
-   </td>
+   <td>Feature-Policy: legacy-image-formats 'none';</td>
+   <td>Feature-Policy: legacy-image-formats *;</td>
   </tr>
   <tr>
    <td>
-<!-- <img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing"> -->
+ <img src="resources/legacy-image-formats-disabled.png" width="80%" alt="legacy-image-formats-disabled"> 
    </td>
    <td>
-<!-- <img src="https://docs.google.com/a/google.com/drawings/d/12345/export/png" width="80%" alt="drawing"> -->
+ <img src="resources/legacy-image-formats-enabled.png" width="80%" alt="legacy-image-formats-enabled"> 
    </td>
   </tr>
   <tr>
-   <td colspan="2" >"example.com"
+   <td colspan="2" > "example.com"
 <p>
-<code> <img id="modern-formats" <strong>src="test.png"</strong> > </code>
-<code> <img id="legacy-formats" <strong>src="test.bmp"</strong> > </code>
+<code> /<img id="modern-formats" <strong>src="test.png"</strong> />  \
+ <img id="legacy-formats" <strong>src="test.bmp"</strong> > </code>
    </td>
   </tr>
 </table>
@@ -304,8 +295,6 @@ When a document is disallowed to use "image-compression" policy, its `<img>` ele
 #### Specification
 
 The default compression ratio is tentatively 10. 
-
-Note: with support of "list values", web developers will be able to specify their own ratio.
 
 ---
 
