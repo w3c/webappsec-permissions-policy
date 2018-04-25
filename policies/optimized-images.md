@@ -68,18 +68,16 @@ When a document is disallowed to use `legacy-image-formats` policy, its `<img>` 
 - A `legacy-image-formats` policy can be specified via:
 
     **1. HTTP "Feature-Policy" response header:**
-
-        ```html
-        Feature-Policy: legacy-image-formats 'none';
-        ```
-        In this example, `legacy-image-formats` is disabled for all frames including the main frame. All `<img>` elements with "legacy" formats will be rendered with inverted colors.
+    ```html
+    Feature-Policy: legacy-image-formats 'none';
+    ```
+    In this example, `legacy-image-formats` is disabled for all frames including the main frame. All `<img>` elements with "legacy" formats will be rendered with inverted colors.
 
     **2. "allow" attribute in <iframe>:**
-
-        ```html
-        <iframe src="https://example.com" allow="legacy-image-formats 'self' https://foo.com;">
-        ```
-        In this example, `legacy-image-formats` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+    ```html
+    <iframe src="https://example.com" allow="legacy-image-formats 'self' https://foo.com;">
+    ```
+    In this example, `legacy-image-formats` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
 
 
 #### Example
@@ -156,18 +154,16 @@ When a document is disallowed to use `maximum-downscaling-image` policy, its `<i
 - A `maximum-downscaling-image` policy can be specified via:
 
     **1. HTTP "feature-policy" response header:**
-
-        ```html
-        Feature-Policy: maximum-downscaling-image 'none';
-        ```
-        In this example, `maximum-downscaling-image` is disabled for all frames including the main frame. All `<img>` elements that are more than X times larger than its container size will be rendered with inverted colors.
+    ```html
+    Feature-Policy: maximum-downscaling-image 'none';
+    ```
+    In this example, `maximum-downscaling-image` is disabled for all frames including the main frame. All `<img>` elements that are more than X times larger than its container size will be rendered with inverted colors.
 
     **2. "allow" attribute in <iframe>:**
-
-        ```html
-        <iframe src="https://example.com" allow="maximum-downscaling-image 'self' https://foo.com;">
-        ```
-        In this example, "maximum-downscaling-image" is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+    ```html
+    <iframe src="https://example.com" allow="maximum-downscaling-image 'self' https://foo.com;">
+    ```
+    In this example, "maximum-downscaling-image" is disabled everywhere except on the origin of the main document and on `https://foo.com`.
 
 
 #### Examples
@@ -302,18 +298,16 @@ When a document is disallowed to use `image-compression` policy, its `<img>` ele
 - A `image-compression` policy can be specified via:
 
     **1. HTTP "feature-policy" response header:**
-
-        ```html
-        Feature-Policy: image-compression 'none';
-        ```
-        In this example, `image-compression` is disabled for all frames including the main frame. All `<img>` elements whose file sizes exceeds the compression ratio will be rendered with inverted colors.
+    ```html
+    Feature-Policy: image-compression 'none';
+    ```
+    In this example, `image-compression` is disabled for all frames including the main frame. All `<img>` elements whose file sizes exceeds the compression ratio will be rendered with inverted colors.
 
     **2. "allow" attribute in <iframe>:**
-
-        ```html
-        <iframe src="https://example.com" allow="image-compression 'self' https://foo.com;">
-        ```
-        In this example, `image-compression` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+    ```html
+    <iframe src="https://example.com" allow="image-compression 'self' https://foo.com;">
+    ```
+    In this example, `image-compression` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
 
 
 #### Examples
