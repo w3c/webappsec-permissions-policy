@@ -1,4 +1,4 @@
-# Unsized-media Policy Explainer
+# Unsized Media Policy Explainer
 
 loonybear@, last updated: 4/25/2018
 
@@ -9,7 +9,7 @@ loonybear@, last updated: 4/25/2018
 
 Layout instability is one of the existing problems that are aggravating web experiences. For example, when the size of an `<img>` element is unspecified, it will cause the content around the `<img>` element to jump around. This is because the renderer does not know how much space to reserve for an image until the image is loaded, and once the image size is known the renderer will have to re-layout everything, causing the content to shift on the web page.
 
-"Unsized-media" policy is aiming to fix the problem by requiring all media elements to provide a size; if they don't, a default will be chosen, so that the image doesn't change size after loading.
+Unsized Media Policy is aiming to fix the problem by requiring all media elements to provide a size; if they don't, a default will be chosen, so that the image doesn't change size after loading.
 
 
 ## What is "unsized-media"?
@@ -32,7 +32,7 @@ Layout instability is one of the existing problems that are aggravating web expe
     ```html
     <iframe src="https://example.com" allow="unsized-media 'self' https://foo.com;">
     ```
-    In this example, `unsized-media` is disabled everywhere except on the origin of the main document and on "https://foo.com".
+    In this example, `unsized-media` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
 
 
 ### Examples
@@ -44,10 +44,10 @@ Layout instability is one of the existing problems that are aggravating web expe
   </tr>
   <tr align="center">
    <td>
-<img src="png" width="80%">
+<img src="unsized-media-exmple0.png" width="80%">
    </td>
    <td>
-<img src="png" width="80%">
+<img src="unsized-media-exmple0.png" width="80%">
    </td>
   </tr>
   <tr align="center">
@@ -55,8 +55,8 @@ Layout instability is one of the existing problems that are aggravating web expe
 
 ```html
 "example0.com"
-<img width="300" height="280" src="foo.jpg">
-<img style="width:300px; height:280px" src="foo.jpg">
+<img width="300" height="200" src="cat.jpg">
+<img style="width:300px; height:200px" src="cat.jpg">
 ```
    </td>
   </tr>
@@ -72,10 +72,10 @@ For an `<img>`, `<video>`, or `<svg:image>` element, if its size is specified, t
   </tr>
   <tr align="center">
    <td>
-<img src="png" width="80%">
+<img src="unsized-media-disabled1.png" width="80%">
    </td>
    <td>
-<img src="png" width="80%">
+<img src="unsized-media-enabled1.png" width="80%">
    </td>
   </tr>
   <tr align="center">
@@ -83,8 +83,8 @@ For an `<img>`, `<video>`, or `<svg:image>` element, if its size is specified, t
 
 ```html
 "example1.com"
-<img width="300" src="foo.jpg">
-<img style="height:280px;" src="foo.jpg">
+<img width="300" src="cat.jpg">
+<img style="height:300px;" src="cat.jpg">
 ```
    </td>
   </tr>
@@ -100,10 +100,10 @@ For an `<img>`, `<video>`, or `<svg:image>` element, if one dimension is specifi
   </tr>
   <tr align="center">
    <td>
-<img src="png" width="80%">
+<img src="unsized-media-disabled2.png" width="80%">
    </td>
    <td>
-<img src="png" width="80%">
+<img src="unsized-media-enabled2.png" width="80%">
    </td>
   </tr>
   <tr align="center">
@@ -111,12 +111,11 @@ For an `<img>`, `<video>`, or `<svg:image>` element, if one dimension is specifi
 
 ```html
 "example2.com"
-<img src="foo.jpg">
+<img src="cat.jpg">
 ```
    </td>
   </tr>
 </table>
-
 
 For an `<img>`, `<video>`, or `<svg:image>` element, if both dimensions are unspecified, default dimensions will be used, when `unsized-media` is disallowed.
 
