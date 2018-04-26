@@ -35,8 +35,7 @@ There are several techniques that can be used by an `<iframe>` to block user's a
 The propsoed solutoin is that disabled frames (i.e., those with `vertical-scroll 'none'`) will not be able to use
 either of the mentioned techniques. This is attained by:
   * Ensuring all scroll related input events are non-cancelable.
-  * All elements and nodes inside such frames do have either `pan-y` or at `pinch-zoom` in their `touch-action`
-  CSS property (if not, enforce `pan-y`)
+  * All elements and nodes inside such frames do have `pan-y` in their`touch-action` CSS property (if not, enforce `pan-y`).
   * Scripted and programmtic scorlling is handled within the scrop of a frame, i.e., calls to `element.scrollIntoView()`
   do not propagate outside of a disabled frame.
  
