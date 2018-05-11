@@ -402,14 +402,18 @@ partial interface HTMLIFrameElement {
       <h4 id="iframe-allowusermedia-attribute">allowusermedia</h4>
       <p>The "<code>allowusermedia</code>" iframe attribute controls
       access to <a method>getUserMedia()</a>.</p>
-      <p>If the iframe element has an "<code>allow</code>" attribute whose
-      value contains the token "<code>payment</code>", then the
-      "<code>allowusermedia</code>" attribute must have no effect.</p>
-      <p>Otherwise, the presence of an "<code>allowusermedia</code>" attribute
-      on an iframe will result in adding an <a>allowlist</a> of <code>*</code>
-      for each of the "<code>camera</code>" and "<code>microphone</code>"
-      features to the frame's <a>container policy</a>, when it is
+      <p>If the iframe element does not have an "<code>allow</code>" attribute
+      whose value contains the token "<code>camera</code>", then the presence of
+      an "<code>allowusermedia</code>" attribute on an iframe will result in
+      adding an <a>allowlist</a> of <code>*</code> for the "<code>camera</code>"
+      feature to the frame's <a>container policy</a>, when it is
       constructed.</p>
+      <p>Similarly, if the iframe element does not have an "<code>allow</code>"
+      attribute whose value contains the token "<code>microphone</code>", then
+      the presence of an "<code>allowusermedia</code>" attribute on an iframe
+      will result in adding an <a>allowlist</a> of <code>*</code> for the
+      "<code>microphone</code>" feature to the frame's <a>container policy</a>,
+      when it is constructed.</p>
       <div class="note">
         This is different from the behaviour of <code>&lt;iframe
         allow="camera; microphone"&gt;</code>, and is for compatibility with

@@ -1176,9 +1176,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version ae5d415446a9edf0c07d32303ac1d21767d86d57" name="generator">
+  <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="8361c83b7e839c8743b38d75edbe0b66a2136754" name="document-revision">
+  <meta content="6d540991fb1038e1a5ce0775d35a66af35903688" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-03-23">23 March 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-11">11 May 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1862,13 +1862,18 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <h4 class="heading settled" data-level="6.3.3" id="iframe-allowusermedia-attribute"><span class="secno">6.3.3. </span><span class="content">allowusermedia</span><a class="self-link" href="#iframe-allowusermedia-attribute"></a></h4>
       <p>The "<code>allowusermedia</code>" iframe attribute controls
       access to <a class="idl-code" data-link-type="method" href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-mediadevices-getusermedia" id="ref-for-dom-mediadevices-getusermedia">getUserMedia()</a>.</p>
-      <p>If the iframe element has an "<code>allow</code>" attribute whose
-      value contains the token "<code>payment</code>", then the
-      "<code>allowusermedia</code>" attribute must have no effect.</p>
-      <p>Otherwise, the presence of an "<code>allowusermedia</code>" attribute
-      on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⓪">allowlist</a> of <code>*</code> for each of the "<code>camera</code>" and "<code>microphone</code>"
-      features to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container policy</a>, when it is
+      <p>If the iframe element does not have an "<code>allow</code>" attribute
+      whose value contains the token "<code>camera</code>", then the presence of
+      an "<code>allowusermedia</code>" attribute on an iframe will result in
+      adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⓪">allowlist</a> of <code>*</code> for the "<code>camera</code>"
+      feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container policy</a>, when it is
       constructed.</p>
+      <p>Similarly, if the iframe element does not have an "<code>allow</code>"
+      attribute whose value contains the token "<code>microphone</code>", then
+      the presence of an "<code>allowusermedia</code>" attribute on an iframe
+      will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a> of <code>*</code> for the
+      "<code>microphone</code>" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑧">container policy</a>,
+      when it is constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
         allow="camera; microphone"></code>, and is for compatibility with
 	existing uses of <code>allowusermedia</code>. If <code>allow="camera;
@@ -1923,7 +1928,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li>
        <p>The <a href="#iframe-allow-attribute">allow attribute</a> is added
       to the IDL for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> element, with the description:</p>
-       <p>The allow attribute, when specified, determines the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑧">container
+       <p>The allow attribute, when specified, determines the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑨">container
       policy</a> that will be used when the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑦">feature policy</a> for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context①">nested browsing context</a> is initialized. Its value must be
       the <a href="#ascii-serialization">§5.1 ASCII serialization</a> of a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑥">policy directive</a>.</p>
       <li>
@@ -2002,7 +2007,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑥">policy-controlled feature</a>, then continue.
         <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑦">policy-controlled feature</a> identified by <var>feature-name</var>.
         <li>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>. 
-        <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a>. 
+        <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a>. 
         <li>If any element of <var>targetlist</var> is the string
 	  "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value①">the special value <code>*</code></a>.
         <li>
@@ -2045,7 +2050,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="8.5" id="process-feature-policy-attributes"><span class="secno">8.5. </span><span class="content">Process feature policy
     attributes</span><a class="self-link" href="#process-feature-policy-attributes"></a></h3>
-     <p>Given an element (<var>element</var>), this algorithm returns a <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑨">container policy</a>, which may be empty.</p>
+     <p>Given an element (<var>element</var>), this algorithm returns a <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①⓪">container policy</a>, which may be empty.</p>
      <ol>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑧">policy directive</a>. 
       <li>Let <var>container policy</var> be the result of running <a href="#parse-allow-attribute">Parse allow attribute</a> on the value of <var>element</var>’s <code>allow</code> attribute, with <var>container
@@ -2111,7 +2116,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑧">policy-controlled feature</a>, then continue.
         <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑨">policy-controlled feature</a> identified by <var>feature-name</var>.
         <li>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>. 
-        <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a>. 
+        <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a>. 
         <li>If any element of <var>targetlist</var> is the string
 	  "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value⑥">the special value <code>*</code></a>.
         <li>
@@ -2200,7 +2205,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>
          If <var>feature</var> is a key in <var>container policy</var>: 
          <ol>
-          <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy③">inherited policy</a> for <var>feature</var> is Enabled, return Enabled. 
+          <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①④">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy③">inherited policy</a> for <var>feature</var> is Enabled, return Enabled. 
           <li>Otherwise return Disabled.
          </ol>
         <li>Otherwise, if feature is enabled in <var>parent</var> for <var>origin</var>, return Enabled. 
@@ -2222,7 +2227,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared
       policy</a>: 
        <ol>
-        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①④">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
+        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑤">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
         <li>Otherwise return "<code>Disabled</code>".
        </ol>
       <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist③">default allowlist</a> is <code>*</code>, return "<code>Enabled</code>". 
@@ -2512,7 +2517,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fullscreen">[FULLSCREEN]
-   <dd>Philip Jägenstedt. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
+   <dd>Anne van Kesteren. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
@@ -2635,9 +2640,9 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     iframe element</a>
     <li><a href="#ref-for-container-policy⑤">6.3.1. allowfullscreen</a>
     <li><a href="#ref-for-container-policy⑥">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-container-policy⑦">6.3.3. allowusermedia</a>
-    <li><a href="#ref-for-container-policy⑧">7.1. Integration with HTML</a>
-    <li><a href="#ref-for-container-policy⑨">8.5. Process feature policy
+    <li><a href="#ref-for-container-policy⑦">6.3.3. allowusermedia</a> <a href="#ref-for-container-policy⑧">(2)</a>
+    <li><a href="#ref-for-container-policy⑨">7.1. Integration with HTML</a>
+    <li><a href="#ref-for-container-policy①⓪">8.5. Process feature policy
     attributes</a>
    </ul>
   </aside>
@@ -2670,13 +2675,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     iframe element</a>
     <li><a href="#ref-for-allowlist⑧">6.3.1. allowfullscreen</a>
     <li><a href="#ref-for-allowlist⑨">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-allowlist①⓪">6.3.3. allowusermedia</a>
-    <li><a href="#ref-for-allowlist①①">8.3. Parse policy directive from
+    <li><a href="#ref-for-allowlist①⓪">6.3.3. allowusermedia</a> <a href="#ref-for-allowlist①①">(2)</a>
+    <li><a href="#ref-for-allowlist①②">8.3. Parse policy directive from
     value and origin</a>
-    <li><a href="#ref-for-allowlist①②">8.6. Parse allow attribute</a>
-    <li><a href="#ref-for-allowlist①③">8.9. Define an inherited policy for
+    <li><a href="#ref-for-allowlist①③">8.6. Parse allow attribute</a>
+    <li><a href="#ref-for-allowlist①④">8.9. Define an inherited policy for
     feature</a>
-    <li><a href="#ref-for-allowlist①④">8.10. Is feature enabled in
+    <li><a href="#ref-for-allowlist①⑤">8.10. Is feature enabled in
     document for origin?</a>
    </ul>
   </aside>
