@@ -130,8 +130,8 @@ spec:fetch; type:dfn; text:value
     <h3 id="features">Policy-controlled Features</h3>
     <p>A <dfn export
     data-lt="policy-controlled feature">policy-controlled feature</dfn> is an
-    API or behaviour which can be enabled or disabled in a document by referring
-    to it in a <a>feature policy</a>.
+    API or behaviour which can be enabled or disabled in a browsing context by
+    referring to it in a <a>feature policy</a>.
     <div class="note">For brevity, policy-controlled features will often be
     referred to in this document simply as "Features". Unless otherwise
     indicated, the term "feature" refers to <a>policy-controlled features</a>.
@@ -140,8 +140,9 @@ spec:fetch; type:dfn; text:value
     <p><a>Policy-controlled features</a> are identified by tokens, which are
     character strings used in <a>policy directives</a>.
     <p>Each <a>policy-controlled feature</a> has a <a>default allowlist</a>,
-    which defines whether that feature is available to top-level documents, and
-    how access to that feature is inherited by cross-origin frames.</p>
+    which defines whether that feature is available in documents in top-level
+    browsing contexts, and how access to that feature is inherited in nested
+    browsing contexts.</p>
     <p>A user agent has a set of <dfn>supported features</dfn>, which is the set
     of <a data-lt="policy-controlled feature">features</a> which it allows to be
     controlled through policies. User agents are not required to support every
@@ -156,7 +157,7 @@ spec:fetch; type:dfn; text:value
   </section>
   <section>
     <h3 id="policies">Policies</h3>
-    <p>A {{Document}} has a <dfn>feature policy</dfn>, which consists of:</p>
+    <p>A <dfn>feature policy</dfn> is a struct with the following items:</p>
     <ul>
       <li>A set of <a data-lt="inherited policy set">inherited policies</a>.
       </li>
@@ -169,6 +170,14 @@ spec:fetch; type:dfn; text:value
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
+    <p>An <dfn data-lt="inherited policy|inherited policies">inherited
+    policy</dfn> is either 'Enabled' or 'Disabled'.</p>
+    <p>An <dfn>inherited policy set</dfn> is an ordered map from
+    <a data-lt="policy-controlled feature">features</a> to <a>inherited
+    policies</a>. After a <a>feature policy</a> has been initialized, its
+    <a>inherited policy set</a> will contain an <a>inherited policy</a> for each
+    <a>supported feature</a>.</p>
+    <div class="note">
     <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
     for each <a>policy-controlled feature</a>. This inherited policy set
@@ -181,12 +190,7 @@ spec:fetch; type:dfn; text:value
     set is based on the parent document's feature policy, as well as any
     <a href="#iframe-allow-attribute">allow attributes</a> defined on the
     browsing context container.</p>
-    <p>An <dfn data-lt="inherited policy|inherited policies">inherited
-    policy</dfn> declares a <a data-lt="policy-controlled feature">feature</a>
-    as Enabled or Disabled.</p>
-    <p>An <dfn>inherited policy set</dfn> for a {{Document}} is the set of
-    <a>inherited policies</a> for each <a
-    data-lt="policy-controlled feature">feature</a> available in that scope.</p>
+    </div>
   </section>
   <section>
     <h3 id="declared-policies">Declared policies</h3>
@@ -194,15 +198,11 @@ spec:fetch; type:dfn; text:value
     policy</dfn> is an ordered map from
     <a data-lt="policy-controlled feature">features</a> to <a>allowlists</a>.
     </p>
-    <p>A {{Document}} is considered <dfn>feature-policy-aware</dfn> if it has a
-    <a>declared policy</a> which is not empty.</p>
-    <p>A {{Document}} which is not <a>feature-policy-aware</a> is considered
-    <dfn>feature-policy-oblivious</dfn>.</p>
   </section>
   <section>
     <h3 id="header-policies">Header policies</h3>
     <p>A <dfn>header policy</dfn> is a list of <a>policy directives</a>
-    delivered via an HTTP header with the document. This forms the document's
+    delivered via an HTTP header with a document. This forms the document's
     <a>feature policy</a>'s <a>declared policy</a>.</p>
   </section>
   <section>
@@ -268,24 +268,26 @@ spec:fetch; type:dfn; text:value
     <h3 id="default-allowlists">Default Allowlists</h3>
     <p>Every <a>policy-controlled feature</a> has a <dfn export lt=
     "default allowlist|default allowlists">default allowlist</dfn>. The
-    <a>default allowlist</a> controls the origins which are allowed to access
-    the feature when used in a top-level document with no declared policy, and
-    also determines whether access to the feature is automatically delegated to
-    child documents.</p>
+    <a>default allowlist</a> determines whether the feature is allowed in a
+    document with no declared policy in a top-level browsing context, and also
+    whether access to the feature is automatically delegated to documents in
+    nested browsing contexts.</p>
     <p>The <a>default allowlist</a> for a <a
     data-lt="policy-controlled feature">feature</a> is one of these values:</p>
     <dl>
       <dt><code>*</code></dt>
-      <dd>The feature is allowed at the top level by default, and when allowed,
-      is allowed by default to documents in child frames.</dd>
+      <dd>The feature is allowed in documents in top-level browsing contexts by
+      default, and when allowed, is allowed by default to documents in nested
+      browsing contexts.</dd>
       <dt><code>'self'</code></dt>
-      <dd>The feature is allowed at the top level by default, and when allowed,
-      is allowed by default to same-origin domain documents in child frames,
-      but is disallowed by default in cross-origin documents in child
-      frames.</dd>
+      <dd>The feature is allowed in documents in top-level browsing contexts by
+      default, and when allowed, is allowed by default to same-origin domain
+      documents in nested browsing contexts, but is disallowed by default in
+      cross-origin documents in nested browsing contexts.</dd>
       <dt>'none'</dt>
-      <dd>The feature is disallowed at the top level by default, and is also
-      disallowed by default to documents in child frames.</dd>
+      <dd>The feature is disallowed in documents in top-level browsing contexts
+      by default, and is also disallowed by default to documents in nested
+      browsing contexts.</dd>
     </dl>
   </section>
 </section>
