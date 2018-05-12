@@ -12,7 +12,7 @@ Nothing in this directory should be construed as having any kind of effect on
 the core Feature Policy specification. Features here, whether implemented or
 not, should be built on top of that framework.
 
-For details on policies in the seamless web talk, please see:
+For details on policies in the [seamless web talk](https://youtu.be/Wi_PhaFdjlo) at Google I/O 2018, please see:
 - [Optimized images](https://github.com/WICG/feature-policy/blob/gh-pages/policies/optimized-images.md), which includes:
   - Modern formats
   - No downscaling
