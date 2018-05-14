@@ -130,13 +130,17 @@ spec:fetch; type:dfn; text:value
     <h3 id="features">Policy-controlled Features</h3>
     <p>A <dfn export
     data-lt="policy-controlled feature">policy-controlled feature</dfn> is an
-    API or behaviour which can be enabled or disabled in a browsing context by
-    referring to it in a <a>feature policy</a>.
+    API or behaviour which can be enabled or disabled in a document by referring
+    to it in a <a>feature policy</a>.
     <div class="note">For brevity, policy-controlled features will often be
     referred to in this document simply as "Features". Unless otherwise
     indicated, the term "feature" refers to <a>policy-controlled features</a>.
     Other specifications, defining such features, should use the longer term to
     avoid any ambiguity.</div>
+    <div class="issue">This spec currently only deals with features defined in
+    Documents. We should figure out how to word this to include the possibility
+    of features in Workers as well, and for feature policies to be attached to
+    Workers.</div>
     <p><a>Policy-controlled features</a> are identified by tokens, which are
     character strings used in <a>policy directives</a>.
     <p>Each <a>policy-controlled feature</a> has a <a>default allowlist</a>,

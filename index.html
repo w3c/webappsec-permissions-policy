@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="6cb618fcf86fc020442301354224bb649e4bf730" name="document-revision">
+  <meta content="626ff9591aed540ce81e01b9d90e9b5680795bea" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-11">11 May 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-14">14 May 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1647,13 +1647,17 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="4.1" id="features"><span class="secno">4.1. </span><span class="content">Policy-controlled Features</span><a class="self-link" href="#features"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" id="policy-controlled-feature">policy-controlled feature</dfn> is an
-    API or behaviour which can be enabled or disabled in a browsing context by
-    referring to it in a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy">feature policy</a>. </p>
+    API or behaviour which can be enabled or disabled in a document by referring
+    to it in a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy">feature policy</a>. </p>
      <div class="note" role="note">For brevity, policy-controlled features will often be
     referred to in this document simply as "Features". Unless otherwise
     indicated, the term "feature" refers to <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature">policy-controlled features</a>.
     Other specifications, defining such features, should use the longer term to
     avoid any ambiguity.</div>
+     <div class="issue" id="issue-98af4289"><a class="self-link" href="#issue-98af4289"></a>This spec currently only deals with features defined in
+    Documents. We should figure out how to word this to include the possibility
+    of features in Workers as well, and for feature policies to be attached to
+    Workers.</div>
      <p><a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①">Policy-controlled features</a> are identified by tokens, which are
     character strings used in <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive">policy directives</a>. </p>
      <p>Each <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature②">policy-controlled feature</a> has a <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist">default allowlist</a>,
@@ -2542,6 +2546,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
 </pre>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
+   <div class="issue">This spec currently only deals with features defined in
+    Documents. We should figure out how to word this to include the possibility
+    of features in Workers as well, and for feature policies to be attached to
+    Workers.<a href="#issue-98af4289"> ↵ </a></div>
    <div class="issue"> Monkey-patching! As soon as we know that this is the direction we wish to
       pursue, upstream all of this. <a href="#issue-7605d231"> ↵ </a></div>
    <div class="issue">TODO<a href="#issue-b7b1e314"> ↵ </a></div>
