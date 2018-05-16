@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="626ff9591aed540ce81e01b9d90e9b5680795bea" name="document-revision">
+  <meta content="ad17c1c94e6e7bd6e70066cb2b266ef0687e440f" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-14">14 May 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-16">16 May 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1676,27 +1676,29 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <h3 class="heading settled" data-level="4.2" id="policies"><span class="secno">4.2. </span><span class="content">Policies</span><a class="self-link" href="#policies"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-policy">feature policy</dfn> is a struct with the following items:</p>
      <ul>
-      <li>A set of <a data-link-type="dfn" href="#inherited-policy-set" id="ref-for-inherited-policy-set">inherited policies</a>. 
+      <li>An <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy">inherited policy</a>. 
       <li>A <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy">declared policy</a>. 
      </ul>
-     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="empty-feature-policy">empty feature policy</dfn> has an <a data-link-type="dfn" href="#inherited-policy-set" id="ref-for-inherited-policy-set①">inherited policy set</a> which contains 'Enabled' for every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑥">policy-controlled feature</a> available, and a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①">declared policy</a> which is an empty map.</p>
+     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="empty-feature-policy">empty feature policy</dfn> has an <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy①">inherited policy</a> which contains 'Enabled' for every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑥">policy-controlled feature</a> available, and a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①">declared policy</a> which is an empty map.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.3" id="inherited-policies"><span class="secno">4.3. </span><span class="content">Inherited policies</span><a class="self-link" href="#inherited-policies"></a></h3>
      <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="inherited policy|inherited policies" data-noexport="" id="inherited-policy">inherited
-    policy</dfn> is either 'Enabled' or 'Disabled'.</p>
-     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="inherited-policy-set">inherited policy set</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑦">features</a> to <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy">inherited
-    policies</a>. After a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①">feature policy</a> has been initialized, its <a data-link-type="dfn" href="#inherited-policy-set" id="ref-for-inherited-policy-set②">inherited policy set</a> will contain an <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy①">inherited policy</a> for each <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features">supported feature</a>.</p>
+    policy</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑦">features</a> to either 'Enabled' or
+    'Disabled'.</p>
+     <p>The <dfn data-dfn-type="dfn" data-noexport="" id="inherited-policy-for-a-feature">inherited policy for a feature<a class="self-link" href="#inherited-policy-for-a-feature"></a></dfn> <var>feature</var> is the
+    value in the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy②">inherited policy</a> whose key is <var>feature</var>. After
+    a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①">feature policy</a> has been initialized, its <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy③">inherited policy</a> will contain an value for each <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features">supported feature</a>.</p>
      <div class="note" role="note">
       <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
-    for each <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑧">policy-controlled feature</a>. This inherited policy set
-    determines the initial state (enabled or disabled) of each feature, and
-    whether it can be controlled by a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy②">declared policy</a> in the document. </p>
+    for each <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑧">policy-controlled feature</a>. This inherited policy determines
+    the initial state (enabled or disabled) of each feature, and whether it can
+    be controlled by a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy②">declared policy</a> in the document. </p>
       <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context" id="ref-for-top-level-browsing-context">top-level browsing context</a>, the inherited
-    feature set is based on defined defaults for each feature.</p>
-      <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context">nested browsing context</a>, the inherited feature
-    set is based on the parent document’s feature policy, as well as any <a href="#iframe-allow-attribute">allow attributes</a> defined on the
+    policy is based on defined defaults for each feature.</p>
+      <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context">nested browsing context</a>, the inherited policy
+    is based on the parent document’s feature policy, as well as any <a href="#iframe-allow-attribute">allow attributes</a> defined on the
     browsing context container.</p>
      </div>
     </section>
@@ -1714,7 +1716,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy">header policy</a>, each frame has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="container policy" data-noexport="" id="container-policy">container
     policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive②">policy directive</a>, which may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy">container policy</a> can set by attributes on the browsing context
     container.</p>
-     <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> for a frame influences the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy②">inherited
+     <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> for a frame influences the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy④">inherited
     policy</a> of any document loaded into that frame. (See <a href="#define-inherited-policy">§8.9 Define an inherited policy for
     feature</a>)</p>
      <div class="note" role="note"> Currently, the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy②">container policy</a> cannot be set directly, but is
@@ -2156,17 +2158,18 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <p>Given a Document object (<var>document</var>), this algorithm
     initialises <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①②">Feature Policy</a></p>
      <ol>
-      <li>Let <var>inherited policies</var> be a new ordered map.
-      <li>Let <var>declared policies</var> be a new ordered map.
+      <li>Let <var>inherited policy</var> be a new ordered map.
+      <li>Let <var>declared policy</var> be a new ordered map.
       <li>
        For each <var>feature</var> supported, 
        <ol>
         <li>Let <var>isInherited</var> be the result of running <a href="#define-inherited-policy">§8.9 Define an inherited policy for
     feature</a> on <var>feature</var> and <var>document</var>’s browsing context. 
-        <li>Set <var>inherited policies</var>[<var>feature</var>] to <var>isInherited</var>.
+        <li>Set <var>inherited policy</var>[<var>feature</var>] to <var>isInherited</var>.
        </ol>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①③">feature policy</a>, with inherited
-      policy set <var>inherited policies</var> and declared policy set <var>declared policies</var>. 
+      policy <var>inherited policy</var> and declared policy <var>declared
+      policy</var>. 
       <li> <a data-link-type="dfn" href="#enforce" id="ref-for-enforce①">Enforce</a> the policy <var>policy</var> on <var>document</var>. 
      </ol>
     </section>
@@ -2177,25 +2180,26 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     (<var>document</var>), this algorithm populates <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①④">Feature Policy</a></p>
      <ol>
       <li>Initialize <var>document</var>’s Feature Policy
-      <li>Let <var>inherited policies</var> be <var>document</var>’s Feature
-      Policy’s inherited policy set.
-      <li>Let <var>declared policies</var> be a new ordered map.
+      <li>Let <var>inherited policy</var> be <var>document</var>’s Feature
+      Policy’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑤">inherited policy</a>.
+      <li>Let <var>declared policy</var> be a new ordered map.
       <li>Let <var>d</var> be the result of running <a href="#process-response-policy">Process response policy</a> on <var>response</var> and <var>document</var>’s origin.
       <li>
        For each <var>feature</var> → <var>allowlist</var> of <var>d</var>: 
        <ol>
-        <li>If <var>inherited policies</var>[<var>feature</var>] is true, then
-	  set <var>declared policies</var>[<var>feature</var>] to <var>allowlist</var>.
+        <li>If <var>inherited policy</var>[<var>feature</var>] is true, then
+	  set <var>declared policy</var>[<var>feature</var>] to <var>allowlist</var>.
        </ol>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⑤">feature policy</a>, with inherited
-      policy set <var>inherited policies</var> and declared policy set <var>declared policies</var>. 
+      policy <var>inherited policy</var> and declared policy <var>declared
+      policy</var>. 
       <li> <a data-link-type="dfn" href="#enforce" id="ref-for-enforce②">Enforce</a> the policy <var>policy</var> on <var>document</var>. 
      </ol>
     </section>
     <section>
      <h3 class="heading settled" data-level="8.9" id="define-inherited-policy"><span class="secno">8.9. </span><span class="content">Define an inherited policy for <var>feature</var></span><a class="self-link" href="#define-inherited-policy"></a></h3>
-     <p>Given a string (<var>feature</var>) and a browsing context
-    (<var>context</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy③">inherited policy</a> for that feature.</p>
+     <p>Given a feature (<var>feature</var>) and a browsing context
+    (<var>context</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑥">inherited policy</a> for that feature.</p>
      <ol>
       <li>
        If <var>context</var> is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context②">nested browsing context</a>: 
@@ -2208,10 +2212,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>
          If <var>feature</var> is a key in <var>container policy</var>: 
          <ol>
-          <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy④">inherited policy</a> for <var>feature</var> is Enabled, return Enabled. 
+          <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑦">inherited policy</a> for <var>feature</var> is Enabled, return Enabled. 
           <li>Otherwise return Disabled.
          </ol>
-        <li>Otherwise, if feature is enabled in <var>parent</var> for <var>origin</var>, return Enabled. 
+        <li>Otherwise, if <var>feature</var> is enabled in <var>parent</var> for <var>origin</var>, return Enabled. 
         <li>Otherwise, return Disabled.
        </ol>
       <li>Otherwise, return Enabled.
@@ -2225,7 +2229,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     disabled, and "<code>Enabled</code>" otherwise.</p>
      <ol>
       <li>Let <var>policy</var> be <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⑥">Feature Policy</a> 
-      <li>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑤">inherited policy</a> for <var>feature</var> is Disabled, return "<code>Disabled</code>".
+      <li>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is Disabled, return "<code>Disabled</code>".
       <li>
        If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑥">declared
       policy</a>: 
@@ -2429,7 +2433,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <li><a href="#header-policy">header policy</a><span>, in §4.5</span>
    <li><a href="#inherited-policy">inherited policies</a><span>, in §4.3</span>
    <li><a href="#inherited-policy">inherited policy</a><span>, in §4.3</span>
-   <li><a href="#inherited-policy-set">inherited policy set</a><span>, in §4.3</span>
+   <li><a href="#inherited-policy-for-a-feature">inherited policy for a feature</a><span>, in §4.3</span>
    <li><a href="#matches">matches</a><span>, in §4.8</span>
    <li><a href="#policy-controlled-feature">policy-controlled feature</a><span>, in §4.1</span>
    <li><a href="#policy-directive">policy directive</a><span>, in §4.7</span>
@@ -2604,19 +2608,15 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <aside class="dfn-panel" data-for="inherited-policy">
    <b><a href="#inherited-policy">#inherited-policy</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-inherited-policy">4.3. Inherited policies</a> <a href="#ref-for-inherited-policy①">(2)</a>
-    <li><a href="#ref-for-inherited-policy②">4.6. Container policies</a>
-    <li><a href="#ref-for-inherited-policy③">8.9. Define an inherited policy for
-    feature</a> <a href="#ref-for-inherited-policy④">(2)</a>
-    <li><a href="#ref-for-inherited-policy⑤">8.10. Is feature enabled in
+    <li><a href="#ref-for-inherited-policy">4.2. Policies</a> <a href="#ref-for-inherited-policy①">(2)</a>
+    <li><a href="#ref-for-inherited-policy②">4.3. Inherited policies</a> <a href="#ref-for-inherited-policy③">(2)</a>
+    <li><a href="#ref-for-inherited-policy④">4.6. Container policies</a>
+    <li><a href="#ref-for-inherited-policy⑤">8.8. Initialize document’s Feature
+    Policy from response</a>
+    <li><a href="#ref-for-inherited-policy⑥">8.9. Define an inherited policy for
+    feature</a> <a href="#ref-for-inherited-policy⑦">(2)</a>
+    <li><a href="#ref-for-inherited-policy⑧">8.10. Is feature enabled in
     document for origin?</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="inherited-policy-set">
-   <b><a href="#inherited-policy-set">#inherited-policy-set</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-inherited-policy-set">4.2. Policies</a> <a href="#ref-for-inherited-policy-set①">(2)</a>
-    <li><a href="#ref-for-inherited-policy-set②">4.3. Inherited policies</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="declared-policy">

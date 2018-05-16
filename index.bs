@@ -163,35 +163,36 @@ spec:fetch; type:dfn; text:value
     <h3 id="policies">Policies</h3>
     <p>A <dfn>feature policy</dfn> is a struct with the following items:</p>
     <ul>
-      <li>A set of <a data-lt="inherited policy set">inherited policies</a>.
+      <li>An <a data-lt="inherited policy">inherited policy</a>.
       </li>
       <li>A <a data-lt="declared policy">declared policy</a>.
       </li>
     </ul>
-    <p>An <dfn>empty feature policy</dfn> has an <a>inherited policy set</a>
+    <p>An <dfn>empty feature policy</dfn> has an <a>inherited policy</a>
     which contains 'Enabled' for every <a>policy-controlled feature</a>
     available, and a <a>declared policy</a> which is an empty map.</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
     <p>An <dfn data-lt="inherited policy|inherited policies">inherited
-    policy</dfn> is either 'Enabled' or 'Disabled'.</p>
-    <p>An <dfn>inherited policy set</dfn> is an ordered map from
-    <a data-lt="policy-controlled feature">features</a> to <a>inherited
-    policies</a>. After a <a>feature policy</a> has been initialized, its
-    <a>inherited policy set</a> will contain an <a>inherited policy</a> for each
-    <a>supported feature</a>.</p>
+    policy</dfn> is an ordered map from <a
+    data-lt="policy-controlled feature">features</a> to either 'Enabled' or
+    'Disabled'.</p>
+    <p>The <dfn>inherited policy for a feature</dfn> <var>feature</var> is the
+    value in the <a>inherited policy</a> whose key is <var>feature</var>. After
+    a <a>feature policy</a> has been initialized, its <a>inherited policy</a>
+    will contain an value for each <a>supported feature</a>.</p>
     <div class="note">
     <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
-    for each <a>policy-controlled feature</a>. This inherited policy set
-    determines the initial state (enabled or disabled) of each feature, and
-    whether it can be controlled by a <a>declared policy</a> in the document.
+    for each <a>policy-controlled feature</a>. This inherited policy determines
+    the initial state (enabled or disabled) of each feature, and whether it can
+    be controlled by a <a>declared policy</a> in the document.
     </p>
     <p>In a {{Document}} in a [=top-level browsing context=], the inherited
-    feature set is based on defined defaults for each feature.</p>
-    <p>In a {{Document}} in a [=nested browsing context=], the inherited feature
-    set is based on the parent document's feature policy, as well as any
+    policy is based on defined defaults for each feature.</p>
+    <p>In a {{Document}} in a [=nested browsing context=], the inherited policy
+    is based on the parent document's feature policy, as well as any
     <a href="#iframe-allow-attribute">allow attributes</a> defined on the
     browsing context container.</p>
     </div>
@@ -783,21 +784,21 @@ partial interface HTMLIFrameElement {
     <p>Given a Document object (<var>document</var>), this algorithm
     initialises <var>document</var>'s <a>Feature Policy</a></p>
     <ol>
-      <li>Let <var>inherited policies</var> be a new ordered map.</li>
-      <li>Let <var>declared policies</var> be a new ordered map.</li>
+      <li>Let <var>inherited policy</var> be a new ordered map.</li>
+      <li>Let <var>declared policy</var> be a new ordered map.</li>
       <li>For each <var>feature</var> supported,
         <ol>
           <li>Let <var>isInherited</var> be the result of running <a href=
           "#define-inherited-policy"></a> on <var>feature</var> and
           <var>document</var>'s browsing context.
           </li>
-          <li>Set <var>inherited policies</var>[<var>feature</var>] to
+          <li>Set <var>inherited policy</var>[<var>feature</var>] to
             <var>isInherited</var>.</li>
         </ol>
       </li>
       <li>Let <var>policy</var> be a new <a>feature policy</a>, with inherited
-      policy set <var>inherited policies</var> and declared policy set
-      <var>declared policies</var>.
+      policy <var>inherited policy</var> and declared policy <var>declared
+      policy</var>.
       </li>
       <li>
         <a>Enforce</a> the policy <var>policy</var> on <var>document</var>.
@@ -812,22 +813,22 @@ partial interface HTMLIFrameElement {
     <a>Feature Policy</a></p>
     <ol>
       <li>Initialize <var>document</var>'s Feature Policy</li>
-      <li>Let <var>inherited policies</var> be <var>document</var>'s Feature
-      Policy's inherited policy set.</li>
-      <li>Let <var>declared policies</var> be a new ordered map.</li>
+      <li>Let <var>inherited policy</var> be <var>document</var>'s Feature
+      Policy's <a>inherited policy</a>.</li>
+      <li>Let <var>declared policy</var> be a new ordered map.</li>
       <li>Let <var>d</var> be the result of running <a
       href="#process-response-policy">Process response policy</a> on
       <var>response</var> and <var>document</var>'s origin.</li>
       <li>For each <var>feature</var> → <var>allowlist</var> of <var>d</var>:
         <ol>
-          <li>If <var>inherited policies</var>[<var>feature</var>] is true, then
-	  set <var>declared policies</var>[<var>feature</var>] to
+          <li>If <var>inherited policy</var>[<var>feature</var>] is true, then
+	  set <var>declared policy</var>[<var>feature</var>] to
 	  <var>allowlist</var>.</li>
         </ol>
       </li>
       <li>Let <var>policy</var> be a new <a>feature policy</a>, with inherited
-      policy set <var>inherited policies</var> and declared policy set
-      <var>declared policies</var>.
+      policy <var>inherited policy</var> and declared policy <var>declared
+      policy</var>.
       </li>
       <li>
         <a>Enforce</a> the policy <var>policy</var> on <var>document</var>.
@@ -837,7 +838,7 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="define-inherited-policy">Define an inherited policy for
     <var>feature</var></h3>
-    <p>Given a string (<var>feature</var>) and a browsing context
+    <p>Given a feature (<var>feature</var>) and a browsing context
     (<var>context</var>), this algorithm returns the <a>inherited policy</a>
     for that feature.</p>
     <ol>
@@ -860,8 +861,8 @@ partial interface HTMLIFrameElement {
               <li>Otherwise return Disabled.</li>
             </ol>
           </li>
-          <li>Otherwise, if feature is enabled in <var>parent</var> for
-	  <var>origin</var>, return Enabled.
+          <li>Otherwise, if <var>feature</var> is enabled in <var>parent</var>
+	  for <var>origin</var>, return Enabled.
           </li>
           <li>Otherwise, return Disabled.</li>
         </ol>
