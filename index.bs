@@ -139,8 +139,7 @@ spec:fetch; type:dfn; text:value
     avoid any ambiguity.</div>
     <div class="issue">This spec currently only deals with features defined in
     Documents. We should figure out how to word this to include the possibility
-    of features in Workers as well, and for feature policies to be attached to
-    Workers.</div>
+    of features and feature policies in Workers and Worklets as well.</div>
     <p><a>Policy-controlled features</a> are identified by tokens, which are
     character strings used in <a>policy directives</a>.
     <p>Each <a>policy-controlled feature</a> has a <a>default allowlist</a>,
