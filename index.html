@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="4067cf5020f168fb85d11895af060e40f4acfbf6" name="document-revision">
+  <meta content="e69e6396e82b82cf295d78222d07ef9ba405dbb4" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-16">16 May 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-17">17 May 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1678,22 +1678,24 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li>An <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy">inherited policy</a>. 
       <li>A <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy">declared policy</a>. 
      </ul>
-     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="empty-feature-policy">empty feature policy</dfn> has an <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy①">inherited policy</a> which contains 'Enabled' for every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑥">policy-controlled feature</a> available, and a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①">declared policy</a> which is an empty map.</p>
+     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="empty-feature-policy">empty feature policy</dfn> is a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①">feature policy</a> that has
+    an <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy①">inherited policy</a> which contains 'Enabled' for every <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features">supported
+    feature</a>, and a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①">declared policy</a> which is an empty map.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.3" id="inherited-policies"><span class="secno">4.3. </span><span class="content">Inherited policies</span><a class="self-link" href="#inherited-policies"></a></h3>
      <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="inherited policy|inherited policies" data-noexport="" id="inherited-policy">inherited
-    policy</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑦">features</a> to either 'Enabled' or
+    policy</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑥">features</a> to either 'Enabled' or
     'Disabled'.</p>
      <p>The <dfn data-dfn-type="dfn" data-noexport="" id="inherited-policy-for-a-feature">inherited policy for a feature<a class="self-link" href="#inherited-policy-for-a-feature"></a></dfn> <var>feature</var> is the
     value in the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy②">inherited policy</a> whose key is <var>feature</var>. After
-    a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①">feature policy</a> has been initialized, its <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy③">inherited policy</a> will contain an value for each <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features">supported feature</a>.</p>
+    a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy②">feature policy</a> has been initialized, its <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy③">inherited policy</a> will contain a value for each <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features①">supported feature</a>.</p>
      <div class="note" role="note">
       <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
-    for each <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑧">policy-controlled feature</a>. This inherited policy determines
-    the initial state (enabled or disabled) of each feature, and whether it can
-    be controlled by a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy②">declared policy</a> in the document. </p>
+    for each <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑦">policy-controlled feature</a>. This inherited policy determines
+    the initial state ('Enabled' or 'Disabled') of each feature, and whether it
+    can be controlled by a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy②">declared policy</a> in the document. </p>
       <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context" id="ref-for-top-level-browsing-context">top-level browsing context</a>, the inherited
     policy is based on defined defaults for each feature.</p>
       <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context">nested browsing context</a>, the inherited policy
@@ -1704,11 +1706,11 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="4.4" id="declared-policies"><span class="secno">4.4. </span><span class="content">Declared policies</span><a class="self-link" href="#declared-policies"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="declared policy|declared feature policy" data-noexport="" id="declared-policy">declared
-    policy</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑨">features</a> to <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①">allowlists</a>. </p>
+    policy</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑧">features</a> to <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①">allowlists</a>. </p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.5" id="header-policies"><span class="secno">4.5. </span><span class="content">Header policies</span><a class="self-link" href="#header-policies"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="header-policy">header policy</dfn> is a list of <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive①">policy directives</a> delivered via an HTTP header with a document. This forms the document’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy②">feature policy</a>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy③">declared policy</a>.</p>
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="header-policy">header policy</dfn> is a list of <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive①">policy directives</a> delivered via an HTTP header with a document. This forms the document’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy③">feature policy</a>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy③">declared policy</a>.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.6" id="container-policies"><span class="secno">4.6. </span><span class="content">Container policies</span><a class="self-link" href="#container-policies"></a></h3>
@@ -1728,7 +1730,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="4.7" id="policy-directives"><span class="secno">4.7. </span><span class="content">Policy directives</span><a class="self-link" href="#policy-directives"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="policy directive|policy directives" data-noexport="" id="policy-directive">policy
-    directive</dfn> is an ordered map, mapping <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⓪">policy-controlled features</a> to corresponding <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist②">allowlists</a> of origins.</p>
+    directive</dfn> is an ordered map, mapping <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑨">policy-controlled features</a> to corresponding <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist②">allowlists</a> of origins.</p>
      <p>A <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive③">policy directive</a> is represented in HTTP headers and HTML
     attributes as its ASCII serialization.</p>
     </section>
@@ -1760,11 +1762,11 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="4.9" id="default-allowlists"><span class="secno">4.9. </span><span class="content">Default Allowlists</span><a class="self-link" href="#default-allowlists"></a></h3>
-     <p>Every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①①">policy-controlled feature</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" data-lt="default allowlist|default allowlists" id="default-allowlist">default allowlist</dfn>. The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist①">default allowlist</a> determines whether the feature is allowed in a
+     <p>Every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⓪">policy-controlled feature</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" data-lt="default allowlist|default allowlists" id="default-allowlist">default allowlist</dfn>. The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist①">default allowlist</a> determines whether the feature is allowed in a
     document with no declared policy in a top-level browsing context, and also
     whether access to the feature is automatically delegated to documents in
     nested browsing contexts.</p>
-     <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist②">default allowlist</a> for a <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①②">feature</a> is one of these values:</p>
+     <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist②">default allowlist</a> for a <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①①">feature</a> is one of these values:</p>
      <dl>
       <dt><code>*</code>
       <dd>The feature is allowed in documents in top-level browsing contexts by
@@ -1809,7 +1811,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <h3 class="heading settled" data-level="6.1" id="feature-policy-http-header-field"><span class="secno">6.1. </span><span class="content">Feature-Policy HTTP Header
     Field</span><a class="self-link" href="#feature-policy-http-header-field"></a></h3>
      <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="feature-policy-header" data-noexport="" id="feature-policy-header">Feature-Policy</dfn> HTTP header
-    field can be used in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response">response</a> (server to client) to communicate the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy③">feature policy</a> that should be enforced by the client.</p>
+    field can be used in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response">response</a> (server to client) to communicate the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy④">feature policy</a> that should be enforced by the client.</p>
      <p>The header’s value is the <a href="#ascii-serialization">§5.1 ASCII serialization</a> of one or
     more <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑤">policy directive</a>s:.</p>
 <pre class="abnf">FeaturePolicy = <a data-link-type="dfn" href="#serialized-feature-policy" id="ref-for-serialized-feature-policy">serialized-feature-policy</a> *("," <a data-link-type="dfn" href="#serialized-feature-policy" id="ref-for-serialized-feature-policy①">serialized-feature-policy</a>)
@@ -1829,12 +1831,12 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     that case, the default value for the allowlist is <code>'src'</code>, which
     represents the origin of the URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-src" id="ref-for-attr-iframe-src">src</a></code> attribute. </p>
      <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①③">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>, when it is constructed.</p>
+    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①②">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>, when it is constructed.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.3" id="legacy-attributes"><span class="secno">6.3. </span><span class="content">Additional attributes to support legacy
     features</span><a class="self-link" href="#legacy-attributes"></a></h3>
-     <p>Some <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①④">features</a> controlled by
+     <p>Some <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①③">features</a> controlled by
     Feature Policy have existing iframe attributes defined. This specification
     redefines these attributes to act as declared policies for the iframe
     element.</p>
@@ -1899,7 +1901,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="7.1" id="integration-with-html"><span class="secno">7.1. </span><span class="content">Integration with HTML</span><a class="self-link" href="#integration-with-html"></a></h3>
      <ol>
-      <li> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document②">Document</a></code> objects have a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy④">Feature Policy</a>, which is initially <a data-link-type="dfn" href="#empty-feature-policy" id="ref-for-empty-feature-policy">empty</a>. 
+      <li> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document②">Document</a></code> objects have a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑤">Feature Policy</a>, which is initially <a data-link-type="dfn" href="#empty-feature-policy" id="ref-for-empty-feature-policy">empty</a>. 
       <li>
        Replace the existing step 12 of "Create a new browsing context" with
       with the following step: 
@@ -1911,8 +1913,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <ul>
         <li> Execute the <a href="#initialize-from-response">Initialize document’s Feature Policy from response</a> algorithm on the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document④">Document</a></code> object and the response used to generate the document. 
        </ul>
-      <li>A <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑤">feature policy</a> is <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="enforce" data-noexport="" id="enforce">enforced</dfn> for
-      a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑤">Document</a></code> by setting it as the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑥">Document</a></code>'s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑥">Feature Policy</a>. 
+      <li>A <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑥">feature policy</a> is <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="enforce" data-noexport="" id="enforce">enforced</dfn> for
+      a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑤">Document</a></code> by setting it as the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑥">Document</a></code>'s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑦">Feature Policy</a>. 
       <li>
        <p>The "<a data-link-type="dfn" href="#allowed-to-use" id="ref-for-allowed-to-use">allowed to use</a>" algorithm is replaced with the following: </p>
        <p>To determine whether a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑦">Document</a></code> object <var>document</var> is <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allowed-to-use">allowed to use</dfn> the policy-controlled-feature <var>feature</var>, run these steps:</p>
@@ -1924,7 +1926,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
          <p>If <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#active-document" id="ref-for-active-document">active
 	 document</a> is not <var>document</var>, then return false.</p>
         <li>
-         <p>If <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑦">feature policy</a> <a href="#is-feature-enabled">enables <var>feature</var> for the origin of <var>document</var></a>, then return true.</p>
+         <p>If <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑧">feature policy</a> <a href="#is-feature-enabled">enables <var>feature</var> for the origin of <var>document</var></a>, then return true.</p>
          <p></p>
         <li>
          <p>Return false.</p>
@@ -1933,25 +1935,25 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <p>The <a href="#iframe-allow-attribute">allow attribute</a> is added
       to the IDL for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> element, with the description:</p>
        <p>The allow attribute, when specified, determines the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑧">container
-      policy</a> that will be used when the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑧">feature policy</a> for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context①">nested browsing context</a> is initialized. Its value must be
+      policy</a> that will be used when the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑨">feature policy</a> for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context①">nested browsing context</a> is initialized. Its value must be
       the <a href="#ascii-serialization">§5.1 ASCII serialization</a> of a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑥">policy directive</a>.</p>
       <li>
        <p>The description of the behavior of the <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowfullscreen" id="ref-for-attr-iframe-allowfullscreen">allowfullscreen</a></code>, <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowpaymentrequest" id="ref-for-attr-iframe-allowpaymentrequest">allowpaymentrequest</a></code> and <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowusermedia" id="ref-for-attr-iframe-allowusermedia">allowusermedia</a></code> attributes is
       changed to refer to this specification: </p>
        <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowfullscreen" id="ref-for-attr-iframe-allowfullscreen①">allowfullscreen</a></code> attribute is a boolean attribute. When
-      specified, it indicates that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑧">Document</a></code> objects in the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context②">browsing context</a> should be initialized with a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑨">feature
+      specified, it indicates that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑧">Document</a></code> objects in the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context②">browsing context</a> should be initialized with a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⓪">feature
       policy</a> which allows the <code>fullscreen</code> feature to be used
       from any origin. This is enforced by the <a href="#process-feature-policy-attributes">Process feature policy
       attributes</a> algorithm. Note that this will only allow use of the <code>fullscreen</code> feature if the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑤">iframe</a></code> element’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document">node
       document</a> is also <a data-link-type="dfn" href="#allowed-to-use" id="ref-for-allowed-to-use①">allowed to use</a> <code>fullscreen</code>. </p>
        <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowpaymentrequest" id="ref-for-attr-iframe-allowpaymentrequest①">allowpaymentrequest</a></code> attribute is a boolean attribute.
-      When specified, it indicates that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑨">Document</a></code> objects in the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑥">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context③">browsing context</a> should be initialized with a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⓪">feature
+      When specified, it indicates that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑨">Document</a></code> objects in the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑥">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context③">browsing context</a> should be initialized with a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①①">feature
       policy</a> which allows the <code>payment</code> feature to be used
       to make payment requests from any origin. This is enforced by the <a href="#process-feature-policy-attributes">Process feature policy
       attributes</a> algorithm. Note that this will only allow use of the <code>PaymentRequest</code> interface if the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑦">iframe</a></code> element’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document①">node
       document</a> is also <a data-link-type="dfn" href="#allowed-to-use" id="ref-for-allowed-to-use②">allowed to use</a> the feature. </p>
        <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowusermedia" id="ref-for-attr-iframe-allowusermedia①">allowusermedia</a></code> attribute is a boolean attribute. When
-      specified, it indicates that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①⓪">Document</a></code> objects in the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑧">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context④">browsing context</a> should be initialized with a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①①">feature
+      specified, it indicates that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①⓪">Document</a></code> objects in the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑧">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context④">browsing context</a> should be initialized with a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①②">feature
       policy</a> which allows the <code>camera</code> and <code>microphone</code> features to be used to call <code>getUserMedia()</code> from any origin. This is enforced by the <a href="#process-feature-policy-attributes">Process feature policy
       attributes</a> algorithm. Note that this will only allow use of the <code>getUserMedia()</code> interface if the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑨">iframe</a></code> element’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document②">node
       document</a> is also <a data-link-type="dfn" href="#allowed-to-use" id="ref-for-allowed-to-use③">allowed to use</a> the feature. </p>
@@ -2008,8 +2010,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>Let <var>tokens</var> be the result of <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#split-on-ascii-whitespace" id="ref-for-split-on-ascii-whitespace">splitting <var>serialized-declaration</var> on ASCII whitespace.</a>
         <li>If <var>tokens</var> is an empty list, then continue.
         <li>Let <var>feature-name</var> be the first element of <var>tokens</var>.
-        <li>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑤">policy-controlled feature</a>, then continue.
-        <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑥">policy-controlled feature</a> identified by <var>feature-name</var>.
+        <li>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①④">policy-controlled feature</a>, then continue.
+        <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑤">policy-controlled feature</a> identified by <var>feature-name</var>.
         <li>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>. 
         <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a>. 
         <li>If any element of <var>targetlist</var> is the string
@@ -2117,8 +2119,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>Let <var>tokens</var> be the result of <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#split-on-ascii-whitespace" id="ref-for-split-on-ascii-whitespace①">splitting <var>serialized-declaration</var> on ASCII whitespace.</a>
         <li>If <var>tokens</var> is an empty list, then continue.
         <li>Let <var>feature-name</var> be the first element of <var>tokens</var>.
-        <li>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑦">policy-controlled feature</a>, then continue.
-        <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑧">policy-controlled feature</a> identified by <var>feature-name</var>.
+        <li>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑥">policy-controlled feature</a>, then continue.
+        <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑦">policy-controlled feature</a> identified by <var>feature-name</var>.
         <li>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>. 
         <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a>. 
         <li>If any element of <var>targetlist</var> is the string
@@ -2155,7 +2157,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <h3 class="heading settled" data-level="8.7" id="initialize-for-document"><span class="secno">8.7. </span><span class="content">Initialize <var>document</var>’s Feature
     Policy</span><a class="self-link" href="#initialize-for-document"></a></h3>
      <p>Given a Document object (<var>document</var>), this algorithm
-    initialises <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①②">Feature Policy</a></p>
+    initialises <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①③">Feature Policy</a></p>
      <ol>
       <li>Let <var>inherited policy</var> be a new ordered map.
       <li>Let <var>declared policy</var> be a new ordered map.
@@ -2166,7 +2168,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     feature</a> on <var>feature</var> and <var>document</var>’s browsing context. 
         <li>Set <var>inherited policy</var>[<var>feature</var>] to <var>isInherited</var>.
        </ol>
-      <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①③">feature policy</a>, with inherited
+      <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①④">feature policy</a>, with inherited
       policy <var>inherited policy</var> and declared policy <var>declared
       policy</var>. 
       <li> <a data-link-type="dfn" href="#enforce" id="ref-for-enforce①">Enforce</a> the policy <var>policy</var> on <var>document</var>. 
@@ -2176,7 +2178,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <h3 class="heading settled" data-level="8.8" id="initialize-from-response"><span class="secno">8.8. </span><span class="content">Initialize <var>document</var>’s Feature
     Policy from <var>response</var></span><a class="self-link" href="#initialize-from-response"></a></h3>
      <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response②">response</a> (<var>response</var>) and a Document
-    (<var>document</var>), this algorithm populates <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①④">Feature Policy</a></p>
+    (<var>document</var>), this algorithm populates <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⑤">Feature Policy</a></p>
      <ol>
       <li>Initialize <var>document</var>’s Feature Policy
       <li>Let <var>inherited policy</var> be <var>document</var>’s Feature
@@ -2189,7 +2191,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>If <var>inherited policy</var>[<var>feature</var>] is true, then
 	  set <var>declared policy</var>[<var>feature</var>] to <var>allowlist</var>.
        </ol>
-      <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⑤">feature policy</a>, with inherited
+      <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⑥">feature policy</a>, with inherited
       policy <var>inherited policy</var> and declared policy <var>declared
       policy</var>. 
       <li> <a data-link-type="dfn" href="#enforce" id="ref-for-enforce②">Enforce</a> the policy <var>policy</var> on <var>document</var>. 
@@ -2211,13 +2213,15 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>
          If <var>feature</var> is a key in <var>container policy</var>: 
          <ol>
-          <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑦">inherited policy</a> for <var>feature</var> is Enabled, return Enabled. 
-          <li>Otherwise return Disabled.
+          <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑦">inherited policy</a> for <var>feature</var> is 'Enabled', return 'Enabled'. 
+          <li>Otherwise return 'Disabled'.
          </ol>
-        <li>Otherwise, if <var>feature</var> is enabled in <var>parent</var> for <var>origin</var>, return Enabled. 
-        <li>Otherwise, return Disabled.
+        <li>Otherwise, if <a href="is-feature-enabled"><var>feature</var> is
+	  enabled in <var>parent</var> for <var>origin</var></a>, return
+	  'Enabled'. 
+        <li>Otherwise, return 'Disabled'.
        </ol>
-      <li>Otherwise, return Enabled.
+      <li>Otherwise, return 'Enabled'.
      </ol>
     </section>
     <section>
@@ -2227,7 +2231,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
      <ol>
-      <li>Let <var>policy</var> be <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⑥">Feature Policy</a> 
+      <li>Let <var>policy</var> be <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⑦">Feature Policy</a> 
       <li>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is Disabled, return "<code>Disabled</code>".
       <li>
        If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑥">declared
@@ -2560,40 +2564,41 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <b><a href="#policy-controlled-feature">#policy-controlled-feature</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-policy-controlled-feature">4.1. Policy-controlled Features</a> <a href="#ref-for-policy-controlled-feature①">(2)</a> <a href="#ref-for-policy-controlled-feature②">(3)</a> <a href="#ref-for-policy-controlled-feature③">(4)</a> <a href="#ref-for-policy-controlled-feature④">(5)</a> <a href="#ref-for-policy-controlled-feature⑤">(6)</a>
-    <li><a href="#ref-for-policy-controlled-feature⑥">4.2. Policies</a>
-    <li><a href="#ref-for-policy-controlled-feature⑦">4.3. Inherited policies</a> <a href="#ref-for-policy-controlled-feature⑧">(2)</a>
-    <li><a href="#ref-for-policy-controlled-feature⑨">4.4. Declared policies</a>
-    <li><a href="#ref-for-policy-controlled-feature①⓪">4.7. Policy directives</a>
-    <li><a href="#ref-for-policy-controlled-feature①①">4.9. Default Allowlists</a> <a href="#ref-for-policy-controlled-feature①②">(2)</a>
-    <li><a href="#ref-for-policy-controlled-feature①③">6.2. The allow attribute of the
+    <li><a href="#ref-for-policy-controlled-feature⑥">4.3. Inherited policies</a> <a href="#ref-for-policy-controlled-feature⑦">(2)</a>
+    <li><a href="#ref-for-policy-controlled-feature⑧">4.4. Declared policies</a>
+    <li><a href="#ref-for-policy-controlled-feature⑨">4.7. Policy directives</a>
+    <li><a href="#ref-for-policy-controlled-feature①⓪">4.9. Default Allowlists</a> <a href="#ref-for-policy-controlled-feature①①">(2)</a>
+    <li><a href="#ref-for-policy-controlled-feature①②">6.2. The allow attribute of the
     iframe element</a>
-    <li><a href="#ref-for-policy-controlled-feature①④">6.3. Additional attributes to support legacy
+    <li><a href="#ref-for-policy-controlled-feature①③">6.3. Additional attributes to support legacy
     features</a>
-    <li><a href="#ref-for-policy-controlled-feature①⑤">8.3. Parse policy directive from
-    value and origin</a> <a href="#ref-for-policy-controlled-feature①⑥">(2)</a>
-    <li><a href="#ref-for-policy-controlled-feature①⑦">8.6. Parse allow attribute</a> <a href="#ref-for-policy-controlled-feature①⑧">(2)</a>
+    <li><a href="#ref-for-policy-controlled-feature①④">8.3. Parse policy directive from
+    value and origin</a> <a href="#ref-for-policy-controlled-feature①⑤">(2)</a>
+    <li><a href="#ref-for-policy-controlled-feature①⑥">8.6. Parse allow attribute</a> <a href="#ref-for-policy-controlled-feature①⑦">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="supported-features">
    <b><a href="#supported-features">#supported-features</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-supported-features">4.3. Inherited policies</a>
+    <li><a href="#ref-for-supported-features">4.2. Policies</a>
+    <li><a href="#ref-for-supported-features①">4.3. Inherited policies</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="feature-policy">
    <b><a href="#feature-policy">#feature-policy</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-feature-policy">4.1. Policy-controlled Features</a>
-    <li><a href="#ref-for-feature-policy①">4.3. Inherited policies</a>
-    <li><a href="#ref-for-feature-policy②">4.5. Header policies</a>
-    <li><a href="#ref-for-feature-policy③">6.1. Feature-Policy HTTP Header
+    <li><a href="#ref-for-feature-policy①">4.2. Policies</a>
+    <li><a href="#ref-for-feature-policy②">4.3. Inherited policies</a>
+    <li><a href="#ref-for-feature-policy③">4.5. Header policies</a>
+    <li><a href="#ref-for-feature-policy④">6.1. Feature-Policy HTTP Header
     Field</a>
-    <li><a href="#ref-for-feature-policy④">7.1. Integration with HTML</a> <a href="#ref-for-feature-policy⑤">(2)</a> <a href="#ref-for-feature-policy⑥">(3)</a> <a href="#ref-for-feature-policy⑦">(4)</a> <a href="#ref-for-feature-policy⑧">(5)</a> <a href="#ref-for-feature-policy⑨">(6)</a> <a href="#ref-for-feature-policy①⓪">(7)</a> <a href="#ref-for-feature-policy①①">(8)</a>
-    <li><a href="#ref-for-feature-policy①②">8.7. Initialize document’s Feature
-    Policy</a> <a href="#ref-for-feature-policy①③">(2)</a>
-    <li><a href="#ref-for-feature-policy①④">8.8. Initialize document’s Feature
-    Policy from response</a> <a href="#ref-for-feature-policy①⑤">(2)</a>
-    <li><a href="#ref-for-feature-policy①⑥">8.10. Is feature enabled in
+    <li><a href="#ref-for-feature-policy⑤">7.1. Integration with HTML</a> <a href="#ref-for-feature-policy⑥">(2)</a> <a href="#ref-for-feature-policy⑦">(3)</a> <a href="#ref-for-feature-policy⑧">(4)</a> <a href="#ref-for-feature-policy⑨">(5)</a> <a href="#ref-for-feature-policy①⓪">(6)</a> <a href="#ref-for-feature-policy①①">(7)</a> <a href="#ref-for-feature-policy①②">(8)</a>
+    <li><a href="#ref-for-feature-policy①③">8.7. Initialize document’s Feature
+    Policy</a> <a href="#ref-for-feature-policy①④">(2)</a>
+    <li><a href="#ref-for-feature-policy①⑤">8.8. Initialize document’s Feature
+    Policy from response</a> <a href="#ref-for-feature-policy①⑥">(2)</a>
+    <li><a href="#ref-for-feature-policy①⑦">8.10. Is feature enabled in
     document for origin?</a>
    </ul>
   </aside>
