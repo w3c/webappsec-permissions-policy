@@ -191,9 +191,8 @@ spec:fetch; type:dfn; text:value
     <p>In a {{Document}} in a [=top-level browsing context=], the inherited
     policy is based on defined defaults for each feature.</p>
     <p>In a {{Document}} in a [=nested browsing context=], the inherited policy
-    is based on the parent document's feature policy, as well as any
-    <a href="#iframe-allow-attribute">allow attributes</a> defined on the
-    browsing context container.</p>
+    is based on the parent document's feature policy, as well as the [=nested
+    browsing context=]'s <a>container policy</a>.
     </div>
   </section>
   <section>
@@ -211,22 +210,24 @@ spec:fetch; type:dfn; text:value
   </section>
   <section>
     <h3 id="container-policies">Container policies</h3>
-    <p>In addition to the <a>header policy</a>, each frame has a <dfn>container
-    policy</dfn>, which is a <a>policy directive</a>, which may be empty. The
-    <a>container policy</a> can set by attributes on the browsing context
-    container.</p>
-    <p>The <a>container policy</a> for a frame influences the <a>inherited
-    policy</a> of any document loaded into that frame. (See <a href=
-    "#define-inherited-policy"></a>)</p>
+    <p>In addition to the <a>header policy</a>, each [=nested browsing context=]
+    has a <dfn>container policy</dfn>, which is a <a>policy directive</a>, which
+    may be empty. The <a>container policy</a> can set by attributes on the
+    [=browsing context container=].</p>
+    <p>The <a>container policy</a> for a [=nested browsing context=] influences
+    the <a>inherited policy</a> of any document loaded into that context.
+    (See <a href="#define-inherited-policy"></a>)</p>
     <div class="note">
       Currently, the <a>container policy</a> cannot be set directly, but is
       indirectly set by <code>iframe</code> "<a href=
       "#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
       "<a href=
       "#iframe-allowpaymentrequest-attribute"><code>allowpaymentrequest</code></a>",
-      and "<a href="#iframe-allow-attribute"><code>allow</code></a>"
-      attributes. Future revisions to this spec may introduce a mechanism to
-      explicitly declare the full <a>container policy</a>.
+      "<a href=
+      "#iframe-allowusermedia-attribute"><code>allowusermedia</code></a>", and
+      "<a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
+      Future revisions to this spec may introduce a mechanism to explicitly
+      declare the full <a>container policy</a>.
     </div>
   </section>
   <section>
@@ -354,8 +355,8 @@ partial interface HTMLIFrameElement {
     </p>
     <p>When not empty, the "<code>allow</code>" attribute will result in adding
     an <a>allowlist</a> for each recognized
-    <a data-lt="policy-controlled feature">feature</a> to the frame's
-    <a>container policy</a>, when it is constructed.</p>
+    <a data-lt="policy-controlled feature">feature</a> to the [=nested browsing
+    context=]'s <a>container policy</a>, when it is constructed.</p>
   </section>
   <section>
     <h3 id="legacy-attributes">Additional attributes to support legacy
@@ -373,8 +374,8 @@ partial interface HTMLIFrameElement {
       "<code>allowfullscreen</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowfullscreen</code>" attribute
       on an iframe will result in adding an <a>allowlist</a> of <code>*</code>
-      for the "<code>fullscreen</code>" feature to the frame's <a>container
-      policy</a>, when it is constructed.</p>
+      for the "<code>fullscreen</code>" feature to the [=nested browsing
+      context=]'s <a>container policy</a>, when it is constructed.</p>
       <div class="note">
         This is different from the behaviour of <code>&lt;iframe
         allow="fullscreen"&gt;</code>, and is for compatibility with existing
@@ -393,8 +394,8 @@ partial interface HTMLIFrameElement {
       "<code>allowpaymentrequest</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowpaymentrequest</code>"
       attribute on an iframe will result in adding an <a>allowlist</a> of
-      <code>*</code> for the "<code>payment</code>" feature to the frame's
-      <a>container policy</a>, when it is constructed.</p>
+      <code>*</code> for the "<code>payment</code>" feature to the [=nested
+      browsing context=]'s <a>container policy</a>, when it is constructed.</p>
       <div class="note">
         This is different from the behaviour of <code>&lt;iframe
         allow="payment"&gt;</code>, and is for compatibility with existing uses
@@ -414,8 +415,8 @@ partial interface HTMLIFrameElement {
       <p>Otherwise, the presence of an "<code>allowusermedia</code>" attribute
       on an iframe will result in adding an <a>allowlist</a> of <code>*</code>
       for each of the "<code>camera</code>" and "<code>microphone</code>"
-      features to the frame's <a>container policy</a>, when it is
-      constructed.</p>
+      features to the [=nested browsing context=]'s <a>container policy</a>,
+      when it is constructed.</p>
       <div class="note">
         This is different from the behaviour of <code>&lt;iframe
         allow="camera; microphone"&gt;</code>, and is for compatibility with

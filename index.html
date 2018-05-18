@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="e69e6396e82b82cf295d78222d07ef9ba405dbb4" name="document-revision">
+  <meta content="1ab2d85a97707cec90f9454b57ad0839b6e72fe2" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1699,8 +1699,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context" id="ref-for-top-level-browsing-context">top-level browsing context</a>, the inherited
     policy is based on defined defaults for each feature.</p>
       <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context">nested browsing context</a>, the inherited policy
-    is based on the parent document’s feature policy, as well as any <a href="#iframe-allow-attribute">allow attributes</a> defined on the
-    browsing context container.</p>
+    is based on the parent document’s feature policy, as well as the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context①">nested
+    browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy">container policy</a>. </p>
      </div>
     </section>
     <section>
@@ -1714,18 +1714,19 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="4.6" id="container-policies"><span class="secno">4.6. </span><span class="content">Container policies</span><a class="self-link" href="#container-policies"></a></h3>
-     <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy">header policy</a>, each frame has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="container policy" data-noexport="" id="container-policy">container
-    policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive②">policy directive</a>, which may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy">container policy</a> can set by attributes on the browsing context
-    container.</p>
-     <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> for a frame influences the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy④">inherited
-    policy</a> of any document loaded into that frame. (See <a href="#define-inherited-policy">§8.9 Define an inherited policy for
+     <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy">header policy</a>, each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context②">nested browsing context</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="container-policy">container policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive②">policy directive</a>, which
+    may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> can set by attributes on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container">browsing context container</a>.</p>
+     <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy②">container policy</a> for a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context③">nested browsing context</a> influences
+    the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy④">inherited policy</a> of any document loaded into that context.
+    (See <a href="#define-inherited-policy">§8.9 Define an inherited policy for
     feature</a>)</p>
-     <div class="note" role="note"> Currently, the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy②">container policy</a> cannot be set directly, but is
+     <div class="note" role="note"> Currently, the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy③">container policy</a> cannot be set directly, but is
       indirectly set by <code>iframe</code> "<a href="#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
       "<a href="#iframe-allowpaymentrequest-attribute"><code>allowpaymentrequest</code></a>",
-      and "<a href="#iframe-allow-attribute"><code>allow</code></a>"
-      attributes. Future revisions to this spec may introduce a mechanism to
-      explicitly declare the full <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy③">container policy</a>. </div>
+      "<a href="#iframe-allowusermedia-attribute"><code>allowusermedia</code></a>", and
+      "<a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
+      Future revisions to this spec may introduce a mechanism to explicitly
+      declare the full <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>. </div>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.7" id="policy-directives"><span class="secno">4.7. </span><span class="content">Policy directives</span><a class="self-link" href="#policy-directives"></a></h3>
@@ -1831,7 +1832,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     that case, the default value for the allowlist is <code>'src'</code>, which
     represents the origin of the URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-src" id="ref-for-attr-iframe-src">src</a></code> attribute. </p>
      <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①②">feature</a> to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>, when it is constructed.</p>
+    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①②">feature</a> to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context④">nested browsing
+    context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑤">container policy</a>, when it is constructed.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.3" id="legacy-attributes"><span class="secno">6.3. </span><span class="content">Additional attributes to support legacy
@@ -1847,8 +1849,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       value contains the token "<code>fullscreen</code>", then the
       "<code>allowfullscreen</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowfullscreen</code>" attribute
-      on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑧">allowlist</a> of <code>*</code> for the "<code>fullscreen</code>" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑤">container
-      policy</a>, when it is constructed.</p>
+      on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑧">allowlist</a> of <code>*</code> for the "<code>fullscreen</code>" feature to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑤">nested browsing
+      context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑥">container policy</a>, when it is constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
         allow="fullscreen"></code>, and is for compatibility with existing
         uses of <code>allowfullscreen</code>. If <code>allow="fullscreen"</code> and <code>allowfullscreen</code> are
@@ -1863,7 +1865,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       value contains the token "<code>payment</code>", then the
       "<code>allowpaymentrequest</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowpaymentrequest</code>"
-      attribute on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑨">allowlist</a> of <code>*</code> for the "<code>payment</code>" feature to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑥">container policy</a>, when it is constructed.</p>
+      attribute on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑨">allowlist</a> of <code>*</code> for the "<code>payment</code>" feature to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑥">nested
+      browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container policy</a>, when it is constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
         allow="payment"></code>, and is for compatibility with existing uses
         of <code>allowpaymentrequest</code>. If <code>allow="payment"</code> and <code>allowpaymentrequest</code> are both present on an iframe
@@ -1878,8 +1881,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       "<code>allowusermedia</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowusermedia</code>" attribute
       on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⓪">allowlist</a> of <code>*</code> for each of the "<code>camera</code>" and "<code>microphone</code>"
-      features to the frame’s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container policy</a>, when it is
-      constructed.</p>
+      features to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑦">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑧">container policy</a>,
+      when it is constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
         allow="camera; microphone"></code>, and is for compatibility with
 	existing uses of <code>allowusermedia</code>. If <code>allow="camera;
@@ -1934,8 +1937,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li>
        <p>The <a href="#iframe-allow-attribute">allow attribute</a> is added
       to the IDL for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> element, with the description:</p>
-       <p>The allow attribute, when specified, determines the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑧">container
-      policy</a> that will be used when the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑨">feature policy</a> for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context①">nested browsing context</a> is initialized. Its value must be
+       <p>The allow attribute, when specified, determines the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑨">container
+      policy</a> that will be used when the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑨">feature policy</a> for the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑧">nested browsing context</a> is initialized. Its value must be
       the <a href="#ascii-serialization">§5.1 ASCII serialization</a> of a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑥">policy directive</a>.</p>
       <li>
        <p>The description of the behavior of the <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowfullscreen" id="ref-for-attr-iframe-allowfullscreen">allowfullscreen</a></code>, <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowpaymentrequest" id="ref-for-attr-iframe-allowpaymentrequest">allowpaymentrequest</a></code> and <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowusermedia" id="ref-for-attr-iframe-allowusermedia">allowusermedia</a></code> attributes is
@@ -2056,7 +2059,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="8.5" id="process-feature-policy-attributes"><span class="secno">8.5. </span><span class="content">Process feature policy
     attributes</span><a class="self-link" href="#process-feature-policy-attributes"></a></h3>
-     <p>Given an element (<var>element</var>), this algorithm returns a <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑨">container policy</a>, which may be empty.</p>
+     <p>Given an element (<var>element</var>), this algorithm returns a <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①⓪">container policy</a>, which may be empty.</p>
      <ol>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑧">policy directive</a>. 
       <li>Let <var>container policy</var> be the result of running <a href="#parse-allow-attribute">Parse allow attribute</a> on the value of <var>element</var>’s <code>allow</code> attribute, with <var>container
@@ -2203,7 +2206,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     (<var>context</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑥">inherited policy</a> for that feature.</p>
      <ol>
       <li>
-       If <var>context</var> is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context②">nested browsing context</a>: 
+       If <var>context</var> is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑨">nested browsing context</a>: 
        <ol>
         <li>Let <var>parent</var> be <var>context</var>’s parent browsing
           context’s active document.
@@ -2484,6 +2487,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowpaymentrequest">allowpaymentrequest</a>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowusermedia">allowusermedia</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">browsing context</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container">browsing context container</a>
      <li><a href="https://html.spec.whatwg.org/multipage/infrastructure.html#dom-mediadevices-getusermedia">getUserMedia()</a>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">iframe</a>
      <li><a href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context">nested browsing context</a>
@@ -2644,14 +2648,15 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <aside class="dfn-panel" data-for="container-policy">
    <b><a href="#container-policy">#container-policy</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-container-policy">4.6. Container policies</a> <a href="#ref-for-container-policy①">(2)</a> <a href="#ref-for-container-policy②">(3)</a> <a href="#ref-for-container-policy③">(4)</a>
-    <li><a href="#ref-for-container-policy④">6.2. The allow attribute of the
+    <li><a href="#ref-for-container-policy">4.3. Inherited policies</a>
+    <li><a href="#ref-for-container-policy①">4.6. Container policies</a> <a href="#ref-for-container-policy②">(2)</a> <a href="#ref-for-container-policy③">(3)</a> <a href="#ref-for-container-policy④">(4)</a>
+    <li><a href="#ref-for-container-policy⑤">6.2. The allow attribute of the
     iframe element</a>
-    <li><a href="#ref-for-container-policy⑤">6.3.1. allowfullscreen</a>
-    <li><a href="#ref-for-container-policy⑥">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-container-policy⑦">6.3.3. allowusermedia</a>
-    <li><a href="#ref-for-container-policy⑧">7.1. Integration with HTML</a>
-    <li><a href="#ref-for-container-policy⑨">8.5. Process feature policy
+    <li><a href="#ref-for-container-policy⑥">6.3.1. allowfullscreen</a>
+    <li><a href="#ref-for-container-policy⑦">6.3.2. allowpaymentrequest</a>
+    <li><a href="#ref-for-container-policy⑧">6.3.3. allowusermedia</a>
+    <li><a href="#ref-for-container-policy⑨">7.1. Integration with HTML</a>
+    <li><a href="#ref-for-container-policy①⓪">8.5. Process feature policy
     attributes</a>
    </ul>
   </aside>
