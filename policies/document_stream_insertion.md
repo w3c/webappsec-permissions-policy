@@ -1,29 +1,28 @@
 # Document Stream Insertion Policy (Dynamic Mark-up)
 
-
 ## Objective
 The API around document stream modification ([dynamic mark-up insertion](https://www.w3.org/TR/2011/WD-html5-author-20110705/apis-in-html-documents.html#dynamic-markup-insertion)), i.e., `document.write`, `document.writeln`, `document.open` and `document.close` 
-are anti-pattern, parser-blocking javascritp API. The objective of the proposed feature is to limit the usage of this API in websites.
+are anti-pattern, parser-blocking JavaScript API. The objective of the proposed feature is to limit the usage of this API in websites.
 
 ## Solution
 
-When the feature is disabled for a specific origin in a frame, any occurance of such API will be ignored and might
+Introduce a new feature policy, namely, `document-write` to control the access to the mentioned API. When the feature is disabled for a specific origin in a frame, any usage of such API will be ignored and might
 lead to a DOMException<sup>[1](#notes)</sup>.
 
 ## Usage
 The feature can be set through the HTTP headers in the response. For instance
 
 ```
-Feature policy: document-stream-insertion 'none'
+Feature policy: document-write 'none'
 ```
 
 which would disable the feature for all same and cross origin content. The feature can also be set for a given `<iframe>`
 by modifying the `allow` attribute. For instance,
 
 ```
-<iframe src="https://example.com" allow="document-stream-insertion http://www.google.com"></iframe>
+<iframe src="https://example.com" allow="document-write https://www.google.com"></iframe>
 ```
-would limit the usage of stream insertion API to only "google.com" origins using HTTPS protocol.
+would limit the usage of stream insertion API to only "www.google.com" origins using HTTPS protocol.
 
 ## Open Problems
 
@@ -41,14 +40,16 @@ the security concerns related to cross-site isolation.
 
 A more forgiving approach would only unload the frame if
   * The frame is cross-origin,
-  * The site does `document-stream-insertion` in its header.
+  * The site does `document-write` feature mentioned in its header.
   
 In other words, if a site is familiar with the feature then it is reasonable to assume that they have considered the
-consequences of `document-stream-insertion`. 
+consequences of `document-write`. 
 
 #### Notes
 
 1: The _most_ correct behavior is not known yet. For now, Chrome's implementation behind the flag simply throws exception
 on API usage (for both same and cross origin). But this is not the final implementation.
 
-2: An embedded website might rely on important `<script>` added to the document using `document.write`.
+2: An embedded website might rely on important `<script>` added to the document using `document.write`. It should be noted
+that in general, a call to `document.write` for this purpose might not necessarily suceed (e.g., block fetching resource on
+slow connections -- [WICG/interventions#17](https://github.com/WICG/interventions/issues/17)). However, through feature policy, embedder website has access to a switch to arbitrarily turn the feature off; hence the security concerns.
