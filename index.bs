@@ -137,9 +137,6 @@ spec:fetch; type:dfn; text:value
     indicated, the term "feature" refers to <a>policy-controlled features</a>.
     Other specifications, defining such features, should use the longer term to
     avoid any ambiguity.</div>
-    <div class="issue">This spec currently only deals with features defined in
-    Documents. We should figure out how to word this to include the possibility
-    of features and feature policies in Workers and Worklets as well.</div>
     <p><a>Policy-controlled features</a> are identified by tokens, which are
     character strings used in <a>policy directives</a>.
     <p>Each <a>policy-controlled feature</a> has a <a>default allowlist</a>,
@@ -184,15 +181,18 @@ spec:fetch; type:dfn; text:value
     <div class="note">
     <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
-    for each <a>policy-controlled feature</a>. This inherited policy determines
-    the initial state ('Enabled' or 'Disabled') of each feature, and whether it
-    can be controlled by a <a>declared policy</a> in the document.
+    for each <a>policy-controlled feature</a>. For workers, the policies are
+    inherited from the context that created the worker. This inherited policy
+    determines the initial state ('Enabled' or 'Disabled') of each feature, and
+    whether it can be controlled by a <a>declared policy</a> in the document.
     </p>
     <p>In a {{Document}} in a [=top-level browsing context=], the inherited
     policy is based on defined defaults for each feature.</p>
     <p>In a {{Document}} in a [=nested browsing context=], the inherited policy
     is based on the parent document's feature policy, as well as the [=nested
     browsing context=]'s <a>container policy</a>.
+    <p> In a {{Worker}} created by a {{Document}}, the inherited policy is based
+    on the document's feature policy.</p>
     </div>
   </section>
   <section>
@@ -530,6 +530,37 @@ partial interface HTMLIFrameElement {
       Monkey-patching! As soon as we know that this is the direction we wish to
       pursue, upstream all of this.
     </div>
+    <h3 id="integration-with-worker">Integration with Workers</h3>
+    <ol>
+      <li><a interface lt="Worker">Worker</a> objects have a
+      <a>Feature Policy</a>, which is initially
+      <a data-lt="empty feature policy">empty</a>.</li>
+      <li>Using the responsible browsing context <var>parent context</var> from
+      the worker's [[script settings]], retrieve the
+      <var>parent context</var>'s <a>Feature Policy</a> <var>feature
+      policy</var>.</li>
+      <li>Execute the <a href="#initialize-for-worker"></a> algorithm on the
+      <a interface lt="Worker">Worker</a> object.</li>
+      <li>A <a>feature policy</a> is <a>enforced</a> for a
+      <a interface lt="Worker">Worker</a> by setting it as the
+      <a interface lt="Worker">Worker</a>'s <a>Feature Policy</a>.</li>
+      <li>To determine whether a <a interface lt="Worker">Worker</a> object
+      <var>worker</var> is allowed to use the policy-controlled-feature
+      <var>feature</var>, run these steps:
+        <ol>
+          <li><p>If <var>worker</var>'s <a>feature policy</a>
+           <a href="#is-feature-enabled">enables <var>feature</var> for the
+           origin of <var>worker</var>, then return true.</p></a></li>
+          <li><p>Return false.</p></li>
+        </ol>
+      </li>
+    </ol>
+    <div class="issue">
+      The integration with Workers only specifies inherited policies for now.
+      Eventually we would want to allow worker scripts to be delivered with a
+      Feature-Policy header and for the owner of the worker to set the container
+      policy for the worker.
+    </div>
   </section>
 </section>
 <section>
@@ -780,7 +811,7 @@ partial interface HTMLIFrameElement {
   </section>
   <section>
     <h3 id="initialize-for-document">Initialize <var>document</var>'s Feature
-    Policy</var></h3>
+    Policy</h3>
     <p>Given a Document object (<var>document</var>), this algorithm
     initialises <var>document</var>'s <a>Feature Policy</a></p>
     <ol>
@@ -803,6 +834,30 @@ partial interface HTMLIFrameElement {
       <li>
         <a>Enforce</a> the policy <var>policy</var> on <var>document</var>.
       </li>
+    </ol>
+  </section>
+  <section>
+    <h3 id="initialize-for-worker">Initialize <var>worker</var>'s Feature
+    Policy</h3>
+    <p>Given a <a interface lt="Worker">Worker</a> object
+    (<var>worker</var>), this algorithm initialises <var>worker</var>'s
+    <a>Feature Policy</a></p>
+    <ol>
+      <li>Let <var>inherited policy</var> be a new ordered map.</li>
+      <li>Let <var>declared policy</var> be a new ordered map.</li>
+      <li>For each <var>feature</var> supported,
+        <ol>
+          <li>Let <var>isInherited</var> be the result of running <a href=
+          "#define-inherited-policy"></a> on <var>feature</var> and
+          <var>worker</var>'s browsing context.</li>
+          <li>Set <var>inherited policy</var>[<var>feature</var>] to
+          <var>isInherited</var>.</li>
+        </ol>
+      </li>
+      <li>Let <var>policy</var> be a new <a>feature policy</a>, with inherited
+      policy <var>inherited policy</var> and declared policy <var>declared
+      policy</var>.</li>
+      <li><a>Enforce</a> the policy <var>policy</var> on <var>worker</var>.</li>
     </ol>
   </section>
   <section>
@@ -839,8 +894,9 @@ partial interface HTMLIFrameElement {
     <h3 id="define-inherited-policy">Define an inherited policy for
     <var>feature</var></h3>
     <p>Given a feature (<var>feature</var>) and a browsing context
-    (<var>context</var>), this algorithm returns the <a>inherited policy</a>
-    for that feature.</p>
+    (<var>context</var>), this algorithm returns the
+    <a lt="inherited policy for a feature">inherited policy for that feature
+    </a>.</p>
     <ol>
       <li>If <var>context</var> is a [=nested browsing context=]:
         <ol>
@@ -868,18 +924,43 @@ partial interface HTMLIFrameElement {
           <li>Otherwise, return 'Disabled'.</li>
         </ol>
       </li>
+      <li>If <var>context</var> is a <a interface lt="WorkerGlobalScope">WorkerGlobalScope</a>:
+        <ol>
+          <li>
+            Let <var>parent</var> be the parent context that created the worker.
+          </li>
+          <li>Let <var>origin</var> be <var>parent</var>'s [=origin=].</li>
+          <li>Let <var>container policy</var> be the <var>parent</var>'s container
+          policy.</li>
+          <li>If <var>feature</var> is a key in <var>container policy</var>:
+            <ol>
+              <li>If the <a>allowlist</a> for <var>feature</var> in
+              <var>container policy</var> <a>matches</a> <var>origin</var>, and
+              <var>parent</var>'s <a>inherited policy</a> for
+              <var>feature</var> is 'Enabled', return 'Enabled'.
+              </li>
+              <li>Otherwise return 'Disabled'.</li>
+            </ol>
+          </li>
+          <li>Otherwise, if <a href="is-feature-enabled"><var>feature</var> is
+	  enabled in <var>parent</var> for <var>origin</var></a>, return
+	  'Enabled'.
+          </li>
+          <li>Otherwise, return 'Disabled'.</li>
+        </ol>
+      </li>
       <li>Otherwise, return 'Enabled'.</li>
     </ol>
   </section>
   <section>
     <h3 id="is-feature-enabled">Is <var>feature</var> enabled in
-    <var>document</var> for <var>origin</var>?</h3>
-    <p>Given a feature (<var>feature</var>), a Document object
-    (<var>document</var>), and an [=origin=] (<var>origin</var>), this algorithm
+    <var>document</var> or <var>worker</var> for <var>origin</var>?</h3>
+    <p>Given a feature (<var>feature</var>), a Document or Worker object
+    (<var>context</var>), and an [=origin=] (<var>origin</var>), this algorithm
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
     <ol>
-      <li>Let <var>policy</var> be <var>document</var>'s <a>Feature Policy</a>
+      <li>Let <var>policy</var> be <var>context</var>'s <a>Feature Policy</a>
       </li>
       <li>If <var>policy</var>'s <a>inherited policy</a> for <var>feature</var>
       is Disabled, return "<code>Disabled</code>".</li>
@@ -898,7 +979,7 @@ partial interface HTMLIFrameElement {
       </li>
       <li>If <var>feature</var>'s <a>default allowlist</a> is
       <code>'self'</code>, and <var>origin</var> is [=same origin-domain=]
-      with <var>document</var>'s origin, return "<code>Enabled</code>".
+      with <var>context</var>'s origin, return "<code>Enabled</code>".
       </li>
       <li>Return "<code>Disabled</code>".</li>
     </ol>
