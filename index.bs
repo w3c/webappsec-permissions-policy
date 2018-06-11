@@ -410,7 +410,7 @@ partial interface HTMLIFrameElement {
       <p>The "<code>allowusermedia</code>" iframe attribute controls
       access to <a method>getUserMedia()</a>.</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
-      value contains the token "<code>payment</code>", then the
+      value contains the token "<code>usermedia</code>", then the
       "<code>allowusermedia</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowusermedia</code>" attribute
       on an iframe will result in adding an <a>allowlist</a> of <code>*</code>
