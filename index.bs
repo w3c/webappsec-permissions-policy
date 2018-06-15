@@ -429,64 +429,96 @@ spec:fetch; type:dfn; text:value
 </section>
 <section>
   <h2 id="introspection">Policy Introspection with JavaScript</h2>
-  The current policy which is in effect in a document can be observed by scripts. This can be used to make decisions, for instance, about
-  what user interface to display, when it is not possible to determine otherwise
-  whether a feature is enabled or not. (Some features may not have any observable
-  failure mode, or may ...)
-  To retreive the currently effective policy, use document.policy(). This returns
-  a policy object, which can be queried to find the actual policy for any feature.
+  <section class="non-normative">
+  <h3 id="introspection-overview">Overview</h3>
+  <p>The current policy which is in effect in a document can be observed by
+  scripts. This can be used to make decisions, for instance, about what user
+  interface to display, when it is not possible to determine otherwise whether a
+  feature is enabled or not. (Some features may not have any observable failure
+  mode, or may ...)</p>
+  <p>To retreive the currently effective policy, use
+  <code>document.policy()</code>. This returns a <a>policy</a> object, which can
+  be queried to:
+    * get the state (allowed or denied) in the current document for a given feature,
+    * get a list of all allowed features in the current document, or
+    * get the allowlist for a given feature in the current document.
+  </p>
 
-  Example:
+  <div class="example">
+  In this example, 
+  <pre>
+  &lt;!doctype html&gt;
+  &lt;script&gt;
+   let policy = document.policy();
 
-  let policy = document.policy();
+   // True if this document can use WebUSB
+   let can_use_usb = policy.allowsFeature('usb');
 
-  // True if this document can use web usb
-  let can_use_usb = policy.allowsFeature('usb');
+   // True if a new frame at https://example.com will be allowed to use WebVR
+   if (policy.allowsFeature('vr', 'https://example.com')) {
+     // Show UI to create frame
 
-  // True if a new frame at https://example.com will be allowed to use WebVR
-  if (policy.allowsFeature('vr', 'https://example.com')) {
-    // Show UI to create frame
-
-  // Get the list of origins which are allowed to request payment. The result
-  // will be a list of explicit origins, or the single element ['*'] if all
-  // origins are allowed.
-  let allowed_payment_origins = policy.getAllowlistForFeature('payment');
+   // Get the list of origins which are allowed to request payment. The result
+   // will be a list of explicit origins, or the single element ['\*'] if all
+   // origins are allowed.
+   let allowed_payment_origins = policy.getAllowlistForFeature('payment');
+  &lt;/script&gt;
+  </pre>
+  </div>
 
   It is also possible to inspect the policy on an iframe element, from the
   document which contains it.
 
-  var iframe_element = document.getElementById("frame");
-  var iframe_policy = iframe_element.policy();
+  <div class="example">
+  <pre>
+  &lt;!doctype html&gt;
+  &lt;iframe id="frame" allow="fullscreen; vr"&gt;&lt;/iframe&gt;
+  &lt;script&gt;
+   let iframe_element = document.getElementById("frame");
+   let iframe_policy = iframe_element.policy();
 
-
-  if (iframe_policy.allowsFeature('vr')) {
+   // True if the framed document will be allowed to use WebVR
+   if (iframe_policy.allowsFeature('vr')) {
     // display vr controls
-  }
+   }
+  &lt;/script&gt;
+  </pre>
+  </div>
 
   The policy on an iframe element is independent of any actual content loaded
-  into the frame. (To avoid cross-origin information leakage)
+  into the frame (to avoid cross-origin information leakage,) or whether it is
+  in a document tree.
 
-  var new_frame = document.createElement('iframe');
-  new_frame.allow = 'syncxhr';
-  var is_syncxhr_allowed = new_frame.policy.allowsFeature('syncxhr');
+  <div class="example">
+  <pre>
+  &lt;!doctype html&gt;
+  &lt;!-- this frame should not be allowed to use fullscreen when the document
+      in its src attribute is loaded in it --&gt;
+  &lt;iframe id="frame" allow="fullscreen https://example.com" src="https://example.net/" &gt;&lt;/iframe&gt;
+  &lt;script&gt;
+   let iframe_element = document.getElementById("frame");
+   let iframe_policy = iframe_element.policy();
+   // This will be false, as the URL listed in the src attribute is not allowed
+   // by policy to use fullscreen.
+   let is_fullscreen_allowed_in_frame = iframe_policy.allowsFeature('fullscreen');
 
+   let new_frame = document.createElement('iframe');
+   new_frame.allow = 'syncxhr';
+   // This will be true, as the iframe is eed to use syncxhr at whatever URL is
+   // mentioned in its serc attribute, even though that attribute is not yet set.
+   let is_syncxhr_allowed = new_frame.policy.allowsFeature('syncxhr');
+  &lt;/script&gt;
+  </pre>
+  </div>
+  </section>
 
-
-</section>
-<section>
-  <h2 id="integrations">Integrations</h2>
-  <p>This document defines a set of algorithms which other specifications will
-  use in order to implement the restrictions which Feature Policy defines. The
-  integrations are outlined here for clarity, but those external documents are
-  the normative references which ought to be consulted for detailed
-  information.</p>
   <section>
-    <h3 id="integration-with-html">Integration with HTML</h3>
+    <h3 id="the-policy-object">The policy object</h3>
     <pre class="idl">
 [NoInterfaceObject]
 interface Policy {
-  boolean allowsFeature(DOMString feature, optional DOMString origin);
-  sequence&lt;DOMString&gt; allowedFeatures();
+  boolean <a>allowsFeature</a>(DOMString feature, optional DOMString origin);
+  sequence&lt;DOMString&gt; <a>allowedFeatures</a>();
   sequence&lt;DOMString&gt; getAllowlistForFeature(DOMString feature);
 };
 
@@ -498,6 +530,45 @@ partial interface HTMLIFrameElement {
     [CEReactions, Reflect] attribute DOMString allow;
     readonly attribute Policy policy;
 };</pre>
+    <p>A policy object has an associated Node, which is set when it is created</p>
+    <p>The policy getter on any element must return a policy object whose associated Node is that element.</p>
+    <p>The <dfn>allowsFeature</dfn>(feature, origin) method must run the following steps:
+    1. If the property object's associated node is a Document:
+        1. If |origin| is omitted, set |origin| to the property object's associated node's origin
+        2. If |feature| is allowed in |document| for |origin|, return true.
+	3. Otherwise, return false.
+    2. Otherwise, (in this case, node must be an Element)
+        1. Let |parent| be node's node document.
+        1. If |origin| is omitted set |origin| to the <a>declared origin</a> for node.
+        2. Let |container policy| be the result of running Process feature policy attributes on node.
+	3. If |feature| is a key in |container policy|:
+	  1. If |parent|'s inherited policy for |feature| is 'Disabled', return false.
+	  2. If the allowlist for feature in container policy matches |origin|, return true.
+	  3. Otherwise return false.
+         4. Otherwise, ...
+
+    <p>The <dfn>allowedFeatures</dfn>() method must run the following steps:
+    1. Set |result| to an empty list
+    2. For each supported feature |feature|:
+      1. If the property object's associated node is a Document:
+        1. If |feature| is allowed in |document|, append |feature| to |result|.
+      2. Otherwise,
+        1. If the result of running <a lt="define-inherited-policy">Define an inherited policy for
+            <var>feature</var></a> is 'Enabled', append |feature| to |result|.
+    3. return result
+
+  </section>
+
+</section>
+<section>
+  <h2 id="integrations">Integrations</h2>
+  <p>This document defines a set of algorithms which other specifications will
+  use in order to implement the restrictions which Feature Policy defines. The
+  integrations are outlined here for clarity, but those external documents are
+  the normative references which ought to be consulted for detailed
+  information.</p>
+  <section>
+    <h3 id="integration-with-html">Integration with HTML</h3>
     <ol>
       <li>
         {{Document}} objects have a <a>Feature Policy</a>, which is initially

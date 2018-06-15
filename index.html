@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 24e86bd5bd6c90b3d57bf1ee168df70f4e11d8c4" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="89746658a0e977308f796d3fc010eb4a7d5cd240" name="document-revision">
+  <meta content="7f880592357f3e7894d233e05d3656468075ad4b" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-08">8 June 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-15">15 June 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1497,7 +1497,12 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li><a href="#iframe-allowusermedia-attribute"><span class="secno">6.3.3</span> <span class="content">allowusermedia</span></a>
        </ol>
      </ol>
-    <li><a href="#introspection"><span class="secno">7</span> <span class="content">Policy Introspection with JavaScript</span></a>
+    <li>
+     <a href="#introspection"><span class="secno">7</span> <span class="content">Policy Introspection with JavaScript</span></a>
+     <ol class="toc">
+      <li><a href="#introspection-overview"><span class="secno">7.1</span> <span class="content">Overview</span></a>
+      <li><a href="#the-policy-object"><span class="secno">7.2</span> <span class="content">The policy object</span></a>
+     </ol>
     <li>
      <a href="#integrations"><span class="secno">8</span> <span class="content">Integrations</span></a>
      <ol class="toc">
@@ -1894,45 +1899,88 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    </section>
    <section>
     <h2 class="heading settled" data-level="7" id="introspection"><span class="secno">7. </span><span class="content">Policy Introspection with JavaScript</span><a class="self-link" href="#introspection"></a></h2>
-     The current policy which is in effect in a document can be observed by scripts. This can be used to make decisions, for instance, about
-  what user interface to display, when it is not possible to determine otherwise
-  whether a feature is enabled or not. (Some features may not have any observable
-  failure mode, or may ...)
-  To retreive the currently effective policy, use document.policy(). This returns
-  a policy object, which can be queried to find the actual policy for any feature. 
-    <p>Example:</p>
-    <p>let policy = document.policy();</p>
-    <p>// True if this document can use web usb
-  let can_use_usb = policy.allowsFeature('usb');</p>
-    <p>// True if a new frame at https://example.com will be allowed to use WebVR
-  if (policy.allowsFeature('vr', 'https://example.com')) {
-    // Show UI to create frame</p>
-    <p>// Get the list of origins which are allowed to request payment. The result
-  // will be a list of explicit origins, or the single element ['*'] if all
-  // origins are allowed.
-  let allowed_payment_origins = policy.getAllowlistForFeature('payment');</p>
-    <p>It is also possible to inspect the policy on an iframe element, from the
+    <section class="non-normative">
+     <h3 class="heading settled" data-level="7.1" id="introspection-overview"><span class="secno">7.1. </span><span class="content">Overview</span><a class="self-link" href="#introspection-overview"></a></h3>
+     <p>The current policy which is in effect in a document can be observed by
+  scripts. This can be used to make decisions, for instance, about what user
+  interface to display, when it is not possible to determine otherwise whether a
+  feature is enabled or not. (Some features may not have any observable failure
+  mode, or may ...)</p>
+     <p>To retreive the currently effective policy, use <code>document.policy()</code>. This returns a <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#violation-policy" id="ref-for-violation-policy">policy</a> object, which can
+  be queried to: </p>
+     <ul>
+      <li data-md="">
+       <p>get the state (allowed or denied) in the current document for a given feature,</p>
+      <li data-md="">
+       <p>get a list of all allowed features in the current document, or</p>
+      <li data-md="">
+       <p>get the allowlist for a given feature in the current document.</p>
+     </ul>
+     <p></p>
+     <div class="example" id="example-62e73b9e">
+      <a class="self-link" href="#example-62e73b9e"></a> In this example, 
+<pre>&lt;!doctype html>
+&lt;script>
+ let policy = document.policy();
+
+ // True if this document can use WebUSB
+ let can_use_usb = policy.allowsFeature('usb');
+
+ // True if a new frame at https://example.com will be allowed to use WebVR
+ if (policy.allowsFeature('vr', 'https://example.com')) {
+   // Show UI to create frame
+
+ // Get the list of origins which are allowed to request payment. The result
+ // will be a list of explicit origins, or the single element ['\*'] if all
+ // origins are allowed.
+ let allowed_payment_origins = policy.getAllowlistForFeature('payment');
+&lt;/script>
+</pre>
+     </div>
+     <p>It is also possible to inspect the policy on an iframe element, from the
   document which contains it.</p>
-    <p>var iframe_element = document.getElementById("frame");
-  var iframe_policy = iframe_element.policy();</p>
-    <p>if (iframe_policy.allowsFeature('vr')) {
-    // display vr controls
-  }</p>
-    <p>The policy on an iframe element is independent of any actual content loaded
-  into the frame. (To avoid cross-origin information leakage)</p>
-    <p>var new_frame = document.createElement('iframe');
-  new_frame.allow = 'syncxhr';
-  var is_syncxhr_allowed = new_frame.policy.allowsFeature('syncxhr');</p>
-   </section>
-   <section>
-    <h2 class="heading settled" data-level="8" id="integrations"><span class="secno">8. </span><span class="content">Integrations</span><a class="self-link" href="#integrations"></a></h2>
-    <p>This document defines a set of algorithms which other specifications will
-  use in order to implement the restrictions which Feature Policy defines. The
-  integrations are outlined here for clarity, but those external documents are
-  the normative references which ought to be consulted for detailed
-  information.</p>
+     <div class="example" id="example-9bdf2de0">
+      <a class="self-link" href="#example-9bdf2de0"></a> 
+<pre>&lt;!doctype html>
+&lt;iframe id="frame" allow="fullscreen; vr">&lt;/iframe>
+&lt;script>
+ let iframe_element = document.getElementById("frame");
+ let iframe_policy = iframe_element.policy();
+
+ // True if the framed document will be allowed to use WebVR
+ if (iframe_policy.allowsFeature('vr')) {
+  // display vr controls
+ }
+&lt;/script>
+</pre>
+     </div>
+     <p>The policy on an iframe element is independent of any actual content loaded
+  into the frame (to avoid cross-origin information leakage,) or whether it is
+  in a document tree.</p>
+     <div class="example" id="example-b911a29a">
+      <a class="self-link" href="#example-b911a29a"></a> 
+<pre>&lt;!doctype html>
+&lt;!-- this frame should not be allowed to use fullscreen when the document
+    in its src attribute is loaded in it -->
+&lt;iframe id="frame" allow="fullscreen https://example.com" src="https://example.net/" >&lt;/iframe>
+&lt;script>
+ let iframe_element = document.getElementById("frame");
+ let iframe_policy = iframe_element.policy();
+ // This will be false, as the URL listed in the src attribute is not allowed
+ // by policy to use fullscreen.
+ let is_fullscreen_allowed_in_frame = iframe_policy.allowsFeature('fullscreen');
+
+ let new_frame = document.createElement('iframe');
+ new_frame.allow = 'syncxhr';
+ // This will be true, as the iframe is eed to use syncxhr at whatever URL is
+ // mentioned in its serc attribute, even though that attribute is not yet set.
+ let is_syncxhr_allowed = new_frame.policy.allowsFeature('syncxhr');
+&lt;/script>
+</pre>
+     </div>
+    </section>
     <section>
-     <h3 class="heading settled" data-level="8.1" id="integration-with-html"><span class="secno">8.1. </span><span class="content">Integration with HTML</span><a class="self-link" href="#integration-with-html"></a></h3>
+     <h3 class="heading settled" data-level="7.2" id="the-policy-object"><span class="secno">7.2. </span><span class="content">The policy object</span><a class="self-link" href="#the-policy-object"></a></h3>
 <pre class="idl highlight def">[<a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NoInterfaceObject" id="ref-for-NoInterfaceObject">NoInterfaceObject</a>]
 <span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="policy"><code>Policy</code></dfn> {
   <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean"><span class="kt">boolean</span></a> <dfn class="nv idl-code" data-dfn-for="Policy" data-dfn-type="method" data-export="" data-lt="allowsFeature(feature, origin)|allowsFeature(feature)" id="dom-policy-allowsfeature"><code>allowsFeature</code><a class="self-link" href="#dom-policy-allowsfeature"></a></dfn>(<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><span class="kt">DOMString</span></a> <dfn class="nv idl-code" data-dfn-for="Policy/allowsFeature(feature, origin), Policy/allowsFeature(feature)" data-dfn-type="argument" data-export="" id="dom-policy-allowsfeature-feature-origin-feature"><code>feature</code><a class="self-link" href="#dom-policy-allowsfeature-feature-origin-feature"></a></dfn>, <span class="kt">optional</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①"><span class="kt">DOMString</span></a> <dfn class="nv idl-code" data-dfn-for="Policy/allowsFeature(feature, origin), Policy/allowsFeature(feature)" data-dfn-type="argument" data-export="" id="dom-policy-allowsfeature-feature-origin-origin"><code>origin</code><a class="self-link" href="#dom-policy-allowsfeature-feature-origin-origin"></a></dfn>);
@@ -1948,6 +1996,75 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     [<a class="nv idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions" id="ref-for-cereactions">CEReactions</a>, <a class="nv idl-code" data-link-type="extended-attribute">Reflect</a>] <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><span class="kt">DOMString</span></a> <dfn class="nv idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export="" data-type="DOMString" id="dom-htmliframeelement-allow"><code>allow</code><a class="self-link" href="#dom-htmliframeelement-allow"></a></dfn>;
     <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#policy" id="ref-for-policy①">Policy</a> <dfn class="nv idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Policy" id="dom-htmliframeelement-policy"><code>policy</code><a class="self-link" href="#dom-htmliframeelement-policy"></a></dfn>;
 };</pre>
+     <p>A policy object has an associated Node, which is set when it is created</p>
+     <p>The policy getter on any element must return a policy object whose associated Node is that element.</p>
+     <p>The <dfn data-dfn-type="dfn" data-noexport="" id="allowsfeature">allowsFeature<a class="self-link" href="#allowsfeature"></a></dfn>(feature, origin) method must run the following steps: </p>
+     <ol>
+      <li data-md="">
+       <p>If the property object’s associated node is a Document:</p>
+       <ol>
+        <li data-md="">
+         <p>If <var>origin</var> is omitted, set <var>origin</var> to the property object’s associated node’s origin</p>
+        <li data-md="">
+         <p>If <var>feature</var> is allowed in <var>document</var> for <var>origin</var>, return true.</p>
+       </ol>
+      <li data-md="">
+       <p>Otherwise, return false.</p>
+      <li data-md="">
+       <p>Otherwise, (in this case, node must be an Element)</p>
+       <ol>
+        <li data-md="">
+         <p>Let <var>parent</var> be node’s node document.</p>
+        <li data-md="">
+         <p>If <var>origin</var> is omitted set <var>origin</var> to the <a data-link-type="dfn">declared origin</a> for node.</p>
+        <li data-md="">
+         <p>Let <var>container policy</var> be the result of running Process feature policy attributes on node.</p>
+       </ol>
+      <li data-md="">
+       <p>If <var>feature</var> is a key in <var>container policy</var>:</p>
+      <li data-md="">
+       <p>If <var>parent</var>’s inherited policy for <var>feature</var> is 'Disabled', return false.</p>
+      <li data-md="">
+       <p>If the allowlist for feature in container policy matches <var>origin</var>, return true.</p>
+      <li data-md="">
+       <p>Otherwise return false.</p>
+       <ol start="4">
+        <li data-md="">
+         <p>Otherwise, ...</p>
+       </ol>
+     </ol>
+     <p>The <dfn data-dfn-type="dfn" data-noexport="" id="allowedfeatures">allowedFeatures<a class="self-link" href="#allowedfeatures"></a></dfn>() method must run the following steps: </p>
+     <ol>
+      <li data-md="">
+       <p>Set <var>result</var> to an empty list</p>
+      <li data-md="">
+       <p>For each supported feature <var>feature</var>:</p>
+      <li data-md="">
+       <p>If the property object’s associated node is a Document:</p>
+       <ol>
+        <li data-md="">
+         <p>If <var>feature</var> is allowed in <var>document</var>, append <var>feature</var> to <var>result</var>.</p>
+       </ol>
+      <li data-md="">
+       <p>Otherwise,</p>
+       <ol>
+        <li data-md="">
+         <p>If the result of running <a data-link-type="dfn">Define an inherited policy for <var>feature</var></a> is 'Enabled', append <var>feature</var> to <var>result</var>.</p>
+       </ol>
+      <li data-md="">
+       <p>return result</p>
+     </ol>
+    </section>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="8" id="integrations"><span class="secno">8. </span><span class="content">Integrations</span><a class="self-link" href="#integrations"></a></h2>
+    <p>This document defines a set of algorithms which other specifications will
+  use in order to implement the restrictions which Feature Policy defines. The
+  integrations are outlined here for clarity, but those external documents are
+  the normative references which ought to be consulted for detailed
+  information.</p>
+    <section>
+     <h3 class="heading settled" data-level="8.1" id="integration-with-html"><span class="secno">8.1. </span><span class="content">Integration with HTML</span><a class="self-link" href="#integration-with-html"></a></h3>
      <ol>
       <li> <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document③">Document</a></code> objects have a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑤">Feature Policy</a>, which is initially <a data-link-type="dfn" href="#empty-feature-policy" id="ref-for-empty-feature-policy">empty</a>. 
       <li>
@@ -2465,15 +2582,17 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li><a href="#dom-htmliframeelement-allow">allow</a><span>, in §8.1</span>
-   <li><a href="#dom-policy-allowedfeatures">allowedFeatures()</a><span>, in §8.1</span>
+   <li><a href="#dom-htmliframeelement-allow">allow</a><span>, in §7.2</span>
+   <li><a href="#dom-policy-allowedfeatures">allowedFeatures()</a><span>, in §7.2</span>
+   <li><a href="#allowedfeatures">allowedFeatures</a><span>, in §7.2</span>
    <li><a href="#allowed-to-use">allowed to use</a><span>, in §8.1</span>
    <li><a href="#allowlist">allowlist</a><span>, in §4.8</span>
    <li><a href="#allow-list">allow-list</a><span>, in §5.1</span>
    <li><a href="#allowlist">allowlists</a><span>, in §4.8</span>
    <li><a href="#allow-list-value">allow-list-value</a><span>, in §5.1</span>
-   <li><a href="#dom-policy-allowsfeature">allowsFeature(feature)</a><span>, in §8.1</span>
-   <li><a href="#dom-policy-allowsfeature">allowsFeature(feature, origin)</a><span>, in §8.1</span>
+   <li><a href="#allowsfeature">allowsFeature</a><span>, in §7.2</span>
+   <li><a href="#dom-policy-allowsfeature">allowsFeature(feature)</a><span>, in §7.2</span>
+   <li><a href="#dom-policy-allowsfeature">allowsFeature(feature, origin)</a><span>, in §7.2</span>
    <li><a href="#container-policy">container policy</a><span>, in §4.6</span>
    <li><a href="#declared-policy">declared feature policy</a><span>, in §4.4</span>
    <li><a href="#declared-policy">declared policy</a><span>, in §4.4</span>
@@ -2484,18 +2603,18 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <li><a href="#feature-identifier">feature-identifier</a><span>, in §5.1</span>
    <li><a href="#feature-policy">feature policy</a><span>, in §4.2</span>
    <li><a href="#feature-policy-header">feature-policy-header</a><span>, in §6.1</span>
-   <li><a href="#dom-policy-getallowlistforfeature">getAllowlistForFeature(feature)</a><span>, in §8.1</span>
+   <li><a href="#dom-policy-getallowlistforfeature">getAllowlistForFeature(feature)</a><span>, in §7.2</span>
    <li><a href="#header-policy">header policy</a><span>, in §4.5</span>
    <li><a href="#inherited-policy">inherited policies</a><span>, in §4.3</span>
    <li><a href="#inherited-policy">inherited policy</a><span>, in §4.3</span>
    <li><a href="#inherited-policy-for-a-feature">inherited policy for a feature</a><span>, in §4.3</span>
    <li><a href="#matches">matches</a><span>, in §4.8</span>
-   <li><a href="#policy">Policy</a><span>, in §8.1</span>
+   <li><a href="#policy">Policy</a><span>, in §7.2</span>
    <li>
     policy
     <ul>
-     <li><a href="#dom-document-policy">attribute for Document</a><span>, in §8.1</span>
-     <li><a href="#dom-htmliframeelement-policy">attribute for HTMLIFrameElement</a><span>, in §8.1</span>
+     <li><a href="#dom-document-policy">attribute for Document</a><span>, in §7.2</span>
+     <li><a href="#dom-htmliframeelement-policy">attribute for HTMLIFrameElement</a><span>, in §7.2</span>
     </ul>
    <li><a href="#policy-controlled-feature">policy-controlled feature</a><span>, in §4.1</span>
    <li><a href="#policy-directive">policy directive</a><span>, in §4.7</span>
@@ -2511,6 +2630,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <li>
     <a data-link-type="biblio">[CSP3]</a> defines the following terms:
     <ul>
+     <li><a href="https://w3c.github.io/webappsec-csp/#violation-policy">policy</a>
      <li><a href="https://w3c.github.io/webappsec-csp/#sandbox">sandbox</a>
     </ul>
    <li>
@@ -2846,7 +2966,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <aside class="dfn-panel" data-for="policy">
    <b><a href="#policy">#policy</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-policy">8.1. Integration with HTML</a> <a href="#ref-for-policy①">(2)</a>
+    <li><a href="#ref-for-policy">7.2. The policy object</a> <a href="#ref-for-policy①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="enforce">
