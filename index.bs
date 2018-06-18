@@ -211,8 +211,8 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="container-policies">Container policies</h3>
     <p>In addition to the <a>header policy</a>, each [=nested browsing context=]
-    has a <dfn>container policy</dfn>, which is a <a>policy directive</a>, which
-    may be empty. The <a>container policy</a> can set by attributes on the
+    has a <dfn export>container policy</dfn>, which is a <a>policy directive</a>,
+    which may be empty. The <a>container policy</a> can set by attributes on the
     [=browsing context container=].</p>
     <p>The <a>container policy</a> for a [=nested browsing context=] influences
     the <a>inherited policy</a> of any document loaded into that context.
@@ -240,8 +240,8 @@ spec:fetch; type:dfn; text:value
   </section>
   <section>
     <h3 id="allowlists">Allowlists</h3>
-    <p>A feature policy <dfn lt="allowlist|allowlists">allowlist</dfn> is
-    conceptually a set of [=origins=]. An <a>allowlist</a> may be either:
+    <p>A feature policy <dfn export lt="allowlist|allowlists">allowlist</dfn>
+    is conceptually a set of [=origins=]. An <a>allowlist</a> may be either:
     <ul>
       <li><dfn>The special value <code>*</code></dfn>, which represents every
       origin, or</li>
