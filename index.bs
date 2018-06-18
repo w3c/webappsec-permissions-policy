@@ -781,7 +781,7 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="initialize-for-document">Initialize <var>document</var>'s Feature
     Policy</var></h3>
-    <p>Given a Document object (<var>document</var>), this algorithm
+    <p>Given a {{Document}} object (<var>document</var>), this algorithm
     initialises <var>document</var>'s <a>Feature Policy</a></p>
     <ol>
       <li>Let <var>inherited policy</var> be a new ordered map.</li>
@@ -874,7 +874,7 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="is-feature-enabled">Is <var>feature</var> enabled in
     <var>document</var> for <var>origin</var>?</h3>
-    <p>Given a feature (<var>feature</var>), a Document object
+    <p>Given a feature (<var>feature</var>), a {{Document}} object
     (<var>document</var>), and an [=origin=] (<var>origin</var>), this algorithm
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
