@@ -536,24 +536,24 @@ partial interface HTMLIFrameElement {
     1. If the property object's associated node is a Document:
         1. If |origin| is omitted, set |origin| to the property object's associated node's origin
         2. If |feature| is allowed in |document| for |origin|, return true.
-	3. Otherwise, return false.
+        3. Otherwise, return false.
     2. Otherwise, (in this case, node must be an Element)
         1. Let |parent| be node's node document.
-        1. If |origin| is omitted set |origin| to the <a>declared origin</a> for node.
+        1. If |origin| is omitted, set |origin| to the <a>declared origin</a> for node.
         2. Let |container policy| be the result of running Process feature policy attributes on node.
-	3. If |feature| is a key in |container policy|:
-	  1. If |parent|'s inherited policy for |feature| is 'Disabled', return false.
-	  2. If the allowlist for feature in container policy matches |origin|, return true.
-	  3. Otherwise return false.
-         4. Otherwise, ...
+        3. If |feature| is a key in |container policy|:
+            1. If |parent|'s inherited policy for |feature| is 'Disabled', return false.
+            2. If the allowlist for feature in container policy matches |origin|, return true.
+            3. Otherwise return false.
+        4. Otherwise, ...
 
     <p>The <dfn>allowedFeatures</dfn>() method must run the following steps:
     1. Set |result| to an empty list
     2. For each supported feature |feature|:
-      1. If the property object's associated node is a Document:
-        1. If |feature| is allowed in |document|, append |feature| to |result|.
-      2. Otherwise,
-        1. If the result of running <a lt="define-inherited-policy">Define an inherited policy for
+        1. If the property object's associated node is a Document:
+            1. If |feature| is allowed in |document|, append |feature| to |result|.
+        2. Otherwise,
+            1. If the result of running <a lt="define-inherited-policy">Define an inherited policy for
             <var>feature</var></a> is 'Enabled', append |feature| to |result|.
     3. return result
 
