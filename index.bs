@@ -557,6 +557,19 @@ partial interface HTMLIFrameElement {
             <var>feature</var></a> is 'Enabled', append |feature| to |result|.
     3. return result
 
+    <p>The <dfn>getAllowlistForFeature</dfn>(feature) method must run the following steps:
+    1. Set |result| to an empty list
+    2. If the property object's associated node is a Document:
+        1. If |feature| is not allowed in |document|, return |result|
+        2. Let |allowlist| be |document|'s feature policy's declared policy[|feature|]
+        3. If |allowlist| is the special value *, append "*" to |result|
+        4. Otherwise, for each |origin| in |allowlist|:
+            1. Append the ascii serialization of |origin| to |result|
+        5. Return |result|.
+    3. Otherwise,
+        1. Let |container policy| be ...
+        2. 
+
   </section>
 
 </section>
