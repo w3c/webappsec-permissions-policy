@@ -1,4 +1,0 @@
-char-encoding: utf8
-indent: auto
-wrap: 80
-tidy-mark: no
