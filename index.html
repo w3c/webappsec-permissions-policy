@@ -1213,7 +1213,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version ee4bd4642f06996491f80990f7b1050ff9dcf622" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="7ba9787fbef849ab2658a29643aa5d1272395060" name="document-revision">
+  <meta content="0920ac5871c0f9c37511cc53aa684f5e77a8be4c" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1460,7 +1460,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-19">19 June 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-20">20 June 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1921,12 +1921,12 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       when it is constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
         allow="camera; microphone"></code>, and is for compatibility with
-	existing uses of <code>allowusermedia</code>. If <code>allow="camera;
-	microphone"</code> and <code>allowusermedia</code> are both present on
-	an iframe element, then the more restrictive allowlist of <code>allow="camera; microphone"</code> will be used. Similarly, if only
-	one of <code>allow="camera"</code> or <code>allow="microphone"</code> is
-	present, then the more restrictive allowlist will be used for that
-	feature, while the other will use the less restrictive <code>*</code>. </div>
+        existing uses of <code>allowusermedia</code>. If <code>allow="camera;
+        microphone"</code> and <code>allowusermedia</code> are both present on
+        an iframe element, then the more restrictive allowlist of <code>allow="camera; microphone"</code> will be used. Similarly, if only
+        one of <code>allow="camera"</code> or <code>allow="microphone"</code> is
+        present, then the more restrictive allowlist will be used for that
+        feature, while the other will use the less restrictive <code>*</code>. </div>
      </section>
     </section>
    </section>
@@ -1960,10 +1960,10 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <ol>
         <li>
          <p>If <var>document</var> has no <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a>, then return
-	 false.</p>
+         false.</p>
         <li>
          <p>If <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#active-document" id="ref-for-active-document">active
-	 document</a> is not <var>document</var>, then return false.</p>
+         document</a> is not <var>document</var>, then return false.</p>
         <li>
          <p>If <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑧">feature policy</a> <a href="#is-feature-enabled">enables <var>feature</var> for the origin of <var>document</var></a>, then return true.</p>
          <p></p>
@@ -2054,7 +2054,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>. 
         <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a>. 
         <li>If any element of <var>targetlist</var> is the string
-	  "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value①">the special value <code>*</code></a>.
+          "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value①">the special value <code>*</code></a>.
         <li>
          Otherwise: 
          <ol>
@@ -2064,7 +2064,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
            <ol>
             <li>If <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive">ASCII case-insensitive</a> match for the string "<code>'self'</code>", let result be <var>origin</var>.
             <li>Otherwise, let <var>result</var> be the result of
-		  executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>element</var>.
+                  executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>element</var>.
             <li>
              If <var>result</var> is not failure: 
              <ol>
@@ -2099,15 +2099,15 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <ol>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑧">policy directive</a>. 
       <li>Let <var>container policy</var> be the result of running <a href="#parse-allow-attribute">Parse allow attribute</a> on the value of <var>element</var>’s <code>allow</code> attribute, with <var>container
-	origin</var> set to the origin of <var>element</var>’s node document,
-	and <var>target origin</var> set to the origin of the URL in <var>element</var>’s <code>src</code> attribute. 
+        origin</var> set to the origin of <var>element</var>’s node document,
+        and <var>target origin</var> set to the origin of the URL in <var>element</var>’s <code>src</code> attribute. 
       <li>
        If <var>element</var> is an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element①⓪">iframe</a></code> element: 
        <ol>
         <li>
          If <var>element</var>’s <code>allowfullscreen</code> attribute is
           specified, and <var>container policy</var> does not contain an
-	  allowlist for <code>fullscreen</code>, 
+          allowlist for <code>fullscreen</code>, 
          <ol>
           <li>Construct a new declaration for <code>fullscreen</code>, whose
               allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value②">the special value <code>*</code></a>.
@@ -2115,7 +2115,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
          </ol>
         <li>
          If <var>element</var>’s <code>allowpaymentrequest</code> attribute is specified, and <var>container policy</var> does not
-	  contain an allowlist for <code>payment</code>, 
+          contain an allowlist for <code>payment</code>, 
          <ol>
           <li>Construct a new declaration for <code>payment</code>, whose
               allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value③">the special value <code>*</code></a>.
@@ -2126,7 +2126,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
          <ol>
           <li>
            If <var>container policy</var> does not contain an allowlist
-	      for <code>camera</code>, 
+              for <code>camera</code>, 
            <ol>
             <li>Construct a new declaration for <code>camera</code>, whose
                   allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value④">the special value <code>*</code></a>.
@@ -2163,22 +2163,22 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>. 
         <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a>. 
         <li>If any element of <var>targetlist</var> is the string
-	  "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value⑥">the special value <code>*</code></a>.
+          "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value⑥">the special value <code>*</code></a>.
         <li>
          Otherwise: 
          <ol>
           <li>Set <var>allowlist</var> to an new <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set②">ordered set</a>.
           <li>If <var>targetlist</var> is empty, append <var>target
-	      origin</var> to <var>allowlist</var>. 
+              origin</var> to <var>allowlist</var>. 
           <li>
            For each <var>element</var> in <var>targetlist</var>: 
            <ol>
             <li>If <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive①">ASCII case-insensitive</a> match for "<code>'self'</code>", let result be <var>container
-		  origin</var>.
+                  origin</var>.
             <li>If <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive②">ASCII case-insensitive</a> match for "<code>'src'</code>", let result be <var>target
-		  origin</var>.
+                  origin</var>.
             <li>Otherwise, let <var>result</var> be the result of
-		  executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser①">URL parser</a> on <var>element</var>.
+                  executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser①">URL parser</a> on <var>element</var>.
             <li>
              If <var>result</var> is not failure: 
              <ol>
@@ -2228,7 +2228,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        For each <var>feature</var> → <var>allowlist</var> of <var>d</var>: 
        <ol>
         <li>If <var>inherited policy</var>[<var>feature</var>] is true, then
-	  set <var>declared policy</var>[<var>feature</var>] to <var>allowlist</var>.
+          set <var>declared policy</var>[<var>feature</var>] to <var>allowlist</var>.
        </ol>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⑥">feature policy</a>, with inherited
       policy <var>inherited policy</var> and declared policy <var>declared
@@ -2256,8 +2256,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
           <li>Otherwise return 'Disabled'.
          </ol>
         <li>Otherwise, if <a href="is-feature-enabled"><var>feature</var> is
-	  enabled in <var>parent</var> for <var>origin</var></a>, return
-	  'Enabled'. 
+          enabled in <var>parent</var> for <var>origin</var></a>, return
+          'Enabled'. 
         <li>Otherwise, return 'Disabled'.
        </ol>
       <li>Otherwise, return 'Enabled'.
