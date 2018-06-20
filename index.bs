@@ -431,7 +431,7 @@ spec:fetch; type:dfn; text:value
   </section>
 </section>
 <section>
-  <h2 id="introspection">Policy Introspection with JavaScript</h2>
+  <h2 id="introspection">Policy Introspection from Scripts</h2>
   <section class="non-normative">
   <h3 id="introspection-overview">Overview</h3>
   <p>The current policy which is in effect in a document can be observed by
@@ -507,8 +507,8 @@ spec:fetch; type:dfn; text:value
 
    let new_frame = document.createElement('iframe');
    new_frame.allow = 'syncxhr';
-   // This will be true, as the iframe is eed to use syncxhr at whatever URL is
-   // mentioned in its serc attribute, even though that attribute is not yet set.
+   // This will be true, as the iframe is allowed to use syncxhr at whatever URL is
+   // mentioned in its src attribute, even though that attribute is not yet set.
    let is_syncxhr_allowed = new_frame.policy.allowsFeature('syncxhr');
   &lt;/script&gt;
   </pre>
@@ -543,41 +543,44 @@ partial interface HTMLIFrameElement {
     2. Otherwise, (in this case, node must be an Element)
         1. Let |parent| be node's node document.
         1. If |origin| is omitted, set |origin| to the <a>declared origin</a> for node.
-        2. Let |container policy| be the result of running Process feature policy attributes on node.
-        3. If |feature| is a key in |container policy|:
-            1. If |parent|'s inherited policy for |feature| is 'Disabled', return false.
-            2. If the allowlist for feature in container policy matches |origin|, return true.
-            3. Otherwise return false.
-        4. Otherwise, ...
+    3. Let |policy| be the <a>observable policy</a> for the property object's associated node.
+    4. If |feature| is allowed by |policy| for |origin|, return true.
+    5. Otherwise, return false.
 
     <p>The <dfn>allowedFeatures</dfn>() method must run the following steps:
     1. Set |result| to an empty list
-    2. For each supported feature |feature|:
-        1. If the property object's associated node is a Document:
-            1. If |feature| is allowed in |document|, append |feature| to |result|.
-        2. Otherwise,
-            1. If the result of running <a lt="define-inherited-policy">Define an inherited policy for
-                <var>feature</var></a> is 'Enabled', append |feature| to |result|.
-    3. return result
+    2. If the property object's associated node is a Document, let |origin| be |document|'s origin.
+    3. Otherwise, let |origin| be the <a>declared origin</a> for node.
+    4. Let |policy| be the <a>observable policy</a> for the property object's associated node.
+    5. For each <a>supported feature</a> |feature|:
+        1. If |feature| is allowed by |policy| for |origin|, append |feature| to |result|.
+    6. return result
 
     <p>The <dfn>getAllowlistForFeature</dfn>(feature) method must run the following steps:
     1. Set |result| to an empty list
-    2. If the property object's associated node is a Document:
-        1. If |feature| is not allowed in |document|, return |result|
-        2. Let |allowlist| be |document|'s feature policy's declared policy[|feature|]
-        3. If |allowlist| is the special value *, append "*" to |result|
-        4. Otherwise, for each |origin| in |allowlist|:
-            1. Append the ascii serialization of |origin| to |result|
-        5. Return |result|.
-    3. Otherwise,
-        1. Let |container policy| be ...
-        2. 
+    2. If the property object's associated node is a Document, let |origin| be |document|'s origin.
+    3. Otherwise, let |origin| be the <a>declared origin</a> for node.
+    4. Let |policy| be the <a>observable policy</a> for the property object's associated node.
+    5. If |feature| is not allowed in |policy| for |origin|, return |result|
+    6. Let |allowlist| be |policy|'s declared policy[|feature|]
+    7. If |allowlist| is the special value *, append "*" to |result|
+    8. Otherwise, for each |origin| in |allowlist|:
+        1. Append the ascii serialization of |origin| to |result|
+    9. Return |result|.
 
-
-    <p>To <dfn>get the observable policy</dfn> for a Document |document|, return |document|'s feature policy.
-    <p>To <dfn>get the observable policy</dfn> for an Element |node|, run the following steps:
-        1. Let |container policy| be the result of running Process feature policy attributes on |node|.
-        2. 
+    <p>To get the <dfn for="document">observable policy</dfn> for a Document |document|, return |document|'s feature policy.
+    <p>To get the <dfn for="element">observable policy</dfn> for an Element |node|, run the following steps:
+        1. Let |inherited policy| be a new ordered map.
+        2. Let |declared policy| be a new ordered map.
+        3. For each <a>supported feature</a> |feature|:
+            1. Let |isInherited| be the result of running <a href="#define-inherited-policy-in-container"></a> on |feature| and |node|.
+            2. Set |inherited policy|[|feature|] to |isInherited|.
+        4. Return a new <a>feature policy</a> with inherited policy |inherited policy| and declared policy |declared policy|.
+    <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the following steps:
+        1. If |node| has a src attribute:
+            1. Let |url| be the result of parsing |node|'s src attribute, relative to |node|'s <a>node document</a>.
+            2. If |url| is not failure, return |url|s origin.
+        2. Return |node|'s <a>node document</a>'s origin.
   </section>
 
 </section>
@@ -813,8 +816,7 @@ partial interface HTMLIFrameElement {
       "#parse-allow-attribute">Parse allow attribute</a> on the value of
         <var>element</var>'s <code>allow</code> attribute, with <var>container
         origin</var> set to the origin of <var>element</var>'s node document,
-        and <var>target origin</var> set to the origin of the URL in
-        <var>element</var>'s <code>src</code> attribute.
+        and <var>target origin</var> set to <var>element</var>'s <a>declared origin</a>.
       </li>
       <li>If <var>element</var> is an <{iframe}> element:
         <ol>
@@ -992,33 +994,39 @@ partial interface HTMLIFrameElement {
     (<var>context</var>), this algorithm returns the <a>inherited policy</a>
     for that feature.</p>
     <ol>
-      <li>If <var>context</var> is a [=nested browsing context=]:
+      <li>If <var>context</var> is a [=nested browsing context=],
+          return the result of executing <a href="#define-inherited-policy-in-container"></a> on <var>context</var>'s <a>browsing context container</a>.</li>
+      <li>Otherwise, return 'Enabled'.</li>
+    </ol>
+  </section>
+  <section>
+    <h3 id="define-inherited-policy-in-container">Define an inherited policy for
+    <var>feature</var> in <var>container</var></h3>
+    <p>Given a feature (<var>feature</var>) and a <a>browsing context container</a>
+    (<var>container</var>), this algorithm returns the <a>inherited policy</a>
+    for that feature.</p>
+    <ol>
+      <li>Let <var>parent</var> be <var>container</var>'s node document.</li>
+      <li>Let <var>origin</var> be <var>parent</var>'s [=origin=]</li>
+      <li>Let <var>container policy</var> be the result of running
+        <a href="#process-feature-policy-attributes"></a> on
+        <var>container</var>.
+      </li>
+      <li>If <var>feature</var> is a key in <var>container policy</var>:
         <ol>
-          <li>Let <var>parent</var> be <var>context</var>'s parent browsing
-          context's active document.</li>
-          <li>Let <var>origin</var> be <var>parent</var>'s [=origin=]</li>
-          <li>Let <var>container policy</var> be the result of running
-            <a href="#process-feature-policy-attributes"></a> on
-            <var>context</var>'s browsing context container.
+          <li>If the <a>allowlist</a> for <var>feature</var> in
+          <var>container policy</var> <a>matches</a> <var>origin</var>, and
+          <var>parent</var>'s <a>inherited policy</a> for
+          <var>feature</var> is 'Enabled', return 'Enabled'.
           </li>
-          <li>If <var>feature</var> is a key in <var>container policy</var>:
-            <ol>
-              <li>If the <a>allowlist</a> for <var>feature</var> in
-              <var>container policy</var> <a>matches</a> <var>origin</var>, and
-              <var>parent</var>'s <a>inherited policy</a> for
-              <var>feature</var> is 'Enabled', return 'Enabled'.
-              </li>
-              <li>Otherwise return 'Disabled'.</li>
-            </ol>
-          </li>
-          <li>Otherwise, if <a href="is-feature-enabled"><var>feature</var> is
-          enabled in <var>parent</var> for <var>origin</var></a>, return
-          'Enabled'.
-          </li>
-          <li>Otherwise, return 'Disabled'.</li>
+          <li>Otherwise return 'Disabled'.</li>
         </ol>
       </li>
-      <li>Otherwise, return 'Enabled'.</li>
+      <li>Otherwise, if <a href="#is-feature-enabled"><var>feature</var> is
+      enabled in <var>parent</var> for <var>origin</var></a>, return
+      'Enabled'.
+      </li>
+      <li>Otherwise, return 'Disabled'.</li>
     </ol>
   </section>
   <section>
