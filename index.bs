@@ -56,7 +56,7 @@ spec:fetch; type:dfn; text:value
     within their application. It can do so by delivering the following HTTP
     response header to define a feature policy:</p>
     <pre>
-      <a href="#feature-policy-header">Feature-Policy</a>: vibrate 'none'; geolocation 'none'</pre>
+      <a http-header>Feature-Policy</a>: vibrate 'none'; geolocation 'none'</pre>
     <p>By specifying the "<code>'none'</code>"keyword for the origin list, the
     specified features will be disabled for all browsing contexts, regardless of
     their origin.</p>
@@ -67,7 +67,7 @@ spec:fetch; type:dfn; text:value
     "<code>https://example.com</code>". It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
     <pre>
-      <a href="#feature-policy-header">Feature-Policy</a>: geolocation 'self' https://example.com</pre>
+      <a http-header>Feature-Policy</a>: geolocation 'self' https://example.com</pre>
     <p>The <a>allowlist</a> is a list of one or more origins, which can include
     the application's origin, optionally with the keyword "<code>'self'</code>",
     and any third-party origin.</p>
@@ -78,7 +78,7 @@ spec:fetch; type:dfn; text:value
     microphone input on its own origin but enable it for a specific embedee
     ("<code>https://other.com</code>"). It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-    <pre><a href="#feature-policy-header">Feature-Policy</a>: camera https://other.com; microphone https://other.com</pre>
+    <pre><a http-header>Feature-Policy</a>: camera https://other.com; microphone https://other.com</pre>
     <p>Some features are disabled by default in embedded contexts. The policy
     allows the application to selectively enable such features for specified
     origins.</p>
@@ -87,7 +87,7 @@ spec:fetch; type:dfn; text:value
     <p>FastCorp Inc. wants to disable geolocation for all cross-origin child
     frames, except for a specific iframe. It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-    <pre><a href="#feature-policy-header">Feature-Policy</a>: geolocation 'self'</pre>
+    <pre><a http-header>Feature-Policy</a>: geolocation 'self'</pre>
     <p>and including an "<code>allow</code>" attribute on the iframe
     element:</p>
     <pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="geolocation"&gt;&lt;/iframe&gt;</pre>
@@ -211,8 +211,8 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="container-policies">Container policies</h3>
     <p>In addition to the <a>header policy</a>, each [=nested browsing context=]
-    has a <dfn>container policy</dfn>, which is a <a>policy directive</a>, which
-    may be empty. The <a>container policy</a> can set by attributes on the
+    has a <dfn export>container policy</dfn>, which is a <a>policy directive</a>,
+    which may be empty. The <a>container policy</a> can set by attributes on the
     [=browsing context container=].</p>
     <p>The <a>container policy</a> for a [=nested browsing context=] influences
     the <a>inherited policy</a> of any document loaded into that context.
@@ -240,8 +240,8 @@ spec:fetch; type:dfn; text:value
   </section>
   <section>
     <h3 id="allowlists">Allowlists</h3>
-    <p>A feature policy <dfn lt="allowlist|allowlists">allowlist</dfn> is
-    conceptually a set of [=origins=]. An <a>allowlist</a> may be either:
+    <p>A feature policy <dfn export lt="allowlist|allowlists">allowlist</dfn>
+    is conceptually a set of [=origins=]. An <a>allowlist</a> may be either:
     <ul>
       <li><dfn>The special value <code>*</code></dfn>, which represents every
       origin, or</li>
@@ -326,18 +326,21 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="feature-policy-http-header-field">Feature-Policy HTTP Header
     Field</h3>
-    <p>The <dfn lt="feature-policy-header">Feature-Policy</dfn> HTTP header
-    field can be used in the [=response=] (server to client) to communicate the
-    <a>feature policy</a> that should be enforced by the client.</p>
+    <p>The &#96;<dfn export http-header
+    id="feature-policy-header"><code>Feature-Policy</code></dfn>&#96; HTTP
+    header field can be used in the [=response=] (server to client) to
+    communicate the <a>feature policy</a> that should be enforced by the
+    client.</p>
     <p>The header's value is the <a href="#ascii-serialization"></a> of one or
     more <a>policy directive</a>s:.</p>
     <pre class="abnf">
       FeaturePolicy = <a>serialized-feature-policy</a> *("," <a>serialized-feature-policy</a>)
     </pre>
-    <p>When the user agent receives a <code>Feature-Policy</code> header field,
-    it MUST <a href="#process-response-policy">process</a> and <a>enforce</a>
-    the serialized policy as described in <a href=
-    "#integration-with-html"></a>.</p>
+    <p>When the user agent receives a &#96;<a
+    http-header><code>Feature-Policy</code></a>&#96; header field, it MUST
+    <a href="#process-response-policy">process</a> and <a>enforce</a> the
+    serialized policy as described in
+    <a href="#integration-with-html"></a>.</p>
   </section>
   <section>
     <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the
