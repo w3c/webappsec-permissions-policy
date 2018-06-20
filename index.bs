@@ -262,9 +262,9 @@ spec:fetch; type:dfn; text:value
       then return true.</li>
       <li>Otherwise, for each <var>item</var> in the <a>allowlist</a>:
         <ol>
-	  <li>If <var>item</var> is [=same origin-domain=] with
-	  <var>origin</var>, then return true.</li>
-	</ol>
+          <li>If <var>item</var> is [=same origin-domain=] with
+          <var>origin</var>, then return true.</li>
+        </ol>
       </li>
       <li>return false.</li>
     </ol>
@@ -419,13 +419,13 @@ spec:fetch; type:dfn; text:value
       <div class="note">
         This is different from the behaviour of <code>&lt;iframe
         allow="camera; microphone"&gt;</code>, and is for compatibility with
-	existing uses of <code>allowusermedia</code>. If <code>allow="camera;
-	microphone"</code> and <code>allowusermedia</code> are both present on
-	an iframe element, then the more restrictive allowlist of
+        existing uses of <code>allowusermedia</code>. If <code>allow="camera;
+        microphone"</code> and <code>allowusermedia</code> are both present on
+        an iframe element, then the more restrictive allowlist of
         <code>allow="camera; microphone"</code> will be used. Similarly, if only
-	one of <code>allow="camera"</code> or <code>allow="microphone"</code> is
-	present, then the more restrictive allowlist will be used for that
-	feature, while the other will use the less restrictive <code>*</code>.
+        one of <code>allow="camera"</code> or <code>allow="microphone"</code> is
+        present, then the more restrictive allowlist will be used for that
+        feature, while the other will use the less restrictive <code>*</code>.
       </div>
     </section>
   </section>
@@ -593,7 +593,7 @@ partial interface HTMLIFrameElement {
     <ol>
       <li>
         {{Document}} objects have a <a>Feature Policy</a>, which is initially
-	<a data-lt="empty feature policy">empty</a>.
+        <a data-lt="empty feature policy">empty</a>.
       </li>
       <li>Replace the existing step 12 of "Create a new browsing context" with
       with the following step:
@@ -616,18 +616,18 @@ partial interface HTMLIFrameElement {
       </li>
       <li>
         <p>The "[=allowed to use=]" algorithm is replaced with the following:
-	</p>
+        </p>
 
         <p>To determine whether a {{Document}} object <var>document</var>
         is <dfn>allowed to use</dfn> the policy-controlled-feature
         <var>feature</var>, run these steps:</p>
         <ol>
          <li><p>If <var>document</var> has no [=browsing context=], then return
-	 false.</p></li>
+         false.</p></li>
          <li><p>If <var>document</var>'s [=browsing context=]'s [=active
-	 document=] is not <var>document</var>, then return false.</p></li>
+         document=] is not <var>document</var>, then return false.</p></li>
          <li><p>If <var>document</var>'s <a>feature policy</a> <a
-	 href="#is-feature-enabled">enables <var>feature</var> for the origin of
+         href="#is-feature-enabled">enables <var>feature</var> for the origin of
          <var>document</var></a>, then return true.<p></li>
          <li><p>Return false.</p></li>
         </ol>
@@ -738,33 +738,33 @@ partial interface HTMLIFrameElement {
       lt="strictly split">strictly splitting <var>value</var> on the delimiter
       U+003B (;)</a>:
         <ol>
-	  <li>Let <var>tokens</var> be the result of <a
-	  lt="split on ascii whitespace">splitting
-	  <var>serialized-declaration</var> on ASCII whitespace.</a></li>
-	  <li>If <var>tokens</var> is an empty list, then continue.</li>
+          <li>Let <var>tokens</var> be the result of <a
+          lt="split on ascii whitespace">splitting
+          <var>serialized-declaration</var> on ASCII whitespace.</a></li>
+          <li>If <var>tokens</var> is an empty list, then continue.</li>
           <li>Let <var>feature-name</var> be the first element of
-	  <var>tokens</var>.</li>
+          <var>tokens</var>.</li>
           <li>If <var>feature-name</var> does not identify any recognized
           <a>policy-controlled feature</a>, then continue.</li>
           <li>Let <var>feature</var> be the <a>policy-controlled feature</a>
-	  identified by <var>feature-name</var>.</li>
+          identified by <var>feature-name</var>.</li>
           <li>Let <var>targetlist</var> be the remaining elements, if any, of
-	  <var>tokens</var>.
+          <var>tokens</var>.
           <li>Let <var>allowlist</var> be a new <a>allowlist</a>.
           </li>
           <li>If any element of <var>targetlist</var> is the string
-	  "<code>*</code>", set <var>allowlist</var> to <a>the special value
-	  <code>*</code></a>.</li>
+          "<code>*</code>", set <var>allowlist</var> to <a>the special value
+          <code>*</code></a>.</li>
           <li>Otherwise:
-	    <ol>
-	      <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
-	      <li>For each <var>element</var> in <var>targetlist</var>:
+            <ol>
+              <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
+              <li>For each <var>element</var> in <var>targetlist</var>:
                 <ol>
                   <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-		  match for the string "<code>'self'</code>", let result be
-		  <var>origin</var>.</li>
+                  match for the string "<code>'self'</code>", let result be
+                  <var>origin</var>.</li>
                   <li>Otherwise, let <var>result</var> be the result of
-		  executing the <a>URL parser</a> on <var>element</var>.</li>
+                  executing the <a>URL parser</a> on <var>element</var>.</li>
                   <li>If <var>result</var> is not failure:
                     <ol>
                       <li>Let <var>target</var> be the origin of
@@ -778,7 +778,7 @@ partial interface HTMLIFrameElement {
             </ol>
           </li>
           <li>Set <var>directive</var>[<var>feature</var>] to
-	  <var>allowlist</var>.</li>
+          <var>allowlist</var>.</li>
         </ol>
       </li>
       <li>Return <var>directive</var></li>
@@ -796,7 +796,7 @@ partial interface HTMLIFrameElement {
         <ol>
           <li>If <var>policy</var> does not contain an allowlist for
           <var>feature</var>, then set <var>policy</var>[<var>feature</var>] to
-	  <var>allowlist</var>.</li>
+          <var>allowlist</var>.</li>
         </ol>
       </li>
     </ol>
@@ -812,50 +812,50 @@ partial interface HTMLIFrameElement {
       <li>Let <var>container policy</var> be the result of running <a href=
       "#parse-allow-attribute">Parse allow attribute</a> on the value of
         <var>element</var>'s <code>allow</code> attribute, with <var>container
-	origin</var> set to the origin of <var>element</var>'s node document,
-	and <var>target origin</var> set to the origin of the URL in
-	<var>element</var>'s <code>src</code> attribute.
+        origin</var> set to the origin of <var>element</var>'s node document,
+        and <var>target origin</var> set to the origin of the URL in
+        <var>element</var>'s <code>src</code> attribute.
       </li>
       <li>If <var>element</var> is an <{iframe}> element:
         <ol>
           <li>If <var>element</var>'s <code>allowfullscreen</code> attribute is
           specified, and <var>container policy</var> does not contain an
-	  allowlist for <code>fullscreen</code>,
+          allowlist for <code>fullscreen</code>,
             <ol>
               <li>Construct a new declaration for <code>fullscreen</code>, whose
               allowlist is <a>the special value <code>*</code></a>.</li>
               <li>Add <var>declaration</var> to <var>container policy</var>.
-	      </li>
+              </li>
             </ol>
           </li>
           <li>If <var>element</var>'s <code>allowpaymentrequest</code>
           attribute is specified, and <var>container policy</var> does not
-	  contain an allowlist for <code>payment</code>,
+          contain an allowlist for <code>payment</code>,
             <ol>
               <li>Construct a new declaration for <code>payment</code>, whose
               allowlist is <a>the special value <code>*</code></a>.</li>
               <li>Add <var>declaration</var> to <var>container policy</var>.
-	      </li>
+              </li>
             </ol>
           </li>
           <li>If <var>element</var>'s <code>allowusermediarequest</code>
           attribute is specified:
-	    <ol>
-	      <li>If <var>container policy</var> does not contain an allowlist
-	      for <code>camera</code>,
+            <ol>
+              <li>If <var>container policy</var> does not contain an allowlist
+              for <code>camera</code>,
                 <ol>
                   <li>Construct a new declaration for <code>camera</code>, whose
                   allowlist is <a>the special value <code>*</code></a>.</li>
                   <li>Add <var>declaration</var> to <var>policy</var>.</li>
                 </ol>
               </li>
-	      <li>If <var>policy</var> does not contain an allowlist for
-	      <code>microphone</code>,
+              <li>If <var>policy</var> does not contain an allowlist for
+              <code>microphone</code>,
                 <ol>
                   <li>Construct a new declaration for <code>microphone</code>,
                   allowlist is <a>the special value <code>*</code></a>.</li>
                   <li>Add <var>declaration</var> to <var>container policy</var>.
-		  </li>
+                  </li>
                 </ol>
               </li>
             </ol>
@@ -877,38 +877,38 @@ partial interface HTMLIFrameElement {
       lt="strictly split">strictly splitting <var>value</var> on the delimiter
       U+003B (;)</a>:
         <ol>
-	  <li>Let <var>tokens</var> be the result of <a
-	  lt="split on ascii whitespace">splitting
-	  <var>serialized-declaration</var> on ASCII whitespace.</a></li>
-	  <li>If <var>tokens</var> is an empty list, then continue.</li>
+          <li>Let <var>tokens</var> be the result of <a
+          lt="split on ascii whitespace">splitting
+          <var>serialized-declaration</var> on ASCII whitespace.</a></li>
+          <li>If <var>tokens</var> is an empty list, then continue.</li>
           <li>Let <var>feature-name</var> be the first element of
-	  <var>tokens</var>.</li>
+          <var>tokens</var>.</li>
           <li>If <var>feature-name</var> does not identify any recognized
           <a>policy-controlled feature</a>, then continue.</li>
           <li>Let <var>feature</var> be the <a>policy-controlled feature</a>
-	  identified by <var>feature-name</var>.</li>
+          identified by <var>feature-name</var>.</li>
           <li>Let <var>targetlist</var> be the remaining elements, if any, of
-	  <var>tokens</var>.
+          <var>tokens</var>.
           <li>Let <var>allowlist</var> be a new <a>allowlist</a>.
           </li>
           <li>If any element of <var>targetlist</var> is the string
-	  "<code>*</code>", set <var>allowlist</var> to <a>the special value
-	  <code>*</code></a>.</li>
+          "<code>*</code>", set <var>allowlist</var> to <a>the special value
+          <code>*</code></a>.</li>
           <li>Otherwise:
-	    <ol>
-	      <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
+            <ol>
+              <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
               <li>If <var>targetlist</var> is empty, append <var>target
-	      origin</var> to <var>allowlist</var>.
-	      <li>For each <var>element</var> in <var>targetlist</var>:
+              origin</var> to <var>allowlist</var>.
+              <li>For each <var>element</var> in <var>targetlist</var>:
                 <ol>
                   <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-		  match for "<code>'self'</code>", let result be <var>container
-		  origin</var>.</li>
+                  match for "<code>'self'</code>", let result be <var>container
+                  origin</var>.</li>
                   <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-		  match for "<code>'src'</code>", let result be <var>target
-		  origin</var>.</li>
-		  <li>Otherwise, let <var>result</var> be the result of
-		  executing the <a>URL parser</a> on <var>element</var>.</li>
+                  match for "<code>'src'</code>", let result be <var>target
+                  origin</var>.</li>
+                  <li>Otherwise, let <var>result</var> be the result of
+                  executing the <a>URL parser</a> on <var>element</var>.</li>
                   <li>If <var>result</var> is not failure:
                     <ol>
                       <li>Let <var>target</var> be the origin of
@@ -922,7 +922,7 @@ partial interface HTMLIFrameElement {
             </ol>
           </li>
           <li>Set <var>directive</var>[<var>feature</var>] to
-	  <var>allowlist</var>.</li>
+          <var>allowlist</var>.</li>
         </ol>
       </li>
       <li>Return <var>directive</var></li>
@@ -972,8 +972,8 @@ partial interface HTMLIFrameElement {
       <li>For each <var>feature</var> → <var>allowlist</var> of <var>d</var>:
         <ol>
           <li>If <var>inherited policy</var>[<var>feature</var>] is true, then
-	  set <var>declared policy</var>[<var>feature</var>] to
-	  <var>allowlist</var>.</li>
+          set <var>declared policy</var>[<var>feature</var>] to
+          <var>allowlist</var>.</li>
         </ol>
       </li>
       <li>Let <var>policy</var> be a new <a>feature policy</a>, with inherited
@@ -1012,8 +1012,8 @@ partial interface HTMLIFrameElement {
             </ol>
           </li>
           <li>Otherwise, if <a href="is-feature-enabled"><var>feature</var> is
-	  enabled in <var>parent</var> for <var>origin</var></a>, return
-	  'Enabled'.
+          enabled in <var>parent</var> for <var>origin</var></a>, return
+          'Enabled'.
           </li>
           <li>Otherwise, return 'Disabled'.</li>
         </ol>
