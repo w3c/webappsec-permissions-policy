@@ -557,7 +557,7 @@ partial interface HTMLIFrameElement {
             1. If |feature| is allowed in |document|, append |feature| to |result|.
         2. Otherwise,
             1. If the result of running <a lt="define-inherited-policy">Define an inherited policy for
-            <var>feature</var></a> is 'Enabled', append |feature| to |result|.
+                <var>feature</var></a> is 'Enabled', append |feature| to |result|.
     3. return result
 
     <p>The <dfn>getAllowlistForFeature</dfn>(feature) method must run the following steps:
@@ -573,6 +573,11 @@ partial interface HTMLIFrameElement {
         1. Let |container policy| be ...
         2. 
 
+
+    <p>To <dfn>get the observable policy</dfn> for a Document |document|, return |document|'s feature policy.
+    <p>To <dfn>get the observable policy</dfn> for an Element |node|, run the following steps:
+        2. Let |container policy| be the result of running Process feature policy attributes on |node|.
+    1. 
   </section>
 
 </section>
