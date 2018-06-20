@@ -576,8 +576,8 @@ partial interface HTMLIFrameElement {
 
     <p>To <dfn>get the observable policy</dfn> for a Document |document|, return |document|'s feature policy.
     <p>To <dfn>get the observable policy</dfn> for an Element |node|, run the following steps:
-        2. Let |container policy| be the result of running Process feature policy attributes on |node|.
-    1. 
+        1. Let |container policy| be the result of running Process feature policy attributes on |node|.
+        2. 
   </section>
 
 </section>
