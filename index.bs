@@ -168,15 +168,16 @@ spec:fetch; type:dfn; text:value
       </li>
     </ul>
     <p>An <dfn>empty feature policy</dfn> is a <a>feature policy</a> that has
-    an <a>inherited policy</a> which contains 'Enabled' for every <a>supported
-    feature</a>, and a <a>declared policy</a> which is an empty map.</p>
+    an <a>inherited policy</a> which contains "<code>Enabled</code>" for every
+    <a>supported feature</a>, and a <a>declared policy</a> which is an empty
+    map.</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
     <p>An <dfn data-lt="inherited policy|inherited policies">inherited
     policy</dfn> is an ordered map from <a
-    data-lt="policy-controlled feature">features</a> to either 'Enabled' or
-    'Disabled'.</p>
+    data-lt="policy-controlled feature">features</a> to either
+    "<code>Enabled</code>" or "<code>Disabled</code>".</p>
     <p>The <dfn>inherited policy for a feature</dfn> <var>feature</var> is the
     value in the <a>inherited policy</a> whose key is <var>feature</var>. After
     a <a>feature policy</a> has been initialized, its <a>inherited policy</a>
@@ -185,8 +186,9 @@ spec:fetch; type:dfn; text:value
     <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
     for each <a>policy-controlled feature</a>. This inherited policy determines
-    the initial state ('Enabled' or 'Disabled') of each feature, and whether it
-    can be controlled by a <a>declared policy</a> in the document.
+    the initial state ("<code>Enabled</code>" or "<code>Disabled</code>") of
+    each feature, and whether it can be controlled by a <a>declared policy</a>
+    in the document.
     </p>
     <p>In a {{Document}} in a [=top-level browsing context=], the inherited
     policy is based on defined defaults for each feature.</p>
@@ -859,19 +861,20 @@ partial interface HTMLIFrameElement {
               <li>If the <a>allowlist</a> for <var>feature</var> in
               <var>container policy</var> <a>matches</a> <var>origin</var>, and
               <var>parent</var>'s <a>inherited policy</a> for
-              <var>feature</var> is 'Enabled', return 'Enabled'.
+              <var>feature</var> is "<code>Enabled</code>", return
+	      "<code>Enabled</code>".
               </li>
-              <li>Otherwise return 'Disabled'.</li>
+              <li>Otherwise return "<code>Disabled</code>".</li>
             </ol>
           </li>
           <li>Otherwise, if <a href="is-feature-enabled"><var>feature</var> is
           enabled in <var>parent</var> for <var>origin</var></a>, return
-          'Enabled'.
+          "<code>Enabled</code>".
           </li>
-          <li>Otherwise, return 'Disabled'.</li>
+          <li>Otherwise, return "<code>Disabled</code>".</li>
         </ol>
       </li>
-      <li>Otherwise, return 'Enabled'.</li>
+      <li>Otherwise, return "<code>Enabled</code>".</li>
     </ol>
   </section>
   <section>
