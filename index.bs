@@ -456,7 +456,7 @@ spec:fetch; type:dfn; text:value
   <pre>
   &lt;!doctype html&gt;
   &lt;script&gt;
-   let policy = document.policy();
+   let policy = document.policy;
 
    // This will be true if this document can use WebUSB
    let can_use_usb = policy.allowsFeature('usb');
@@ -492,7 +492,7 @@ spec:fetch; type:dfn; text:value
   &lt;iframe id="frame" allow="fullscreen; vr"&gt;&lt;/iframe&gt;
   &lt;script&gt;
    let iframe_element = document.getElementById("frame");
-   let iframe_policy = iframe_element.policy();
+   let iframe_policy = iframe_element.policy;
 
    // True if the framed document will be allowed to use WebVR
    if (iframe_policy.allowsFeature('vr')) {
@@ -514,7 +514,7 @@ spec:fetch; type:dfn; text:value
   &lt;iframe id="frame" allow="fullscreen https://example.com" src="https://example.net/" &gt;&lt;/iframe&gt;
   &lt;script&gt;
    let iframe_element = document.getElementById("frame");
-   let iframe_policy = iframe_element.policy();
+   let iframe_policy = iframe_element.policy;
    // This will be false, as the URL listed in the src attribute is not allowed
    // by policy to use fullscreen.
    let is_fullscreen_allowed_in_frame = iframe_policy.allowsFeature('fullscreen');
@@ -540,46 +540,60 @@ interface Policy {
 };
 
 partial interface Document {
-    readonly attribute Policy policy;
+    [SameObject] readonly attribute Policy policy;
 };
 
 partial interface HTMLIFrameElement {
-    readonly attribute Policy policy;
+    [SameObject] readonly attribute Policy policy;
 };</pre>
-    <p>A policy object has an <dfn>associated node</dfn>, which is set when it is created</p>
-    <p>The policy getter on any element must return a policy object whose <a>associated node</a> is that element.</p>
-    <p>The {{allowsFeature(feature, origin)}} method must run the following steps:
-    1. If the property object's <a>associated node</a> is a {{Document}}:
-        1. If |origin| is omitted, set |origin| to the property object's <a>associated node</a>'s <a>origin</a>
-        2. If |feature| is allowed in |document| for |origin|, return true.
-        3. Otherwise, return false.
-    2. Otherwise, (in this case, node must be an Element)
-        1. Let |parent| be node's <a>node document</a>.
-        1. If |origin| is omitted, set |origin| to the <a>declared origin</a> for node.
-    3. Let |policy| be the <a>observable policy</a> for the property object's <a>associated node</a>.
-    4. If |feature| is allowed by |policy| for |origin|, return true.
-    5. Otherwise, return false.
+    <p>A {{Policy}} object has an <dfn>associated node</dfn>, which is a
+    {{Node}}. The <a>associated node</a> is set when the {{Policy}} object is
+    created.</p>
+    <p>A {{Policy}} object has a <dfn>default origin</dfn>, which is an
+    <a>origin</a>, whose value depends on the state of the {{Policy}} object's
+    <a>associated node</a>:
+    * If the {{Policy}} object's <a>associated node</a> is a {{Document}}, then
+        its <a>default origin</a> is the {{Document}}'s <a>origin</a>.
+    * If the {{Policy}} object's <a>associated node</a> is an {{Element}}, then
+        its <a>default origin</a> is the {{Element}}'s <a>declared origin</a>.
+
+    <p>Each {{Document}} has a <dfn for="Document">policy object</dfn>, whose
+    <a>associated node</a> is that Document.</p>
+    <p>Each <{iframe}> element has a <dfn for="iframe">policy object</dfn>,
+    whose <a>associated node</a> is that element.</p>
+
+    <p>The {{allowsFeature(feature, origin)}} method must run the following
+    steps:
+    1. If |origin| is omitted, set |origin| to this {{Policy}} object's
+        <a>default origin</a>.
+    2. Let |policy| be the <a>observable policy</a> for this {{Policy}} object's
+        <a>associated node</a>.
+    3. If |feature| is allowed by |policy| for |origin|, return true.
+    4. Otherwise, return false.
 
     <p>The {{allowedFeatures()}} method must run the following steps:
     1. Set |result| to an empty list
-    2. If the property object's <a>associated node</a> is a {{Document}}, let |origin| be |document|'s <a>origin</a>.
-    3. Otherwise, let |origin| be the <a>declared origin</a> for node.
-    4. Let |policy| be the <a>observable policy</a> for the property object's <a>associated node</a>.
-    5. For each <a>supported feature</a> |feature|:
-        1. If |feature| is allowed by |policy| for |origin|, append |feature| to |result|.
-    6. return result
+    2. Let |origin| be this {{Policy}} object's <a>default origin</a>.
+    3. Let |policy| be the <a>observable policy</a> for this {{Policy}} object's
+        <a>associated node</a>.
+    4. For each <a>supported feature</a> |feature|:
+        1. If |feature| is allowed by |policy| for |origin|, append |feature| to
+            |result|.
+    5. return result
 
-    <p>The {{getAllowlistForFeature(feature)}} method must run the following steps:
+    <p>The {{getAllowlistForFeature(feature)}} method must run the following
+    steps:
     1. Set |result| to an empty list
-    2. If the property object's <a>associated node</a> is a {{Document}}, let |origin| be |document|'s <a>origin</a>.
-    3. Otherwise, let |origin| be the <a>declared origin</a> for node.
-    4. Let |policy| be the <a>observable policy</a> for the property object's associated node.
-    5. If |feature| is not allowed in |policy| for |origin|, return |result|
-    6. Let |allowlist| be |policy|'s declared policy[|feature|]
-    7. If |allowlist| is the special value `*`, append "`*`" to |result|
-    8. Otherwise, for each |origin| in |allowlist|:
-        1. Append the <a lt="serialization of an origin">serialization</a> of |origin| to |result|
-    9. Return |result|.
+    2. Let |origin| be this {{Policy}} object's <a>default origin</a>.
+    3. Let |policy| be the <a>observable policy</a> for this {{Policy}} object's
+        <a>associated node</a>.
+    4. If |feature| is not allowed in |policy| for |origin|, return |result|
+    5. Let |allowlist| be |policy|'s declared policy[|feature|]
+    6. If |allowlist| is the special value `*`, append "`*`" to |result|
+    7. Otherwise, for each |origin| in |allowlist|:
+        1. Append the <a lt="serialization of an origin">serialization</a> of
+            |origin| to |result|
+    8. Return |result|.
 
     <p>The <dfn>observable policy</dfn> for any Node is a <a>feature policy</a>,
     which contains the information about the policy in the browsing context
@@ -593,13 +607,18 @@ partial interface HTMLIFrameElement {
         1. Let |inherited policy| be a new ordered map.
         2. Let |declared policy| be a new ordered map.
         3. For each <a>supported feature</a> |feature|:
-            1. Let |isInherited| be the result of running <a href="#define-inherited-policy-in-container"></a> on |feature| and |node|.
+            1. Let |isInherited| be the result of running <a
+                href="#define-inherited-policy-in-container"></a> on |feature|
+                and |node|.
             2. Set |inherited policy|[|feature|] to |isInherited|.
-        4. Return a new <a>feature policy</a> with inherited policy |inherited policy| and declared policy |declared policy|.
+        4. Return a new <a>feature policy</a> with inherited policy
+            |inherited policy| and declared policy |declared policy|.
 
-    <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the following steps:
+    <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
+    following steps:
         1. If |node| has a src attribute:
-            1. Let |url| be the result of parsing |node|'s src attribute, relative to |node|'s <a>node document</a>.
+            1. Let |url| be the result of parsing |node|'s src attribute,
+                relative to |node|'s <a>node document</a>.
             2. If |url| is not failure, return |url|'s origin.
         2. Return |node|'s <a>node document</a>'s origin.
   </section>
