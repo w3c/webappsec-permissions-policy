@@ -1061,7 +1061,7 @@ Possible extra rowspan handling
 		#toc#toc .secno { /* Ugh, need more specificity to override base.css */
 			grid-column: 1;
 			width: auto;
-			margin: 0;
+			margin-left: 0;
 		}
 		#toc .content {
 			grid-column: 2;
@@ -1212,9 +1212,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 92249c85457a293f6e7061b7417416de926e2a74" name="generator">
+  <meta content="Bikeshed version ebb192a273e3f86733233d2a1a128c3244b6962f" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="d97edb975d55da6293be1e2c4ce2ed81368ad3f7" name="document-revision">
+  <meta content="bdaad259a3aeecebe1a069a56447c4cd937f6f8b" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1461,7 +1461,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-07-04">4 July 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-07-09">9 July 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1557,7 +1557,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li><a href="#is-feature-enabled"><span class="secno">8.10</span> <span class="content">Is <var>feature</var> enabled in <var>document</var> for <var>origin</var>?</span></a>
      </ol>
     <li><a href="#iana-considerations"><span class="secno">9</span> <span class="content">IANA Considerations</span></a>
-    <li><a href="#privacy-and-security"><span class="secno">10</span> <span class="content">Privacy and Security</span></a>
+    <li>
+     <a href="#privacy-and-security"><span class="secno">10</span> <span class="content">Privacy and Security</span></a>
+     <ol class="toc">
+      <li><a href="#privacy-expose-behavior"><span class="secno">10.1</span> <span class="content">Exposure of cross-origin behavior</span></a>
+      <li><a href="#privacy-alter-behavior"><span class="secno">10.2</span> <span class="content">Unanticipated behavior changes</span></a>
+      <li><a href="#privacy-expose-policy"><span class="secno">10.3</span> <span class="content">Exposure of embedding policy</span></a>
+     </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -2306,7 +2312,88 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    </section>
    <section class="informative" id="privacy">
     <h2 class="heading settled" data-level="10" id="privacy-and-security"><span class="secno">10. </span><span class="content">Privacy and Security</span><a class="self-link" href="#privacy-and-security"></a></h2>
-    <p class="issue" id="issue-b7b1e314"><a class="self-link" href="#issue-b7b1e314"></a>TODO</p>
+    <p>This specification standardizes a mechanism for an embedding page to set a
+  policy which will be enforced on an embedded page. Similar to iframe <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox①">sandbox</a></code>, this can be done without the express permission of the
+  embedded page, which means that behaviors of existing features can be changed
+  in published web sites, by embedding them in another document with an
+  appropriate container policy.</p>
+    <p>As such, the biggest privacy and security concerns are:</p>
+    <ul>
+     <li>Exposure of behavior in a cross-origin subframe to its embedder
+     <li>Unanticipated behavior changes in subframes controlled by the
+    embedder
+    </ul>
+    <p>To a degree, these concerns are already present in the web platform, and
+  this specification attempts to at least not make them needlessly worse.</p>
+    <p>Security and privacy issues may also be caused by the design of individual
+  features, so care must be taken when integrating with this specification. This
+  section attempts to provide some guidance as to what kinds of behaviors could
+  cause such issues.</p>
+    <h3 class="heading settled" data-level="10.1" id="privacy-expose-behavior"><span class="secno">10.1. </span><span class="content">Exposure of cross-origin behavior</span><a class="self-link" href="#privacy-expose-behavior"></a></h3>
+    <p>Features should be designed such that a violation of the policy in a framed
+  document is not observable by documents in other frames. For instance, a
+  hypothetical feature which caused a event to be fired in the embedding
+  document if it is used while disabled by policy, could be used to extract
+  information about the state of an embedded document. If the feature is known
+  only to be used while a user is logged in to the site, for instance, then the
+  embedder could disable that feature for the frame, and then listen for the
+  resulting events to determine whether or not the user is logged in.</p>
+    <h3 class="heading settled" data-level="10.2" id="privacy-alter-behavior"><span class="secno">10.2. </span><span class="content">Unanticipated behavior changes</span><a class="self-link" href="#privacy-alter-behavior"></a></h3>
+    <p>Feature policy grants a document the ability to control which features will
+  and will not be availble in a subframe at the time it is loaded. When a
+  feature represents an existing, long-standing behavior of the web platform,
+  this may mean that existing published content on the web was not written with
+  the expectation that a particular API could fail.</p>
+    <div class="example" id="example-660fabbf">
+     <a class="self-link" href="#example-660fabbf"></a> 
+     <p>As a practical (though contrived) example, consider a document which uses
+    synchronous XMLHttpRequest to determine whether a user has sufficient
+    privileges to access the page:</p>
+<pre>&lt;!DOCTYPE html>
+&lt;h1>Welcome to SecureCorp!&lt;/h1>
+&lt;script>
+  var req = new XMLHttpRequest();
+  req.open("GET", "/api/security_check.json", false);
+  req.send();
+  if (req.response == "untrusted user") {
+    // User is not logged in; redirect to a safe page
+    location.href = "/security_check_failed.html";
+  }
+&lt;/script>
+&lt;!-- Page continues with assumption that user is logged in -->
+</pre>
+     <p>If this document is embedded by a page which disables the
+    "<code>sync-xhr</code>" feature, the call to <code>XMLHttpRequest.open()</code> would
+    fail, and the security check would be bypassed.</p>
+    </div>
+    <p>Note that this sort of behavior forcing is already possible on the web:
+  some features are only allowed in top-level documents, and not in any iframes,
+  and iframe sandboxing can be used in a similar way to embed a frame without
+  access to features which it may be depending on.</p>
+    <p>In general, this concern is mitigated in two ways:</p>
+    <ul>
+     <li>The vulnerable page may be served with an <code>X-Frame-Options</code> HTTP header
+    which does not allow it to be framed by an attacker.
+     <li>Sites should use feature detection to determine whether an API or
+    behavior is available before attempting to use it, and should handle any
+    documented errors returned or exceptions thrown by the APIs they call.
+    </ul>
+    <p>Authors integrating their features with Feature Policy can decide when and
+  how the feature will fail when a document attempts to use it while it is
+  disabled. Authors should attempt to make use of existing failure modes, when
+  they exist, to increase the chance that existing content will already be
+  correctly handling such failures.</p>
+    <h3 class="heading settled" data-level="10.3" id="privacy-expose-policy"><span class="secno">10.3. </span><span class="content">Exposure of embedding policy</span><a class="self-link" href="#privacy-expose-policy"></a></h3>
+    <p>Care has been taken to limit the information which an page can infer about
+  the behavior of cross-origin pages which it embeds. It may be possible in some
+  scenarios however, for the embedded page to infer information about its
+  embedder, by examining the policy which the embedder has enforced on it.</p>
+    <p>This is similar to the existing <code>document.fullscreenEnabled</code> property,
+  which can be used by the embedded document to infer whether its embedder has
+  granted it the ability to use the Fullscreen API. If this is only granted in
+  certain cases — when the user is logged in to the embedding site, for
+  instance — then the embedded site can learn something about the state of
+  its embedder.</p>
    </section>
   </main>
   <div data-fill-with="conformance">
@@ -2666,6 +2753,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-attr-iframe-sandbox">3. Other and related mechanisms</a>
+    <li><a href="#ref-for-attr-iframe-sandbox①">10. Privacy and Security</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-ascii-serialisation-of-an-origin">
@@ -2854,7 +2942,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     of features and feature policies in Workers and Worklets as well.<a href="#issue-e7bb8656"> ↵ </a></div>
    <div class="issue"> Monkey-patching! As soon as we know that this is the direction we wish to
       pursue, upstream all of this. <a href="#issue-3778ddf4"> ↵ </a></div>
-   <div class="issue">TODO<a href="#issue-b7b1e314"> ↵ </a></div>
   </div>
   <aside class="dfn-panel" data-for="policy-controlled-feature">
    <b><a href="#policy-controlled-feature">#policy-controlled-feature</a></b><b>Referenced in:</b>
