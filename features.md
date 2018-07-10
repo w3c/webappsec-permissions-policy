@@ -168,9 +168,9 @@ If disabled in a document, then calls to the [`vibrate()`](https://w3c.github.io
 
 ### vr
 
-The *vr* feature controls whether the current document is allowed to use the [WebVR API](https://w3c.github.io/webvr/spec/1.1/).
+The *vr* feature controls whether the current document is allowed to use the [WebVR API](https://immersive-web.github.io/webvr/spec/1.1/).
 
-If disabled in a document, then calls to the [`getVRDisplays()`](https://w3c.github.io/webvr/spec/1.1/#navigator-getvrdisplays-attribute) should return a promise which rejects with a SecurityError DOMException.
+If disabled in a document, then calls to the [`getVRDisplays()`](https://immersive-web.github.io/webvr/spec/1.1/#navigator-getvrdisplays-attribute) should return a promise which rejects with a SecurityError DOMException.
 
 * The **feature name** for *vr* is "`vr`"
 * The **default allowlist** for *vr* is `'self'`.
