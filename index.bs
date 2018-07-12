@@ -2,6 +2,7 @@
 Title: Feature Policy
 Shortname: feature-policy
 Level: 1
+Indent: 2
 Status: CG-DRAFT
 Group: WICG
 URL: https://wicg.github.io/feature-policy/
@@ -21,6 +22,16 @@ spec:html; type:method; text:getUserMedia()
 spec:html; type:dfn; text:paymentrequest
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
+</pre>
+<pre class="anchors">
+spec:reporting; urlPrefix: https://w3c.github.io/reporting/
+  type: dfn
+    text: report type
+    text: visible to reportingobservers
+    for: report
+      text: body; url: report-body
+  type: interface
+    text: ReportBody; url: reportbody
 </pre>
 <style>
   .unstable::before {
@@ -1145,6 +1156,61 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
 </section>
+<section>
+  <h2 id="reporting">Reporting</h2>
+  <p><dfn>Feature policy violation reports</dfn> indicate that some behavior of
+  the page has violated a feature policy.</p>
+
+  <p><a>Feature policy violation reports</a> have the <a>report type</a>
+  "feature-policy-violation".</p>
+
+  <p><a>Feature policy violation reports</a> are <a>visible to
+  <code>ReportingObserver</code>s</a>.
+
+  <pre class="idl">
+    interface FeaturePolicyViolationReportBody : ReportBody {
+      readonly attribute DOMString feature_id;
+      readonly attribute DOMString? source_file;
+      readonly attribute long? line_number;
+      readonly attribute long? column_number;
+      readonly attribute DOMString disposition;
+    };
+  </pre>
+
+  A <a>feature policy violation report</a>'s [=report/body=], represented in
+  JavaScript by {{FeaturePolicyViolationReportBody}}, contains the following
+  fields:
+
+    - <dfn for="FeaturePolicyViolationReportBody">feature_id</dfn>: The string
+      identifying the <a>policy-controlled feature</a> whose policy has been
+      violated. This string can be used for grouping and counting related
+      reports.
+
+    - <dfn for="FeaturePolicyViolationReportBody">message</dfn>: A
+      human-readable string with details typically matching what would be
+      displayed on the developer console. The message is not guaranteed to be
+      unique for a given [=FeaturePolicyViolationReportBody/feature_id=]
+      (e.g. it may contain additional context on how the API was used).
+
+    - <dfn for="FeaturePolicyViolationReportBody">source_file</dfn>: If known,
+      the file where the feature policy was violated, or null otherwise.
+
+    - <dfn for="FeaturePolicyViolationReportBody">line_number</dfn>: If known,
+      the line number in [=FeaturePolicyViolationReportBody/source_file=] where
+      the feature policy was violated, or null otherwise.
+
+    - <dfn for="FeaturePolicyViolationReportBody">column_number</dfn>: If known,
+      the column number in [=FeaturePolicyViolationReportBody/source_file=]
+      where the feature policy was violated, or null otherwise.
+
+    - <dfn for="FeaturePolicyViolationReportBody">disposition</dfn>: A string
+      indicating whether the violated feature policy was enforced in this
+      case. [=FeaturePolicyViolationReportBody/disposition=] will be set to
+      "enforce" if the policy was enforced, or "report" if the violation
+      resulted only in this report being generated (with no further action taken
+      by the user agent in response to the violation).
+</section>
+
 <section>
   <h2 id="iana-considerations">IANA Considerations</h2>
   <p>The permanent message header field registry should be updated with the
