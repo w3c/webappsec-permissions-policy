@@ -170,7 +170,7 @@ spec:fetch; type:dfn; text:value
       The <a>policy-controlled features</a> themselves are not themselves part
       of this framework. A non-normative list of currently-defined features is
       maintained as a
-      <a href="https://github.com/WICG/feature-policy/blob/gh-pages/features.md">companion
+      <a href="https://github.com/WICG/feature-policy/blob/master/features.md">companion
       document</a> alongside this specification.
     </div>
   </section>
