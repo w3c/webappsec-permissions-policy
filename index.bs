@@ -22,6 +22,22 @@ spec:html; type:dfn; text:paymentrequest
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
 </pre>
+<style>
+  .unstable::before {
+    content: "This section is not stable.";
+    float: right;
+    color: red;
+  }
+  .unstable {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1'>Unstable</text></svg>");
+    background-repeat: repeat
+  }
+
+ .unstable.example:not(.no-marker)::before {
+     content: "Example " counter(example) " (Unstable)";
+     float: none;
+ }
+</style>
 <section>
   <h2 id="introduction">Introduction</h2>
   <p>The web-platform provides an ever-expanding set of features and APIs,
@@ -347,10 +363,6 @@ spec:fetch; type:dfn; text:value
   <section>
     <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the
     <code>iframe</code> element</h3>
-    <pre class="idl">
-partial interface HTMLIFrameElement {
-    [CEReactions] attribute DOMString allow;
-};</pre>
     <p><{iframe}> elements have an "<code>allow</code>" attribute, which
     contains an <a href="#serialized-policy-directive">ASCII-serialized policy
     directive</a>.</p>
@@ -435,6 +447,221 @@ partial interface HTMLIFrameElement {
       </div>
     </section>
   </section>
+</section>
+<section class="unstable">
+  <h2 id="introspection">Policy Introspection from Scripts</h2>
+  <div class="advisement">
+    The introspection API described in this section is early in development, and
+    is likely to change &mdash; possibly significantly &mdash; before it is
+    finalized. Web developers are encouraged to experiment with using the API,
+    and <a href="https://github.com/WICG/feature-policy/issues/new">provide
+    feedback</a>, but should be aware that it may change or be removed
+    completely.
+  </div>
+  <section class="non-normative">
+  <h3 id="introspection-overview">Overview</h3>
+  <p>The current policy which is in effect in a document can be observed by
+  scripts. This can be used to make decisions, for instance, about what user
+  interface to display, in cases it is not possible to determine otherwise
+  whether a feature is enabled or not. (Some features may not have any
+  observable failure mode, or may have unwanted side effects to feature
+  detection.)</p>
+  <p>Documents and iframes both provide a {{Policy}} object which can be used to
+  inspect the feature policies which apply to them.</p>
+  <div class="note">
+    The name `policy` is intentionally broad: the {{Policy}} object is intended
+    to be extendable to other kinds of policies, such as Content Security
+    Policy, rather than being exclusively dedicated to Feature Policy. Future
+    methods added to the object should be named appropriately, to indicate the
+    kinds of policies they refer to.
+  </div>
+  <h4 id="document-policies">Document policies</h4>
+  <p>To retreive the currently effective policy, use
+  <code>document.policy()</code>. This returns a <a>policy</a> object, which can
+  be used to:
+    * query the state (allowed or denied) in the current document for a given
+        feature,
+    * get a list of all allowed features in the current document, or
+    * get the allowlist for a given feature in the current document.
+  </p>
+
+  <div class="unstable example">
+  <pre>
+  &lt;!doctype html&gt;
+  &lt;script&gt;
+   let policy = document.policy;
+
+   // This will be true if this document can use WebUSB
+   let can_use_usb = policy.allowsFeature('usb');
+
+   // True if a new frame at https://example.com will be allowed to use WebVR
+   if (policy.allowsFeature('vr', 'https://example.com')) {
+     // Show UI to create frame at https://example.com
+   } else {
+     // Show an alternative UI
+   }
+
+   // Get the list of origins which are allowed to request payment. The result
+   // will be a list of explicit origins, or the single element ['\*'] if all
+   // origins are allowed.
+   let allowed_payment_origins = policy.getAllowlistForFeature('payment');
+  &lt;/script&gt;
+  </pre>
+  </div>
+  <h4 id="frame-policies">Frame policies</h4>
+  <p>It is also possible to inspect the policy on an iframe element, from the
+  document which contains it. The policy object in this case represents the
+  <a>observable policy</a> for the frame, which depends only on the current
+  document and the attributes of the iframe element. It does not reveal whether
+  a feature is actually currently allowed in the frame, as the document in the
+  frame may have applied its own policy via an HTTP header, or may have
+  navigated away from its initial location to a new origin. Revealing the
+  effective policy in the nested browsing context in that case could leak
+  information about the behaviour of a cross-origin document.</p>
+
+  <div class="unstable example">
+  <pre>
+  &lt;!doctype html&gt;
+  &lt;iframe id="frame" allow="fullscreen; vr"&gt;&lt;/iframe&gt;
+  &lt;script&gt;
+   let iframe_element = document.getElementById("frame");
+   let iframe_policy = iframe_element.policy;
+
+   // True if the framed document will be allowed to use WebVR
+   if (iframe_policy.allowsFeature('vr')) {
+    // display vr controls
+   }
+  &lt;/script&gt;
+  </pre>
+  </div>
+
+  <p>The <a>observable policy</a> on an iframe element is independent of any
+  actual content loaded into the frame (to avoid cross-origin information
+  leakage,) or even whether it is in a document tree.</p>
+
+  <div class="unstable example">
+  <pre>
+  &lt;!doctype html&gt;
+  &lt;!-- this frame should not be allowed to use fullscreen when the document
+      in its src attribute is loaded in it --&gt;
+  &lt;iframe id="frame" allow="fullscreen https://example.com" src="https://example.net/" &gt;&lt;/iframe&gt;
+  &lt;script&gt;
+   let iframe_element = document.getElementById("frame");
+   let iframe_policy = iframe_element.policy;
+   // This will be false, as the URL listed in the src attribute is not allowed
+   // by policy to use fullscreen.
+   let is_fullscreen_allowed_in_frame = iframe_policy.allowsFeature('fullscreen');
+
+   let new_frame = document.createElement('iframe');
+   new_frame.allow = 'syncxhr';
+   // This will be true, as the iframe is allowed to use syncxhr at whatever URL is
+   // mentioned in its src attribute, even though that attribute is not yet set.
+   let is_syncxhr_allowed = new_frame.policy.allowsFeature('syncxhr');
+  &lt;/script&gt;
+  </pre>
+  </div>
+  </section>
+
+  <section>
+    <h3 id="the-policy-object">The policy object</h3>
+    <pre class="unstable idl">
+[NoInterfaceObject]
+interface Policy {
+  boolean <a>allowsFeature</a>(DOMString feature, optional DOMString origin);
+  sequence&lt;DOMString&gt; <a>allowedFeatures</a>();
+  sequence&lt;DOMString&gt; <a>getAllowlistForFeature</a>(DOMString feature);
+};
+
+partial interface Document {
+    [SameObject] readonly attribute Policy policy;
+};
+
+partial interface HTMLIFrameElement {
+    [SameObject] readonly attribute Policy policy;
+};</pre>
+    <p>A {{Policy}} object has an <dfn>associated node</dfn>, which is a
+    {{Node}}. The <a>associated node</a> is set when the {{Policy}} object is
+    created.</p>
+    <p>A {{Policy}} object has a <dfn>default origin</dfn>, which is an
+    <a>origin</a>, whose value depends on the state of the {{Policy}} object's
+    <a>associated node</a>:
+    * If the {{Policy}} object's <a>associated node</a> is a {{Document}}, then
+        its <a>default origin</a> is the {{Document}}'s <a>origin</a>.
+    * If the {{Policy}} object's <a>associated node</a> is an {{Element}}, then
+        its <a>default origin</a> is the {{Element}}'s <a>declared origin</a>.
+
+    <p>Each {{Document}} has a <dfn for="Document">policy object</dfn>, which is
+    a {{Policy}} instance whose <a>associated node</a> is that {{Document}}.</p>
+    <p>A {{Document}}'s {{Document/policy}} IDL attribute, on getting, must
+    return the {{Document}}'s [=Document/policy object=].</p>
+
+    <p>Each <{iframe}> element has a <dfn for="iframe">policy object</dfn>,
+    which is a {{Policy}} instance whose <a>associated node</a> is that
+    element.</p>
+    <p>An <{iframe}>'s {{HTMLIFrameElement/policy}} IDL attribute, on getting, must
+    return the <{iframe}>'s [=iframe/policy object=].</p>
+
+    <p>The {{allowsFeature(feature, origin)}} method must run the following
+    steps:
+    1. If |origin| is omitted, set |origin| to this {{Policy}} object's
+        <a>default origin</a>.
+    2. Let |policy| be the <a>observable policy</a> for this {{Policy}} object's
+        <a>associated node</a>.
+    3. If |feature| is allowed by |policy| for |origin|, return true.
+    4. Otherwise, return false.
+
+    <p>The {{allowedFeatures()}} method must run the following steps:
+    1. Set |result| to an empty list
+    2. Let |origin| be this {{Policy}} object's <a>default origin</a>.
+    3. Let |policy| be the <a>observable policy</a> for this {{Policy}} object's
+        <a>associated node</a>.
+    4. For each <a>supported feature</a> |feature|:
+        1. If |feature| is allowed by |policy| for |origin|, append |feature| to
+            |result|.
+    5. return result
+
+    <p>The {{getAllowlistForFeature(feature)}} method must run the following
+    steps:
+    1. Set |result| to an empty list
+    2. Let |origin| be this {{Policy}} object's <a>default origin</a>.
+    3. Let |policy| be the <a>observable policy</a> for this {{Policy}} object's
+        <a>associated node</a>.
+    4. If |feature| is not allowed in |policy| for |origin|, return |result|
+    5. Let |allowlist| be |policy|'s declared policy[|feature|]
+    6. If |allowlist| is the special value `*`, append "`*`" to |result|
+    7. Otherwise, for each |origin| in |allowlist|:
+        1. Append the <a lt="serialization of an origin">serialization</a> of
+            |origin| to |result|
+    8. Return |result|.
+
+    <p>The <dfn>observable policy</dfn> for any Node is a <a>feature policy</a>,
+    which contains the information about the policy in the browsing context
+    represented by that Node which is visible from the current browsing context.
+    </p>
+
+    <p>To get the <a>observable policy</a> for a Document |document|, return
+    |document|'s feature policy.</p>
+    <p>To get the <a>observable policy</a> for an Element |node|, run the
+    following steps:</p>
+        1. Let |inherited policy| be a new ordered map.
+        2. Let |declared policy| be a new ordered map.
+        3. For each <a>supported feature</a> |feature|:
+            1. Let |isInherited| be the result of running <a
+                href="#define-inherited-policy-in-container"></a> on |feature|
+                and |node|.
+            2. Set |inherited policy|[|feature|] to |isInherited|.
+        4. Return a new <a>feature policy</a> with inherited policy
+            |inherited policy| and declared policy |declared policy|.
+
+    <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
+    following steps:
+        1. If |node| has a src attribute:
+            1. Let |url| be the result of parsing |node|'s src attribute,
+                relative to |node|'s <a>node document</a>.
+            2. If |url| is not failure, return |url|'s origin.
+        2. Return |node|'s <a>node document</a>'s origin.
+  </section>
+
 </section>
 <section>
   <h2 id="integrations">Integrations</h2>
@@ -668,8 +895,8 @@ partial interface HTMLIFrameElement {
       "#parse-allow-attribute">Parse allow attribute</a> on the value of
         <var>element</var>'s <code>allow</code> attribute, with <var>container
         origin</var> set to the origin of <var>element</var>'s node document,
-        and <var>target origin</var> set to the origin of the URL in
-        <var>element</var>'s <code>src</code> attribute.
+        and <var>target origin</var> set to <var>element</var>'s <a>declared
+        origin</a>.
       </li>
       <li>If <var>element</var> is an <{iframe}> element:
         <ol>
@@ -847,34 +1074,42 @@ partial interface HTMLIFrameElement {
     (<var>context</var>), this algorithm returns the <a>inherited policy</a>
     for that feature.</p>
     <ol>
-      <li>If <var>context</var> is a [=nested browsing context=]:
+      <li>If <var>context</var> is a [=nested browsing context=], return the
+        result of executing <a href="#define-inherited-policy-in-container"></a>
+        on <var>context</var>'s <a>browsing context container</a>.</li>
+      <li>Otherwise, return 'Enabled'.</li>
+    </ol>
+  </section>
+  <section>
+    <h3 id="define-inherited-policy-in-container">Define an inherited policy for
+    <var>feature</var> in <var>container</var></h3>
+    <p>Given a feature (<var>feature</var>) and a <a>browsing context
+    container</a>
+    (<var>container</var>), this algorithm returns the <a>inherited policy</a>
+    for that feature.</p>
+    <ol>
+      <li>Let <var>parent</var> be <var>container</var>'s node document.</li>
+      <li>Let <var>origin</var> be <var>parent</var>'s [=origin=]</li>
+      <li>Let <var>container policy</var> be the result of running
+        <a href="#process-feature-policy-attributes"></a> on
+        <var>container</var>.
+      </li>
+      <li>If <var>feature</var> is a key in <var>container policy</var>:
         <ol>
-          <li>Let <var>parent</var> be <var>context</var>'s parent browsing
-          context's active document.</li>
-          <li>Let <var>origin</var> be <var>parent</var>'s [=origin=]</li>
-          <li>Let <var>container policy</var> be the result of running
-            <a href="#process-feature-policy-attributes"></a> on
-            <var>context</var>'s browsing context container.
-          </li>
-          <li>If <var>feature</var> is a key in <var>container policy</var>:
-            <ol>
-              <li>If the <a>allowlist</a> for <var>feature</var> in
-              <var>container policy</var> <a>matches</a> <var>origin</var>, and
-              <var>parent</var>'s <a>inherited policy</a> for
-              <var>feature</var> is "<code>Enabled</code>", return
-	      "<code>Enabled</code>".
-              </li>
-              <li>Otherwise return "<code>Disabled</code>".</li>
-            </ol>
-          </li>
-          <li>Otherwise, if <a href="is-feature-enabled"><var>feature</var> is
-          enabled in <var>parent</var> for <var>origin</var></a>, return
+          <li>If the <a>allowlist</a> for <var>feature</var> in
+          <var>container policy</var> <a>matches</a> <var>origin</var>, and
+          <var>parent</var>'s <a>inherited policy</a> for
+          <var>feature</var> is "<code>Enabled</code>", return
           "<code>Enabled</code>".
           </li>
-          <li>Otherwise, return "<code>Disabled</code>".</li>
+          <li>Otherwise return "<code>Disabled</code>".</li>
         </ol>
       </li>
-      <li>Otherwise, return "<code>Enabled</code>".</li>
+      <li>Otherwise, if <a href="#is-feature-enabled"><var>feature</var> is
+      enabled in <var>parent</var> for <var>origin</var></a>, return
+      "<code>Enabled</code>".
+      </li>
+      <li>Otherwise return "<code>Disabled</code>".</li>
     </ol>
   </section>
   <section>
