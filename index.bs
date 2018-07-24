@@ -893,7 +893,8 @@ partial interface HTMLIFrameElement {
       "#parse-allow-attribute">Parse allow attribute</a> on the value of
         <var>element</var>'s <code>allow</code> attribute, with <var>container
         origin</var> set to the origin of <var>element</var>'s node document,
-        and <var>target origin</var> set to <var>element</var>'s <a>declared origin</a>.
+        and <var>target origin</var> set to <var>element</var>'s <a>declared
+        origin</a>.
       </li>
       <li>If <var>element</var> is an <{iframe}> element:
         <ol>
@@ -1071,15 +1072,17 @@ partial interface HTMLIFrameElement {
     (<var>context</var>), this algorithm returns the <a>inherited policy</a>
     for that feature.</p>
     <ol>
-      <li>If <var>context</var> is a [=nested browsing context=],
-          return the result of executing <a href="#define-inherited-policy-in-container"></a> on <var>context</var>'s <a>browsing context container</a>.</li>
+      <li>If <var>context</var> is a [=nested browsing context=], return the
+        result of executing <a href="#define-inherited-policy-in-container"></a>
+        on <var>context</var>'s <a>browsing context container</a>.</li>
       <li>Otherwise, return 'Enabled'.</li>
     </ol>
   </section>
   <section>
     <h3 id="define-inherited-policy-in-container">Define an inherited policy for
     <var>feature</var> in <var>container</var></h3>
-    <p>Given a feature (<var>feature</var>) and a <a>browsing context container</a>
+    <p>Given a feature (<var>feature</var>) and a <a>browsing context
+    container</a>
     (<var>container</var>), this algorithm returns the <a>inherited policy</a>
     for that feature.</p>
     <ol>
@@ -1094,16 +1097,17 @@ partial interface HTMLIFrameElement {
           <li>If the <a>allowlist</a> for <var>feature</var> in
           <var>container policy</var> <a>matches</a> <var>origin</var>, and
           <var>parent</var>'s <a>inherited policy</a> for
-          <var>feature</var> is 'Enabled', return 'Enabled'.
+          <var>feature</var> is "<code>Enabled</code>", return
+          "<code>Enabled</code>".
           </li>
-          <li>Otherwise return 'Disabled'.</li>
+          <li>Otherwise return "<code>Disabled</code>".</li>
         </ol>
       </li>
       <li>Otherwise, if <a href="#is-feature-enabled"><var>feature</var> is
       enabled in <var>parent</var> for <var>origin</var></a>, return
-      'Enabled'.
+      "<code>Enabled</code>".
       </li>
-      <li>Otherwise, return 'Disabled'.</li>
+      <li>Otherwise return "<code>Disabled</code>".</li>
     </ol>
   </section>
   <section>
