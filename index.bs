@@ -22,6 +22,22 @@ spec:html; type:dfn; text:paymentrequest
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
 </pre>
+<style>
+  .unstable::before {
+    content: "This section is not stable.";
+    float: right;
+    color: red;
+  }
+  .unstable {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1'>Unstable</text></svg>");
+    background-repeat: repeat
+  }
+
+ .unstable.example:not(.no-marker)::before {
+     content: "Example " counter(example) " (Unstable)";
+     float: none;
+ }
+</style>
 <section>
   <h2 id="introduction">Introduction</h2>
   <p>The web-platform provides an ever-expanding set of features and APIs,
@@ -430,8 +446,16 @@ spec:fetch; type:dfn; text:value
     </section>
   </section>
 </section>
-<section>
+<section class="unstable">
   <h2 id="introspection">Policy Introspection from Scripts</h2>
+  <div class="advisement">
+    The introspection API described in this section is early in development, and
+    is likely to change &mdash; possibly significantly &mdash; before it is
+    finalized. Web developers are encouraged to experiment with using the API,
+    and <a href="https://github.com/WICG/feature-policy/issues/new">provide
+    feedback</a>, but should be aware that it may change or be removed
+    completely.
+  </div>
   <section class="non-normative">
   <h3 id="introspection-overview">Overview</h3>
   <p>The current policy which is in effect in a document can be observed by
@@ -459,7 +483,7 @@ spec:fetch; type:dfn; text:value
     * get the allowlist for a given feature in the current document.
   </p>
 
-  <div class="example">
+  <div class="unstable example">
   <pre>
   &lt;!doctype html&gt;
   &lt;script&gt;
@@ -493,7 +517,7 @@ spec:fetch; type:dfn; text:value
   effective policy in the nested browsing context in that case could leak
   information about the behaviour of a cross-origin document.</p>
 
-  <div class="example">
+  <div class="unstable example">
   <pre>
   &lt;!doctype html&gt;
   &lt;iframe id="frame" allow="fullscreen; vr"&gt;&lt;/iframe&gt;
@@ -513,7 +537,7 @@ spec:fetch; type:dfn; text:value
   actual content loaded into the frame (to avoid cross-origin information
   leakage,) or even whether it is in a document tree.</p>
 
-  <div class="example">
+  <div class="unstable example">
   <pre>
   &lt;!doctype html&gt;
   &lt;!-- this frame should not be allowed to use fullscreen when the document
@@ -538,7 +562,7 @@ spec:fetch; type:dfn; text:value
 
   <section>
     <h3 id="the-policy-object">The policy object</h3>
-    <pre class="idl">
+    <pre class="unstable idl">
 [NoInterfaceObject]
 interface Policy {
   boolean <a>allowsFeature</a>(DOMString feature, optional DOMString origin);
