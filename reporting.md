@@ -24,7 +24,7 @@ web server to send an HTTP header that declares where the reports should be
 sent. Something like:
 
 ```http
-Report-To: {"url":"https://reportingapi.tools/public/submit","max-age":86400}
+Report-To: {"endpoints":{"url":"https://reportingapi.tools/public/submit"},"max-age":86400}
 ```
 
 Once we add feature policy reporting to the reporting API, per this proposal,
@@ -37,11 +37,12 @@ that the browser sends will look something like this:
  "type": "feature-policy",
  "url": "https://a.featurepolicy.rocks/fullscreen.html",
  "age": 60000,
+ "user_agent": "Mozilla/1.22 (compatible; MSIE 2.0; Windows 95)",
  "body": {
     "policy": "fullscreen",
     "url": "https://a.featurepolicy.rocks/fullscreen.html",
-    "line_number": 20,
-    "column_number": 37,
+    "lineNumber": 20,
+    "columnNumber": 37,
     "disposition": "enforce"
   }
 }
@@ -53,7 +54,7 @@ JavaScript:
 ```javascript
 let myObserver = new ReportingObserver(reportList => {
   reportList.forEach(report => {
-    alert("Whatever you just tried to do was blocked by policy.\n" + report.body.message);
+    alert("Whatever you just tried to do was blocked by policy.: " + report.body.feature);
   });
 }, {"types": ["feature-policy"]);
 

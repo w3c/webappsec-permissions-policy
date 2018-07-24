@@ -184,15 +184,16 @@ spec:fetch; type:dfn; text:value
       </li>
     </ul>
     <p>An <dfn>empty feature policy</dfn> is a <a>feature policy</a> that has
-    an <a>inherited policy</a> which contains 'Enabled' for every <a>supported
-    feature</a>, and a <a>declared policy</a> which is an empty map.</p>
+    an <a>inherited policy</a> which contains "<code>Enabled</code>" for every
+    <a>supported feature</a>, and a <a>declared policy</a> which is an empty
+    map.</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
     <p>An <dfn data-lt="inherited policy|inherited policies">inherited
     policy</dfn> is an ordered map from <a
-    data-lt="policy-controlled feature">features</a> to either 'Enabled' or
-    'Disabled'.</p>
+    data-lt="policy-controlled feature">features</a> to either
+    "<code>Enabled</code>" or "<code>Disabled</code>".</p>
     <p>The <dfn>inherited policy for a feature</dfn> <var>feature</var> is the
     value in the <a>inherited policy</a> whose key is <var>feature</var>. After
     a <a>feature policy</a> has been initialized, its <a>inherited policy</a>
@@ -201,8 +202,9 @@ spec:fetch; type:dfn; text:value
     <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
     for each <a>policy-controlled feature</a>. This inherited policy determines
-    the initial state ('Enabled' or 'Disabled') of each feature, and whether it
-    can be controlled by a <a>declared policy</a> in the document.
+    the initial state ("<code>Enabled</code>" or "<code>Disabled</code>") of
+    each feature, and whether it can be controlled by a <a>declared policy</a>
+    in the document.
     </p>
     <p>In a {{Document}} in a [=top-level browsing context=], the inherited
     policy is based on defined defaults for each feature.</p>
@@ -1011,7 +1013,7 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="initialize-for-document">Initialize <var>document</var>'s Feature
     Policy</var></h3>
-    <p>Given a Document object (<var>document</var>), this algorithm
+    <p>Given a {{Document}} object (<var>document</var>), this algorithm
     initialises <var>document</var>'s <a>Feature Policy</a></p>
     <ol>
       <li>Let <var>inherited policy</var> be a new ordered map.</li>
@@ -1113,7 +1115,7 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="is-feature-enabled">Is <var>feature</var> enabled in
     <var>document</var> for <var>origin</var>?</h3>
-    <p>Given a feature (<var>feature</var>), a Document object
+    <p>Given a feature (<var>feature</var>), a {{Document}} object
     (<var>document</var>), and an [=origin=] (<var>origin</var>), this algorithm
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
@@ -1164,5 +1166,103 @@ partial interface HTMLIFrameElement {
 </section>
 <section id="privacy" class="informative">
   <h2 id="privacy-and-security">Privacy and Security</h2>
-  <p class="issue">TODO</p>
+  <p>This specification standardizes a mechanism for an embedding page to set a
+  policy which will be enforced on an embedded page. Similar to iframe
+  <{iframe/sandbox}>, this can be done without the express permission of the
+  embedded page, which means that behaviors of existing features can be changed
+  in published web sites, by embedding them in another document with an
+  appropriate container policy.</p>
+
+  <p>As such, the biggest privacy and security concerns are:</p>
+  <ul>
+    <li>Exposure of behavior in a cross-origin subframe to its embedder</li>
+    <li>Unanticipated behavior changes in subframes controlled by the
+    embedder</li>
+  </ul>
+
+  <p>To a degree, these concerns are already present in the web platform, and
+  this specification attempts to at least not make them needlessly worse.</p>
+
+  <p>Security and privacy issues may also be caused by the design of individual
+  features, so care must be taken when integrating with this specification. This
+  section attempts to provide some guidance as to what kinds of behaviors could
+  cause such issues.</p>
+
+  <h3 id="privacy-expose-behavior">Exposure of cross-origin behavior</h3>
+
+  <p>Features should be designed such that a violation of the policy in a framed
+  document is not observable by documents in other frames. For instance, a
+  hypothetical feature which caused a event to be fired in the embedding
+  document if it is used while disabled by policy, could be used to extract
+  information about the state of an embedded document. If the feature is known
+  only to be used while a user is logged in to the site, for instance, then the
+  embedder could disable that feature for the frame, and then listen for the
+  resulting events to determine whether or not the user is logged in.</p>
+
+  <h3 id="privacy-alter-behavior">Unanticipated behavior changes</h3>
+
+  <p>Feature policy grants a document the ability to control which features will
+  and will not be availble in a subframe at the time it is loaded. When a
+  feature represents an existing, long-standing behavior of the web platform,
+  this may mean that existing published content on the web was not written with
+  the expectation that a particular API could fail.</p>
+
+  <div class="example">
+    <p>As a practical (though contrived) example, consider a document which uses
+    synchronous XMLHttpRequest to determine whether a user has sufficient
+    privileges to access the page:</p>
+
+    <pre>
+      &lt;!DOCTYPE html&gt;
+      &lt;h1&gt;Welcome to SecureCorp!&lt;/h1&gt;
+      &lt;script&gt;
+        var req = new XMLHttpRequest();
+        req.open("GET", "/api/security_check.json", false);
+        req.send();
+        if (req.response == "untrusted user") {
+          // User is not logged in; redirect to a safe page
+          location.href = "/security_check_failed.html";
+        }
+      &lt;/script&gt;
+      &lt;!-- Page continues with assumption that user is logged in --&gt;
+    </pre>
+
+    <p>If this document is embedded by a page which disables the
+    "<code>sync-xhr</code>" feature, the call to `XMLHttpRequest.open()` would
+    fail, and the security check would be bypassed.</p>
+  </div>
+
+  <p>Note that this sort of behavior forcing is already possible on the web:
+  some features are only allowed in top-level documents, and not in any iframes,
+  and iframe sandboxing can be used in a similar way to embed a frame without
+  access to features which it may be depending on.</p>
+
+  <p>In general, this concern is mitigated in two ways:</p>
+  <ul>
+    <li>The vulnerable page may be served with an `X-Frame-Options` HTTP header
+    which does not allow it to be framed by an attacker.</li>
+    <li>Sites should use feature detection to determine whether an API or
+    behavior is available before attempting to use it, and should handle any
+    documented errors returned or exceptions thrown by the APIs they call.</li>
+  </ul>
+
+  <p>Authors integrating their features with Feature Policy can decide when and
+  how the feature will fail when a document attempts to use it while it is
+  disabled. Authors should attempt to make use of existing failure modes, when
+  they exist, to increase the chance that existing content will already be
+  correctly handling such failures.</p>
+
+  <h3 id="privacy-expose-policy">Exposure of embedding policy</h3>
+
+  <p>Care has been taken to limit the information which an page can infer about
+  the behavior of cross-origin pages which it embeds. It may be possible in some
+  scenarios however, for the embedded page to infer information about its
+  embedder, by examining the policy which the embedder has enforced on it.</p>
+
+  <p>This is similar to the existing `document.fullscreenEnabled` property,
+  which can be used by the embedded document to infer whether its embedder has
+  granted it the ability to use the Fullscreen API. If this is only granted in
+  certain cases &mdash; when the user is logged in to the embedding site, for
+  instance &mdash; then the embedded site can learn something about the state of
+  its embedder.</p>
 </section>
