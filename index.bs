@@ -775,7 +775,10 @@ partial interface HTMLIFrameElement {
 <section>
   <h2 id="reporting">Reporting</h2>
   <p><dfn>Feature policy violation reports</dfn> indicate that some behavior of
-  the <a>Document</a> has <a>violated</a> a feature policy.</p>
+  the <a>Document</a> has <a>violated</a> a feature policy. It is up to each
+  individual feature policy to define/determine when a
+  <dfn data-lt="violate|violation|violated">violation</dfn> of that policy has
+  occurred.</p>
 
   <p><a>Feature policy violation reports</a> have the <a>report type</a>
   "feature-policy-violation".</p>
@@ -786,6 +789,7 @@ partial interface HTMLIFrameElement {
   <pre class="idl">
     interface FeaturePolicyViolationReportBody : ReportBody {
       readonly attribute DOMString featureId;
+      readonly attribute DOMString message;
       readonly attribute DOMString? sourceFile;
       readonly attribute long? lineNumber;
       readonly attribute long? columnNumber;
@@ -825,6 +829,10 @@ partial interface HTMLIFrameElement {
       "enforce" if the policy was enforced, or "report" if the <a>violation</a>
       resulted only in this report being generated (with no further action taken
       by the user agent in response to the violation).
+
+      Note: There is currently no mechanism in place for enabling report-only
+      mode, so [=FeaturePolicyViolationReportBody/disposition=] will always be
+      set to "enforce".
 </section>
 
 <section>
@@ -1209,13 +1217,12 @@ partial interface HTMLIFrameElement {
   </section>
   <section>
     <h3 id="report-violation">Generate report for violation of |feature| policy
-    with |message| and |disposition|, on |settings|</h3>
+    with |message|, on |settings|</h3>
 
-    <p> Given a feature (|feature|), a string (|message|), another string
-    (|disposition|), an <a>environment settings object</a> (|settings|), and an
-    optional string (|group|), this algorithm generates a <a>report</a>,
-    containing |message|, about the <a>violation</a> of the policy on
-    |feature|.</p>
+    <p> Given a feature (|feature|), a string (|message|), an <a>environment
+    settings object</a> (|settings|), and an optional string (|group|), this
+    algorithm generates a <a>report</a>, containing |message|, about
+    the <a>violation</a> of the policy on |feature|.</p>
 
     1.  Let |body| be a new {{FeaturePolicyViolationReportBody}}, initialized
         as follows:
@@ -1231,7 +1238,7 @@ partial interface HTMLIFrameElement {
         :   [=FeaturePolicyViolationReportBody/columnNumber=]
         ::  null
         :   [=FeaturePolicyViolationReportBody/disposition=]
-        ::  |disposition|
+        ::  "enforce"
 
     2.  If the user agent is currently executing script, and can extract the
         source file's URL, line number, and column number from |settings|, then
@@ -1245,8 +1252,7 @@ partial interface HTMLIFrameElement {
         "feature-policy-violation", |group|, and |settings|.
 
     Note: This algorithm should be called when a feature policy has
-    been <dfn data-lt="violation|violated">violated</dfn>. It is up to each
-    individual feature policy to determine when a <a>violation</a> has occured.
+    been <a>violated</a>.
   </section>
 </section>
 
