@@ -1199,6 +1199,14 @@ partial interface HTMLIFrameElement {
   embedder could disable that feature for the frame, and then listen for the
   resulting events to determine whether or not the user is logged in.</p>
 
+  <p>The introspection API is designed to only show information about a
+  subframe's policy which could already be deduced by the embedding document.
+  This <a>observable policy</a> is not affected by any HTTP headers delivered
+  with the framed document, and does not change when the frame navigates itself,
+  even if such navigation is to a different origin, where a different policy
+  applies. Only navigations caused by setting the `src` attribute of the
+  `<iframe>` element will cause the <a>observable policy</a> to be updated.</p>
+
   <h3 id="privacy-alter-behavior">Unanticipated behavior changes</h3>
 
   <p>Feature policy grants a document the ability to control which features will
@@ -1245,6 +1253,10 @@ partial interface HTMLIFrameElement {
     behavior is available before attempting to use it, and should handle any
     documented errors returned or exceptions thrown by the APIs they call.</li>
   </ul>
+
+    <li>In the case where feature detection is not possible, new web content can
+    be written to use the `policy` object to inspect the feature policy which is
+    currently enforced, and adjust behaviour or user interface accordingly.</li>
 
   <p>Authors integrating their features with Feature Policy can decide when and
   how the feature will fail when a document attempts to use it while it is
