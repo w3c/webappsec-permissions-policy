@@ -1214,7 +1214,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 45e8ecaee91d0279f1fcff49412103c12b49542f" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="37d974c0ef1a9ef9f3d309fb71e6426bb6459c32" name="document-revision">
+  <meta content="20ad55c4257ed4ed9502c89bba290ca29b86f8a8" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-07-24">24 July 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-07-25">25 July 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2606,6 +2606,12 @@ relative to <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.w
   only to be used while a user is logged in to the site, for instance, then the
   embedder could disable that feature for the frame, and then listen for the
   resulting events to determine whether or not the user is logged in.</p>
+    <p>The introspection API is designed to only show information about a
+  subframe’s policy which could already be deduced by the embedding document.
+  This <a data-link-type="dfn" href="#observable-policy" id="ref-for-observable-policy⑦">observable policy</a> is not affected by any HTTP headers delivered
+  with the framed document, and does not change when the frame navigates itself,
+  even if such navigation is to a different origin, where a different policy
+  applies. Only navigations caused by setting the <code>src</code> attribute of the <code>&lt;iframe></code> element will cause the <a data-link-type="dfn" href="#observable-policy" id="ref-for-observable-policy⑧">observable policy</a> to be updated.</p>
     <h3 class="heading settled" data-level="11.2" id="privacy-alter-behavior"><span class="secno">11.2. </span><span class="content">Unanticipated behavior changes</span><a class="self-link" href="#privacy-alter-behavior"></a></h3>
     <p>Feature policy grants a document the ability to control which features will
   and will not be availble in a subframe at the time it is loaded. When a
@@ -2646,6 +2652,9 @@ relative to <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.w
     behavior is available before attempting to use it, and should handle any
     documented errors returned or exceptions thrown by the APIs they call.
     </ul>
+    <li>In the case where feature detection is not possible, new web content can
+    be written to use the <code>policy</code> object to inspect the feature policy which is
+    currently enforced, and adjust behaviour or user interface accordingly.
     <p>Authors integrating their features with Feature Policy can decide when and
   how the feature will fail when a document attempts to use it while it is
   disabled. Authors should attempt to make use of existing failure modes, when
@@ -3557,6 +3566,7 @@ relative to <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.w
    <ul>
     <li><a href="#ref-for-observable-policy">7.1.2. Frame policies</a> <a href="#ref-for-observable-policy①">(2)</a>
     <li><a href="#ref-for-observable-policy②">7.2. The policy object</a> <a href="#ref-for-observable-policy③">(2)</a> <a href="#ref-for-observable-policy④">(3)</a> <a href="#ref-for-observable-policy⑤">(4)</a> <a href="#ref-for-observable-policy⑥">(5)</a>
+    <li><a href="#ref-for-observable-policy⑦">11.1. Exposure of cross-origin behavior</a> <a href="#ref-for-observable-policy⑧">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="declared-origin">
