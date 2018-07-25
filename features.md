@@ -22,7 +22,6 @@ of these features all belong in their respective specs.
 |`picture-in-picture`|`*`|Controls access to Picture in Picture.|
 |`speaker`|`self`|Controls access to audio output devices.|
 |`usb`|`self`|Controls access to USB devices.|
-|`vibrate`|`self`|Controls access to `vibrate()` method.|
 |`vr`|`self`|Controls access to VR displays.|
 
 ## Feature Definitions
@@ -31,7 +30,7 @@ of these features all belong in their respective specs.
 
 The *autoplay* feature controls access to autoplay of media requested through the [HTMLMediaElement interface](http://w3c.github.io/html/semantics-embedded-content.html#htmlmediaelement).
 
-If disabled in a document, then calls to [`play()`](http://w3c.github.io/html/semantics-embedded-content.html#dom-htmlmediaelement-play) without a user gesutre will reject the promise with a `NotAllowedError` DOMException object as its parameter. The [`autoplay`](http://w3c.github.io/html/semantics-embedded-content.html#dom-htmlmediaelement-autoplay) attribute will be ignored.
+If disabled in a document, then calls to [`play()`](http://w3c.github.io/html/semantics-embedded-content.html#dom-htmlmediaelement-play) without a user gesture will reject the promise with a `NotAllowedError` DOMException object as its parameter. The [`autoplay`](http://w3c.github.io/html/semantics-embedded-content.html#dom-htmlmediaelement-autoplay) attribute will be ignored.
 
 * The **feature name** for *autoplay* is "`autoplay`"
 * The **default allowlist** for *autoplay* is `'self'`.
@@ -156,15 +155,6 @@ If disabled in a document, then calls to the [`getDevices()`](https://wicg.githu
 
 * The **feature name** for *usb* is "`usb`"
 * The **default allowlist** for *usb* is `'self'`.
-
-### vibrate
-
-The *vibrate* feature controls whether the [Vibration API](https://w3c.github.io/vibration/) is allowed to cause device vibration.
-
-If disabled in a document, then calls to the [`vibrate()`](https://w3c.github.io/vibration/#dom-navigator-vibrate) method should silently do nothing. If enabled, the browser may allow the device to vibrate.
-
-* The **feature name** for *vibrate* is "`vibrate`"
-* The **default allowlist** for *vibrate* is `'self'`.
 
 ### vr
 
