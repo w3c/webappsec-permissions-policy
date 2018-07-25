@@ -86,7 +86,7 @@ third-party contexts?
 3.16 Does this specification have a "Security Considerations" and "Privacy
 Considerations" section?
 
-* Placeholder currently.
+* YES, and this has been updated with some notes about the JS API.
 
 3.17 Does this specification allow downgrading default security characteristics?
 
