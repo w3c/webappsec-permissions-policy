@@ -34,15 +34,16 @@ that the browser sends will look something like this:
 
 ```json
 {
- "type": "feature-policy",
- "url": "https://a.featurepolicy.rocks/fullscreen.html",
+ "type": "feature-policy-violation",
+ "url": "https://a.featurepolicy.rocks/geolocation.html",
  "age": 60000,
  "user_agent": "Mozilla/1.22 (compatible; MSIE 2.0; Windows 95)",
  "body": {
-    "policy": "fullscreen",
-    "url": "https://a.featurepolicy.rocks/fullscreen.html",
-    "lineNumber": 20,
-    "columnNumber": 37,
+    "featureId": "geolocation",
+    "message": "Geolocation access has been blocked because of a Feature Policy applied to the current document. See https://goo.gl/EuHzyv for more details.",
+    "source_file": "https://a.featurepolicy.rocks/geolocation.html",
+    "line_number": 20,
+    "column_number": 37,
     "disposition": "enforce"
   }
 }
@@ -56,7 +57,7 @@ let myObserver = new ReportingObserver(reportList => {
   reportList.forEach(report => {
     alert("Whatever you just tried to do was blocked by policy.: " + report.body.feature);
   });
-}, {"types": ["feature-policy"]);
+}, {"types": ["feature-policy-violation"]);
 
 myObserver.observe();
 ```

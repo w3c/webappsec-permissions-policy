@@ -2,6 +2,7 @@
 Title: Feature Policy
 Shortname: feature-policy
 Level: 1
+Indent: 2
 Status: CG-DRAFT
 Group: WICG
 URL: https://wicg.github.io/feature-policy/
@@ -21,6 +22,12 @@ spec:html; type:method; text:getUserMedia()
 spec:html; type:dfn; text:paymentrequest
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
+</pre>
+<pre class="anchors">
+spec:reporting; urlPrefix: https://w3c.github.io/reporting/
+  type: dfn
+    text: report type
+    text: visible to reportingobservers
 </pre>
 <style>
   .unstable::before {
@@ -764,6 +771,70 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
 </section>
+
+<section>
+  <h2 id="reporting">Reporting</h2>
+  <p><dfn>Feature policy violation reports</dfn> indicate that some behavior of
+  the <a>Document</a> has <a>violated</a> a feature policy. It is up to each
+  individual feature policy to define/determine when a
+  <dfn data-lt="violate|violation|violated">violation</dfn> of that policy has
+  occurred.</p>
+
+  <p><a>Feature policy violation reports</a> have the <a>report type</a>
+  "feature-policy-violation".</p>
+
+  <p><a>Feature policy violation reports</a> are <a>visible to
+  <code>ReportingObserver</code>s</a>.
+
+  <pre class="idl">
+    interface FeaturePolicyViolationReportBody : ReportBody {
+      readonly attribute DOMString featureId;
+      readonly attribute DOMString message;
+      readonly attribute DOMString? sourceFile;
+      readonly attribute long? lineNumber;
+      readonly attribute long? columnNumber;
+      readonly attribute DOMString disposition;
+    };
+  </pre>
+
+  A <a>feature policy violation report</a>'s [=report/body=], represented in
+  JavaScript by {{FeaturePolicyViolationReportBody}}, contains the following
+  fields:
+
+    - <dfn for="FeaturePolicyViolationReportBody">featureId</dfn>: The string
+      identifying the <a>policy-controlled feature</a> whose policy has been
+      <a>violated</a>. This string can be used for grouping and counting related
+      reports.
+
+    - <dfn for="FeaturePolicyViolationReportBody">message</dfn>: A
+      human-readable string with details typically matching what would be
+      displayed on the developer console. The message is not guaranteed to be
+      unique for a given [=FeaturePolicyViolationReportBody/featureId=]
+      (e.g. it may contain additional context on how the API was used).
+
+    - <dfn for="FeaturePolicyViolationReportBody">sourceFile</dfn>: If known,
+      the file where the <a>violation</a> occured, or null otherwise.
+
+    - <dfn for="FeaturePolicyViolationReportBody">lineNumber</dfn>: If known,
+      the line number in [=FeaturePolicyViolationReportBody/sourceFile=] where
+      the <a>violation</a> occured, or null otherwise.
+
+    - <dfn for="FeaturePolicyViolationReportBody">columnNumber</dfn>: If known,
+      the column number in [=FeaturePolicyViolationReportBody/sourceFile=] where
+      the <a>violation</a> occured, or null otherwise.
+
+    - <dfn for="FeaturePolicyViolationReportBody">disposition</dfn>: A string
+      indicating whether the <a>violated</a> feature policy was enforced in this
+      case. [=FeaturePolicyViolationReportBody/disposition=] will be set to
+      "enforce" if the policy was enforced, or "report" if the <a>violation</a>
+      resulted only in this report being generated (with no further action taken
+      by the user agent in response to the violation).
+
+      Note: There is currently no mechanism in place for enabling report-only
+      mode, so [=FeaturePolicyViolationReportBody/disposition=] will always be
+      set to "enforce".
+</section>
+
 <section>
   <h2 id="algorithms">Algorithms</h2>
   <section>
@@ -1144,7 +1215,47 @@ partial interface HTMLIFrameElement {
       <li>Return "<code>Disabled</code>".</li>
     </ol>
   </section>
+  <section>
+    <h3 id="report-violation">Generate report for violation of |feature| policy
+    with |message|, on |settings|</h3>
+
+    <p> Given a feature (|feature|), a string (|message|), an <a>environment
+    settings object</a> (|settings|), and an optional string (|group|), this
+    algorithm generates a <a>report</a>, containing |message|, about
+    the <a>violation</a> of the policy on |feature|.</p>
+
+    1.  Let |body| be a new {{FeaturePolicyViolationReportBody}}, initialized
+        as follows:
+
+        :   [=FeaturePolicyViolationReportBody/featureId=]
+        ::  |feature|'s string representation.
+        :   [=FeaturePolicyViolationReportBody/message=]
+        ::  |message|
+        :   [=FeaturePolicyViolationReportBody/sourceFile=]
+        ::  null
+        :   [=FeaturePolicyViolationReportBody/lineNumber=]
+        ::  null
+        :   [=FeaturePolicyViolationReportBody/columnNumber=]
+        ::  null
+        :   [=FeaturePolicyViolationReportBody/disposition=]
+        ::  "enforce"
+
+    2.  If the user agent is currently executing script, and can extract the
+        source file's URL, line number, and column number from |settings|, then
+        set |body|'s [=FeaturePolicyViolationReportBody/sourceFile=],
+        [=FeaturePolicyViolationReportBody/lineNumber=], and
+        [=FeaturePolicyViolationReportBody/columnNumber=] accordingly.
+
+    3.  If |group| is omitted, set |group| to "default".
+
+    4.  Execute [[reporting/#queue-report]] with |body|,
+        "feature-policy-violation", |group|, and |settings|.
+
+    Note: This algorithm should be called when a feature policy has
+    been <a>violated</a>.
+  </section>
 </section>
+
 <section>
   <h2 id="iana-considerations">IANA Considerations</h2>
   <p>The permanent message header field registry should be updated with the
@@ -1190,9 +1301,9 @@ partial interface HTMLIFrameElement {
 
   <h3 id="privacy-expose-behavior">Exposure of cross-origin behavior</h3>
 
-  <p>Features should be designed such that a violation of the policy in a framed
-  document is not observable by documents in other frames. For instance, a
-  hypothetical feature which caused a event to be fired in the embedding
+  <p>Features should be designed such that a <a>violation</a> of the policy in a
+  framed document is not observable by documents in other frames. For instance,
+  a hypothetical feature which caused a event to be fired in the embedding
   document if it is used while disabled by policy, could be used to extract
   information about the state of an embedded document. If the feature is known
   only to be used while a user is logged in to the site, for instance, then the
