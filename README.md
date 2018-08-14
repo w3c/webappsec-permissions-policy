@@ -1,6 +1,6 @@
 # Feature Policy
 
-A web platform API which gives a website the ability to allow and deny the use of browser features in its own frame, and in iframes that it embeds. Examples of features that could be controlled by feature policy include:
+A web platform API which gives a website the ability to allow and deny the use of browser features in its own frame, and in iframes that it embeds. Examples of [features](https://github.com/WICG/feature-policy/blob/master/features.md) that could be controlled by feature policy include:
 
 - getUserMedia (Camera, Speakers and Microphone)
 - Fullscreen
@@ -9,7 +9,7 @@ A web platform API which gives a website the ability to allow and deny the use o
 - Payments
 - Synchronous XHR
 - Synchronous scripts
-- Vibrate
+- Lazyload
 - ...
 
 The spec is hosted on this repo, at https://wicg.github.io/feature-policy/
