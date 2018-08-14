@@ -1212,9 +1212,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 45e8ecaee91d0279f1fcff49412103c12b49542f" name="generator">
+  <meta content="Bikeshed version ef44162c2e3cf3334a0a5b802a6c5299f5691a0a" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="95e455d8d76de9f0401b3c183651aedda754a104" name="document-revision">
+  <meta content="d16a3788118a8c0f812e7448677961fb3d82fffd" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-07-26">26 July 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-08-14">14 August 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1719,7 +1719,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <h2 class="heading settled" data-level="4" id="framwork"><span class="secno">4. </span><span class="content">Framework</span><a class="self-link" href="#framwork"></a></h2>
     <section>
      <h3 class="heading settled" data-level="4.1" id="features"><span class="secno">4.1. </span><span class="content">Policy-controlled Features</span><a class="self-link" href="#features"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" id="policy-controlled-feature">policy-controlled feature</dfn> is an
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="policy-controlled-feature">policy-controlled feature</dfn> is an
     API or behaviour which can be enabled or disabled in a document by referring
     to it in a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy">feature policy</a>. </p>
      <div class="note" role="note">For brevity, policy-controlled features will often be
@@ -1736,7 +1736,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     which defines whether that feature is available in documents in top-level
     browsing contexts, and how access to that feature is inherited in nested
     browsing contexts.</p>
-     <p>A user agent has a set of <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="supported-features">supported features</dfn>, which is the set
+     <p>A user agent has a set of <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="supported-features">supported features</dfn>, which is the set
     of <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature③">features</a> which it allows to be
     controlled through policies. User agents are not required to support every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature④">feature</a>.</p>
      <div class="note" role="note"> The <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑤">policy-controlled features</a> themselves are not themselves part
@@ -1746,21 +1746,21 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="4.2" id="policies"><span class="secno">4.2. </span><span class="content">Policies</span><a class="self-link" href="#policies"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-policy">feature policy</dfn> is a struct with the following items:</p>
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="feature-policy">feature policy</dfn> is a struct with the following items:</p>
      <ul>
       <li>An <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy">inherited policy</a>. 
       <li>A <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy">declared policy</a>. 
      </ul>
-     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="empty-feature-policy">empty feature policy</dfn> is a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①">feature policy</a> that has
+     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="empty-feature-policy">empty feature policy</dfn> is a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①">feature policy</a> that has
     an <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy①">inherited policy</a> which contains "<code>Enabled</code>" for every <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features">supported feature</a>, and a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①">declared policy</a> which is an empty
     map.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.3" id="inherited-policies"><span class="secno">4.3. </span><span class="content">Inherited policies</span><a class="self-link" href="#inherited-policies"></a></h3>
-     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="inherited policy|inherited policies" data-noexport="" id="inherited-policy">inherited
+     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="inherited policy|inherited policies" data-noexport id="inherited-policy">inherited
     policy</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑥">features</a> to either
     "<code>Enabled</code>" or "<code>Disabled</code>".</p>
-     <p>The <dfn data-dfn-type="dfn" data-noexport="" id="inherited-policy-for-a-feature">inherited policy for a feature<a class="self-link" href="#inherited-policy-for-a-feature"></a></dfn> <var>feature</var> is the
+     <p>The <dfn data-dfn-type="dfn" data-noexport id="inherited-policy-for-a-feature">inherited policy for a feature<a class="self-link" href="#inherited-policy-for-a-feature"></a></dfn> <var>feature</var> is the
     value in the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy②">inherited policy</a> whose key is <var>feature</var>. After
     a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy②">feature policy</a> has been initialized, its <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy③">inherited policy</a> will contain a value for each <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features①">supported feature</a>.</p>
      <div class="note" role="note">
@@ -1778,16 +1778,16 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="4.4" id="declared-policies"><span class="secno">4.4. </span><span class="content">Declared policies</span><a class="self-link" href="#declared-policies"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="declared policy|declared feature policy" data-noexport="" id="declared-policy">declared
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="declared policy|declared feature policy" data-noexport id="declared-policy">declared
     policy</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑧">features</a> to <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①">allowlists</a>. </p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.5" id="header-policies"><span class="secno">4.5. </span><span class="content">Header policies</span><a class="self-link" href="#header-policies"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="header-policy">header policy</dfn> is a list of <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive①">policy directives</a> delivered via an HTTP header with a document. This forms the document’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy③">feature policy</a>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy③">declared policy</a>.</p>
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="header-policy">header policy</dfn> is a list of <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive①">policy directives</a> delivered via an HTTP header with a document. This forms the document’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy③">feature policy</a>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy③">declared policy</a>.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.6" id="container-policies"><span class="secno">4.6. </span><span class="content">Container policies</span><a class="self-link" href="#container-policies"></a></h3>
-     <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy">header policy</a>, each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context②">nested browsing context</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" id="container-policy">container policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive②">policy directive</a>,
+     <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy">header policy</a>, each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context②">nested browsing context</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="container-policy">container policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive②">policy directive</a>,
     which may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> can set by attributes on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container">browsing context container</a>.</p>
      <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy②">container policy</a> for a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context③">nested browsing context</a> influences
     the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy④">inherited policy</a> of any document loaded into that context.
@@ -1803,16 +1803,16 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="4.7" id="policy-directives"><span class="secno">4.7. </span><span class="content">Policy directives</span><a class="self-link" href="#policy-directives"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="policy directive|policy directives" data-noexport="" id="policy-directive">policy
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="policy directive|policy directives" data-noexport id="policy-directive">policy
     directive</dfn> is an ordered map, mapping <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑨">policy-controlled features</a> to corresponding <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist②">allowlists</a> of origins.</p>
      <p>A <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive③">policy directive</a> is represented in HTTP headers and HTML
     attributes as its ASCII serialization.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.8" id="allowlists"><span class="secno">4.8. </span><span class="content">Allowlists</span><a class="self-link" href="#allowlists"></a></h3>
-     <p>A feature policy <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" data-lt="allowlist|allowlists" id="allowlist">allowlist</dfn> is conceptually a set of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin">origins</a>. An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist③">allowlist</a> may be either: </p>
+     <p>A feature policy <dfn class="dfn-paneled" data-dfn-type="dfn" data-export data-lt="allowlist|allowlists" id="allowlist">allowlist</dfn> is conceptually a set of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin">origins</a>. An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist③">allowlist</a> may be either: </p>
      <ul>
-      <li><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="the-special-value">The special value <code>*</code></dfn>, which represents every
+      <li><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="the-special-value">The special value <code>*</code></dfn>, which represents every
       origin, or
       <li>An <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set">ordered set</a> of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin①">origins</a>
      </ul>
@@ -1821,7 +1821,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       context during parsing, and only the origins which they refer to are
       stored in the allowlist. The keywords themselves are not part of the
       allowlist. </div>
-     <p>To determine whether an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist④">allowlist</a> <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="matches">matches</dfn> an origin <var>origin</var>, run these steps: </p>
+     <p>To determine whether an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist④">allowlist</a> <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="matches">matches</dfn> an origin <var>origin</var>, run these steps: </p>
      <ol>
       <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑤">allowlist</a> is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value">the special value <code>*</code></a>,
       then return true.
@@ -1835,7 +1835,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="4.9" id="default-allowlists"><span class="secno">4.9. </span><span class="content">Default Allowlists</span><a class="self-link" href="#default-allowlists"></a></h3>
-     <p>Every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⓪">policy-controlled feature</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" data-lt="default allowlist|default allowlists" id="default-allowlist">default allowlist</dfn>. The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist①">default allowlist</a> determines whether the feature is allowed in a
+     <p>Every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⓪">policy-controlled feature</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export data-lt="default allowlist|default allowlists" id="default-allowlist">default allowlist</dfn>. The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist①">default allowlist</a> determines whether the feature is allowed in a
     document with no declared policy in a top-level browsing context, and also
     whether access to the feature is automatically delegated to documents in
     nested browsing contexts.</p>
@@ -1863,13 +1863,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <h3 class="heading settled" data-level="5.1" id="ascii-serialization"><span class="secno">5.1. </span><span class="content">ASCII serialization</span><a class="self-link" href="#ascii-serialization"></a></h3>
      <p><a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive④">Policy Directives</a> are represented in HTTP headers and in HTML
     attributes as ASCII text.</p>
-<pre class="abnf"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="serialized-feature-policy">serialized-feature-policy</dfn> = <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive">serialized-policy-directive</a> *(";" <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive①">serialized-policy-directive</a>)
-<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="serialized-policy-directive">serialized-policy-directive</dfn> = <a data-link-type="dfn" href="#feature-identifier" id="ref-for-feature-identifier">feature-identifier</a> RWS <a data-link-type="dfn" href="#allow-list" id="ref-for-allow-list">allow-list</a>
-<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-identifier">feature-identifier</dfn> = 1*( ALPHA / DIGIT / "-")
-<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list">allow-list</dfn> = <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value">allow-list-value</a> *(RWS <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value①">allow-list-value</a>)
-<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allow-list-value">allow-list-value</dfn> = <a data-link-type="dfn" href="#serialized-origin" id="ref-for-serialized-origin">serialized-origin</a> / "*" / "'self'" / "'src'" / "'none'"
+<pre class="abnf"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="serialized-feature-policy">serialized-feature-policy</dfn> = <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive">serialized-policy-directive</a> *(";" <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive①">serialized-policy-directive</a>)
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="serialized-policy-directive">serialized-policy-directive</dfn> = <a data-link-type="dfn" href="#feature-identifier" id="ref-for-feature-identifier">feature-identifier</a> RWS <a data-link-type="dfn" href="#allow-list" id="ref-for-allow-list">allow-list</a>
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="feature-identifier">feature-identifier</dfn> = 1*( ALPHA / DIGIT / "-")
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="allow-list">allow-list</dfn> = <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value">allow-list-value</a> *(RWS <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value①">allow-list-value</a>)
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="allow-list-value">allow-list-value</dfn> = <a data-link-type="dfn" href="#serialized-origin" id="ref-for-serialized-origin">serialized-origin</a> / "*" / "'self'" / "'src'" / "'none'"
 </pre>
-     <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="serialized-origin"><code>serialized-origin</code></dfn> is the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin">serialization of an origin</a>. However, the code points U+0027 ('),
+     <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="serialized-origin"><code>serialized-origin</code></dfn> is the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin">serialization of an origin</a>. However, the code points U+0027 ('),
     U+0021 (*), U+002C (,) and U+003B (;) MUST NOT appear in the serialization.
     If they are required, they must be percent-encoded as "<code>%27</code>", "<code>%2A</code>",
     "<code>%2C</code>" or "<code>%3B</code>", respectively.</p>
@@ -1883,7 +1883,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <section>
      <h3 class="heading settled" data-level="6.1" id="feature-policy-http-header-field"><span class="secno">6.1. </span><span class="content">Feature-Policy HTTP Header
     Field</span><a class="self-link" href="#feature-policy-http-header-field"></a></h3>
-     <p>The `<dfn class="dfn-paneled" data-dfn-type="http-header" data-export="" id="feature-policy-header"><code>Feature-Policy</code></dfn>` HTTP
+     <p>The `<dfn class="dfn-paneled" data-dfn-type="http-header" data-export id="feature-policy-header"><code>Feature-Policy</code></dfn>` HTTP
     header field can be used in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response">response</a> (server to client) to
     communicate the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy④">feature policy</a> that should be enforced by the
     client.</p>
@@ -1992,12 +1992,12 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <p>To retreive the currently effective policy, use <code>document.policy()</code>. This returns a <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#violation-policy" id="ref-for-violation-policy">policy</a> object, which can
   be used to: </p>
      <ul>
-      <li data-md="">
+      <li data-md>
        <p>query the state (allowed or denied) in the current document for a given
   feature,</p>
-      <li data-md="">
+      <li data-md>
        <p>get a list of all allowed features in the current document, or</p>
-      <li data-md="">
+      <li data-md>
        <p>get the allowlist for a given feature in the current document.</p>
      </ul>
      <p></p>
@@ -2075,36 +2075,36 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     </section>
     <section>
      <h3 class="heading settled" data-level="7.2" id="the-policy-object"><span class="secno">7.2. </span><span class="content">The policy object</span><a class="self-link" href="#the-policy-object"></a></h3>
-<pre class="unstable idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NoInterfaceObject" id="ref-for-NoInterfaceObject"><c- g="">NoInterfaceObject</c-></a>]
-<c- b="">interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="policy"><code><c- g="">Policy</c-></code></dfn> {
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean"><c- b="">boolean</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Policy" data-dfn-type="method" data-export="" data-lt="allowsFeature(feature, origin)|allowsFeature(feature)" id="dom-policy-allowsfeature"><code><c- g="">allowsFeature</c-></code></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b="">DOMString</c-></a> <dfn class="idl-code" data-dfn-for="Policy/allowsFeature(feature, origin), Policy/allowsFeature(feature)" data-dfn-type="argument" data-export="" id="dom-policy-allowsfeature-feature-origin-feature"><code><c- g="">feature</c-></code><a class="self-link" href="#dom-policy-allowsfeature-feature-origin-feature"></a></dfn>, <c- b="">optional</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①"><c- b="">DOMString</c-></a> <dfn class="idl-code" data-dfn-for="Policy/allowsFeature(feature, origin), Policy/allowsFeature(feature)" data-dfn-type="argument" data-export="" id="dom-policy-allowsfeature-feature-origin-origin"><code><c- g="">origin</c-></code><a class="self-link" href="#dom-policy-allowsfeature-feature-origin-origin"></a></dfn>);
-  <c- b="">sequence</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②"><c- b="">DOMString</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-for="Policy" data-dfn-type="method" data-export="" data-lt="allowedFeatures()" id="dom-policy-allowedfeatures"><code><c- g="">allowedFeatures</c-></code></dfn>();
-  <c- b="">sequence</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b="">DOMString</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-for="Policy" data-dfn-type="method" data-export="" data-lt="getAllowlistForFeature(feature)" id="dom-policy-getallowlistforfeature"><code><c- g="">getAllowlistForFeature</c-></code></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b="">DOMString</c-></a> <dfn class="idl-code" data-dfn-for="Policy/getAllowlistForFeature(feature)" data-dfn-type="argument" data-export="" id="dom-policy-getallowlistforfeature-feature-feature"><code><c- g="">feature</c-></code><a class="self-link" href="#dom-policy-getallowlistforfeature-feature-feature"></a></dfn>);
+<pre class="unstable idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NoInterfaceObject" id="ref-for-NoInterfaceObject"><c- g>NoInterfaceObject</c-></a>]
+<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="policy"><code><c- g>Policy</c-></code></dfn> {
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Policy" data-dfn-type="method" data-export data-lt="allowsFeature(feature, origin)|allowsFeature(feature)" id="dom-policy-allowsfeature"><code><c- g>allowsFeature</c-></code></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="Policy/allowsFeature(feature, origin), Policy/allowsFeature(feature)" data-dfn-type="argument" data-export id="dom-policy-allowsfeature-feature-origin-feature"><code><c- g>feature</c-></code><a class="self-link" href="#dom-policy-allowsfeature-feature-origin-feature"></a></dfn>, <c- b>optional</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="Policy/allowsFeature(feature, origin), Policy/allowsFeature(feature)" data-dfn-type="argument" data-export id="dom-policy-allowsfeature-feature-origin-origin"><code><c- g>origin</c-></code><a class="self-link" href="#dom-policy-allowsfeature-feature-origin-origin"></a></dfn>);
+  <c- b>sequence</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②"><c- b>DOMString</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-for="Policy" data-dfn-type="method" data-export data-lt="allowedFeatures()" id="dom-policy-allowedfeatures"><code><c- g>allowedFeatures</c-></code></dfn>();
+  <c- b>sequence</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b>DOMString</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-for="Policy" data-dfn-type="method" data-export data-lt="getAllowlistForFeature(feature)" id="dom-policy-getallowlistforfeature"><code><c- g>getAllowlistForFeature</c-></code></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="Policy/getAllowlistForFeature(feature)" data-dfn-type="argument" data-export id="dom-policy-getallowlistforfeature-feature-feature"><code><c- g>feature</c-></code><a class="self-link" href="#dom-policy-getallowlistforfeature-feature-feature"></a></dfn>);
 };
 
-<c- b="">partial</c-> <c- b="">interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#document" id="ref-for-document②"><c- g="">Document</c-></a> {
-    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g="">SameObject</c-></a>] <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="n" data-link-type="idl-name" href="#policy" id="ref-for-policy②"><c- n="">Policy</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Document" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Policy" id="dom-document-policy"><code><c- g="">policy</c-></code></dfn>;
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#document" id="ref-for-document②"><c- g>Document</c-></a> {
+    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#policy" id="ref-for-policy②"><c- n>Policy</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Document" data-dfn-type="attribute" data-export data-readonly data-type="Policy" id="dom-document-policy"><code><c- g>policy</c-></code></dfn>;
 };
 
-<c- b="">partial</c-> <c- b="">interface</c-> <a class="idl-code" data-link-type="interface"><c- g="">HTMLIFrameElement</c-></a> {
-    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①"><c- g="">SameObject</c-></a>] <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="n" data-link-type="idl-name" href="#policy" id="ref-for-policy③"><c- n="">Policy</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Policy" id="dom-htmliframeelement-policy"><code><c- g="">policy</c-></code></dfn>;
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement" id="ref-for-htmliframeelement"><c- g>HTMLIFrameElement</c-></a> {
+    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#policy" id="ref-for-policy③"><c- n>Policy</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export data-readonly data-type="Policy" id="dom-htmliframeelement-policy"><code><c- g>policy</c-></code></dfn>;
 };</pre>
-     <p>A <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy④">Policy</a></code> object has an <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="associated-node">associated node</dfn>, which is a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node">Node</a></code>. The <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node">associated node</a> is set when the <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy⑤">Policy</a></code> object is
+     <p>A <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy④">Policy</a></code> object has an <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="associated-node">associated node</dfn>, which is a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node">Node</a></code>. The <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node">associated node</a> is set when the <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy⑤">Policy</a></code> object is
     created.</p>
-     <p>A <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy⑥">Policy</a></code> object has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="default-origin">default origin</dfn>, which is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin②">origin</a>, whose value depends on the state of the <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy⑦">Policy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node①">associated node</a>: </p>
+     <p>A <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy⑥">Policy</a></code> object has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="default-origin">default origin</dfn>, which is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin②">origin</a>, whose value depends on the state of the <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy⑦">Policy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node①">associated node</a>: </p>
      <ul>
-      <li data-md="">
+      <li data-md>
        <p>If the <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy⑧">Policy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node②">associated node</a> is a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document③">Document</a></code>, then
   its <a data-link-type="dfn" href="#default-origin" id="ref-for-default-origin">default origin</a> is the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document④">Document</a></code>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin③">origin</a>.</p>
-      <li data-md="">
+      <li data-md>
        <p>If the <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy⑨">Policy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node③">associated node</a> is an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element">Element</a></code>, then
   its <a data-link-type="dfn" href="#default-origin" id="ref-for-default-origin①">default origin</a> is the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element①">Element</a></code>'s <a data-link-type="dfn" href="#declared-origin" id="ref-for-declared-origin">declared origin</a>.</p>
      </ul>
-     <p>Each <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑤">Document</a></code> has a <dfn class="dfn-paneled" data-dfn-for="Document" data-dfn-type="dfn" data-noexport="" id="document-policy-object">policy object</dfn>, which is
+     <p>Each <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑤">Document</a></code> has a <dfn class="dfn-paneled" data-dfn-for="Document" data-dfn-type="dfn" data-noexport id="document-policy-object">policy object</dfn>, which is
     a <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy①⓪">Policy</a></code> instance whose <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node④">associated node</a> is that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑥">Document</a></code>.</p>
      <p>A <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑦">Document</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-document-policy" id="ref-for-dom-document-policy">policy</a></code> IDL attribute, on getting, must
     return the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑧">Document</a></code>'s <a data-link-type="dfn" href="#document-policy-object" id="ref-for-document-policy-object">policy object</a>.</p>
-     <p>Each <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> element has a <dfn class="dfn-paneled" data-dfn-for="iframe" data-dfn-type="dfn" data-noexport="" id="iframe-policy-object">policy object</dfn>,
+     <p>Each <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> element has a <dfn class="dfn-paneled" data-dfn-for="iframe" data-dfn-type="dfn" data-noexport id="iframe-policy-object">policy object</dfn>,
     which is a <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy①①">Policy</a></code> instance whose <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node⑤">associated node</a> is that
     element.</p>
      <p>An <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-htmliframeelement-policy" id="ref-for-dom-htmliframeelement-policy">policy</a></code> IDL attribute, on getting, must
@@ -2112,92 +2112,92 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <p>The <code class="idl"><a data-link-type="idl" href="#dom-policy-allowsfeature" id="ref-for-dom-policy-allowsfeature">allowsFeature(feature, origin)</a></code> method must run the following
     steps: </p>
      <ol>
-      <li data-md="">
+      <li data-md>
        <p>If <var>origin</var> is omitted, set <var>origin</var> to this <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy①②">Policy</a></code> object’s <a data-link-type="dfn" href="#default-origin" id="ref-for-default-origin②">default origin</a>.</p>
-      <li data-md="">
+      <li data-md>
        <p>Let <var>policy</var> be the <a data-link-type="dfn" href="#observable-policy" id="ref-for-observable-policy②">observable policy</a> for this <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy①③">Policy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node⑥">associated node</a>.</p>
-      <li data-md="">
+      <li data-md>
        <p>If <var>feature</var> is allowed by <var>policy</var> for <var>origin</var>, return true.</p>
-      <li data-md="">
+      <li data-md>
        <p>Otherwise, return false.</p>
      </ol>
      <p>The <code class="idl"><a data-link-type="idl" href="#dom-policy-allowedfeatures" id="ref-for-dom-policy-allowedfeatures">allowedFeatures()</a></code> method must run the following steps: </p>
      <ol>
-      <li data-md="">
+      <li data-md>
        <p>Set <var>result</var> to an empty list</p>
-      <li data-md="">
+      <li data-md>
        <p>Let <var>origin</var> be this <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy①④">Policy</a></code> object’s <a data-link-type="dfn" href="#default-origin" id="ref-for-default-origin③">default origin</a>.</p>
-      <li data-md="">
+      <li data-md>
        <p>Let <var>policy</var> be the <a data-link-type="dfn" href="#observable-policy" id="ref-for-observable-policy③">observable policy</a> for this <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy①⑤">Policy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node⑦">associated node</a>.</p>
-      <li data-md="">
+      <li data-md>
        <p>For each <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features②">supported feature</a> <var>feature</var>:</p>
        <ol>
-        <li data-md="">
+        <li data-md>
          <p>If <var>feature</var> is allowed by <var>policy</var> for <var>origin</var>, append <var>feature</var> to <var>result</var>.</p>
        </ol>
-      <li data-md="">
+      <li data-md>
        <p>return result</p>
      </ol>
      <p>The <code class="idl"><a data-link-type="idl" href="#dom-policy-getallowlistforfeature" id="ref-for-dom-policy-getallowlistforfeature">getAllowlistForFeature(feature)</a></code> method must run the following
     steps: </p>
      <ol>
-      <li data-md="">
+      <li data-md>
        <p>Set <var>result</var> to an empty list</p>
-      <li data-md="">
+      <li data-md>
        <p>Let <var>origin</var> be this <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy①⑥">Policy</a></code> object’s <a data-link-type="dfn" href="#default-origin" id="ref-for-default-origin④">default origin</a>.</p>
-      <li data-md="">
+      <li data-md>
        <p>Let <var>policy</var> be the <a data-link-type="dfn" href="#observable-policy" id="ref-for-observable-policy④">observable policy</a> for this <code class="idl"><a data-link-type="idl" href="#policy" id="ref-for-policy①⑦">Policy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node⑧">associated node</a>.</p>
-      <li data-md="">
+      <li data-md>
        <p>If <var>feature</var> is not allowed in <var>policy</var> for <var>origin</var>, return <var>result</var></p>
-      <li data-md="">
+      <li data-md>
        <p>Let <var>allowlist</var> be <var>policy</var>’s declared policy[<var>feature</var>]</p>
-      <li data-md="">
+      <li data-md>
        <p>If <var>allowlist</var> is the special value <code>*</code>, append "<code>*</code>" to <var>result</var></p>
-      <li data-md="">
+      <li data-md>
        <p>Otherwise, for each <var>origin</var> in <var>allowlist</var>:</p>
        <ol>
-        <li data-md="">
+        <li data-md>
          <p>Append the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin①">serialization</a> of <var>origin</var> to <var>result</var></p>
        </ol>
-      <li data-md="">
+      <li data-md>
        <p>Return <var>result</var>.</p>
      </ol>
-     <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="observable-policy">observable policy</dfn> for any Node is a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑤">feature policy</a>,
+     <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="observable-policy">observable policy</dfn> for any Node is a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑤">feature policy</a>,
     which contains the information about the policy in the browsing context
     represented by that Node which is visible from the current browsing context. </p>
      <p>To get the <a data-link-type="dfn" href="#observable-policy" id="ref-for-observable-policy⑤">observable policy</a> for a Document <var>document</var>, return <var>document</var>’s feature policy.</p>
      <p>To get the <a data-link-type="dfn" href="#observable-policy" id="ref-for-observable-policy⑥">observable policy</a> for an Element <var>node</var>, run the
     following steps:</p>
      <ol>
-      <li data-md="">
+      <li data-md>
        <p>Let <var>inherited policy</var> be a new ordered map.</p>
-      <li data-md="">
+      <li data-md>
        <p>Let <var>declared policy</var> be a new ordered map.</p>
-      <li data-md="">
+      <li data-md>
        <p>For each <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features③">supported feature</a> <var>feature</var>:</p>
        <ol>
-        <li data-md="">
+        <li data-md>
          <p>Let <var>isInherited</var> be the result of running <a href="#define-inherited-policy-in-container">§10.10 Define an inherited policy for
     feature in container</a> on <var>feature</var> and <var>node</var>.</p>
-        <li data-md="">
+        <li data-md>
          <p>Set <var>inherited policy</var>[<var>feature</var>] to <var>isInherited</var>.</p>
        </ol>
-      <li data-md="">
+      <li data-md>
        <p>Return a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑥">feature policy</a> with inherited policy <var>inherited policy</var> and declared policy <var>declared policy</var>.</p>
      </ol>
-     <p>To get the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="declared-origin">declared origin</dfn> for an Element <var>node</var>, run the
+     <p>To get the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="declared-origin">declared origin</dfn> for an Element <var>node</var>, run the
     following steps: </p>
      <ol>
-      <li data-md="">
+      <li data-md>
        <p>If <var>node</var> has a src attribute:</p>
        <ol>
-        <li data-md="">
+        <li data-md>
          <p>Let <var>url</var> be the result of parsing <var>node</var>’s src attribute,
   relative to <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document">node document</a>.</p>
-        <li data-md="">
+        <li data-md>
          <p>If <var>url</var> is not failure, return <var>url</var>’s origin.</p>
        </ol>
-      <li data-md="">
+      <li data-md>
        <p>Return <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document①">node document</a>’s origin.</p>
      </ol>
     </section>
@@ -2224,11 +2224,11 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <ul>
         <li> Execute the <a href="#initialize-from-response">Initialize document’s Feature Policy from response</a> algorithm on the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①①">Document</a></code> object and the response used to generate the document. 
        </ul>
-      <li>A <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑧">feature policy</a> is <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="enforce" data-noexport="" id="enforce">enforced</dfn> for
+      <li>A <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑧">feature policy</a> is <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="enforce" data-noexport id="enforce">enforced</dfn> for
       a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①②">Document</a></code> by setting it as the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①③">Document</a></code>'s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑨">Feature Policy</a>. 
       <li>
        <p>The "<a data-link-type="dfn" href="#allowed-to-use" id="ref-for-allowed-to-use">allowed to use</a>" algorithm is replaced with the following: </p>
-       <p>To determine whether a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①④">Document</a></code> object <var>document</var> is <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="allowed-to-use">allowed to use</dfn> the policy-controlled-feature <var>feature</var>, run these steps:</p>
+       <p>To determine whether a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①④">Document</a></code> object <var>document</var> is <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="allowed-to-use">allowed to use</dfn> the policy-controlled-feature <var>feature</var>, run these steps:</p>
        <ol>
         <li>
          <p>If <var>document</var> has no <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a>, then return
@@ -2277,47 +2277,47 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    </section>
    <section>
     <h2 class="heading settled" data-level="9" id="reporting"><span class="secno">9. </span><span class="content">Reporting</span><a class="self-link" href="#reporting"></a></h2>
-    <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="feature-policy-violation-reports">Feature policy violation reports</dfn> indicate that some behavior of
+    <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="feature-policy-violation-reports">Feature policy violation reports</dfn> indicate that some behavior of
   the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document">Document</a> has <a data-link-type="dfn" href="#violate" id="ref-for-violate">violated</a> a feature policy. It is up to each
-  individual feature policy to define/determine when a <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="violate|violation|violated" data-noexport="" id="violate">violation</dfn> of that policy has
+  individual feature policy to define/determine when a <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="violate|violation|violated" data-noexport id="violate">violation</dfn> of that policy has
   occurred.</p>
     <p><a data-link-type="dfn" href="#feature-policy-violation-reports" id="ref-for-feature-policy-violation-reports">Feature policy violation reports</a> have the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-type" id="ref-for-report-type">report type</a> "feature-policy-violation".</p>
     <p><a data-link-type="dfn" href="#feature-policy-violation-reports" id="ref-for-feature-policy-violation-reports①">Feature policy violation reports</a> are <a data-link-type="dfn" href="https://w3c.github.io/reporting/#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</a>. </p>
-<pre class="idl highlight def"><c- b="">interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="featurepolicyviolationreportbody"><code><c- g="">FeaturePolicyViolationReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/reporting/#reportbody" id="ref-for-reportbody"><c- n="">ReportBody</c-></a> {
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><c- b="">DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString" id="dom-featurepolicyviolationreportbody-featureid"><code><c- g="">featureId</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-featureid"></a></dfn>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><c- b="">DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString" id="dom-featurepolicyviolationreportbody-message"><code><c- g="">message</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-message"></a></dfn>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><c- b="">DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString?" id="dom-featurepolicyviolationreportbody-sourcefile"><code><c- g="">sourceFile</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-sourcefile"></a></dfn>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long"><c- b="">long</c-></a>? <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long?" id="dom-featurepolicyviolationreportbody-linenumber"><code><c- g="">lineNumber</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-linenumber"></a></dfn>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long①"><c- b="">long</c-></a>? <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long?" id="dom-featurepolicyviolationreportbody-columnnumber"><code><c- g="">columnNumber</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-columnnumber"></a></dfn>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑧"><c- b="">DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString" id="dom-featurepolicyviolationreportbody-disposition"><code><c- g="">disposition</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-disposition"></a></dfn>;
+<pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="featurepolicyviolationreportbody"><code><c- g>FeaturePolicyViolationReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/reporting/#reportbody" id="ref-for-reportbody"><c- n>ReportBody</c-></a> {
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-featurepolicyviolationreportbody-featureid"><code><c- g>featureId</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-featureid"></a></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-featurepolicyviolationreportbody-message"><code><c- g>message</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-message"></a></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-featurepolicyviolationreportbody-sourcefile"><code><c- g>sourceFile</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-sourcefile"></a></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long"><c- b>long</c-></a>? <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="long?" id="dom-featurepolicyviolationreportbody-linenumber"><code><c- g>lineNumber</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-linenumber"></a></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long①"><c- b>long</c-></a>? <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="long?" id="dom-featurepolicyviolationreportbody-columnnumber"><code><c- g>columnNumber</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-columnnumber"></a></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑧"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-featurepolicyviolationreportbody-disposition"><code><c- g>disposition</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-disposition"></a></dfn>;
 };
 </pre>
     <p>A <a data-link-type="dfn" href="#feature-policy-violation-reports" id="ref-for-feature-policy-violation-reports②">feature policy violation report</a>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-body" id="ref-for-report-body">body</a>, represented in
   JavaScript by <code class="idl"><a data-link-type="idl" href="#featurepolicyviolationreportbody" id="ref-for-featurepolicyviolationreportbody">FeaturePolicyViolationReportBody</a></code>, contains the following
   fields:</p>
     <ul>
-     <li data-md="">
-      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport="" id="featurepolicyviolationreportbody-featureid">featureId</dfn>: The string
+     <li data-md>
+      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport id="featurepolicyviolationreportbody-featureid">featureId</dfn>: The string
 identifying the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①④">policy-controlled feature</a> whose policy has been <a data-link-type="dfn" href="#violate" id="ref-for-violate①">violated</a>. This string can be used for grouping and counting related
 reports.</p>
-     <li data-md="">
-      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport="" id="featurepolicyviolationreportbody-message">message</dfn>: A
+     <li data-md>
+      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport id="featurepolicyviolationreportbody-message">message</dfn>: A
 human-readable string with details typically matching what would be
 displayed on the developer console. The message is not guaranteed to be
 unique for a given <a data-link-type="dfn" href="#featurepolicyviolationreportbody-featureid" id="ref-for-featurepolicyviolationreportbody-featureid">featureId</a> (e.g. it may contain additional context on how the API was used).</p>
-     <li data-md="">
-      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport="" id="featurepolicyviolationreportbody-sourcefile">sourceFile</dfn>: If known,
+     <li data-md>
+      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport id="featurepolicyviolationreportbody-sourcefile">sourceFile</dfn>: If known,
 the file where the <a data-link-type="dfn" href="#violate" id="ref-for-violate②">violation</a> occured, or null otherwise.</p>
-     <li data-md="">
-      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport="" id="featurepolicyviolationreportbody-linenumber">lineNumber</dfn>: If known,
+     <li data-md>
+      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport id="featurepolicyviolationreportbody-linenumber">lineNumber</dfn>: If known,
 the line number in <a data-link-type="dfn" href="#featurepolicyviolationreportbody-sourcefile" id="ref-for-featurepolicyviolationreportbody-sourcefile">sourceFile</a> where
 the <a data-link-type="dfn" href="#violate" id="ref-for-violate③">violation</a> occured, or null otherwise.</p>
-     <li data-md="">
-      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport="" id="featurepolicyviolationreportbody-columnnumber">columnNumber</dfn>: If known,
+     <li data-md>
+      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport id="featurepolicyviolationreportbody-columnnumber">columnNumber</dfn>: If known,
 the column number in <a data-link-type="dfn" href="#featurepolicyviolationreportbody-sourcefile" id="ref-for-featurepolicyviolationreportbody-sourcefile①">sourceFile</a> where
 the <a data-link-type="dfn" href="#violate" id="ref-for-violate④">violation</a> occured, or null otherwise.</p>
-     <li data-md="">
-      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport="" id="featurepolicyviolationreportbody-disposition">disposition</dfn>: A string
+     <li data-md>
+      <p><dfn class="dfn-paneled" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="dfn" data-noexport id="featurepolicyviolationreportbody-disposition">disposition</dfn>: A string
 indicating whether the <a data-link-type="dfn" href="#violate" id="ref-for-violate⑤">violated</a> feature policy was enforced in this
 case. <a data-link-type="dfn" href="#featurepolicyviolationreportbody-disposition" id="ref-for-featurepolicyviolationreportbody-disposition">disposition</a> will be set to
 "enforce" if the policy was enforced, or "report" if the <a data-link-type="dfn" href="#violate" id="ref-for-violate⑥">violation</a> resulted only in this report being generated (with no further action taken
@@ -2623,36 +2623,36 @@ set to "enforce".</p>
     algorithm generates a <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report">report</a>, containing <var>message</var>, about
     the <a data-link-type="dfn" href="#violate" id="ref-for-violate⑦">violation</a> of the policy on <var>feature</var>.</p>
      <ol>
-      <li data-md="">
+      <li data-md>
        <p>Let <var>body</var> be a new <code class="idl"><a data-link-type="idl" href="#featurepolicyviolationreportbody" id="ref-for-featurepolicyviolationreportbody①">FeaturePolicyViolationReportBody</a></code>, initialized
   as follows:</p>
        <dl>
-        <dt data-md=""><a data-link-type="dfn" href="#featurepolicyviolationreportbody-featureid" id="ref-for-featurepolicyviolationreportbody-featureid①">featureId</a>
-        <dd data-md="">
+        <dt data-md><a data-link-type="dfn" href="#featurepolicyviolationreportbody-featureid" id="ref-for-featurepolicyviolationreportbody-featureid①">featureId</a>
+        <dd data-md>
          <p><var>feature</var>’s string representation.</p>
-        <dt data-md=""><a data-link-type="dfn" href="#featurepolicyviolationreportbody-message" id="ref-for-featurepolicyviolationreportbody-message">message</a>
-        <dd data-md="">
+        <dt data-md><a data-link-type="dfn" href="#featurepolicyviolationreportbody-message" id="ref-for-featurepolicyviolationreportbody-message">message</a>
+        <dd data-md>
          <p><var>message</var></p>
-        <dt data-md=""><a data-link-type="dfn" href="#featurepolicyviolationreportbody-sourcefile" id="ref-for-featurepolicyviolationreportbody-sourcefile②">sourceFile</a>
-        <dd data-md="">
+        <dt data-md><a data-link-type="dfn" href="#featurepolicyviolationreportbody-sourcefile" id="ref-for-featurepolicyviolationreportbody-sourcefile②">sourceFile</a>
+        <dd data-md>
          <p>null</p>
-        <dt data-md=""><a data-link-type="dfn" href="#featurepolicyviolationreportbody-linenumber" id="ref-for-featurepolicyviolationreportbody-linenumber">lineNumber</a>
-        <dd data-md="">
+        <dt data-md><a data-link-type="dfn" href="#featurepolicyviolationreportbody-linenumber" id="ref-for-featurepolicyviolationreportbody-linenumber">lineNumber</a>
+        <dd data-md>
          <p>null</p>
-        <dt data-md=""><a data-link-type="dfn" href="#featurepolicyviolationreportbody-columnnumber" id="ref-for-featurepolicyviolationreportbody-columnnumber">columnNumber</a>
-        <dd data-md="">
+        <dt data-md><a data-link-type="dfn" href="#featurepolicyviolationreportbody-columnnumber" id="ref-for-featurepolicyviolationreportbody-columnnumber">columnNumber</a>
+        <dd data-md>
          <p>null</p>
-        <dt data-md=""><a data-link-type="dfn" href="#featurepolicyviolationreportbody-disposition" id="ref-for-featurepolicyviolationreportbody-disposition②">disposition</a>
-        <dd data-md="">
+        <dt data-md><a data-link-type="dfn" href="#featurepolicyviolationreportbody-disposition" id="ref-for-featurepolicyviolationreportbody-disposition②">disposition</a>
+        <dd data-md>
          <p>"enforce"</p>
        </dl>
-      <li data-md="">
+      <li data-md>
        <p>If the user agent is currently executing script, and can extract the
   source file’s URL, line number, and column number from <var>settings</var>, then
   set <var>body</var>’s <a data-link-type="dfn" href="#featurepolicyviolationreportbody-sourcefile" id="ref-for-featurepolicyviolationreportbody-sourcefile③">sourceFile</a>, <a data-link-type="dfn" href="#featurepolicyviolationreportbody-linenumber" id="ref-for-featurepolicyviolationreportbody-linenumber①">lineNumber</a>, and <a data-link-type="dfn" href="#featurepolicyviolationreportbody-columnnumber" id="ref-for-featurepolicyviolationreportbody-columnnumber①">columnNumber</a> accordingly.</p>
-      <li data-md="">
+      <li data-md>
        <p>If <var>group</var> is omitted, set <var>group</var> to "default".</p>
-      <li data-md="">
+      <li data-md>
        <p>Execute <a href="https://wicg.github.io/reporting//#queue-report">Reporting API §#queue-report</a> with <var>body</var>,
   "feature-policy-violation", <var>group</var>, and <var>settings</var>.</p>
      </ol>
@@ -2674,7 +2674,7 @@ set to "enforce".</p>
      <dt>Author/Change controller
      <dd>W3C
      <dt>Specification document
-     <dd> <a href="">Feature Policy API</a> 
+     <dd> <a href>Feature Policy API</a> 
     </dl>
    </section>
    <section class="informative" id="privacy">
@@ -3101,6 +3101,12 @@ set to "enforce".</p>
     <li><a href="#ref-for-dom-element-requestfullscreen">6.3.1. allowfullscreen</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-htmliframeelement">
+   <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-htmliframeelement">7.2. The policy object</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-active-document">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#active-document">https://html.spec.whatwg.org/multipage/browsers.html#active-document</a><b>Referenced in:</b>
    <ul>
@@ -3382,6 +3388,7 @@ set to "enforce".</p>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="term-for-htmliframeelement" style="color:initial">HTMLIFrameElement</span>
      <li><span class="dfn-paneled" id="term-for-active-document" style="color:initial">active document</span>
      <li><span class="dfn-paneled" id="term-for-attr-iframe-allowfullscreen" style="color:initial">allowfullscreen</span>
      <li><span class="dfn-paneled" id="term-for-attr-iframe-allowpaymentrequest" style="color:initial">allowpaymentrequest</span>
@@ -3473,27 +3480,27 @@ set to "enforce".</p>
    <dd>Ian Hickson; et al. <a href="https://www.w3.org/TR/html5/">HTML5</a>. 27 March 2018. REC. URL: <a href="https://www.w3.org/TR/html5/">https://www.w3.org/TR/html5/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NoInterfaceObject" id="ref-for-NoInterfaceObject①"><c- g="">NoInterfaceObject</c-></a>]
-<c- b="">interface</c-> <a href="#policy"><code><c- g="">Policy</c-></code></a> {
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①"><c- b="">boolean</c-></a> <a href="#dom-policy-allowsfeature"><code><c- g="">allowsFeature</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨"><c- b="">DOMString</c-></a> <a href="#dom-policy-allowsfeature-feature-origin-feature"><code><c- g="">feature</c-></code></a>, <c- b="">optional</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><c- b="">DOMString</c-></a> <a href="#dom-policy-allowsfeature-feature-origin-origin"><code><c- g="">origin</c-></code></a>);
-  <c- b="">sequence</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②①"><c- b="">DOMString</c-></a>> <a href="#dom-policy-allowedfeatures"><code><c- g="">allowedFeatures</c-></code></a>();
-  <c- b="">sequence</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③①"><c- b="">DOMString</c-></a>> <a href="#dom-policy-getallowlistforfeature"><code><c- g="">getAllowlistForFeature</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④①"><c- b="">DOMString</c-></a> <a href="#dom-policy-getallowlistforfeature-feature-feature"><code><c- g="">feature</c-></code></a>);
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NoInterfaceObject" id="ref-for-NoInterfaceObject①"><c- g>NoInterfaceObject</c-></a>]
+<c- b>interface</c-> <a href="#policy"><code><c- g>Policy</c-></code></a> {
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①"><c- b>boolean</c-></a> <a href="#dom-policy-allowsfeature"><code><c- g>allowsFeature</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨"><c- b>DOMString</c-></a> <a href="#dom-policy-allowsfeature-feature-origin-feature"><code><c- g>feature</c-></code></a>, <c- b>optional</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><c- b>DOMString</c-></a> <a href="#dom-policy-allowsfeature-feature-origin-origin"><code><c- g>origin</c-></code></a>);
+  <c- b>sequence</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②①"><c- b>DOMString</c-></a>> <a href="#dom-policy-allowedfeatures"><code><c- g>allowedFeatures</c-></code></a>();
+  <c- b>sequence</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③①"><c- b>DOMString</c-></a>> <a href="#dom-policy-getallowlistforfeature"><code><c- g>getAllowlistForFeature</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④①"><c- b>DOMString</c-></a> <a href="#dom-policy-getallowlistforfeature-feature-feature"><code><c- g>feature</c-></code></a>);
 };
 
-<c- b="">partial</c-> <c- b="">interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#document" id="ref-for-document②①"><c- g="">Document</c-></a> {
-    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject②"><c- g="">SameObject</c-></a>] <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="n" data-link-type="idl-name" href="#policy" id="ref-for-policy②①"><c- n="">Policy</c-></a> <a data-readonly="" data-type="Policy" href="#dom-document-policy"><code><c- g="">policy</c-></code></a>;
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#document" id="ref-for-document②①"><c- g>Document</c-></a> {
+    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject②"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#policy" id="ref-for-policy②①"><c- n>Policy</c-></a> <a data-readonly data-type="Policy" href="#dom-document-policy"><code><c- g>policy</c-></code></a>;
 };
 
-<c- b="">partial</c-> <c- b="">interface</c-> <a class="idl-code" data-link-type="interface"><c- g="">HTMLIFrameElement</c-></a> {
-    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①①"><c- g="">SameObject</c-></a>] <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="n" data-link-type="idl-name" href="#policy" id="ref-for-policy③①"><c- n="">Policy</c-></a> <a data-readonly="" data-type="Policy" href="#dom-htmliframeelement-policy"><code><c- g="">policy</c-></code></a>;
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement" id="ref-for-htmliframeelement①"><c- g>HTMLIFrameElement</c-></a> {
+    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①①"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#policy" id="ref-for-policy③①"><c- n>Policy</c-></a> <a data-readonly data-type="Policy" href="#dom-htmliframeelement-policy"><code><c- g>policy</c-></code></a>;
 };
-<c- b="">interface</c-> <a href="#featurepolicyviolationreportbody"><code><c- g="">FeaturePolicyViolationReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/reporting/#reportbody" id="ref-for-reportbody①"><c- n="">ReportBody</c-></a> {
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤①"><c- b="">DOMString</c-></a> <a data-readonly="" data-type="DOMString" href="#dom-featurepolicyviolationreportbody-featureid"><code><c- g="">featureId</c-></code></a>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥①"><c- b="">DOMString</c-></a> <a data-readonly="" data-type="DOMString" href="#dom-featurepolicyviolationreportbody-message"><code><c- g="">message</c-></code></a>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦①"><c- b="">DOMString</c-></a>? <a data-readonly="" data-type="DOMString?" href="#dom-featurepolicyviolationreportbody-sourcefile"><code><c- g="">sourceFile</c-></code></a>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long②"><c- b="">long</c-></a>? <a data-readonly="" data-type="long?" href="#dom-featurepolicyviolationreportbody-linenumber"><code><c- g="">lineNumber</c-></code></a>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long①①"><c- b="">long</c-></a>? <a data-readonly="" data-type="long?" href="#dom-featurepolicyviolationreportbody-columnnumber"><code><c- g="">columnNumber</c-></code></a>;
-  <c- b="">readonly</c-> <c- b="">attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑧①"><c- b="">DOMString</c-></a> <a data-readonly="" data-type="DOMString" href="#dom-featurepolicyviolationreportbody-disposition"><code><c- g="">disposition</c-></code></a>;
+<c- b>interface</c-> <a href="#featurepolicyviolationreportbody"><code><c- g>FeaturePolicyViolationReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/reporting/#reportbody" id="ref-for-reportbody①"><c- n>ReportBody</c-></a> {
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-featurepolicyviolationreportbody-featureid"><code><c- g>featureId</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-featurepolicyviolationreportbody-message"><code><c- g>message</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦①"><c- b>DOMString</c-></a>? <a data-readonly data-type="DOMString?" href="#dom-featurepolicyviolationreportbody-sourcefile"><code><c- g>sourceFile</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long②"><c- b>long</c-></a>? <a data-readonly data-type="long?" href="#dom-featurepolicyviolationreportbody-linenumber"><code><c- g>lineNumber</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long①①"><c- b>long</c-></a>? <a data-readonly data-type="long?" href="#dom-featurepolicyviolationreportbody-columnnumber"><code><c- g>columnNumber</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑧①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-featurepolicyviolationreportbody-disposition"><code><c- g>disposition</c-></code></a>;
 };
 
 </pre>
