@@ -19,15 +19,20 @@ now be able to receive reports about feature policy violations in the wild.
 Sounds great! How do I do it?
 -------------
 
-Turning on the reporting API is simple; all you need to do is configure your
+Turning on the Reporting API is simple; all you need to do is configure your
 web server to send an HTTP header that declares where the reports should be
 sent. Something like:
 
 ```http
-Report-To: {"endpoints":{"url":"https://reportingapi.tools/public/submit"},"max-age":86400}
+Report-To: {
+            "max_age": 86400,
+            "endpoints": [{
+              "url": "https://reportingapi.tools/public/submit"
+            }]
+           }
 ```
 
-Once we add feature policy reporting to the reporting API, per this proposal,
+Once we add feature policy reporting to the Reporting API, per this proposal,
 this header will make the browser send details about any feature policy
 violations, via an HTTP POST, to a web server running at that URL. The messages
 that the browser sends will look something like this:
@@ -49,11 +54,11 @@ that the browser sends will look something like this:
 }
 ```
 
-With the Reporting Observer API, you can even do this in the page, with
+With a `ReportingObserver` you can even do this in the page, with
 JavaScript:
 
 ```javascript
-let myObserver = new ReportingObserver(reportList => {
+const myObserver = new ReportingObserver(reportList => {
   reportList.forEach(report => {
     alert("Whatever you just tried to do was blocked by policy.: " + report.body.feature);
   });
@@ -74,11 +79,11 @@ what a cross-origin child frame is doing. We take two different precautions to
 avoid this as far as possible:
 
 First, feature policy violation reports which come from a cross-origin child
-frame are not observable in JavaScript. A ReportingObserver object will not see
+frame are not observable in JavaScript. A `ReportingObserver` object will not see
 them at all.
 
 Second, reports which are normally delivered directly to the service in the
-Report-To header will instead be anonymized and aggregated. The reports are
+`Report-To` header will instead be anonymized and aggregated. The reports are
 first delivered to an aggregation server, which will hold on to them until it
 has received enough reports, from different users, for a given violation, that
 it can generate a single aggregate report. This report will be stripped of
@@ -98,7 +103,7 @@ and specify the list of origins where the feature would be allowed, like with
 any other policy.
 
 ```http
-Feature-Policy: syncxhr-report-only 'none'
+Feature-Policy: sync-xhr-report-only 'none'
 ```
 
 ```html
@@ -108,7 +113,7 @@ Feature-Policy: syncxhr-report-only 'none'
 If the frame, and all of its ancestors up to the top-level document, all agree
 that the feature should either be allowed, or should be report-only, then a
 page which uses the feature will see it succeed (as usual), but a report will
-be sent to the reporting API endpoints of each frame which said 'report-only'.
+be sent to the Reporting API endpoints of each frame which said 'report-only'.
 
 The report looks much like a feature policy violation report, but the
 `"disposition"` field is set to `"report"` rather than `"enforce"`.
