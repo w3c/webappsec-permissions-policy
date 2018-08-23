@@ -1,86 +1,92 @@
-Allowed Animations Policy
+Allow Layout Animations Policy
 ===========
 
-The 'animations' policy-controlled feature can be used in a document or frame to
-restrict the set of CSS properties which can be animated. This can ensure smooth
-animations, by only allowing those properties which can be animated on the GPU,
-using the hardware compositor.
+The 'layout-animations' policy-controlled feature can be used in a document or frame to
+restrict the set of CSS properties which can be animated. This feature is proposed to 
+ensure certain types of animations which *may* lead to layout and potentially heavy CPU
+load are blocked.
 
 What does that mean?
 ------------
 
-In order to produce animations on the web, developers declare transitions inside
-of CSS. These transitions can be used to animate just about any CSS property --
-backgrounds, sizes, margins, fonts, borders, positions -- there's almost no
-limit. In order to make this happen, the browser has to update the values for
-all of these properties, and then calculate all of the other effects that has on
-the page, and it has to update the page like this every frame, sixty times per
-second.
+In order to produce animations on the web, developers declare transitions of style
+in either CSS (e.g., `@keyframes` and `animation`) or JavaScript (e.g., `element.animate()`). 
+In principal, these transitions can be used to animate just about any CSS property (
+backgrounds, sizes, margins, fonts, borders, positions amongst many other).
 
-If the properties being animated are changing size or position, this can easily
-cause many other items on the page to have to be moved around constantly, and
-browsers can struggle to keep up. When that happens, the result is a stuttering
-animation and a poorly performing web page, and sometimes even the entire slows
-down, as the animation consumes all available CPU cycles.
+In order to support such animations, the browser has to constantly update the values for
+all of these properties, and then calculate all their effects on the page; ideally, this has
+to has to be done sixty times per second.
 
-One way to avoid this scenario is to move the animations off of the CPU
-entirely. Modern desktop computers and mobile devices have powerful GPUs that
-can perform certain kinds of animations much more efficiently, and can leave the
-CPU free to handle other things, like responding to user input.
+When properties such as `size` or `position` are changed in an animation, many other 
+elements on the page to have to be moved around constantly (*layout and re-layout*), and 
+browsers can struggle to keep up. When that happens, the result is a potentially stuttering
+animation and a poorly performing and non-responsive web page; sometimes even the entire page
+slows down, as the animation consumes all available CPU cycles.
 
-Deeper explanation
+To avoid this scenario developers should use animations carefully and limit the usage to
+the animations which are not CPU intensive. One approach to motivate this practice is to
+limit the usage of animations that *can* cause expensive CPU work - such as *layout* --
+on the page. This can be done by blocking layout-inducing animations.
+
+How is an animation blocked?
 ------------
 
-Many (most?) CSS properties are interpolable -- that is, there is a way for the
+Blocking an animation should be as non-intrusive as possible to avoid breaking current
+web pages that rely on animations. Essentially, when an animations is blocked it should
+still:
+  - Fire all the animation related events (`animationstart`, `animationinterval`, `animationend`),
+  - `transitionend` should fire as expected,
+  - The intial and final style state should be respected.
+  
+Some CSS properties are interpolable -- that is, there is a way for the
 browser to calculate a smooth transition from one value to another. This applies
 to most properties that have numeric values (lengths, sizes, etc.) as well as
 things like colors, paths and matrices.
 
-Other properties are not interpolable -- there is no such thing as an
-intermediate state -- `font-face`, for instance, or `background-image`. These
-properties are "animated" by simply jumping from the initial to the final value
-at the midpoint of the animation.
 
-A potential solution
+When properties are not interpolable -- there is no such thing as an
+intermediate state -- and such properties are "animated" by simply jumping
+from the initial to the final value at some point during the animation.
+
+The proposed method for blocking animations is the same: the animation involves a
+single jump at the midpoint of the animation interval.
+
+A potential solution: `layout-animations` policy-controlled feature
 ------------
 
-We could define an 'animations' feature to provide a switch for developers to
-disable animations that can't be moved to the GPU. It would do this by
-redefining *all* properties, except for `opacity`, `transform` and `filter`, to
-be non-interpolable, in any document where the feature is disabled.
+With 'layout-animations' feature, developers are equipped with a switch to
+disable animations that *can* cause expensive layout work. This involves properties
+such as `top`, `width`, `max-height`, etc.
 
-With that feature available, a page could declare that it only uses
-GPU-composited animations by delivering an HTTP header like this:
+With that feature available, a page could declare that it only uses animations that
+do not lead to layout, by delivering an HTTP header like this:
 
 ```http
-Feature-Policy: animations 'none'
+Feature-Policy: layout-animations 'none'
 ```
 
 or it could do the same for a particular `iframe` element in the page:
 
 ```html
-<iframe allow="animations 'none'" src="..."></iframe>
+<iframe allow="layout-animations 'none'" src="..."></iframe>
 ```
-If you know that a particular site needs to be allowed to animate non-composited
-properties, then it can be granted the ability to do that, while blocking
+If a particular site needs to use all style properties for animations, 
+then it can be granted the ability to do that, while still blocking
 animations from other sites:
 
 ```html
-<iframe allow="animations https://anim8.example.com" src="..."></iframe>
+<iframe allow="layout-animations https://anim8.example.com" src="..."></iframe>
 ```
 
-Problems with this, and a better solution
+Future work based on `layout-animations`:
 ------------
 
-Currently, `transform`, `opacity` and `filter` are the only properties which can
-be universally composited on the GPU, and so we're using that as the initial
-set. However, we want to allow browsers room to innovate in this space, and we
-want to allow developers the ability to make the final decision about the
-tradeoffs they make. The browser (especially a single browser) shouldn't have
-the only voice. To allow that, the goal is to eventually introduce a syntax for
-specifying which properties can be animated. The developer can choose this
-minimum set, or can add additional properties which they either know can be
-animated smoothly, or just need for their site.
+To allow browsers room to innovate in this space, and grant developers the ability
+to make the final decision about the tradeoffs in their choice of enabled animations,
+a generic more syntactic `animation` feauture can be proposed based on list values.
+The developers can then choose the set of properties that should be allowed to run
+on their site.
 
 In practice, that would look something like this:
 
@@ -89,9 +95,7 @@ In practice, that would look something like this:
 ```
 
 That would apply a policy in which just those three properties can be animated
-(as well as any sub-properties, such as `border-top-color`, for instance.) At
-this time, no browsers animate `border-color` on the GPU, and so the CPU will
-have to do additional work in this case, but it will be allowed.
+(as well as any sub-properties, such as `border-top-color`). 
 
 Feature policies combine in subframes, so if that frame embedded another, with
 the syntax:
