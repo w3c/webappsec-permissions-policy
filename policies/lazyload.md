@@ -9,14 +9,13 @@ What does that mean?
 ------------
 With the `lazyload` attribute, developers could prioritize the loading of different inline frames and
 images on a web page. This however could become a cumbersome process and not quite scalable for larger
-web sites specially given that applying the attribute is origin-agnostic.
+web sites specially given that applying the attribute is origin-agnostic. The lazyload policy aims to resolve
+this issue but changing a browser's decision on enforcing `lazyload` attribute for a browsing context and its nested
+contexts.
 
 Proposed Solution
 ------------
-
-A new policy-control feature for lazyloading alter lazyload behavior for a browsing context and its nested contexts. The feature will modify the behavior of user agent towards the `lazyload` attributed value for nested resources. Essentially
-when the feature is disabled for an origin, then no resource inside the origin can escape lazyloading by setting
-`lazyload="off"`. Specifically, if for a resource the `lazyload` attribute is set to:
+A new policy-control feature for lazyloading will alter lazyload behavior for a browsing context and its nested contexts. The feature will potentially modify the behavior of user agent towards the `lazyload` attributed value for nested resources. Essentially, when the feature is disabled for an origin, then no resources inside the origin can escape lazyloading by setting `lazyload="off"`. Specifically, if for a resource the `lazyload` attribute is set to:
 
   * **`on`** then the browser should load the resource lazily.
   * **`off`** then the browser ignores the attribute value and assumes **`auto`**.
