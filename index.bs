@@ -789,7 +789,6 @@ partial interface HTMLIFrameElement {
   <pre class="idl">
     interface FeaturePolicyViolationReportBody : ReportBody {
       readonly attribute DOMString featureId;
-      readonly attribute DOMString message;
       readonly attribute DOMString? sourceFile;
       readonly attribute long? lineNumber;
       readonly attribute long? columnNumber;
@@ -805,12 +804,6 @@ partial interface HTMLIFrameElement {
       identifying the <a>policy-controlled feature</a> whose policy has been
       <a>violated</a>. This string can be used for grouping and counting related
       reports.
-
-    - <dfn for="FeaturePolicyViolationReportBody">message</dfn>: A
-      human-readable string with details typically matching what would be
-      displayed on the developer console. The message is not guaranteed to be
-      unique for a given [=FeaturePolicyViolationReportBody/featureId=]
-      (e.g. it may contain additional context on how the API was used).
 
     - <dfn for="FeaturePolicyViolationReportBody">sourceFile</dfn>: If known,
       the file where the <a>violation</a> occured, or null otherwise.
@@ -1217,20 +1210,17 @@ partial interface HTMLIFrameElement {
   </section>
   <section>
     <h3 id="report-violation">Generate report for violation of |feature| policy
-    with |message|, on |settings|</h3>
+    on |settings|</h3>
 
-    <p> Given a feature (|feature|), a string (|message|), an <a>environment
-    settings object</a> (|settings|), and an optional string (|group|), this
-    algorithm generates a <a>report</a>, containing |message|, about
-    the <a>violation</a> of the policy on |feature|.</p>
+    <p> Given a feature (|feature|), an <a>environment settings object</a>
+    (|settings|), and an optional string (|group|), this algorithm generates a
+    <a>report</a> about the <a>violation</a> of the policy for |feature|.</p>
 
     1.  Let |body| be a new {{FeaturePolicyViolationReportBody}}, initialized
         as follows:
 
         :   [=FeaturePolicyViolationReportBody/featureId=]
         ::  |feature|'s string representation.
-        :   [=FeaturePolicyViolationReportBody/message=]
-        ::  |message|
         :   [=FeaturePolicyViolationReportBody/sourceFile=]
         ::  null
         :   [=FeaturePolicyViolationReportBody/lineNumber=]
