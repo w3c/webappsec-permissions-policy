@@ -1209,8 +1209,8 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="report-violation">Generate report for violation of |feature| policy
-    on |settings|</h3>
+    <h3 id="report-feature-policy-violation" export>Generate report for
+    violation of |feature| policy on |settings|</h3>
 
     <p> Given a feature (|feature|), an <a>environment settings object</a>
     (|settings|), and an optional string (|group|), this algorithm generates a
