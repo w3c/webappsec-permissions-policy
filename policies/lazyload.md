@@ -15,10 +15,9 @@ contexts.
 
 Proposed Solution
 ------------
-
 A new policy-control feature for lazyloading will alter lazyload behavior for a browsing context and its nested contexts. The feature will potentially modify the behavior of user agent towards the `lazyload` attributed value for nested resources. Essentially, when the feature is disabled for an origin, then no resources inside the origin can escape lazyloading by setting `lazyload="off"`. Specifically, if for a resource the `lazyload` attribute is set to:
 
-  * **`on`** ten the browser should load the resource lazily.
+  * **`on`** then the browser should load the resource lazily.
   * **`off`** then the browser ignores the attribute value and assumes **`auto`**.
   * **`auto`**: there is no change in browser behavior.
   
@@ -29,9 +28,9 @@ Using the Feature
 
 This feature can be introduced with the HTTP headers. For instance,
 ```HTTP
-Feature Policy: lazyload 'src' https://example.com
+Feature Policy: lazyload 'self' https://example.com
 ```
-would not allow synchronous loading for any `<iframe>` or `<img>` (that is not yet in the viewport) from origins other than`'self'` or `https://example.com`.
+would not allow synchronous loading for any `<iframe>` or `<img>` (that is not yet in the viewport) from origins other than `'self'` or `https://example.com`.
 
 Similarly, the feature could be set through the `allow` attribute of an inline frame:
 ```HTML
