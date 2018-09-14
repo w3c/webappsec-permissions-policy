@@ -104,3 +104,11 @@ the syntax:
 <iframe allow="animations(transform,margin)"></iframe>
 ```
 then the child frame would be allowed to animate just the `transform` property.
+
+First Steps in Implementing the Feautre
+-------------
+As mentioned above, the policy will affect animated properties that cause layout; the actual list of such properties might be long and should be extracted from [CSS spec](https://drafts.csswg.org/). To implement a *first version of the policy*, the following  animations should be included in `layout-animations`:
+```
+bottom, height, left, right, top, width
+```
+These properties are used quite often and on Chrome, they contribute to [almost](https://www.chromestatus.com/metrics/css/animated) 11.7% of total animation use cases. From the same data it can be inferred that (ignoring some non-layout and irrelevant properties such as `transform`, `visibility`, etc.), the overal share of such animations is as high as 34%; hence the justification for inclusion of these properties in the v1 of the policy.
