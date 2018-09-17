@@ -869,8 +869,8 @@ partial interface HTMLIFrameElement {
       lt="split on commas">splitting <var>value</var> on commas</a>:
         <ol>
           <li>Let <var>directive</var> be the result of executing <a href=
-          "#parse-policy-directive"></a> on <var>element</var> and
-          <var>origin</var>
+          "#parse-policy-directive"></a> on <var>element</var> with
+          <var>container origin</var> set to <var>origin</var>.
           </li>
           <li>Run <a href="#merge-directive-with-declared-policy"></a> on <var>
             directive</var> and <var>policy</var>.
@@ -881,10 +881,11 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="parse-policy-directive">Parse policy directive from
-    <var>value</var> and <var>origin</var></h3>
-    <p>Given a string (<var>value</var>) and an [=origin=] (<var>origin</var>)
-    this algorithm will return a <a>policy directive</a>.</p>
+    <h3 id="parse-policy-directive">Parse policy directive</h3>
+    <p>Given a string (<var>value</var>), an [=origin=] (<var>container
+    origin</var>), and an optional [=origin=] (<var>target origin</var>), this
+    algorithm returns a <a>policy directive</a>.
+    </p>
     <ol>
       <li>Let <var>directive</var> be an empty ordered map.</li>
       <li>For each <var>serialized-declaration</var> returned by <a
@@ -911,11 +912,18 @@ partial interface HTMLIFrameElement {
           <li>Otherwise:
             <ol>
               <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
+              <li>If <var>targetlist</var> is empty and <var>target origin</var>
+              has a value, append <var>target origin</var> to
+              <var>allowlist</var>.
               <li>For each <var>element</var> in <var>targetlist</var>:
                 <ol>
                   <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-                  match for the string "<code>'self'</code>", let result be
-                  <var>origin</var>.</li>
+                  match for "<code>'self'</code>", let result be <var>container
+                  origin</var>.</li>
+                  <li>If <var>target origin</var> has a value, and
+                  <var>element</var> is an <a>ASCII case-insensitive</a> match
+                  for "<code>'src'</code>", let result be <var>target
+                  origin</var>.</li>
                   <li>Otherwise, let <var>result</var> be the result of
                   executing the <a>URL parser</a> on <var>element</var>.</li>
                   <li>If <var>result</var> is not failure:
@@ -963,7 +971,7 @@ partial interface HTMLIFrameElement {
       <li>Let <var>policy</var> be a new <a>policy directive</a>.
       </li>
       <li>Let <var>container policy</var> be the result of running <a href=
-      "#parse-allow-attribute">Parse allow attribute</a> on the value of
+      "#parse-policy-directive">Parse policy directive</a> on the value of
         <var>element</var>'s <code>allow</code> attribute, with <var>container
         origin</var> set to the origin of <var>element</var>'s node document,
         and <var>target origin</var> set to <var>element</var>'s <a>declared
@@ -1016,69 +1024,6 @@ partial interface HTMLIFrameElement {
         </ol>
       </li>
       <li>Return <var>container policy</var>.</li>
-    </ol>
-  </section>
-  <section>
-    <h3 id="parse-allow-attribute">Parse allow attribute</h3>
-    <p>Given a string (<var>value</var>), and two origins
-    (<var>container origin</var> and <var>target origin</var>), this algorithm
-    returns a <a>policy directive</a>.
-    </p>
-    <ol>
-      <li>Let <var>directive</var> be an empty ordered map.</li>
-      <li>For each <var>serialized-declaration</var> returned by <a
-      lt="strictly split">strictly splitting <var>value</var> on the delimiter
-      U+003B (;)</a>:
-        <ol>
-          <li>Let <var>tokens</var> be the result of <a
-          lt="split on ascii whitespace">splitting
-          <var>serialized-declaration</var> on ASCII whitespace.</a></li>
-          <li>If <var>tokens</var> is an empty list, then continue.</li>
-          <li>Let <var>feature-name</var> be the first element of
-          <var>tokens</var>.</li>
-          <li>If <var>feature-name</var> does not identify any recognized
-          <a>policy-controlled feature</a>, then continue.</li>
-          <li>Let <var>feature</var> be the <a>policy-controlled feature</a>
-          identified by <var>feature-name</var>.</li>
-          <li>Let <var>targetlist</var> be the remaining elements, if any, of
-          <var>tokens</var>.
-          <li>Let <var>allowlist</var> be a new <a>allowlist</a>.
-          </li>
-          <li>If any element of <var>targetlist</var> is the string
-          "<code>*</code>", set <var>allowlist</var> to <a>the special value
-          <code>*</code></a>.</li>
-          <li>Otherwise:
-            <ol>
-              <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
-              <li>If <var>targetlist</var> is empty, append <var>target
-              origin</var> to <var>allowlist</var>.
-              <li>For each <var>element</var> in <var>targetlist</var>:
-                <ol>
-                  <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-                  match for "<code>'self'</code>", let result be <var>container
-                  origin</var>.</li>
-                  <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-                  match for "<code>'src'</code>", let result be <var>target
-                  origin</var>.</li>
-                  <li>Otherwise, let <var>result</var> be the result of
-                  executing the <a>URL parser</a> on <var>element</var>.</li>
-                  <li>If <var>result</var> is not failure:
-                    <ol>
-                      <li>Let <var>target</var> be the origin of
-                      <var>result</var>.</li>
-                      <li>If <var>target</var> is not an opaque origin, append
-                      <var>target</var> to <var>allowlist</var>.</li>
-                    </ol>
-                  </li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-          <li>Set <var>directive</var>[<var>feature</var>] to
-          <var>allowlist</var>.</li>
-        </ol>
-      </li>
-      <li>Return <var>directive</var></li>
     </ol>
   </section>
   <section>
