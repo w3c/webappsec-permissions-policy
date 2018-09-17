@@ -906,14 +906,13 @@ partial interface HTMLIFrameElement {
             <ol>
               <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
               <li>If <var>targetlist</var> is empty and <var>target origin</var>
-              has a value, append <var>target origin</var> to
-              <var>allowlist</var>.
+              is given, append <var>target origin</var> to <var>allowlist</var>.
               <li>For each <var>element</var> in <var>targetlist</var>:
                 <ol>
                   <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
                   match for "<code>'self'</code>", let result be <var>container
                   origin</var>.</li>
-                  <li>If <var>target origin</var> has a value, and
+                  <li>If <var>target origin</var> is given, and
                   <var>element</var> is an <a>ASCII case-insensitive</a> match
                   for "<code>'src'</code>", let result be <var>target
                   origin</var>.</li>
