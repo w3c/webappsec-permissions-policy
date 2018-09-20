@@ -11,8 +11,8 @@ What does that mean?
 
 In order to produce animations on the web, developers declare transitions of style
 in either CSS (e.g., `@keyframes` and `animation`) or JavaScript (e.g., `element.animate()`). 
-In principal, these transitions can be used to animate just about any CSS property (
-backgrounds, sizes, margins, fonts, borders, positions amongst many other).
+In principal, these transitions can be used to animate just about any CSS property
+(backgrounds, sizes, margins, fonts, borders, positions amongst many other).
 
 In order to support such animations, the browser has to constantly update the values for
 all of these properties, and then calculate all their effects on the page; ideally, this has
@@ -21,7 +21,7 @@ to has to be done sixty times per second.
 When properties such as `size` or `position` are changed in an animation, many other 
 elements on the page to have to be moved around constantly (*layout and re-layout*), and 
 browsers can struggle to keep up. When that happens, the result is a potentially stuttering
-animation and a poorly performing and non-responsive web page; sometimes even the entire page
+animation and a poorly performing and non-responsive web page; sometimes even the entire *machine*
 slows down, as the animation consumes all available CPU cycles.
 
 To avoid this scenario developers should use animations carefully and limit the usage to
