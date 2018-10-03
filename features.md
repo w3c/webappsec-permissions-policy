@@ -21,6 +21,7 @@ of these features all belong in their respective specs.
 |`payment`|`self`|Controls access to PaymentRequest interface.|
 |`picture-in-picture`|`*`|Controls access to Picture in Picture.|
 |`speaker`|`self`|Controls access to audio output devices.|
+|`sync-xhr`|`*`|Controls whether synchronous XMLHttpRequest transfers are allowed.|
 |`usb`|`self`|Controls access to USB devices.|
 |`vr`|`self`|Controls access to VR displays.|
 
@@ -146,6 +147,15 @@ If disabled in a document, then calls to [`getUserMedia()`](https://w3c.github.i
 
 * The **feature name** for *speaker* is "`speaker`"
 * The **default allowlist** for *speaker* is `'self'`.
+
+### sync-xhr
+
+The *sync-xhr* feature controls whether synchronous requests can be made through the [XMLHttpRequest API](https://xhr.spec.whatwg.org/).
+
+If disabled in a document, then calls to [`send()`](https://xhr.spec.whatwg.org/#the-send()-method) on `XMLHttpRequest` objects with the synchronous flag set will fail, causing a NetworkError DOMException to be thrown.
+
+* The **feature name** for *sync-xhr* is "`sync-xhr`"
+* The **default allowlist** for *speaker* is `*`.
 
 ### usb
 
