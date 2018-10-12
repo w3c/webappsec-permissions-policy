@@ -991,7 +991,7 @@ partial interface HTMLIFrameElement {
               </li>
             </ol>
           </li>
-          <li>If <var>element</var>'s <code>allowusermediarequest</code>
+          <li>If <var>element</var>'s <code>allowusermedia</code>
           attribute is specified:
             <ol>
               <li>If <var>container policy</var> does not contain an allowlist
