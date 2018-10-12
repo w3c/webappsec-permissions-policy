@@ -1052,7 +1052,8 @@ partial interface HTMLIFrameElement {
     (<var>document</var>), this algorithm populates <var>document</var>'s
     <a>Feature Policy</a></p>
     <ol>
-      <li>Initialize <var>document</var>'s Feature Policy</li>
+      <li><a href="#initialize-for-document">Initialize <var>document</var>'s
+      Feature Policy</a></li>
       <li>Let <var>inherited policy</var> be <var>document</var>'s Feature
       Policy's <a>inherited policy</a>.</li>
       <li>Let <var>declared policy</var> be a new ordered map.</li>
