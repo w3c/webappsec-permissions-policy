@@ -664,16 +664,16 @@ partial interface HTMLIFrameElement {
     following steps:
         1. If |node|'s <a>node document</a>'s <a>sandboxed origin browsing
             context flag</a> is set, then return a unique opaque origin.
-        1. If |node|'s <{iframe/sandbox}> attribute is specified, and does not
-            contain the <code>allow-same-origin</code> keyword, then return a
-            unique opaque origin.
-        2. If |node|'s <{iframe/srcdoc}> attribute is specified, then return
-            |node|'s <a>node document</a>'s origin.
-        3. If |node|'s <{iframe/src}> attribute is specified:
+        2. If |node|'s <{iframe/sandbox}> attribute is set, and does not contain
+            the <code>allow-same-origin</code> keyword, then return a unique
+            opaque origin.
+        3. If |node|'s <{iframe/srcdoc}> attribute is set, then return |node|'s
+            <a>node document</a>'s origin.
+        4. If |node|'s <{iframe/src}> attribute is set:
             1. Let |url| be the result of parsing |node|'s src attribute,
                 relative to |node|'s <a>node document</a>.
             2. If |url| is not failure, return |url|'s origin.
-        4. Return |node|'s <a>node document</a>'s origin.
+        5. Return |node|'s <a>node document</a>'s origin.
     <p class="note">
       The <a>declared origin</a> concept is intended to represent the origin of
       the document which the embedding page intends to load into a frame. This
