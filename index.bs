@@ -654,8 +654,8 @@ partial interface HTMLIFrameElement {
         2. Let |declared policy| be a new ordered map.
         3. For each <a>supported feature</a> |feature|:
             1. Let |isInherited| be the result of running <a
-                href="#define-inherited-policy-in-container"></a> on |feature|
-                and |node|.
+                href="#define-inherited-policy-in-container"></a> on |feature|,
+                |node| and |node|'s <a>declared origin</a>.
             2. Set |inherited policy|[|feature|] to |isInherited|.
         4. Return a new <a>feature policy</a> with inherited policy
             |inherited policy| and declared policy |declared policy|.
@@ -1043,7 +1043,7 @@ partial interface HTMLIFrameElement {
         <ol>
           <li>Let <var>isInherited</var> be the result of running <a href=
           "#define-inherited-policy"></a> on <var>feature</var> and
-          <var>document</var>'s browsing context.
+          <var>document</var>.
           </li>
           <li>Set <var>inherited policy</var>[<var>feature</var>] to
             <var>isInherited</var>.</li>
@@ -1061,11 +1061,12 @@ partial interface HTMLIFrameElement {
   <section>
     <h3 id="initialize-from-response">Initialize <var>document</var>'s Feature
     Policy from <var>response</var></h3>
-    <p>Given a [=response=] (<var>response</var>) and a Document
+    <p>Given a [=response=] (<var>response</var>) and a <a>Document</a>
     (<var>document</var>), this algorithm populates <var>document</var>'s
     <a>Feature Policy</a></p>
     <ol>
-      <li>Initialize <var>document</var>'s Feature Policy</li>
+      <li><a href="#initialize-for-document">Initialize <var>document</var>'s
+      Feature Policy</a></li>
       <li>Let <var>inherited policy</var> be <var>document</var>'s Feature
       Policy's <a>inherited policy</a>.</li>
       <li>Let <var>declared policy</var> be a new ordered map.</li>
@@ -1090,27 +1091,30 @@ partial interface HTMLIFrameElement {
   </section>
   <section>
     <h3 id="define-inherited-policy">Define an inherited policy for
-    <var>feature</var></h3>
-    <p>Given a feature (<var>feature</var>) and a browsing context
-    (<var>context</var>), this algorithm returns the <a>inherited policy</a>
+    <var>feature</var> in <var>document</var></h3>
+    <p>Given a feature (<var>feature</var>) and a <a>Document</a>
+    (<var>document</var>), this algorithm returns the <a>inherited policy</a>
     for that feature.</p>
     <ol>
+      <li>Let <var>context</var> be <var>document</var>'s <a>browsing
+      context</a>.</li>
       <li>If <var>context</var> is a [=nested browsing context=], return the
         result of executing <a href="#define-inherited-policy-in-container"></a>
-        on <var>context</var>'s <a>browsing context container</a>.</li>
-      <li>Otherwise, return 'Enabled'.</li>
+        for <var>feature</var> in <var>context</var>'s <a>browsing context
+	container</a> at <var>document</var>'s <a>origin</a>.</li>
+      <li>Otherwise, return "<code>Enabled</code>".</li>
     </ol>
   </section>
   <section>
     <h3 id="define-inherited-policy-in-container">Define an inherited policy for
-    <var>feature</var> in <var>container</var></h3>
-    <p>Given a feature (<var>feature</var>) and a <a>browsing context
-    container</a>
-    (<var>container</var>), this algorithm returns the <a>inherited policy</a>
-    for that feature.</p>
+    <var>feature</var> in <var>container</var> at <var>origin</var></h3>
+    <p>Given a feature (<var>feature</var>) a <a>browsing context container</a>
+    (<var>container</var>), and an <a>origin</a> for a document in that
+    container (<var>origin</var>), this algorithm returns the <a>inherited
+    policy</a> for that feature.</p>
     <ol>
-      <li>Let <var>parent</var> be <var>container</var>'s node document.</li>
-      <li>Let <var>origin</var> be <var>parent</var>'s [=origin=]</li>
+      <li>Let <var>parent</var> be <var>container</var>'s <a>node
+        document</a>.</li>
       <li>Let <var>container policy</var> be the result of running
         <a href="#process-feature-policy-attributes"></a> on
         <var>container</var>.
