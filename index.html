@@ -1214,7 +1214,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 018be3f805d3272ce699a232398d6e3902d1ea8d" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="5c33ceea3b697e303473be713f9bb3146c7cbc76" name="document-revision">
+  <meta content="63bd4e541380097102259e76d9dbee59d048fa54" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-10-16">16 October 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-10-17">17 October 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2188,17 +2188,30 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     following steps: </p>
      <ol>
       <li data-md>
-       <p>If <var>node</var> has a src attribute:</p>
+       <p>If <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document">node document</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#sandboxed-origin-browsing-context-flag" id="ref-for-sandboxed-origin-browsing-context-flag">sandboxed origin browsing
+  context flag</a> is set, then return a unique opaque origin.</p>
+      <li data-md>
+       <p>If <var>node</var>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox①">sandbox</a></code> attribute is set, and does not contain
+  the <code>allow-same-origin</code> keyword, then return a unique
+  opaque origin.</p>
+      <li data-md>
+       <p>If <var>node</var>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-srcdoc" id="ref-for-attr-iframe-srcdoc">srcdoc</a></code> attribute is set, then return <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document①">node document</a>’s origin.</p>
+      <li data-md>
+       <p>If <var>node</var>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-src" id="ref-for-attr-iframe-src①">src</a></code> attribute is set:</p>
        <ol>
         <li data-md>
          <p>Let <var>url</var> be the result of parsing <var>node</var>’s src attribute,
-  relative to <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document">node document</a>.</p>
+  relative to <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document②">node document</a>.</p>
         <li data-md>
          <p>If <var>url</var> is not failure, return <var>url</var>’s origin.</p>
        </ol>
       <li data-md>
-       <p>Return <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document①">node document</a>’s origin.</p>
+       <p>Return <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document③">node document</a>’s origin.</p>
      </ol>
+     <p class="note" role="note"> The <a data-link-type="dfn" href="#declared-origin" id="ref-for-declared-origin①">declared origin</a> concept is intended to represent the origin of
+      the document which the embedding page intends to load into a frame. This
+      means, for instance, that if the browser does not support the <code>sandbox</code> or <code>srcdoc</code> attributes, it should not take
+      those attributes into account when computing the declared origin. </p>
     </section>
    </section>
    <section>
@@ -2254,18 +2267,18 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       specified, it indicates that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①⑤">Document</a></code> objects in the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑦">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context②">browsing context</a> should be initialized with a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①②">feature
       policy</a> which allows the <code>fullscreen</code> feature to be used
       from any origin. This is enforced by the <a href="#process-feature-policy-attributes">Process feature policy
-      attributes</a> algorithm. Note that this will only allow use of the <code>fullscreen</code> feature if the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑧">iframe</a></code> element’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document②">node
+      attributes</a> algorithm. Note that this will only allow use of the <code>fullscreen</code> feature if the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑧">iframe</a></code> element’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document④">node
       document</a> is also <a data-link-type="dfn" href="#allowed-to-use" id="ref-for-allowed-to-use①">allowed to use</a> <code>fullscreen</code>. </p>
        <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowpaymentrequest" id="ref-for-attr-iframe-allowpaymentrequest①">allowpaymentrequest</a></code> attribute is a boolean attribute.
       When specified, it indicates that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①⑥">Document</a></code> objects in the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑨">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context③">browsing context</a> should be initialized with a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①③">feature
       policy</a> which allows the <code>payment</code> feature to be used
       to make payment requests from any origin. This is enforced by the <a href="#process-feature-policy-attributes">Process feature policy
-      attributes</a> algorithm. Note that this will only allow use of the <code>PaymentRequest</code> interface if the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element①⓪">iframe</a></code> element’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document③">node
+      attributes</a> algorithm. Note that this will only allow use of the <code>PaymentRequest</code> interface if the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element①⓪">iframe</a></code> element’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document⑤">node
       document</a> is also <a data-link-type="dfn" href="#allowed-to-use" id="ref-for-allowed-to-use②">allowed to use</a> the feature. </p>
        <p>The <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowusermedia" id="ref-for-attr-iframe-allowusermedia①">allowusermedia</a></code> attribute is a boolean attribute. When
       specified, it indicates that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①⑦">Document</a></code> objects in the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element①①">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context④">browsing context</a> should be initialized with a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①④">feature
       policy</a> which allows the <code>camera</code> and <code>microphone</code> features to be used to call <code>getUserMedia()</code> from any origin. This is enforced by the <a href="#process-feature-policy-attributes">Process feature policy
-      attributes</a> algorithm. Note that this will only allow use of the <code>getUserMedia()</code> interface if the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element①②">iframe</a></code> element’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document④">node
+      attributes</a> algorithm. Note that this will only allow use of the <code>getUserMedia()</code> interface if the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element①②">iframe</a></code> element’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document⑥">node
       document</a> is also <a data-link-type="dfn" href="#allowed-to-use" id="ref-for-allowed-to-use③">allowed to use</a> the feature. </p>
       <li>The <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#set-the-allow*-flags">set
       the allow* flags</a> algorithm is removed, as it is no longer referenced. 
@@ -2422,7 +2435,7 @@ set to "enforce".</p>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑧">policy directive</a>. 
       <li>Let <var>container policy</var> be the result of running <a href="#parse-policy-directive">Parse policy directive</a> on the value of <var>element</var>’s <code>allow</code> attribute, with <var>container
         origin</var> set to the origin of <var>element</var>’s node document,
-        and <var>target origin</var> set to <var>element</var>’s <a data-link-type="dfn" href="#declared-origin" id="ref-for-declared-origin①">declared
+        and <var>target origin</var> set to <var>element</var>’s <a data-link-type="dfn" href="#declared-origin" id="ref-for-declared-origin②">declared
         origin</a>. 
       <li>
        If <var>element</var> is an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element①③">iframe</a></code> element: 
@@ -2624,7 +2637,7 @@ set to "enforce".</p>
    <section class="informative" id="privacy">
     <h2 class="heading settled" data-level="12" id="privacy-and-security"><span class="secno">12. </span><span class="content">Privacy and Security</span><a class="self-link" href="#privacy-and-security"></a></h2>
     <p>This specification standardizes a mechanism for an embedding page to set a
-  policy which will be enforced on an embedded page. Similar to iframe <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox①">sandbox</a></code>, this can be done without the express permission of the
+  policy which will be enforced on an embedded page. Similar to iframe <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox②">sandbox</a></code>, this can be done without the express permission of the
   embedded page, which means that behaviors of existing features can be changed
   in published web sites, by embedding them in another document with an
   appropriate container policy.</p>
@@ -2995,8 +3008,8 @@ set to "enforce".</p>
   <aside class="dfn-panel" data-for="term-for-concept-node-document">
    <a href="https://dom.spec.whatwg.org/#concept-node-document">https://dom.spec.whatwg.org/#concept-node-document</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-node-document">7.2. The policy object</a> <a href="#ref-for-concept-node-document①">(2)</a>
-    <li><a href="#ref-for-concept-node-document②">8.1. Integration with HTML</a> <a href="#ref-for-concept-node-document③">(2)</a> <a href="#ref-for-concept-node-document④">(3)</a>
+    <li><a href="#ref-for-concept-node-document">7.2. The policy object</a> <a href="#ref-for-concept-node-document①">(2)</a> <a href="#ref-for-concept-node-document②">(3)</a> <a href="#ref-for-concept-node-document③">(4)</a>
+    <li><a href="#ref-for-concept-node-document④">8.1. Integration with HTML</a> <a href="#ref-for-concept-node-document⑤">(2)</a> <a href="#ref-for-concept-node-document⑥">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-header">
@@ -3158,7 +3171,14 @@ set to "enforce".</p>
    <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-attr-iframe-sandbox">3. Other and related mechanisms</a>
-    <li><a href="#ref-for-attr-iframe-sandbox①">12. Privacy and Security</a>
+    <li><a href="#ref-for-attr-iframe-sandbox①">7.2. The policy object</a>
+    <li><a href="#ref-for-attr-iframe-sandbox②">12. Privacy and Security</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-sandboxed-origin-browsing-context-flag">
+   <a href="https://html.spec.whatwg.org/multipage/origin.html#sandboxed-origin-browsing-context-flag">https://html.spec.whatwg.org/multipage/origin.html#sandboxed-origin-browsing-context-flag</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-sandboxed-origin-browsing-context-flag">7.2. The policy object</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-ascii-serialisation-of-an-origin">
@@ -3173,6 +3193,13 @@ set to "enforce".</p>
    <ul>
     <li><a href="#ref-for-attr-iframe-src">6.2. The allow attribute of the
     iframe element</a>
+    <li><a href="#ref-for-attr-iframe-src①">7.2. The policy object</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-attr-iframe-srcdoc">
+   <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-srcdoc">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-srcdoc</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-attr-iframe-srcdoc">7.2. The policy object</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-top-level-browsing-context">
@@ -3330,8 +3357,10 @@ set to "enforce".</p>
      <li><span class="dfn-paneled" id="term-for-paymentrequest" style="color:initial">paymentrequest</span>
      <li><span class="dfn-paneled" id="term-for-same-origin-domain" style="color:initial">same origin-domain</span>
      <li><span class="dfn-paneled" id="term-for-attr-iframe-sandbox" style="color:initial">sandbox</span>
+     <li><span class="dfn-paneled" id="term-for-sandboxed-origin-browsing-context-flag" style="color:initial">sandboxed origin browsing context flag</span>
      <li><span class="dfn-paneled" id="term-for-ascii-serialisation-of-an-origin" style="color:initial">serialization of an origin</span>
      <li><span class="dfn-paneled" id="term-for-attr-iframe-src" style="color:initial">src</span>
+     <li><span class="dfn-paneled" id="term-for-attr-iframe-srcdoc" style="color:initial">srcdoc</span>
      <li><span class="dfn-paneled" id="term-for-top-level-browsing-context" style="color:initial">top-level browsing context</span>
     </ul>
    <li>
@@ -3718,8 +3747,8 @@ set to "enforce".</p>
   <aside class="dfn-panel" data-for="declared-origin">
    <b><a href="#declared-origin">#declared-origin</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-declared-origin">7.2. The policy object</a>
-    <li><a href="#ref-for-declared-origin①">10.5. Process feature policy
+    <li><a href="#ref-for-declared-origin">7.2. The policy object</a> <a href="#ref-for-declared-origin①">(2)</a>
+    <li><a href="#ref-for-declared-origin②">10.5. Process feature policy
     attributes</a>
    </ul>
   </aside>
