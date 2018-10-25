@@ -1214,7 +1214,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 018be3f805d3272ce699a232398d6e3902d1ea8d" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="6aeb5d314093b4eddd11776c81f5cd243ef5ebc3" name="document-revision">
+  <meta content="26e6c7fc09075790355ab27fbb2b760e4d6ce854" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-10-17">17 October 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-10-25">25 October 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2550,11 +2550,12 @@ set to "enforce".</p>
       <li>
        If <var>feature</var> is a key in <var>container policy</var>: 
        <ol>
-        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches">matches</a> <var>origin</var>, and <var>parent</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is "<code>Enabled</code>", return
-          "<code>Enabled</code>". 
-        <li>Otherwise return "<code>Disabled</code>".
+        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a> for <var>feature</var> in <var>container policy</var> does not <a data-link-type="dfn" href="#matches" id="ref-for-matches">match</a> <var>origin</var>,
+          return "<code>Disabled</code>". 
+        <li>If <a href="#is-feature-enabled"><var>feature</var> is enabled in <var>parent</var> for <var>parent</var>’s <var>origin</var></a>,
+          return "<code>Enabled</code>". 
        </ol>
-      <li>Otherwise, if <a href="#is-feature-enabled"><var>feature</var> is
+      <li>If <a href="#is-feature-enabled"><var>feature</var> is
       enabled in <var>parent</var> for <var>origin</var></a>, return
       "<code>Enabled</code>". 
       <li>Otherwise return "<code>Disabled</code>".
@@ -2568,7 +2569,7 @@ set to "enforce".</p>
     disabled, and "<code>Enabled</code>" otherwise.</p>
      <ol>
       <li>Let <var>policy</var> be <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⑨">Feature Policy</a> 
-      <li>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑨">inherited policy</a> for <var>feature</var> is Disabled, return "<code>Disabled</code>".
+      <li>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is Disabled, return "<code>Disabled</code>".
       <li>
        If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑥">declared
       policy</a>: 
@@ -3540,8 +3541,8 @@ set to "enforce".</p>
     <li><a href="#ref-for-inherited-policy⑥">10.8. Define an inherited policy for
     feature in document</a>
     <li><a href="#ref-for-inherited-policy⑦">10.9. Define an inherited policy for
-    feature in container at origin</a> <a href="#ref-for-inherited-policy⑧">(2)</a>
-    <li><a href="#ref-for-inherited-policy⑨">10.10. Is feature enabled in
+    feature in container at origin</a>
+    <li><a href="#ref-for-inherited-policy⑧">10.10. Is feature enabled in
     document for origin?</a>
    </ul>
   </aside>
