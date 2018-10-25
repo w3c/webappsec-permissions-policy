@@ -803,8 +803,8 @@ partial interface HTMLIFrameElement {
     interface FeaturePolicyViolationReportBody : ReportBody {
       readonly attribute DOMString featureId;
       readonly attribute DOMString? sourceFile;
-      readonly attribute long? lineNumber;
-      readonly attribute long? columnNumber;
+      readonly attribute unsigned long? lineno;
+      readonly attribute unsigned long? colno;
       readonly attribute DOMString disposition;
     };
   </pre>
@@ -821,11 +821,11 @@ partial interface HTMLIFrameElement {
     - <dfn for="FeaturePolicyViolationReportBody">sourceFile</dfn>: If known,
       the file where the <a>violation</a> occured, or null otherwise.
 
-    - <dfn for="FeaturePolicyViolationReportBody">lineNumber</dfn>: If known,
+    - <dfn for="FeaturePolicyViolationReportBody">lineno</dfn>: If known,
       the line number in [=FeaturePolicyViolationReportBody/sourceFile=] where
       the <a>violation</a> occured, or null otherwise.
 
-    - <dfn for="FeaturePolicyViolationReportBody">columnNumber</dfn>: If known,
+    - <dfn for="FeaturePolicyViolationReportBody">colno</dfn>: If known,
       the column number in [=FeaturePolicyViolationReportBody/sourceFile=] where
       the <a>violation</a> occured, or null otherwise.
 
@@ -1185,9 +1185,9 @@ partial interface HTMLIFrameElement {
         ::  |feature|'s string representation.
         :   [=FeaturePolicyViolationReportBody/sourceFile=]
         ::  null
-        :   [=FeaturePolicyViolationReportBody/lineNumber=]
+        :   [=FeaturePolicyViolationReportBody/lineno=]
         ::  null
-        :   [=FeaturePolicyViolationReportBody/columnNumber=]
+        :   [=FeaturePolicyViolationReportBody/colno=]
         ::  null
         :   [=FeaturePolicyViolationReportBody/disposition=]
         ::  "enforce"
@@ -1195,8 +1195,8 @@ partial interface HTMLIFrameElement {
     2.  If the user agent is currently executing script, and can extract the
         source file's URL, line number, and column number from |settings|, then
         set |body|'s [=FeaturePolicyViolationReportBody/sourceFile=],
-        [=FeaturePolicyViolationReportBody/lineNumber=], and
-        [=FeaturePolicyViolationReportBody/columnNumber=] accordingly.
+        [=FeaturePolicyViolationReportBody/lineno=], and
+        [=FeaturePolicyViolationReportBody/colno=] accordingly.
 
     3.  If |group| is omitted, set |group| to "default".
 
