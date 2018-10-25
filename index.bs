@@ -1122,15 +1122,16 @@ partial interface HTMLIFrameElement {
       <li>If <var>feature</var> is a key in <var>container policy</var>:
         <ol>
           <li>If the <a>allowlist</a> for <var>feature</var> in
-          <var>container policy</var> <a>matches</a> <var>origin</var>, and
-          <var>parent</var>'s <a>inherited policy</a> for
-          <var>feature</var> is "<code>Enabled</code>", return
-          "<code>Enabled</code>".
+          <var>container policy</var> does not <a>match</a> <var>origin</var>,
+          return "<code>Disabled</code>".
           </li>
-          <li>Otherwise return "<code>Disabled</code>".</li>
+          <li>If <a href="#is-feature-enabled"><var>feature</var> is enabled in
+          <var>parent</var> for <var>parent</var>'s <var>origin</var></a>,
+          return "<code>Enabled</code>".
+          </li>
         </ol>
       </li>
-      <li>Otherwise, if <a href="#is-feature-enabled"><var>feature</var> is
+      <li>If <a href="#is-feature-enabled"><var>feature</var> is
       enabled in <var>parent</var> for <var>origin</var></a>, return
       "<code>Enabled</code>".
       </li>
