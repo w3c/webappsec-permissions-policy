@@ -18,7 +18,7 @@ In order to support such animations, the browser has to constantly update the va
 all of these properties, and then calculate all their effects on the page; ideally, this has
 to has to be done sixty times per second.
 
-When properties such as `size` or `position` are changed in an animation, many other 
+When properties affecting size or position are changed in an animation, many other 
 elements on the page to have to be moved around constantly (*layout and re-layout*), and 
 browsers can struggle to keep up. When that happens, the result is a potentially stuttering
 animation and a poorly performing and non-responsive web page; sometimes even the entire *machine*
