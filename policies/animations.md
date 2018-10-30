@@ -49,8 +49,11 @@ When properties are not interpolable -- there is no such thing as an
 intermediate state -- and such properties are "animated" by simply jumping
 from the initial to the final value at some point during the animation.
 
-The proposed method for blocking animations is the same: the animation involves a
-single jump at the midpoint of the animation interval.
+The proposed method for blocking animations is similar to the concept of
+[discrete animations](https://drafts.csswg.org/web-animations-1/#discrete)
+(for noninterpolable animations) with
+[linear timing function](https://drafts.csswg.org/css-easing-1/#linear-timing-function-section):
+the animation involves a single jump at the midpoint of the animation interval.
 
 A potential solution: `layout-animations` policy-controlled feature
 ------------
