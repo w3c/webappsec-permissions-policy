@@ -23,7 +23,7 @@ Optimized image policies introduce a set of restrictions (policies) on images th
     *   Images must not be bigger than its container size by more than _***X times***_ .
 *   **["unoptimized-images" policy](#unoptimized-images)**
     *   Images used in rendering must not include too much metadata.
-    *   Images must not be more than _**X bits***_ per compressed pixel.
+    *   Images must not be more than _***X bits***_ per compressed pixel.
     *   Images should be in one of the modern image formats that yield large byte savings and performance improvement.
 
 **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. * means developers will eventrually be able to specify the "value" of the policy. For example, `oversized-images(2)` specifies the maximum ratio (2) images are allowed to be downscaled by.
@@ -155,43 +155,44 @@ When a document is disallowed to use `unoptimized-images` policy, its `<img>` el
 
 
 #### Specification
-TODO: introduce a formula here
-- The default metadata size; default byte per pixel ratio is tentatively 10.
+- The default maximum file size of an optimized image is calculated as following:
+    
+   ```metadata size limit + byte-per-pixel ratio * image resolution```
+    + For images of one of the modern formates (JPEG, PNG, GIF, WEBP, and SVG)
+        + The default metadata size limit is tentatively 1KB.
+        + The default byte-per-pixel ratio is tentatively 0.5.
+    + For images of other legacy formats   
+        + The metadata size limit is set to 0KB.
+        + The byte-per-pixel ratio is set to 0.
 
-
-
-1. Remove "legacy-image-formats" policy from the explainer
-2. Mention setting different default max compression ratios based on image formats in future development of "unoptimized-images" policy.
-2.a. Mention setting default max compression ratio to 0 for some legacy formats (Also a side note: we still need to find a way of defining what is considered as a good format)
-3. Mention the default ratio can be overridden by web-dev with support of "list-value" 
-
-
-
-    **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying their own ratio.
+    **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying their own parameters.
 
     In practice, they would look something like this:
 
     ```html
-    <iframe allow="unoptimized-images(12)"></iframe>
+    <iframe allow="unoptimized-images(1.5, 0.4)"></iframe>
     ```
-    That would apply a policy in which the maximum compression ratio allowed is set to 12.
-
-    Feature policies combine in subframes, and the minimum value of the compression ratio will be applied, so if that frame embedded another, which the syntax:
+    That would apply a policy in which the metadata size limit is set to 1.5KB and the byte-per-pixel ratio is set to 0.4.  
+   
+    Feature policies combine in subframes, and the minimum value of the parameters will be applied, so if that frame embedded another, which the syntax:
 
     ```html
-    <iframe allow="unoptimized-images(15)"></iframe>
+    <iframe allow="unoptimized-images(2, 0.2)"></iframe>
     ```
-    then the child frame would be allowed to render images with maximum compression ratio of 12.
-
-    If that frame embedded another child frame of the syntax:
-
-    ```html
-    <iframe allow="unoptimized-images(9)"></iframe>
-    ```
-    then the other child frame would be allowed to render images with maximum compression ratio of 9.
+    then the child frame would be allowed to render images with metadata size limit of 1.5KB and byte-per-pixel ratio of 0.2. 
 
 - The default allowlist for `unoptimized-images` is `*`. This means for pages of all origins, `<img>` elements whose file sizes exceeds the compression ratio will be allowed and rendered correctly.
 
+
+**Future Development**
+
+Image formats affect file size. We want to support different default values for different image formats.
+We want to allow developers to specify the parameters as well. In practice, they would look something like this:
+
+    ```html
+    <iframe allow="unoptimized-images(BMP(1,0.5), JPG(1.5, 0.4)"></iframe>
+    ```
+   + Note: any otherwise unspecified formats will be using the default values. 
 
 - A `unoptimized-images` policy can be specified via:
 
@@ -199,7 +200,7 @@ TODO: introduce a formula here
     ```html
     Feature-Policy: unoptimized-images 'none';
     ```
-    In this example, `unoptimized-images` is disabled for all frames including the main frame. All `<img>` elements whose file sizes exceeds the compression ratio will be rendered with inverted colors.
+    In this example, `unoptimized-images` is disabled for all frames including the main frame. All `<img>` elements whose file sizes exceeds the limit will be rendered as placeholder images.
 
     **2. "allow" attribute in <iframe>:**
     ```html
@@ -223,16 +224,6 @@ TODO: introduce a formula here
  <img src="resources/unoptimized-enabled.png" width="80%"> 
    </td>
   </tr>
-  <tr align="center">
-   <td colspan="2" >
-
-```html
-"example.com"
-<img id="normal-size" src="test.png">
-<img id="oversized" src="test-oversized.png">
-```
-   </td>
-  </tr>
 </table>
 
-For an `<img>` element, if its file size is within the compression limit, the image will be rendered correctly; otherwise the image will be rendered as placeholder images.
+For an `<img>` element, if its file size is within the limit, the image will be rendered correctly; otherwise the image will be rendered as placeholder images.
