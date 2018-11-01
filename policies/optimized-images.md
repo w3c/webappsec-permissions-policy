@@ -203,9 +203,8 @@ When a document is disallowed to use `unoptimized-images` policy, its `<img>` el
 
 Image formats affect file size. We want to support different default values for different image formats.
 We want to allow developers to specify the parameters as well. In practice, they would look something like this:
-
-    ```html
-    <iframe allow="unoptimized-images(BMP(1,0.5), JPG(1.5, 0.4)"></iframe>
+   ```html
+    <iframe allow="unoptimized-images(BMP(1, 0.5), JPG(1.5, 0.4)"></iframe>
     ```
 Note: any otherwise unspecified formats will be using the default values. 
 
