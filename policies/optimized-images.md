@@ -1,4 +1,4 @@
-# Optimized Image Policies Explainer
+#  Image Policies Explainer
 
 loonybear@, last updated: 10/30/2018
 
@@ -20,10 +20,11 @@ Optimized image policies introduce a set of restrictions (policies) on images th
 ### Optimized image policies
 
 *   **["oversized-images" policy](#oversized-images)**
-    *   Images must not be bigger than its container size by more than _**X times***_ .
+    *   Images must not be bigger than its container size by more than _***X times***_ .
 *   **["unoptimized-images" policy](#unoptimized-images)**
     *   Images used in rendering must not include too much metadata.
     *   Images must not be more than _**X bits***_ per compressed pixel.
+    *   Images should be in one of the modern image formats that yield large byte savings and performance improvement.
 
 **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. * means developers will eventrually be able to specify the "value" of the policy. For example, `oversized-images(2)` specifies the maximum ratio (2) images are allowed to be downscaled by.
 
@@ -43,30 +44,30 @@ When a document is disallowed to use `oversized-images` policy, its `<img>` elem
 
 #### Specification
 
-- The default downscaling ratio is 2.
+- The default oversizing ratio is 2.
 
-    **Note**: The goal is to eventually introduce a syntax for specifying the maxmimum downscaling ratio to be allowed.
+    **Note**: The goal is to eventually introduce a syntax for specifying the maxmimum oversizing ratio to be allowed.
 
     In practice, they would look something like this:
 
     ```html
     <iframe allow="oversized-images(4)"></iframe>
     ```
-    That would apply a policy in which the maximum downscaling ratio allowed is set to 4.
+    That would apply a policy in which the maximum oversizing ratio allowed is set to 4.
 
     Feature policies combine in subframes, and the minimum value of the downscaling ratio will be applied, so if that frame embedded another, which the syntax:
 
     ```html
     <iframe allow="oversized-images(5)"></iframe>
     ```
-    then the child frame would be allowed to render images with maximum downscaling ratio of 4.
+    then the child frame would be allowed to render images with maximum oversizing ratio of 4.
 
     If that frame embedded another child frame of the syntax:
 
     ```html
     <iframe allow="oversized-images(3)"></iframe>
     ```
-    then the other child frame would be allowed to render images with maximum downscaling ratio of 3.
+    then the other child frame would be allowed to render images with maximum oversizing ratio of 3.
 
 - The default allowlist for `oversized-images` is `*`. This means for pages of all origins,
 `<img>` elements that are more than X times larger than its container size will be allowed and rendered correctly.
@@ -95,10 +96,10 @@ When a document is disallowed to use `oversized-images` policy, its `<img>` elem
   </tr>
   <tr align="center">
    <td>
-<img src="resources/max-ds-img-disabled0.png" width="80%">
+<img src="resources/max-ds-img-disabled1.png" width="80%">
    </td>
    <td>
-<img src="resources/max-ds-img-enabled0.png" width="80%">
+<img src="resources/max-ds-img-enabled1.png" width="80%">
    </td>
   </tr>
 </table>
@@ -113,10 +114,10 @@ For an `<img>` element, if neither the width or the height of the source image e
   </tr>
   <tr align="center">
    <td>
-<img src="resources/max-ds-img-disabled1.png" width="80%">
+<img src="resources/max-ds-img-disabled0.png" width="80%">
    </td>
    <td>
-<img src="resources/max-ds-img-enabled1.png" width="80%">
+<img src="resources/max-ds-img-enabled0.png" width="80%">
    </td>
   </tr>
 </table>
@@ -148,14 +149,23 @@ For an `<img>` element, if neither the width or the height of the source image e
 
 </a>
 
-When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, or using image compression, is a common way to optimize an image's file size. `unoptimized-images` is a policy controlled feature that restricts images to have a file size (in terms of number of bytes) no more than X times bigger than the image size (width * height) on the web page.
+When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, picking a good image format, and using image compression, are all common ways to optimize an image's file size. `unoptimized-images` is a policy controlled feature that restricts images to have a file size (in terms of number of bytes) no more than X times bigger than the image size (width * height) on the web page.
 
 When a document is disallowed to use `unoptimized-images` policy, its `<img>` elements whose file sizes are too big will be rendered as placeholder images.
 
 
 #### Specification
+TODO: introduce a formula here
+- The default metadata size; default byte per pixel ratio is tentatively 10.
 
-- The default compression ratio is tentatively 10.
+
+
+1. Remove "legacy-image-formats" policy from the explainer
+2. Mention setting different default max compression ratios based on image formats in future development of "unoptimized-images" policy.
+2.a. Mention setting default max compression ratio to 0 for some legacy formats (Also a side note: we still need to find a way of defining what is considered as a good format)
+3. Mention the default ratio can be overridden by web-dev with support of "list-value" 
+
+
 
     **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying their own ratio.
 
