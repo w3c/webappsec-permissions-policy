@@ -217,10 +217,10 @@ TODO: introduce a formula here
   </tr>
   <tr align="center">
    <td>
- <img src="resources/image-compression-disabled.png" width="80%"> 
+ <img src="resources/unoptimized-disabled.png" width="80%"> 
    </td>
    <td>
- <img src="resources/image-compression-enabled.png" width="80%"> 
+ <img src="resources/unoptimized-enabled.png" width="80%"> 
    </td>
   </tr>
   <tr align="center">
