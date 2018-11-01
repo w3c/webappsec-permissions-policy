@@ -184,16 +184,6 @@ When a document is disallowed to use `unoptimized-images` policy, its `<img>` el
 - The default allowlist for `unoptimized-images` is `*`. This means for pages of all origins, `<img>` elements whose file sizes exceeds the compression ratio will be allowed and rendered correctly.
 
 
-**Future Development**
-
-Image formats affect file size. We want to support different default values for different image formats.
-We want to allow developers to specify the parameters as well. In practice, they would look something like this:
-
-    ```html
-    <iframe allow="unoptimized-images(BMP(1,0.5), JPG(1.5, 0.4)"></iframe>
-    ```
-   + Note: any otherwise unspecified formats will be using the default values. 
-
 - A `unoptimized-images` policy can be specified via:
 
     **1. HTTP "feature-policy" response header:**
@@ -207,6 +197,17 @@ We want to allow developers to specify the parameters as well. In practice, they
     <iframe src="https://example.com" allow="unoptimized-images 'self' https://foo.com;">
     ```
     In this example, `unoptimized-images` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+
+
+**Future Development**
+
+Image formats affect file size. We want to support different default values for different image formats.
+We want to allow developers to specify the parameters as well. In practice, they would look something like this:
+
+    ```html
+    <iframe allow="unoptimized-images(BMP(1,0.5), JPG(1.5, 0.4)"></iframe>
+    ```
+Note: any otherwise unspecified formats will be using the default values. 
 
 
 #### Examples
