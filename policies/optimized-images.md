@@ -104,7 +104,7 @@ When a document is disallowed to use `oversized-images` policy, its `<img>` elem
   </tr>
 </table>
 
-For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width of height), the image will be rendered correctly;  if both the width and the height of the source image exceed the limit, the image will be rendered as placeholder image.
+For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width of height), the image will be rendered correctly;  if both the width and the height of the source image exceed the limit, the image will be rendered as a placeholder image.
 
 
 <table>
@@ -122,7 +122,7 @@ For an `<img>` element, if neither the width or the height of the source image e
   </tr>
 </table>
 
-For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the width the source image exceeds the limit, the image will be rendered as placeholder image.
+For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the width the source image exceeds the limit, the image will be rendered as a placeholder image.
 
 
 <table>
@@ -140,7 +140,7 @@ For an `<img>` element, if neither the width or the height of the source image e
   </tr>
 </table>
 
-For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the height the source image exceeds the limit, the image will be rendered as placeholder image.
+For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the height the source image exceeds the limit, the image will be rendered as a placeholder image.
 </br></br>
 
 <a name="unoptimized-images">
@@ -159,7 +159,7 @@ When a document is disallowed to use `unoptimized-images` policy, its `<img>` el
     
    ```metadata size limit + byte-per-pixel ratio * image resolution```
     + For images of one of the modern formates (JPEG, PNG, GIF, WEBP, and SVG)
-        + The default metadata size limit is tentatively 1KB.
+        + The default metadata size limit is tentatively 1KB (1024 bytes).
         + The default byte-per-pixel ratio is tentatively 0.5.
     + For images of other legacy formats   
         + The metadata size limit is set to 0KB.
@@ -170,16 +170,16 @@ When a document is disallowed to use `unoptimized-images` policy, its `<img>` el
     In practice, they would look something like this:
 
     ```html
-    <iframe allow="unoptimized-images(1.5, 0.4)"></iframe>
+    <iframe allow="unoptimized-images(1500, 0.4)"></iframe>
     ```
-    That would apply a policy in which the metadata size limit is set to 1.5KB and the byte-per-pixel ratio is set to 0.4.  
+    That would apply a policy in which the metadata size limit is set to 1500 bytes and the byte-per-pixel ratio is set to 0.4.  
    
     Feature policies combine in subframes, and the minimum value of the parameters will be applied, so if that frame embedded another, which the syntax:
 
     ```html
-    <iframe allow="unoptimized-images(2, 0.2)"></iframe>
+    <iframe allow="unoptimized-images(2048, 0.2)"></iframe>
     ```
-    then the child frame would be allowed to render images with metadata size limit of 1.5KB and byte-per-pixel ratio of 0.2. 
+    then the child frame would be allowed to render images with metadata size limit of 1500 bytes and byte-per-pixel ratio of 0.2. 
 
 - The default allowlist for `unoptimized-images` is `*`. This means for pages of all origins, `<img>` elements whose file sizes exceeds the compression ratio will be allowed and rendered correctly.
 
@@ -224,8 +224,8 @@ For an `<img>` element, if its file size is within the limit, the image will be 
 Image formats affect file size. We want to support different default values for different image formats.
 We want to allow developers to specify the parameters as well. In practice, they would look something like this:
 ```html    
-<iframe allow="unoptimized-images(BMP(1, 0.5), JPG(2, 0.2))"></iframe>
+<iframe allow="unoptimized-images(image/bmp(1, 0.5), image/jpeg(2, 0.2), image/jpg(2, 0.2), img/jpg(2, 0.2))"></iframe>
 ```
-Note: any otherwise unspecified formats will be using the default values. 
+Note: any otherwise unspecified MIME types will be using the default values. 
 
 
