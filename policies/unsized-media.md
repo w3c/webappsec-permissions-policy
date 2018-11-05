@@ -2,7 +2,7 @@
 
 loonybear@, last updated: 4/25/2018
 
-<span style="color:#38761d;">Status: feature landed behind a flag</span>
+<span style="color:#38761d;">Status: available in Chrome behind a flag</span>
 
 
 ## Goal
