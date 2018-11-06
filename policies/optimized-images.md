@@ -224,7 +224,7 @@ For an `<img>` element, if its file size is within the limit, the image will be 
 Image formats affect file size. We want to support different default values for different image formats.
 We want to allow developers to specify the parameters as well. In practice, they would look something like this:
 ```html    
-<iframe allow="unoptimized-images(image/bmp(1, 0.5), image/jpeg(2, 0.2), image/jpg(2, 0.2), img/jpg(2, 0.2))"></iframe>
+<iframe allow="unoptimized-images(image/bmp(1, 0.5), image/jpeg(2, 0.2))"></iframe>
 ```
 Note: any otherwise unspecified MIME types will be using the default values. 
 
