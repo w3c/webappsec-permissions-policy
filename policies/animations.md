@@ -18,7 +18,7 @@ In order to support such animations, the browser has to constantly update the va
 all of these properties, and then calculate all their effects on the page; ideally, this has
 to has to be done sixty times per second.
 
-When properties such as `size` or `position` are changed in an animation, many other 
+When properties affecting size or position are changed in an animation, many other 
 elements on the page to have to be moved around constantly (*layout and re-layout*), and 
 browsers can struggle to keep up. When that happens, the result is a potentially stuttering
 animation and a poorly performing and non-responsive web page; sometimes even the entire *machine*
@@ -49,8 +49,11 @@ When properties are not interpolable -- there is no such thing as an
 intermediate state -- and such properties are "animated" by simply jumping
 from the initial to the final value at some point during the animation.
 
-The proposed method for blocking animations is the same: the animation involves a
-single jump at the midpoint of the animation interval.
+The proposed method for blocking animations is similar to the concept of
+[discrete animations](https://drafts.csswg.org/web-animations-1/#discrete)
+(for noninterpolable animations) with
+[linear timing function](https://drafts.csswg.org/css-easing-1/#linear-timing-function-section):
+the animation involves a single jump at the midpoint of the animation interval.
 
 A potential solution: `layout-animations` policy-controlled feature
 ------------
