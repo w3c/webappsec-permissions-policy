@@ -155,7 +155,7 @@ The *sync-xhr* feature controls whether synchronous requests can be made through
 If disabled in a document, then calls to [`send()`](https://xhr.spec.whatwg.org/#the-send()-method) on `XMLHttpRequest` objects with the synchronous flag set will fail, causing a NetworkError DOMException to be thrown.
 
 * The **feature name** for *sync-xhr* is "`sync-xhr`"
-* The **default allowlist** for *speaker* is `*`.
+* The **default allowlist** for *sync-xhr* is `*`.
 
 ### usb
 
