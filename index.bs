@@ -488,20 +488,28 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   &lt;script&gt;
    const policy = document.featurePolicy;
 
-   // This will be true if this document can use WebUSB
+   // This will be true if this document can use WebUSB.
    const can_use_usb = policy.allowsFeature('usb');
 
-   // True if a new frame at https://example.com will be allowed to use WebVR
+   // True if a new frame at https://example.com will be allowed to use WebVR.
    if (policy.allowsFeature('vr', 'https://example.com')) {
-     // Show UI to create frame at https://example.com
+     // Show UI to create frame at https://example.com.
    } else {
-     // Show an alternative UI
+     // Show an alternative UI.
    }
 
    // Get the list of origins which are allowed to request payment. The result
    // will be a list of explicit origins, or the single element ['\*'] if all
    // origins are allowed.
    const allowed_payment_origins = policy.getAllowlistForFeature('payment');
+
+   // Get the list of all features supported in this document (even those
+   // which are not allowed). The result will be an array of strings, each
+   // representing a feature.
+   const all_features = policy.features();
+   if (all_features.includes('geolocation')) {
+     // Append a child frame to a third-party map service.
+   }
   &lt;/script&gt;
   </pre>
   </div>
@@ -565,6 +573,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 [NoInterfaceObject]
 interface FeaturePolicy {
   boolean <a>allowsFeature</a>(DOMString feature, optional DOMString origin);
+  sequence&lt;DOMString&gt; <a>features</a>();
   sequence&lt;DOMString&gt; <a>allowedFeatures</a>();
   sequence&lt;DOMString&gt; <a>getAllowlistForFeature</a>(DOMString feature);
 };
