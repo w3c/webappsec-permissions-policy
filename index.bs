@@ -945,6 +945,24 @@ partial interface HTMLIFrameElement {
     <ol>
       <li>Let <var>context</var> be <var>document</var>'s <a>browsing
       context</a>.</li>
+      <li>If <var>context</var> is an [=auxiliary browsing context=]:
+        <ol>
+          <li>Let <var>opener</var> be <var>context</var>'s [=opener browsing
+          context=]'s [=active document=].</li>
+          <li>If either <var>context</var> is not <a
+          lt="disown its opener">disowned</a>, or <var>opener</var>'s <a>sandbox
+          propagates to auxiliary browsing contexts flag</a> is set:
+            <ol>
+              <li>Let <var>origin</var> be <var>opener</var>'s [=origin=]</li>
+              <li>If <a href="#is-feature-enabled"><var>feature</var> is enabled
+              in <var>opener</var> for <var>origin</var></a>, return
+	      "<code>Enabled</code>".
+              </li>
+              <li>Otherwise, return "<code>Disabled</code>".</li>
+            </ol>
+          </li>
+       </ol>
+      </li>
       <li>If <var>context</var> is a [=nested browsing context=], return the
         result of executing <a href="#define-inherited-policy-in-container"></a>
         for <var>feature</var> in <var>context</var>'s <a>browsing context
