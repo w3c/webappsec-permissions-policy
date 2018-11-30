@@ -1212,9 +1212,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 0da7328bb90ef81993146377e4e0fed236969c4c" name="generator">
+  <meta content="Bikeshed version f9fa604b61e5fc96edf5cdebd2c04e0e69b33a7b" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="f234bf40f2d9ae34f2e9263b1625c9cd51343cf5" name="document-revision">
+  <meta content="79721ff8a7d61a11672d876491c10015c3e130fe" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-11-22">22 November 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-11-30">30 November 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1745,18 +1745,19 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li>An <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy">inherited policy</a>. 
       <li>A <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy">declared policy</a>. 
      </ul>
-     <p>An <dfn data-dfn-type="dfn" data-noexport id="empty-feature-policy">empty feature policy<a class="self-link" href="#empty-feature-policy"></a></dfn> is a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①">feature policy</a> that has
-    an <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy①">inherited policy</a> which contains "<code>Enabled</code>" for every <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features">supported feature</a>, and a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①">declared policy</a> which is an empty
-    map.</p>
+     <p>An <dfn data-dfn-type="dfn" data-export id="empty-feature-policy">empty feature policy<a class="self-link" href="#empty-feature-policy"></a></dfn> is a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①">feature policy</a> that
+    has an <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy①">inherited policy</a> which contains "<code>Enabled</code>" for
+    every <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features">supported feature</a>, and a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①">declared policy</a> which is an
+    empty map.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.3" id="inherited-policies"><span class="secno">4.3. </span><span class="content">Inherited policies</span><a class="self-link" href="#inherited-policies"></a></h3>
      <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="inherited policy|inherited policies" data-noexport id="inherited-policy">inherited
     policy</dfn> is an ordered map from <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑥">features</a> to either
     "<code>Enabled</code>" or "<code>Disabled</code>".</p>
-     <p>The <dfn data-dfn-type="dfn" data-noexport id="inherited-policy-for-a-feature">inherited policy for a feature<a class="self-link" href="#inherited-policy-for-a-feature"></a></dfn> <var>feature</var> is the
-    value in the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy②">inherited policy</a> whose key is <var>feature</var>. After
-    a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy②">feature policy</a> has been initialized, its <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy③">inherited policy</a> will contain a value for each <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features①">supported feature</a>.</p>
+     <p>The <dfn data-dfn-type="dfn" data-export id="inherited-policy-for-a-feature">inherited policy for a feature<a class="self-link" href="#inherited-policy-for-a-feature"></a></dfn> <var>feature</var> is the value in the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy②">inherited policy</a> whose key is <var>feature</var>.
+    After a <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy②">feature policy</a> has been initialized, its <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy③">inherited
+    policy</a> will contain a value for each <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features①">supported feature</a>.</p>
      <div class="note" role="note">
       <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
@@ -1923,7 +1924,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <section>
       <h4 class="heading settled" data-level="6.3.2" id="iframe-allowpaymentrequest-attribute"><span class="secno">6.3.2. </span><span class="content">allowpaymentrequest</span><a class="self-link" href="#iframe-allowpaymentrequest-attribute"></a></h4>
       <p>The "<code>allowpaymentrequest</code>" iframe attribute controls
-      access to <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#paymentrequest" id="ref-for-paymentrequest">paymentrequest</a>.</p>
+      access to <a data-link-type="dfn" href="https://w3c.github.io/payment-request/#dom-paymentrequest" id="ref-for-dom-paymentrequest">PaymentRequest</a>.</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
       value contains the token "<code>payment</code>", then the
       "<code>allowpaymentrequest</code>" attribute must have no effect.</p>
@@ -3059,12 +3060,6 @@ set to "enforce".</p>
     document for origin?</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-paymentrequest">
-   <a href="https://html.spec.whatwg.org/multipage/infrastructure.html#paymentrequest">https://html.spec.whatwg.org/multipage/infrastructure.html#paymentrequest</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-paymentrequest">6.3.2. allowpaymentrequest</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-same-origin-domain">
    <a href="https://html.spec.whatwg.org/multipage/origin.html#same-origin-domain">https://html.spec.whatwg.org/multipage/origin.html#same-origin-domain</a><b>Referenced in:</b>
    <ul>
@@ -3144,6 +3139,12 @@ set to "enforce".</p>
    <a href="https://infra.spec.whatwg.org/#strictly-split">https://infra.spec.whatwg.org/#strictly-split</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-strictly-split">9.3. Parse policy directive</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-paymentrequest">
+   <a href="https://w3c.github.io/payment-request/#dom-paymentrequest">https://w3c.github.io/payment-request/#dom-paymentrequest</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-paymentrequest">6.3.2. allowpaymentrequest</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-report-type">
@@ -3256,7 +3257,6 @@ set to "enforce".</p>
      <li><span class="dfn-paneled" id="term-for-the-iframe-element" style="color:initial">iframe</span>
      <li><span class="dfn-paneled" id="term-for-nested-browsing-context" style="color:initial">nested browsing context</span>
      <li><span class="dfn-paneled" id="term-for-concept-origin" style="color:initial">origin</span>
-     <li><span class="dfn-paneled" id="term-for-paymentrequest" style="color:initial">paymentrequest</span>
      <li><span class="dfn-paneled" id="term-for-same-origin-domain" style="color:initial">same origin-domain</span>
      <li><span class="dfn-paneled" id="term-for-attr-iframe-sandbox" style="color:initial">sandbox</span>
      <li><span class="dfn-paneled" id="term-for-sandboxed-origin-browsing-context-flag" style="color:initial">sandboxed origin browsing context flag</span>
@@ -3273,6 +3273,11 @@ set to "enforce".</p>
      <li><span class="dfn-paneled" id="term-for-split-on-ascii-whitespace" style="color:initial">split on ascii whitespace</span>
      <li><span class="dfn-paneled" id="term-for-split-on-commas" style="color:initial">split on commas</span>
      <li><span class="dfn-paneled" id="term-for-strictly-split" style="color:initial">strictly split</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[payment-request]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dom-paymentrequest" style="color:initial">paymentrequest</span>
     </ul>
    <li>
     <a data-link-type="biblio">[REPORTING]</a> defines the following terms:
@@ -3317,6 +3322,8 @@ set to "enforce".</p>
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
+   <dt id="biblio-payment-request">[PAYMENT-REQUEST]
+   <dd>Adrian Bateman; et al. <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>. 30 August 2018. CR. URL: <a href="https://www.w3.org/TR/payment-request/">https://www.w3.org/TR/payment-request/</a>
    <dt id="biblio-reporting">[REPORTING]
    <dd><a href="https://wicg.github.io/reporting/">Reporting API</a>. Living Standard. URL: <a href="https://wicg.github.io/reporting/">https://wicg.github.io/reporting/</a>
    <dt id="biblio-reporting-1">[REPORTING-1]
