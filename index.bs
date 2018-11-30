@@ -18,7 +18,6 @@ spec:fetch; type:dfn; for:Response; text:response
 spec:html; type:dfn; for:/; text:browsing context
 spec:html; type:element; text:script
 spec:html; type:element; text:link
-spec:html; type:method; text:getUserMedia()
 spec:html; type:dfn; text:paymentrequest
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
