@@ -1214,7 +1214,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version f9fa604b61e5fc96edf5cdebd2c04e0e69b33a7b" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="79721ff8a7d61a11672d876491c10015c3e130fe" name="document-revision">
+  <meta content="7a11597d5e4aeb9949eeb124f552473c61393def" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1546,7 +1546,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        <ol class="toc">
         <li><a href="#iframe-allowfullscreen-attribute"><span class="secno">6.3.1</span> <span class="content">allowfullscreen</span></a>
         <li><a href="#iframe-allowpaymentrequest-attribute"><span class="secno">6.3.2</span> <span class="content">allowpaymentrequest</span></a>
-        <li><a href="#iframe-allowusermedia-attribute"><span class="secno">6.3.3</span> <span class="content">allowusermedia</span></a>
        </ol>
      </ol>
     <li>
@@ -1791,8 +1790,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <div class="note" role="note"> Currently, the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy③">container policy</a> cannot be set directly, but is
       indirectly set by <code>iframe</code> "<a href="#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
       "<a href="#iframe-allowpaymentrequest-attribute"><code>allowpaymentrequest</code></a>",
-      "<a href="#iframe-allowusermedia-attribute"><code>allowusermedia</code></a>", and
-      "<a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
+      "and <a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
       Future revisions to this spec may introduce a mechanism to explicitly
       declare the full <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>. </div>
     </section>
@@ -1935,26 +1933,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         allow="payment"></code>, and is for compatibility with existing uses
         of <code>allowpaymentrequest</code>. If <code>allow="payment"</code> and <code>allowpaymentrequest</code> are both present on an iframe
         element, then the more restrictive allowlist of <code>allow="payment"</code> will be used. </div>
-     </section>
-     <section>
-      <h4 class="heading settled" data-level="6.3.3" id="iframe-allowusermedia-attribute"><span class="secno">6.3.3. </span><span class="content">allowusermedia</span><a class="self-link" href="#iframe-allowusermedia-attribute"></a></h4>
-      <p>The "<code>allowusermedia</code>" iframe attribute controls
-      access to <a class="idl-code" data-link-type="method">getUserMedia()</a>.</p>
-      <p>If the iframe element has an "<code>allow</code>" attribute whose
-      value contains the token "<code>payment</code>", then the
-      "<code>allowusermedia</code>" attribute must have no effect.</p>
-      <p>Otherwise, the presence of an "<code>allowusermedia</code>" attribute
-      on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⓪">allowlist</a> of <code>*</code> for each of the "<code>camera</code>" and "<code>microphone</code>"
-      features to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑦">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑧">container policy</a>,
-      when it is constructed.</p>
-      <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
-        allow="camera; microphone"></code>, and is for compatibility with
-        existing uses of <code>allowusermedia</code>. If <code>allow="camera;
-        microphone"</code> and <code>allowusermedia</code> are both present on
-        an iframe element, then the more restrictive allowlist of <code>allow="camera; microphone"</code> will be used. Similarly, if only
-        one of <code>allow="camera"</code> or <code>allow="microphone"</code> is
-        present, then the more restrictive allowlist will be used for that
-        feature, while the other will use the less restrictive <code>*</code>. </div>
      </section>
     </section>
    </section>
@@ -2303,7 +2281,7 @@ set to "enforce".</p>
         <li>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑤">policy-controlled feature</a>, then continue.
         <li>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑥">policy-controlled feature</a> identified by <var>feature-name</var>.
         <li>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>. 
-        <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a>. 
+        <li>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⓪">allowlist</a>. 
         <li>If any element of <var>targetlist</var> is the string
           "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value①">the special value <code>*</code></a>.
         <li>
@@ -2351,7 +2329,7 @@ set to "enforce".</p>
     <section>
      <h3 class="heading settled" data-level="9.5" id="process-feature-policy-attributes"><span class="secno">9.5. </span><span class="content">Process feature policy
     attributes</span><a class="self-link" href="#process-feature-policy-attributes"></a></h3>
-     <p>Given an element (<var>element</var>), this algorithm returns a <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑨">container policy</a>, which may be empty.</p>
+     <p>Given an element (<var>element</var>), this algorithm returns a <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑧">container policy</a>, which may be empty.</p>
      <ol>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑦">policy directive</a>. 
       <li>Let <var>container policy</var> be the result of running <a href="#parse-policy-directive">Parse policy directive</a> on the value of <var>element</var>’s <code>allow</code> attribute, with <var>container
@@ -2377,25 +2355,6 @@ set to "enforce".</p>
           <li>Construct a new declaration for <code>payment</code>, whose
               allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value③">the special value <code>*</code></a>.
           <li>Add <var>declaration</var> to <var>container policy</var>. 
-         </ol>
-        <li>
-         If <var>element</var>’s <code>allowusermedia</code> attribute is specified: 
-         <ol>
-          <li>
-           If <var>container policy</var> does not contain an allowlist
-              for <code>camera</code>, 
-           <ol>
-            <li>Construct a new declaration for <code>camera</code>, whose
-                  allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value④">the special value <code>*</code></a>.
-            <li>Add <var>declaration</var> to <var>policy</var>.
-           </ol>
-          <li>
-           If <var>policy</var> does not contain an allowlist for <code>microphone</code>, 
-           <ol>
-            <li>Construct a new declaration for <code>microphone</code>,
-                  allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value⑤">the special value <code>*</code></a>.
-            <li>Add <var>declaration</var> to <var>container policy</var>. 
-           </ol>
          </ol>
        </ol>
       <li>Return <var>container policy</var>.
@@ -2451,7 +2410,7 @@ set to "enforce".</p>
      <ol>
       <li>Let <var>context</var> be <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing
       context</a>.
-      <li>If <var>context</var> is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑧">nested browsing context</a>, return the
+      <li>If <var>context</var> is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑦">nested browsing context</a>, return the
         result of executing <a href="#define-inherited-policy-in-container">§9.9 Define an inherited policy for
     feature in container at origin</a> for <var>feature</var> in <var>context</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container①">browsing context
 	container</a> at <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑧">origin</a>.
@@ -2471,7 +2430,7 @@ set to "enforce".</p>
       <li>
        If <var>feature</var> is a key in <var>container policy</var>: 
        <ol>
-        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a> for <var>feature</var> in <var>container policy</var> does not <a data-link-type="dfn" href="#matches" id="ref-for-matches">match</a> <var>origin</var>,
+        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a> for <var>feature</var> in <var>container policy</var> does not <a data-link-type="dfn" href="#matches" id="ref-for-matches">match</a> <var>origin</var>,
           return "<code>Disabled</code>". 
         <li>If <a href="#is-feature-enabled"><var>feature</var> is enabled in <var>parent</var> for <var>parent</var>’s <var>origin</var></a>,
           return "<code>Enabled</code>". 
@@ -2495,7 +2454,7 @@ set to "enforce".</p>
        If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑥">declared
       policy</a>: 
        <ol>
-        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
+        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
         <li>Otherwise return "<code>Disabled</code>".
        </ol>
       <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist③">default allowlist</a> is <code>*</code>, return "<code>Enabled</code>". 
@@ -3038,8 +2997,7 @@ set to "enforce".</p>
     iframe element</a>
     <li><a href="#ref-for-nested-browsing-context⑤">6.3.1. allowfullscreen</a>
     <li><a href="#ref-for-nested-browsing-context⑥">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-nested-browsing-context⑦">6.3.3. allowusermedia</a>
-    <li><a href="#ref-for-nested-browsing-context⑧">9.8. Define an inherited policy for
+    <li><a href="#ref-for-nested-browsing-context⑦">9.8. Define an inherited policy for
     feature in document</a>
    </ul>
   </aside>
@@ -3460,8 +3418,7 @@ set to "enforce".</p>
     iframe element</a>
     <li><a href="#ref-for-container-policy⑥">6.3.1. allowfullscreen</a>
     <li><a href="#ref-for-container-policy⑦">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-container-policy⑧">6.3.3. allowusermedia</a>
-    <li><a href="#ref-for-container-policy⑨">9.5. Process feature policy
+    <li><a href="#ref-for-container-policy⑧">9.5. Process feature policy
     attributes</a>
    </ul>
   </aside>
@@ -3491,11 +3448,10 @@ set to "enforce".</p>
     iframe element</a>
     <li><a href="#ref-for-allowlist⑧">6.3.1. allowfullscreen</a>
     <li><a href="#ref-for-allowlist⑨">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-allowlist①⓪">6.3.3. allowusermedia</a>
-    <li><a href="#ref-for-allowlist①①">9.3. Parse policy directive</a>
-    <li><a href="#ref-for-allowlist①②">9.9. Define an inherited policy for
+    <li><a href="#ref-for-allowlist①⓪">9.3. Parse policy directive</a>
+    <li><a href="#ref-for-allowlist①①">9.9. Define an inherited policy for
     feature in container at origin</a>
-    <li><a href="#ref-for-allowlist①③">9.10. Is feature enabled in
+    <li><a href="#ref-for-allowlist①②">9.10. Is feature enabled in
     document for origin?</a>
    </ul>
   </aside>
@@ -3505,7 +3461,7 @@ set to "enforce".</p>
     <li><a href="#ref-for-the-special-value">4.8. Allowlists</a>
     <li><a href="#ref-for-the-special-value①">9.3. Parse policy directive</a>
     <li><a href="#ref-for-the-special-value②">9.5. Process feature policy
-    attributes</a> <a href="#ref-for-the-special-value③">(2)</a> <a href="#ref-for-the-special-value④">(3)</a> <a href="#ref-for-the-special-value⑤">(4)</a>
+    attributes</a> <a href="#ref-for-the-special-value③">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="matches">
