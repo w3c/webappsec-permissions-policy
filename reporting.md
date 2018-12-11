@@ -73,23 +73,14 @@ run, and the user will be bombarded by annoying popups every time it happens.
 What about the frames I embed? Can I get reports for those, too?
 -------------
 
-This is also possible, but the rules are a little bit different. Because of the
-same-origin-policy, we don't want to leak information to a parent frame about
-what a cross-origin child frame is doing. We take two different precautions to
-avoid this as far as possible:
+At the moment, this isn't possible. There are many privacy concerns around being
+able to observe behaviour, no matter how subtle, in third-party frames.
+Cooperating frames may be able to get around this restriction by communicating
+with each other using `postMessage()`, observing reports in one frame and relaying
+them to the other, but without a mechanism to ensure mutual trust between frames,
+there is no way to unilaterally set up reporting from the embedder.
 
-First, feature policy violation reports which come from a cross-origin child
-frame are not observable in JavaScript. A `ReportingObserver` object will not see
-them at all.
-
-Second, reports which are normally delivered directly to the service in the
-`Report-To` header will instead be anonymized and aggregated. The reports are
-first delivered to an aggregation server, which will hold on to them until it
-has received enough reports, from different users, for a given violation, that
-it can generate a single aggregate report. This report will be stripped of
-identifying data, and will include a count to indicate how many times it was
-triggered. The aggregate report will then be delivered to the original
-reporting endpoint that was specified in the header.
+[This is an area we'd like to improve -- see [previous versions of this document](https://github.com/WICG/feature-policy/blob/ea8085c74eef65de8eef81c1e23c1980497a7ed7/reporting.md) for some ideas.]
 
 Can I just trigger reports, without actually enforcing the policy?
 -------------
