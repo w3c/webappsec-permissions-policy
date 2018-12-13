@@ -1057,18 +1057,17 @@ partial interface HTMLIFrameElement {
     <h3 id="should-request-be-allowed-to-use-feature">Should <var>request</var> be allowed to use <var>feature</var>?</h3>
     <p>Given a feature (<var>feature</var>) and a  <a for="/">request</a> (<var>request</var>), this algorithm returns <code>true</code> if the request should be allowed to use <var>feature</var>, and <code>false</code> otherwise.</p>
     <ol>
-      <li>Set |global object| to |request|’s <a for="request">client</a>’s <a for="environment settings object">global object</a>.</li>
-      <li>Set |document| to null.</li>
-      <li>If |global object| is a {{Document}}, set |document| to |global object|.</li>
-      <li>If |global object| is a {{Window}}, set |document| to |global object|’s <a>associated `Document`</a>.</li>
-      <li>If |document| is null, return <code>false</code>.
-        <div class="issue">How can we enable secure use of policy-controlled features within requests initiated by clients that do not have documents? e.g., from within {{WorkerGlobalScope}}s or {{WorkletGlobalScope}}s, i.e., within Service Workers?</div>
+      <li>Set |window| to |request|’s <a for="request">window</a>.</li>
+      <li>If |window| is not a {{Window}}, return <code>false</code>.
+       <div class="issue">Feature Policy within `no-window` contexts ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. *Until* that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
+       <div class="issue">Could this algorithm be run before fetching starts, when |request|’s <a for="request">window</a> is still the string `'client'`?</div>
       </li>
+      <li>Set |document| to |window|’s <a>associated `Document`</a>.</li>
       <li>Let |origin| be |request|’s <a for="request">URL</a>’s <a for="url">origin</a>.</li>
       <li>Let |result| be the result of executing <a href="is-feature-enabled">Is feature enabled in document for origin?</a> on |feature|, |document|, and |origin|.
       </li>
       <li>If |result| is "<code>Enabled</code>", return <code>true</code>.</li>
-      <li>Otherwise, return <code>false</code></li>
+      <li>Otherwise, return <code>false</code>.</li>
     </ol>
   </section>
 </section>
