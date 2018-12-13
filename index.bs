@@ -619,8 +619,14 @@ partial interface HTMLIFrameElement {
     3. If |feature| is allowed by |policy| for |origin|, return true.
     4. Otherwise, return false.
 
+    <p>The {{features()}} method must run the following steps:
+    1. Set |result| to an empty ordered set.
+    2. For each <a>supported feature</a> |feature|:
+        1. Append |feature| to |result|.
+    3. return result
+
     <p>The {{allowedFeatures()}} method must run the following steps:
-    1. Set |result| to an empty list
+    1. Set |result| to an empty ordered set.
     2. Let |origin| be this {{FeaturePolicy}} object's <a>default origin</a>.
     3. Let |policy| be the <a>observable policy</a> for this {{FeaturePolicy}}
         object's <a>associated node</a>.
