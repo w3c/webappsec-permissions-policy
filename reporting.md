@@ -73,23 +73,14 @@ run, and the user will be bombarded by annoying popups every time it happens.
 What about the frames I embed? Can I get reports for those, too?
 -------------
 
-This is also possible, but the rules are a little bit different. Because of the
-same-origin-policy, we don't want to leak information to a parent frame about
-what a cross-origin child frame is doing. We take two different precautions to
-avoid this as far as possible:
+At the moment, this isn't possible. There are many privacy concerns around being
+able to observe behaviour, no matter how subtle, in third-party frames.
+Cooperating frames may be able to get around this restriction by communicating
+with each other using `postMessage()`, observing reports in one frame and relaying
+them to the other, but without a mechanism to ensure mutual trust between frames,
+there is no way to unilaterally set up reporting from the embedder.
 
-First, feature policy violation reports which come from a cross-origin child
-frame are not observable in JavaScript. A `ReportingObserver` object will not see
-them at all.
-
-Second, reports which are normally delivered directly to the service in the
-`Report-To` header will instead be anonymized and aggregated. The reports are
-first delivered to an aggregation server, which will hold on to them until it
-has received enough reports, from different users, for a given violation, that
-it can generate a single aggregate report. This report will be stripped of
-identifying data, and will include a count to indicate how many times it was
-triggered. The aggregate report will then be delivered to the original
-reporting endpoint that was specified in the header.
+[This is an area we'd like to improve -- see [previous versions of this document](https://github.com/WICG/feature-policy/blob/ea8085c74eef65de8eef81c1e23c1980497a7ed7/reporting.md) for some ideas.]
 
 Can I just trigger reports, without actually enforcing the policy?
 -------------
@@ -97,29 +88,33 @@ Can I just trigger reports, without actually enforcing the policy?
 Yes! In addition to using feature policy to disable features, you can use it
 tentatively, to ask "what would break, if I used this policy?".
 
-To do this, you can specify a "report-only" policy for any given feature. In
-the policy declaration, you use the feature name with "`-report-only`" appended,
-and specify the list of origins where the feature would be allowed, like with
-any other policy.
+To do this, you can specify a "report-only" policy for any given feature. Like
+[Content Security Policy](https://w3c.github.io/webappsec-csp/#cspro-header),
+this uses a separate HTTP header, in this case named `Feature-Policy-Report-Only`.
+This policy looks like any other policy, but can specify features which, even if
+allowed, should trigger reporting when used.
+
+The report-only policy is a separate policy attached to the document served with
+the header. Like the enforcing policy, it inherits from the document's parent
+frame, if any, but the header can be used to further restrict the set of features
+which should be allowed.
+
+(Note that a [previous version of this document](https://github.com/WICG/feature-policy/blob/670fe1b4b7d12752f307fd9eecccb6558b0b0d83/reporting.md) used a special
+suffix for report-only policies, and combined enforcing and reporting policies in
+the same declarations. This has changed to better reflect the fact that the
+report-only policy is local to the current document and does not affect child
+frames at all.)
 
 ```http
-Feature-Policy: sync-xhr-report-only 'none'
+Feature-Policy-Report-Only: sync-xhr 'none'
 ```
 
-```html
-<iframe allow="fullscreen-report-only https://video.example.com" src="..."></iframe>
-```
-
-If the frame, and all of its ancestors up to the top-level document, all agree
-that the feature should either be allowed, or should be report-only, then a
-page which uses the feature will see it succeed (as usual), but a report will
-be sent to the Reporting API endpoints of each frame which said 'report-only'.
+If the enforcing policy for the frame is such that the feature should be allowed,
+but the reporting policy disallows it, then a page which uses the feature will see it
+succeed (as usual), but a report will be sent to the frame's Reporting API endpoint.
 
 The report looks much like a feature policy violation report, but the
 `"disposition"` field is set to `"report"` rather than `"enforce"`.
-
-If they are generated in a cross-origin frame, these reports will be aggregated
-before delivery, just like the actual violation reports.
 
 Note that if any ancestor frame actually disables the feature using a policy,
 then it will actually be blocked, and a violation report will be generated

@@ -18,12 +18,13 @@ spec:fetch; type:dfn; for:Response; text:response
 spec:html; type:dfn; for:/; text:browsing context
 spec:html; type:element; text:script
 spec:html; type:element; text:link
-spec:html; type:method; text:getUserMedia()
-spec:html; type:dfn; text:paymentrequest
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
 </pre>
 <pre class="anchors">
+spec:payment-request; urlPrefix: https://w3c.github.io/payment-request/
+  type: dfn
+    text: PaymentRequest; url: dom-paymentrequest
 spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   type: dfn
     text: report type
@@ -190,10 +191,10 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
       <li>A <a data-lt="declared policy">declared policy</a>.
       </li>
     </ul>
-    <p>An <dfn>empty feature policy</dfn> is a <a>feature policy</a> that has
-    an <a>inherited policy</a> which contains "<code>Enabled</code>" for every
-    <a>supported feature</a>, and a <a>declared policy</a> which is an empty
-    map.</p>
+    <p>An <dfn export>empty feature policy</dfn> is a <a>feature policy</a> that
+    has an <a>inherited policy</a> which contains "<code>Enabled</code>" for
+    every <a>supported feature</a>, and a <a>declared policy</a> which is an
+    empty map.</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
@@ -201,10 +202,10 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     policy</dfn> is an ordered map from <a
     data-lt="policy-controlled feature">features</a> to either
     "<code>Enabled</code>" or "<code>Disabled</code>".</p>
-    <p>The <dfn>inherited policy for a feature</dfn> <var>feature</var> is the
-    value in the <a>inherited policy</a> whose key is <var>feature</var>. After
-    a <a>feature policy</a> has been initialized, its <a>inherited policy</a>
-    will contain a value for each <a>supported feature</a>.</p>
+    <p>The <dfn export>inherited policy for a feature</dfn> <var>feature</var>
+    is the value in the <a>inherited policy</a> whose key is <var>feature</var>.
+    After a <a>feature policy</a> has been initialized, its <a>inherited
+    policy</a> will contain a value for each <a>supported feature</a>.</p>
     <div class="note">
     <p>Each document in a frame tree inherits a set of policies from its parent
     frame, or in the case of the top-level document, from the defined defaults
@@ -248,9 +249,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
       "#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
       "<a href=
       "#iframe-allowpaymentrequest-attribute"><code>allowpaymentrequest</code></a>",
-      "<a href=
-      "#iframe-allowusermedia-attribute"><code>allowusermedia</code></a>", and
-      "<a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
+      "and <a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
       Future revisions to this spec may introduce a mechanism to explicitly
       declare the full <a>container policy</a>.
     </div>
@@ -407,7 +406,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <section>
       <h4 id="iframe-allowpaymentrequest-attribute">allowpaymentrequest</h4>
       <p>The "<code>allowpaymentrequest</code>" iframe attribute controls
-      access to <a>paymentrequest</a>.</p>
+      access to <a>PaymentRequest</a>.</p>
       <p>If the iframe element has an "<code>allow</code>" attribute whose
       value contains the token "<code>payment</code>", then the
       "<code>allowpaymentrequest</code>" attribute must have no effect.</p>
@@ -422,30 +421,6 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
         and <code>allowpaymentrequest</code> are both present on an iframe
         element, then the more restrictive allowlist of
         <code>allow="payment"</code> will be used.
-      </div>
-    </section>
-    <section>
-      <h4 id="iframe-allowusermedia-attribute">allowusermedia</h4>
-      <p>The "<code>allowusermedia</code>" iframe attribute controls
-      access to <a method>getUserMedia()</a>.</p>
-      <p>If the iframe element has an "<code>allow</code>" attribute whose
-      value contains the token "<code>payment</code>", then the
-      "<code>allowusermedia</code>" attribute must have no effect.</p>
-      <p>Otherwise, the presence of an "<code>allowusermedia</code>" attribute
-      on an iframe will result in adding an <a>allowlist</a> of <code>*</code>
-      for each of the "<code>camera</code>" and "<code>microphone</code>"
-      features to the [=nested browsing context=]'s <a>container policy</a>,
-      when it is constructed.</p>
-      <div class="note">
-        This is different from the behaviour of <code>&lt;iframe
-        allow="camera; microphone"&gt;</code>, and is for compatibility with
-        existing uses of <code>allowusermedia</code>. If <code>allow="camera;
-        microphone"</code> and <code>allowusermedia</code> are both present on
-        an iframe element, then the more restrictive allowlist of
-        <code>allow="camera; microphone"</code> will be used. Similarly, if only
-        one of <code>allow="camera"</code> or <code>allow="microphone"</code> is
-        present, then the more restrictive allowlist will be used for that
-        feature, while the other will use the less restrictive <code>*</code>.
       </div>
     </section>
   </section>
@@ -895,28 +870,6 @@ partial interface HTMLIFrameElement {
               <li>Construct a new declaration for <code>payment</code>, whose
               allowlist is <a>the special value <code>*</code></a>.</li>
               <li>Add <var>declaration</var> to <var>container policy</var>.
-              </li>
-            </ol>
-          </li>
-          <li>If <var>element</var>'s <code>allowusermedia</code>
-          attribute is specified:
-            <ol>
-              <li>If <var>container policy</var> does not contain an allowlist
-              for <code>camera</code>,
-                <ol>
-                  <li>Construct a new declaration for <code>camera</code>, whose
-                  allowlist is <a>the special value <code>*</code></a>.</li>
-                  <li>Add <var>declaration</var> to <var>policy</var>.</li>
-                </ol>
-              </li>
-              <li>If <var>policy</var> does not contain an allowlist for
-              <code>microphone</code>,
-                <ol>
-                  <li>Construct a new declaration for <code>microphone</code>,
-                  allowlist is <a>the special value <code>*</code></a>.</li>
-                  <li>Add <var>declaration</var> to <var>container policy</var>.
-                  </li>
-                </ol>
               </li>
             </ol>
           </li>
