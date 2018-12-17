@@ -76,11 +76,11 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 <section>
   <h2 id="examples">Examples</h2>
   <div class="example">
-    <p>SecureCorp Inc. wants to disable use of Vibration and Geolocation APIs
+    <p>SecureCorp Inc. wants to disable use of Fullscreen and Geolocation APIs
     within their application. It can do so by delivering the following HTTP
     response header to define a feature policy:</p>
     <pre>
-      <a http-header>Feature-Policy</a>: vibrate 'none'; geolocation 'none'</pre>
+      <a http-header>Feature-Policy</a>: fullscreen 'none'; geolocation 'none'</pre>
     <p>By specifying the "<code>'none'</code>"keyword for the origin list, the
     specified features will be disabled for all browsing contexts, regardless of
     their origin.</p>
