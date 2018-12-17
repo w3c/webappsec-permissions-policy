@@ -1214,7 +1214,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 08a3aa6cd90c2ebe41f3584121332afe3c71d780" name="generator">
   <link href="https://wicg.github.io/feature-policy/" rel="canonical">
-  <meta content="65893840aba5ddd677654991796da643bbfc5cf5" name="document-revision">
+  <meta content="bddbb69c4380e6b0fd0a7e81d4d77ac1c33f5df2" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-12-14">14 December 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-12-17">17 December 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1635,12 +1635,12 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    </section>
    <section>
     <h2 class="heading settled" data-level="2" id="examples"><span class="secno">2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
-    <div class="example" id="example-2fe22244">
-     <a class="self-link" href="#example-2fe22244"></a> 
-     <p>SecureCorp Inc. wants to disable use of Vibration and Geolocation APIs
+    <div class="example" id="example-7234b046">
+     <a class="self-link" href="#example-7234b046"></a> 
+     <p>SecureCorp Inc. wants to disable use of Fullscreen and Geolocation APIs
     within their application. It can do so by delivering the following HTTP
     response header to define a feature policy:</p>
-<pre><a data-link-type="http-header" href="#feature-policy-header" id="ref-for-feature-policy-header">Feature-Policy</a>: vibrate 'none'; geolocation 'none'</pre>
+<pre><a data-link-type="http-header" href="#feature-policy-header" id="ref-for-feature-policy-header">Feature-Policy</a>: fullscreen 'none'; geolocation 'none'</pre>
      <p>By specifying the "<code>'none'</code>"keyword for the origin list, the
     specified features will be disabled for all browsing contexts, regardless of
     their origin.</p>
