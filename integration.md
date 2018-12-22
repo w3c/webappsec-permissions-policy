@@ -20,7 +20,7 @@ policy-controlled feature:
 >### Section N: Feature Policy Integration
 > The Sample API defines a [*policy-controlled feature*](https://w3c.github.io/webappsec-feature-policy/#policy-controlled-feature)
 > identified by the string "`sample`". Its [default allowlist](https://w3c.github.io/webappsec-feature-policy/#default-allowlist)
-> is `'self'` \[[FEATURE-POLICY](https://w3c.github.io/webappsecfeature-policy/)\].
+> is `'self'` \[[FEATURE-POLICY](https://w3c.github.io/webappsec-feature-policy/)\].
 
 The specification can then refer to this feature, and test whether it is enabled
 or not in a specific document, with text similar to this:
