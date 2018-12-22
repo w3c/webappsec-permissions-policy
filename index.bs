@@ -3,12 +3,12 @@ Title: Feature Policy
 Shortname: feature-policy
 Level: 1
 Indent: 2
-Status: CG-DRAFT
-Group: WICG
-URL: https://wicg.github.io/feature-policy/
+Status: ED
+Group: WebAppSec
+URL: https://w3c.github.io/webappsec-feature-policy/
 Editor: Ian Clelland, Google, iclelland@google.com
 Abstract: This specification defines a mechanism that allows developers to selectively enable and disable use of various browser features and APIs.
-Repository: https://github.com/wicg/feature-policy/
+Repository: https://github.com/w3c/webappsec-feature-policy/
 Markup Shorthands: css no, markdown yes
 </pre>
 <pre class="link-defaults">
@@ -178,7 +178,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
       The <a>policy-controlled features</a> themselves are not themselves part
       of this framework. A non-normative list of currently-defined features is
       maintained as a
-      <a href="https://github.com/WICG/feature-policy/blob/master/features.md">companion
+      <a href="https://github.com/w3c/webappsec-feature-policy/blob/master/features.md">companion
       document</a> alongside this specification.
     </div>
   </section>
@@ -431,7 +431,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     The introspection API described in this section is early in development, and
     is likely to change &mdash; possibly significantly &mdash; before it is
     finalized. Web developers are encouraged to experiment with using the API,
-    and <a href="https://github.com/WICG/feature-policy/issues/new">provide
+    and <a href="https://github.com/w3c/webappsec-feature-policy/issues/new">provide
     feedback</a>, but should be aware that it may change or be removed
     completely.
   </div>
