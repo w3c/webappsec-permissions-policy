@@ -425,16 +425,8 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     </section>
   </section>
 </section>
-<section class="unstable">
+<section>
   <h2 id="introspection">Policy Introspection from Scripts</h2>
-  <div class="advisement">
-    The introspection API described in this section is early in development, and
-    is likely to change &mdash; possibly significantly &mdash; before it is
-    finalized. Web developers are encouraged to experiment with using the API,
-    and <a href="https://github.com/w3c/webappsec-feature-policy/issues/new">provide
-    feedback</a>, but should be aware that it may change or be removed
-    completely.
-  </div>
   <section class="non-normative">
   <h3 id="introspection-overview">Overview</h3>
   <p>The current policy which is in effect in a document can be observed by
@@ -457,7 +449,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     * get the allowlist for a given feature in the current document.
   </p>
 
-  <div class="unstable example">
+  <div class="example">
   <pre>
   &lt;!doctype html&gt;
   &lt;script&gt;
@@ -499,7 +491,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   effective policy in the nested browsing context in that case could leak
   information about the behaviour of a cross-origin document.</p>
 
-  <div class="unstable example">
+  <div class="example">
   <pre>
   &lt;!doctype html&gt;
   &lt;iframe id="frame" allow="fullscreen; vr"&gt;&lt;/iframe&gt;
@@ -519,7 +511,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   actual content loaded into the frame (to avoid cross-origin information
   leakage,) or even whether it is in a document tree.</p>
 
-  <div class="unstable example">
+  <div class="example">
   <pre>
   &lt;!doctype html&gt;
   &lt;!-- this frame should not be allowed to use fullscreen when the document
@@ -544,7 +536,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 
   <section>
     <h3 id="the-policy-object">The featurePolicy object</h3>
-    <pre class="unstable idl">
+    <pre class="idl">
 [NoInterfaceObject]
 interface FeaturePolicy {
   boolean <a>allowsFeature</a>(DOMString feature, optional DOMString origin);
