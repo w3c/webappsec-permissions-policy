@@ -1214,7 +1214,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 9c6ae748322940994300e90a77c34437364b40a6" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="4c7ade283793c821e8b71c69cf52c1c333da1cd6" name="document-revision">
+  <meta content="9274cf9131b6830bef1574879ed683b5d09941ae" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1959,14 +1959,14 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <h3 class="heading settled" data-level="7.1" id="introspection-overview"><span class="secno">7.1. </span><span class="content">Overview</span><a class="self-link" href="#introspection-overview"></a></h3>
      <p>The current policy which is in effect in a document can be observed by
   scripts. This can be used to make decisions, for instance, about what user
-  interface to display, in cases it is not possible to determine otherwise
+  interface to display, in cases where it is not possible to determine otherwise
   whether a feature is enabled or not. (Some features may not have any
   observable failure mode, or may have unwanted side effects to feature
   detection.)</p>
      <p>Documents and iframes both provide a <code class="idl"><a data-link-type="idl" href="#featurepolicy" id="ref-for-featurepolicy">FeaturePolicy</a></code> object which can be
   used to inspect the feature policies which apply to them.</p>
      <h4 class="heading settled" data-level="7.1.1" id="document-policies"><span class="secno">7.1.1. </span><span class="content">Document policies</span><a class="self-link" href="#document-policies"></a></h4>
-     <p>To retreive the currently effective policy, use <code>document.featurePolicy()</code>. This returns a <code class="idl"><a data-link-type="idl" href="#featurepolicy" id="ref-for-featurepolicy①">FeaturePolicy</a></code> object, which can be used to: </p>
+     <p>To retreive the currently effective policy, use <code>document.featurePolicy</code>. This returns a <code class="idl"><a data-link-type="idl" href="#featurepolicy" id="ref-for-featurepolicy①">FeaturePolicy</a></code> object, which can be used to: </p>
      <ul>
       <li data-md>
        <p>query the state (allowed or denied) in the current document for a given
@@ -1980,8 +1980,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <p>get the allowlist for a given feature in the current document.</p>
      </ul>
      <p></p>
-     <div class="example" id="example-00f2cd9e">
-      <a class="self-link" href="#example-00f2cd9e"></a> 
+     <div class="example" id="example-75033745">
+      <a class="self-link" href="#example-75033745"></a> 
 <pre>&lt;!doctype html>
 &lt;script>
  const policy = document.featurePolicy;
@@ -1997,7 +1997,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
  }
 
  // Get the list of origins which are allowed to request payment. The result
- // will be a list of explicit origins, or the single element ['\*'] if all
+ // will be a list of explicit origins, or the single element ['*'] if all
  // origins are allowed.
  const allowed_payment_origins = policy.getAllowlistForFeature('payment');
 
