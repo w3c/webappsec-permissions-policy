@@ -1214,7 +1214,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 9c6ae748322940994300e90a77c34437364b40a6" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="0a727feade3c9e6d919a8d6e40f3734233347777" name="document-revision">
+  <meta content="4c7ade283793c821e8b71c69cf52c1c333da1cd6" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-01-17">17 January 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-01-18">18 January 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1953,14 +1953,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      </section>
     </section>
    </section>
-   <section class="unstable">
+   <section>
     <h2 class="heading settled" data-level="7" id="introspection"><span class="secno">7. </span><span class="content">Policy Introspection from Scripts</span><a class="self-link" href="#introspection"></a></h2>
-    <div class="advisement"> The introspection API described in this section is early in development, and
-    is likely to change — possibly significantly — before it is
-    finalized. Web developers are encouraged to experiment with using the API,
-    and <a href="https://github.com/w3c/webappsec-feature-policy/issues/new">provide
-    feedback</a>, but should be aware that it may change or be removed
-    completely. </div>
     <section class="non-normative">
      <h3 class="heading settled" data-level="7.1" id="introspection-overview"><span class="secno">7.1. </span><span class="content">Overview</span><a class="self-link" href="#introspection-overview"></a></h3>
      <p>The current policy which is in effect in a document can be observed by
@@ -1986,7 +1980,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <p>get the allowlist for a given feature in the current document.</p>
      </ul>
      <p></p>
-     <div class="unstable example" id="example-00f2cd9e">
+     <div class="example" id="example-00f2cd9e">
       <a class="self-link" href="#example-00f2cd9e"></a> 
 <pre>&lt;!doctype html>
 &lt;script>
@@ -2026,7 +2020,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   navigated away from its initial location to a new origin. Revealing the
   effective policy in the nested browsing context in that case could leak
   information about the behaviour of a cross-origin document.</p>
-     <div class="unstable example" id="example-2621b41f">
+     <div class="example" id="example-2621b41f">
       <a class="self-link" href="#example-2621b41f"></a> 
 <pre>&lt;!doctype html>
 &lt;iframe id="frame" allow="fullscreen; vr">&lt;/iframe>
@@ -2044,7 +2038,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <p>The <a data-link-type="dfn" href="#observable-policy" id="ref-for-observable-policy①">observable policy</a> on an iframe element is independent of any
   actual content loaded into the frame (to avoid cross-origin information
   leakage,) or even whether it is in a document tree.</p>
-     <div class="unstable example" id="example-a3ea83b1">
+     <div class="example" id="example-a3ea83b1">
       <a class="self-link" href="#example-a3ea83b1"></a> 
 <pre>&lt;!doctype html>
 &lt;!-- this frame should not be allowed to use fullscreen when the document
@@ -2068,7 +2062,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </section>
     <section>
      <h3 class="heading settled" data-level="7.2" id="the-policy-object"><span class="secno">7.2. </span><span class="content">The featurePolicy object</span><a class="self-link" href="#the-policy-object"></a></h3>
-<pre class="unstable idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NoInterfaceObject" id="ref-for-NoInterfaceObject"><c- g>NoInterfaceObject</c-></a>]
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NoInterfaceObject" id="ref-for-NoInterfaceObject"><c- g>NoInterfaceObject</c-></a>]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="featurepolicy"><code><c- g>FeaturePolicy</c-></code></dfn> {
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="FeaturePolicy" data-dfn-type="method" data-export data-lt="allowsFeature(feature, origin)|allowsFeature(feature)" id="dom-featurepolicy-allowsfeature"><code><c- g>allowsFeature</c-></code></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FeaturePolicy/allowsFeature(feature, origin), FeaturePolicy/allowsFeature(feature)" data-dfn-type="argument" data-export id="dom-featurepolicy-allowsfeature-feature-origin-feature"><code><c- g>feature</c-></code><a class="self-link" href="#dom-featurepolicy-allowsfeature-feature-origin-feature"></a></dfn>, <c- b>optional</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FeaturePolicy/allowsFeature(feature, origin), FeaturePolicy/allowsFeature(feature)" data-dfn-type="argument" data-export id="dom-featurepolicy-allowsfeature-feature-origin-origin"><code><c- g>origin</c-></code><a class="self-link" href="#dom-featurepolicy-allowsfeature-feature-origin-origin"></a></dfn>);
   <c- b>sequence</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②"><c- b>DOMString</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-for="FeaturePolicy" data-dfn-type="method" data-export data-lt="features()" id="dom-featurepolicy-features"><code><c- g>features</c-></code></dfn>();
