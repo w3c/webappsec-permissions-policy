@@ -1065,10 +1065,9 @@ partial interface HTMLIFrameElement {
       <li>Set |window| to |request|’s <a for="request">window</a>.</li>
       <li>If |window| is not a {{Window}}, return <code>false</code>.
        <div class="issue">Feature Policy within `no-window` contexts ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. *Until* that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
-       <div class="issue">Could this algorithm be run before fetching starts, when |request|’s <a for="request">window</a> is still the string `'client'`?</div>
       </li>
       <li>Set |document| to |window|’s <a>associated `Document`</a>.</li>
-      <li>Let |origin| be |request|’s <a for="request">URL</a>’s <a for="url">origin</a>.</li>
+      <li>Let |origin| be |request|’s <a for="request">origin</a>.</li>
       <li>Let |result| be the result of executing <a href="is-feature-enabled">Is feature enabled in document for origin?</a> on |feature|, |document|, and |origin|.
       </li>
       <li>If |result| is "<code>Enabled</code>", return <code>true</code>.</li>
