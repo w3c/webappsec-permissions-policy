@@ -1214,7 +1214,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 9c6ae748322940994300e90a77c34437364b40a6" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="9274cf9131b6830bef1574879ed683b5d09941ae" name="document-revision">
+  <meta content="b8ef061fb7e833ceb333d202c24f0d6f73fd898b" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-01-18">18 January 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-01-24">24 January 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1591,6 +1591,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#is-feature-enabled"><span class="secno">9.10</span> <span class="content">Is <var>feature</var> enabled in <var>document</var> for <var>origin</var>?</span></a>
       <li><a href="#report-feature-policy-violation"><span class="secno">9.11</span> <span class="content">Generate report for
     violation of <var>feature</var> policy on <var>settings</var></span></a>
+      <li><a href="#should-request-be-allowed-to-use-feature"><span class="secno">9.12</span> <span class="content">Should <var>request</var> be allowed to use <var>feature</var>?</span></a>
      </ol>
     <li><a href="#iana-considerations"><span class="secno">10</span> <span class="content">IANA Considerations</span></a>
     <li>
@@ -2531,6 +2532,21 @@ set to "enforce".</p>
      <p class="note" role="note"><span>Note:</span> This algorithm should be called when a feature policy has
     been <a data-link-type="dfn" href="#violate" id="ref-for-violate⑧">violated</a>.</p>
     </section>
+    <section>
+     <h3 class="heading settled" data-level="9.12" id="should-request-be-allowed-to-use-feature"><span class="secno">9.12. </span><span class="content">Should <var>request</var> be allowed to use <var>feature</var>?</span><a class="self-link" href="#should-request-be-allowed-to-use-feature"></a></h3>
+     <p>Given a feature (<var>feature</var>) and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> (<var>request</var>), this algorithm returns <code>true</code> if the request should be allowed to use <var>feature</var>, and <code>false</code> otherwise.</p>
+     <ol>
+      <li>Set <var>window</var> to <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-window" id="ref-for-concept-request-window">window</a>.
+      <li>
+       If <var>window</var> is not a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window">Window</a></code>, return <code>false</code>. 
+       <div class="issue" id="issue-528c9b8b"><a class="self-link" href="#issue-528c9b8b"></a>Feature Policy within <code>no-window</code> contexts (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope" id="ref-for-workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope" id="ref-for-workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
+      <li>Set <var>document</var> to <var>window</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window" id="ref-for-concept-document-window">associated <code>Document</code></a>.
+      <li>Let <var>origin</var> be <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-origin" id="ref-for-concept-request-origin">origin</a>.
+      <li>Let <var>result</var> be the result of executing <a href="is-feature-enabled">Is feature enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, and <var>origin</var>. 
+      <li>If <var>result</var> is "<code>Enabled</code>", return <code>true</code>.
+      <li>Otherwise, return <code>false</code>.
+     </ol>
+    </section>
    </section>
    <section>
     <h2 class="heading settled" data-level="10" id="iana-considerations"><span class="secno">10. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
@@ -2837,6 +2853,18 @@ set to "enforce".</p>
     <li><a href="#ref-for-concept-header-name">9.1. Process response policy</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-request-origin">
+   <a href="https://fetch.spec.whatwg.org/#concept-request-origin">https://fetch.spec.whatwg.org/#concept-request-origin</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-request-origin">9.12. Should request be allowed to use feature?</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-request">
+   <a href="https://fetch.spec.whatwg.org/#concept-request">https://fetch.spec.whatwg.org/#concept-request</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-request">9.12. Should request be allowed to use feature?</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-concept-response-response">
    <a href="https://fetch.spec.whatwg.org/#concept-response-response">https://fetch.spec.whatwg.org/#concept-response-response</a><b>Referenced in:</b>
    <ul>
@@ -2853,6 +2881,12 @@ set to "enforce".</p>
     <li><a href="#ref-for-concept-header-value">9.1. Process response policy</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-request-window">
+   <a href="https://fetch.spec.whatwg.org/#concept-request-window">https://fetch.spec.whatwg.org/#concept-request-window</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-request-window">9.12. Should request be allowed to use feature?</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-element-requestfullscreen">
    <a href="https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen">https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen</a><b>Referenced in:</b>
    <ul>
@@ -2863,6 +2897,24 @@ set to "enforce".</p>
    <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-htmliframeelement">7.2. The featurePolicy object</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-window">
+   <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-window">9.12. Should request be allowed to use feature?</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-workerglobalscope">
+   <a href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-workerglobalscope">9.12. Should request be allowed to use feature?</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-document-window">
+   <a href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window">https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-document-window">9.12. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-browsing-context">
@@ -3085,6 +3137,12 @@ set to "enforce".</p>
     <li><a href="#ref-for-idl-long">8. Reporting</a> <a href="#ref-for-idl-long①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-workletglobalscope">
+   <a href="https://drafts.css-houdini.org/worklets/#workletglobalscope">https://drafts.css-houdini.org/worklets/#workletglobalscope</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-workletglobalscope">9.12. Should request be allowed to use feature?</a>
+   </ul>
+  </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
@@ -3108,8 +3166,11 @@ set to "enforce".</p>
      <li><span class="dfn-paneled" id="term-for-concept-header" style="color:initial">header</span>
      <li><span class="dfn-paneled" id="term-for-concept-response-header-list" style="color:initial">header list</span>
      <li><span class="dfn-paneled" id="term-for-concept-header-name" style="color:initial">name</span>
+     <li><span class="dfn-paneled" id="term-for-concept-request-origin" style="color:initial">origin</span>
+     <li><span class="dfn-paneled" id="term-for-concept-request" style="color:initial">request</span>
      <li><span class="dfn-paneled" id="term-for-concept-response-response" style="color:initial">response</span>
      <li><span class="dfn-paneled" id="term-for-concept-header-value" style="color:initial">value</span>
+     <li><span class="dfn-paneled" id="term-for-concept-request-window" style="color:initial">window</span>
     </ul>
    <li>
     <a data-link-type="biblio">[FULLSCREEN]</a> defines the following terms:
@@ -3120,6 +3181,9 @@ set to "enforce".</p>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-htmliframeelement" style="color:initial">HTMLIFrameElement</span>
+     <li><span class="dfn-paneled" id="term-for-window" style="color:initial">Window</span>
+     <li><span class="dfn-paneled" id="term-for-workerglobalscope" style="color:initial">WorkerGlobalScope</span>
+     <li><span class="dfn-paneled" id="term-for-concept-document-window" style="color:initial">associated document</span>
      <li><span class="dfn-paneled" id="term-for-browsing-context" style="color:initial">browsing context</span>
      <li><span class="dfn-paneled" id="term-for-browsing-context-container" style="color:initial">browsing context container</span>
      <li><span class="dfn-paneled" id="term-for-environment-settings-object" style="color:initial">environment settings object</span>
@@ -3175,6 +3239,11 @@ set to "enforce".</p>
      <li><span class="dfn-paneled" id="term-for-idl-boolean" style="color:initial">boolean</span>
      <li><span class="dfn-paneled" id="term-for-idl-long" style="color:initial">long</span>
     </ul>
+   <li>
+    <a data-link-type="biblio">[worklets-1]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-workletglobalscope" style="color:initial">WorkletGlobalScope</span>
+    </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
@@ -3205,6 +3274,8 @@ set to "enforce".</p>
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WebIDL]
    <dd>Cameron McCormack; Boris Zbarsky; Tobie Langel. <a href="https://heycam.github.io/webidl/">Web IDL</a>. 15 December 2016. ED. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
+   <dt id="biblio-worklets-1">[WORKLETS-1]
+   <dd>Ian Kilpatrick. <a href="https://www.w3.org/TR/worklets-1/">Worklets Level 1</a>. 7 June 2016. WD. URL: <a href="https://www.w3.org/TR/worklets-1/">https://www.w3.org/TR/worklets-1/</a>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
@@ -3243,6 +3314,7 @@ set to "enforce".</p>
    <div class="issue">This spec currently only deals with features defined in
     Documents. We should figure out how to word this to include the possibility
     of features and feature policies in Workers and Worklets as well.<a href="#issue-e7bb8656"> ↵ </a></div>
+   <div class="issue">Feature Policy within <code>no-window</code> contexts (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.<a href="#issue-528c9b8b"> ↵ </a></div>
   </div>
   <aside class="dfn-panel" data-for="policy-controlled-feature">
    <b><a href="#policy-controlled-feature">#policy-controlled-feature</a></b><b>Referenced in:</b>
