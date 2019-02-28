@@ -62,7 +62,7 @@ const myObserver = new ReportingObserver(reportList => {
   reportList.forEach(report => {
     alert("Whatever you just tried to do was blocked by policy.: " + report.body.feature);
   });
-}, {"types": ["feature-policy-violation"]);
+}, {"types": ["feature-policy-violation"]});
 
 myObserver.observe();
 ```
