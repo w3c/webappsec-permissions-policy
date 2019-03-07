@@ -11,7 +11,7 @@ does not have the feature enabled, it should not be able to interfere nor affect
 
 A page can declare the vertical scrolling feature in its HTTP headers as follows:
 ```http
-Feature policy: vertical-scroll 'self'
+Feature-Policy: vertical-scroll 'self'
 ```
 which suggests only same-origin <iframe>'s are allowed to interfere with vertical scroll. Alternatively, the feature can
 be declared for a single `<iframe>` using `allow` attribute:

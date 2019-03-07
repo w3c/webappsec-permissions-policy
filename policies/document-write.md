@@ -13,7 +13,7 @@ lead to a DOMException<sup>[1](#notes)</sup>.
 The feature can be set through the HTTP headers in the response. For instance
 
 ```
-Feature policy: document-write 'none'
+Feature-Policy: document-write 'none'
 ```
 
 which would disable the feature for all same and cross origin content. The feature can also be set for a given `<iframe>`

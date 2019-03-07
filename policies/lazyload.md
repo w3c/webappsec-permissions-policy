@@ -28,7 +28,7 @@ Using the Feature
 
 This feature can be introduced with the HTTP headers. For instance,
 ```HTTP
-Feature Policy: lazyload 'self' https://example.com
+Feature-Policy: lazyload 'self' https://example.com
 ```
 would not allow synchronous loading for any `<iframe>` or `<img>` (that is not yet in the viewport) from origins other than `'self'` or `https://example.com`.
 
@@ -42,6 +42,6 @@ The Extra Mile
 -----------
 In general the feature could allow an expanded set of enforcement policies with the use of [parametric features](https://github.com/WICG/feature-policy/issues/163). For instance, the feature could be used to enforce `lazyload` for certain origins (by enforcing `lazyload='on'` on all resources) and prefer synchronous loading for all local resources (i.e., suggest a default browser behavior of `lazyload='off'`):
 ```
-Feature Policy: lazyload 'self'(off) https://example.com(force)
+Feature-Policy: lazyload 'self'(off) https://example.com(force)
 ```
 In the example above an image in self such as ``` <img src="./foo.jpg"/>``` (which is same-origin) should be loaded synchronously, but, `<iframe src="https://example.com/page.html" lazyload="off"></iframe>` is loaded lazily due to policy enforcement.

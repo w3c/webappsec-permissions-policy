@@ -10,7 +10,7 @@ Introduce a new feature, namely, `font-display-late-swap` to control the value o
 A page can use the `font-display-late-swap` feature by specifying it in its HTTP header:
 
 ```
-Feature policy: font-display-late-swap 'none'
+Feature-Policy: font-display-late-swap 'none'
 ```
 
 which would disable the feature on the page. Alternatively, it can be set by modifying the `allow` attribute in the `iframe` tag. for example:
