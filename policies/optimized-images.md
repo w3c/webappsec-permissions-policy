@@ -1,6 +1,6 @@
 #  Image Policies Explainer
 
-loonybear@, last updated: 10/30/2018
+loonybear@, last updated: 03/13/2019
 
 <span style="color:#38761d;">Status: in [Origin Trials](https://github.com/GoogleChrome/OriginTrials) in M75</span>
 
@@ -67,8 +67,9 @@ To try `oversized-images` policy, register a token [here](https://developers.chr
 
 #### Specification
 
-- The default allowlist for `oversized-images` is `*(max_limit)`. This means for pages of all origins,
-`<img>` elements will be allowed and rendered correctly by default.
+- The default allowlist for `oversized-images` is `*(inf)`. This means for pages of all origins,
+all `<img>` elements will be allowed and rendered correctly by default.
+
 
 - An `oversized-images` policy can be specified via:
 
@@ -89,10 +90,14 @@ To try `oversized-images` policy, register a token [here](https://developers.chr
     ```
     In this example, **the maximum oversizing ratio allowed is set to 4 everywhere except on the origin of the main document it is set to 3**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are more than _4_ times larger than the container size will be rendered as a placeholder image. On other origins, any `<img>` element whose intrinsic dimensions are more than _3_ times larger than the container size will be rendered as a placeholder image.
 
-- The recomnended oversizing ratio is **2**.
- 
 
-    Feature policies combine in subframes, and the minimum value of the downscaling ratio will be applied, so if that frame, whose maximum oversizing ratio allowed is set to 4, embedded another, which the syntax:
+- The recomnended oversizing ratio is **2**.
+
+  **Note**: `oversized-images` takes device pixel ratio into account and is comparing the actual number of pixels the image is being rendered on a device against the image's intrinsic size.
+
+  Use `srcset` to scale images on a higher resolution device.
+
+- Feature policies combine in subframes, and the minimum value of the downscaling ratio will be applied, so if a frame, whose maximum oversizing ratio allowed is set to 4, embedded another, which the syntax:
     
     ```html
     Feature-Policy: oversized-images *(4);
@@ -174,66 +179,93 @@ For an `<img>` element, if neither the intrinsic width or the intrinsic height o
 
 <a name="unoptimized-images">
 
-### "unoptimized-images" policy
+### "unoptimized-*-images" policy
 
 </a>
 
-When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, picking a good image format, and using image compression, are all common ways to optimize an image's file size. `unoptimized-images` is a policy controlled feature that restricts images to have a file size (in terms of number of bytes) no more than X times bigger than the image size (width * height) on the web page.
+When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, picking a good image format, and using image compression, are all common ways to optimize an image's file size. `unoptimized-images` is a policy controlled feature that restricts images to have a file size (bytes) no more than X times larger than the image resolution (width x height, pixels) on the web page.
 
-When a document is disallowed to use `unoptimized-images` policy, its `<img>` elements whose file sizes are too big will be rendered as placeholder images.
+When a document is disallowed to use `unoptimized-images` policy, its `<img>` elements whose file sizes are too large will be rendered as placeholder images.
+
+We are proposing 3 policies for you to experiment:
+
+*   **"unoptimized-lossy-images"**: any `<img>` element of JPEG format is restricted to not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowrance.
+
+*   **"unoptimized-lossless-images"**: any `<img>` element of format other than JPEG is restricted to not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowrance.
+
+*   **"unoptimized-lossless-images-10k"**: any `<img>` element of format other than JPEG is restricted to not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**10KB**_ overhead allowrance.
+
+If a restriction is violated, the image will be **rendered as a placeholder image**.
+
+**Note**: "unoptimized-*-images" policies do not apply on SVG images.
+
+We encourage you to experiment all 3 policies at once and tell us about which policy works best for you.
+
+To try the policies, register tokens [here](https://developers.chrome.com/origintrials/#/trials/active) and specify the policies via HTTP `Feature-Policy` header (see section below for more details).
 
 
 #### Specification
-- The default maximum file size of an optimized image is calculated as following:
+
+- The default allowlist for `unoptimized-*-images` is `*(inf)`. This means for pages of all origins,
+all `<img>` elements will be allowed and rendered correctly by default.
+
+- The maximum file size allowrance is calculated as following:
     
-   ```metadata size limit + byte-per-pixel ratio * image resolution```
-    + For images of one of the modern formates (JPEG, PNG, GIF, WEBP, and SVG)
+   ```overhead allowrance + byte-per-pixel ratio * image resolution```
+    + For `unoptimized-lossy-images` and `unoptimized-lossless-images`:
         + The default metadata size limit is tentatively 1KB (1024 bytes).
-        + The default byte-per-pixel ratio is tentatively 0.5.
-    + For images of other legacy formats   
+        + The byte-per-pixel ratio is specified by the user. 
+    + For `unoptimized-lossless-images-10K`:
+        + The default metadata size limit is tentatively 10KB.
+        + The byte-per-pixel ratio is specified by the user. 
+    + For images of legacy formats   
         + The metadata size limit is set to 0KB.
         + The byte-per-pixel ratio is set to 0.
+        
+- The recommended byte-per-pixel ratio is **0.5** for lossy images, and **1** for lossless images.
 
-    **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying their own parameters.
-
-    In practice, they would look something like this:
-
-    ```html
-    <iframe allow="unoptimized-images(1500, 0.4)"></iframe>
-    ```
-    That would apply a policy in which the metadata size limit is set to 1500 bytes and the byte-per-pixel ratio is set to 0.4.  
-   
-    Feature policies combine in subframes, and the minimum value of the parameters will be applied, so if that frame embedded another, which the syntax:
-
-    ```html
-    <iframe allow="unoptimized-images(2048, 0.2)"></iframe>
-    ```
-    then the child frame would be allowed to render images with metadata size limit of 1500 bytes and byte-per-pixel ratio of 0.2. 
-
-- The default allowlist for `unoptimized-images` is `*`. This means for pages of all origins, `<img>` elements whose file sizes exceeds the compression ratio will be allowed and rendered correctly.
-
-
-- A `unoptimized-images` policy can be specified via:
+- A `unoptimized-*-images` policy can be specified via:
 
     **1. HTTP "feature-policy" response header:**
     ```html
-    Feature-Policy: unoptimized-images 'none';
+    Feature-Policy: unoptimized-lossy-images *(0);
     ```
-    In this example, `unoptimized-images` is disabled for all frames including the main frame. All `<img>` elements whose file sizes exceeds the limit will be rendered as placeholder images.
+    In this example, `unoptimized-lossy-images` is **disabled for all frames** including the main frame. Any `<img>` element of JPEG format whose file size is over 1KB will be rendered as placeholder images as the byte-per-pixel ratio allowed is 0.
 
     **2. "allow" attribute in <iframe>:**
     ```html
-    <iframe src="https://example.com" allow="unoptimized-images 'self' https://foo.com;">
+    <iframe src="https://example.com" allow="unoptimized-lossless-images 'self'(0.8) https://foo.com(1);">
     ```
-    In this example, `unoptimized-images` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+      
+    In this example, `unoptimized-lossless-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any non JPEG `<img>` element whose file size exeeds the maximum file size allowrance (with pite-per-pixel ratio set to 0.8) will be rendered as a placeholder image. On 'https://foo.com', any non JPEG `<img>` element whose file size exeeds the maximum file size allowrance (with pite-per-pixel ratio set to 1) will be rendered as a placeholder image. **`<img>` elements on any other origins whose file size exeeds 1KB will be rendered as placeholder images**.
+
+- Feature policies combine in subframes, and the minimum value of the bite-per-pixel ratio will be applied, so if a frame, whose maximum bite-per-pixel ratio is set to 0.9 for unoptimized-lossy-images, embedded another, which the syntax:
+        
+    ```html
+    Feature-Policy: unoptimized-lossy-images *(0.9);
+    ```
+
+    ```html
+    <iframe allow="unoptimized-lossy-images *(1.2)"></iframe>
+    ```
+    then the child frame would be allowed to render images with maximum byte-per-pixel ratio set to **0.9**
+            
+    ```html
+    Feature-Policy: unoptimized-lossy-images *(0.9);
+    ```
+
+    ```html
+    <iframe allow="unoptimized-lossy-images *(0.2)"></iframe>
+    ```
+   then the child frame would be allowed to render images with maximum byte-per-pixel ratio set to **0.2**
 
 
 #### Examples
 
 <table>
   <tr align="center">
-   <td width="400">Feature-Policy: unoptimized-images 'none'; </td>
-   <td width="400">Feature-Policy: unoptimized-images *; </td>
+   <td width="400">Feature-Policy: unoptimized-lossy-images *(0.8); </td>
+   <td width="400">Default behavior </td>
   </tr>
   <tr align="center">
    <td>
@@ -245,16 +277,6 @@ When a document is disallowed to use `unoptimized-images` policy, its `<img>` el
   </tr>
 </table>
 
-For an `<img>` element, if its file size is within the limit, the image will be rendered correctly; otherwise the image will be rendered as placeholder images.
-
-
-**Future Development**
-
-Image formats affect file size. We want to support different default values for different image formats.
-We want to allow developers to specify the parameters as well. In practice, they would look something like this:
-```html    
-<iframe allow="unoptimized-images(image/bmp(1024, 0.5), image/jpeg(2048, 0.2))"></iframe>
-```
-Note: any otherwise unspecified MIME types will be using the default values. 
+For an `<img>` element, if its file size is within the allowrance, the image will be rendered correctly; otherwise the image will be rendered as placeholder images.
 
 
