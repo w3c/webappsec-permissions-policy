@@ -20,21 +20,24 @@ Optimized image policies introduce a set of restrictions (policies) on images th
 ### Optimized image policies
 
 *   **["oversized-images" policy](#oversized-images)**
-    *   The intrinsic dimensions of HTMLImageElement must not be larger than the container size by more than _***X times***_ .
+    *   The intrinsic dimensions of `<img>` elements must not be larger than the container size by more than _***X times***_.
 *   **["unoptimized-*-images" policy](#unoptimized-images)**
     *   Images used in rendering must not include too much metadata.
     *   Images should be in one of the modern image formats that yield large byte savings and performance improvement.
     *   **"unoptimized-lossy-images"**
-        *   A lossy type HTMLImageElement should not exceed a byte-per-pixel ratio _***X***_, with a fixed _**1KB**_ overhead allowrance.
+        *   A lossy type `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowrance.
     *   **"unoptimized-lossless-images"**
-        *   A lossless type HTMLImageElement should not exceed a byte-per-pixel ratio _***X***_, with a fixed _**1KB**_ overhead allowrance.
+        *   A lossless type `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowrance.
     *   **"unoptimized-lossless-images-10k"**
-        *   A lossless type HTMLImageElement should not exceed a byte-per-pixel ratio _***X***_, with a fixed _**10KB**_ overhead allowrance.
+        *   A lossless type `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**10KB**_ overhead allowrance.
 
-**Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. _***X***_ means developers can specify the "value" of the policy. For example, `oversized-images *(2)` specifies the maximum ratio (2) images are allowed to be downscaled by.
+**Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. _***X***_ means developers can specify the "value" of the policy. For example, `oversized-images *(2)` specifies the maximum ratio, 2, images are allowed to oversize by.
 
 
 ## Experiment image policies with Origin Trials
+
+Image policieis are shipped in Chrome M75 via Origin Trials.
+
 You can request a token for your origin to opt any page on your origin into the trail of ["oversized-images" policy](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossy-images"](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossless-images"](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossless-images-10k"](https://developers.chrome.com/origintrials/#/trials/active).
 
 Once you have a token, you can provide the token on any pages in your origin using an `Origin-Trial` HTTP header:
@@ -59,11 +62,13 @@ On a web page, the number of pixels of a container determines the resolution of 
 
 When a document is disallowed to use `oversized-images` policy, its `<img>` elements that are more than X times larger than the container size will be rendered as a placeholder image.
 
+To try `oversized-images` policy, register a token [here](https://developers.chrome.com/origintrials/#/trials/active) and specify the policy via HTTP `Feature-Policy` header (see section below for more details).
+
 
 #### Specification
 
 - The default allowlist for `oversized-images` is `*(max_limit)`. This means for pages of all origins,
-`<img>` elements will be allowed and rendered correctly.
+`<img>` elements will be allowed and rendered correctly by default.
 
 - An `oversized-images` policy can be specified via:
 
@@ -71,23 +76,27 @@ When a document is disallowed to use `oversized-images` policy, its `<img>` elem
     ```html
     Feature-Policy: oversized-images *(0);
     ```
-    In this example, `oversized-images` is **disabled for all frames** including the main frame. **All `<img>` elements will be rendered as placeholder images** as their intrinsic dimensions will be more than 0 (0 times larger than the container size).
+    In this example, `oversized-images` is **disabled for all frames** including the main frame. All `<img>` elements will be rendered as placeholder images as their intrinsic dimensions will be more than 0 (0 times larger than the container size).
 
     **2. [`allow` attribute in <iframe>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#Attributes):**
     ```html
     <iframe src="https://example.com" allow="oversized-images 'self'(2) https://foo.com(3);">
     ```
-    In this example, `oversized-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are **more than _2_ times** larger than the container size will be **rendered as a placeholder image**. On 'https://foo.com', any `<img>` element whose intrinsic dimensions are **more than _3_ times** larger than the container size will be **rendered as a placeholder image**. **`<img>` elements on any other origins will be rendered as placeholder images**.
+    In this example, `oversized-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are more than _2_ times larger than the container size will be rendered as a placeholder image. On 'https://foo.com', any `<img>` element whose intrinsic dimensions are more than _3_ times larger than the container size will be rendered as a placeholder image. **`<img>` elements on any other origins will be rendered as placeholder images**.
        
     ```html
     <iframe allow="oversized-images *(4) 'self'(3)"></iframe>
     ```
-    In this example, **the maximum oversizing ratio allowed is set to 4 except on the origin of the main document it is set to 3**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are **more than _4_ times** larger than the container size will be **rendered as a placeholder image**. On other origins, any `<img>` element whose intrinsic dimensions are **more than _3_ times** larger than the container size will be **rendered as a placeholder image**.
+    In this example, **the maximum oversizing ratio allowed is set to 4 everywhere except on the origin of the main document it is set to 3**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are more than _4_ times larger than the container size will be rendered as a placeholder image. On other origins, any `<img>` element whose intrinsic dimensions are more than _3_ times larger than the container size will be rendered as a placeholder image.
 
 - The recomnended oversizing ratio is **2**.
  
 
-    Feature policies combine in subframes, and the minimum value of the downscaling ratio will be applied, so if that frame with the maximum oversizing ratio allowed set to 4 embedded another, which the syntax:
+    Feature policies combine in subframes, and the minimum value of the downscaling ratio will be applied, so if that frame, whose maximum oversizing ratio allowed is set to 4, embedded another, which the syntax:
+    
+    ```html
+    Feature-Policy: oversized-images *(4);
+    ```
 
     ```html
     <iframe allow="oversized-images *(5)"></iframe>
@@ -95,6 +104,10 @@ When a document is disallowed to use `oversized-images` policy, its `<img>` elem
     then the child frame would be allowed to render images with maximum oversizing ratio of **4**.
 
     If that frame embedded another child frame of the syntax:
+    
+    ```html
+    Feature-Policy: oversized-images *(4);
+    ```
 
     ```html
     <iframe allow="oversized-images *(3)"></iframe>
