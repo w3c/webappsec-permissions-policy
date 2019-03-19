@@ -40,12 +40,15 @@ Image policieis are shipped in Chrome M75 via Origin Trials.
 
 Request a token to try the origin trial on your own origin: ["oversized-images" policy](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossy-images"](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossless-images"](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossless-images-10k"](https://developers.chrome.com/origintrials/#/trials/active).
 
-Once you have a token, you can provide the token on any pages in your origin using an `Origin-Trial` HTTP header:
+Provide the token on any pages in your origin using an `Origin-Trial` HTTP header:
 ```
 Origin-Trial: **token as provided in the developer console**
 ```
 
-Please see sessions below on how to specify an image policy via HTTP header `Feature-Poliy` header. 
+Specify an image policy via HTTP header `Feature-Poliy` header (see below for more details). 
+```
+Feature-Policy: **image policies specified here**
+```
 
 For more details, see [Origin Trials Guide for Web Developers](https://github.com/GoogleChrome/OriginTrials/blob/gh-pages/developer-guide.md).
 
@@ -60,9 +63,9 @@ For more details, see [Origin Trials Guide for Web Developers](https://github.co
 
 On a web page, the number of pixels of a container determines the resolution of an image served inside. It is unnecessary to use an image that is much larger than what the viewing device can actually render; for example, serving a desktop image to mobile contexts, or serving an image intended for high-pixel-density screens to a low-pixel-density device. This results in unnecessary network traffic and downloaded bytes. `oversized-images` is a policy controlled feature that restricts images to be no more than X times bigger than the container size.
 
-When a document disallows `oversized-images` policy, the `<img>` elements that are more than X times larger than the container size will be rendered as placeholder images.
+When a document disallows the `oversized-images` policy, the `<img>` elements that are more than X times larger than the container size will be rendered as placeholder images.
 
-To try `oversized-images` policy, register a token [here](https://developers.chrome.com/origintrials/#/trials/active) and specify the policy via HTTP `Feature-Policy` header (see section below for more details).
+To try the `oversized-images` policy, register a token [here](https://developers.chrome.com/origintrials/#/trials/active) and specify the policy via HTTP `Feature-Policy` header (see section below for more details).
 
 
 #### Specification
@@ -185,7 +188,7 @@ For an `<img>` element, if neither the intrinsic width or the intrinsic height o
 
 When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, picking a good image format, and using image compression, are all common ways to optimize an image's file size. `unoptimized-images` is a policy controlled feature that restricts images to have a file size (bytes) no more than X times larger than the image resolution (width x height, pixels) on the web page.
 
-When a document disallows `unoptimized-images` policy, the `<img>` elements whose file sizes are too large will be rendered as placeholder images.
+When a document disallows the `unoptimized-images` policy, the `<img>` elements whose file sizes are too large will be rendered as placeholder images.
 
 We are proposing 3 policies for you to experiment:
 
