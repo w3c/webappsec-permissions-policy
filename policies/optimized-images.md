@@ -25,11 +25,11 @@ Optimized image policies introduce a set of restrictions (policies) on images th
     *   Images used in rendering must not include too much metadata.
     *   Images should be in one of the modern image formats that yield large byte savings and performance improvement.
     *   **"unoptimized-lossy-images"**
-        *   A lossy type `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowrance.
+        *   A lossy type `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowance.
     *   **"unoptimized-lossless-images"**
-        *   A lossless type `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowrance.
+        *   A lossless type `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowance.
     *   **"unoptimized-lossless-images-10k"**
-        *   A lossless type `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**10KB**_ overhead allowrance.
+        *   A lossless type `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**10KB**_ overhead allowance.
 
 **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. _***X***_ means developers can specify the "value" of the policy. For example, `oversized-images *(2)` specifies the maximum ratio, 2, images are allowed to oversize by.
 
@@ -38,7 +38,7 @@ Optimized image policies introduce a set of restrictions (policies) on images th
 
 Image policieis are shipped in Chrome M75 via Origin Trials.
 
-You can request a token for your origin to opt any page on your origin into the trail of ["oversized-images" policy](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossy-images"](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossless-images"](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossless-images-10k"](https://developers.chrome.com/origintrials/#/trials/active).
+Request a token to try the origin trial on your own origin: ["oversized-images" policy](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossy-images"](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossless-images"](https://developers.chrome.com/origintrials/#/trials/active), ["unoptimized-lossless-images-10k"](https://developers.chrome.com/origintrials/#/trials/active).
 
 Once you have a token, you can provide the token on any pages in your origin using an `Origin-Trial` HTTP header:
 ```
@@ -60,7 +60,7 @@ For more details, see [Origin Trials Guide for Web Developers](https://github.co
 
 On a web page, the number of pixels of a container determines the resolution of an image served inside. It is unnecessary to use an image that is much larger than what the viewing device can actually render; for example, serving a desktop image to mobile contexts, or serving an image intended for high-pixel-density screens to a low-pixel-density device. This results in unnecessary network traffic and downloaded bytes. `oversized-images` is a policy controlled feature that restricts images to be no more than X times bigger than the container size.
 
-When a document is disallowed to use `oversized-images` policy, its `<img>` elements that are more than X times larger than the container size will be rendered as a placeholder image.
+When a document disallows `oversized-images` policy, the `<img>` elements that are more than X times larger than the container size will be rendered as placeholder images.
 
 To try `oversized-images` policy, register a token [here](https://developers.chrome.com/origintrials/#/trials/active) and specify the policy via HTTP `Feature-Policy` header (see section below for more details).
 
@@ -185,21 +185,21 @@ For an `<img>` element, if neither the intrinsic width or the intrinsic height o
 
 When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, picking a good image format, and using image compression, are all common ways to optimize an image's file size. `unoptimized-images` is a policy controlled feature that restricts images to have a file size (bytes) no more than X times larger than the image resolution (width x height, pixels) on the web page.
 
-When a document is disallowed to use `unoptimized-images` policy, its `<img>` elements whose file sizes are too large will be rendered as placeholder images.
+When a document disallows `unoptimized-images` policy, the `<img>` elements whose file sizes are too large will be rendered as placeholder images.
 
 We are proposing 3 policies for you to experiment:
 
-*   **"unoptimized-lossy-images"**: any `<img>` element of JPEG format is restricted to not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowrance.
+*   **"unoptimized-lossy-images"**: any `<img>` element of JPEG format is restricted so as not to exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowance.
 
-*   **"unoptimized-lossless-images"**: any `<img>` element of format other than JPEG is restricted to not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowrance.
+*   **"unoptimized-lossless-images"**: any `<img>` element of format other than JPEG is restricted so as not to exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowance.
 
-*   **"unoptimized-lossless-images-10k"**: any `<img>` element of format other than JPEG is restricted to not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**10KB**_ overhead allowrance.
+*   **"unoptimized-lossless-images-10k"**: any `<img>` element of format other than JPEG is restricted so as not to exceed a byte-per-pixel ratio of _***X***_, with a fixed _**10KB**_ overhead allowance.
 
 If a restriction is violated, the image will be **rendered as a placeholder image**.
 
 **Note**: "unoptimized-*-images" policies do not apply on SVG images.
 
-We encourage you to experiment all 3 policies at once and tell us about which policy works best for you.
+We encourage you to experiment with all 3 policies at once and tell us which policy works best for you.
 
 To try the policies, register tokens [here](https://developers.chrome.com/origintrials/#/trials/active) and specify the policies via HTTP `Feature-Policy` header (see section below for more details).
 
@@ -211,7 +211,7 @@ all `<img>` elements will be allowed and rendered correctly by default.
 
 - The maximum file size allowrance is calculated as following:
     
-   ```overhead allowrance + byte-per-pixel ratio * image resolution```
+   ```overhead allowance + byte-per-pixel ratio * image resolution```
     + For `unoptimized-lossy-images` and `unoptimized-lossless-images`:
         + The default metadata size limit is tentatively 1KB (1024 bytes).
         + The byte-per-pixel ratio is specified by the user. 
@@ -237,7 +237,7 @@ all `<img>` elements will be allowed and rendered correctly by default.
     <iframe src="https://example.com" allow="unoptimized-lossless-images 'self'(0.8) https://foo.com(1);">
     ```
       
-    In this example, `unoptimized-lossless-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any non JPEG `<img>` element whose file size exeeds the maximum file size allowrance (with pite-per-pixel ratio set to 0.8) will be rendered as a placeholder image. On 'https://foo.com', any non JPEG `<img>` element whose file size exeeds the maximum file size allowrance (with pite-per-pixel ratio set to 1) will be rendered as a placeholder image. **`<img>` elements on any other origins whose file size exeeds 1KB will be rendered as placeholder images**.
+    In this example, `unoptimized-lossless-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any non JPEG `<img>` element whose file size exeeds the maximum file size allowance (with pite-per-pixel ratio set to 0.8) will be rendered as a placeholder image. On 'https://foo.com', any non JPEG `<img>` element whose file size exeeds the maximum file size allowance (with pite-per-pixel ratio set to 1) will be rendered as a placeholder image. **`<img>` elements on any other origins whose file size exeeds 1KB will be rendered as placeholder images**.
 
 - Feature policies combine in subframes, and the minimum value of the bite-per-pixel ratio will be applied, so if a frame, whose maximum bite-per-pixel ratio is set to 0.9 for unoptimized-lossy-images, embedded another, which the syntax:
         
@@ -277,6 +277,6 @@ all `<img>` elements will be allowed and rendered correctly by default.
   </tr>
 </table>
 
-For an `<img>` element, if its file size is within the allowrance, the image will be rendered correctly; otherwise the image will be rendered as placeholder images.
+Any `<img>` element whose file size is within the allowance will be rendered correctly;
 
 
