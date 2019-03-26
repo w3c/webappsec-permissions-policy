@@ -168,7 +168,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     character strings used in <a>policy directives</a>.
     <p>Each <a>policy-controlled feature</a> has a <a>default allowlist</a>,
     which defines whether that feature is available in documents in top-level
-    browsing contexts, and how access to that feature is inherited in nested
+    browsing contexts, and how access to that feature is inherited in child
     browsing contexts.</p>
     <p>A user agent has a set of <dfn>supported features</dfn>, which is the set
     of <a data-lt="policy-controlled feature">features</a> which it allows to be
@@ -216,8 +216,8 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     </p>
     <p>In a {{Document}} in a [=top-level browsing context=], the inherited
     policy is based on defined defaults for each feature.</p>
-    <p>In a {{Document}} in a [=nested browsing context=], the inherited policy
-    is based on the parent document's feature policy, as well as the [=nested
+    <p>In a {{Document}} in a [=child browsing context=], the inherited policy
+    is based on the parent document's feature policy, as well as the [=child
     browsing context=]'s <a>container policy</a>.
     </div>
   </section>
@@ -300,22 +300,22 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <a>default allowlist</a> determines whether the feature is allowed in a
     document with no declared policy in a top-level browsing context, and also
     whether access to the feature is automatically delegated to documents in
-    nested browsing contexts.</p>
+    child browsing contexts.</p>
     <p>The <a>default allowlist</a> for a <a
     data-lt="policy-controlled feature">feature</a> is one of these values:</p>
     <dl>
       <dt><code>*</code></dt>
       <dd>The feature is allowed in documents in top-level browsing contexts by
-      default, and when allowed, is allowed by default to documents in nested
+      default, and when allowed, is allowed by default to documents in child
       browsing contexts.</dd>
       <dt><code>'self'</code></dt>
       <dd>The feature is allowed in documents in top-level browsing contexts by
       default, and when allowed, is allowed by default to same-origin domain
-      documents in nested browsing contexts, but is disallowed by default in
-      cross-origin documents in nested browsing contexts.</dd>
+      documents in child browsing contexts, but is disallowed by default in
+      cross-origin documents in child browsing contexts.</dd>
       <dt>'none'</dt>
       <dd>The feature is disallowed in documents in top-level browsing contexts
-      by default, and is also disallowed by default to documents in nested
+      by default, and is also disallowed by default to documents in child
       browsing contexts.</dd>
     </dl>
   </section>
@@ -373,8 +373,9 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     </p>
     <p>When not empty, the "<code>allow</code>" attribute will result in adding
     an <a>allowlist</a> for each recognized
-    <a data-lt="policy-controlled feature">feature</a> to the [=nested browsing
-    context=]'s <a>container policy</a>, when it is constructed.</p>
+    <a data-lt="policy-controlled feature">feature</a> to the <{iframe}>
+    element's [=nested browsing context=]'s <a>container policy</a>, when it is
+    constructed.</p>
   </section>
   <section>
     <h3 id="legacy-attributes">Additional attributes to support legacy
@@ -392,8 +393,9 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
       "<code>allowfullscreen</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowfullscreen</code>" attribute
       on an iframe will result in adding an <a>allowlist</a> of <code>*</code>
-      for the "<code>fullscreen</code>" feature to the [=nested browsing
-      context=]'s <a>container policy</a>, when it is constructed.</p>
+      for the "<code>fullscreen</code>" feature to the <{iframe}> element's
+      [=nested browsing context=]'s <a>container policy</a>, when it is
+      constructed.</p>
       <div class="note">
         This is different from the behaviour of <code>&lt;iframe
         allow="fullscreen"&gt;</code>, and is for compatibility with existing
@@ -412,8 +414,9 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
       "<code>allowpaymentrequest</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowpaymentrequest</code>"
       attribute on an iframe will result in adding an <a>allowlist</a> of
-      <code>*</code> for the "<code>payment</code>" feature to the [=nested
-      browsing context=]'s <a>container policy</a>, when it is constructed.</p>
+      <code>*</code> for the "<code>payment</code>" feature to the <{iframe}>
+      element's [=nested browsing context=]'s <a>container policy</a>, when it
+      is constructed.</p>
       <div class="note">
         This is different from the behaviour of <code>&lt;iframe
         allow="payment"&gt;</code>, and is for compatibility with existing uses
@@ -488,8 +491,8 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   a feature is actually currently allowed in the frame, as the document in the
   frame may have applied its own policy via an HTTP header, or may have
   navigated away from its initial location to a new origin. Revealing the
-  effective policy in the nested browsing context in that case could leak
-  information about the behaviour of a cross-origin document.</p>
+  effective policy in the iframe element's nested browsing context in that case
+  could leak information about the behaviour of a cross-origin document.</p>
 
   <div class="example">
   <pre>
@@ -950,10 +953,11 @@ partial interface HTMLIFrameElement {
     <ol>
       <li>Let <var>context</var> be <var>document</var>'s <a>browsing
       context</a>.</li>
-      <li>If <var>context</var> is a [=nested browsing context=], return the
-        result of executing <a href="#define-inherited-policy-in-container"></a>
-        for <var>feature</var> in <var>context</var>'s <a>browsing context
-	container</a> at <var>document</var>'s <a>origin</a>.</li>
+      <li>If <var>context</var> is the [=nested browsing context=] of a
+        [=browsing context container=] <var>element</var>, return the result of
+        executing <a href="#define-inherited-policy-in-container"></a> for
+        <var>feature</var> in <var>element</var> at <var>document</var>'s
+        <a>origin</a>.</li>
       <li>Otherwise, return "<code>Enabled</code>".</li>
     </ol>
   </section>
