@@ -18,7 +18,7 @@ The `loading` attribute can take one of the three values:
   * **`auto`** the browser makes the call for the loading behavior; it probably defaults to `eager`.
   * **`lazy`**: the resource loads lazily.
 
-The proposed `loading-frame-default-eager` policy will affect the `auto` attribute value in that when disabled inside a document, all the `<iframe>`'s which do not explicitly set the `loading` attribute to `eager` will most probably load lazily. This is equivalent to overriding the `loading` attribute of `auto` with `lazy`.
+The proposed `loading-frame-default-eager` policy will affect the `auto` attribute value in that when disabled, `loading="auto"` (or unset) will be treated as `lazy`, which means that frames which don't set the attribute to `eager` will (usually) be lazily loaded.
   
 This feature could be enforced either in the HTTP header or by using the `allow` attribute of an inline frame.
 
@@ -26,6 +26,17 @@ Using the Feature
 -------------
 
 This feature can be introduced with the HTTP headers. For instance,
+```HTTP
+Feature-Policy: loading-frame-default-eager 'none'
+```
+would cause all the nested `<iframe>`'s and the corresponding nested and auxiliary browsing contexts to load lazily, unless the have specifically set `loading="eager"`. For example, if the document has
+```HTML
+<iframe id="frame"></iframe>
+<iframe id="fast" loading="eager"></iframe>
+```
+then the `<iframe>` with `id="frame"` loads lazily but the `<iframe>` with `id="fast"` would load normally (eagerly).
+
+Similarly, to allow certain origins,
 ```HTTP
 Feature-Policy: loading-frame-default-eager 'self' https://example.com
 ```
