@@ -1093,7 +1093,7 @@ partial interface HTMLIFrameElement {
     <dd>W3C</dd>
     <dt>Specification document</dt>
     <dd>
-      <a href="">Feature Policy API</a>
+      <a href="https://www.w3.org/TR/2019/WD-feature-policy-1">Feature Policy API</a>
     </dd>
   </dl>
 </section>
