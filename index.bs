@@ -6,7 +6,7 @@ Indent: 2
 Status: FPWD
 Group: WebAppSec
 URL: https://w3c.github.io/webappsec-feature-policy/
-TR: https://www.w3.org/TR/feature-policy
+TR: https://www.w3.org/TR/feature-policy-1
 Date: 2019-04-16
 Editor: Ian Clelland, Google, iclelland@google.com
 Abstract: This specification defines a mechanism that allows developers to selectively enable and disable use of various browser features and APIs.
@@ -1093,7 +1093,7 @@ partial interface HTMLIFrameElement {
     <dd>W3C</dd>
     <dt>Specification document</dt>
     <dd>
-      <a href="https://www.w3.org/TR/feature-policy">Feature Policy API</a>
+      <a href="https://www.w3.org/TR/feature-policy-1">Feature Policy API</a>
     </dd>
   </dl>
 </section>
