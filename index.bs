@@ -1070,7 +1070,7 @@ partial interface HTMLIFrameElement {
       </li>
       <li>Set |document| to |window|’s <a>associated `Document`</a>.</li>
       <li>Let |origin| be |request|’s <a for="request">origin</a>.</li>
-      <li>Let |result| be the result of executing <a href="is-feature-enabled">Is feature enabled in document for origin?</a> on |feature|, |document|, and |origin|.
+      <li>Let |result| be the result of executing <a href="#is-feature-enabled">Is feature enabled in document for origin?</a> on |feature|, |document|, and |origin|.
       </li>
       <li>If |result| is "<code>Enabled</code>", return <code>true</code>.</li>
       <li>Otherwise, return <code>false</code>.</li>
