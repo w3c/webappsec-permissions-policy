@@ -5,6 +5,7 @@ Level: 1
 Indent: 2
 Status: FPWD
 Group: WebAppSec
+Prepare For TR: true
 URL: https://w3c.github.io/webappsec-feature-policy/
 TR: https://www.w3.org/TR/feature-policy-1
 Date: 2019-04-16
