@@ -2,8 +2,8 @@ loading-frame-default-eager Policy
 ===========
 
 The `loading-frame-default-eager` policy-controlled feature can be used for a main frame or a nested
-`<iframe>` to overwrite the default or assigned value of the newly
-introduced `loading` [attribute](https://github.com/whatwg/html/pull/3752) for `<iframe>` and `<img>`.
+`<iframe>` to override the default behavior of the newly
+introduced `loading` [attribute](https://github.com/whatwg/html/pull/3752).
 
 What does that mean?
 ------------
