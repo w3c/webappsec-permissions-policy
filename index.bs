@@ -1185,11 +1185,10 @@ partial interface HTMLIFrameElement {
     <li>Sites should use feature detection to determine whether an API or
     behavior is available before attempting to use it, and should handle any
     documented errors returned or exceptions thrown by the APIs they call.</li>
-  </ul>
-
     <li>In the case where feature detection is not possible, new web content can
     be written to use the `policy` object to inspect the feature policy which is
     currently enforced, and adjust behaviour or user interface accordingly.</li>
+  </ul>
 
   <p>Authors integrating their features with Feature Policy can decide when and
   how the feature will fail when a document attempts to use it while it is
