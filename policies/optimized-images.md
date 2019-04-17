@@ -2,7 +2,9 @@
 
 loonybear@, last updated: 03/27/2019
 
-<span style="color:#38761d;">Status: in [Origin Trials](https://github.com/GoogleChrome/OriginTrials) in M75</span>
+<span style="color:#38761d;">Status: Draft Proposal
+   
+   Note that features are available in [Origin Trials](https://github.com/GoogleChrome/OriginTrials) in M75</span>
 
 
 ## Goal
@@ -28,14 +30,16 @@ Optimized image policies introduce a set of restrictions (policies) on images th
 *   **["unoptimized-lossless-images" policy](#unoptimized-{lossy,lossless}-images)**
     *   Lossless images used in rendering must not include too much metadata.
     *   Lossless images should be in one of the modern image formats that yield large byte savings and performance improvement.
-    *   A lossless `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowance. For a W x H image, the file size threshold is calculated as `W x H x X + 1024` (where X is specified in the policy). Any image whose file size exeeds the limit will be blocked.    
+    *   A lossless `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowance. For a W x H image, the file size threshold is calculated as `W x H x X + 1024` (where X is specified in the policy). Any image whose file size exeeds the limit will be blocked.
+    
+        **Note**: we are still trying to figure out the appropriate overhead allowance for the policies. We are experimenting with 2 features for lossless images: "unoptimized-lossless-images", where the overhead allowed is set to 10K, and "unoptimized-lossless-images-strict", where the overhead allowed is set to 1K.
 
 **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. _***X***_ means developers can specify the "value" of the policy. For example, `oversized-images *(2)` specifies the maximum ratio, 2, images are allowed to oversize by.
 
 
 ## Experiment image policies with Origin Trials
 
-Image policieis are shipped in Chrome M75 via Origin Trials.
+Image policies are shipped in Chrome M75 via Origin Trials.
 
 Request a token to try the origin trial on your own origin:
    * Provide the token on any pages in your origin using an `Origin-Trial` HTTP header:
@@ -62,9 +66,9 @@ For more details, see [Origin Trials Guide for Web Developers](https://github.co
 
 On a web page, the number of pixels of a container determines the resolution of an image served inside. It is unnecessary to use an image that is much larger than what the viewing device can actually render; for example, serving a desktop image to mobile contexts, or serving an image intended for high-pixel-density screens to a low-pixel-density device. This results in unnecessary network traffic and downloaded bytes. `oversized-images` is a policy controlled feature that restricts images to be no more than X times bigger than the container size.
 
-When a document disallows the `oversized-images` policy, the `<img>` elements that are more than X times larger than the container size will be replaced with placeholder images.
+When a document disallows the `oversized-images` policy, the `<img>` elements that are more than X times larger than the container size in either dimension will be replaced with placeholder images.
 
-To try the `oversized-images` policy, register a token [here](https://developers.chrome.com/origintrials/#/trials/active) and specify the policy via HTTP `Feature-Policy` header (see section above for more details).
+To try the `oversized-images` policy, register a token [here](https://developers.chrome.com/origintrials/#/trials/active) and specify the policy via HTTP `Feature-Policy` header (see section above for more details). Please note that origin trial token is Chrome-specific.
 
 
 #### Specification
@@ -74,22 +78,22 @@ all `<img>` elements will be allowed and rendered correctly by default.
 
 - An `oversized-images` policy can be specified via:
 
-    **1. [HTTP `Feature-Policy`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy) response header:**
+    **1. [HTTP `Feature-Policy`]( https://w3c.github.io/webappsec-feature-policy/#feature-policy-http-header-field) response header:**
    ```html
     Feature-Policy: oversized-images *(0);
    ```
-    In this example, `oversized-images` is **disabled for all frames** including the main frame. All `<img>` elements will be replaced with placeholder images as their intrinsic dimensions will be more than 0 (0 times larger than the container size).
+    In this example, `oversized-images` is **disabled for all frames** including the main frame. All `<img>` elements will be replaced with placeholder images as their intrinsic dimensions will be more than 0 (0 times larger than the container size in either dimension).
     
     **2. [`allow` attribute in <iframe>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#Attributes):**
    ```html
    <iframe src="https://example.com" allow="oversized-images 'self'(2) https://foo.com(3);">
    ```
-    In this example, `oversized-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are more than _2_ times larger than the container size will be replaced with a placeholder image. On 'https://foo.com', any `<img>` element whose intrinsic dimensions are more than _3_ times larger than the container size will be replaced with a placeholder image. **`<img>` elements on any other origins will be replaced with placeholder images**.
+    In this example, `oversized-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are more than _2_ times larger than the container size in either dimension will be replaced with a placeholder image. On 'https://foo.com', any `<img>` element whose intrinsic dimensions are more than _3_ times larger than the container size in either dimension will be replaced with a placeholder image. **`<img>` elements on any other origins will be replaced with placeholder images**.
 
     ```html
     <iframe allow="oversized-images *(4) 'self'(3)"></iframe>
     ```
-    In this example, **the maximum oversizing ratio allowed is set to 4 everywhere except on the origin of the main document where it is set to 3**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are more than _4_ times larger than the container size will be replaced with a placeholder image. On other origins, any `<img>` element whose intrinsic dimensions are more than _3_ times larger than the container size will be replaced with a placeholder image.
+    In this example, **the maximum oversizing ratio allowed is set to 4 everywhere except on the origin of the main document where it is set to 3**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are more than _4_ times larger than the container size in either dimension will be replaced with a placeholder image. On other origins, any `<img>` element whose intrinsic dimensions are more than _3_ times larger than the container size in either dimension will be replaced with a placeholder image.
 
 - The recomnended oversizing ratio is **2**.
 
@@ -203,20 +207,20 @@ When a document disallows the `unoptimized-lossless-images` policy or the `unopt
  
 - An "unoptimized-lossy-images" policy or an "unoptimized-lossless-images" policy can be specified via:
 
-    **1. HTTP "feature-policy" response header:**
+    **1. [HTTP `Feature-Policy`]( https://w3c.github.io/webappsec-feature-policy/#feature-policy-http-header-field) response header:**
     ```html
     Feature-Policy: unoptimized-lossy-images *(0);
     ```
     In this example, `unoptimized-lossy-images` is **disabled for all frames** including the main frame. Any `<img>` element of JPEG format whose file size is over 1KB will be replaced with placeholder images as the byte-per-pixel ratio allowed is 0.
 
-    **2. "allow" attribute in <iframe>:**
+    **2. [`allow` attribute in <iframe>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#Attributes):**
     ```html
     <iframe src="https://example.com" allow="unoptimized-lossless-images 'self'(0.8) https://foo.com(1);">
     ```
 
     In this example, `unoptimized-lossless-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any non JPEG `<img>` element whose file size exeeds the maximum file size allowance (with pite-per-pixel ratio set to 0.8) will be replaced with a placeholder image. On 'https://foo.com', any non JPEG `<img>` element whose file size exeeds the maximum file size allowance (with pite-per-pixel ratio set to 1) will be replaced with a placeholder image. **`<img>` elements on any other origins whose file size exeeds 1KB will be replaced with placeholder images**.
 
-- Feature policies combine in subframes, and the minimum value of the bite-per-pixel ratio will be applied, so if a frame, whose maximum bite-per-pixel ratio is set to 0.9 for unoptimized-lossy-images, embedded another, which the syntax:
+- Feature policies combine in subframes, and the minimum value of the byte-per-pixel ratio will be applied, so if a frame, whose maximum byte-per-pixel ratio is set to 0.9 for unoptimized-lossy-images, embedded another, which the syntax:
 
     ```html
     Feature-Policy: unoptimized-lossy-images *(0.9);
