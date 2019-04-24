@@ -29,7 +29,7 @@ This feature can be introduced with the HTTP headers. For instance,
 ```HTTP
 Feature-Policy: loading-frame-default-eager 'none'
 ```
-would cause all the nested `<iframe>`'s and the corresponding nested and auxiliary browsing contexts to load lazily, unless the have specifically set `loading="eager"`. For example, if the document has
+would cause all the nested `<iframe>`'s and the corresponding nested and auxiliary browsing contexts to load lazily, unless they have specifically set `loading="eager"`. For example, if the document has
 ```HTML
 <iframe id="frame"></iframe>
 <iframe id="fast" loading="eager"></iframe>
@@ -50,7 +50,7 @@ which regards all the `<iframe>`s with `loading="auto"` or `<iframe>`s that do n
 
 The Extra Mile
 -----------
-In general the feature could allow an expanded set of enforcement policies with the use of [parametric features](https://github.com/WICG/feature-policy/issues/163). Under a geralized `loading-frame` policy, the following potential values could be supported (in the order of permissiveness):
+In general the feature could allow an expanded set of enforcement policies with the use of [parametric features](https://github.com/WICG/feature-policy/issues/163). Under a generalized `loading-frame` policy, the following potential values could be supported (in the order of permissiveness):
   * `default`: the policy does not affect the behavior of the `loading` attribute,
   * `default-eager-off`: all the `loading="auto"` attributes (and those not set for a `<iframe>`) are regarded as `lazy`,
   * `eager-off`: all the `loading="eager"` and `loading="auto"` (and unset `<iframe>`s) are interpretted as `loading="lazy"`.
