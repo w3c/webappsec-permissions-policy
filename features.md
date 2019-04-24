@@ -56,7 +56,7 @@ experimentation by web developers.
 | `document-write` | [document-write.md](policies/document-write.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `font-display-late-swap` | [font-display-late-swap.md](policies/font-display-late-swap.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `layout-animations` | [animations.md](policies/animations.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
-| `loading-frame-default-eager` | [loading-frame-default-eager.md](policies/loading-frame-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome <sup>[5](#fn5)</sup> |
+| `loading-frame-default-eager` | [loading-frame-default-eager.md](policies/loading-frame-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
 | `legacy-image-formats` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `oversized-images` | [optimized-images.md](policies/optimized-images.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
