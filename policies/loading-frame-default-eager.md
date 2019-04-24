@@ -8,8 +8,8 @@ introduced `loading` [attribute](https://github.com/whatwg/html/pull/3752).
 What does that mean?
 ------------
 With the `loading-frame-default-eager` attribute, developers could prioritize the loading of different inline frames on a web page. This however could become a cumbersome process and not quite scalable for larger
-web sites specially given that applying the attribute is origin-agnostic. The proposed policy aims to resolve
-this issue but changing a browser's default decision for `loading` behavior.
+web sites; specially given that applying the attribute is origin-agnostic. The proposed policy aims to resolve
+this issue by changing a browser's default decision for `loading` behavior.
 
 Proposed Solution
 ------------
@@ -18,9 +18,9 @@ The `loading` attribute can take one of the three values:
   * **`auto`** the browser makes the call for the loading behavior; it probably defaults to `eager`.
   * **`lazy`**: the resource loads lazily.
 
-The proposed `loading-frame-default-eager` policy will affect the `auto` attribute value in that when disabled, `loading="auto"` (or unset) will be treated as `lazy`, which means that frames which don't set the attribute to `eager` will (usually) be lazily loaded.
+The proposed `loading-frame-default-eager` policy will affect the `auto` attribute value in that when disabled, `loading="auto"` (or unset) will be treated as `lazy`, which means that frames with unspecified `loading` attribute will be lazily loaded.
   
-This feature could be enforced either in the HTTP header or by using the `allow` attribute of an inline frame.
+This feature could be enforced either in the HTTP header or in the `allow` attribute of an inline frame.
 
 Using the Feature
 -------------
