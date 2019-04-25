@@ -10,7 +10,7 @@ What does that mean?
 With the `loading-image-default-eager` attribute, developers could prioritize the loading of `<img>`'s on a web page.
 This however could become a cumbersome process and not quite scalable for larger
 web sites specially given that applying the attribute is origin-agnostic. The proposed policy aims to resolve
-this issue but changing a browser's default decision for `loading` behavior.
+this issue by changing a browser's default decision for `loading` behavior.
 
 Proposed Solution
 ------------
@@ -20,10 +20,9 @@ The `loading` attribute can take one of the three values:
   * **`lazy`**: the resource loads lazily.
 
 The proposed `loading-image-default-eager` policy will affect the `auto` attribute value in that when disabled,
-`loading="auto"` (or unset) will be treated as `lazy`, which means that images which don't set the attribute to `eager`
-will (usually) be lazily loaded.
+`loading="auto"` (or unset) will be treated as `lazy`; which means that images that do not explicitly set their `loading` attribute to `eager` will be lazily loaded.
   
-This feature could be enforced either in the HTTP header or by using the `allow` attribute of an inline frame.
+This feature could be enforced in the HTTP header or the `allow` attribute of an inline frame.
 
 Using the Feature
 -------------
@@ -39,8 +38,7 @@ those which explicitly set `loading="eager"`) to load lazily. For example, if th
 <img src="foo.jpeg">
 <img loading="eager" src="bar.jpeg">
 ```
-then the `foo.jpeg` image will load lazily but `bar.jpeg` loads immediately with the page since it is explicitly marked with
-eager loading.
+then the `foo.jpeg` image will load lazily but `bar.jpeg` loads immediately with the page since it is explicitly marked to be loaded eagerly.
 
 Similarly, to allow the feature for certain origins,
 ```HTTP
@@ -59,7 +57,7 @@ as lazily loaded images.
 The Extra Mile
 -----------
 In general the feature could allow an expanded set of enforcement policies with the use of
-[parametric features](https://github.com/WICG/feature-policy/issues/163). Under a geralized `loading-image` policy,
+[parametric features](https://github.com/WICG/feature-policy/issues/163). Under a generalized `loading-image` policy,
 the following potential values could be supported (in the order of permissiveness):
   * `default`: the policy does not affect the behavior of the `loading` attribute,
   * `default-eager-off`: all the `loading="auto"` attributes (and those not set for a `<img>`) are regarded as `lazy`,
