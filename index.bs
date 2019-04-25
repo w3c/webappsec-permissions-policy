@@ -242,7 +242,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     [=browsing context container=].</p>
     <p>The <a>container policy</a> for a [=nested browsing context=] influences
     the <a>inherited policy</a> of any document loaded into that context.
-    (See <a href="#define-inherited-policy"></a>)</p>
+    (See <a href="#algo-define-inherited-policy"></a>)</p>
     <div class="note">
       Currently, the <a>container policy</a> cannot be set directly, but is
       indirectly set by <code>iframe</code> "<a href=
@@ -631,8 +631,8 @@ partial interface HTMLIFrameElement {
         1. Let |inherited policy| be a new ordered map.
         2. Let |declared policy| be a new ordered map.
         3. For each <a>supported feature</a> |feature|:
-            1. Let |isInherited| be the result of running <a
-                href="#define-inherited-policy-in-container"></a> on |feature|,
+            1. Let |isInherited| be the result of running <a>Define an inherited
+                policy for feature in container at origin</a> on |feature|,
                 |node| and |node|'s <a>declared origin</a>.
             2. Set |inherited policy|[|feature|] to |isInherited|.
         4. Return a new <a>feature policy</a> with inherited policy
@@ -721,7 +721,8 @@ partial interface HTMLIFrameElement {
 <section>
   <h2 id="algorithms">Algorithms</h2>
   <section>
-    <h3 id="process-response-policy">Process response policy</h3>
+    <h3 id="algo-process-response-policy"><dfn>Process response
+    policy</dfn></h3>
     <p>Given a [=response=] (<var>response</var>) and an [=origin=]
     (<var>origin</var>), this algorithm returns a <a>declared feature
     policy</a>.</p>
@@ -735,15 +736,16 @@ partial interface HTMLIFrameElement {
       for="response">header list</a> whose name is
       "<code>Feature-Policy</code>", separated by U+002C (,) (according to
       [RFC7230, 3.2.2]).</li>
-      <li>Let <var>feature policy</var> be the result of executing <a href=
-      "#parse-header"></a> on <var>header</var> and <var>origin</var>.
+      <li>Let <var>feature policy</var> be the result of executing <a>Parse
+        header from value and origin</a> on <var>header</var> and
+        <var>origin</var>.
       </li>
       <li>Return <var>feature policy</var>.</li>
     </ol>
   </section>
   <section>
-    <h3 id="parse-header">Parse header from <var>value</var> and
-    <var>origin</var></h3>
+    <h3 id="algo-parse-header"><dfn>Parse header from <var>value</var> and
+    <var>origin</var></dfn></h3>
     <p>Given a string (<var>value</var>) and an [=origin=] (<var>origin</var>)
     this algorithm will return a <a>declared feature policy</a>.</p>
     <ol>
@@ -752,10 +754,10 @@ partial interface HTMLIFrameElement {
       lt="split on commas">splitting <var>value</var> on commas</a>:
         <ol>
           <li>Let <var>directive</var> be the result of executing <a href=
-          "#parse-policy-directive"></a> on <var>element</var> with
+          "#algo-parse-policy-directive"></a> on <var>element</var> with
           <var>container origin</var> set to <var>origin</var>.
           </li>
-          <li>Run <a href="#merge-directive-with-declared-policy"></a> on <var>
+          <li>Run <a>Merge directive with declared policy</a> on <var>
             directive</var> and <var>policy</var>.
           </li>
         </ol>
@@ -764,7 +766,7 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="parse-policy-directive">Parse policy directive</h3>
+    <h3 id="algo-parse-policy-directive"><dfn>Parse policy directive</dfn></h3>
     <p>Given a string (<var>value</var>), an [=origin=] (<var>container
     origin</var>), and an optional [=origin=] (<var>target origin</var>), this
     algorithm returns a <a>policy directive</a>.
@@ -828,8 +830,8 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="merge-directive-with-declared-policy">Merge directive with declared
-    policy</h3>
+    <h3 id="algo-merge-directive-with-declared-policy"><dfn>Merge directive with
+    declared policy</dfn></h3>
     <p>Given a policy directive (<var>directive</var>) and a declared policy
     (<var>policy</var>), this algorithm will modify <var>policy</var> to
     account for the new directive.</p>
@@ -845,15 +847,15 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="process-feature-policy-attributes">Process feature policy
-    attributes</h3>
+    <h3 id="algo-process-feature-policy-attributes"><dfn>Process feature policy
+    attributes</dfn></h3>
     <p>Given an element (<var>element</var>), this algorithm returns a
     <a>container policy</a>, which may be empty.</p>
     <ol>
       <li>Let <var>policy</var> be a new <a>policy directive</a>.
       </li>
-      <li>Let <var>container policy</var> be the result of running <a href=
-      "#parse-policy-directive">Parse policy directive</a> on the value of
+      <li>Let <var>container policy</var> be the result of running <a>Parse
+      policy directive</a> on the value of
         <var>element</var>'s <code>allow</code> attribute, with <var>container
         origin</var> set to the origin of <var>element</var>'s node document,
         and <var>target origin</var> set to <var>element</var>'s <a>declared
@@ -887,8 +889,9 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="initialize-for-document">Initialize <var>document</var>'s Feature
-    Policy</var></h3>
+    <h3 id="algo-initialize-for-document"><dfn export
+    id="initialize-for-document">Initialize <var>document</var>'s Feature
+    Policy</var></dfn></h3>
     <p>Given a {{Document}} object (<var>document</var>), this algorithm
     initialises <var>document</var>'s <a>Feature Policy</a></p>
     <ol>
@@ -896,8 +899,8 @@ partial interface HTMLIFrameElement {
       <li>Let <var>declared policy</var> be a new ordered map.</li>
       <li>For each <var>feature</var> supported,
         <ol>
-          <li>Let <var>isInherited</var> be the result of running <a href=
-          "#define-inherited-policy"></a> on <var>feature</var> and
+          <li>Let <var>isInherited</var> be the result of running <a>Define an
+          inherited policy for feature in document</a> on <var>feature</var> and
           <var>document</var>.
           </li>
           <li>Set <var>inherited policy</var>[<var>feature</var>] to
@@ -914,13 +917,14 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="initialize-from-response">Initialize <var>document</var>'s Feature
-    Policy from <var>response</var></h3>
+    <h3 id="algo-initialize-from-response"><dfn export
+    id="initialize-from-response">Initialize <var>document</var>'s Feature
+    Policy from <var>response</var></dfn></h3>
     <p>Given a [=response=] (<var>response</var>) and a <a>Document</a>
     (<var>document</var>), this algorithm populates <var>document</var>'s
     <a>Feature Policy</a></p>
     <ol>
-      <li><a href="#initialize-for-document">Initialize <var>document</var>'s
+      <li><a>Initialize <var>document</var>'s
       Feature Policy</a></li>
       <li>Let <var>inherited policy</var> be <var>document</var>'s Feature
       Policy's <a>inherited policy</a>.</li>
@@ -945,8 +949,8 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="define-inherited-policy">Define an inherited policy for
-    <var>feature</var> in <var>document</var></h3>
+    <h3 id="algo-define-inherited-policy"><dfn>Define an inherited policy for
+    <var>feature</var> in <var>document</var></dfn></h3>
     <p>Given a feature (<var>feature</var>) and a <a>Document</a>
     (<var>document</var>), this algorithm returns the <a>inherited policy</a>
     for that feature.</p>
@@ -955,15 +959,17 @@ partial interface HTMLIFrameElement {
       context</a>.</li>
       <li>If <var>context</var> is the [=nested browsing context=] of a
         [=browsing context container=] <var>element</var>, return the result of
-        executing <a href="#define-inherited-policy-in-container"></a> for
-        <var>feature</var> in <var>element</var> at <var>document</var>'s
+        executing <a>Define an inherited policy for feature in container at
+        origin</a> for <var>feature</var> in <var>context</var>'s <a>browsing
+        context container</a> at <var>document</var>'s
         <a>origin</a>.</li>
       <li>Otherwise, return "<code>Enabled</code>".</li>
     </ol>
   </section>
   <section>
-    <h3 id="define-inherited-policy-in-container">Define an inherited policy for
-    <var>feature</var> in <var>container</var> at <var>origin</var></h3>
+    <h3 id="algo-define-inherited-policy-in-container"><dfn>Define an inherited
+    policy for <var>feature</var> in <var>container</var> at
+    <var>origin</var></dfn></h3>
     <p>Given a feature (<var>feature</var>) a <a>browsing context container</a>
     (<var>container</var>), and an <a>origin</a> for a document in that
     container (<var>origin</var>), this algorithm returns the <a>inherited
@@ -972,7 +978,7 @@ partial interface HTMLIFrameElement {
       <li>Let <var>parent</var> be <var>container</var>'s <a>node
         document</a>.</li>
       <li>Let <var>container policy</var> be the result of running
-        <a href="#process-feature-policy-attributes"></a> on
+        <a>Process feature policy attributes</a> on
         <var>container</var>.
       </li>
       <li>If <var>feature</var> is a key in <var>container policy</var>:
@@ -995,8 +1001,9 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="is-feature-enabled">Is <var>feature</var> enabled in
-    <var>document</var> for <var>origin</var>?</h3>
+    <h3 id="algo-is-feature-enabled"><dfn id="is-feature-enabled">Is
+    <var>feature</var> enabled in <var>document</var> for
+    <var>origin</var>?</dfn></h3>
     <p>Given a feature (<var>feature</var>), a {{Document}} object
     (<var>document</var>), and an [=origin=] (<var>origin</var>), this algorithm
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
@@ -1027,8 +1034,9 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="report-feature-policy-violation" export>Generate report for
-    violation of |feature| policy on |settings|</h3>
+    <h3 id="algo-report-feature-policy-violation"><dfn export
+    id="report-feature-policy-violation">Generate report for violation of
+    |feature| policy on |settings|</h3>
 
     <p> Given a feature (|feature|), an <a>environment settings object</a>
     (|settings|), and an optional string (|group|), this algorithm generates a
@@ -1063,7 +1071,8 @@ partial interface HTMLIFrameElement {
     been <a>violated</a>.
   </section>
   <section>
-    <h3 id="should-request-be-allowed-to-use-feature">Should <var>request</var> be allowed to use <var>feature</var>?</h3>
+    <h3 id="algo-should-request-be-allowed-to-use-feature"><dfn export>Should
+    <var>request</var> be allowed to use <var>feature</var>?</dfn></h3>
     <p>Given a feature (<var>feature</var>) and a  <a for="/">request</a> (<var>request</var>), this algorithm returns <code>true</code> if the request should be allowed to use <var>feature</var>, and <code>false</code> otherwise.</p>
     <ol>
       <li>Set |window| to |request|’s <a for="request">window</a>.</li>
@@ -1072,7 +1081,9 @@ partial interface HTMLIFrameElement {
       </li>
       <li>Set |document| to |window|’s <a>associated `Document`</a>.</li>
       <li>Let |origin| be |request|’s <a for="request">origin</a>.</li>
-      <li>Let |result| be the result of executing <a href="is-feature-enabled">Is feature enabled in document for origin?</a> on |feature|, |document|, and |origin|.
+      <li>Let |result| be the result of executing <a
+        href="#is-feature-enabled">Is feature enabled in document for
+        origin?</a> on |feature|, |document|, and |origin|.
       </li>
       <li>If |result| is "<code>Enabled</code>", return <code>true</code>.</li>
       <li>Otherwise, return <code>false</code>.</li>

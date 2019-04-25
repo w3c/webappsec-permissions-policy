@@ -52,6 +52,7 @@ The new features added to feature policy to support sandboxing are:
 * "`presentation`"
 * "`scripts`"
 * "`top-navigation`"
+* "`downloads-without-user-activation`"
 
 All of these features have a default allowlist of `*`, meaning that they are
 allowed by default in all web content.
@@ -195,6 +196,17 @@ another `iframe` tag, like this:
 ```
 
 The document in the nested frame will *still* not be allowed to run scripts.
+
+Similarly, when sandbox features are set in the HTTP response headers, the value set
+through feature policy headers takes precedence over that of content security policy.
+For example, if the response contains:
+```
+Content-Security-Policy: sandbox allow-popups
+Feature-Policy: popups 'none'
+```
+
+the `popups` feature will be disabled for the entirety of the document and nested and
+auxiliary browsing contexts; a popup cannot be opened.
 
 ### Resolving conflicts
 
