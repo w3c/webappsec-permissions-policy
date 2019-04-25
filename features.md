@@ -26,6 +26,7 @@ specification.
 | `magnetometer` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `microphone` |[Media Capture][media-capture] | Chrome 64 |
 | `midi` | [Web MIDI][web-midi] | Chrome 64 |
+| `payment` | [Payment Request API][payment-request] | Chrome 60 |
 | `picture-in-picture` | [Picture-in-Picture][pip] | Shipped in Chrome |
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | Chrome 60 |
@@ -42,7 +43,6 @@ integrated into their respective specs.
 | Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
 | `encrypted-media` | https://github.com/w3c/encrypted-media/pull/432 | Chrome 64 |
 | `geolocation` | https://github.com/w3c/permissions/pull/163 | Chrome 64 |
-| `payment` | https://github.com/w3c/payment-request/issues/600 | Chrome 60 |
 | `speaker` | https://github.com/w3c/mediacapture-main/issues/434 | Chrome 64 |
 
 
@@ -79,13 +79,14 @@ names will be added to this list as they are actually defined.
 <a name="fn4">[4]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=Serial`.
 
-<a name="fn5">[5]</a>: The earlier version of this feature ([`lazyload`](policies/lazyload.md)) is available behind a flag in Chrome<sup>[1](#fn1)</sup>.
+<a name="fn5">[5]</a>: The earlier version of this feature ([`lazyload`](https://www.chromestatus.com/feature/5641405942726656)) is available behind a flag in Chrome<sup>[1](#fn1)</sup>.
 
 
 [fullscreen]: https://fullscreen.spec.whatwg.org/#feature-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
 [media-capture]: https://w3c.github.io/mediacapture-main/#feature-policy-integration
+[payment-request]: https://www.w3.org/TR/payment-request/#feature-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
 [wake-lock]: https://www.w3.org/TR/wake-lock/#dfn-wake-lock-feature
 [web-midi]: https://webaudio.github.io/web-midi-api/#feature-policy-integration
