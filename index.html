@@ -1214,7 +1214,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version e0f6b8b749fa390ec1e89d64ac471d2710b038a2" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="bc5484bdba32300c527bb00481cdda5cc0c788c1" name="document-revision">
+  <meta content="19eb2edb7ebf30a11a7ab50662cc5b37b107b0e5" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1746,7 +1746,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     character strings used in <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive">policy directives</a>. </p>
      <p>Each <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature②">policy-controlled feature</a> has a <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist">default allowlist</a>,
     which defines whether that feature is available in documents in top-level
-    browsing contexts, and how access to that feature is inherited in nested
+    browsing contexts, and how access to that feature is inherited in child
     browsing contexts.</p>
      <p>A user agent has a set of <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="supported-features">supported features</dfn>, which is the set
     of <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature③">features</a> which it allows to be
@@ -1784,8 +1784,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     each feature, and whether it can be controlled by a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy②">declared policy</a> in the document. </p>
       <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context" id="ref-for-top-level-browsing-context">top-level browsing context</a>, the inherited
     policy is based on defined defaults for each feature.</p>
-      <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context">nested browsing context</a>, the inherited policy
-    is based on the parent document’s feature policy, as well as the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context①">nested
+      <p>In a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①">Document</a></code> in a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#child-browsing-context" id="ref-for-child-browsing-context">child browsing context</a>, the inherited policy
+    is based on the parent document’s feature policy, as well as the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#child-browsing-context" id="ref-for-child-browsing-context①">child
     browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy">container policy</a>. </p>
      </div>
     </section>
@@ -1800,9 +1800,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </section>
     <section>
      <h3 class="heading settled" data-level="4.6" id="container-policies"><span class="secno">4.6. </span><span class="content">Container policies</span><a class="self-link" href="#container-policies"></a></h3>
-     <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy">header policy</a>, each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context②">nested browsing context</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="container-policy">container policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive②">policy directive</a>,
+     <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy">header policy</a>, each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context">nested browsing context</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="container-policy">container policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive②">policy directive</a>,
     which may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> can set by attributes on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container">browsing context container</a>.</p>
-     <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy②">container policy</a> for a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context③">nested browsing context</a> influences
+     <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy②">container policy</a> for a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context①">nested browsing context</a> influences
     the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy④">inherited policy</a> of any document loaded into that context.
     (See <a href="#algo-define-inherited-policy">§9.8 Define an inherited policy for
     feature in document</a>)</p>
@@ -1850,21 +1850,21 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <p>Every <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⓪">policy-controlled feature</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export data-lt="default allowlist|default allowlists" id="default-allowlist">default allowlist</dfn>. The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist①">default allowlist</a> determines whether the feature is allowed in a
     document with no declared policy in a top-level browsing context, and also
     whether access to the feature is automatically delegated to documents in
-    nested browsing contexts.</p>
+    child browsing contexts.</p>
      <p>The <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist②">default allowlist</a> for a <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①①">feature</a> is one of these values:</p>
      <dl>
       <dt><code>*</code>
       <dd>The feature is allowed in documents in top-level browsing contexts by
-      default, and when allowed, is allowed by default to documents in nested
+      default, and when allowed, is allowed by default to documents in child
       browsing contexts.
       <dt><code>'self'</code>
       <dd>The feature is allowed in documents in top-level browsing contexts by
       default, and when allowed, is allowed by default to same-origin domain
-      documents in nested browsing contexts, but is disallowed by default in
-      cross-origin documents in nested browsing contexts.
+      documents in child browsing contexts, but is disallowed by default in
+      cross-origin documents in child browsing contexts.
       <dt>'none'
       <dd>The feature is disallowed in documents in top-level browsing contexts
-      by default, and is also disallowed by default to documents in nested
+      by default, and is also disallowed by default to documents in child
       browsing contexts.
      </dl>
     </section>
@@ -1913,8 +1913,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     that case, the default value for the allowlist is <code>'src'</code>, which
     represents the origin of the URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-src" id="ref-for-attr-iframe-src">src</a></code> attribute. </p>
      <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①②">feature</a> to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context④">nested browsing
-    context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑤">container policy</a>, when it is constructed.</p>
+    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①②">feature</a> to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context②">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑤">container policy</a>, when it is
+    constructed.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.3" id="legacy-attributes"><span class="secno">6.3. </span><span class="content">Additional attributes to support legacy
@@ -1930,8 +1930,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       value contains the token "<code>fullscreen</code>", then the
       "<code>allowfullscreen</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowfullscreen</code>" attribute
-      on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑧">allowlist</a> of <code>*</code> for the "<code>fullscreen</code>" feature to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑤">nested browsing
-      context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑥">container policy</a>, when it is constructed.</p>
+      on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑧">allowlist</a> of <code>*</code> for the "<code>fullscreen</code>" feature to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context③">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑥">container policy</a>, when it is
+      constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
         allow="fullscreen"></code>, and is for compatibility with existing
         uses of <code>allowfullscreen</code>. If <code>allow="fullscreen"</code> and <code>allowfullscreen</code> are
@@ -1946,8 +1946,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       value contains the token "<code>payment</code>", then the
       "<code>allowpaymentrequest</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowpaymentrequest</code>"
-      attribute on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑨">allowlist</a> of <code>*</code> for the "<code>payment</code>" feature to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑥">nested
-      browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container policy</a>, when it is constructed.</p>
+      attribute on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑨">allowlist</a> of <code>*</code> for the "<code>payment</code>" feature to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context④">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container policy</a>, when it
+      is constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
         allow="payment"></code>, and is for compatibility with existing uses
         of <code>allowpaymentrequest</code>. If <code>allow="payment"</code> and <code>allowpaymentrequest</code> are both present on an iframe
@@ -2020,8 +2020,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   a feature is actually currently allowed in the frame, as the document in the
   frame may have applied its own policy via an HTTP header, or may have
   navigated away from its initial location to a new origin. Revealing the
-  effective policy in the nested browsing context in that case could leak
-  information about the behaviour of a cross-origin document.</p>
+  effective policy in the iframe element’s nested browsing context in that case
+  could leak information about the behaviour of a cross-origin document.</p>
      <div class="example" id="example-2621b41f">
       <a class="self-link" href="#example-2621b41f"></a> 
 <pre>&lt;!doctype html>
@@ -2095,11 +2095,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     a <code class="idl"><a data-link-type="idl" href="#featurepolicy" id="ref-for-featurepolicy①⓪">FeaturePolicy</a></code> instance whose <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node④">associated node</a> is that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑥">Document</a></code>.</p>
      <p>A <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑦">Document</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-document-featurepolicy" id="ref-for-dom-document-featurepolicy">featurePolicy</a></code> IDL attribute, on getting,
     must return the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑧">Document</a></code>'s <a data-link-type="dfn" href="#document-policy-object" id="ref-for-document-policy-object">policy object</a>.</p>
-     <p>Each <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> element has a <dfn class="dfn-paneled" data-dfn-for="iframe" data-dfn-type="dfn" data-noexport id="iframe-policy-object">policy object</dfn>,
+     <p>Each <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑤">iframe</a></code> element has a <dfn class="dfn-paneled" data-dfn-for="iframe" data-dfn-type="dfn" data-noexport id="iframe-policy-object">policy object</dfn>,
     which is a <code class="idl"><a data-link-type="idl" href="#featurepolicy" id="ref-for-featurepolicy①①">FeaturePolicy</a></code> instance whose <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node⑤">associated node</a> is that
     element.</p>
-     <p>An <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-htmliframeelement-featurepolicy" id="ref-for-dom-htmliframeelement-featurepolicy">featurePolicy</a></code> IDL attribute, on
-    getting, must return the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a></code>'s <a data-link-type="dfn" href="#iframe-policy-object" id="ref-for-iframe-policy-object">policy object</a>.</p>
+     <p>An <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑥">iframe</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-htmliframeelement-featurepolicy" id="ref-for-dom-htmliframeelement-featurepolicy">featurePolicy</a></code> IDL attribute, on
+    getting, must return the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑦">iframe</a></code>'s <a data-link-type="dfn" href="#iframe-policy-object" id="ref-for-iframe-policy-object">policy object</a>.</p>
      <p>The <code class="idl"><a data-link-type="idl" href="#dom-featurepolicy-allowsfeature" id="ref-for-dom-featurepolicy-allowsfeature">allowsFeature(feature, origin)</a></code> method must run the following
     steps: </p>
      <ol>
@@ -2371,7 +2371,7 @@ set to "enforce".</p>
         and <var>target origin</var> set to <var>element</var>’s <a data-link-type="dfn" href="#declared-origin" id="ref-for-declared-origin③">declared
         origin</a>. 
       <li>
-       If <var>element</var> is an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑤">iframe</a></code> element: 
+       If <var>element</var> is an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑧">iframe</a></code> element: 
        <ol>
         <li>
          If <var>element</var>’s <code>allowfullscreen</code> attribute is
@@ -2444,16 +2444,17 @@ set to "enforce".</p>
      <ol>
       <li>Let <var>context</var> be <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing
       context</a>.
-      <li>If <var>context</var> is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑦">nested browsing context</a>, return the
-        result of executing <a data-link-type="dfn" href="#define-an-inherited-policy-for-feature-in-container-at-origin" id="ref-for-define-an-inherited-policy-for-feature-in-container-at-origin①">Define an inherited policy for feature in
-        container at origin</a> for <var>feature</var> in <var>context</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container①">browsing context container</a> at <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑧">origin</a>.
+      <li>If <var>context</var> is the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑤">nested browsing context</a> of a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container①">browsing context container</a> <var>element</var>, return the result of
+        executing <a data-link-type="dfn" href="#define-an-inherited-policy-for-feature-in-container-at-origin" id="ref-for-define-an-inherited-policy-for-feature-in-container-at-origin①">Define an inherited policy for feature in container at
+        origin</a> for <var>feature</var> in <var>context</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container②">browsing
+        context container</a> at <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑧">origin</a>.
       <li>Otherwise, return "<code>Enabled</code>".
      </ol>
     </section>
     <section>
      <h3 class="heading settled" data-level="9.9" id="algo-define-inherited-policy-in-container"><span class="secno">9.9. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="Define an inherited policy for feature in container at origin" data-noexport id="define-an-inherited-policy-for-feature-in-container-at-origin">Define an inherited
     policy for <var>feature</var> in <var>container</var> at <var>origin</var></dfn></span><a class="self-link" href="#algo-define-inherited-policy-in-container"></a></h3>
-     <p>Given a feature (<var>feature</var>) a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container②">browsing context container</a> (<var>container</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑨">origin</a> for a document in that
+     <p>Given a feature (<var>feature</var>) a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container③">browsing context container</a> (<var>container</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑨">origin</a> for a document in that
     container (<var>origin</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑦">inherited
     policy</a> for that feature.</p>
      <ol>
@@ -2955,10 +2956,16 @@ set to "enforce".</p>
    <ul>
     <li><a href="#ref-for-browsing-context-container">4.6. Container policies</a>
     <li><a href="#ref-for-browsing-context-container①">9.8. Define an inherited policy for
-    feature in document</a>
-    <li><a href="#ref-for-browsing-context-container②">9.9. Define an inherited
+    feature in document</a> <a href="#ref-for-browsing-context-container②">(2)</a>
+    <li><a href="#ref-for-browsing-context-container③">9.9. Define an inherited
     policy for feature in container at
     origin</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-child-browsing-context">
+   <a href="https://html.spec.whatwg.org/multipage/browsers.html#child-browsing-context">https://html.spec.whatwg.org/multipage/browsers.html#child-browsing-context</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-child-browsing-context">4.3. Inherited policies</a> <a href="#ref-for-child-browsing-context①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-environment-settings-object">
@@ -2973,22 +2980,23 @@ set to "enforce".</p>
    <ul>
     <li><a href="#ref-for-the-iframe-element">3. Other and related mechanisms</a>
     <li><a href="#ref-for-the-iframe-element①">6.2. The allow attribute of the
-    iframe element</a>
-    <li><a href="#ref-for-the-iframe-element②">7.2. The featurePolicy object</a> <a href="#ref-for-the-iframe-element③">(2)</a> <a href="#ref-for-the-iframe-element④">(3)</a>
-    <li><a href="#ref-for-the-iframe-element⑤">9.5. Process feature policy
+    iframe element</a> <a href="#ref-for-the-iframe-element②">(2)</a>
+    <li><a href="#ref-for-the-iframe-element③">6.3.1. allowfullscreen</a>
+    <li><a href="#ref-for-the-iframe-element④">6.3.2. allowpaymentrequest</a>
+    <li><a href="#ref-for-the-iframe-element⑤">7.2. The featurePolicy object</a> <a href="#ref-for-the-iframe-element⑥">(2)</a> <a href="#ref-for-the-iframe-element⑦">(3)</a>
+    <li><a href="#ref-for-the-iframe-element⑧">9.5. Process feature policy
     attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-nested-browsing-context">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context">https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-nested-browsing-context">4.3. Inherited policies</a> <a href="#ref-for-nested-browsing-context①">(2)</a>
-    <li><a href="#ref-for-nested-browsing-context②">4.6. Container policies</a> <a href="#ref-for-nested-browsing-context③">(2)</a>
-    <li><a href="#ref-for-nested-browsing-context④">6.2. The allow attribute of the
+    <li><a href="#ref-for-nested-browsing-context">4.6. Container policies</a> <a href="#ref-for-nested-browsing-context①">(2)</a>
+    <li><a href="#ref-for-nested-browsing-context②">6.2. The allow attribute of the
     iframe element</a>
-    <li><a href="#ref-for-nested-browsing-context⑤">6.3.1. allowfullscreen</a>
-    <li><a href="#ref-for-nested-browsing-context⑥">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-nested-browsing-context⑦">9.8. Define an inherited policy for
+    <li><a href="#ref-for-nested-browsing-context③">6.3.1. allowfullscreen</a>
+    <li><a href="#ref-for-nested-browsing-context④">6.3.2. allowpaymentrequest</a>
+    <li><a href="#ref-for-nested-browsing-context⑤">9.8. Define an inherited policy for
     feature in document</a>
    </ul>
   </aside>
@@ -3218,6 +3226,7 @@ set to "enforce".</p>
      <li><span class="dfn-paneled" id="term-for-concept-document-window" style="color:initial">associated document</span>
      <li><span class="dfn-paneled" id="term-for-browsing-context" style="color:initial">browsing context</span>
      <li><span class="dfn-paneled" id="term-for-browsing-context-container" style="color:initial">browsing context container</span>
+     <li><span class="dfn-paneled" id="term-for-child-browsing-context" style="color:initial">child browsing context</span>
      <li><span class="dfn-paneled" id="term-for-environment-settings-object" style="color:initial">environment settings object</span>
      <li><span class="dfn-paneled" id="term-for-the-iframe-element" style="color:initial">iframe</span>
      <li><span class="dfn-paneled" id="term-for-nested-browsing-context" style="color:initial">nested browsing context</span>
