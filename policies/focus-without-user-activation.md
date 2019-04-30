@@ -42,14 +42,15 @@ This feature can be introduced with the HTTP headers. For instance,
 ```HTTP
 Feature-Policy: focus-without-user-activation 'none'
 ```
-would cause all all automatic focus in the page (and neste contexts) to fail unless it has been
-triggered by user activation.
+would cause the use of automatic focus in the page (and nested contexts) to fail unless it 
+has been triggered by user activation.
 
 To disable the feature for a specific `<iframe>`, the `allow` attribute can be used:
 ```HTTP
-Feature-Policy: focus-without-user-activation 'self'
+<iframe src="..." allow="focus-without-user-activation 'self'></iframe>
 ```
-which would block use of focus (without activation) for all origins except 'self'.
+which would block use of focus (without activation) for the document inside the `<iframe>`
+unless it is a same-origin document.
 
 The Extra Mile
 -----------
