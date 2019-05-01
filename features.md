@@ -58,9 +58,9 @@ experimentation by web developers.
 | `layout-animations` | [animations.md](policies/animations.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `loading-frame-default-eager` | [loading-frame-default-eager.md](policies/loading-frame-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
 | `legacy-image-formats` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
-| `oversized-images` | [optimized-images.md](policies/optimized-images.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
+| `oversized-images` | [optimized-images.md](policies/optimized-images.md) | In origin trials in M75</sup> |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
-| `unoptimized-images` | [optimized-images.md](policies/optimized-images.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
+| `unoptimized-{lossy,lossless}-images` | [optimized-images.md](policies/optimized-images.md) | In origin trials in M75</sup> |
 | `unsized-media` | [unsized-media.md](policies/unsized-media.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `serial` | | Experimental in Chrome<sup>[4](#fn4)</sup> |
