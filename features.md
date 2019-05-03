@@ -40,6 +40,7 @@ integrated into their respective specs.
 
 | Feature name | Spec/PR link(s) | Browser Support |
 | ------------ | --------------- | --------------- |
+| `webauthn` | https://github.com/w3c/webappsec-feature-policy/issues/168 | |
 | Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
 | `encrypted-media` | https://github.com/w3c/encrypted-media/pull/432 | Chrome 64 |
 | `geolocation` | https://github.com/w3c/permissions/pull/163 | Chrome 64 |
