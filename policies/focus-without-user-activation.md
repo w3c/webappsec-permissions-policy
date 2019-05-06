@@ -32,7 +32,7 @@ In a nutshell:
   * Around step 4 of the [spec](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autofocus for `autofocus` the algorithm should return if the policy `focus-without-user-activation` is disabled and the algorithm is not
   [triggered by user activation](https://html.spec.whatwg.org/multipage/interaction.html#triggered-by-user-activation).
   * Before starting [steps](https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus) for `element.focus(options)` the same verification for the policy and user activation should be performed.
-  * Aroudn step 2 of the the [spec](https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus) for `window.focus(options)` the same enforcement should be made (using the browsing context of the `window` itself to obtaint he feature policy state.
+  * Aroudn step 2 of the the [spec](https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus) for `window.focus()` the same enforcement should be made (using the browsing context of the `window` itself to obtaint he feature policy state.
 
 Using the Feature
 -------------
