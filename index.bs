@@ -3,9 +3,12 @@ Title: Feature Policy
 Shortname: feature-policy
 Level: 1
 Indent: 2
-Status: ED
+Status: FPWD
 Group: WebAppSec
+Prepare For TR: true
 URL: https://w3c.github.io/webappsec-feature-policy/
+TR: https://www.w3.org/TR/feature-policy-1
+Date: 2019-04-16
 Editor: Ian Clelland, Google, iclelland@google.com
 Abstract: This specification defines a mechanism that allows developers to selectively enable and disable use of various browser features and APIs.
 Repository: https://github.com/w3c/webappsec-feature-policy/
@@ -1068,7 +1071,7 @@ partial interface HTMLIFrameElement {
       </li>
       <li>Set |document| to |window|’s <a>associated `Document`</a>.</li>
       <li>Let |origin| be |request|’s <a for="request">origin</a>.</li>
-      <li>Let |result| be the result of executing <a href="is-feature-enabled">Is feature enabled in document for origin?</a> on |feature|, |document|, and |origin|.
+      <li>Let |result| be the result of executing <a href="#is-feature-enabled">Is feature enabled in document for origin?</a> on |feature|, |document|, and |origin|.
       </li>
       <li>If |result| is "<code>Enabled</code>", return <code>true</code>.</li>
       <li>Otherwise, return <code>false</code>.</li>
@@ -1091,7 +1094,7 @@ partial interface HTMLIFrameElement {
     <dd>W3C</dd>
     <dt>Specification document</dt>
     <dd>
-      <a href="">Feature Policy API</a>
+      <a href="https://www.w3.org/TR/feature-policy-1">Feature Policy API</a>
     </dd>
   </dl>
 </section>
@@ -1183,11 +1186,10 @@ partial interface HTMLIFrameElement {
     <li>Sites should use feature detection to determine whether an API or
     behavior is available before attempting to use it, and should handle any
     documented errors returned or exceptions thrown by the APIs they call.</li>
-  </ul>
-
     <li>In the case where feature detection is not possible, new web content can
     be written to use the `policy` object to inspect the feature policy which is
     currently enforced, and adjust behaviour or user interface accordingly.</li>
+  </ul>
 
   <p>Authors integrating their features with Feature Policy can decide when and
   how the feature will fail when a document attempts to use it while it is
