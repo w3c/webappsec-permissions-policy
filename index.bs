@@ -48,7 +48,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 </style>
 <section>
   <h2 id="introduction">Introduction</h2>
-  <p>The web-platform provides an ever-expanding set of features and APIs,
+  <p>The web platform provides an ever-expanding set of features and APIs,
   offering richer functionality, better developer ergonomics, and improved
   performance. However, a missing piece is the ability for the developer to
   selectively enable, disable, or modify the behavior of some of these browser
