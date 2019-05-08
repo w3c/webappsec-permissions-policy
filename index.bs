@@ -1077,7 +1077,7 @@ partial interface HTMLIFrameElement {
     <ol>
       <li>Set |window| to |request|’s <a for="request">window</a>.</li>
       <li>If |window| is not a {{Window}}, return <code>false</code>.
-       <div class="issue">Feature Policy within `no-window` contexts ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. *Until* that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
+       <div class="issue">Feature Policy within non-Window contexts ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. *Until* that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
       </li>
       <li>Set |document| to |window|’s <a>associated `Document`</a>.</li>
       <li>Let |origin| be |request|’s <a for="request">origin</a>.</li>
