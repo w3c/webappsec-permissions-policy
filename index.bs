@@ -231,7 +231,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   <section>
     <h3 id="header-policies">Header policies</h3>
     <p>A <dfn>header policy</dfn> is a list of <a>policy directives</a>
-    delivered via an HTTP header with a document. This forms the document's
+    delivered via an HTTP header with a document, or a . This forms the document's
     <a>feature policy</a>'s <a>declared policy</a>.</p>
   </section>
   <section>
@@ -423,6 +423,55 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
         <code>allow="payment"</code> will be used.
       </div>
     </section>
+  </section>
+  <section>
+    <h3 id="meta-element">
+      The `<meta>` element
+    </h3>
+
+    A {{Document}} may deliver a policy via one or more HTML <{meta}> elements
+    whose <{meta/http-equiv}> attributes are an <a>ASCII case-insensitive</a>
+    match for the string "`Feature-Policy`". For example:
+
+    <div class="example">
+      <pre highlight="html">
+        &lt;meta http-equiv="Feature-Policy" content="fullscreen 'none'; geolocation 'none'"&gt;
+      </pre>
+    </div>
+
+    Implementation details can be found in HTML's <a>Feature Policy state</a>
+    `http-equiv` processing instructions [[!HTML]].
+
+    Authors are <em>strongly encouraged</em> to place <{meta}> elements as early
+    in the document as possible, because policies in <{meta}> elements are not
+    applied to content which precedes them.
+
+    <div class="example">
+
+      For example, a script tag that preceded a &lt;meta&gt;-delivered policy
+      directive of `sync-xhr ‘none’` would still be able to call
+      `XMLHttpRequest.open()`.
+
+      <pre highlight="html">
+        &lt;script&gt;
+          var req = new XMLHttpRequest();
+          req.open("GET", "/api/security_check.json", false);
+          req.send();
+        &lt;/script&gt;
+
+        &lt;meta http-equiv="Feature-Policy" content="sync-xhr ‘none"&gt;
+      </pre>
+
+      In the above, the call to req.open will succeed, because the policy
+      disabling sync-xhr occurs after it, in the markup. 
+
+    </div>
+
+    Note: A policy specified via a <{meta}> element will be enforced along with any other policies active, regardless of where they're specified. However, once a specific Feature Policy directive has been set by way of an HTTP header or <{meta}> element, that directive cannot be further updated or changed.
+    <!--TODO this is first wins. do we want last wins? -->
+
+    Note: Modifications to the <{meta/content}> attribute of a <{meta}> element after the element has been parsed will be ignored.
+
   </section>
 </section>
 <section>
