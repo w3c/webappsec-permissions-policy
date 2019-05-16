@@ -80,7 +80,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     within their application. It can do so by delivering the following HTTP
     response header to define a feature policy:</p>
     <pre>
-      <a http-header>Feature-Policy</a>: fullscreen 'none'; geolocation 'none'</pre>
+      <a http-header>Feature-Policy</a>: fullscreen 'none', geolocation 'none'</pre>
     <p>By specifying the "<code>'none'</code>"keyword for the origin list, the
     specified features will be disabled for all browsing contexts, regardless of
     their origin.</p>
@@ -102,7 +102,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     microphone input on its own origin but enable it for a specific embedee
     ("<code>https://other.com</code>"). It can do so by delivering the
     following HTTP response header to define a feature policy:</p>
-    <pre><a http-header>Feature-Policy</a>: camera https://other.com; microphone https://other.com</pre>
+    <pre><a http-header>Feature-Policy</a>: camera https://other.com, microphone https://other.com</pre>
     <p>Some features are disabled by default in embedded contexts. The policy
     allows the application to selectively enable such features for specified
     origins.</p>
