@@ -1212,9 +1212,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 4c94409a0f8f9bae15b929d2cd1d918c8334e6ff" name="generator">
+  <meta content="Bikeshed version faf287cebf32287e91a51785dc509107b2a13353" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="5fc9b584024b5086ae94f83f115632ffb500e128" name="document-revision">
+  <meta content="4e450c2985c0da5397f11eff7b2500e23338dad9" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-05-22">22 May 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-05-23">23 May 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2040,8 +2040,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <p>The <a data-link-type="dfn" href="#observable-policy" id="ref-for-observable-policy①">observable policy</a> on an iframe element is independent of any
   actual content loaded into the frame (to avoid cross-origin information
   leakage,) or even whether it is in a document tree.</p>
-     <div class="example" id="example-a3ea83b1">
-      <a class="self-link" href="#example-a3ea83b1"></a> 
+     <div class="example" id="example-e121f006">
+      <a class="self-link" href="#example-e121f006"></a> 
 <pre>&lt;!doctype html>
 &lt;!-- this frame should not be allowed to use fullscreen when the document
     in its src attribute is loaded in it -->
@@ -2054,10 +2054,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
  const is_fullscreen_allowed_in_frame = iframe_policy.allowsFeature('fullscreen');
 
  const new_frame = document.createElement('iframe');
- new_frame.allow = 'syncxhr';
- // This will be true, as the iframe is allowed to use syncxhr at whatever URL is
+ new_frame.allow = 'sync-xhr';
+ // This will be true, as the iframe is allowed to use sync-xhr at whatever URL is
  // mentioned in its src attribute, even though that attribute is not yet set.
- const is_syncxhr_allowed = new_frame.featurePolicy.allowsFeature('syncxhr');
+ const is_sync_xhr_allowed = new_frame.featurePolicy.allowsFeature('sync-xhr');
 &lt;/script>
 </pre>
      </div>
