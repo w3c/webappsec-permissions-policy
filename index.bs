@@ -912,7 +912,7 @@ partial interface HTMLIFrameElement {
       policy</var>.
       </li>
       <li>
-        <a>Enforce</a> the policy <var>policy</var> on <var>document</var>.
+        Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>.
       </li>
     </ol>
   </section>
@@ -944,7 +944,7 @@ partial interface HTMLIFrameElement {
       policy</var>.
       </li>
       <li>
-        <a>Enforce</a> the policy <var>policy</var> on <var>document</var>.
+        Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>.
       </li>
     </ol>
   </section>
