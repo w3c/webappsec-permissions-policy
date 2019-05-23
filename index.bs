@@ -528,10 +528,10 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
    const is_fullscreen_allowed_in_frame = iframe_policy.allowsFeature('fullscreen');
 
    const new_frame = document.createElement('iframe');
-   new_frame.allow = 'syncxhr';
-   // This will be true, as the iframe is allowed to use syncxhr at whatever URL is
+   new_frame.allow = 'sync-xhr';
+   // This will be true, as the iframe is allowed to use sync-xhr at whatever URL is
    // mentioned in its src attribute, even though that attribute is not yet set.
-   const is_syncxhr_allowed = new_frame.featurePolicy.allowsFeature('syncxhr');
+   const is_sync_xhr_allowed = new_frame.featurePolicy.allowsFeature('sync-xhr');
   &lt;/script&gt;
   </pre>
   </div>
