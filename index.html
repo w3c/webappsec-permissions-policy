@@ -1212,9 +1212,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version faf287cebf32287e91a51785dc509107b2a13353" name="generator">
+  <meta content="Bikeshed version 6dcfb71280c822ba1243caec7a720fa926b21c7e" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="0b7fce5a3ea4cd7b8f8f1a2cab225de7886e56fc" name="document-revision">
+  <meta content="736196403bf1bd325c64bb023f4a659365278ad3" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1627,7 +1627,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <main>
    <section>
     <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
-    <p>The web-platform provides an ever-expanding set of features and APIs,
+    <p>The web platform provides an ever-expanding set of features and APIs,
   offering richer functionality, better developer ergonomics, and improved
   performance. However, a missing piece is the ability for the developer to
   selectively enable, disable, or modify the behavior of some of these browser
@@ -2412,7 +2412,7 @@ set to "enforce".</p>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy⑧">feature policy</a>, with inherited
       policy <var>inherited policy</var> and declared policy <var>declared
       policy</var>. 
-      <li> <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#enforced" id="ref-for-enforced">Enforce</a> the policy <var>policy</var> on <var>document</var>. 
+      <li> Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>. 
      </ol>
     </section>
     <section>
@@ -2435,7 +2435,7 @@ set to "enforce".</p>
       <li>Let <var>policy</var> be a new <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⓪">feature policy</a>, with inherited
       policy <var>inherited policy</var> and declared policy <var>declared
       policy</var>. 
-      <li> <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#enforced" id="ref-for-enforced①">Enforce</a> the policy <var>policy</var> on <var>document</var>. 
+      <li> Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>. 
      </ol>
     </section>
     <section>
@@ -2793,15 +2793,6 @@ set to "enforce".</p>
    <li><a href="#violate">violated</a><span>, in §8</span>
    <li><a href="#violate">violation</a><span>, in §8</span>
   </ul>
-  <aside class="dfn-panel" data-for="term-for-enforced">
-   <a href="https://w3c.github.io/webappsec-csp/#enforced">https://w3c.github.io/webappsec-csp/#enforced</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-enforced">9.6. Initialize document’s Feature
-    Policy</a>
-    <li><a href="#ref-for-enforced①">9.7. Initialize document’s Feature
-    Policy from response</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-sandbox">
    <a href="https://w3c.github.io/webappsec-csp/#sandbox">https://w3c.github.io/webappsec-csp/#sandbox</a><b>Referenced in:</b>
    <ul>
@@ -3188,7 +3179,6 @@ set to "enforce".</p>
    <li>
     <a data-link-type="biblio">[csp-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-enforced" style="color:initial">enforced</span>
      <li><span class="dfn-paneled" id="term-for-sandbox" style="color:initial">sandbox</span>
     </ul>
    <li>
