@@ -60,7 +60,7 @@ JavaScript:
 ```javascript
 const myObserver = new ReportingObserver(reportList => {
   reportList.forEach(report => {
-    alert("Whatever you just tried to do was blocked by policy.: " + report.body.feature);
+    alert("Whatever you just tried to do was blocked by policy.: " + report.body.featureId);
   });
 }, {"types": ["feature-policy-violation"]});
 
