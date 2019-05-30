@@ -40,7 +40,7 @@ the security concerns related to cross-site isolation.
 
 A more forgiving approach would only unload the frame if
   * The frame is cross-origin,
-  * The site does `document-write` feature mentioned in its header.
+  * The site does not use `document-write` in its `Feature-Policy` header.
 
 In other words, if a site is familiar with the feature then it is reasonable to assume that they have considered the
 consequences of `document-write`.

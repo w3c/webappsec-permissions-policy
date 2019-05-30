@@ -48,7 +48,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 </style>
 <section>
   <h2 id="introduction">Introduction</h2>
-  <p>The web-platform provides an ever-expanding set of features and APIs,
+  <p>The web platform provides an ever-expanding set of features and APIs,
   offering richer functionality, better developer ergonomics, and improved
   performance. However, a missing piece is the ability for the developer to
   selectively enable, disable, or modify the behavior of some of these browser
@@ -577,10 +577,10 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
    const is_fullscreen_allowed_in_frame = iframe_policy.allowsFeature('fullscreen');
 
    const new_frame = document.createElement('iframe');
-   new_frame.allow = 'syncxhr';
-   // This will be true, as the iframe is allowed to use syncxhr at whatever URL is
+   new_frame.allow = 'sync-xhr';
+   // This will be true, as the iframe is allowed to use sync-xhr at whatever URL is
    // mentioned in its src attribute, even though that attribute is not yet set.
-   const is_syncxhr_allowed = new_frame.featurePolicy.allowsFeature('syncxhr');
+   const is_sync_xhr_allowed = new_frame.featurePolicy.allowsFeature('sync-xhr');
   &lt;/script&gt;
   </pre>
   </div>
@@ -961,7 +961,7 @@ partial interface HTMLIFrameElement {
       policy</var>.
       </li>
       <li>
-        <a>Enforce</a> the policy <var>policy</var> on <var>document</var>.
+        Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>.
       </li>
     </ol>
   </section>
@@ -993,7 +993,7 @@ partial interface HTMLIFrameElement {
       policy</var>.
       </li>
       <li>
-        <a>Enforce</a> the policy <var>policy</var> on <var>document</var>.
+        Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>.
       </li>
     </ol>
   </section>
