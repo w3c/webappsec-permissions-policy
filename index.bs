@@ -451,7 +451,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 
     <div class="example">
 
-      For example, a script tag that preceded a &lt;meta&gt;-delivered policy
+      For example, a script tag that preceded a <{meta}>-delivered policy
       directive of `sync-xhr ‘none’` would still be able to call
       `XMLHttpRequest.open()`.
 
@@ -465,8 +465,8 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
         &lt;meta http-equiv="Feature-Policy" content="sync-xhr ‘none"&gt;
       </pre>
 
-      In the above, the call to req.open will succeed, because the policy
-      disabling sync-xhr occurs after it, in the markup. 
+      In the above, the call to `req.open` will succeed, because the policy
+      disabling `sync-xhr` occurs after it, in the markup. 
 
     </div>
 
