@@ -231,7 +231,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   <section>
     <h3 id="header-policies">Header policies</h3>
     <p>A <dfn>header policy</dfn> is a list of <a>policy directives</a>
-    delivered via an HTTP header with a document, or a . This forms the document's
+    delivered via an HTTP header with a document. This forms the document's
     <a>feature policy</a>'s <a>declared policy</a>.</p>
   </section>
   <section>
