@@ -1138,6 +1138,26 @@ partial interface HTMLIFrameElement {
       <li>Otherwise, return <code>false</code>.</li>
     </ol>
   </section>
+  <section>
+    <h3 id="algo-merge-two-feature-policies"><dfn export>Merge two declared policies</dfn></h3>
+    <p>Given two <a>declared policies</a>, <var>existing policy</var> and <var>new policy</var>, this algorithm returns a single, merged <a>declared policy</a>.</p>
+    <ol>
+      <li>Let <var>merged policy</var> be a copy of <var>existing policy</var>.</li>
+      <li>For each <var>feature</var> → <var>allowlist</var> of <var>new policy:</var>
+          <ol><li>If <var>merged policy</var> does not contain an <var>allowlist</var> for </var>feature</var>, then set <var>merged policy</var>[<var>feature</var>] to <var>allowlist</var>.
+          </li></ol>
+      </li>
+      <li>Return <var>merged policy</var>.</li>
+    </ol>
+    <div class="issue">
+      <p>This isn't all that different from <a href="#algo-merge-directive-with-declared-policy">Merge directive with declared policy</a>, except that:
+      <ul>
+        <li>It takes two <a>declared policies</a>, rather than one <a>declared policy</a> and one <a>policy directive</a>. However, both <a>declared policies</a> and <a>policy directives</a> are ordered maps of <a href="#policy-controlled-feature">features</a> to <a>allowlists</a>.</li>
+        <li>It returns a new <a>declared policy</a>, rather than altering the original in place.</li>
+      </ul>
+      <p>So I guess, given that, does this really need to exist as a separate algorithm?</p>
+    </div>
+  </section>
 </section>
 
 <section>
