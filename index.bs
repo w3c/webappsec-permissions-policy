@@ -1138,40 +1138,6 @@ partial interface HTMLIFrameElement {
       <li>Otherwise, return <code>false</code>.</li>
     </ol>
   </section>
-  <section>
-    <h3 id="algo-merge-a-new-declared-policy"><dfn export
-    id="merge-a-new-declared-policy">Merge a <var>new declared policy</var> into <var>document</var>'s existing Feature Policy</dfn></h3>
-
-    <p>Given a [=declared policy=] (<var>new declared policy</var>) and a <a>Document</a>
-    (<var>document</var>), this algorithm updates <var>document</var>'s already-initialized <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">Feature Policy</a>.</p>
-    <ol>
-      <li>If <var>document</var> does not have a <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">Feature Policy</a>, abort these steps.</li> <!-- this should never happen, though? -->
-      <li>Let <var>inherited policy</var> be <var>document</var>'s Feature
-      Policy's <a>inherited policy</a>.</li>
-      <li>Let <var>existing declared policy</var> be <var>document</var>'s Feature
-      Policy's <a>declared policy</a></li>
-      <li>Let <var>resulting declared policy</var> be a new ordered map.</li>
-      <li>For each <var>feature</var> → <var>allowlist</var> of <var>existing declared policy</var>:
-        <ol>
-          <li>Set <var>resulting declared policy</var>[<var>feature</var>] to
-          <var>allowlist</var>.</li>
-        </ol>
-      </li>
-      <li>For each <var>feature</var> → <var>allowlist</var> of <var>new declared policy</var>:
-        <ol>
-          <li>If <var>inherited policy</var>[<var>feature</var>] is true, then
-          set <var>resulting declared policy</var>[<var>feature</var>] to
-          <var>allowlist</var>.</li>
-        </ol>
-      </li>
-      <li>Let <var>policy</var> be a new <a>feature policy</a>, with inherited
-      policy <var>inherited policy</var> and declared policy <var>resulting declared
-      policy</var>.
-      </li>
-      <li>Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>.
-      </li>
-    </ol>
-  </section>
 </section>
 
 <section>
