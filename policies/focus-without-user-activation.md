@@ -19,9 +19,9 @@ Proposed Solution
 ------------
 The proposed feature policy can be used to limit the use of automatic focus. Essentially, when the
 policy is disabled in a document, scripted and automatic focus will only work if the focus has been
-initialized through user activation. This essentially means that `autofocus` will be disabled (
-unless a new element is inserted, with `autofocus`, as a result of user gesture). The scripted focus
-will also only work if it has started with user gesture.
+initialized through user activation. This essentially means that `autofocus` will be disabled
+(unless a new element is inserted, with `autofocus`, as a result of user gesture). The scripted
+focus will also only work if it has started with user gesture.
 
 Details on "disabling focus"
 ------------
@@ -29,7 +29,7 @@ All automated focus eventually call into the [focusing steps](https://html.spec.
 is disabled, this algorithm should not run.
 
 In a nutshell:
-  * Around step 4 of the [spec](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autofocus for `autofocus` the algorithm should return if the policy `focus-without-user-activation` is disabled and the algorithm is not
+  * Around step 4 of the [spec](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autofocus) for `autofocus` the algorithm should return if the policy `focus-without-user-activation` is disabled and the algorithm is not
   [triggered by user activation](https://html.spec.whatwg.org/multipage/interaction.html#triggered-by-user-activation).
   * Before starting [steps](https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus) for `element.focus(options)` the same verification for the policy and user activation should be performed.
   * Around step 2 of the the [spec](https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus) for `window.focus()` the same enforcement should be made (using the browsing context of the `window` itself to obtain the feature policy state.
