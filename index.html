@@ -1212,9 +1212,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 44fc33e66fca75b24a5f918514bfc443d4d9a19e" name="generator">
+  <meta content="Bikeshed version 872cce6d3026423d677f3bd5837f1a1a46299a04" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="05570203601c60beb0636f7740bc6e26b497b0f0" name="document-revision">
+  <meta content="f6ca2e104ca8250e8ac9e4bb5d3350f24894a297" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-05-29">29 May 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-06-12">12 June 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1804,7 +1804,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     which may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> can set by attributes on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container">browsing context container</a>.</p>
      <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy②">container policy</a> for a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context①">nested browsing context</a> influences
     the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy④">inherited policy</a> of any document loaded into that context.
-    (See <a href="#algo-define-inherited-policy">§9.8 Define an inherited policy for
+    (See <a href="#algo-define-inherited-policy">§ 9.8 Define an inherited policy for
     feature in document</a>)</p>
      <div class="note" role="note"> Currently, the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy③">container policy</a> cannot be set directly, but is
       indirectly set by <code>iframe</code> "<a href="#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
@@ -1899,7 +1899,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     header field can be used in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response">response</a> (server to client) to
     communicate the <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy④">feature policy</a> that should be enforced by the
     client.</p>
-     <p>The header’s value is the <a href="#ascii-serialization">§5.1 ASCII serialization</a> of one or
+     <p>The header’s value is the <a href="#ascii-serialization">§ 5.1 ASCII serialization</a> of one or
     more <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑤">policy directive</a>s:.</p>
 <pre class="abnf">FeaturePolicy = <a data-link-type="dfn" href="#serialized-feature-policy" id="ref-for-serialized-feature-policy">serialized-feature-policy</a> *("," <a data-link-type="dfn" href="#serialized-feature-policy" id="ref-for-serialized-feature-policy①">serialized-feature-policy</a>)
 </pre>
@@ -2291,7 +2291,7 @@ set to "enforce".</p>
       <li>
        For each <var>element</var> returned by <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#split-on-commas" id="ref-for-split-on-commas">splitting <var>value</var> on commas</a>: 
        <ol>
-        <li>Let <var>directive</var> be the result of executing <a href="#algo-parse-policy-directive">§9.3 Parse policy directive</a> on <var>element</var> with <var>container origin</var> set to <var>origin</var>. 
+        <li>Let <var>directive</var> be the result of executing <a href="#algo-parse-policy-directive">§ 9.3 Parse policy directive</a> on <var>element</var> with <var>container origin</var> set to <var>origin</var>. 
         <li>Run <a data-link-type="dfn" href="#merge-directive-with-declared-policy" id="ref-for-merge-directive-with-declared-policy">Merge directive with declared policy</a> on <var> directive</var> and <var>policy</var>. 
        </ol>
       <li>Return <var>policy</var>.
@@ -2540,7 +2540,7 @@ set to "enforce".</p>
       <li>Set <var>window</var> to <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-window" id="ref-for-concept-request-window">window</a>.
       <li>
        If <var>window</var> is not a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window">Window</a></code>, return <code>false</code>. 
-       <div class="issue" id="issue-528c9b8b"><a class="self-link" href="#issue-528c9b8b"></a>Feature Policy within <code>no-window</code> contexts (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope" id="ref-for-workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope" id="ref-for-workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
+       <div class="issue" id="issue-79a5ddf0"><a class="self-link" href="#issue-79a5ddf0"></a>Feature Policy within non-Window contexts (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope" id="ref-for-workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope" id="ref-for-workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
       <li>Set <var>document</var> to <var>window</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window" id="ref-for-concept-document-window">associated <code>Document</code></a>.
       <li>Let <var>origin</var> be <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-origin" id="ref-for-concept-request-origin">origin</a>.
       <li>Let <var>result</var> be the result of executing <a href="#is-feature-enabled" id="ref-for-is-feature-enabled②">Is feature enabled in document for
@@ -3345,7 +3345,7 @@ set to "enforce".</p>
    <div class="issue">This spec currently only deals with features defined in
     Documents. We should figure out how to word this to include the possibility
     of features and feature policies in Workers and Worklets as well.<a href="#issue-e7bb8656"> ↵ </a></div>
-   <div class="issue">Feature Policy within <code>no-window</code> contexts (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.<a href="#issue-528c9b8b"> ↵ </a></div>
+   <div class="issue">Feature Policy within non-Window contexts (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.<a href="#issue-79a5ddf0"> ↵ </a></div>
   </div>
   <aside class="dfn-panel" data-for="policy-controlled-feature">
    <b><a href="#policy-controlled-feature">#policy-controlled-feature</a></b><b>Referenced in:</b>
