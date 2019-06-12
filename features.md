@@ -59,6 +59,7 @@ experimentation by web developers.
 | `font-display-late-swap` | [font-display-late-swap.md](policies/font-display-late-swap.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `layout-animations` | [animations.md](policies/animations.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `loading-frame-default-eager` | [loading-frame-default-eager.md](policies/loading-frame-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
+| `loading-image-default-eager` | [loading-image-default-eager.md](policies/loading-image-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
 | `legacy-image-formats` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `oversized-images` | [optimized-images.md](policies/optimized-images.md) | In origin trials in M75</sup> |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
