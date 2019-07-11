@@ -1029,7 +1029,7 @@ Possible extra rowspan handling
 		}
 	/* } */
 
-	@supports (display:grid) {
+	@supports (display:grid) and (display:contents) {
 		/* Use #toc over .toc to override non-@supports rules. */
 		#toc {
 			display: grid;
@@ -1212,9 +1212,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 872cce6d3026423d677f3bd5837f1a1a46299a04" name="generator">
+  <meta content="Bikeshed version a3b64e58e069c2e8a9ffcadffb76601231663a47" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="4450629b0944300778171997ed49af0506ebfc58" name="document-revision">
+  <meta content="6c04dbc1a656e2d7fee051778b16a8ed0a2767c6" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-06-12">12 June 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-07-11">11 July 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1687,14 +1687,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     allows the application to selectively enable such features for specified
     origins.</p>
     </div>
-    <div class="example" id="example-447d58aa">
-     <a class="self-link" href="#example-447d58aa"></a> 
-     <p>FastCorp Inc. wants to disable geolocation for all cross-origin child
-    frames, except for a specific iframe. It can do so by delivering the
-    following HTTP response header to define a feature policy:</p>
-<pre><a data-link-type="http-header" href="#feature-policy-header" id="ref-for-feature-policy-header③">Feature-Policy</a>: geolocation 'self'</pre>
-     <p>and including an "<code>allow</code>" attribute on the iframe
-    element:</p>
+    <div class="example" id="example-1db1f085">
+     <a class="self-link" href="#example-1db1f085"></a> 
+     <p>Geolocation is disabled by default in all cross-origin frames. FastCorp
+    Inc. has a specific cross-origin iframe on their site for which it wants to
+    enable geolocation. It can do so by including an "<code>allow</code>"
+    attribute on the iframe element:</p>
 <pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="geolocation">&lt;/iframe></pre>
      <p>Iframe attributes can selectively enable features in certain frames, and
     not in others, even if those contain documents from the same origin.</p>
@@ -3294,7 +3292,7 @@ set to "enforce".</p>
    <dt id="biblio-payment-request">[PAYMENT-REQUEST]
    <dd>Zach Koch; et al. <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>. 16 April 2019. CR. URL: <a href="https://www.w3.org/TR/payment-request/">https://www.w3.org/TR/payment-request/</a>
    <dt id="biblio-reporting">[REPORTING]
-   <dd><a href="https://wicg.github.io/reporting/">Reporting API</a>. Living Standard. URL: <a href="https://wicg.github.io/reporting/">https://wicg.github.io/reporting/</a>
+   <dd><a href="https://wicg.github.io/reporting/">Reporting API</a>. cg-draft. URL: <a href="https://wicg.github.io/reporting/">https://wicg.github.io/reporting/</a>
    <dt id="biblio-reporting-1">[REPORTING-1]
    <dd>Douglas Creager; et al. <a href="https://www.w3.org/TR/reporting-1/">Reporting API</a>. 25 September 2018. WD. URL: <a href="https://www.w3.org/TR/reporting-1/">https://www.w3.org/TR/reporting-1/</a>
    <dt id="biblio-rfc2119">[RFC2119]
@@ -3549,7 +3547,7 @@ set to "enforce".</p>
   <aside class="dfn-panel" data-for="feature-policy-header">
    <b><a href="#feature-policy-header">#feature-policy-header</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-feature-policy-header">2. Examples</a> <a href="#ref-for-feature-policy-header①">(2)</a> <a href="#ref-for-feature-policy-header②">(3)</a> <a href="#ref-for-feature-policy-header③">(4)</a>
+    <li><a href="#ref-for-feature-policy-header">2. Examples</a> <a href="#ref-for-feature-policy-header①">(2)</a> <a href="#ref-for-feature-policy-header②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="featurepolicy">
