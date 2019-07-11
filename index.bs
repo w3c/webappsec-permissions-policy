@@ -108,12 +108,10 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     origins.</p>
   </div>
   <div class="example">
-    <p>FastCorp Inc. wants to disable geolocation for all cross-origin child
-    frames, except for a specific iframe. It can do so by delivering the
-    following HTTP response header to define a feature policy:</p>
-    <pre><a http-header>Feature-Policy</a>: geolocation 'self'</pre>
-    <p>and including an "<code>allow</code>" attribute on the iframe
-    element:</p>
+    <p>Geolocation is disabled by default in all cross-origin frames. FastCorp
+    Inc. has a specific cross-origin iframe on their site for which it wants to
+    enable geolocation. It can do so by including an "<code>allow</code>"
+    attribute on the iframe element:</p>
     <pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="geolocation"&gt;&lt;/iframe&gt;</pre>
     <p>Iframe attributes can selectively enable features in certain frames, and
     not in others, even if those contain documents from the same origin.</p>
