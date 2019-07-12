@@ -958,7 +958,7 @@ partial interface HTMLIFrameElement {
     <a>Feature Policy</a></p>
     <ol>
       <li>Let <var>policy</var> be the result of running <a>Create a Feature Policy for a browsing
-      context from response</a> given <var>document</var>'s <a>browsing context</a>, and <var>document</var>'s
+      context from response</a> given <var>document</var>'s <a>browsing context</a>, <var>document</var>'s
       <a>origin</a>, and <var>response</var>.</li>
       <li>
         Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>.
@@ -967,15 +967,15 @@ partial interface HTMLIFrameElement {
   </section>
   <section>
     <h3 id="algo-define-inherited-policy"><dfn id="define-inherited-policy">Define an inherited policy for
-    <var>feature</var>, and <a>origin</a> in <a>browsing context</a></dfn></h3>
+    <var>feature</var> in <a>browsing context</a></dfn></h3>
     <p>Given a feature (<var>feature</var>), an <a>origin</a> (<var>origin</var>), and
-    a <a>browsing context</a> (<var>context</var>), this algorithm returns the
+    a <a>browsing context</a> (<var>browsingContext</var>), this algorithm returns the
     <a>inherited policy</a> for that feature.</p>
     <ol>
-      <li>If <var>context</var> is the [=nested browsing context=] of a
+      <li>If <var>browsingContext</var> is the [=nested browsing context=] of a
         [=browsing context container=] <var>element</var>, return the result of
         executing <a>Define an inherited policy for feature in container at
-        origin</a> for <var>feature</var> in <var>context</var>'s <a>browsing
+        origin</a> for <var>feature</var> in <var>browsingContext</var>'s <a>browsing
         context container</a> at <var>origin</var>.</li>
       <li>Otherwise, return "<code>Enabled</code>".</li>
     </ol>
