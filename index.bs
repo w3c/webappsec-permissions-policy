@@ -1041,8 +1041,8 @@ partial interface HTMLIFrameElement {
       <code>*</code>, return "<code>Enabled</code>".
       </li>
       <li>If <var>feature</var>'s <a>default allowlist</a> is
-      <code>'self'</code>, and <var>origin</var> is [=same origin-domain=]
-      with <var>document</var>'s origin, return "<code>Enabled</code>".
+      <code>'self'</code>, and <var>origin</var> is [=same origin=] with
+      <var>document</var>'s origin, return "<code>Enabled</code>".
       </li>
       <li>Return "<code>Disabled</code>".</li>
     </ol>
