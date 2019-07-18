@@ -912,21 +912,6 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="algo-initialize-for-document"><dfn export
-    id="initialize-for-document">Initialize <var>document</var>'s Feature
-    Policy</dfn></h3>
-    <p>Given a {{Document}} object (<var>document</var>), this algorithm
-    initialises <var>document</var>'s <a>Feature Policy</a></p>
-    <ol>
-      <li>Let <var>policy</var> be the result of running <a>Create a Feature Policy for a browsing
-      context</a> given <var>document</var>'s <a>browsing context</a>, and <var>document</var>'s
-      <a>origin</a>.</li>
-      <li>
-        Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>.
-      </li>
-    </ol>
-  </section>
-  <section>
     <h3 id="algo-create-from-response"><dfn export
     id="create-from-response">Create a Feature
     Policy for a browsing <var>context</var> from <var>response</var></dfn></h3>
@@ -947,22 +932,6 @@ partial interface HTMLIFrameElement {
         </ol>
       </li>
       <li>Return <var>policy</var>.</li>
-    </ol>
-  </section>
-  <section>
-    <h3 id="algo-initialize-from-response"><dfn export
-    id="initialize-from-response">Initialize <var>document</var>'s Feature
-    Policy from <var>response</var></dfn></h3>
-    <p>Given a [=response=] (<var>response</var>) and a <a>Document</a>
-    (<var>document</var>), this algorithm populates <var>document</var>'s
-    <a>Feature Policy</a></p>
-    <ol>
-      <li>Let <var>policy</var> be the result of running <a>Create a Feature Policy for a browsing
-      context from response</a> given <var>document</var>'s <a>browsing context</a>, <var>document</var>'s
-      <a>origin</a>, and <var>response</var>.</li>
-      <li>
-        Set <var>document</var>’s <a href="https://html.spec.whatwg.org/multipage/dom.html#concept-document-feature-policy">feature policy</a> to <var>policy</var>.
-      </li>
     </ol>
   </section>
   <section>
