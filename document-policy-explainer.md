@@ -95,9 +95,9 @@ A document like this:
   <body>
     <iframe src="https://a.example.com/" policy="no-unsized-media"></iframe>
     <iframe src="https://b.example.com/"
-            policy="image-compresson;bpp=1"></iframe>
+            policy="image-compression;bpp=1"></iframe>
     <iframe src="https://c.example.com/"
-            policy="image-compresson;bpp=4"></iframe>
+            policy="image-compression;bpp=4"></iframe>
   </body>
 </html>
 ```
@@ -128,13 +128,17 @@ threshold value is still 'bpp=4'.)
 
 ### Sandboxing nested content (Traditional sandbox)
 
+As examples of different ways to sandbox content using a combination of the
+`sandbox` and `policy` attributes, the following could all be used to create a
+sandboxed iframe:
+
 ```html
 <iframe sandbox>
 <iframe sandbox="allow-scripts allow-forms">
-<iframe policy="no-scripts">
-<iframe sandbox policy="scripts"
-<iframe sandbox="no-scripts" policy="scripts">
-<iframe policy="no-same-origin">
+<iframe policy="no-scripts"> (This is a non-sandboxed frame with no scripting allowed)
+<iframe sandbox policy="scripts"> (Should this be allowed?)
+<iframe sandbox="allow-scripts" policy="no-scripts"> (This one needs some work)
+<iframe policy="no-same-origin"> (This is a frame with an opaque origin, but no other sandboxing)
 ```
 
 None of these result in a `Sec-Required-Feature-Policy` header, as all of the
@@ -228,7 +232,7 @@ Some policies are boolean switches, and can be turned off with the syntax
 Others take parameters, whose types and names are specific to each policy:
 
 * `image-compression;min-bpp=2`
-* `frame-loading:lazy`
+* `frame-loading;lazy`
 
 All of the directives can be combined with commas into a single header. In
 Structured-header-speak, this is a parameterized list.
