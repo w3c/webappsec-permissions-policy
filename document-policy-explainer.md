@@ -65,7 +65,7 @@ frame will also have their requests sent with the same
 
 ### Deeper nesting
 
-As above, If the top-level document uses the policy attribute in an iframe
+As above, if the top-level document uses the policy attribute in an iframe
 element, like this:
 
 ```html
@@ -82,7 +82,7 @@ Sec-Required-Document-Policy: image-compression;bpp=2
 
 If the framed document then includes its own subframes, they will be sent with
 the same `Sec-Required-Document-Policy` header, as the policy set by the
-top-level document applies to all content within its frame.
+top-level document applies to all nested iframes within.
 
 If the framed document then also applies a policy attribute to its iframes, then
 the required policy indicated by those frames will combine with the required
@@ -124,7 +124,7 @@ Sec-Required-Document-Policy: image-compression;bpp=2
 
 (Note that in the last example, the stricter requirements imposed by the
 top-level document subsume the requirements on the nested frame, so the combined
-threshold value is still 'bpp=4'.)
+threshold value is still 'bpp=2'.)
 
 ### Sandboxing nested content (Traditional sandbox)
 
@@ -206,7 +206,7 @@ That header doesn't impose any restrictions on content which the document embeds
 at all, and in the base case, every document is free to set its own policy
 independently.
 
-(In a minute, we'll talk about required policies, though -- and not conforming
+(In a minute, we'll talk about required policies, though - and not conforming
 to a required policy might impact your page's ability to be loaded, but in
 general, you're free to set your policy any way you like)
 
@@ -240,8 +240,8 @@ Structured-header-speak, this is a parameterized list.
 ### Requiring a policy in your embedded content
 
 It is possible to enforce that content you embed conforms to a specific policy
-as well. This can be done in two ways -- either through a different response
-header: `Require-Document-Policy`, which affects every iframe on your page, or
+as well. This can be done in two ways: either through a different response
+header (`Require-Document-Policy`), which affects every iframe on your page; or
 by using a "`policy`" attribute on specific frames, which target just those
 frames.
 
@@ -261,7 +261,7 @@ loaded into the frame, and a network error will result instead.
 
 The `Sec-Required-Document-Policy` header will be present for all requests for
 documents in a frame, at every nesting level. If the framed document adds its
-own `Require-Document-Policy header`, or uses the policy attribute on its own
+own `Require-Document-Policy` header, or uses the policy attribute on its own
 iframes, then the requirements will be combined in deeper requests, to ensure
 that all content meets all of the requirements being imposed on it.
 
