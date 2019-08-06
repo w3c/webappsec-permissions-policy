@@ -46,6 +46,7 @@ integrated into their respective specs.
 | `encrypted-media` | https://github.com/w3c/encrypted-media/pull/432 | Chrome 64 |
 | `geolocation` | https://github.com/w3c/permissions/pull/163 | Chrome 64 |
 | `speaker` | https://github.com/w3c/mediacapture-main/issues/434 | Chrome 64 |
+| `webauthn` | [Web Authentication API][webauthn] | |
 
 
 ## Experimental Features
@@ -94,6 +95,7 @@ names will be added to this list as they are actually defined.
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
 [wake-lock]: https://www.w3.org/TR/wake-lock/#dfn-wake-lock-feature
 [web-midi]: https://webaudio.github.io/web-midi-api/#feature-policy-integration
+[webauthn]: https://w3c.github.io/webauthn/#sctn-feature-policy
 [webusb]: https://wicg.github.io/webusb/#feature-policy
 [xhr]: https://xhr.spec.whatwg.org/#feature-policy-integration
 [xr]: https://immersive-web.github.io/webxr/#feature-policy
