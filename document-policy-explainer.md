@@ -141,7 +141,7 @@ sandboxed iframe:
 <iframe policy="no-same-origin"> (This is a frame with an opaque origin, but no other sandboxing)
 ```
 
-None of these result in a `Sec-Required-Feature-Policy` header, as all of the
+None of these result in a `Sec-Required-Document-Policy` header, as all of the
 existing sandbox features are safelisted.
 
 However, new features are not safelisted, and so would result in a header if any
