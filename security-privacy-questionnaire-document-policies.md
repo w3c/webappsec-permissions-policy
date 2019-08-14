@@ -1,5 +1,5 @@
 # Security and Privacy questionnaire for [Document Policies](https://github.com/w3c/webappsec-feature-policy/blob/master/document-policy-explainer.md)
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
+
 ### 2.1 What information might this feature expose to Web sites or other parties, and for what purposes is that exposure necessary?
 
 When requested by an embedding page, this feature exposes to an origin server
