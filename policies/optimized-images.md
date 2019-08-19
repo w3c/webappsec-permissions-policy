@@ -1,8 +1,10 @@
-# Optimized Image Policies Explainer
+#  Image Policies Explainer
 
-loonybear@, last updated: 4/25/2018
+loonybear@, last updated: 03/27/2019
 
-<span style="color:#38761d;">Status: Draft Proposal</span>
+<span style="color:#38761d;">Status: Draft Proposal
+   
+   Note that features are available in [Origin Trials](https://github.com/GoogleChrome/OriginTrials) in M75</span>
 
 
 ## Goal
@@ -14,193 +16,120 @@ Optimized image policies are aiming to solve problems with sites shipping images
 
 ## What are "Optimized Image Policies"?
 
-Optimized image policies introduce a set of restrictions (policies) on images that can be applied with dev-time enforcement. An image will be rendered with **inverted colors** when violating a policy, making it easy for web developers to identify and fix the error.
+Optimized image policies introduce a set of restrictions (policies) on images that can be applied with dev-time enforcement. An image will be replaced with a **placeholder image** when violating a policy, making it easy for web developers to identify and fix the error. In addition, violations can be observed via [Feature Policy Reporting](https://github.com/w3c/webappsec-feature-policy/blob/master/reporting.md). With HTTP header `Feature-Policy-Report-Only` (enabled via Feature Policy Reporting origin trial), image policies can be specified in "report-only" mode, which means images will render normally without enforcement, but policy violations will be reported, like [Content Security Policy](https://w3c.github.io/webappsec-csp/#cspro-header).
 
 
 ### Optimized image policies
 
-*   **["legacy-image-formats" policy](#legacy-image-formats)**
-    *   Images must be of one of the _**modern formats***_ (JPEG, PNG, WEBP, etc).
-*   **["maximum-downscaling-image" policy](#maximum-downscaling-image)**
-    *   Images must not be bigger than its container size by more than _**X times***_ .
-*   **["image-compression" policy](#image-compression)**
-    *   Images used in rendering must not include too much metadata.
-    *   Images must not be more than _**X bits***_ per compressed pixel.
+*   **["oversized-images" policy](#oversized-images)**
+    *   The intrinsic dimensions of `<img>` elements must not be larger than the container size by more than _***X times***_.
+*   **["unoptimized-lossy-images" policy](#unoptimized-{lossy,lossless}-images)**
+    *   Lossy images used in rendering must not include too much metadata.
+    *   Lossy images should be in one of the modern image formats that yield large byte savings and performance improvement.
+    *   A lossy `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowance. For a W x H image, the file size threshold is calculated as `W x H x X + 1024` (where X is specified in the policy). Any image whose file size exeeds the limit will be blocked.
+*   **["unoptimized-lossless-images" policy](#unoptimized-{lossy,lossless}-images)**
+    *   Lossless images used in rendering must not include too much metadata.
+    *   Lossless images should be in one of the modern image formats that yield large byte savings and performance improvement.
+    *   A lossless `<img>` element should not exceed a byte-per-pixel ratio of _***X***_, with a fixed _**1KB**_ overhead allowance. For a W x H image, the file size threshold is calculated as `W x H x X + 1024` (where X is specified in the policy). Any image whose file size exeeds the limit will be blocked.
+    
+        **Note**: we are still trying to figure out the appropriate overhead allowance for the policies. We are experimenting with 2 features for lossless images: "unoptimized-lossless-images", where the overhead allowed is set to 10K, and "unoptimized-lossless-images-strict", where the overhead allowed is set to 1K.
 
-**Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. * means developers will eventrually be able to specify the "value" of the policy. For example, `maximum-downscaling-image(2)` specifies the maximum ratio (2) images are allowed to be downscaled by.
+**Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. _***X***_ means developers can specify the "value" of the policy. For example, `oversized-images *(2)` specifies the maximum ratio, 2, images are allowed to oversize by.
+
+
+## Experiment image policies with Origin Trials
+
+Image policies are shipped in Chrome M75 via Origin Trials.
+
+Request a token to try the origin trial on your own origin:
+   * Provide the token on any pages in your origin using an `Origin-Trial` HTTP header:
+   ```
+   Origin-Trial: **token as provided in the developer console**
+   ```
+
+   * Specify an image policy via HTTP header `Feature-Poliy` header (see below for more details). 
+   ```
+   Feature-Policy: **image policies specified here**
+   ```
+
+For more details, see [Origin Trials Guide for Web Developers](https://github.com/GoogleChrome/OriginTrials/blob/gh-pages/developer-guide.md).
+
 
 
 ## Detailed policy discussion
 
-<a name="legacy-image-formats">
-
-### "legacy-image-formats" policy
+<a name="oversized-images">
+   
+### "oversized-images" policy
 
 </a>
 
-Image formats affect file size, loading speed and appearance. Modern image formats yield large byte savings and performance improvement. `legacy-image-formats` is a policy controlled feature that restricts images to be one of certain modern formats.
+On a web page, the number of pixels of a container determines the resolution of an image served inside. It is unnecessary to use an image that is much larger than what the viewing device can actually render; for example, serving a desktop image to mobile contexts, or serving an image intended for high-pixel-density screens to a low-pixel-density device. This results in unnecessary network traffic and downloaded bytes. `oversized-images` is a policy controlled feature that restricts images to be no more than X times bigger than the container size.
 
-When a document is disallowed to use `legacy-image-formats` policy, its `<img>` elements will render images of "legacy" formats with inverted colors.
+When a document disallows the `oversized-images` policy, the `<img>` elements that are more than X times larger than the container size in either dimension will be replaced with placeholder images.
+
+To try the `oversized-images` policy, register a token [here](https://developers.chrome.com/origintrials/#/trials/active) and specify the policy via HTTP `Feature-Policy` header (see section above for more details). Please note that origin trial token is Chrome-specific.
 
 
 #### Specification
 
-- The default list of modern image formats is: JPEG, PNG, GIF, WEBP, and SVG.
+- The default allowlist for `oversized-images` is `*(inf)`. This means for pages of all origins,
+all `<img>` elements will be allowed and rendered correctly by default.
 
-    **Note**: The goal is to eventually introduce a syntax for specifying which modern formats can be allowed. The developer can choose this minimum set (default list), or can add additional formats which they either know can be rendered fast, or just need for their site.
+- An `oversized-images` policy can be specified via:
 
-    In practice, they would look something like this:
-
-    ```html
-    <iframe allow="legacy-image-formats(JPEG, PNG, TIFF)"></iframe>
-    ```
-    That would apply a policy in which just those three formats (JPEG, PNG, TIFF) can be allowed.
-
-    Feature policies combine in subframes, so if that frame embedded another, which the syntax:
-
-    ```html
-    <iframe allow="legacy-image-formats(JPEG, GIF, BMP)"></iframe>
-    ```
-    then the child frame would be allowed to render images of just "JPEG" format.
-
-- The default allowlist for `legacy-image-formats` is `*`. This means for pages of all origins, `<img>` elements with "legacy" formats will be allowed and rendered correctly by default.
-
-- A `legacy-image-formats` policy can be specified via:
-
-    **1. HTTP "Feature-Policy" response header:**
-    ```html
-    Feature-Policy: legacy-image-formats 'none';
-    ```
-    In this example, `legacy-image-formats` is disabled for all frames including the main frame. All `<img>` elements with "legacy" formats will be rendered with inverted colors.
-
-    **2. "allow" attribute in <iframe>:**
-    ```html
-    <iframe src="https://example.com" allow="legacy-image-formats 'self' https://foo.com;">
-    ```
-    In this example, `legacy-image-formats` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
-
-
-#### Example
-
-<table>
-  <tr align="center">
-   <td width="400">Feature-Policy: legacy-image-formats 'none';</td>
-   <td width="400">Feature-Policy: legacy-image-formats *;</td>
-  </tr>
-  <tr align="center">
-   <td>
- <img src="resources/legacy-image-formats-disabled.png" width="80%"> 
-   </td>
-   <td>
- <img src="resources/legacy-image-formats-enabled.png" width="80%"> 
-   </td>
-  </tr>
-  <tr align="center">
-   <td colspan="2" >
-
-```html
-"example.com"
-<img id="modern-formats" src="test.png">
-<img id="legacy-formats" src="test.bmp">
-```
-   </td>
-  </tr>
-</table>
-
-For an `<img>` element, if its `src` is one of the modern image formats, the image will be rendered correctly; otherwise the image will be rendered with inverted colors.
-</br></br>
-
-<a name="maximum-downscaling-image">
-
-### "maximum-downscaling-image" policy
-
-</a>
-
-On a web page, the number of pixels of a container determines the resolution of an image served inside. It is unnecessary to use an image that is much larger than what the viewing device can actually render; for example, serving a desktop image to mobile contexts, or serving an image intended for high-pixel-density screens to a low-pixel-density device. This results in unnecessary network traffic and downloaded bytes. `maximum-downscaling-image` is a policy controlled feature that restricts images to be no more than X times bigger than the container size.
-
-When a document is disallowed to use `maximum-downscaling-image` policy, its `<img>` elements that are more than X times larger than its container size will be rendered with inverted colors.
-
-
-#### Specification
-
-- The default downscaling ratio is 2.
-
-    **Note**: The goal is to eventually introduce a syntax for specifying the maxmimum downscaling ratio to be allowed.
-
-    In practice, they would look something like this:
+    **1. [HTTP `Feature-Policy`]( https://w3c.github.io/webappsec-feature-policy/#feature-policy-http-header-field) response header:**
+   ```html
+    Feature-Policy: oversized-images *(0);
+   ```
+    In this example, `oversized-images` is **disabled for all frames** including the main frame. All `<img>` elements will be replaced with placeholder images as their intrinsic dimensions will be more than 0 (0 times larger than the container size in either dimension).
+    
+    **2. [`allow` attribute in <iframe>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#Attributes):**
+   ```html
+   <iframe src="https://example.com" allow="oversized-images 'self'(2) https://foo.com(3);">
+   ```
+    In this example, `oversized-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are more than _2_ times larger than the container size in either dimension will be replaced with a placeholder image. On 'https://foo.com', any `<img>` element whose intrinsic dimensions are more than _3_ times larger than the container size in either dimension will be replaced with a placeholder image. **`<img>` elements on any other origins will be replaced with placeholder images**.
 
     ```html
-    <iframe allow="maximum-downscaling-image(4)"></iframe>
+    <iframe allow="oversized-images *(4) 'self'(3)"></iframe>
     ```
-    That would apply a policy in which the maximum downscaling ratio allowed is set to 4.
+    In this example, **the maximum oversizing ratio allowed is set to 4 everywhere except on the origin of the main document where it is set to 3**. On the origin of the main document, any `<img>` element whose intrinsic dimensions are more than _4_ times larger than the container size in either dimension will be replaced with a placeholder image. On other origins, any `<img>` element whose intrinsic dimensions are more than _3_ times larger than the container size in either dimension will be replaced with a placeholder image.
 
-    Feature policies combine in subframes, and the minimum value of the downscaling ratio will be applied, so if that frame embedded another, which the syntax:
+- The recomnended oversizing ratio is **2**.
 
-    ```html
-    <iframe allow="maximum-downscaling-image(5)"></iframe>
-    ```
-    then the child frame would be allowed to render images with maximum downscaling ratio of 4.
+  **Note**: `oversized-images` takes a device's pixel ratio into account and compares the actual number of rendered pixels to the source image's intrinsic size.
 
-    If that frame embedded another child frame of the syntax:
+  Use `srcset` to scale images on a higher resolution device.
 
-    ```html
-    <iframe allow="maximum-downscaling-image(3)"></iframe>
-    ```
-    then the other child frame would be allowed to render images with maximum downscaling ratio of 3.
+- Feature policies combine in subframes, and the minimum value of the downscaling ratio will be applied. So if a frame whose maximum oversizing ration is set to 4, embed another using this syntax:
 
-- The default allowlist for `maximum-downscaling-image` is `*`. This means for pages of all origins,
-`<img>` elements that are more than X times larger than its container size will be allowed and rendered correctly.
+   ```html
+   Feature-Policy: oversized-images *(4);
+   ```
+   ```html
+   <iframe allow="oversized-images *(5)"></iframe>
+   ```
+   then the child frame would be allowed to render images with maximum oversizing ratio of **4**.   
 
-- A `maximum-downscaling-image` policy can be specified via:
+   If that frame embedded another child frame of the syntax:
 
-    **1. HTTP "feature-policy" response header:**
-    ```html
-    Feature-Policy: maximum-downscaling-image 'none';
-    ```
-    In this example, `maximum-downscaling-image` is disabled for all frames including the main frame. All `<img>` elements that are more than X times larger than its container size will be rendered with inverted colors.
-
-    **2. "allow" attribute in <iframe>:**
-    ```html
-    <iframe src="https://example.com" allow="maximum-downscaling-image 'self' https://foo.com;">
-    ```
-    In this example, "maximum-downscaling-image" is disabled everywhere except on the origin of the main document and on `https://foo.com`.
-
-
+   ```html
+   Feature-Policy: oversized-images *(4);
+   ```
+   ```html
+   <iframe allow="oversized-images *(3)"></iframe>
+   ```
+   
+   then the other child frame would be allowed to render images with maximum oversizing ratio of **3**.
+   
+   
+   
 #### Examples
 
 <table>
   <tr align="center">
-   <td width="400">Feature-Policy: maximum-downscaling-image 'none';</td>
-   <td width="400">Feature-Policy: maximum-downscaling-image *;</td>
-  </tr>
-  <tr align="center">
-   <td>
-<img src="resources/max-ds-img-disabled0.png" width="80%">
-   </td>
-   <td>
-<img src="resources/max-ds-img-enabled0.png" width="80%">
-   </td>
-  </tr>
-  <tr align="center">
-   <td colspan="2" >
-
-```html
-"example0.com"
-test.png: 150px X 150px
-<img id="within-range" width="100" height="100" src="test.png">
-<img id="over-width-and-height" width="50" height="50" src="test.png">
-```
-   </td>
-  </tr>
-</table>
-
-For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width of height), the image will be rendered correctly;  if both the width and the height of the source image exceed the limit, the image will be rendered with inverted colors.
-
-
-<table>
-  <tr align="center">
-   <td width="400">Feature-Policy: maximum-downscaling-image 'none';</td>
-   <td width="400">Feature-Policy: maximum-downscaling-image *;</td>
+   <td width="400">Feature-Policy: oversized-images *(2);</td>
+   <td width="400">Default behavior</td>
   </tr>
   <tr align="center">
    <td>
@@ -210,26 +139,33 @@ For an `<img>` element, if neither the width or the height of the source image e
 <img src="resources/max-ds-img-enabled1.png" width="80%">
    </td>
   </tr>
-  <tr align="center">
-   <td colspan="2" >
-
-```html
-"example1.com"
-test.png: 150px X 150px
-<img id="within-range" width="100" height="100" src="test.png">
-<img id="over-height" width="100" height="50" src="test.png">
-```
-   </td>
-  </tr>
 </table>
 
-For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the width the source image exceeds the limit, the image will be rendered with inverted colors.
+For an `<img>` element, if neither the intrinsic width nor the intrinsic height of the source image exceeds the number of pixels allowed by the policy in the container (2 times larger than the container's width or height), the image will be rendered correctly; if both the width and the height of the source image exceed the limit, a placeholder image will be rendered instead.
 
 
 <table>
   <tr align="center">
-   <td width="400">Feature-Policy: maximum-downscaling-image 'none';</td>
-   <td width="400">Feature-Policy: maximum-downscaling-image *;</td>
+   <td width="400">Feature-Policy: oversized-images *(2);</td>
+   <td width="400">Default behavior</td>
+  </tr>
+  <tr align="center">
+   <td>
+<img src="resources/max-ds-img-disabled0.png" width="80%">
+   </td>
+   <td>
+<img src="resources/max-ds-img-enabled0.png" width="80%">
+   </td>
+  </tr>
+</table>
+
+For an `<img>` element, if neither the intrinsic width nor the intrinsic height of the source image exceeds the number of pixels allowed by the policy in the container (2 times larger than the container's width or height), the image will be rendered correctly; if the intrinsic width the source image exceeds the limit, a placeholder image will be rendered instead.
+
+
+<table>
+  <tr align="center">
+   <td width="400">Feature-Policy: oversized-images *(2);</td>
+   <td width="400">Default behavior</td>
   </tr>
   <tr align="center">
    <td>
@@ -239,104 +175,86 @@ For an `<img>` element, if neither the width or the height of the source image e
 <img src="resources/max-ds-img-enabled2.png" width="80%">
    </td>
   </tr>
-  <tr align="center">
-   <td colspan="2" >
-
-```html
-"example2.com"
-test.png: 150px X 150px
-<img id="within-range" width="100" height="100" src="test.png">
-<img id="over-width" width="50" height="100" src="test.png">
-```
-   </td>
-  </tr>
 </table>
 
-For an `<img>` element, if neither the width or the height of the source image exceeds the number of pixels allowed by the policy in the container (by default, 2 times of its container's width or height), the image will be rendered correctly; if the height the source image exceeds the limit, the image will be rendered with inverted colors.
+For an `<img>` element, if neither the intrinsic width or the intrinsic height of the source image exceeds the number of pixels allowed by the policy in the container (2 times larger than the container's width or height), the image will be rendered correctly; if the intrinsic height the source image exceeds the limit, a placeholder image will be rendered instead.
 </br></br>
 
-<a name="image-compression">
 
-### "image-compression" policy
+<a name="unoptimized-{lossy,lossless}-images">
+
+### "unoptimized-lossy-images" policy and "unoptimized-lossless-images" policy
 
 </a>
 
-When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, or using image compression, is a common way to optimize an image's file size. `image-compression` is a policy controlled feature that restricts images to have a file size (in terms of number of bytes) no more than X times bigger than the image size (width * height) on the web page.
+When optimizing images, the file size should be kept as small as possible. The larger the download size is, the longer it takes a page to load. Stripping metadata, picking a good image format, and using image compression, are all common ways to optimize an image's file size. `unoptimized-lossless-images` and `unoptimized-lossy-images` are policy controlled features that restricts images to a file size of no more than X times larger than the image resolution (width times height, pixels) on the web page.
 
-When a document is disallowed to use `image-compression` policy, its `<img>` elements whose file sizes are too big will be rendered with inverted colors.
+When a document disallows the `unoptimized-lossless-images` policy or the `unoptimized-lossy-images` policy, the lossless or the lossy `<img>` elements whose file sizes are too large will be replaced with placeholder images.
 
+**Note**: "unoptimized-lossy-images" policy and "unoptimized-lossless-images" policy do not apply on SVG images.
 
 #### Specification
+- The default allowlist for `unoptimized-lossless-images` and `unoptimized-lossy-images` is `*(inf)`. This means for pages of all origins, all `<img>` elements will be allowed and rendered correctly by default.
 
-- The default compression ratio is tentatively 10.
+- The maximum file size allowrance is calculated as following:
 
-    **Note**: We want to allow developers the ability to make the final decision about the tradeoffs they make. The goal is to eventually introduce a syntax for specifying their own ratio.
+   ```overhead allowance + byte-per-pixel ratio * image resolution``` 
 
-    In practice, they would look something like this:
+   + The overhead allowance is tentatively set to 1KB (1024 bytes).
+   + The byte-per-pixel ratio is specified by the user. 
+        + The recommended byte-per-pixel ratio is **0.5** for lossy images ("unoptimized-lossy-images").
+        + The recommended byte-per-pixel ratio is **1** for lossless images ("unoptimized-lossless-images").
+ 
+- An "unoptimized-lossy-images" policy or an "unoptimized-lossless-images" policy can be specified via:
+
+    **1. [HTTP `Feature-Policy`]( https://w3c.github.io/webappsec-feature-policy/#feature-policy-http-header-field) response header:**
+    ```html
+    Feature-Policy: unoptimized-lossy-images *(0);
+    ```
+    In this example, `unoptimized-lossy-images` is **disabled for all frames** including the main frame. Any `<img>` element of JPEG format whose file size is over 1KB will be replaced with placeholder images as the byte-per-pixel ratio allowed is 0.
+
+    **2. [`allow` attribute in <iframe>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#Attributes):**
+    ```html
+    <iframe src="https://example.com" allow="unoptimized-lossless-images 'self'(0.8) https://foo.com(1);">
+    ```
+
+    In this example, `unoptimized-lossless-images` is **disabled everywhere except on the origin of the main document and on `https://foo.com`**. On the origin of the main document, any non JPEG `<img>` element whose file size exeeds the maximum file size allowance (with pite-per-pixel ratio set to 0.8) will be replaced with a placeholder image. On 'https://foo.com', any non JPEG `<img>` element whose file size exeeds the maximum file size allowance (with pite-per-pixel ratio set to 1) will be replaced with a placeholder image. **`<img>` elements on any other origins whose file size exeeds 1KB will be replaced with placeholder images**.
+
+- Feature policies combine in subframes, and the minimum value of the byte-per-pixel ratio will be applied, so if a frame, whose maximum byte-per-pixel ratio is set to 0.9 for unoptimized-lossy-images, embedded another, which the syntax:
 
     ```html
-    <iframe allow="image-compression(12)"></iframe>
+    Feature-Policy: unoptimized-lossy-images *(0.9);
     ```
-    That would apply a policy in which the maximum compression ratio allowed is set to 12.
-
-    Feature policies combine in subframes, and the minimum value of the compression ratio will be applied, so if that frame embedded another, which the syntax:
+    ```html
+    <iframe allow="unoptimized-lossy-images *(1.2)"></iframe>
+    ```
+    then the child frame would be allowed to render images with maximum byte-per-pixel ratio set to **0.9**
 
     ```html
-    <iframe allow="maximum-downscaling-image(15)"></iframe>
+    Feature-Policy: unoptimized-lossy-images *(0.9);
     ```
-    then the child frame would be allowed to render images with maximum compression ratio of 12.
-
-    If that frame embedded another child frame of the syntax:
-
     ```html
-    <iframe allow="maximum-downscaling-image(9)"></iframe>
+    <iframe allow="unoptimized-lossy-images *(0.2)"></iframe>
     ```
-    then the other child frame would be allowed to render images with maximum compression ratio of 9.
-
-- The default allowlist for `image-compression` is `*`. This means for pages of all origins, `<img>` elements whose file sizes exceeds the compression ratio will be allowed and rendered correctly.
-
-
-- A `image-compression` policy can be specified via:
-
-    **1. HTTP "feature-policy" response header:**
-    ```html
-    Feature-Policy: image-compression 'none';
-    ```
-    In this example, `image-compression` is disabled for all frames including the main frame. All `<img>` elements whose file sizes exceeds the compression ratio will be rendered with inverted colors.
-
-    **2. "allow" attribute in <iframe>:**
-    ```html
-    <iframe src="https://example.com" allow="image-compression 'self' https://foo.com;">
-    ```
-    In this example, `image-compression` is disabled everywhere except on the origin of the main document and on `https://foo.com`.
+   then the child frame would be allowed to render images with maximum byte-per-pixel ratio set to **0.2**
 
 
 #### Examples
 
 <table>
   <tr align="center">
-   <td width="400">Feature-Policy: image-compression 'none'; </td>
-   <td width="400">Feature-Policy: image-compression *; </td>
+   <td width="400">Feature-Policy: unoptimized-lossy-images *(0.8); </td>
+   <td width="400">Default behavior </td>
   </tr>
   <tr align="center">
    <td>
- <img src="resources/image-compression-disabled.png" width="80%"> 
+ <img src="resources/unoptimized-disabled.png" width="80%"> 
    </td>
    <td>
- <img src="resources/image-compression-enabled.png" width="80%"> 
-   </td>
-  </tr>
-  <tr align="center">
-   <td colspan="2" >
-
-```html
-"example.com"
-<img id="normal-size" src="test.png">
-<img id="oversized" src="test-oversized.png">
-```
+ <img src="resources/unoptimized-enabled.png" width="80%"> 
    </td>
   </tr>
 </table>
 
-For an `<img>` element, if its file size is within the compression limit, the image will be rendered correctly; otherwise the image will be rendered with inverted colors.
+Any `<img>` element whose file size is within the allowance will be rendered correctly;
 

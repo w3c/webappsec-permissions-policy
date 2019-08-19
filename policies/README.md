@@ -13,12 +13,12 @@ the core Feature Policy specification. Features here, whether implemented or
 not, should be built on top of that framework.
 
 For details on policies in the [seamless web talk](https://youtu.be/Wi_PhaFdjlo) at Google I/O 2018, please see:
-- [Optimized images](https://github.com/WICG/feature-policy/blob/gh-pages/policies/optimized-images.md), which includes:
+- [Optimized images](https://github.com/WICG/feature-policy/blob/master/policies/optimized-images.md), which includes:
   - Modern formats
   - No downscaling
   - Fully compressed
-- [Unsized media](https://github.com/WICG/feature-policy/blob/gh-pages/policies/unsized-media.md)
-- [Fast animations](https://github.com/WICG/feature-policy/blob/gh-pages/policies/animations.md)
+- [Unsized media](https://github.com/WICG/feature-policy/blob/master/policies/unsized-media.md)
+- [Fast animations](https://github.com/WICG/feature-policy/blob/master/policies/animations.md)
 - [Limiting resource sizes](https://github.com/WICG/transfer-size/blob/master/README.md)
 
 The following policies can be enabled via the `experimental-productivity-features` flag in Chrome dev channel:
