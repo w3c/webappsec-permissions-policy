@@ -8,7 +8,8 @@ newly introduced `loading` [attribute](https://github.com/whatwg/html/pull/3752)
 What does that mean?
 ------------
 With the `loading-image-default-eager` policy, developers could prioritize the loading of `<img>`'s on a web page.
-This however could become a cumbersome process and not quite scalable for larger
+Developers may use the `loading` attribute to specify the loading behavior of an image,
+this however could become a cumbersome process and not quite scalable for larger
 web sites specially given that applying the attribute is origin-agnostic. The proposed policy aims to resolve
 this issue by changing a browser's default decision for `loading` behavior.
 
