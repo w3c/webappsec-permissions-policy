@@ -675,6 +675,7 @@ partial interface HTMLIFrameElement {
   <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
+    [Exposed=Window]
     interface FeaturePolicyViolationReportBody : ReportBody {
       readonly attribute DOMString featureId;
       readonly attribute DOMString? sourceFile;
