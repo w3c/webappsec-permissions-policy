@@ -95,7 +95,7 @@ names will be added to this list as they are actually defined.
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
 [wake-lock]: https://www.w3.org/TR/wake-lock/#dfn-wake-lock-feature
 [web-midi]: https://webaudio.github.io/web-midi-api/#feature-policy-integration
-[webauthn]: https://w3c.github.io/webauthn/#sctn-feature-policy
+[publickey-credentials]: https://w3c.github.io/webauthn/#sctn-feature-policy
 [webusb]: https://wicg.github.io/webusb/#feature-policy
 [xhr]: https://xhr.spec.whatwg.org/#feature-policy-integration
 [xr]: https://immersive-web.github.io/webxr/#feature-policy
