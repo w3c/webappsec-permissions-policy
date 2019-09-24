@@ -47,6 +47,7 @@ integrated into their respective specs.
 | `encrypted-media` | https://github.com/w3c/encrypted-media/pull/432 | Chrome 64 |
 | `geolocation` | https://github.com/w3c/permissions/pull/163 | Chrome 64 |
 | `speaker` | https://github.com/w3c/mediacapture-main/issues/434 | Chrome 64 |
+| `publickey-credentials` | [Web Authentication API][publickey-credentials] | |
 
 
 ## Experimental Features
@@ -91,9 +92,10 @@ names will be added to this list as they are actually defined.
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
 [media-capture]: https://w3c.github.io/mediacapture-main/#feature-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#feature-policy-integration
-[page-lifecycle]: https://wicg.github.io/page-lifecycle/spec.html#feature-policies
+[page-lifecycle]: https://wicg.github.io/page-lifecycle/#feature-policies
 [payment-request]: https://www.w3.org/TR/payment-request/#feature-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
+[publickey-credentials]: https://w3c.github.io/webauthn/#sctn-feature-policy
 [wake-lock]: https://www.w3.org/TR/wake-lock/#dfn-wake-lock-feature
 [web-midi]: https://webaudio.github.io/web-midi-api/#feature-policy-integration
 [webusb]: https://wicg.github.io/webusb/#feature-policy
