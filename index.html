@@ -1212,9 +1212,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 08c4b0e94d147852f66673459784d3429bb3bda1" name="generator">
+  <meta content="Bikeshed version e86d5b1b47a216fa66165c234892adc259212183" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="79e43800c804130a370ca9c46b17a3c2078c507e" name="document-revision">
+  <meta content="3413f7e26a96f5c3f19b0817f18fbf8efceab9d8" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-09-03">3 September 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-09-24">24 September 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2225,7 +2225,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   occurred.</p>
     <p><a data-link-type="dfn" href="#feature-policy-violation-reports" id="ref-for-feature-policy-violation-reports">Feature policy violation reports</a> have the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-type" id="ref-for-report-type">report type</a> "feature-policy-violation".</p>
     <p><a data-link-type="dfn" href="#feature-policy-violation-reports" id="ref-for-feature-policy-violation-reports①">Feature policy violation reports</a> are <a data-link-type="dfn" href="https://w3c.github.io/reporting/#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</a>. </p>
-<pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="featurepolicyviolationreportbody"><code><c- g>FeaturePolicyViolationReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/reporting/#reportbody" id="ref-for-reportbody"><c- n>ReportBody</c-></a> {
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="featurepolicyviolationreportbody"><code><c- g>FeaturePolicyViolationReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/reporting/#reportbody" id="ref-for-reportbody"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-featurepolicyviolationreportbody-featureid"><code><c- g>featureId</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-featureid"></a></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-featurepolicyviolationreportbody-sourcefile"><code><c- g>sourceFile</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-sourcefile"></a></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long"><c- b>long</c-></a>? <dfn class="idl-code" data-dfn-for="FeaturePolicyViolationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="long?" id="dom-featurepolicyviolationreportbody-linenumber"><code><c- g>lineNumber</c-></code><a class="self-link" href="#dom-featurepolicyviolationreportbody-linenumber"></a></dfn>;
@@ -3140,6 +3141,12 @@ set to "enforce".</p>
     <li><a href="#ref-for-idl-DOMString⑥">8. Reporting</a> <a href="#ref-for-idl-DOMString⑦">(2)</a> <a href="#ref-for-idl-DOMString⑧">(3)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-Exposed">
+   <a href="https://heycam.github.io/webidl/#Exposed">https://heycam.github.io/webidl/#Exposed</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-Exposed">8. Reporting</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-NoInterfaceObject">
    <a href="https://heycam.github.io/webidl/#NoInterfaceObject">https://heycam.github.io/webidl/#NoInterfaceObject</a><b>Referenced in:</b>
    <ul>
@@ -3263,6 +3270,7 @@ set to "enforce".</p>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-idl-DOMString" style="color:initial">DOMString</span>
+     <li><span class="dfn-paneled" id="term-for-Exposed" style="color:initial">Exposed</span>
      <li><span class="dfn-paneled" id="term-for-NoInterfaceObject" style="color:initial">NoInterfaceObject</span>
      <li><span class="dfn-paneled" id="term-for-SameObject" style="color:initial">SameObject</span>
      <li><span class="dfn-paneled" id="term-for-idl-boolean" style="color:initial">boolean</span>
@@ -3329,6 +3337,7 @@ set to "enforce".</p>
 <c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement" id="ref-for-htmliframeelement①"><c- g>HTMLIFrameElement</c-></a> {
     [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①①"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#featurepolicy" id="ref-for-featurepolicy③①"><c- n>FeaturePolicy</c-></a> <a data-readonly data-type="FeaturePolicy" href="#dom-htmliframeelement-featurepolicy"><code><c- g>featurePolicy</c-></code></a>;
 };
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
 <c- b>interface</c-> <a href="#featurepolicyviolationreportbody"><code><c- g>FeaturePolicyViolationReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/reporting/#reportbody" id="ref-for-reportbody①"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-featurepolicyviolationreportbody-featureid"><code><c- g>featureId</c-></code></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦①"><c- b>DOMString</c-></a>? <a data-readonly data-type="DOMString?" href="#dom-featurepolicyviolationreportbody-sourcefile"><code><c- g>sourceFile</c-></code></a>;
