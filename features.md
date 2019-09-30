@@ -20,6 +20,7 @@ specification.
 | `ambient-light-sensor` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `autoplay` | [HTML][html] | [Chrome 64](https://www.chromestatus.com/feature/5100524789563392) |
 | `camera` | [Media Capture][media-capture] | Chrome 64 |
+| `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `fullscreen` | [Fullscreen API][fullscreen] | [Chrome 62](https://www.chromestatus.com/feature/5094837900541952) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -90,6 +91,7 @@ names will be added to this list as they are actually defined.
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
 [media-capture]: https://w3c.github.io/mediacapture-main/#feature-policy-integration
+[media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#feature-policy-integration
 [page-lifecycle]: https://wicg.github.io/page-lifecycle/#feature-policies
 [payment-request]: https://www.w3.org/TR/payment-request/#feature-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
