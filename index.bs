@@ -538,7 +538,6 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   <section>
     <h3 id="the-policy-object">The featurePolicy object</h3>
     <pre class="idl">
-[NoInterfaceObject]
 interface FeaturePolicy {
   boolean <a>allowsFeature</a>(DOMString feature, optional DOMString origin);
   sequence&lt;DOMString&gt; <a>features</a>();
