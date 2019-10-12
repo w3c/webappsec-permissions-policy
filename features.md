@@ -31,6 +31,7 @@ specification.
 | `midi` | [Web MIDI][web-midi] | Chrome 64 |
 | `payment` | [Payment Request API][payment-request] | Chrome 60 |
 | `picture-in-picture` | [Picture-in-Picture][pip] | Shipped in Chrome |
+| `publickey-credentials` | [Web Authentication API][publickey-credentials] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=993007)" in Chrome |
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | Chrome 60 |
 | `wake-lock` | [Wake Lock API][wake-lock] | |
@@ -47,7 +48,6 @@ integrated into their respective specs.
 | `encrypted-media` | https://github.com/w3c/encrypted-media/pull/432 | Chrome 64 |
 | `geolocation` | https://github.com/w3c/permissions/pull/163 | Chrome 64 |
 | `speaker` | https://github.com/w3c/mediacapture-main/issues/434 | Chrome 64 |
-| `publickey-credentials` | [Web Authentication API][publickey-credentials] | |
 
 
 ## Experimental Features
