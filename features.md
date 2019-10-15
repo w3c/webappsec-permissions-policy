@@ -35,7 +35,7 @@ specification.
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | Chrome 60 |
 | `wake-lock` | [Wake Lock API][wake-lock] | |
-| `xr`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
+| `xr-spatial-tracking`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
 
 ## Proposed Features
 
@@ -76,7 +76,7 @@ experimentation by web developers.
 <a name="fn1">[1]</a>: To enable these, use the Chrome command line flag
 `--enable-blink-features=ExperimentalProductivityFeatures`.
 
-<a name="fn2">[2]</a>: Currently implemented in Chrome as `vr`.
+<a name="fn2">[2]</a>: Implemented in Chrome as `vr` prior to Chrome 79.
 
 <a name="fn3">[3]</a>: This represents a number of features. Individual feature
 names will be added to this list as they are actually defined.
