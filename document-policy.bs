@@ -1,0 +1,497 @@
+<pre class="metadata">
+Title: Document Policy
+Shortname: document-policy
+Level: 1
+Indent: 2
+Status: ED
+Group: WebAppSec
+URL: https://w3c.github.io/webappsec-feature-policy/document-policy.html
+Editor: Ian Clelland, Google, iclelland@google.com
+Abstract: This specification defines a mechanism that allows developers to ...
+Repository: https://github.com/w3c/webappsec-feature-policy/
+Markup Shorthands: css no, markdown yes
+</pre>
+<pre class="link-defaults">
+spec:dom; type:interface; for:/; text:Document
+spec:html; type:dfn; for:/; text:origin
+spec:fetch; type:dfn; for:Response; text:response
+spec:html; type:dfn; for:/; text:browsing context
+spec:html; type:element; text:script
+spec:html; type:element; text:link
+spec:fetch; type:dfn; text:name
+spec:fetch; type:dfn; text:value
+</pre>
+
+<section>
+  # Introduction # {#introduction}
+</section>
+
+<section>
+  # Examples # #{#examples}
+
+  Needs new examples. For now, see explainer.
+</section>
+
+<section>
+  # Other and related mechanisms # {#other-and-related-mechanisms}
+
+  <p>This is where I explain the relationship to Feature Policy, Sandboxing,
+  Content Security Policy, and other mechanisms.</p>
+</section>
+
+<section>
+  # Framework # {#framework}
+
+  <section>
+    ## Features ## {#features}
+
+    A <dfn export data-lt="document policy controlled feature">feature</dfn> is
+    defined by
+
+    * A name, which is a token
+    * A value type
+    * A value range
+    * A default value
+
+    <div class="informative">
+    When introducing a new feature, the default value should be chosen
+    carefully, with highest consideration given to web compatibility. When no
+    explicit policy has been declared for a document, the default value will be
+    in effect.
+    </div>
+  </section>
+  <section>
+    ## Policies ## {#policies}
+
+    * Browsing context has a <dfn>required document policy</dfn>, which is a
+      <a>document policy</a>.
+    * Browsing context has a <dfn>nested context required document policy</dfn>,
+      which is a <a>document policy</a>.
+    * Document has a <dfn>declared document policy</dfn>, which is a <a>document
+      policy</a>.
+
+    A <dfn>document policy</dfn> is an ordered map from <a
+    data-lt="policy-controlled feature">features</a> to <a>values</a>.
+
+    * A browsing context with a null opener browsing context has an empty
+      <a>required document policy</a>.
+  </section>
+  <section>
+    ## Values ## {#values}
+
+    * Policies have values for features
+    * Values have domains
+    * Domains have ordering
+    * Examples: positive ints, floats, bools, enums
+  </section>
+  <section>
+    ## Default Values ## {#default-values}
+
+    * features have default values.
+    * (Non-normative) Defaults are chosen for web compatibility.
+  </section>
+</section>
+
+<section>
+  #  Required Policy Serialization # {#serialization}
+
+  <section>
+    * Explain here how required policies are serialized as structured headers.
+    * Ensure that there is a canonical form (for compat testing).
+  </section>
+</section>
+
+<section>
+  # Delivery # {#delivery}
+  <section>
+    ## Policies as Structured Headers ## {#policies-as-structured-headers}
+
+    Policies are represented in HTTP headers and in HTML attributes as the
+    serialization of an sh-list structure. The list members are tokens, each
+    corresponding to a <dfn>policy directive</dfn>. Each token may take a single
+    parameter; the details of the parameter name and allowed values are
+    determined by the value type of the feature which the token names.
+
+    ### Boolean-valued features ### {#boolean-valued-features}
+
+    Boolean-valued features do not take any parameters. They may be expressed in
+    headers by simply naming them, to enable the feature, or naming them with a
+    prefix of 'no-', to disable the feature.
+
+    Examples:
+        * `boolean-feature`
+        * `no-boolean-feature`
+
+    ### Integer-valued features ### {#integer-valued-features}
+
+    Integer-valued features should have a single parameter, whose name is
+    defined by the feature, and whose value should be an Integer. The range of
+    Integers allowed should be defined by the feature.
+
+    Examples:
+        * `integer-feature;p=2`
+
+    ### Float-valued features ### {#float-valued-features}
+
+    Float-valued features should have a single parameter, whose name is defined
+    by the feature, and whose value should be a Float. The range of Floats
+    allowed should be defined by the feature.
+
+    Examples:
+    *   `float-feature;q=-0.2`
+
+    ### Enum-valued features ### {#enum-valued-features}
+
+    Enum-valued features should take a parameter with no value. The allowed
+    values for the enum should be used as the parameter name.
+
+    Examples:
+    * `enum-feature;state`
+
+  </section>
+  <section>
+    ## HTTP Headers ## {#http-headers}
+<section>
+    ### Document-Policy ### {#document-policy-http-header}
+
+    The &#96;<dfn export http-header
+    id="document-policy-header"><code>Document-Policy</code></dfn>&#96; HTTP
+    header can be used in the [=response=] (server to client) to communicate the
+    <a>document policy</a> that should be enforced by the client.
+
+    The <code>Document-Policy</code> header is a Structured Header. Its value
+    must be a list. Its ABNF is:
+
+    Document-Policy = sh-list
+
+    Each list element must be a token. If the token does not name a supported
+    feature, (or a supported boolean feature prefixed by "no-",) then the list
+    element must be ignored.
+  </section>
+  <section>
+    ### Require-Document-Policy ### {#require-document-policy-http-header}
+
+    The &#96;<dfn export http-header
+    id="require-document-policy-header">`Require-Document-Policy`</dfn>&#96;
+    HTTP header field is a response header which is used to communicate to the
+    client the minimum <a>required document policy</a> to apply to all nested
+    content.
+
+    The `Require-Document-Policy` header is a Structured Header list, with
+    exactly the same syntax as the `Document-Policy` header.
+  </section>
+  <section>
+    ### Sec-Required-Document-Policy ### {#sec-required-document-policy-http-header}
+
+    The &#96;<dfn export http-header
+    id="sec-required-document-policy-header">`Sec-Required-Document-Policy`</dfn>&#96;
+    HTTP header field is a request header which is used to communicate to the
+    server the <a>document policy</a> which must be sent with the document
+    returned with the request.
+
+    The header's value is the <a href="#serialization"></a> of one or more
+    <a>policy directive</a>s
+  </section>
+</section>
+  <section>
+    ## The `policy` attribute of the `iframe` element ## {#iframe-policy-attribute}
+
+    <{iframe}> elements have a "`policy`" attribute, which contains a required
+    policy directive (SH format).
+  </section>
+</section>
+
+<section>
+  # Integrations # {#integrations}
+<section>
+  ## Integration with HTML ## {#integration-with-html}
+
+  * Iframe attribute, and behavior when changed
+  * Creating a new browsing context
+  * Constructing a new empty document
+  * Constructing a new document from response
+  * Adding required policy to navigation fetch
+</section>
+
+<section>
+  ## Integration with Fetch ## {#integration-with-fetch}
+
+  * Sec-Required-Document-Policy header -- append during
+      HTTP-network-or-cache-fetch (4.5)
+  * Add required policy to request (2.2.5)
+  * Add check in main fetch to see if returned policy is compatible with
+      required policy.
+</section>
+
+<section>
+  # Algorithms # {#algorithms}
+
+  <section>
+    ## <dfn>Is policy compatible?</dfn> ## {#algo-is-policy-compatible}
+
+    Given a <a>required document policy</a> |requiredPolicy| and a <a>declared
+    document policy</a> |declaredPolicy|, this algorithm returns true if
+    |declaredPolicy| is compatible with |requiredPolicy|, or false otherwise.
+
+    1. For each |feature| → |value| in |requiredPolicy|:
+        1. If |feature| does not require acknowledgement, then continue.
+        2. If |declaredPolicy|[|feature|] does not exist, then return false.
+        3. If |requiredPolicy|[|feature|] is stricter than
+            |declaredPolicy|[|feature|], then return false.
+    2. Return true.
+  </section>
+
+  <section>
+    ## <dfn>Process response policy</dfn> ## {#algo-process-response-policy}
+
+    Given a [=response=] (|response|), this algorithm returns a <a>declared
+    document policy</a>.
+
+    1. Abort these steps if the |response|'s <a for="response">header list</a>
+        does not contain a [=header=] whose [=name=] is
+        "<code>Document-Policy</code>".
+    2. Let |header| be the concatenation of the [=value=]s of all [=header=]
+        fields in |response|'s <a for="response">header list</a> whose name is
+        "<code>Document-Policy</code>", separated by U+002C (,) (according to
+        [RFC7230, 3.2.2]).
+    3. Let |document policy| be the result of executing <a>Parse document
+        policy</a> on |header|.
+    4. Return |document policy|.
+  </section>
+
+  <section>
+    ## <dfn>Parse document policy</dfn> ## {#algo-parse-required-policy}
+
+    Given a string (|policyString|), this algorithm returns a <a>document
+    policy</a>, if it can be parsed as one, or else fails.
+
+    1. Let |policy| be a new ordered map.
+    1. Let |list| be the result of parsing |policyString| as a list.
+    2. If parsing fails, then fail.
+    4. For each |element| in |list|,
+        1. If |element| is not a token, then fail
+        2. If |element| is the name of a supported feature which is a boolean
+          feature, then
+            1. If |element| has any associated parameters, then fail.
+            2. Let |feature| be the supported feature with name |element|.
+            3. Set |policy|[|feature|] to the boolean value true.
+            4. Continue with the next |element|.
+        3. If |element| begins with the string "no-", and the remaining
+          characters match the name of a supported feature which is a boolean
+          feature, then
+            1. If |element| has any associated parameters, then fail.
+            2. Let |feature| be the supported feature with name |element|.
+            3. Set |policy|[|feature|] to the boolean value false.
+            4. Continue with the next |element|.
+        4. If |element| is the name of a supported feature, then
+            1. If |element| does not have exactly one paramater, then fail.
+            2. Let |feature| be the supported feature with name |element|.
+            3. If |feature| is an enum-valued feature, then
+                1. If |element|'s parameter has a value, then fail.
+                2. Let |value| be the name of |element|'s parameter.
+                3. If |value| is not the name of one of |feature|s allowed
+                    enum values, then fail.
+                4. Let |policy|[|feature|] be the enum value named |value|.
+                5. Continue with the next |element|.
+            4. If |element|'s parameter's name does not match |feature|'s
+              parameter name, then fail.
+            5. Let |value| be the value of |element|'s parameter.
+            6. If |feature| is an integer-valued feature, then
+                1. If |value| is not an integer, then fail.
+                2. If |value| is not in |feature|'s range, then fail.
+                3. Let |policy|[|feature|] be the integer value |value|.
+                4. Continue with the next |element|.
+            7. If |feature| is an float-valued feature, then
+                1. If |value| is not an float, then fail.
+                2. If |value| is not in |feature|'s range, then fail.
+                3. Let |policy|[|feature|] be the float value |value|.
+                4. Continue with the next |element|.
+    5. Return |policy|.
+  </section>
+
+  <section>
+    ## <dfn export>Serialize required policy</dfn> ## {#algo-serialize-required-policy}
+
+    Given a <a>document policy</a> (|requiredPolicy|), this algorithm returns a
+    string which represents the canonical serialization of the policy.
+
+    1. Let |list| be an empty sh-list
+    2. Let |features| be the keys of |requiredPolicy|
+    3. Sort |features| by the name of each element, in ASCII order.
+    4. For each |feature| in |features|:
+        1. If |feature| is a boolean-valued feature, then
+            1. If |requiredPolicy|[|feature|] is true, append |feature|'s name
+              to |list|.
+            2. Otherwise, append the sh-token formed by concatenating the string
+              "no-" and |feature|'s name to |list|.
+        2. Otherwise, if |feature| is an enum-valued feature, then
+            1. Let |value| be |requiredPolicy|[|feature|].
+            2. Let |param| be a parameter with param-name |value| and with no
+              param-value.
+            3. Append an sh-item which is an sh-token formed from |feature|'s
+              name, with the single parameter |param|, to |list|.
+        3. Otherwise,
+            1. Let |value| be |requiredPolicy|[|feature|].
+            2. Let |param| be a parameter with param-name being |features|'s
+              parameter name, and with param-value |value|.
+            3. Append an sh-item which is an sh-token formed from |feature|'s
+              name, with the single parameter |param|, to |list|.
+    5. Return the serialization of |list|.
+  </section>
+
+  <section>
+    ##  <dfn export id="create-for-browsingcontext">Create a required policy for a browsing context</dfn> ## {#algo-create-for-browsingcontext}
+
+    Given a <a>browsing context</a> (|browsingContext|), this algorithm returns
+    a new <a>Document Policy</a>.
+
+    1. If |browsingContext| is a <a>nested browsing context</a>, then
+        1. Let |requiredPolicy| be a clone of |browsingContext|'s <a>browsing
+            context container</a>'s <a>nested context required document
+            policy</a>.
+        2. If |browsingContext|'s <a>browsing context container</a> has a
+            "policy" attribute, then
+            1. Let |somethingPolicy| be the result of parsing the attribute
+            2. For each |feature| -> |value| in |somethingPolicy|:
+                1. If |requiredPolicy|[|feature|] does not exist, or if |value|
+                  is stricter than |requiredPolicy|[|feature|], then set
+                  |requiredPolicy|[|feature|] to |value|.
+    2. Otherwise, let |requiredPolicy| be a new ordered map.
+    3. return |requiredPolicy|
+  </section>
+
+  <section>
+    ## Create a Document Policy for a browsing context from response ## {#algo-create-from-response}
+
+    Given a <a>browsing context</a> (|browsingContext|) and a [=response=]
+    (|response|), this algorithm returns a new <a>Document Policy</a>.
+
+    1. Let |requiredPolicy| be the result of running <a>Create a required policy
+        for a browsing context</a> given |browsingContext|.
+    2. Let |declaredPolicy| be the result of running <a>Process response
+        policy</a> on |response|.
+    3. If |declaredPolicy| is <a href="#is-policy-compatible">compatible</a>
+       with |requiredPolicy|, then return |declaredPolicy|.
+    4. Throw an exception.
+  </section>
+
+  <section>
+    ## <dfn export id="is-feature-enabled">Is |feature| enabled in |document|?</dfn> ## {#algo-is-feature-enabled}
+
+    Given a feature (|feature|) and a {{Document}} object (|document|), this
+    algorithm returns "`Disabled`" if |feature| should be considered disabled,
+    and "`Enabled`" otherwise.
+
+      1. Let |policy| be |document|'s <a>Document Policy</a>.
+      2. If |policy|[|feature|] is true, return "`Enabled`".
+      3. Return "`Disabled`".
+  </section>
+</section>
+
+<section>
+  # IANA Considerations # {#iana-considerations}
+
+  <p>The permanent message header field registry should be updated with the
+  following registrations [[!RFC3864]]:</p>
+  <dl>
+    <dt>Header field name</dt>
+    <dd>Document-Policy</dd>
+    <dt>Applicable protocol</dt>
+    <dd>http</dd>
+    <dt>Status</dt>
+    <dd>standard</dd>
+    <dt>Author/Change controller</dt>
+    <dd>W3C</dd>
+    <dt>Specification document</dt>
+    <dd>
+      <a href="">Document Policy API</a>
+    </dd>
+  </dl>
+  <dl>
+    <dt>Header field name</dt>
+    <dd>Require-Document-Policy</dd>
+    <dt>Applicable protocol</dt>
+    <dd>http</dd>
+    <dt>Status</dt>
+    <dd>standard</dd>
+    <dt>Author/Change controller</dt>
+    <dd>W3C</dd>
+    <dt>Specification document</dt>
+    <dd>
+      <a href="">Document Policy API</a>
+    </dd>
+  </dl>
+  <dl>
+    <dt>Header field name</dt>
+    <dd>Sec-Required-Document-Policy</dd>
+    <dt>Applicable protocol</dt>
+    <dd>http</dd>
+    <dt>Status</dt>
+    <dd>standard</dd>
+    <dt>Author/Change controller</dt>
+    <dd>W3C</dd>
+    <dt>Specification document</dt>
+    <dd>
+      <a href="">Document Policy API</a>
+    </dd>
+  </dl>
+</section>
+
+<section id="privacy" class="informative">
+  # Privacy and Security # {#privacy-and-security}
+
+  This is going to be very similar to feature policy, with these notes:
+
+  1. Opt-in generally required to enable enforcement in subframes.
+  2. Policy attribute may conflict with sandbox attribute
+  3. Observability? Yes, still. Take care when designing features that their
+    effects cannot be seen across origin boundaries.
+  4. Take care in creating non-reflect features
+
+  This specification standardizes a mechanism for an embedding page to set a
+  policy which will be enforced on an embedded page. When explicit
+  acknowlegement of a required policy is not required, similar to iframe
+  <{iframe/sandbox}>, this means that behaviors of existing features may be
+  changed in published web sites, by embedding them in another document with an
+  appropriate required policy.
+
+  As such, the biggest privacy and security concerns are:
+
+  * Exposure of behavior in a cross-origin subframe to its embedder.
+  * Unanticipated behavior changes in subframes controlled by the embedder.
+
+  To a degree, these concerns are already present in the web platform, and this
+  specification attempts to at least not make them needlessly worse.
+
+  Security and privacy issues may also be caused by the design of individual
+  features, so care must be taken when integrating with this specification. This
+  section attempts to provide some guidance as to what kinds of behaviors could
+  cause such issues.
+
+  ## Exposure of cross-origin behavior {#exposure-of-cross-origin-behavior}
+
+  Features should be designed such that a <a>violation</a> of the policy in a
+  framed document is not observable by documents in other frames. For instance,
+  a hypothetical feature which caused a event to be fired in the embedding
+  document if it is used while disabled by policy, could be used to extract
+  information about the state of an embedded document. If the feature is known
+  only to be used while a user is logged in to the site, for instance, then the
+  embedder could disable that feature for the frame, and then listen for the
+  resulting events to determine whether or not the user is logged in.
+
+  ## Unanticipated behavior changes ## {#unanticipated-behavior-changes}
+
+  Document policy grants a document the ability to control which features will
+  and will not be availble in a subframe at the time it is loaded. When a
+  feature represents an existing, long-standing behavior of the web platform,
+  this may mean that existing published content on the web was not written with
+  the expectation that a particular API could fail.
+
+  * Mitigated by requiring opt-in
+  * non-opt-in features have issues similar to sandbox.
+  * Reference FP section
+
+  ## Advertisement of required policy ## {#advertisement-of-required-policy}
+
+  * May leak details of embedder headers or markup.
+</section>
