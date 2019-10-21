@@ -1,4 +1,4 @@
-`decoding-image-default-sync` Policy
+decoding-image-default-sync Policy
 ===========
 
 The `decoding-image-default-sync` policy-controlled feature can be used for a main frame or a nested `<iframe>` to override the default behavior of the [`decoding` attribute](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-decoding) for images.
