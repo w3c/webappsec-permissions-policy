@@ -58,6 +58,7 @@ experimentation by web developers.
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
 | `document-write` | [document-write.md](policies/document-write.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
+| `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `font-display-late-swap` | [font-display-late-swap.md](policies/font-display-late-swap.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `layout-animations` | [animations.md](policies/animations.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `loading-frame-default-eager` | [loading-frame-default-eager.md](policies/loading-frame-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
