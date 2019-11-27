@@ -203,24 +203,81 @@ spec:fetch; type:dfn; text:value
 
 <section>
   # Integrations # {#integrations}
-<section>
-  ## Integration with HTML ## {#integration-with-html}
 
-  * Iframe attribute, and behavior when changed
-  * Creating a new browsing context
-  * Constructing a new empty document
-  * Constructing a new document from response
-  * Adding required policy to navigation fetch
-</section>
+  If a frame has a required policy, then that policy must be advertised in the
+  request header for any outgoing document requests, to inform the server of the
+  policy which will be applied to the document by the user agent. This allows
+  the server to alter the representation which is returned, to conform to that
+  policy.
 
-<section>
-  ## Integration with Fetch ## {#integration-with-fetch}
+  In the case where a required policy request header is present, the response
+  must contain a compatible document policy header, or the fetch will fail.
 
-  * Sec-Required-Document-Policy header -- append during
-      HTTP-network-or-cache-fetch (4.5)
-  * Add required policy to request (2.2.5)
-  * Add check in main fetch to see if returned policy is compatible with
-      required policy.
+  <section>
+    ## Integration with HTML ## {#integration-with-html}
+
+    * Iframe attribute, and behavior when changed
+    * Creating a new browsing context
+    * Constructing a new empty document
+    * Constructing a new document from response
+    * Adding required policy to navigation fetch
+  </section>
+
+  <section>
+    ## Integration with Fetch ## {#integration-with-fetch}
+
+    The following changes should be incorporated into [=FETCH=]:
+
+    * In <a>Requests</a>, add the following:
+
+      * A <a>request</a> has an associated <dfn
+        data-lt="request-required-document-policy">required document policy</dfn>,
+        which is a <a>document policy</a>. Unless otherwise stated, it is null.
+
+    * In <a>HTTP-network-or-cache-fetch</a>, after step 15, insert the following:
+
+      1. If |httpRequest| has a <a
+        data-lt="request-required-document-policy>required document policy</a>,
+        then
+         1. Let |serializedRequiredPolicy| be the result of calling <a>Serialize
+           Required Policy</a> on |httpRequest|'s <a
+           data-lt="request-required-document-policy>required document policy</a>.
+         2. Append `Sec-Required-Document-Policy`/|serializedRequiredPolicy| to
+           |httpRequest|'s header list.
+
+    * In <a>main fetch</a>, add the following algorithm to the list of algorithms
+      in step 11:
+
+        * <a>should |internalResponse| to |request| be blocked due to document
+          policy</a>
+
+    * The <dfn>should |response| to |request| be blocked due to document
+      policy</dfn> algorithm should read as follows:
+
+       1. If |request| has a <a
+         data-lt="request-required-document-policy>required document policy</a>,
+         then
+           1. Let |documentPolicy| be the result of getting and parsing the
+             structured header `Document-Policy` as "list" from |response|'s
+             <a>header list</a>.
+           2. If |documentPolicy| is not <a data-lt="is policy compatible">compatible</a>
+             with |request|'s <a
+             data-lt="request-required-document-policy">required document
+             policy</a>, return "blocked".
+           3. Return "valid".
+
+     * Add the following algorithm to <a>Headers</a>:
+       * To <dfn>get and parse a structured header</dfn> |name| as |type| from
+         <a>header list</a> |list|, run these steps:
+
+         1. Let |input| be the result of getting |name| from |list|.
+         2. If |input| is null, then return null.
+         4. Let |value| be the result of running the <a>Parsing Header Fields into
+           Structured Headers</a> algorithm with |input| as |input_string| and
+           |type| as |header_type|.
+         5. If the previous step fails, return null.
+         6. Return |value|.
+  </section>
 </section>
 
 <section>
@@ -470,7 +527,7 @@ spec:fetch; type:dfn; text:value
 
   ## Exposure of cross-origin behavior {#exposure-of-cross-origin-behavior}
 
-  Features should be designed such that a <a>violation</a> of the policy in a
+  Features should be designed such that a violation of the policy in a
   framed document is not observable by documents in other frames. For instance,
   a hypothetical feature which caused a event to be fired in the embedding
   document if it is used while disabled by policy, could be used to extract
