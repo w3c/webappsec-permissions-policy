@@ -216,10 +216,56 @@ spec:fetch; type:dfn; text:value
   <section>
     ## Integration with HTML ## {#integration-with-html}
 
-    * Iframe attribute, and behavior when changed
-    * Creating a new browsing context
-    * Constructing a new empty document
-    * Constructing a new document from response
+    The following changes should be incorporated into [=HTML=]:
+
+    * <{iframe}> elements should have the following IDL added:
+```
+        [CEReactions] attribute DOMString policy;
+```
+    * The iframe policy attribute should be defined as follows:
+
+      * The `policy` attribute, when specified, adds a <a>required document
+        policy</a> to the `iframe`'s <a>nested browsing context</a>, when it is
+        initialized. Its value must be a <a>serialized document policy</a>.
+
+    * In section 3.1.1, add the following line:
+      * The <a>Document</a> has a <b>document policy</b>, which is a <a>document
+        policy</a>, which is initially empty.
+
+    * In section 7.1.1, in the <a>create a new browsing context</a> algorithm:
+      * Add the following step after step 5:
+
+        6. Set |browsingContext|'s <a>required policy</a> to the result of
+          <a>creating a required policy for a browsing context</a>
+          |browsingContext|.
+
+      * Change step 9 (renumbered now to 10) to read:
+        10. Let |document| be a new <a>Document</a>, marked as an <a>HTML
+          document</a> in <a>quirks mode</a>, whose <a>content type</a> is
+          `"text/html"`, <a>origin</a> is |origin|, <a>active sandboxing flag
+          set</a> is |sandboxFlags|, <a>feature policy</a> is |feature policy|,
+          document policy is identical to |browsingContext|'s <a>required
+          policy</a>, and which is both ready for post-load tasks and completely
+          loaded immediately.
+
+    * In section 7.8.1, in the <a>process a navigate fetch</a> algorithm:
+      * Add the following step after step 5:
+
+        6. Set |request|'s <a>required document policy</a> to
+          |browsingContext|'s <a>required policy</a>.
+
+    * In section 7.8.1, in the <a>create and initialize a Document object</a>
+      algorithm:
+      * Add the following step after step 3:
+
+        4. Let |documentPolicy| be the result of <a>creating a document
+          policy</a> for |browsingContext| from |response|.
+      * Change step 6 (renumbered now to 7) to read:
+        7. Let |document| be a new Document, whose type is |type|, content type
+          is |contentType|, origin is |origin|, feature policy is
+          |featurePolicy|, active sandboxing flag set is |finalSandboxFlags|,
+          and document policy is |documentPolicy|.
+
     * Adding required policy to navigation fetch
   </section>
 
@@ -418,7 +464,7 @@ spec:fetch; type:dfn; text:value
   </section>
 
   <section>
-    ## Create a Document Policy for a browsing context from response ## {#algo-create-from-response}
+    ## <dfn export>Create a document Policy for a browsing context from response</dnf> ## {#algo-create-from-response}
 
     Given a <a>browsing context</a> (|browsingContext|) and a [=response=]
     (|response|), this algorithm returns a new <a>Document Policy</a>.
