@@ -21,6 +21,20 @@ spec:html; type:element; text:link
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
 </pre>
+<pre class="biblio">
+{
+  "HEADER-STRUCTURE": {
+    "authors": [
+      "Mark Nottingham",
+      "Poul-Henning Kamp"
+    ],
+    "href": "https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-14",
+    "title": "Structured Headers for HTTP",
+    "status": "Draft",
+    "publisher": "IETF"
+  }
+}
+</pre>
 
 <section>
   # Introduction # {#introduction}
@@ -51,7 +65,7 @@ spec:fetch; type:dfn; text:value
     * A name, which is a token
     * A value type
     * A value range
-    * A default value
+    * A <dfn>default value</dfn>
 
     <div class="informative">
     When introducing a new feature, the default value should be chosen
@@ -96,7 +110,7 @@ spec:fetch; type:dfn; text:value
   #  Required Policy Serialization # {#serialization}
 
   <section>
-    * Explain here how required policies are serialized as structured headers.
+    * Explain here how required policies are <dfn data-lt="serialized document policy">serialized</dfn> as structured headers.
     * Ensure that there is a canonical form (for compat testing).
   </section>
 </section>
@@ -216,7 +230,7 @@ spec:fetch; type:dfn; text:value
   <section>
     ## Integration with HTML ## {#integration-with-html}
 
-    The following changes should be incorporated into [=HTML=]:
+    The following changes should be incorporated into [[HTML]]:
 
     * <{iframe}> elements should have the following IDL added:
 ```
@@ -228,16 +242,16 @@ spec:fetch; type:dfn; text:value
         policy</a> to the `iframe`'s <a>nested browsing context</a>, when it is
         initialized. Its value must be a <a>serialized document policy</a>.
 
-    * In section 3.1.1, add the following line:
+    * In [[HTML#the-document-object]], add the following line:
       * The <a>Document</a> has a <b>document policy</b>, which is a <a>document
         policy</a>, which is initially empty.
 
-    * In section 7.1.1, in the <a>create a new browsing context</a> algorithm:
+    * In the [[HTML#creating-a-new-browsing-context]] algorithm:
       * Add the following step after step 5:
 
-        6. Set |browsingContext|'s <a>required policy</a> to the result of
-          <a>creating a required policy for a browsing context</a>
-          |browsingContext|.
+        6. Set |browsingContext|'s <a>required document policy</a> to the result
+          of <a data-lt="create-for-browsingcontext">creating a required policy
+          for a browsing context</a> |browsingContext|.
 
       * Change step 9 (renumbered now to 10) to read:
         10. Let |document| be a new <a>Document</a>, marked as an <a>HTML
@@ -245,84 +259,72 @@ spec:fetch; type:dfn; text:value
           `"text/html"`, <a>origin</a> is |origin|, <a>active sandboxing flag
           set</a> is |sandboxFlags|, <a>feature policy</a> is |feature policy|,
           document policy is identical to |browsingContext|'s <a>required
-          policy</a>, and which is both ready for post-load tasks and completely
-          loaded immediately.
+          document policy</a>, and which is both ready for post-load tasks and
+          completely loaded immediately.
 
-    * In section 7.8.1, in the <a>process a navigate fetch</a> algorithm:
+    * In the [=process a navigate fetch=] algorithm:
       * Add the following step after step 5:
 
         6. Set |request|'s <a>required document policy</a> to
-          |browsingContext|'s <a>required policy</a>.
+          |browsingContext|'s <a>required document policy</a>.
 
-    * In section 7.8.1, in the <a>create and initialize a Document object</a>
-      algorithm:
+    * In the [[HTML#initialize-the-document-object]] algorithm:
       * Add the following step after step 3:
+        4. Let |documentPolicy| be the result of <a
+          data-lt="create-document-policy">creating a document policy</a> for
+          |browsingContext| from |response|.
 
-        4. Let |documentPolicy| be the result of <a>creating a document
-          policy</a> for |browsingContext| from |response|.
       * Change step 6 (renumbered now to 7) to read:
         7. Let |document| be a new Document, whose type is |type|, content type
           is |contentType|, origin is |origin|, feature policy is
           |featurePolicy|, active sandboxing flag set is |finalSandboxFlags|,
           and document policy is |documentPolicy|.
-
-    * Adding required policy to navigation fetch
   </section>
 
   <section>
     ## Integration with Fetch ## {#integration-with-fetch}
 
-    The following changes should be incorporated into [=FETCH=]:
+    The following changes should be incorporated into [[FETCH]]:
 
-    * In <a>Requests</a>, add the following:
+    * In [[FETCH#requests]], add the following:
 
-      * A <a>request</a> has an associated <dfn
-        data-lt="request-required-document-policy">required document policy</dfn>,
-        which is a <a>document policy</a>. Unless otherwise stated, it is null.
+      * A [=Request/request=] has an associated <dfn
+        data-lt="request-required-document-policy">required document
+        policy</dfn>, which is a <a>document policy</a>. Unless otherwise
+        stated, it is null.
 
-    * In <a>HTTP-network-or-cache-fetch</a>, after step 15, insert the following:
+    * In [[FETCH#http-network-or-cache-fetch]], after step 15, insert the
+      following:
 
       1. If |httpRequest| has a <a
-        data-lt="request-required-document-policy>required document policy</a>,
+        data-lt="request-required-document-policy">required document policy</a>,
         then
          1. Let |serializedRequiredPolicy| be the result of calling <a>Serialize
            Required Policy</a> on |httpRequest|'s <a
-           data-lt="request-required-document-policy>required document policy</a>.
+           data-lt="request-required-document-policy">required document
+           policy</a>.
          2. Append `Sec-Required-Document-Policy`/|serializedRequiredPolicy| to
-           |httpRequest|'s header list.
+           |httpRequest|'s [=request/header list=].
 
-    * In <a>main fetch</a>, add the following algorithm to the list of algorithms
-      in step 11:
+    * In [[FETCH#main-fetch]], add the following algorithm to the list of
+      algorithms in step 11:
 
-        * <a>should |internalResponse| to |request| be blocked due to document
+        * <a data-lt="should response to request be blocked due to document policy">should |internalResponse| to |request| be blocked due to document
           policy</a>
 
-    * The <dfn>should |response| to |request| be blocked due to document
-      policy</dfn> algorithm should read as follows:
-
-       1. If |request| has a <a
-         data-lt="request-required-document-policy>required document policy</a>,
-         then
-           1. Let |documentPolicy| be the result of getting and parsing the
-             structured header `Document-Policy` as "list" from |response|'s
-             <a>header list</a>.
-           2. If |documentPolicy| is not <a data-lt="is policy compatible">compatible</a>
-             with |request|'s <a
-             data-lt="request-required-document-policy">required document
-             policy</a>, return "blocked".
-           3. Return "valid".
-
-     * Add the following algorithm to <a>Headers</a>:
-       * To <dfn>get and parse a structured header</dfn> |name| as |type| from
-         <a>header list</a> |list|, run these steps:
+     * Add the following algorithm to [[FETCH#terminology-headers]]:
+       * To <dfn export>get and parse a structured header</dfn> |name| as |type| from
+         [=Headers/header list=] |list|, run these steps:
 
          1. Let |input| be the result of getting |name| from |list|.
          2. If |input| is null, then return null.
-         4. Let |value| be the result of running the <a>Parsing Header Fields into
-           Structured Headers</a> algorithm with |input| as |input_string| and
-           |type| as |header_type|.
-         5. If the previous step fails, return null.
-         6. Return |value|.
+         3. Let |value| be the result of running the <a
+           href="https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-14#section-4.2">Parsing
+           Header Fields into Structured Headers</a> algorithm with |input| as
+           |input_string| and |type| as |header_type|. [[!HEADER-STRUCTURE]]
+         4. If the previous step fails, return null.
+         5. Return |value|.
+
   </section>
 </section>
 
@@ -330,7 +332,7 @@ spec:fetch; type:dfn; text:value
   # Algorithms # {#algorithms}
 
   <section>
-    ## <dfn>Is policy compatible?</dfn> ## {#algo-is-policy-compatible}
+    ## <dfn export>Is policy compatible</dfn>? ## {#algo-is-policy-compatible}
 
     Given a <a>required document policy</a> |requiredPolicy| and a <a>declared
     document policy</a> |declaredPolicy|, this algorithm returns true if
@@ -345,7 +347,7 @@ spec:fetch; type:dfn; text:value
   </section>
 
   <section>
-    ## <dfn>Process response policy</dfn> ## {#algo-process-response-policy}
+    ## <dfn export>Process response policy</dfn> ## {#algo-process-response-policy}
 
     Given a [=response=] (|response|), this algorithm returns a <a>declared
     document policy</a>.
@@ -363,7 +365,7 @@ spec:fetch; type:dfn; text:value
   </section>
 
   <section>
-    ## <dfn>Parse document policy</dfn> ## {#algo-parse-required-policy}
+    ## <dfn export>Parse document policy</dfn> ## {#algo-parse-required-policy}
 
     Given a string (|policyString|), this algorithm returns a <a>document
     policy</a>, if it can be parsed as one, or else fails.
@@ -377,35 +379,41 @@ spec:fetch; type:dfn; text:value
           feature, then
             1. If |element| has any associated parameters, then fail.
             2. Let |feature| be the supported feature with name |element|.
-            3. Set |policy|[|feature|] to the boolean value true.
-            4. Continue with the next |element|.
+            3. If |policy|[|feature|] exists, then continue with the next
+              |element|.
+            4. Set |policy|[|feature|] to the boolean value true.
+            5. Continue with the next |element|.
         3. If |element| begins with the string "no-", and the remaining
           characters match the name of a supported feature which is a boolean
           feature, then
             1. If |element| has any associated parameters, then fail.
             2. Let |feature| be the supported feature with name |element|.
-            3. Set |policy|[|feature|] to the boolean value false.
-            4. Continue with the next |element|.
+            3. If |policy|[|feature|] exists, then continue with the next
+              |element|.
+            4. Set |policy|[|feature|] to the boolean value false.
+            5. Continue with the next |element|.
         4. If |element| is the name of a supported feature, then
-            1. If |element| does not have exactly one paramater, then fail.
+            1. If |element| does not have exactly one parameter, then fail.
             2. Let |feature| be the supported feature with name |element|.
-            3. If |feature| is an enum-valued feature, then
+            3. If |policy|[|feature|] exists, then continue with the next
+              |element|.
+            4. If |feature| is an enum-valued feature, then
                 1. If |element|'s parameter has a value, then fail.
                 2. Let |value| be the name of |element|'s parameter.
                 3. If |value| is not the name of one of |feature|s allowed
                     enum values, then fail.
                 4. Let |policy|[|feature|] be the enum value named |value|.
                 5. Continue with the next |element|.
-            4. If |element|'s parameter's name does not match |feature|'s
+            5. If |element|'s parameter's name does not match |feature|'s
               parameter name, then fail.
-            5. Let |value| be the value of |element|'s parameter.
-            6. If |feature| is an integer-valued feature, then
+            6. Let |value| be the value of |element|'s parameter.
+            7. If |feature| is an integer-valued feature, then
                 1. If |value| is not an integer, then fail.
                 2. If |value| is not in |feature|'s range, then fail.
                 3. Let |policy|[|feature|] be the integer value |value|.
                 4. Continue with the next |element|.
-            7. If |feature| is an float-valued feature, then
-                1. If |value| is not an float, then fail.
+            8. If |feature| is an float-valued feature, then
+                1. If |value| is not a float, then fail.
                 2. If |value| is not in |feature|'s range, then fail.
                 3. Let |policy|[|feature|] be the float value |value|.
                 4. Continue with the next |element|.
@@ -443,7 +451,7 @@ spec:fetch; type:dfn; text:value
   </section>
 
   <section>
-    ##  <dfn export id="create-for-browsingcontext">Create a required policy for a browsing context</dfn> ## {#algo-create-for-browsingcontext}
+    ##  <dfn export data-lt="create-for-browsingcontext">Create a required policy for a browsing context</dfn> ## {#algo-create-for-browsingcontext}
 
     Given a <a>browsing context</a> (|browsingContext|), this algorithm returns
     a new <a>Document Policy</a>.
@@ -460,16 +468,16 @@ spec:fetch; type:dfn; text:value
                   is stricter than |requiredPolicy|[|feature|], then set
                   |requiredPolicy|[|feature|] to |value|.
     2. Otherwise, let |requiredPolicy| be a new ordered map.
-    3. return |requiredPolicy|
+    3. return |requiredPolicy|.
   </section>
 
   <section>
-    ## <dfn export>Create a document Policy for a browsing context from response</dnf> ## {#algo-create-from-response}
+    ## <dfn export data-lt="create-document-policy">Create a document Policy for a browsing context from response</dfn> ## {#algo-create-document-policy}
 
     Given a <a>browsing context</a> (|browsingContext|) and a [=response=]
     (|response|), this algorithm returns a new <a>Document Policy</a>.
 
-    1. Let |requiredPolicy| be the result of running <a>Create a required policy
+    1. Let |requiredPolicy| be the result of running <a data-lt="create-for-browsingcontext">Create a required policy
         for a browsing context</a> given |browsingContext|.
     2. Let |declaredPolicy| be the result of running <a>Process response
         policy</a> on |response|.
@@ -479,15 +487,30 @@ spec:fetch; type:dfn; text:value
   </section>
 
   <section>
-    ## <dfn export id="is-feature-enabled">Is |feature| enabled in |document|?</dfn> ## {#algo-is-feature-enabled}
+    ## <dfn export>Should |response| to |request| be blocked due to document policy</dfn>? ## {#algo-should-reponse-to-request-be-blocked}
+
+       1. If |request| has a <a
+         data-lt="request-required-document-policy">required document
+         policy</a>, then
+           1. Let |documentPolicy| be the result of getting and parsing the
+             structured header `Document-Policy` as "list" from |response|'s
+             [=response/header list=].
+           2. If |documentPolicy| is not <a
+             data-lt="is policy compatible">compatible</a> with |request|'s <a
+             data-lt="request-required-document-policy">required document
+             policy</a>, return "blocked".
+           3. Return "valid".
+  </section>
+
+  <section>
+    ## <dfn export id="get-policy-value">Get policy value for |feature| in |document|</dfn> ## {#algo-get-policy-value}
 
     Given a feature (|feature|) and a {{Document}} object (|document|), this
-    algorithm returns "`Disabled`" if |feature| should be considered disabled,
-    and "`Enabled`" otherwise.
+    algorithm the value for |feature| in |document|'s <a>document policy</a>.
 
       1. Let |policy| be |document|'s <a>Document Policy</a>.
-      2. If |policy|[|feature|] is true, return "`Enabled`".
-      3. Return "`Disabled`".
+      2. If |policy|[|feature|] exists, return it.
+      3. Return |feature|'s <a>default value</a>.
   </section>
 </section>
 
