@@ -31,6 +31,7 @@ specification.
 | `magnetometer` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `microphone` |[Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `midi` | [Web MIDI][web-midi] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
+| `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
 | `payment` | [Payment Request API][payment-request] | Chrome 60 |
 | `picture-in-picture` | [Picture-in-Picture][pip] | Shipped in Chrome |
 | `publickey-credentials` | [Web Authentication API][publickey-credentials] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=993007)" in Chrome |
@@ -95,6 +96,7 @@ names will be added to this list as they are actually defined.
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
 [media-capture]: https://w3c.github.io/mediacapture-main/#feature-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#feature-policy-integration
+[navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
 [page-lifecycle]: https://wicg.github.io/page-lifecycle/#feature-policies
 [payment-request]: https://www.w3.org/TR/payment-request/#feature-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
