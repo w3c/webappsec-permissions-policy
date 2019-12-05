@@ -38,6 +38,10 @@ spec:fetch; type:dfn; text:value
 
 <section>
   # Introduction # {#introduction}
+
+  This document defines <em>Document Policy</em>, which is a framework for
+  designing configurable features as part of the web platform, and for allowing
+  web developers to configure those features as part of their site deployment.
 </section>
 
 <section>
@@ -49,8 +53,78 @@ spec:fetch; type:dfn; text:value
 <section>
   # Other and related mechanisms # {#other-and-related-mechanisms}
 
-  <p>This is where I explain the relationship to Feature Policy, Sandboxing,
-  Content Security Policy, and other mechanisms.</p>
+  Document Policy is similar in scope to some existing mechanisms for document
+  configuration, though there are significant differences from each.
+
+  <section>
+    ## Relation to Feature Policy ## {#relation-to-feature-policy}
+
+    Feature Policy [[FEATURE-POLICY]] is another mechanism which allows authors
+    to configure features in documents, and is similar in scope, though it uses
+    a different inheritance mechanism, which makes it more suitable for certain
+    types of features, separate from those which are suitable for control by
+    document policy.
+
+    Historically, document policy was created as a response to a number of
+    proposed feature additions to feature policy, which either didn't quite fit
+    the existing 'feature' model, or required significant additional complexity
+    to be added to the feature policy spec. This included features with
+    parameters, features with optional inheritance into subframes, and features
+    which would inherit differently in popups than in other top-level browsing
+    contexts.
+
+    Those features are now proposed to be covered by document policy, and
+    feature policy is used for features where delegation is the primary concern.
+    Feature policy features are boolean-valued (either enabled or disabled), can
+    never be re-enabled in a child frame if disabled in parent, and generally
+    follow the model of "available in top-level browsing contexts and their
+    same-origin children; must be delegated to cross-origin frames."
+
+    In contrast, features controlled by document policy may take parameters, and
+    those parameters may have unrelated values in different frames (constraining
+    a feature in a parent frame does not necessarily constrain its child
+    frames.)
+  </section>
+
+  <section>
+    ## Relation to Content Security Policy ## {#relation-to-csp}
+
+    Content-Security-Policy [[CSP]] also configures 'features' in documents,
+    although it is primarily concerned with the origin of resources in a page,
+    rather than controlling what those resources can do once loaded.
+
+    CSP also provides a different mechanism for setting sandbox flags on a
+    document, through the <em>sandbox</em> directive. If sandbox flags are moved
+    to document policy, then this may be redundant, as the two headers may
+    encode identical information.
+
+    CSP-Embedded-Enforcement introduced a model for forcing a policy to be
+    adhered to by child documents, and for rejecting non-conforming documents as
+    network errors during Fetch. This model is adopted by document policy for
+    the required policy mechanism.
+  </section>
+
+  <section>
+    ## Relation to Sandboxing ## {#relation-to-sandboxing}
+
+    Iframe sandboxing is another mechanism for controlling features in
+    documents, and behaves in a very similar manner to document policy's
+    required policies: disabling a feature is something that can be imposed on
+    a frame, and affects all content loaded into that frame.
+
+    The features which are controlled by the iframe sandbox attribute could be
+    expressed very naturally with document policy.
+
+    One key difference between iframe sandboxing and document policy is that all
+    sandbox features are applied by default when the 'sandbox' attribute is used
+    on a frame, and must be re-enabled one-by-one. This makes it very difficult
+    to extend the sandboxing model with new features, as any additions will
+    immediately affect all existing sandboxed content. Additionally, there is no
+    mechanism for the origin server to know that its content will be sandboxed,
+    so it is difficult to add new sandbox features which could potentially alter
+    control flow in a sandboxed document, as this could introduce new security
+    vulnerabilities in existing content.
+  </section>
 </section>
 
 <section>
@@ -62,10 +136,12 @@ spec:fetch; type:dfn; text:value
     A <dfn export data-lt="document policy controlled feature">feature</dfn> is
     defined by
 
-    * A name, which is a token
-    * A value type
-    * A value range
-    * A <dfn>default value</dfn>
+    * A name, which is a token,
+    * A value type, which is either `boolean`, `integer`, `float`, or `enum`,
+    * A value range, which is a subset of the possible values for the feature's
+      type, and
+    * A <dfn>default value</dfn>, which is an element of the feature's value
+      range.
 
     <div class="informative">
     When introducing a new feature, the default value should be chosen
@@ -110,7 +186,9 @@ spec:fetch; type:dfn; text:value
   #  Required Policy Serialization # {#serialization}
 
   <section>
-    * Explain here how required policies are <dfn data-lt="serialized document policy">serialized</dfn> as structured headers.
+    * Explain here how required policies are <dfn
+      data-lt="serialized document policy">serialized</dfn> as structured
+      headers.
     * Ensure that there is a canonical form (for compat testing).
   </section>
 </section>
@@ -309,8 +387,8 @@ spec:fetch; type:dfn; text:value
     * In [[FETCH#main-fetch]], add the following algorithm to the list of
       algorithms in step 11:
 
-        * <a data-lt="should response to request be blocked due to document policy">should |internalResponse| to |request| be blocked due to document
-          policy</a>
+        * <a data-lt="should response to request be blocked due to document policy">should
+	 |internalResponse| to |request| be blocked due to document policy</a>
 
      * Add the following algorithm to [[FETCH#terminology-headers]]:
        * To <dfn export>get and parse a structured header</dfn> |name| as |type| from
