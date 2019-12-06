@@ -627,10 +627,13 @@ partial interface HTMLIFrameElement {
     following steps:</p>
         1. Let |inherited policy| be a new ordered map.
         2. Let |declared policy| be a new ordered map.
+        3. Let |container policy| be the result of calling <a>process feature
+            policy attributes</a> on |node|.
         3. For each <a>supported feature</a> |feature|:
             1. Let |isInherited| be the result of running <a>Define an inherited
-                policy for feature in container at origin</a> on |feature|,
-                |node| and |node|'s <a>declared origin</a>.
+                policy for feature in browsing context</a> on |feature|,
+                |node|'s <a>nested browsing context</a>, |container policy|, and
+                |node|'s <a>declared origin</a>.
             2. Set |inherited policy|[|feature|] to |isInherited|.
         4. Return a new <a>feature policy</a> with inherited policy
             |inherited policy| and declared policy |declared policy|.
