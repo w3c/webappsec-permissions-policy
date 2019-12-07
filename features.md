@@ -58,7 +58,7 @@ experimentation by web developers.
 
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
-| `document-access` | https://github.com/dtapuska/documentaccess | Status "[Open](https://www.chromestatus.com/feature/5648946183536640)" in Chrome |
+| `document-access` | https://github.com/whatwg/html/pull/4606 | Status "[Open](https://www.chromestatus.com/feature/5648946183536640)" in Chrome |
 | `document-write` | [document-write.md](policies/document-write.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `font-display-late-swap` | [font-display-late-swap.md](policies/font-display-late-swap.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `layout-animations` | [animations.md](policies/animations.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
