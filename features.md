@@ -48,6 +48,7 @@ integrated into their respective specs.
 | Feature name | Spec/PR link(s) | Browser Support |
 | ------------ | --------------- | --------------- |
 | Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
+| `document-access` | https://github.com/whatwg/html/pull/4606 | Status "[Open](https://www.chromestatus.com/feature/5648946183536640)" in Chrome |
 | `geolocation` | https://github.com/w3c/permissions/pull/163 | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `speaker` | https://github.com/w3c/mediacapture-main/issues/434 | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 
@@ -59,7 +60,6 @@ experimentation by web developers.
 
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
-| `document-access` | https://github.com/whatwg/html/pull/4606 | Status "[Open](https://www.chromestatus.com/feature/5648946183536640)" in Chrome |
 | `document-write` | [document-write.md](policies/document-write.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `font-display-late-swap` | [font-display-late-swap.md](policies/font-display-late-swap.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
