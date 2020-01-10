@@ -4,7 +4,7 @@
 
 A web platform API which gives a website the ability to allow and deny the use of browser features in its own frame, and in iframes that it embeds. Examples of [features](https://github.com/w3c/webappsec-feature-policy/blob/master/features.md) that could be controlled by feature policy include:
 
-- getUserMedia (Camera, Speakers and Microphone)
+- getUserMedia (Camera and Microphone)
 - Fullscreen
 - Geolocation
 - MIDI
