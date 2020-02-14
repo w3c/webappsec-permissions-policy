@@ -142,6 +142,7 @@ spec:fetch; type:dfn; text:value
       type, and
     * A <dfn>default value</dfn>, which is an element of the feature's value
       range.
+    * A <dfn>requires acknowledgment</dfn> flag, which is either `yes` or `no`.
 
     <div class="informative">
     When introducing a new feature, the default value should be chosen
@@ -417,7 +418,8 @@ spec:fetch; type:dfn; text:value
     |declaredPolicy| is compatible with |requiredPolicy|, or false otherwise.
 
     1. For each |feature| → |value| in |requiredPolicy|:
-        1. If |feature| does not require acknowledgement, then continue.
+        1. If |feature|'s <a>requires acknowledgment</a> flag is `no`, then
+	    continue.
         2. If |declaredPolicy|[|feature|] does not exist, then return false.
         3. If |requiredPolicy|[|feature|] is stricter than
             |declaredPolicy|[|feature|], then return false.
@@ -654,7 +656,7 @@ spec:fetch; type:dfn; text:value
 
   This specification standardizes a mechanism for an embedding page to set a
   policy which will be enforced on an embedded page. When explicit
-  acknowlegement of a required policy is not required, similar to iframe
+  acknowledgment of a required policy is not required, similar to iframe
   <{iframe/sandbox}>, this means that behaviors of existing features may be
   changed in published web sites, by embedding them in another document with an
   appropriate required policy.
