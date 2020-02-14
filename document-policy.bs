@@ -646,14 +646,6 @@ spec:fetch; type:dfn; text:value
 <section id="privacy" class="informative">
   # Privacy and Security # {#privacy-and-security}
 
-  This is going to be very similar to feature policy, with these notes:
-
-  1. Opt-in generally required to enable enforcement in subframes.
-  2. Policy attribute may conflict with sandbox attribute
-  3. Observability? Yes, still. Take care when designing features that their
-    effects cannot be seen across origin boundaries.
-  4. Take care in creating non-reflect features
-
   This specification standardizes a mechanism for an embedding page to set a
   policy which will be enforced on an embedded page. When explicit
   acknowledgment of a required policy is not required, similar to iframe
@@ -693,11 +685,22 @@ spec:fetch; type:dfn; text:value
   this may mean that existing published content on the web was not written with
   the expectation that a particular API could fail.
 
-  * Mitigated by requiring opt-in
-  * non-opt-in features have issues similar to sandbox.
-  * Reference FP section
+  This is very similar to the existing iframe sandboxing mechanism, where
+  behaviour can be changed without the explicit consent of the embedded page,
+  but it is not clear that is always safe.
+
+  When considering placing such a feature under policy control, standards
+  authors are strongly encouraged to require opt-in by the embedded document.
+  This means that existing content will not be allowed to be loaded in a context
+  where that behaviour is changed, until it is configured to recognize and
+  accept the policy.
 
   ## Advertisement of required policy ## {#advertisement-of-required-policy}
 
-  * May leak details of embedder headers or markup.
+  As a mitigation to the behaviour change problem discussed above, requests for
+  embedded content in a frame with a required policy will be sent with an HTTP
+  header detailing the policy requirements. This header is visible to origin
+  servers, and its contents may reveal details about the embedder page.
+  Embedders should be aware of this when choosing to require a policy on their
+  embedded content.
 </section>
