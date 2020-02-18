@@ -133,7 +133,7 @@ spec:fetch; type:dfn; text:value
   <section>
     ## Features ## {#features}
 
-    A <dfn export data-lt="document policy controlled feature">feature</dfn> is
+    A <dfn export data-lt="document policy feature">feature</dfn> is
     defined by
 
     * A name, which is a token,
@@ -152,20 +152,45 @@ spec:fetch; type:dfn; text:value
     </div>
   </section>
   <section>
+    ### Directives ### {#directives}
+
+    A <dfn export data-lt="document policy directive">directive</dfn> is an
+    element of a <a>document policy</a>, and consists of a <a>directive name</a>
+    and optional parameters.
+
+    A <dfn>directive name</dfn> may be one of:
+
+    * A <a>document policy feature</a> name,
+    * A <a>document policy feature</a> name, prefixed by "no-", if it is the
+      name of a boolean feature, or
+    * The token "`*`".
+
+    Directive parameters are defined per-directive.
+  </section>
+  <section>
     ## Policies ## {#policies}
 
-    * Browsing context has a <dfn>required document policy</dfn>, which is a
-      <a>document policy</a>.
-    * Browsing context has a <dfn>nested context required document policy</dfn>,
-      which is a <a>document policy</a>.
-    * Document has a <dfn>declared document policy</dfn>, which is a <a>document
-      policy</a>.
-
     A <dfn>document policy</dfn> is an ordered map from <a
-    data-lt="policy-controlled feature">features</a> to <a>values</a>.
+    data-lt="policy-controlled feature">features</a> to <a>policy
+    configurations</a>
 
-    * A browsing context with a null opener browsing context has an empty
-      <a>required document policy</a>.
+    A <dfn>policy configuration</dfn> is a tuple consisting of a <dfn
+    for="policy configuration">value</dfn> and a <dfn
+    for="policy configuration">reporting endpoint group</dfn>, which is a
+    string, and which may be null.
+
+    A <a>browsing context</a> has a <dfn>required document policy</dfn>, which
+    is a <a>document policy</a>. A <a>browsing context</a> with a null <a>opener
+    browsing context</a> has an empty <a>required document policy</a>.
+
+    A <a>browsing context</a> has a <dfn>nested context required document
+    policy</dfn>, which is a <a>document policy</a>.
+
+    A <a>Document</a> has a <dfn>declared document policy</dfn>, which is a
+    <a>document policy</a>.
+
+    A <a>Document</a> has a <dfn>report-only document policy</dfn>, which is a
+    <a>document policy</a>.
   </section>
   <section>
     ## Values ## {#values}
@@ -192,6 +217,107 @@ spec:fetch; type:dfn; text:value
       headers.
     * Ensure that there is a canonical form (for compat testing).
   </section>
+</section>
+
+<section>
+  # Reporting # {#reporting}
+
+  A site deploying a document policy may want to know if any of the policies
+  which are set on its pages are violated. For instance, a site which sets a
+  policy requiring all images to be match the size of their containers may want
+  to be alerted if a new developer or CMS inserts oversized images into content.
+  Similarly, a site which deploys a policy which restricts the use of the
+  `document.write` API may want to receive reports if a script is ever imported
+  which uses it.
+
+  This section defines a mechanism for reporting such violations using the
+  Reporting API. [[!REPORTING]]
+
+  A site may also want to test out a policy in real-world situations before
+  enforcing it. This section also defines a "Report-only" mode, where the user
+  agent can watch for situations which would be policy violations and report on
+  them, without enforcing the policy. This allows site owners to work to drive
+  the real-world violation count down to an acceptable level before actually
+  deploying the policy.
+
+  Reporting is only possible from the page which configures the policy. It is
+  not possible to receive reports from a nested page which violates a required
+  policy.
+
+  "Violation" is defined per-feature, but should always reflect an action of the
+  web developer, rather than the user directly.
+
+  This implies that not all policies can be reported on. There is a class of
+  feature whose settings cannot be said to be "violated" in any meaningful way
+  by markup, or by script actions. A hypothetical feature which disabled text
+  entry in form fields, for instance, could be enforced by the user agent, but
+  if a user were to try to type in those fields, causing enforcement to be
+  required, that would not represent a violation of the policy, and should not
+  be reported.
+
+  <section>
+    ## Configuring in-document reporting ## {#configure-reporting}
+
+    ### The "report-to" parameter ### {#report-to-parameter}
+
+    Any directive can include a parameter named `report-to`, which names a
+    reporting <a>endpoint group</a> to which violation reports for that feature
+    will be sent.
+
+    Example:
+    ```
+    Document-Policy: something;f=1.0;report-to=group, no-something-else;report-to=group
+    ```
+
+    ### Setting the default reporting endpoint ### {#reporting-default}
+
+    If violations for many or all features should be sent to the same endpoint
+    group, then it may be easier to define a single default <a>endpoint
+    group</a>. This can be defined by a parameter on the special token `*`. If
+    a default <a>endpoint group</a> is provided, then unless otherwise
+    specified, all violation reports will be sent to that named group. If a
+    feature also specifies its own endpoint group, with the `report-to`
+    parameter, then reports will go to that group instead. (Reports are not sent
+    to both groups.)
+
+    Example:
+    ```
+    Document-Policy: something;f=1.0, no-something-else, *;report-to=group
+    ```
+
+    ### Disabling reporting for a feature ### {#reporting-disable}
+
+    If a default endpoint group has been specified, then it may be necessary to
+    disable reporting for specific features. This can be done by specifying the
+    special endpoint group name `none` as the value for the `report-to`
+    parameter. This will override the default endpoint group and disable
+    reporting for that feature.
+
+    Example:
+    ```
+    Document-Policy: something;f=1.0;report-to=none, no-something-else,
+                     *;report-to=group
+    ```
+
+  </section>
+
+  <section>
+    ## Report-only mode ## {#report-only}
+
+    A document policy can be a "report-only" policy. Report-only policies are
+    specified with a `Document-Policy-Report-Only` header. Violations of a
+    report-only policy are reported on, exactly as an enforcing policy, but they
+    do not cause any other action to be taken by the user agent.
+
+
+    Document-Policy-Report-Only
+
+    The `report-to` directive parameter should be used with directives in this
+    header, or else they will have no effect at all.
+
+    Document-Policy-Report-Only: something;f=1.0;report-to=group, no-something-else;report-to=group2
+  </section>
+
 </section>
 
 <section>
@@ -244,7 +370,7 @@ spec:fetch; type:dfn; text:value
   </section>
   <section>
     ## HTTP Headers ## {#http-headers}
-<section>
+  <section>
     ### Document-Policy ### {#document-policy-http-header}
 
     The &#96;<dfn export http-header
@@ -258,8 +384,20 @@ spec:fetch; type:dfn; text:value
     Document-Policy = sh-list
 
     Each list element must be a token. If the token does not name a supported
-    feature, (or a supported boolean feature prefixed by "no-",) then the list
-    element must be ignored.
+    feature or pseudo-feature, (or a supported boolean feature prefixed by
+    "no-",) then the list element will be ignored by the processing steps.
+  </section>
+  <section>
+    ### Document-Policy-Report-Only ### {#document-policy-report-only-http-header}
+
+    The &#96;<dfn export http-header
+    id="document-policy-report-only-header"><code>Document-Policy-Report-Only</code></dfn>&#96;
+    HTTP header can be used in the [=response=] (server to client) to configure
+    the <a>report-only document policy</a> for the document.
+
+    The <code>Document-Policy-Report-Only</code> header is a Structured Header.
+    Its value must be a list. It has exactly the same syntax as the
+    `Document-Policy` header.
   </section>
   <section>
     ### Require-Document-Policy ### {#require-document-policy-http-header}
@@ -328,36 +466,40 @@ spec:fetch; type:dfn; text:value
     * In the [[HTML#creating-a-new-browsing-context]] algorithm:
       * Add the following step after step 5:
 
-        6. Set |browsingContext|'s <a>required document policy</a> to the result
-          of <a data-lt="create-for-browsingcontext">creating a required policy
-          for a browsing context</a> |browsingContext|.
+        6. Set <var ignore>browsingContext</var>'s <a>required document
+          policy</a> to the result of <a
+          data-lt="create-for-browsingcontext">creating a required policy for a
+          browsing context</a> <var ignore>browsingContext</var>.
 
       * Change step 9 (renumbered now to 10) to read:
-        10. Let |document| be a new <a>Document</a>, marked as an <a>HTML
-          document</a> in <a>quirks mode</a>, whose <a>content type</a> is
-          `"text/html"`, <a>origin</a> is |origin|, <a>active sandboxing flag
-          set</a> is |sandboxFlags|, <a>feature policy</a> is |feature policy|,
-          document policy is identical to |browsingContext|'s <a>required
-          document policy</a>, and which is both ready for post-load tasks and
-          completely loaded immediately.
+        10. Let <var ignore>document</var> be a new <a>Document</a>, marked as
+          an <a>HTML document</a> in <a>quirks mode</a>, whose <a>content
+          type</a> is `"text/html"`, <a>origin</a> is <var ignore>origin</var>,
+          <a>active sandboxing flag set</a> is <var ignore>sandboxFlags</var>,
+          <a>feature policy</a> is <var ignore>feature policy</var>, document
+          policy is identical to |browsingContext|'s <a>required document
+          policy</a>, and which is both ready for post-load tasks and completely
+          loaded immediately.
 
     * In the [=process a navigate fetch=] algorithm:
       * Add the following step after step 5:
 
-        6. Set |request|'s <a>required document policy</a> to
-          |browsingContext|'s <a>required document policy</a>.
+        6. Set <var ignore>request</var>'s <a>required document policy</a> to
+          <var ignore>browsingContext</var>'s <a>required document policy</a>.
 
     * In the [[HTML#initialize-the-document-object]] algorithm:
       * Add the following step after step 3:
-        4. Let |documentPolicy| be the result of <a
+        4. Let <var ignore>documentPolicy</var> be the result of <a
           data-lt="create-document-policy">creating a document policy</a> for
-          |browsingContext| from |response|.
+          <var ignore>browsingContext</var> from <var ignore>response</var>.
 
       * Change step 6 (renumbered now to 7) to read:
-        7. Let |document| be a new Document, whose type is |type|, content type
-          is |contentType|, origin is |origin|, feature policy is
-          |featurePolicy|, active sandboxing flag set is |finalSandboxFlags|,
-          and document policy is |documentPolicy|.
+        7. Let <var ignore>document</var> be a new Document, whose type is <var
+          ignore>type</var>, content type is <var ignore>contentType</var>,
+          origin is <var ignore>origin</var>, feature policy is <var
+          ignore>featurePolicy</var>, active sandboxing flag set is <var
+          ignore>finalSandboxFlags</var>, and document policy is <var
+          ignore>documentPolicy</var>.
   </section>
 
   <section>
@@ -389,18 +531,20 @@ spec:fetch; type:dfn; text:value
       algorithms in step 11:
 
         * <a data-lt="should response to request be blocked due to document policy">should
-	 |internalResponse| to |request| be blocked due to document policy</a>
+          <var ignore>internalResponse</var> to |request| be blocked due to
+          document policy</a>
 
-     * Add the following algorithm to [[FETCH#terminology-headers]]:
-       * To <dfn export>get and parse a structured header</dfn> |name| as |type| from
-         [=Headers/header list=] |list|, run these steps:
+    * Add the following algorithm to [[FETCH#terminology-headers]]:
+       * To <dfn export>get and parse a structured header</dfn> |name| as |type|
+         from [=Headers/header list=] |list|, run these steps:
 
          1. Let |input| be the result of getting |name| from |list|.
          2. If |input| is null, then return null.
          3. Let |value| be the result of running the <a
            href="https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-14#section-4.2">Parsing
            Header Fields into Structured Headers</a> algorithm with |input| as
-           |input_string| and |type| as |header_type|. [[!HEADER-STRUCTURE]]
+           <var ignore>input_string</var> and |type| as <var
+           ignore>header_type</var>. [[!HEADER-STRUCTURE]]
          4. If the previous step fails, return null.
          5. Return |value|.
 
@@ -419,7 +563,7 @@ spec:fetch; type:dfn; text:value
 
     1. For each |feature| → |value| in |requiredPolicy|:
         1. If |feature|'s <a>requires acknowledgment</a> flag is `no`, then
-	    continue.
+            continue.
         2. If |declaredPolicy|[|feature|] does not exist, then return false.
         3. If |requiredPolicy|[|feature|] is stricter than
             |declaredPolicy|[|feature|], then return false.
@@ -451,28 +595,41 @@ spec:fetch; type:dfn; text:value
     policy</a>, if it can be parsed as one, or else fails.
 
     1. Let |policy| be a new ordered map.
-    1. Let |list| be the result of parsing |policyString| as a list.
-    2. If parsing fails, then fail.
+    2. Let |defaultEndpoint| be a new string, set to null.
+    2. Let |list| be the result of parsing |policyString| as a list.
+    3. If parsing fails, then fail.
     4. For each |element| in |list|,
-        1. If |element| is not a token, then fail
-        2. If |element| is the name of a supported feature which is a boolean
-          feature, then
+        1. If |element| is not a token, then fail.
+        2. Let |currentEndpoint| be a new string, set to null.
+        3. If |element|["report-to"] exists, and is a string, then:
+            1. Set |currentEndpoint| to the value of |element|["report-to"].
+            2. Remove |element|["report-to"].
+        4. If |element| is the string "`*`", then:
+            1. Set |defaultEndpoint| to |currentEndpoint|.
+        5. Otherwise, if |element| is the name of a supported feature which is a
+          boolean feature, then:
             1. If |element| has any associated parameters, then fail.
             2. Let |feature| be the supported feature with name |element|.
             3. If |policy|[|feature|] exists, then continue with the next
               |element|.
-            4. Set |policy|[|feature|] to the boolean value true.
+            4. Set |policy|[|feature|] to a new boolean <a>policy
+              configuration</a> with <a for="policy configuration">value</a>
+              true, and <a for="policy configuration">reporting endpoint
+              group</a> |currentEndpoint|.
             5. Continue with the next |element|.
-        3. If |element| begins with the string "no-", and the remaining
-          characters match the name of a supported feature which is a boolean
-          feature, then
+        6. Otherwise, if |element| begins with the string "no-", and the
+          remaining characters match the name of a supported feature which is a
+          boolean feature, then:
             1. If |element| has any associated parameters, then fail.
             2. Let |feature| be the supported feature with name |element|.
             3. If |policy|[|feature|] exists, then continue with the next
               |element|.
-            4. Set |policy|[|feature|] to the boolean value false.
+            4. Set |policy|[|feature|] to a new boolean <a>policy
+              configuration</a> with <a for="policy configuration">value</a>
+              false, and <a for="policy configuration">reporting endpoint
+              group</a> |currentEndpoint|.
             5. Continue with the next |element|.
-        4. If |element| is the name of a supported feature, then
+        7. Otherwise, if |element| is the name of a supported feature, then:
             1. If |element| does not have exactly one parameter, then fail.
             2. Let |feature| be the supported feature with name |element|.
             3. If |policy|[|feature|] exists, then continue with the next
@@ -482,7 +639,11 @@ spec:fetch; type:dfn; text:value
                 2. Let |value| be the name of |element|'s parameter.
                 3. If |value| is not the name of one of |feature|s allowed
                     enum values, then fail.
-                4. Let |policy|[|feature|] be the enum value named |value|.
+                4. Set |policy|[|feature|] to a new enum <a>policy
+                  configuration</a> with <a
+                  for="policy configuration">value</a> |value|, and <a
+                  for="policy configuration">reporting endpoint group</a>
+                  |currentEndpoint|.
                 5. Continue with the next |element|.
             5. If |element|'s parameter's name does not match |feature|'s
               parameter name, then fail.
@@ -490,14 +651,27 @@ spec:fetch; type:dfn; text:value
             7. If |feature| is an integer-valued feature, then
                 1. If |value| is not an integer, then fail.
                 2. If |value| is not in |feature|'s range, then fail.
-                3. Let |policy|[|feature|] be the integer value |value|.
+                3. Set |policy|[|feature|] to a new integer <a>policy
+                  configuration</a> with <a
+                  for="policy configuration">value</a> |value|, and <a
+                  for="policy configuration">reporting endpoint group</a>
+                  |currentEndpoint|.
                 4. Continue with the next |element|.
             8. If |feature| is an float-valued feature, then
                 1. If |value| is not a float, then fail.
                 2. If |value| is not in |feature|'s range, then fail.
-                3. Let |policy|[|feature|] be the float value |value|.
+                3. Set |policy|[|feature|] to a new float <a>policy
+                  configuration</a> with <a
+                  for="policy configuration">value</a> |value|, and <a
+                  for="policy configuration">reporting endpoint group</a>
+                  |currentEndpoint|.
                 4. Continue with the next |element|.
-    5. Return |policy|.
+    5. For each |feature| → |config| in |policy|,
+        1. If |config| does not have a <a for="policy configuration">reporting
+          endpoint group</a>, set |config|'s <a
+          for="policy configuration">reporting endpoint group</a> to
+          |defaultEndpoint|.
+    6. Return |policy|.
   </section>
 
   <section>
@@ -557,8 +731,9 @@ spec:fetch; type:dfn; text:value
     Given a <a>browsing context</a> (|browsingContext|) and a [=response=]
     (|response|), this algorithm returns a new <a>Document Policy</a>.
 
-    1. Let |requiredPolicy| be the result of running <a data-lt="create-for-browsingcontext">Create a required policy
-        for a browsing context</a> given |browsingContext|.
+    1. Let |requiredPolicy| be the result of running <a
+        data-lt="create-for-browsingcontext">Create a required policy for a
+        browsing context</a> given |browsingContext|.
     2. Let |declaredPolicy| be the result of running <a>Process response
         policy</a> on |response|.
     3. If |declaredPolicy| is <a href="#is-policy-compatible">compatible</a>
@@ -583,14 +758,92 @@ spec:fetch; type:dfn; text:value
   </section>
 
   <section>
-    ## <dfn export id="get-policy-value">Get policy value for |feature| in |document|</dfn> ## {#algo-get-policy-value}
+    ## <dfn export lt="get-policy-value">Get policy value for |feature| in |document|</dfn> ## {#algo-get-policy-value}
 
     Given a feature (|feature|) and a {{Document}} object (|document|), this
-    algorithm the value for |feature| in |document|'s <a>document policy</a>.
+    algorithm returns the value for |feature| in |document|'s <a>document
+    policy</a>.
 
       1. Let |policy| be |document|'s <a>Document Policy</a>.
-      2. If |policy|[|feature|] exists, return it.
+      2. If |policy|[|feature|] exists, return its <a>value</a>.
       3. Return |feature|'s <a>default value</a>.
+  </section>
+
+  <section>
+    ## <dfn lt="determine-compatibility">Determine compatibility of |value| with policy for |feature|</dfn> ## {#algo-determine-compatibility}
+
+    Given a value (|value|), a feature (|feature|) and a {{Document}} object
+    (|document|), this algorithm returns a tuple consisting of:
+
+    * An action, which is either "compatible" or "incompatible", depending on
+      whether |value| is compatible with |document|'s <a>document policy</a>,
+    * A reporting endpoint name, which will be null if |value| is compatible
+      with both |document|'s <a>document policy</a> and its <a>report-only
+      document policy</a>, or if reporting is not configured for |feature|, or
+      else will be the name of the <a lt="endpoint">reporting endpoint</a> to
+      which a violation report should be sent.
+
+    Note that if the enforcing policy is stricter than the report-only policy,
+    then the report-only policy will not be checked.
+
+      1. Let |policy| be |document|'s <a>Document Policy</a>.
+      2. Let |policyConfig| be |policy|[|feature|], if it exists, or a tuple
+        consisting of |feature|'s <a>default value</a> and null, otherwise.
+      3. Let |policyValue| and |reporting endpoint| be the elements of
+        |policyConfig|
+      3. If |policyValue| is stricter than |value|, then return a tuple
+        consisting of "incompatible" and |reporting endpoint|.
+      4. Let |report-only policy| be |document|'s <a>report-only document
+        policy</a>,
+      5. Let |report-only policyConfig| be |report-only policy|[|feature|], if
+        it exists, or a tuple consisting of |feature|'s <a>default value</a> and
+        null, otherwise.
+      3. Let |policyValue| and |reporting endpoint| be the elements of
+        |report-only policyConfig|
+      6. If |policyValue| is stricter than |value|, then return a tuple
+        consisting of "compatible" and |reporting endpoint|.
+      7. Return ("compatible", null).
+  </section>
+
+  <section>
+    ## <dfn export lt="is-value-compatible-or-report">Determine if |value| is compatible with policy for |feature| or report</dfn> ## {#algo-is-value-compatible-or-report}
+
+    Given a value (|value|), a feature (|feature|) and a {{Document}} object
+    (|document|), this algorithm returns "compatible" if |value| is compatible
+    with |document|'s <a>document policy</a>, or else "incompatible". It will
+    also queue a report if reporting has been configured.
+
+    1. Let (|action|, |reporting endpoint|) be the result of calling
+      [=determine-compatibility=] with |value|, |feature| and |document|.
+    2. If |reporting endpoint| is not null,
+        1. Let |body| be a new ECMAScript object with the following properties:
+          [[ECMA-262]]
+
+          : featureId
+          :: feature’s string representation.
+          : sourceFile
+          :: null
+          : lineNumber
+          :: null
+          : columnNumber
+          :: null
+          : disposition
+          :: "enforce", if |action| is "incompatible", or else "report".
+
+        2. If the user agent is currently executing script, and can extract the
+          source file’s URL, line number, and column number from settings, then
+          set |body|’s sourceFile, lineNumber, and columnNumber accordingly.
+        3. Let |settings| be |document|'s <a>environment settings object</a>.
+        4. Execute [[REPORTING#queue-report]] with |body|, "document-policy-violation", |reporting endpoint| and |settings|.
+    3. Return |action|.
+  </section>
+
+  <section>
+    ## <dfn export lt="is-value-compatible">Determine if |value| is compatible with policy for |feature| ## {#algo-is-value-compatible}
+
+    1. Let (|action|, |reporting endpoint|) be the result of calling
+      [=determine-compatibility=] with |value|, |feature| and |document|.
+    2. Return |action|.
   </section>
 </section>
 
