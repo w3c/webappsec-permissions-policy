@@ -26,6 +26,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
   urlPrefix: browsers.html
     type: dfn
       text: creating a new browsing context
+      text: initialise the document object
 </pre>
 <pre class="biblio">
 {
@@ -493,7 +494,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
         6. Set <var ignore>request</var>'s <a>required document policy</a> to
           <var ignore>browsingContext</var>'s <a>required document policy</a>.
 
-    * In the [[HTML#initialize-the-document-object]] algorithm:
+    * In the <a>initialise the document object</a> algorithm:
       * Add the following step after step 3:
         4. Let <var ignore>documentPolicy</var> be the result of <a
           data-lt="create-document-policy">creating a document policy</a> for
