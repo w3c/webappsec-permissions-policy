@@ -21,6 +21,12 @@ spec:html; type:element; text:link
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
 </pre>
+<pre class="anchors">
+spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
+  urlPrefix: browsers.html
+    type: dfn
+      text: creating a new browsing context
+</pre>
 <pre class="biblio">
 {
   "HEADER-STRUCTURE": {
@@ -463,7 +469,7 @@ spec:fetch; type:dfn; text:value
       * The <a>Document</a> has a <b>document policy</b>, which is a <a>document
         policy</a>, which is initially empty.
 
-    * In the [[HTML#creating-a-new-browsing-context]] algorithm:
+    * In the <a>creating a new browsing context</a> algorithm:
       * Add the following step after step 5:
 
         6. Set <var ignore>browsingContext</var>'s <a>required document
