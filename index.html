@@ -1167,6 +1167,18 @@ Possible extra rowspan handling
 		margin-left: auto;
 		margin-right: auto;
 	}
+	.overlarge {
+		/* Magic to create good table positioning:
+		   "content column" is 50ems wide at max; less on smaller screens.
+		   Extra space (after ToC + content) is empty on the right.
+
+		   1. When table < content column, centers table in column.
+		   2. When content < table < available, left-aligns.
+		   3. When table > available, fills available + scroll bar.
+		*/ 
+		display: grid;
+		grid-template-columns: minmax(0, 50em);
+	}
 	.overlarge > table {
 		/* limit preferred width of table */
 		max-width: 50em;
@@ -1176,7 +1188,6 @@ Possible extra rowspan handling
 
 	@media (min-width: 55em) {
 		.overlarge {
-			margin-left: calc(13px + 26.5rem - 50vw);
 			margin-right: calc(13px + 26.5rem - 50vw);
 			max-width: none;
 		}
@@ -1184,14 +1195,12 @@ Possible extra rowspan handling
 	@media screen and (min-width: 78em) {
 		body:not(.toc-inline) .overlarge {
 			/* 30.5em body padding 50em content area */
-			margin-left: calc(40em - 50vw) !important;
 			margin-right: calc(40em - 50vw) !important;
 		}
 	}
 	@media screen and (min-width: 90em) {
 		body:not(.toc-inline) .overlarge {
 			/* 4em html margin 30.5em body padding 50em content area */
-			margin-left: 0 !important;
 			margin-right: calc(84.5em - 100vw) !important;
 		}
 	}
@@ -1212,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version e1a165f1c2fb1cc2aceb87e110984a42830c36fa" name="generator">
+  <meta content="Bikeshed version 5721fde7f6b8111f662b83b678f9e181a9838206" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="ff527597d0588f656132bc466280ac72ae7fdf67" name="document-revision">
+  <meta content="a1e4ad51bfec53b9039183476b9ab23e587f99c3" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1477,7 +1486,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-12-06">6 December 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-03-03">3 March 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1492,7 +1501,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2019 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2020 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -2519,7 +2528,7 @@ set to "enforce".</p>
       <li data-md>
        <p>If <var>group</var> is omitted, set <var>group</var> to "default".</p>
       <li data-md>
-       <p>Execute <a href="https://wicg.github.io/reporting//#queue-report">Reporting API §#queue-report</a> with <var>body</var>,
+       <p>Execute <a href="https://w3c.github.io/reporting/#queue-report">Reporting API §4.2 Queue data as type for endpoint group on settings</a> with <var>body</var>,
   "feature-policy-violation", <var>group</var>, and <var>settings</var>.</p>
      </ol>
      <p class="note" role="note"><span>Note:</span> This algorithm should be called when a feature policy has
@@ -3098,18 +3107,6 @@ set to "enforce".</p>
     <li><a href="#ref-for-dom-paymentrequest">6.3.2. allowpaymentrequest</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-report-type">
-   <a href="https://w3c.github.io/reporting/#report-type">https://w3c.github.io/reporting/#report-type</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-type">8. Reporting</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-visible-to-reportingobservers">
-   <a href="https://w3c.github.io/reporting/#visible-to-reportingobservers">https://w3c.github.io/reporting/#visible-to-reportingobservers</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-visible-to-reportingobservers">8. Reporting</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-reportbody">
    <a href="https://w3c.github.io/reporting/#reportbody">https://w3c.github.io/reporting/#reportbody</a><b>Referenced in:</b>
    <ul>
@@ -3127,6 +3124,18 @@ set to "enforce".</p>
    <ul>
     <li><a href="#ref-for-report">9.11. Generate report for violation of
     feature policy on settings</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-report-type">
+   <a href="https://w3c.github.io/reporting/#report-type">https://w3c.github.io/reporting/#report-type</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-report-type">8. Reporting</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-visible-to-reportingobservers">
+   <a href="https://w3c.github.io/reporting/#visible-to-reportingobservers">https://w3c.github.io/reporting/#visible-to-reportingobservers</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-visible-to-reportingobservers">8. Reporting</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-parser">
@@ -3245,17 +3254,13 @@ set to "enforce".</p>
      <li><span class="dfn-paneled" id="term-for-dom-paymentrequest" style="color:initial">paymentrequest</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[REPORTING]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-report-type" style="color:initial">report type</span>
-     <li><span class="dfn-paneled" id="term-for-visible-to-reportingobservers" style="color:initial">visible to reportingobservers</span>
-    </ul>
-   <li>
     <a data-link-type="biblio">[reporting-1]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-reportbody" style="color:initial">ReportBody</span>
      <li><span class="dfn-paneled" id="term-for-report-body" style="color:initial">body</span>
      <li><span class="dfn-paneled" id="term-for-report" style="color:initial">report</span>
+     <li><span class="dfn-paneled" id="term-for-report-type" style="color:initial">report type</span>
+     <li><span class="dfn-paneled" id="term-for-visible-to-reportingobservers" style="color:initial">visible to reportingobservers</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
@@ -3293,9 +3298,7 @@ set to "enforce".</p>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-payment-request">[PAYMENT-REQUEST]
-   <dd>Zach Koch; et al. <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>. 16 April 2019. CR. URL: <a href="https://www.w3.org/TR/payment-request/">https://www.w3.org/TR/payment-request/</a>
-   <dt id="biblio-reporting">[REPORTING]
-   <dd><a href="https://wicg.github.io/reporting/">Reporting API</a>. cg-draft. URL: <a href="https://wicg.github.io/reporting/">https://wicg.github.io/reporting/</a>
+   <dd>Marcos Caceres; et al. <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>. 12 December 2019. CR. URL: <a href="https://www.w3.org/TR/payment-request/">https://www.w3.org/TR/payment-request/</a>
    <dt id="biblio-reporting-1">[REPORTING-1]
    <dd>Douglas Creager; et al. <a href="https://www.w3.org/TR/reporting-1/">Reporting API</a>. 25 September 2018. WD. URL: <a href="https://www.w3.org/TR/reporting-1/">https://www.w3.org/TR/reporting-1/</a>
    <dt id="biblio-rfc2119">[RFC2119]
