@@ -183,8 +183,8 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
 
     A <dfn>policy configuration</dfn> is a tuple consisting of a <dfn
     for="policy configuration">value</dfn> and a <dfn
-    for="policy configuration">reporting endpoint group</dfn>, which is a
-    string, and which may be null.
+    for="policy configuration">reporting endpoint</dfn>, which is a string, and
+    which may be null.
 
     A <a>browsing context</a> has a <dfn>required document policy</dfn>, which
     is a <a>document policy</a>. A <a>browsing context</a> with a null <a>opener
@@ -268,42 +268,41 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     ### The "report-to" parameter ### {#report-to-parameter}
 
     Any directive can include a parameter named `report-to`, which names a
-    reporting <a>endpoint group</a> to which violation reports for that feature
-    will be sent.
+    reporting <a>endpoint</a> to which violation reports for that feature will
+    be sent.
 
     Example:
     ```
-    Document-Policy: something;f=1.0;report-to=group, no-something-else;report-to=group
+    Document-Policy: something;f=1.0;report-to=endpoint1, no-something-else;report-to=endpoint2
     ```
 
     ### Setting the default reporting endpoint ### {#reporting-default}
 
-    If violations for many or all features should be sent to the same endpoint
-    group, then it may be easier to define a single default <a>endpoint
-    group</a>. This can be defined by a parameter on the special token `*`. If
-    a default <a>endpoint group</a> is provided, then unless otherwise
-    specified, all violation reports will be sent to that named group. If a
-    feature also specifies its own endpoint group, with the `report-to`
-    parameter, then reports will go to that group instead. (Reports are not sent
-    to both groups.)
+    If violations for many or all features should be sent to the same endpoint,
+    then it may be easier to define a single default <a>endpoint</a>. This can
+    be defined by a parameter on the special token `*`. If a default
+    <a>endpoint</a> is provided, then unless otherwise specified, all violation
+    reports will be sent to that named endpoint. If a feature also specifies its
+    own endpoint, with the `report-to` parameter, then reports will go to that
+    endpoint instead. (Reports are not sent to both endpoints.)
 
     Example:
     ```
-    Document-Policy: something;f=1.0, no-something-else, *;report-to=group
+    Document-Policy: something;f=1.0, no-something-else, *;report-to=endpoint
     ```
 
     ### Disabling reporting for a feature ### {#reporting-disable}
 
-    If a default endpoint group has been specified, then it may be necessary to
+    If a default endpoint has been specified, then it may be necessary to
     disable reporting for specific features. This can be done by specifying the
-    special endpoint group name `none` as the value for the `report-to`
-    parameter. This will override the default endpoint group and disable
-    reporting for that feature.
+    special endpoint name `none` as the value for the `report-to` parameter.
+    This will override the default endpoint and disable reporting for that
+    feature.
 
     Example:
     ```
     Document-Policy: something;f=1.0;report-to=none, no-something-else,
-                     *;report-to=group
+                     *;report-to=endpoiont
     ```
 
   </section>
@@ -322,7 +321,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     The `report-to` directive parameter should be used with directives in this
     header, or else they will have no effect at all.
 
-    Document-Policy-Report-Only: something;f=1.0;report-to=group, no-something-else;report-to=group2
+    Document-Policy-Report-Only: something;f=1.0;report-to=endpoint, no-something-else;report-to=endpoint2
   </section>
 
 </section>
@@ -628,8 +627,8 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
               |element|.
             1. Set |policy|[|feature|] to a new boolean <a>policy
               configuration</a> with <a for="policy configuration">value</a>
-              true, and <a for="policy configuration">reporting endpoint
-              group</a> |currentEndpoint|.
+              true, and <a for="policy configuration">reporting endpoint</a>
+              |currentEndpoint|.
             1. Continue with the next |element|.
         1. Otherwise, if |element| begins with the string `"no-"`, and the
           remaining characters match the name of a supported feature which is a
@@ -642,8 +641,8 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
               |element|.
             1. Set |policy|[|feature|] to a new boolean <a>policy
               configuration</a> with <a for="policy configuration">value</a>
-              false, and <a for="policy configuration">reporting endpoint
-              group</a> |currentEndpoint|.
+              false, and <a for="policy configuration">reporting endpoint</a>
+              |currentEndpoint|.
             1. Continue with the next |element|.
         1. Otherwise, if |element| is the name of a supported feature, then:
             1. If |element| does not have exactly one parameter, then fail.
@@ -658,7 +657,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
                 1. Set |policy|[|feature|] to a new enum <a>policy
                   configuration</a> with <a
                   for="policy configuration">value</a> |value|, and <a
-                  for="policy configuration">reporting endpoint group</a>
+                  for="policy configuration">reporting endpoint</a>
                   |currentEndpoint|.
                 1. Continue with the next |element|.
             1. If |element|'s parameter's name does not match |feature|'s
@@ -670,7 +669,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
                 1. Set |policy|[|feature|] to a new integer <a>policy
                   configuration</a> with <a
                   for="policy configuration">value</a> |value|, and <a
-                  for="policy configuration">reporting endpoint group</a>
+                  for="policy configuration">reporting endpoint</a>
                   |currentEndpoint|.
                 1. Continue with the next |element|.
             1. If |feature| is an float-valued feature, then
@@ -679,13 +678,13 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
                 1. Set |policy|[|feature|] to a new float <a>policy
                   configuration</a> with <a
                   for="policy configuration">value</a> |value|, and <a
-                  for="policy configuration">reporting endpoint group</a>
+                  for="policy configuration">reporting endpoint</a>
                   |currentEndpoint|.
                 1. Continue with the next |element|.
     1. For each |feature| → |config| in |policy|,
         1. If |config| does not have a <a for="policy configuration">reporting
-          endpoint group</a>, set |config|'s <a
-          for="policy configuration">reporting endpoint group</a> to
+          endpoint</a>, set |config|'s <a
+          for="policy configuration">reporting endpoint</a> to
           |defaultEndpoint|.
     1. Return |policy|.
 
