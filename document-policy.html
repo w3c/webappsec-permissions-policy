@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 5721fde7f6b8111f662b83b678f9e181a9838206" name="generator">
+  <meta content="Bikeshed version 5200e023b5b76bb01f8f0ff295f799cb9f4a94f0" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/document-policy.html" rel="canonical">
-  <meta content="a6fe17beabb324ee6d85aa1289f10309ceb6bc93" name="document-revision">
+  <meta content="c4d62fd32e5326d96cccec0dba37bd1282ab2627" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1423,7 +1423,7 @@ pre .property::before, pre .property::after {
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Document Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-03-03">3 March 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-03-12">12 March 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1692,8 +1692,8 @@ name of a boolean feature, or</p>
      <h3 class="heading settled" data-level="4.2" id="policies"><span class="secno">4.2. </span><span class="content">Policies</span><a class="self-link" href="#policies"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="document-policy">document policy</dfn> is an ordered map from <a data-link-type="dfn" href="https://wicg.github.io/feature-policy/#policy-controlled-feature" id="ref-for-policy-controlled-feature">features</a> to <a data-link-type="dfn" href="#policy-configuration" id="ref-for-policy-configuration">policy
     configurations</a></p>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="policy-configuration">policy configuration</dfn> is a tuple consisting of a <dfn class="dfn-paneled" data-dfn-for="policy configuration" data-dfn-type="dfn" data-noexport id="policy-configuration-value">value</dfn> and a <dfn class="dfn-paneled" data-dfn-for="policy configuration" data-dfn-type="dfn" data-noexport id="policy-configuration-reporting-endpoint-group">reporting endpoint group</dfn>, which is a
-    string, and which may be null.</p>
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="policy-configuration">policy configuration</dfn> is a tuple consisting of a <dfn class="dfn-paneled" data-dfn-for="policy configuration" data-dfn-type="dfn" data-noexport id="policy-configuration-value">value</dfn> and a <dfn class="dfn-paneled" data-dfn-for="policy configuration" data-dfn-type="dfn" data-noexport id="policy-configuration-reporting-endpoint">reporting endpoint</dfn>, which is a string, and
+    which may be null.</p>
      <p>A <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="required-document-policy">required document policy</dfn>, which
     is a <a data-link-type="dfn" href="#document-policy" id="ref-for-document-policy①">document policy</a>. A <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a> with a null <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#opener-browsing-context" id="ref-for-opener-browsing-context">opener
     browsing context</a> has an empty <a data-link-type="dfn" href="#required-document-policy" id="ref-for-required-document-policy">required document policy</a>.</p>
@@ -1769,30 +1769,30 @@ headers.</p>
      <h3 class="heading settled" data-level="6.1" id="configure-reporting"><span class="secno">6.1. </span><span class="content">Configuring in-document reporting</span><a class="self-link" href="#configure-reporting"></a></h3>
      <h4 class="heading settled" data-level="6.1.1" id="report-to-parameter"><span class="secno">6.1.1. </span><span class="content">The "report-to" parameter</span><a class="self-link" href="#report-to-parameter"></a></h4>
      <p>Any directive can include a parameter named <code>report-to</code>, which names a
-    reporting <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint-group" id="ref-for-endpoint-group">endpoint group</a> to which violation reports for that feature
-    will be sent.</p>
+    reporting <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint">endpoint</a> to which violation reports for that feature will
+    be sent.</p>
      <p>Example:</p>
-<pre>    Document-Policy: something;f=1.0;report-to=group, no-something-else;report-to=group
+<pre>    Document-Policy: something;f=1.0;report-to=endpoint1, no-something-else;report-to=endpoint2
 </pre>
      <h4 class="heading settled" data-level="6.1.2" id="reporting-default"><span class="secno">6.1.2. </span><span class="content">Setting the default reporting endpoint</span><a class="self-link" href="#reporting-default"></a></h4>
-     <p>If violations for many or all features should be sent to the same endpoint
-    group, then it may be easier to define a single default <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint-group" id="ref-for-endpoint-group①">endpoint
-    group</a>. This can be defined by a parameter on the special token <code>*</code>. If
-    a default <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint-group" id="ref-for-endpoint-group②">endpoint group</a> is provided, then unless otherwise
-    specified, all violation reports will be sent to that named group. If a
-    feature also specifies its own endpoint group, with the <code>report-to</code> parameter, then reports will go to that group instead. (Reports are not sent
-    to both groups.)</p>
+     <p>If violations for many or all features should be sent to the same endpoint,
+    then it may be easier to define a single default <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint①">endpoint</a>. This can
+    be defined by a parameter on the special token <code>*</code>. If a default <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint②">endpoint</a> is provided, then unless otherwise specified, all violation
+    reports will be sent to that named endpoint. If a feature also specifies its
+    own endpoint, with the <code>report-to</code> parameter, then reports will go to that
+    endpoint instead. (Reports are not sent to both endpoints.)</p>
      <p>Example:</p>
-<pre>    Document-Policy: something;f=1.0, no-something-else, *;report-to=group
+<pre>    Document-Policy: something;f=1.0, no-something-else, *;report-to=endpoint
 </pre>
      <h4 class="heading settled" data-level="6.1.3" id="reporting-disable"><span class="secno">6.1.3. </span><span class="content">Disabling reporting for a feature</span><a class="self-link" href="#reporting-disable"></a></h4>
-     <p>If a default endpoint group has been specified, then it may be necessary to
+     <p>If a default endpoint has been specified, then it may be necessary to
     disable reporting for specific features. This can be done by specifying the
-    special endpoint group name <code>none</code> as the value for the <code>report-to</code> parameter. This will override the default endpoint group and disable
-    reporting for that feature.</p>
+    special endpoint name <code>none</code> as the value for the <code>report-to</code> parameter.
+    This will override the default endpoint and disable reporting for that
+    feature.</p>
      <p>Example:</p>
 <pre>    Document-Policy: something;f=1.0;report-to=none, no-something-else,
-                     *;report-to=group
+                     *;report-to=endpoiont
 </pre>
     </section>
     <section>
@@ -1804,7 +1804,7 @@ headers.</p>
      <p>Document-Policy-Report-Only</p>
      <p>The <code>report-to</code> directive parameter should be used with directives in this
     header, or else they will have no effect at all.</p>
-     <p>Document-Policy-Report-Only: something;f=1.0;report-to=group, no-something-else;report-to=group2</p>
+     <p>Document-Policy-Report-Only: something;f=1.0;report-to=endpoint, no-something-else;report-to=endpoint2</p>
     </section>
    </section>
    <section>
@@ -2137,8 +2137,7 @@ boolean feature, then:</p>
             <p>If <var>policy</var>[<var>feature</var>] exists, then continue with the next <var>element</var>.</p>
            <li data-md>
             <p>Set <var>policy</var>[<var>feature</var>] to a new boolean <a data-link-type="dfn" href="#policy-configuration" id="ref-for-policy-configuration①">policy
-configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value①">value</a> true, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint-group" id="ref-for-policy-configuration-reporting-endpoint-group">reporting endpoint
-group</a> <var>currentEndpoint</var>.</p>
+configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value①">value</a> true, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint" id="ref-for-policy-configuration-reporting-endpoint">reporting endpoint</a> <var>currentEndpoint</var>.</p>
            <li data-md>
             <p>Continue with the next <var>element</var>.</p>
           </ol>
@@ -2157,8 +2156,7 @@ boolean feature, then:</p>
             <p>If <var>policy</var>[<var>feature</var>] exists, then continue with the next <var>element</var>.</p>
            <li data-md>
             <p>Set <var>policy</var>[<var>feature</var>] to a new boolean <a data-link-type="dfn" href="#policy-configuration" id="ref-for-policy-configuration②">policy
-configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value②">value</a> false, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint-group" id="ref-for-policy-configuration-reporting-endpoint-group①">reporting endpoint
-group</a> <var>currentEndpoint</var>.</p>
+configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value②">value</a> false, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint" id="ref-for-policy-configuration-reporting-endpoint①">reporting endpoint</a> <var>currentEndpoint</var>.</p>
            <li data-md>
             <p>Continue with the next <var>element</var>.</p>
           </ol>
@@ -2183,7 +2181,7 @@ group</a> <var>currentEndpoint</var>.</p>
   enum values, then fail.</p>
              <li data-md>
               <p>Set <var>policy</var>[<var>feature</var>] to a new enum <a data-link-type="dfn" href="#policy-configuration" id="ref-for-policy-configuration③">policy
-configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value③">value</a> <var>value</var>, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint-group" id="ref-for-policy-configuration-reporting-endpoint-group②">reporting endpoint group</a> <var>currentEndpoint</var>.</p>
+configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value③">value</a> <var>value</var>, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint" id="ref-for-policy-configuration-reporting-endpoint②">reporting endpoint</a> <var>currentEndpoint</var>.</p>
              <li data-md>
               <p>Continue with the next <var>element</var>.</p>
             </ol>
@@ -2201,7 +2199,7 @@ parameter name, then fail.</p>
               <p>If <var>value</var> is not in <var>feature</var>’s range, then fail.</p>
              <li data-md>
               <p>Set <var>policy</var>[<var>feature</var>] to a new integer <a data-link-type="dfn" href="#policy-configuration" id="ref-for-policy-configuration④">policy
-configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value④">value</a> <var>value</var>, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint-group" id="ref-for-policy-configuration-reporting-endpoint-group③">reporting endpoint group</a> <var>currentEndpoint</var>.</p>
+configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value④">value</a> <var>value</var>, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint" id="ref-for-policy-configuration-reporting-endpoint③">reporting endpoint</a> <var>currentEndpoint</var>.</p>
              <li data-md>
               <p>Continue with the next <var>element</var>.</p>
             </ol>
@@ -2214,7 +2212,7 @@ configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value
               <p>If <var>value</var> is not in <var>feature</var>’s range, then fail.</p>
              <li data-md>
               <p>Set <var>policy</var>[<var>feature</var>] to a new float <a data-link-type="dfn" href="#policy-configuration" id="ref-for-policy-configuration⑤">policy
-configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value⑤">value</a> <var>value</var>, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint-group" id="ref-for-policy-configuration-reporting-endpoint-group④">reporting endpoint group</a> <var>currentEndpoint</var>.</p>
+configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value" id="ref-for-policy-configuration-value⑤">value</a> <var>value</var>, and <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint" id="ref-for-policy-configuration-reporting-endpoint④">reporting endpoint</a> <var>currentEndpoint</var>.</p>
              <li data-md>
               <p>Continue with the next <var>element</var>.</p>
             </ol>
@@ -2224,8 +2222,8 @@ configuration</a> with <a data-link-type="dfn" href="#policy-configuration-value
         <p>For each <var>feature</var> → <var>config</var> in <var>policy</var>,</p>
         <ol>
          <li data-md>
-          <p>If <var>config</var> does not have a <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint-group" id="ref-for-policy-configuration-reporting-endpoint-group⑤">reporting
-endpoint group</a>, set <var>config</var>’s <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint-group" id="ref-for-policy-configuration-reporting-endpoint-group⑥">reporting endpoint group</a> to <var>defaultEndpoint</var>.</p>
+          <p>If <var>config</var> does not have a <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint" id="ref-for-policy-configuration-reporting-endpoint⑤">reporting
+endpoint</a>, set <var>config</var>’s <a data-link-type="dfn" href="#policy-configuration-reporting-endpoint" id="ref-for-policy-configuration-reporting-endpoint⑥">reporting endpoint</a> to <var>defaultEndpoint</var>.</p>
         </ol>
        <li data-md>
         <p>Return <var>policy</var>.</p>
@@ -2390,7 +2388,7 @@ whether <var>value</var> is compatible with <var>document</var>’s <a data-link
         <p>A reporting endpoint name, which will be null if <var>value</var> is compatible
 with both <var>document</var>’s <a data-link-type="dfn" href="#document-policy" id="ref-for-document-policy①⑥">document policy</a> and its <a data-link-type="dfn" href="#report-only-document-policy" id="ref-for-report-only-document-policy①">report-only
 document policy</a>, or if reporting is not configured for <var>feature</var>, or
-else will be the name of the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint">reporting endpoint</a> to
+else will be the name of the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint③">reporting endpoint</a> to
 which a violation report should be sent.</p>
       </ul>
       <p>Note that if the enforcing policy is stricter than the report-only policy,
@@ -2462,7 +2460,7 @@ set <var>body</var>’s sourceFile, lineNumber, and columnNumber accordingly.</p
          <li data-md>
           <p>Let <var>settings</var> be <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a>.</p>
          <li data-md>
-          <p>Execute <a href="https://w3c.github.io/reporting/#queue-report">Reporting API §4.2 Queue data as type for endpoint group on settings</a> with <var>body</var>, "document-policy-violation", <var>reporting endpoint</var> and <var>settings</var>.</p>
+          <p>Execute <a href="https://w3c.github.io/reporting/#queue-report">Reporting API §2.3 Queue data as type for destination</a> with <var>body</var>, "document-policy-violation", <var>reporting endpoint</var> and <var>settings</var>.</p>
         </ol>
        <li data-md>
         <p>Return <var>action</var>.</p>
@@ -2634,7 +2632,7 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
    <li><a href="#policy-configuration">policy configuration</a><span>, in §4.2</span>
    <li><a href="#policy-directive">policy directive</a><span>, in §7.1</span>
    <li><a href="#process-response-policy">Process response policy</a><span>, in §9.2</span>
-   <li><a href="#policy-configuration-reporting-endpoint-group">reporting endpoint group</a><span>, in §4.2</span>
+   <li><a href="#policy-configuration-reporting-endpoint">reporting endpoint</a><span>, in §4.2</span>
    <li><a href="#report-only-document-policy">report-only document policy</a><span>, in §4.2</span>
    <li><a href="#request-required-document-policy">request-required-document-policy</a><span>, in §8.2</span>
    <li><a href="#required-document-policy">required document policy</a><span>, in §4.2</span>
@@ -2807,14 +2805,9 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
   <aside class="dfn-panel" data-for="term-for-endpoint">
    <a href="https://w3c.github.io/reporting/#endpoint">https://w3c.github.io/reporting/#endpoint</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-endpoint">9.9. Determine compatibility of value with policy for feature</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-endpoint-group">
-   <a href="https://w3c.github.io/reporting/#endpoint-group">https://w3c.github.io/reporting/#endpoint-group</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-endpoint-group">6.1.1. The "report-to" parameter</a>
-    <li><a href="#ref-for-endpoint-group①">6.1.2. Setting the default reporting endpoint</a> <a href="#ref-for-endpoint-group②">(2)</a>
+    <li><a href="#ref-for-endpoint">6.1.1. The "report-to" parameter</a>
+    <li><a href="#ref-for-endpoint①">6.1.2. Setting the default reporting endpoint</a> <a href="#ref-for-endpoint②">(2)</a>
+    <li><a href="#ref-for-endpoint③">9.9. Determine compatibility of value with policy for feature</a>
    </ul>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -2863,7 +2856,6 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
     <a data-link-type="biblio">[REPORTING]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-endpoint" style="color:initial">endpoint</span>
-     <li><span class="dfn-paneled" id="term-for-endpoint-group" style="color:initial">endpoint group</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -2952,10 +2944,10 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
     <li><a href="#ref-for-policy-configuration-value⑥">9.8. Get policy value for feature in document</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="policy-configuration-reporting-endpoint-group">
-   <b><a href="#policy-configuration-reporting-endpoint-group">#policy-configuration-reporting-endpoint-group</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="policy-configuration-reporting-endpoint">
+   <b><a href="#policy-configuration-reporting-endpoint">#policy-configuration-reporting-endpoint</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-policy-configuration-reporting-endpoint-group">9.3. Parse document policy</a> <a href="#ref-for-policy-configuration-reporting-endpoint-group①">(2)</a> <a href="#ref-for-policy-configuration-reporting-endpoint-group②">(3)</a> <a href="#ref-for-policy-configuration-reporting-endpoint-group③">(4)</a> <a href="#ref-for-policy-configuration-reporting-endpoint-group④">(5)</a> <a href="#ref-for-policy-configuration-reporting-endpoint-group⑤">(6)</a> <a href="#ref-for-policy-configuration-reporting-endpoint-group⑥">(7)</a>
+    <li><a href="#ref-for-policy-configuration-reporting-endpoint">9.3. Parse document policy</a> <a href="#ref-for-policy-configuration-reporting-endpoint①">(2)</a> <a href="#ref-for-policy-configuration-reporting-endpoint②">(3)</a> <a href="#ref-for-policy-configuration-reporting-endpoint③">(4)</a> <a href="#ref-for-policy-configuration-reporting-endpoint④">(5)</a> <a href="#ref-for-policy-configuration-reporting-endpoint⑤">(6)</a> <a href="#ref-for-policy-configuration-reporting-endpoint⑥">(7)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="required-document-policy">
