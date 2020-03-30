@@ -1,6 +1,6 @@
 language: python
 python:
-- '2.7'
+- '3.7'
 env:
   global:
   - COMMIT_AUTHOR_EMAIL=travis-ci@w3.org
