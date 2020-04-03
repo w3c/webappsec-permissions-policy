@@ -629,12 +629,15 @@ partial interface HTMLIFrameElement {
     following steps:</p>
         1. Let |inherited policy| be a new ordered map.
         2. Let |declared policy| be a new ordered map.
-        3. For each <a>supported feature</a> |feature|:
+        3. Let |container policy| be the result of calling <a>process feature
+            policy attributes</a> on |node|.
+        4. For each <a>supported feature</a> |feature|:
             1. Let |isInherited| be the result of running <a>Define an inherited
-                policy for feature in container at origin</a> on |feature|,
-                |node| and |node|'s <a>declared origin</a>.
+                policy for feature in browsing context</a> on |feature|,
+                |node|'s <a>nested browsing context</a>, |container policy|, and
+                |node|'s <a>declared origin</a>.
             2. Set |inherited policy|[|feature|] to |isInherited|.
-        4. Return a new <a>feature policy</a> with inherited policy
+        5. Return a new <a>feature policy</a> with inherited policy
             |inherited policy| and declared policy |declared policy|.
 
     <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
@@ -847,8 +850,8 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="algo-process-feature-policy-attributes"><dfn>Process feature policy
-    attributes</dfn></h3>
+    <h3 id="algo-process-feature-policy-attributes"><dfn export>Process feature
+    policy attributes</dfn></h3>
     <p>Given an element (<var>element</var>), this algorithm returns a
     <a>container policy</a>, which may be empty.</p>
     <ol>
@@ -890,9 +893,10 @@ partial interface HTMLIFrameElement {
   </section>
   <section>
     <h3 id="algo-create-for-browsingcontext"><dfn export id="create-for-browsingcontext">Create a
-    Feature Policy for a browsing <var>context</var></dfn></h3>
-    <p>Given a <a>browsing context</a> (<var>browsingContext</var>), and an <a>origin</a>
-    (<var>origin</var>) this algorithm returns a new <a>Feature Policy</a>.</p>
+    Feature Policy for a <a>browsing context</a></dfn></h3>
+    <p>Given a <a>browsing context</a> (<var>browsingContext</var>), a <a>container policy</a>
+    <var>containerPolicy</var>, and an <a>origin</a> (<var>origin</var>) this
+    algorithm returns a new <a>Feature Policy</a>.</p>
     <ol>
       <li>Let <var>inherited policy</var> be a new ordered map.</li>
       <li>Let <var>declared policy</var> be a new ordered map.</li>
@@ -900,7 +904,8 @@ partial interface HTMLIFrameElement {
         <ol>
           <li>Let <var>isInherited</var> be the result of running <a
           href="#define-inherited-policy">Define an inherited policy for feature in browsing
-          context</a> on <var>feature</var>, <var>origin</var> and <var>browsingContext</var>.
+          context</a> on <var>feature</var>, <var>browsingContext</var>,
+	  <var>containerPolicy</var>, and <var>origin</var>.
           </li>
           <li>Set <var>inherited policy</var>[<var>feature</var>] to
             <var>isInherited</var>.</li>
@@ -915,14 +920,16 @@ partial interface HTMLIFrameElement {
   </section>
   <section>
     <h3 id="algo-create-from-response"><dfn export
-    id="create-from-response">Create a Feature
-    Policy for a browsing <var>context</var> from <var>response</var></dfn></h3>
-    <p>Given a <a>browsing context</a> (<var>browsingContext</var>), <a>origin</a>
-    (<var>origin</var>), and a [=response=] (<var>response</var>), this algorithm returns a new
-    <a>Feature Policy</a></p>
+    id="create-from-response">Create a Feature Policy for a <a>browsing
+    context</a> from <var>response</var></dfn></h3>
+    <p>Given a <a>browsing context</a> (<var>browsingContext</var>), a
+    <a>container policy</a> (<var>containerPolicy</var>), an <a>origin</a>
+    (<var>origin</var>), and a [=response=] (<var>response</var>), this
+    this algorithm returns a new <a>Feature Policy</a>.</p>
     <ol>
       <li>Let <var>policy</var> be the result of running <a>Create a Feature Policy for a browsing
-      context</a> given <var>browsingContext</var>, and <var>origin</var>.</li>
+      context</a> given <var>browsingContext</var>, <var>containerPolicy</var>,
+      and <var>origin</var>.</li>
       <li>Let <var>d</var> be the result of running <a
       href="#process-response-policy">Process response policy</a> on
       <var>response</var> and <var>origin</var>.</li>
@@ -937,50 +944,31 @@ partial interface HTMLIFrameElement {
     </ol>
   </section>
   <section>
-    <h3 id="algo-define-inherited-policy"><dfn id="define-inherited-policy">Define an inherited policy for
+    <h3 id="algo-define-inherited-policy"><dfn
+    id="define-inherited-policy">Define an inherited policy for
     <var>feature</var> in <a>browsing context</a></dfn></h3>
-    <p>Given a feature (<var>feature</var>), an <a>origin</a> (<var>origin</var>), and
-    a <a>browsing context</a> (<var>browsingContext</var>), this algorithm returns the
-    <a>inherited policy</a> for that feature.</p>
+    <p>Given a feature (<var>feature</var>) a <a>browsing context</a>
+    (<var>browsingContext</var>), a <a>container policy</a>
+    (<var>containerPolicy</var>), and an <a>origin</a> (<var>origin</var>), this
+    algorithm returns the <a>inherited policy</a> for that feature.</p>
     <ol>
-      <li>If <var>browsingContext</var> is the [=nested browsing context=] of a
-        [=browsing context container=] <var>element</var>, return the result of
-        executing <a>Define an inherited policy for feature in container at
-        origin</a> for <var>feature</var> in <var>browsingContext</var>'s <a>browsing
-        context container</a> at <var>origin</var>.</li>
-      <li>Otherwise, return "<code>Enabled</code>".</li>
-    </ol>
-  </section>
-  <section>
-    <h3 id="algo-define-inherited-policy-in-container"><dfn>Define an inherited
-    policy for <var>feature</var> in <var>container</var> at
-    <var>origin</var></dfn></h3>
-    <p>Given a feature (<var>feature</var>) a <a>browsing context container</a>
-    (<var>container</var>), and an <a>origin</a> for a document in that
-    container (<var>origin</var>), this algorithm returns the <a>inherited
-    policy</a> for that feature.</p>
-    <ol>
-      <li>Let <var>parent</var> be <var>container</var>'s <a>node
-        document</a>.</li>
-      <li>Let <var>container policy</var> be the result of running
-        <a>Process feature policy attributes</a> on
-        <var>container</var>.
-      </li>
-      <li>If <var>feature</var> is a key in <var>container policy</var>:
+      <li>If <var>feature</var> is a key in <var>containerPolicy</var>:
         <ol>
           <li>If the <a>allowlist</a> for <var>feature</var> in
-          <var>container policy</var> does not <a>match</a> <var>origin</var>,
+          <var>containerPolicy</var> does not <a>match</a> <var>origin</var>,
           return "<code>Disabled</code>".
           </li>
-          <li>If <a href="#is-feature-enabled"><var>feature</var> is enabled in
-          <var>parent</var> for <var>parent</var>'s <var>origin</var></a>,
-          return "<code>Enabled</code>".
-          </li>
-        </ol>
-      </li>
-      <li>If <a href="#is-feature-enabled"><var>feature</var> is
-      enabled in <var>parent</var> for <var>origin</var></a>, return
-      "<code>Enabled</code>".
+          <li>If <var>browsingContext</var> has a [=parent browsing context=],
+	  then
+	    <ol>
+	      <li>Let <var>parent</var> be <var>browsingContext</var>'s [=parent
+	      browsing context=].</li>
+              <li>If <a href="#is-feature-enabled"><var>feature</var> is enabled
+	      in <var>parent</var> for <var>parent</var>'s
+	      <var>origin</var></a>, return "<code>Enabled</code>".</li>
+	    </ol>
+	  </li>
+	</ol>
       </li>
       <li>Otherwise return "<code>Disabled</code>".</li>
     </ol>
