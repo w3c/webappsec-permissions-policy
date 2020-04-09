@@ -34,7 +34,7 @@ specification.
 | `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
 | `payment` | [Payment Request API][payment-request] | Chrome 60 |
 | `picture-in-picture` | [Picture-in-Picture][pip] | Shipped in Chrome |
-| `publickey-credentials` | [Web Authentication API][publickey-credentials] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=993007)" in Chrome |
+| `publickey-credentials-get` | [Web Authentication API][publickey-credentials-get] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=993007)" in Chrome |
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | Chrome 60 |
 | `wake-lock` | [Wake Lock API][wake-lock] | |
@@ -98,7 +98,7 @@ names will be added to this list as they are actually defined.
 [page-lifecycle]: https://wicg.github.io/page-lifecycle/#feature-policies
 [payment-request]: https://www.w3.org/TR/payment-request/#feature-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
-[publickey-credentials]: https://w3c.github.io/webauthn/#sctn-feature-policy
+[publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-feature-policy
 [wake-lock]: https://www.w3.org/TR/wake-lock/#dfn-wake-lock-feature
 [web-midi]: https://webaudio.github.io/web-midi-api/#feature-policy-integration
 [webusb]: https://wicg.github.io/webusb/#feature-policy
