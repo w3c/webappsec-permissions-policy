@@ -1,21 +1,36 @@
-# Feature Policy: Document Policies
+# Document Policy
 
-This is a proposal for an extension to Feature Policy to cover those kinds of
-features which don't involve delegation of permission to trusted origins;
-features which are more about configuring a document, or removing features
-(sandboxing) from a document or a frame.
+This is a proposal for a mechanism, similar to Feature Policy, to cover those
+kinds of features which don't involve delegation of permission to trusted
+origins; features which are more about configuring a document, or removing
+features (sandboxing) from a document or a frame.
+
+
 
 ## Start with Examples!
 
-### Performance guardrails
+### Performance best practices
 
 The simplest example is a site which wants to enforce some performance
-best-practices on their own content. They can do this by serving their HTML
-content with this HTTP header:
+best-practices on their own content.
+
+Example Magazine wants to ensure that the documents produced by all of its
+writers and editors load quickly and become responsive to the user as soon as
+possible. They decide that there are several techniques that they can use to
+achieve this:
+
+  * Require that all images have a minimum compression ratio, to keep their
+    sizes small.
+  * Require that all images have declared dimensions in markup, to avoid
+    unnecessary relayouts,
+  * Disable the use of document.write, to avoid blocking the HTML parser
+  * Make all subframes load lazily by default.
+
+They can do this by serving their HTML content with this HTTP header:
 
 ```http
 Document-Policy: no-unsized-media, no-document-write,
-                 image-compression;bpp=2, frame-loading;lazy
+                 image-compression;bpp=2.0, frame-loading;lazy
 ```
 
 A document served with this header may embed other content, first- or
@@ -23,20 +38,28 @@ third-party, and that content will not be subject to those restrictions. That
 content may include its own `Document-Policy` header, but the headers do not
 combine in any way.
 
-### Enforcing performance guardrails on embedded content
+### Enforcing performance best practices on embedded content
 
-In this example, the top level document wants to ensure that the content loaded
-into a particular frame uses best practices regarding its images. All images
-should have declared sizes, and should be reasonably compressed. It includes an
-iframe tag like this:
+Example Magazine also has a partner whose pages they embed using iframes. In
+order to ensure good performance, Example Magazine would like to be sure that
+the image policies are also being enforced by their partner's pages. Example
+Magazine's HTTP header from the last example only affects their own content, but
+they can use an iframe attribute to request that a minimum policy be in effect
+in that frame:
 
 ```html
 <iframe src="https://img.example.com/"
-        policy="no-unsized-media,image-compression;bpp=2">
+        policy="no-unsized-media,image-compression;bpp=2.0">
 ```
 
-When the document is loaded over the network, the request will look like this
-(abbreviated):
+Since a document policy like this can affect a site's behavior, perhaps in ways
+that the embedded partner didn't expect, Example Magazine can't just impose the
+policy. Instead, there is an HTTP exchange that happens behind the scenes, to
+ensure that the partner is told about the requested policy, and gets to choose
+whether or not to comply.
+
+When the embedded document is loaded over the network, the request will look
+something like this (abbreviated):
 
 ```http
 GET / HTTP/1.1
@@ -55,78 +78,116 @@ While either of these headers would cause a network error to be returned
 instead:
 
 ```http
-Document-Policy: no-unsized-media,image-compression;bpp=3
-Document-Policy: image-compression;bpp=2
+Document-Policy: no-unsized-media,image-compression;bpp=3.0
+Document-Policy: image-compression;bpp=2.0
 ```
 
-If the document is successfully loaded, any subsequent navigations from that
-frame will also have their requests sent with the same
-`Sec-Required-Document-Policy` header.
+To ensure that there's no cheating, if the user clicks a link inside the
+embedded page and it navigates the frame to a new document, that new document
+will have the same required policy, and will have to play out the same header
+dance.  Similarly, if the embedded page embeds subframes of its own, the same
+requirements will apply to them.
 
 ### Deeper nesting
 
-As above, if the top-level document uses the policy attribute in an iframe
-element, like this:
+Let's take a closer look at what that last sentence implies.
+
+If Example Magazine embeds its image server partner with the iframe tag:
 
 ```html
-<iframe src="https://img.example.com/" policy="image-compression;bpp=2">
+<iframe src="https://img.example.com/"
+        policy="no-unsized-media,image-compression;bpp=2.0">
 ```
 
-Then the request for the frame will look like this:
-
-```http
-GET / HTTP/1.1
-Host: img.example.com
-Sec-Required-Document-Policy: image-compression;bpp=2
-```
-
-If the framed document then includes its own subframes, they will be sent with
-the same `Sec-Required-Document-Policy` header, as the policy set by the
-top-level document applies to all nested iframes within.
-
-If the framed document then also applies a policy attribute to its iframes, then
-the required policy indicated by those frames will combine with the required
-policy imposed on the document itself.
-
-A document like this:
+Then the page at img.example.com will need to be served with a Document-Policy
+header that represents a policy at least as strict as that. If img.example.com
+then embeds an advertisement, with a tag like:
 
 ```html
-<html>
-  <body>
-    <iframe src="https://a.example.com/" policy="no-unsized-media"></iframe>
-    <iframe src="https://b.example.com/"
-            policy="image-compression;bpp=1"></iframe>
-    <iframe src="https://c.example.com/"
-            policy="image-compression;bpp=4"></iframe>
-  </body>
-</html>
+<iframe src="https://ads.example.com/">
 ```
 
-Would result in these three (simplified) HTTP requests:
+then Example Magazine's required policy will still be in effect. The request
+will go out with a `Sec-Required-Document-Policy` header, and that document will
+*also* need to conform to the policy to be loaded. *Any* document loaded inside
+of the frame that Example Magazine set up will need to do the same.
+
+Now, the img.example.com page can also set a stricter policy for itself; it
+doesn't have to be an exact match: If the partner site knows that the images
+it serves have even better compression, it could set its own policy like this:
 
 ```http
-GET / HTTP/1.1
-Host: a.example.com
-Sec-Required-Document-Policy: image-compression;bpp=2,no-unsized-media
+Document-Policy: no-unsized-media, image-compression;bpp=1.5
 ```
 
-```http
-GET / HTTP/1.1
-Host: b.example.com
-Sec-Required-Document-Policy: image-compression;bpp=1
+But that doesn't have any effect on the requirements for its embedded frames.
+They still have the same requirements that were set by the top-level document.
+
+If it wanted to, img.example.com could set a different policy for its ads -- it
+could embed them with
+
+```html
+<iframe src="https://ads.example.com/" policy="image-compression:bpp=1.25">
 ```
 
-```http
-GET / HTTP/1.1
-Host: c.example.com
-Sec-Required-Document-Policy: image-compression;bpp=2
+In that case, the advertisement will have a stricter required policy, which it
+will need to conform to in order to be loaded.
+
+
+Finally, note that the required policy for the advertisement in this example is
+the *combination* of the `policy` attribute and the required policy of its
+parent; it's not just one or the other.
+
+As an example, if img.example.com had a required policy (set by Example
+Magazine) of
+
+```
+image-compression;bpp=2.0
 ```
 
-(Note that in the last example, the stricter requirements imposed by the
-top-level document subsume the requirements on the nested frame, so the combined
-threshold value is still 'bpp=2'.)
+and it included an advertisement in a frame with a policy attribute of
+
+```
+image-compression;bpp=4.0, no-document-write
+```
+
+Then the required polcicy which the browser would compute for the advertisement
+frame would contain the strictest value for each feature:
+
+```
+image-compression;bpp=2.0, no-document-write
+```
+
 
 ### Sandboxing nested content (Traditional sandbox)
+
+Document policy can also be used to control features which are traditionally
+managed through `<iframe sandbox>`, though in a more flexible way.
+
+Every sandbox feature can be defined as a document policy feature with a
+similar name. "`allow-scripts`", for instance, can be controlled as "`scripts`"
+in a document policy. "`allow-presentation-lock`" can be controlled as
+"`presentation-lock`", etc.
+
+This means that sandbox features can be applied individually to iframes which
+are not otherwised sandboxed:
+
+```html
+<iframe policy="no-scripts">
+```
+
+Since the `policy` attribute creates a frame with a Required Policy, which
+applies to all content in the frame, this works exactly like a frame defined as:
+
+```html
+<iframe sandbox="allow-same-origin allow-forms allow-presentation-lock allow-...">
+```
+
+(with every attribute except for "`allow-scripts`" specified.)
+
+
+In this model, the `sandbox` attribute still exists, and is a shorthand for
+specifying a policy which disables all of the pre-defined sandbox features.
 
 As examples of different ways to sandbox content using a combination of the
 `sandbox` and `policy` attributes, the following could all be used to create a
@@ -135,7 +196,7 @@ sandboxed iframe:
 ```html
 <iframe sandbox>
 <iframe sandbox="allow-scripts allow-forms">
-<iframe policy="no-scripts"> (This is a non-sandboxed frame with no scripting allowed)
+<iframe policy="no-scripts">
 <iframe sandbox policy="scripts"> (Should this be allowed?)
 <iframe sandbox="allow-scripts" policy="no-scripts"> (This one needs some work)
 <iframe policy="no-same-origin"> (This is a frame with an opaque origin, but no other sandboxing)
@@ -196,6 +257,10 @@ Require-Document-Policy: no-popups, no-modals, no-presentation-lock, no-forms, n
 
 ## So, how does it work?
 
+(This section glosses over many algorithms and other details, some of which may
+even be important.  For all of the details, see the
+[spec](https://w3c.github.io/webappsec-feature-policy/document-policy.html).)
+
 `Document-Policy` is an HTTP response header that sets the policy on the
 document which it is served with. You can use it to set things like restrictions
 on image sizes or compression ratios, lazy frame and image loading policies, use
@@ -252,7 +317,7 @@ just the content that it embeds. It can be used in conjunction with the
 When you set a required document policy, most features will have to be
 acknowledged by the document being embedded, as otherwise it can be possible to
 affect the content on that page in unexpected ways. Any policies which require
-acknowledgement will be advertised with a `Sec-Required-Document-Policy` request
+acknowledgment will be advertised with a `Sec-Required-Document-Policy` request
 header.
 
 If the content which is returned doesn't have a `Document-Policy` header which
@@ -282,35 +347,36 @@ There is currently a sandbox flag, the
 *sandbox propagates to auxiliary browsing contexts flag*, which controls whether
 the existing sandbox features should be inherited in popups opened from a
 sandboxed frame. This flag can continue to function as it currently does, and
-can be extended to cover the entire document policy. This flag itself, as a
-sandbox flag, can be controlled independently as well.
+can be extended to cover the entire required document policy. This flag itself,
+as a sandbox flag, can be controlled independently as well.
 
 ### More Details: Opting in to being embedded with a policy
 
-Each feature has an associated flag, ***requires-acknowledgement***, which is
-true for all of those features which would be unsafe to impose on nested content
-without that content's approval (and is true by default if not explicitly
-defined).
-
-(Alternately, we can define a central safelist of features which do not require
-acknowledgement; the decision comes down to whether that call is made by the
-feature policy spec or the specs which define the individual features)
+Some (most?) features require acknowledgment when they are part of a required
+policy -- that is, a page cannot simply set the "`policy`" attribute on an
+iframe and impose the requirement on the page in the frame. The page being
+embedded must be serverd with its own `Document-Policy` header which
+acknowledges the requirement (specifying a policy which it at least as strict).
+Other features, such as the pre-existing sandbox flags, don't require
+acknowledgment. They are considered safe to impose on embedded content (mostly
+by virtue of the fact that the `sandbox` attribute has existsed for years with
+no such requirment.)
 
 As a starting point for discussion, all existing sandbox flags would not require
-acknowledgement, and all other document policies would.
+acknowledgment, and all other document policies would.
 
 In documents generated from `data:` URLs, and in iframe srcdoc documents, where
 the parent document controls the content of the child explicitly, and there is
 no HTTP network transfer, the acknowledgment will simply be implied.
 
-There is also a ***required document policy*** associated with every browsing
+There is a ***required document policy*** associated with every browsing
 context.
 
 For an iframe, that required policy is the union<sup>[1](#fn1)</sup> of the
 parent's required document policy, the parent's `Require-Document-Policy`
 header, and the policy attribute of the containing iframe element.
 
-All features in the required policy which require acknowledgement will be
+All features in the required policy which require acknowledgment will be
 advertised in a `Sec-Required-Document-Policy` request header.
 
 Example:
