@@ -255,6 +255,73 @@ Document-Policy: no-popups, no-modals, no-presentation-lock, no-forms, no-pointe
 Require-Document-Policy: no-popups, no-modals, no-presentation-lock, no-forms, no-pointer-lock
 ```
 
+## Use cases -- what's this good for?
+
+Document policy is a generic framework, so it's only as useful as the things
+which can be controlled by it. That is a still-evolving set of ideas, but some
+of the things which have been considered are:
+
+ * Enforcing performance best-practices
+
+   The first examples in this explainer focus on this use case. The web platform
+   is extremely relaxed in what kinds of content it allows, happily downloading
+   enormous images to display in tiny containers, or documents with tens of
+   megabytes of associated resources, scripts, images, and other content. It
+   still supports slow, synchronous, decades-old APIs which can slow down sites
+   which use them, and whose presence makes some potential browser optimizations
+   impossible.
+
+   Document policy allows documents to voluntarily restrict these behaviors,
+   enforcing use of best practices, and potentially opening up possibilities for
+   browsers to make otherwise unfeasable optimizations.
+
+ * Re-defining iframe sandboxing
+
+   Also discussed above, the model followed by Document Policy, when used in the
+   `policy` attribute to set a required policy on a frame, is combatible with
+   existing iframe sandboxing, and that sandboxing can be redefined to make use
+   of document policy as the underlying mechanism. This additionally allows the
+   individual features to be used outside of sandbox, in otherwise unsandboxed
+   frames.
+
+ * Per-page opt-out of new features
+
+   As new features are added to the web platform, document policy is proposed as
+   a mehanism for individual pages to opt out, in cases where they know that a
+   feature could interact badly with existing content. As a concrete example,
+   document policy is proposed as the opt-out mechanism for the
+   [Scroll-to-text](https://github.com/WICG/ScrollToTextFragment) feature.
+   (Feature policy was previously proposed for this kind of opt-out, but feature
+   policy's semantics make this less flexible, as disabling a feature in one
+   document necessarily disables it in all of that document's children, with
+   no notice to the embedded content; a model much more suitable for restricting
+   delegation of powerful features than for a per-document opt-out.)
+
+ * New sandboxing and security measures
+
+   It is difficult for the web community to add new features to the iframe
+   sandboxing model, as its deny-all-then-re-enable pattern means that any new
+   features included in the sandbox will be immediately blocked in all existing
+   sandboxed content, potentially breaking existing web content. This
+   effectively limits new sandbox features to just those for which there is
+   universal agreement that a feature (which is otherwise available to the
+   entire web) is too powerful to give to any untrusted content. As we come up
+   with new examples of existing features which developers *may* want to remove
+   from certain contexts, document policy allows them to be defined in a way
+   which lets developers make that choice.
+
+ * Configuring new web platform features
+
+   Finally, there are new features being proposed which have a degree of
+   flexibility in their behaviour, where different kinds of documents may have a
+   legitimate need for different behaviour.
+   [Image and frame lazy loading](https://github.com/scott-little/lazyload) is
+   an example of this, where lazy loading is not an automatic performance
+   improvement for every page. Some kinds documents may need eager loading to be
+   the default, while others will perform better with lazy-by-default semantics.
+   Document policy allows lazy loading to be defined as a configurable feature,
+   where the header determines the default behaviour in each frame.
+
 ## So, how does it work?
 
 (This section glosses over many algorithms and other details, some of which may
