@@ -459,8 +459,8 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
    // This will be true if this document can use WebUSB.
    const can_use_usb = policy.allowsFeature('usb');
 
-   // True if a new frame at https://example.com will be allowed to use WebVR.
-   if (policy.allowsFeature('vr', 'https://example.com')) {
+   // True if a new frame at https://example.com will be allowed to use WebXR.
+   if (policy.allowsFeature('xr-spatial-tracking', 'https://example.com')) {
      // Show UI to create frame at https://example.com.
    } else {
      // Show an alternative UI.
@@ -495,14 +495,14 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   <div class="example">
   <pre>
   &lt;!doctype html&gt;
-  &lt;iframe id="frame" allow="fullscreen; vr"&gt;&lt;/iframe&gt;
+  &lt;iframe id="frame" allow="fullscreen; xr-spatial-tracking"&gt;&lt;/iframe&gt;
   &lt;script&gt;
    const iframe_element = document.getElementById("frame");
    const iframe_policy = iframe_element.featurePolicy;
 
-   // True if the framed document will be allowed to use WebVR
-   if (iframe_policy.allowsFeature('vr')) {
-    // display vr controls
+   // True if the framed document will be allowed to use WebXR
+   if (iframe_policy.allowsFeature('xr-spatial-tracking')) {
+    // display virtual reality controls
    }
   &lt;/script&gt;
   </pre>
