@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version bb42a6a, updated Thu Apr 16 07:15:51 2020 -0700" name="generator">
+  <meta content="Bikeshed version d2959a4, updated Fri Apr 24 17:44:40 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="58fbb1cb24709703da8bdd4ae229ad3e0bf32d0a" name="document-revision">
+  <meta content="1365a8ee0daebe97ed6e8d0a67d53749aaa59fb8" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1486,7 +1486,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-04-17">17 April 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-04-29">29 April 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1989,8 +1989,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <p>get the allowlist for a given feature in the current document.</p>
      </ul>
      <p></p>
-     <div class="example" id="example-75033745">
-      <a class="self-link" href="#example-75033745"></a> 
+     <div class="example" id="example-a1d015d5">
+      <a class="self-link" href="#example-a1d015d5"></a> 
 <pre>&lt;!doctype html>
 &lt;script>
  const policy = document.featurePolicy;
@@ -1998,8 +1998,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
  // This will be true if this document can use WebUSB.
  const can_use_usb = policy.allowsFeature('usb');
 
- // True if a new frame at https://example.com will be allowed to use WebVR.
- if (policy.allowsFeature('vr', 'https://example.com')) {
+ // True if a new frame at https://example.com will be allowed to use WebXR.
+ if (policy.allowsFeature('xr-spatial-tracking', 'https://example.com')) {
    // Show UI to create frame at https://example.com.
  } else {
    // Show an alternative UI.
@@ -2029,17 +2029,17 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   navigated away from its initial location to a new origin. Revealing the
   effective policy in the iframe element’s nested browsing context in that case
   could leak information about the behaviour of a cross-origin document.</p>
-     <div class="example" id="example-2621b41f">
-      <a class="self-link" href="#example-2621b41f"></a> 
+     <div class="example" id="example-481f4db3">
+      <a class="self-link" href="#example-481f4db3"></a> 
 <pre>&lt;!doctype html>
-&lt;iframe id="frame" allow="fullscreen; vr">&lt;/iframe>
+&lt;iframe id="frame" allow="fullscreen; xr-spatial-tracking">&lt;/iframe>
 &lt;script>
  const iframe_element = document.getElementById("frame");
  const iframe_policy = iframe_element.featurePolicy;
 
- // True if the framed document will be allowed to use WebVR
- if (iframe_policy.allowsFeature('vr')) {
-  // display vr controls
+ // True if the framed document will be allowed to use WebXR
+ if (iframe_policy.allowsFeature('xr-spatial-tracking')) {
+  // display virtual reality controls
  }
 &lt;/script>
 </pre>
