@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version d2959a4, updated Fri Apr 24 17:44:40 2020 -0700" name="generator">
+  <meta content="Bikeshed version 4be3a54, updated Mon May 4 06:47:10 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/document-policy.html" rel="canonical">
-  <meta content="0ee2566ba77f747e612b835d196275032ce9091a" name="document-revision">
+  <meta content="967795efc09f066c904c4959a0d34fc7e28f2143" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1423,7 +1423,7 @@ dfn > a.self-link::before      { content: "#"; }</style>
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Document Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-04-30">30 April 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-12">12 May 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1644,10 +1644,10 @@ dfn > a.self-link::before      { content: "#"; }</style>
     <h2 class="heading settled" data-level="4" id="framework"><span class="secno">4. </span><span class="content">Framework</span><a class="self-link" href="#framework"></a></h2>
     <section>
      <h3 class="heading settled" data-level="4.1" id="configuration-points"><span class="secno">4.1. </span><span class="content">Configuration Points</span><a class="self-link" href="#configuration-points"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="configuration-point">configuration point</dfn> is a Web Platform API or behaviour
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="configuration-point">configuration point</dfn> is a Web Platform API or behavior
     which can be enabled, diabled, or configured through Document Policy.
     Configuration points should be defined in the specification which describes
-    the underlying API or behaviour, although there is a registry of defined
+    the underlying API or behavior, although there is a registry of defined
     configuration points in use attached to this document.</p>
      <p>A <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point">configuration point</a> has a <dfn class="dfn-paneled" data-dfn-for="configuration point" data-dfn-type="dfn" data-noexport id="configuration-point-name">name</dfn>, which is a token.</p>
      <p>A <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①">configuration point</a> has a <dfn class="dfn-paneled" data-dfn-for="configuration point" data-dfn-type="dfn" data-noexport id="configuration-point-type">type</dfn>, which is one of:</p>
@@ -2538,15 +2538,15 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
   this may mean that existing published content on the web was not written with
   the expectation that a particular API could fail.</p>
     <p>This is very similar to the existing iframe sandboxing mechanism, where
-  behaviour can be changed without the explicit consent of the embedded page,
+  behavior can be changed without the explicit consent of the embedded page,
   but it is not clear that is always safe.</p>
     <p>When considering placing such a feature under policy control, standards
   authors are strongly encouraged to require opt-in by the embedded document.
   This means that existing content will not be allowed to be loaded in a context
-  where that behaviour is changed, until it is configured to recognize and
+  where that behavior is changed, until it is configured to recognize and
   accept the policy.</p>
     <h3 class="heading settled" data-level="11.3" id="advertisement-of-required-policy"><span class="secno">11.3. </span><span class="content">Advertisement of required policy</span><a class="self-link" href="#advertisement-of-required-policy"></a></h3>
-    <p>As a mitigation to the behaviour change problem discussed above, requests for
+    <p>As a mitigation to the behavior change problem discussed above, requests for
   embedded content in a frame with a required policy will be sent with an HTTP
   header detailing the policy requirements. This header is visible to origin
   servers, and its contents may reveal details about the embedder page.
