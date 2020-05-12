@@ -140,10 +140,10 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
   <section>
     ## Configuration Points ## {#configuration-points}
 
-    A <dfn export>configuration point</dfn> is a Web Platform API or behaviour
+    A <dfn export>configuration point</dfn> is a Web Platform API or behavior
     which can be enabled, diabled, or configured through Document Policy.
     Configuration points should be defined in the specification which describes
-    the underlying API or behaviour, although there is a registry of defined
+    the underlying API or behavior, although there is a registry of defined
     configuration points in use attached to this document.
 
     A <a>configuration point</a> has a <dfn
@@ -1010,18 +1010,18 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
   the expectation that a particular API could fail.
 
   This is very similar to the existing iframe sandboxing mechanism, where
-  behaviour can be changed without the explicit consent of the embedded page,
+  behavior can be changed without the explicit consent of the embedded page,
   but it is not clear that is always safe.
 
   When considering placing such a feature under policy control, standards
   authors are strongly encouraged to require opt-in by the embedded document.
   This means that existing content will not be allowed to be loaded in a context
-  where that behaviour is changed, until it is configured to recognize and
+  where that behavior is changed, until it is configured to recognize and
   accept the policy.
 
   ## Advertisement of required policy ## {#advertisement-of-required-policy}
 
-  As a mitigation to the behaviour change problem discussed above, requests for
+  As a mitigation to the behavior change problem discussed above, requests for
   embedded content in a frame with a required policy will be sent with an HTTP
   header detailing the policy requirements. This header is visible to origin
   servers, and its contents may reveal details about the embedder page.
