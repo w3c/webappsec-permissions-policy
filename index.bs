@@ -86,28 +86,6 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     their origin.</p>
   </div>
   <div class="example">
-    <p>SecureCorp Inc. wants to disable use of Geolocation API within all
-    browsing contexts except for its own origin and those whose origin is
-    "<code>https://example.com</code>". It can do so by delivering the
-    following HTTP response header to define a feature policy:</p>
-    <pre>
-      <a http-header>Feature-Policy</a>: geolocation 'self' https://example.com</pre>
-    <p>The <a>allowlist</a> is a list of one or more origins, which can include
-    the application's origin, optionally with the keyword "<code>'self'</code>",
-    and any third-party origin.</p>
-  </div>
-  <div class="example">
-    <p>SecureCorp Inc. is hosting an application on
-    "<code>https://example.com</code>" and wants to disable camera and
-    microphone input on its own origin but enable it for a specific embedee
-    ("<code>https://other.com</code>"). It can do so by delivering the
-    following HTTP response header to define a feature policy:</p>
-    <pre><a http-header>Feature-Policy</a>: camera https://other.com; microphone https://other.com</pre>
-    <p>Some features are disabled by default in embedded contexts. The policy
-    allows the application to selectively enable such features for specified
-    origins.</p>
-  </div>
-  <div class="example">
     <p>Geolocation is disabled by default in all cross-origin frames. FastCorp
     Inc. has a specific cross-origin iframe on their site for which it wants to
     enable geolocation. It can do so by including an "<code>allow</code>"
@@ -115,6 +93,23 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="geolocation"&gt;&lt;/iframe&gt;</pre>
     <p>Iframe attributes can selectively enable features in certain frames, and
     not in others, even if those contain documents from the same origin.</p>
+  </div>
+  <div class="example">
+    <p>SecureCorp Inc. wants to completely disable use of the Geolocation API
+    within all browsing contexts except for its own origin and those whose
+    origin is "<code>https://example.com</code>", even in the presence of an
+    attacker who can embed their own iframes on SecureCorp's pages. It can do
+    this by delivering the following HTTP response header to define a restricted
+    feature policy for Geolocation:</p>
+    <pre>
+      <a http-header>Feature-Policy</a>: geolocation 'self' https://example.com</pre>
+    <p>The <a>allowlist</a> is a list of one or more origins, which can include
+    the application's origin, optionally with the keyword "<code>'self'</code>",
+    and any third-party origin.</p>
+    <p>With this policy in effect, it can then use the "<code>allow</code>"
+    iframe attribute as usual to grant geolocation to certain frames, but only
+    those frames hosting content from http://example.com or SecureCorp itself
+    will actually be granted the ability to use that API.</p>
   </div>
 </section>
 <section>
@@ -311,10 +306,6 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
       default, and when allowed, is allowed by default to same-origin domain
       documents in child browsing contexts, but is disallowed by default in
       cross-origin documents in child browsing contexts.</dd>
-      <dt>'none'</dt>
-      <dd>The feature is disallowed in documents in top-level browsing contexts
-      by default, and is also disallowed by default to documents in child
-      browsing contexts.</dd>
     </dl>
   </section>
 </section>
@@ -960,8 +951,16 @@ partial interface HTMLIFrameElement {
     container (<var>origin</var>), this algorithm returns the <a>inherited
     policy</a> for that feature.</p>
     <ol>
-      <li>Let <var>parent</var> be <var>container</var>'s <a>node
-        document</a>.</li>
+      <li>Let <var>policy</var> be <var>container</var>'s <a>node document</a>'s
+      <a>Feature Policy</a>
+      </li>
+      <li>If <var>policy</var>'s <a>inherited policy</a> for <var>feature</var>
+      is "<code>Disabled</code>", return "<code>Disabled</code>".</li>
+      <li>If <var>feature</var> is present in <var>policy</var>'s <a>declared
+      policy</a>, and the <a>allowlist</a> for <var>feature</var> in
+      <var>policy</var>'s <a>declared policy</a> does not <a>match</a>
+      <var>origin</var>, then return "<code>Disabled</code>".
+      </li>
       <li>Let <var>container policy</var> be the result of running
         <a>Process feature policy attributes</a> on
         <var>container</var>.
@@ -969,18 +968,18 @@ partial interface HTMLIFrameElement {
       <li>If <var>feature</var> is a key in <var>container policy</var>:
         <ol>
           <li>If the <a>allowlist</a> for <var>feature</var> in
-          <var>container policy</var> does not <a>match</a> <var>origin</var>,
-          return "<code>Disabled</code>".
+          <var>container policy</var> <a>matches</a> <var>origin</var>, return
+          "<code>Enabled</code>".
           </li>
-          <li>If <a href="#is-feature-enabled"><var>feature</var> is enabled in
-          <var>parent</var> for <var>parent</var>'s <var>origin</var></a>,
-          return "<code>Enabled</code>".
-          </li>
+          <li>Otherwise return "<code>Disabled</code>".</li>
         </ol>
       </li>
-      <li>If <a href="#is-feature-enabled"><var>feature</var> is
-      enabled in <var>parent</var> for <var>origin</var></a>, return
-      "<code>Enabled</code>".
+      <li>If <var>feature</var>'s <a>default allowlist</a> is
+      <code>*</code>, return "<code>Enabled</code>".
+      </li>
+      <li>If <var>feature</var>'s <a>default allowlist</a> is
+      <code>'self'</code>, and <var>origin</var> is [=same origin=] with
+      <var>document</var>'s origin, return "<code>Enabled</code>".
       </li>
       <li>Otherwise return "<code>Disabled</code>".</li>
     </ol>
