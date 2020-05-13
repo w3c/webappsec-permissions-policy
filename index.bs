@@ -80,7 +80,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     within their application. It can do so by delivering the following HTTP
     response header to define a feature policy:</p>
     <pre>
-      <a http-header>Feature-Policy</a>: fullscreen 'none'; geolocation 'none'</pre>
+      <a http-header>Permissions-Policy</a>: fullscreen 'none'; geolocation 'none'</pre>
     <p>By specifying the "<code>'none'</code>"keyword for the origin list, the
     specified features will be disabled for all browsing contexts, regardless of
     their origin.</p>
@@ -102,7 +102,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     this by delivering the following HTTP response header to define a restricted
     feature policy for Geolocation:</p>
     <pre>
-      <a http-header>Feature-Policy</a>: geolocation 'self' https://example.com</pre>
+      <a http-header>Permissions-Policy</a>: geolocation 'self' https://example.com</pre>
     <p>The <a>allowlist</a> is a list of one or more origins, which can include
     the application's origin, optionally with the keyword "<code>'self'</code>",
     and any third-party origin.</p>
@@ -337,11 +337,11 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 <section>
   <h2 id="delivery">Delivery</h2>
   <section>
-    <h3 id="feature-policy-http-header-field">Feature-Policy HTTP Header
+    <h3 id="permissions-policy-http-header-field">Permissions-Policy HTTP Header
     Field</h3>
     <p>The &#96;<dfn export http-header
-    id="feature-policy-header"><code>Feature-Policy</code></dfn>&#96; HTTP
-    header field can be used in the [=response=] (server to client) to
+    id="permissions-policy-header"><code>Permissions-Policy</code></dfn>&#96;
+    HTTP header field can be used in the [=response=] (server to client) to
     communicate the <a>feature policy</a> that should be enforced by the
     client.</p>
     <p>The header's value is the <a href="#ascii-serialization"></a> of one or
@@ -720,12 +720,12 @@ partial interface HTMLIFrameElement {
     <ol>
       <li>Abort these steps if the <var>response</var>’s <a
       for="response">header list</a> does not contain a [=header=] whose
-      [=name=] is "<code>Feature-Policy</code>".
+      [=name=] is "<code>Permissions-Policy</code>".
       </li>
       <li>Let <var>header</var> be the concatenation of the [=value=]s of all
       [=header=] fields in <var>response</var>’s <a
       for="response">header list</a> whose name is
-      "<code>Feature-Policy</code>", separated by U+002C (,) (according to
+      "<code>Permissions-Policy</code>", separated by U+002C (,) (according to
       [RFC7230, 3.2.2]).</li>
       <li>Let <var>feature policy</var> be the result of executing <a>Parse
         header from value and origin</a> on <var>header</var> and
@@ -1081,7 +1081,7 @@ partial interface HTMLIFrameElement {
   following registration [[!RFC3864]]:</p>
   <dl>
     <dt>Header field name</dt>
-    <dd>Feature-Policy</dd>
+    <dd>Permissions-Policy</dd>
     <dt>Applicable protocol</dt>
     <dd>http</dd>
     <dt>Status</dt>
