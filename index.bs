@@ -1,6 +1,6 @@
 <pre class="metadata">
-Title: Feature Policy
-Shortname: feature-policy
+Title: Permissions Policy
+Shortname: permissions-policy
 Level: 1
 Indent: 2
 Status: ED
@@ -136,7 +136,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   features, and requires the developer to opt back in to each of them, so it is
   impossible to extend the set of sandbox features without significant
   compatibility risk.</p>
-  <p>Feature Policy is intended to be used in combination with the sandbox
+  <p>Permissions Policy is intended to be used in combination with the sandbox
   mechanism (i.e. it does not duplicate feature controls already covered by
   sandbox), and provides an extensible mechanism that addresses the above
   limitations.</p>
@@ -370,7 +370,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <h3 id="legacy-attributes">Additional attributes to support legacy
     features</h3>
     <p>Some <a data-lt="policy-controlled feature">features</a> controlled by
-    Feature Policy have existing iframe attributes defined. This specification
+    Permissions Policy have existing iframe attributes defined. This specification
     redefines these attributes to act as declared policies for the iframe
     element.</p>
     <section>
@@ -1061,7 +1061,7 @@ partial interface HTMLIFrameElement {
     <ol>
       <li>Set |window| to |request|’s <a for="request">window</a>.</li>
       <li>If |window| is not a {{Window}}, return <code>false</code>.
-       <div class="issue">Feature Policy within non-Window contexts ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. *Until* that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
+       <div class="issue">Permissions Policy within non-Window contexts ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. *Until* that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
       </li>
       <li>Set |document| to |window|’s <a>associated `Document`</a>.</li>
       <li>Let |origin| be |request|’s <a for="request">origin</a>.</li>
@@ -1090,7 +1090,7 @@ partial interface HTMLIFrameElement {
     <dd>W3C</dd>
     <dt>Specification document</dt>
     <dd>
-      <a href="">Feature Policy API</a>
+      <a href="">Permissions Policy API</a>
     </dd>
   </dl>
 </section>
@@ -1139,11 +1139,11 @@ partial interface HTMLIFrameElement {
 
   <h3 id="privacy-alter-behavior">Unanticipated behavior changes</h3>
 
-  <p>Feature policy grants a document the ability to control which features will
-  and will not be availble in a subframe at the time it is loaded. When a
-  feature represents an existing, long-standing behavior of the web platform,
-  this may mean that existing published content on the web was not written with
-  the expectation that a particular API could fail.</p>
+  <p>The Permissions Policy mechanism grants a document the ability to control
+  which features will and will not be availble in a subframe at the time it is
+  loaded. When a feature represents an existing, long-standing behavior of the
+  web platform, this may mean that existing published content on the web was not
+  written with the expectation that a particular API could fail.</p>
 
   <div class="example">
     <p>As a practical (though contrived) example, consider a document which uses
@@ -1188,8 +1188,8 @@ partial interface HTMLIFrameElement {
     be written to use the `policy` object to inspect the feature policy which is
     currently enforced, and adjust behaviour or user interface accordingly.</li>
 
-  <p>Authors integrating their features with Feature Policy can decide when and
-  how the feature will fail when a document attempts to use it while it is
+  <p>Authors integrating their features with Permissions Policy can decide when
+  and how the feature will fail when a document attempts to use it while it is
   disabled. Authors should attempt to make use of existing failure modes, when
   they exist, to increase the chance that existing content will already be
   correctly handling such failures.</p>
