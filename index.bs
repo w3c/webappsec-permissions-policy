@@ -731,11 +731,11 @@ partial interface HTMLIFrameElement {
       for="response">header list</a> whose name is
       "<code>Permissions-Policy</code>", separated by U+002C (,) (according to
       [RFC7230, 3.2.2]).</li>
-      <li>Let <var>feature policy</var> be the result of executing <a>Parse
+      <li>Let <var>policy</var> be the result of executing <a>Parse
         header from value and origin</a> on <var>header</var> and
         <var>origin</var>.
       </li>
-      <li>Return <var>feature policy</var>.</li>
+      <li>Return <var>policy</var>.</li>
     </ol>
   </section>
   <section>
