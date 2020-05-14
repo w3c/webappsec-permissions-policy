@@ -428,11 +428,11 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   whether a feature is enabled or not. (Some features may not have any
   observable failure mode, or may have unwanted side effects to feature
   detection.)</p>
-  <p>Documents and iframes both provide a {{FeaturePolicy}} object which can be
-  used to inspect the permissions policies which apply to them.</p>
+  <p>Documents and iframes both provide a {{PermissionsPolicy}} object which can
+  be used to inspect the permissions policies which apply to them.</p>
   <h4 id="document-policies">Document policies</h4>
   <p>To retreive the currently effective policy, use
-  <code>document.featurePolicy</code>. This returns a {{FeaturePolicy}}
+  <code>document.featurePolicy</code>. This returns a {{PermissionsPolicy}}
   object, which can be used to:
     * query the state (allowed or denied) in the current document for a given
         feature,
@@ -531,7 +531,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <h3 id="the-policy-object">The featurePolicy object</h3>
     <pre class="idl">
 [Exposed=Window]
-interface FeaturePolicy {
+interface PermissionsPolicy {
   boolean allowsFeature(DOMString feature, optional DOMString origin);
   sequence&lt;DOMString&gt; features();
   sequence&lt;DOMString&gt; allowedFeatures();
@@ -539,43 +539,43 @@ interface FeaturePolicy {
 };
 
 partial interface Document {
-    [SameObject] readonly attribute FeaturePolicy featurePolicy;
+    [SameObject] readonly attribute PermissionsPolicy featurePolicy;
 };
 
 partial interface HTMLIFrameElement {
-    [SameObject] readonly attribute FeaturePolicy featurePolicy;
+    [SameObject] readonly attribute PermissionsPolicy featurePolicy;
 };
     </pre>
-    <p>A {{FeaturePolicy}} object has an <dfn>associated node</dfn>, which is a
-    {{Node}}. The <a>associated node</a> is set when the {{FeaturePolicy}}
+    <p>A {{PermissionsPolicy}} object has an <dfn>associated node</dfn>, which is a
+    {{Node}}. The <a>associated node</a> is set when the {{PermissionsPolicy}}
     object is created.</p>
-    <p>A {{FeaturePolicy}} object has a <dfn>default origin</dfn>, which is an
-    <a>origin</a>, whose value depends on the state of the {{FeaturePolicy}}
+    <p>A {{PermissionsPolicy}} object has a <dfn>default origin</dfn>, which is an
+    <a>origin</a>, whose value depends on the state of the {{PermissionsPolicy}}
     object's <a>associated node</a>:
-    * If the {{FeaturePolicy}} object's <a>associated node</a> is a
+    * If the {{PermissionsPolicy}} object's <a>associated node</a> is a
         {{Document}}, then its <a>default origin</a> is the {{Document}}'s
 	<a>origin</a>.
-    * If the {{FeaturePolicy}} object's <a>associated node</a> is an
+    * If the {{PermissionsPolicy}} object's <a>associated node</a> is an
         {{Element}}, then its <a>default origin</a> is the {{Element}}'s
 	<a>declared origin</a>.
 
     <p>Each {{Document}} has a <dfn for="Document">policy object</dfn>, which is
-    a {{FeaturePolicy}} instance whose <a>associated node</a> is that
+    a {{PermissionsPolicy}} instance whose <a>associated node</a> is that
     {{Document}}.</p>
     <p>A {{Document}}'s {{Document/featurePolicy}} IDL attribute, on getting,
     must return the {{Document}}'s [=Document/policy object=].</p>
 
     <p>Each <{iframe}> element has a <dfn for="iframe">policy object</dfn>,
-    which is a {{FeaturePolicy}} instance whose <a>associated node</a> is that
+    which is a {{PermissionsPolicy}} instance whose <a>associated node</a> is that
     element.</p>
     <p>An <{iframe}>'s {{HTMLIFrameElement/featurePolicy}} IDL attribute, on
     getting, must return the <{iframe}>'s [=iframe/policy object=].</p>
 
     <p>The {{allowsFeature(feature, origin)}} method must run the following
     steps:
-    1. If |origin| is omitted, set |origin| to this {{FeaturePolicy}} object's
+    1. If |origin| is omitted, set |origin| to this {{PermissionsPolicy}} object's
         <a>default origin</a>.
-    2. Let |policy| be the <a>observable policy</a> for this {{FeaturePolicy}}
+    2. Let |policy| be the <a>observable policy</a> for this {{PermissionsPolicy}}
         object's <a>associated node</a>.
     3. If |feature| is allowed by |policy| for |origin|, return true.
     4. Otherwise, return false.
@@ -588,8 +588,8 @@ partial interface HTMLIFrameElement {
 
     <p>The {{allowedFeatures()}} method must run the following steps:
     1. Set |result| to an empty ordered set.
-    2. Let |origin| be this {{FeaturePolicy}} object's <a>default origin</a>.
-    3. Let |policy| be the <a>observable policy</a> for this {{FeaturePolicy}}
+    2. Let |origin| be this {{PermissionsPolicy}} object's <a>default origin</a>.
+    3. Let |policy| be the <a>observable policy</a> for this {{PermissionsPolicy}}
         object's <a>associated node</a>.
     4. For each <a>supported feature</a> |feature|:
         1. If |feature| is allowed by |policy| for |origin|, append |feature| to
@@ -599,8 +599,8 @@ partial interface HTMLIFrameElement {
     <p>The {{getAllowlistForFeature(feature)}} method must run the following
     steps:
     1. Set |result| to an empty list
-    2. Let |origin| be this {{FeaturePolicy}} object's <a>default origin</a>.
-    3. Let |policy| be the <a>observable policy</a> for this {{FeaturePolicy}}
+    2. Let |origin| be this {{PermissionsPolicy}} object's <a>default origin</a>.
+    3. Let |policy| be the <a>observable policy</a> for this {{PermissionsPolicy}}
         object's <a>associated node</a>.
     4. If |feature| is not allowed in |policy| for |origin|, return |result|
     5. Let |allowlist| be |policy|'s declared policy[|feature|]
