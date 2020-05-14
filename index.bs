@@ -432,7 +432,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   be used to inspect the permissions policies which apply to them.</p>
   <h4 id="document-policies">Document policies</h4>
   <p>To retreive the currently effective policy, use
-  <code>document.featurePolicy</code>. This returns a {{PermissionsPolicy}}
+  <code>document.permissionsPolicy</code>. This returns a {{PermissionsPolicy}}
   object, which can be used to:
     * query the state (allowed or denied) in the current document for a given
         feature,
@@ -446,7 +446,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   <pre>
   &lt;!doctype html&gt;
   &lt;script&gt;
-   const policy = document.featurePolicy;
+   const policy = document.permissionsPolicy;
 
    // This will be true if this document can use WebUSB.
    const can_use_usb = policy.allowsFeature('usb');
@@ -490,7 +490,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   &lt;iframe id="frame" allow="fullscreen; xr-spatial-tracking"&gt;&lt;/iframe&gt;
   &lt;script&gt;
    const iframe_element = document.getElementById("frame");
-   const iframe_policy = iframe_element.featurePolicy;
+   const iframe_policy = iframe_element.permissionsPolicy;
 
    // True if the framed document will be allowed to use WebXR
    if (iframe_policy.allowsFeature('xr-spatial-tracking')) {
@@ -512,7 +512,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   &lt;iframe id="frame" allow="fullscreen https://example.com" src="https://example.net/" &gt;&lt;/iframe&gt;
   &lt;script&gt;
    const iframe_element = document.getElementById("frame");
-   const iframe_policy = iframe_element.featurePolicy;
+   const iframe_policy = iframe_element.permissionsPolicy;
    // This will be false, as the URL listed in the src attribute is not allowed
    // by policy to use fullscreen.
    const is_fullscreen_allowed_in_frame = iframe_policy.allowsFeature('fullscreen');
@@ -521,14 +521,14 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
    new_frame.allow = 'sync-xhr';
    // This will be true, as the iframe is allowed to use sync-xhr at whatever URL is
    // mentioned in its src attribute, even though that attribute is not yet set.
-   const is_sync_xhr_allowed = new_frame.featurePolicy.allowsFeature('sync-xhr');
+   const is_sync_xhr_allowed = new_frame.permissionsPolicy.allowsFeature('sync-xhr');
   &lt;/script&gt;
   </pre>
   </div>
   </section>
 
   <section>
-    <h3 id="the-policy-object">The featurePolicy object</h3>
+    <h3 id="the-policy-object">The permissionsPolicy object</h3>
     <pre class="idl">
 [Exposed=Window]
 interface PermissionsPolicy {
@@ -539,11 +539,11 @@ interface PermissionsPolicy {
 };
 
 partial interface Document {
-    [SameObject] readonly attribute PermissionsPolicy featurePolicy;
+    [SameObject] readonly attribute PermissionsPolicy permissionsPolicy;
 };
 
 partial interface HTMLIFrameElement {
-    [SameObject] readonly attribute PermissionsPolicy featurePolicy;
+    [SameObject] readonly attribute PermissionsPolicy permissionsPolicy;
 };
     </pre>
     <p>A {{PermissionsPolicy}} object has an <dfn>associated node</dfn>, which is a
@@ -562,13 +562,13 @@ partial interface HTMLIFrameElement {
     <p>Each {{Document}} has a <dfn for="Document">policy object</dfn>, which is
     a {{PermissionsPolicy}} instance whose <a>associated node</a> is that
     {{Document}}.</p>
-    <p>A {{Document}}'s {{Document/featurePolicy}} IDL attribute, on getting,
+    <p>A {{Document}}'s {{Document/permissionsPolicy}} IDL attribute, on getting,
     must return the {{Document}}'s [=Document/policy object=].</p>
 
     <p>Each <{iframe}> element has a <dfn for="iframe">policy object</dfn>,
     which is a {{PermissionsPolicy}} instance whose <a>associated node</a> is that
     element.</p>
-    <p>An <{iframe}>'s {{HTMLIFrameElement/featurePolicy}} IDL attribute, on
+    <p>An <{iframe}>'s {{HTMLIFrameElement/permissionsPolicy}} IDL attribute, on
     getting, must return the <{iframe}>'s [=iframe/policy object=].</p>
 
     <p>The {{allowsFeature(feature, origin)}} method must run the following
