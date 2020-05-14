@@ -317,7 +317,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <p><a>Policy Directives</a> are represented in HTTP headers and in HTML
     attributes as ASCII text.</p>
     <pre class="abnf">
-      <dfn>serialized-feature-policy</dfn> = <a>serialized-policy-directive</a> *(";" <a>serialized-policy-directive</a>)
+      <dfn>serialized-permissions-policy</dfn> = <a>serialized-policy-directive</a> *(";" <a>serialized-policy-directive</a>)
       <dfn>serialized-policy-directive</dfn> = <a>feature-identifier</a> RWS <a>allow-list</a>
       <dfn>feature-identifier</dfn> = 1*( ALPHA / DIGIT / "-")
       <dfn>allow-list</dfn> = <a>allow-list-value</a> *(RWS <a>allow-list-value</a>)
@@ -348,7 +348,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <p>The header's value is the <a href="#ascii-serialization"></a> of one or
     more <a>policy directive</a>s:.</p>
     <pre class="abnf">
-      FeaturePolicy = <a>serialized-feature-policy</a> *("," <a>serialized-feature-policy</a>)
+      PermissionsPolicy = <a>serialized-permissions-policy</a> *("," <a>serialized-permissions-policy</a>)
     </pre>
   </section>
   <section>
