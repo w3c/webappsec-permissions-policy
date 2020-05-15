@@ -718,199 +718,147 @@ partial interface HTMLIFrameElement {
 <section>
   <h2 id="algorithms">Algorithms</h2>
   <section>
-    <h3 id="algo-process-response-policy"><dfn>Process response
-    policy</dfn></h3>
-    <p>Given a [=response=] (<var>response</var>) and an [=origin=]
-    (<var>origin</var>), this algorithm returns a <a>declared permissions
-    policy</a>.</p>
-    <ol>
-      <li>Abort these steps if the <var>response</var>’s <a
-      for="response">header list</a> does not contain a [=header=] whose
-      [=name=] is "<code>Permissions-Policy</code>".
-      </li>
-      <li>Let <var>header</var> be the concatenation of the [=value=]s of all
-      [=header=] fields in <var>response</var>’s <a
-      for="response">header list</a> whose name is
+    ## <dfn export>Process response policy</dfn> ## {#algo-process-response-policy}
+
+    <div class="algorithm" data-algorithm="process-response-policy">
+    Given a [=response=] (|response|) and an [=origin=] (|origin|), this
+    algorithm returns a <a>declared permissions policy</a>.
+
+    1. Abort these steps if |response|’s <a for="response">header list</a> does
+      not contain a [=header=] whose [=name=] is
+      "<code>Permissions-Policy</code>".
+    1. Let |header| be the concatenation of the [=value=]s of all [=header=]
+      fields in |response|’s <a for="response">header list</a> whose name is
       "<code>Permissions-Policy</code>", separated by U+002C (,) (according to
-      [RFC7230, 3.2.2]).</li>
-      <li>Let <var>policy</var> be the result of executing <a>Parse
-        header from value and origin</a> on <var>header</var> and
-        <var>origin</var>.
-      </li>
-      <li>Return <var>policy</var>.</li>
-    </ol>
+      [RFC7230, 3.2.2]).
+    1. Let |policy| be the result of executing <a>Parse header from value and
+      origin</a> on |header| and |origin|.
+    1. Return |policy|.
+
+    </div>
   </section>
   <section>
-    <h3 id="algo-parse-header"><dfn>Parse header from <var>value</var> and
-    <var>origin</var></dfn></h3>
-    <p>Given a string (<var>value</var>) and an [=origin=] (<var>origin</var>)
-    this algorithm will return a <a>declared permissions policy</a>.</p>
-    <ol>
-      <li>Let <var>policy</var> be an empty ordered map.</li>
-      <li>For each <var>element</var> returned by <a
-      lt="split on commas">splitting <var>value</var> on commas</a>:
-        <ol>
-          <li>Let <var>directive</var> be the result of executing <a href=
-          "#algo-parse-policy-directive"></a> on <var>element</var> with
-          <var>container origin</var> set to <var>origin</var>.
-          </li>
-          <li>Run <a>Merge directive with declared policy</a> on <var>
-            directive</var> and <var>policy</var>.
-          </li>
-        </ol>
-      </li>
-      <li>Return <var>policy</var>.</li>
-    </ol>
+    ## <dfn>Parse header from value and origin</dfn> ## {#algo-parse-header}
+
+    <div class="algorithm" data-algorithm="parse-header">
+    Given a string (|value|) and an [=origin=] (|origin|), this algorithm will
+    return a <a>declared permissions policy</a>.
+    1. Let |policy| be an empty ordered map.
+    1. For each |element| returned by <a lt="split on commas">splitting |value|
+      on commas</a>:
+        1. Let |directive| be the result of executing <a
+          href="#algo-parse-policy-directive"></a> on |element| with <var
+          ignore>container origin</var> set to |origin|.
+        1. Run <a>Merge directive with declared policy</a> on |directive| and
+          |policy|.
+    1. Return |policy|.
+
+    </div>
   </section>
   <section>
-    <h3 id="algo-parse-policy-directive"><dfn>Parse policy directive</dfn></h3>
-    <p>Given a string (<var>value</var>), an [=origin=] (<var>container
-    origin</var>), and an optional [=origin=] (<var>target origin</var>), this
-    algorithm returns a <a>policy directive</a>.
-    </p>
-    <ol>
-      <li>Let <var>directive</var> be an empty ordered map.</li>
-      <li>For each <var>serialized-declaration</var> returned by <a
-      lt="strictly split">strictly splitting <var>value</var> on the delimiter
+    ## <dfn>Parse policy directive</dfn> ## {#algo-parse-policy-directive}
+
+    <div class="algorithm" data-algorithm="parse-policy-directive">
+    Given a string (|value|), an [=origin=] (|container origin|), and an
+    optional [=origin=] (|target origin|), this algorithm returns a <a>policy
+    directive</a>.
+    1. Let |directive| be an empty ordered map.
+    1. For each |serialized-declaration| returned by <a
+      lt="strictly split">strictly splitting |value| on the delimiter
       U+003B (;)</a>:
-        <ol>
-          <li>Let <var>tokens</var> be the result of <a
-          lt="split on ascii whitespace">splitting
-          <var>serialized-declaration</var> on ASCII whitespace.</a></li>
-          <li>If <var>tokens</var> is an empty list, then continue.</li>
-          <li>Let <var>feature-name</var> be the first element of
-          <var>tokens</var>.</li>
-          <li>If <var>feature-name</var> does not identify any recognized
-          <a>policy-controlled feature</a>, then continue.</li>
-          <li>Let <var>feature</var> be the <a>policy-controlled feature</a>
-          identified by <var>feature-name</var>.</li>
-          <li>Let <var>targetlist</var> be the remaining elements, if any, of
-          <var>tokens</var>.
-          <li>Let <var>allowlist</var> be a new <a>allowlist</a>.
-          </li>
-          <li>If any element of <var>targetlist</var> is the string
-          "<code>*</code>", set <var>allowlist</var> to <a>the special value
-          <code>*</code></a>.</li>
-          <li>Otherwise:
-            <ol>
-              <li>Set <var>allowlist</var> to an new <a>ordered set</a>.</li>
-              <li>If <var>targetlist</var> is empty and <var>target origin</var>
-              is given, append <var>target origin</var> to <var>allowlist</var>.
-              <li>For each <var>element</var> in <var>targetlist</var>:
-                <ol>
-                  <li>If <var>element</var> is an <a>ASCII case-insensitive</a>
-                  match for "<code>'self'</code>", let result be <var>container
-                  origin</var>.</li>
-                  <li>If <var>target origin</var> is given, and
-                  <var>element</var> is an <a>ASCII case-insensitive</a> match
-                  for "<code>'src'</code>", let result be <var>target
-                  origin</var>.</li>
-                  <li>Otherwise, let <var>result</var> be the result of
-                  executing the <a>URL parser</a> on <var>element</var>.</li>
-                  <li>If <var>result</var> is not failure:
-                    <ol>
-                      <li>Let <var>target</var> be the origin of
-                      <var>result</var>.</li>
-                      <li>If <var>target</var> is not an opaque origin, append
-                      <var>target</var> to <var>allowlist</var>.</li>
-                    </ol>
-                  </li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-          <li>Set <var>directive</var>[<var>feature</var>] to
-          <var>allowlist</var>.</li>
-        </ol>
-      </li>
-      <li>Return <var>directive</var></li>
-    </ol>
+        1. Let |tokens| be the result of <a
+          lt="split on ascii whitespace">splitting |serialized-declaration| on
+          ASCII whitespace.</a>
+        1. If |tokens| is an empty list, then continue.
+        1. Let |feature-name| be the first element of |tokens|.
+        1. If |feature-name| does not identify any recognized
+          <a>policy-controlled feature</a>, then continue.
+        1. Let |feature| be the <a>policy-controlled feature</a> identified by
+          |feature-name|.
+        1. Let |targetlist| be the remaining elements, if any, of |tokens|.
+        1. Let |allowlist| be a new <a>allowlist</a>.
+        1. If any element of |targetlist| is the string "<code>*</code>", set
+          |allowlist| to <a>the special value <code>*</code></a>.
+        1. Otherwise:
+            1. Set |allowlist| to an new <a>ordered set</a>.
+            1. If |targetlist| is empty and |target origin| is given, append
+              |target origin| to |allowlist|.
+            1. For each |element| in |targetlist|:
+                1. If |element| is an <a>ASCII case-insensitive</a> match for
+                  "<code>'self'</code>", let |result| be |container origin|.
+                1. If |target origin| is given, and |element| is an <a>ASCII
+                  case-insensitive</a> match for "<code>'src'</code>", let
+                  |result| be |target origin|.
+                1. Otherwise, let |result| be the result of executing the <a>URL
+                  parser</a> on |element|.
+                1. If |result| is not failure:
+                    1. Let |target| be the origin of |result|.
+                    1. If |target| is not an opaque origin, append |target| to
+                      |allowlist|.
+        1. Set |directive|[|feature|] to |allowlist|.
+    1. Return |directive|
+
+    </div>
   </section>
   <section>
-    <h3 id="algo-merge-directive-with-declared-policy"><dfn>Merge directive with
-    declared policy</dfn></h3>
-    <p>Given a policy directive (<var>directive</var>) and a declared policy
-    (<var>policy</var>), this algorithm will modify <var>policy</var> to
-    account for the new directive.</p>
-    <ol>
-      <li>For each <var>feature</var> → <var>allowlist</var> of
-      <var>directive</var>:
-        <ol>
-          <li>If <var>policy</var> does not contain an allowlist for
-          <var>feature</var>, then set <var>policy</var>[<var>feature</var>] to
-          <var>allowlist</var>.</li>
-        </ol>
-      </li>
-    </ol>
+    ## <dfn>Merge directive with declared policy</dfn> ## {#algo-merge-directive-with-declared-policy}
+
+    <div class="algorithm"
+    data-algorithm="merge-directive-with-declared-policy">
+    Given a policy directive (|directive|) and a declared policy (|policy|),
+    this algorithm will modify |policy| to account for the new directive.
+    1. For each |feature| → |allowlist| of |directive|:
+        1. If |policy| does not contain an allowlist for |feature|, then set
+          |policy|[|feature|] to |allowlist|.
+
+    </div>
   </section>
   <section>
-    <h3 id="algo-process-policy-attributes"><dfn>Process permissions
-    policy attributes</dfn></h3>
-    <p>Given an element (<var>element</var>), this algorithm returns a
-    <a>container policy</a>, which may be empty.</p>
-    <ol>
-      <li>Let <var>policy</var> be a new <a>policy directive</a>.
-      </li>
-      <li>Let <var>container policy</var> be the result of running <a>Parse
-      policy directive</a> on the value of
-        <var>element</var>'s <code>allow</code> attribute, with <var>container
-        origin</var> set to the origin of <var>element</var>'s node document,
-        and <var>target origin</var> set to <var>element</var>'s <a>declared
-        origin</a>.
-      </li>
-      <li>If <var>element</var> is an <{iframe}> element:
-        <ol>
-          <li>If <var>element</var>'s <code>allowfullscreen</code> attribute is
-          specified, and <var>container policy</var> does not contain an
-          allowlist for <code>fullscreen</code>,
-            <ol>
-              <li>Construct a new declaration for <code>fullscreen</code>, whose
-              allowlist is <a>the special value <code>*</code></a>.</li>
-              <li>Add <var>declaration</var> to <var>container policy</var>.
-              </li>
-            </ol>
-          </li>
-          <li>If <var>element</var>'s <code>allowpaymentrequest</code>
-          attribute is specified, and <var>container policy</var> does not
-          contain an allowlist for <code>payment</code>,
-            <ol>
-              <li>Construct a new declaration for <code>payment</code>, whose
-              allowlist is <a>the special value <code>*</code></a>.</li>
-              <li>Add <var>declaration</var> to <var>container policy</var>.
-              </li>
-            </ol>
-          </li>
-        </ol>
-      </li>
-      <li>Return <var>container policy</var>.</li>
-    </ol>
+    ## <dfn>Process permissions policy attributes</dfn> ## {#algo-process-policy-attributes}
+
+    <div class="algorithm" data-algorithm="process-policy-attributes">
+    Given an element (|element|), this algorithm returns a <a>container
+    policy</a>, which may be empty.
+    1. Let |container policy| be the result of running <a>Parse policy
+      directive</a> on the value of |element|'s <code>allow</code> attribute,
+      with <var ignore>container origin</var> set to the origin of |element|'s
+      node document, and <var ignore>target origin</var> set to |element|'s
+      <a>declared origin</a>.
+    1. If |element| is an <{iframe}> element:
+        1. If |element|'s <code>allowfullscreen</code> attribute is specified,
+          and |container policy| does not contain an allowlist for
+          <code>fullscreen</code>:
+            1. Construct a new declaration for <code>fullscreen</code>, whose
+              allowlist is <a>the special value <code>*</code></a>.
+            1. Add |declaration| to |container policy|.
+        1. If |element|'s <code>allowpaymentrequest</code> attribute is
+          specified, and |container policy| does not contain an allowlist for
+          <code>payment</code>:
+            1. Construct a new declaration for <code>payment</code>, whose
+              allowlist is <a>the special value <code>*</code></a>.
+            1. Add |declaration| to |container policy|.
+    1. Return |container policy|.
+
+    </div>
   </section>
   <section>
-    <h3 id="algo-create-for-browsingcontext"><dfn export
-    id="create-for-browsingcontext">Create a Permissions Policy for a browsing
-    <var>context</var></dfn></h3>
-    <p>Given a <a>browsing context</a> (<var>browsingContext</var>), and an
-    <a>origin</a> (<var>origin</var>) this algorithm returns a new
-    <a>Permissions Policy</a>.</p>
-    <ol>
-      <li>Let <var>inherited policy</var> be a new ordered map.</li>
-      <li>Let <var>declared policy</var> be a new ordered map.</li>
-      <li>For each <var>feature</var> supported,
-        <ol>
-          <li>Let <var>isInherited</var> be the result of running <a
-          href="#define-inherited-policy">Define an inherited policy for feature in browsing
-          context</a> on <var>feature</var>, <var>origin</var> and <var>browsingContext</var>.
-          </li>
-          <li>Set <var>inherited policy</var>[<var>feature</var>] to
-            <var>isInherited</var>.</li>
-        </ol>
-      </li>
-      <li>Let <var>policy</var> be a new <a>permissions policy</a>, with
-      inherited policy <var>inherited policy</var> and declared policy
-      <var>declared policy</var>.
-      </li>
-      <li>Return <var>policy</var>.</li>
-    </ol>
+    ## <dfn export id="create-for-browsingcontext">Create a Permissions Policy for a browsing context</dfn> ## {#algo-create-for-browsingcontext}
+
+    <div class="algorithm" data-algorithm="create-for-browsingcontext">
+    Given a <a>browsing context</a> (|browsingContext|), and an <a>origin</a>
+    (|origin|) this algorithm returns a new <a>Permissions Policy</a>.
+    1. Let |inherited policy| be a new ordered map.
+    1. Let |declared policy| be a new ordered map.
+    1. For each |feature| supported,
+        1. Let |isInherited| be the result of running <a
+          href="#define-inherited-policy">Define an inherited policy for feature
+          in browsing context</a> on |feature|, |origin| and |browsingContext|.
+        1. Set |inherited policy|[|feature|] to |isInherited|.
+    1. Let |policy| be a new <a>permissions policy</a>, with inherited policy
+      |inherited policy| and declared policy |declared policy|.
+    1. Return |policy|.
+
+    </div>
   </section>
   <section>
     <h3 id="algo-create-from-response"><dfn export
