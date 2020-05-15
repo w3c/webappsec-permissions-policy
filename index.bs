@@ -30,6 +30,20 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     text: report type
     text: visible to reportingobservers
 </pre>
+<pre class="biblio">
+{
+  "HEADER-STRUCTURE": {
+    "authors": [
+      "Mark Nottingham",
+      "Poul-Henning Kamp"
+    ],
+    "href": "https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-18",
+    "title": "Structured Field Values for HTTP",
+    "status": "Draft",
+    "publisher": "IETF"
+  }
+}
+</pre>
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -80,10 +94,9 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     within their application. It can do so by delivering the following HTTP
     response header to define a permissions policy:</p>
     <pre>
-      <a http-header>Permissions-Policy</a>: fullscreen 'none'; geolocation 'none'</pre>
-    <p>By specifying the "<code>'none'</code>"keyword for the origin list, the
-    specified features will be disabled for all browsing contexts, regardless of
-    their origin.</p>
+      <a http-header>Permissions-Policy</a>: fullscreen=(), geolocation=()</pre>
+    <p>By specifying an empty origin list, the specified features will be
+    disabled for all browsing contexts, regardless of their origin.</p>
   </div>
   <div class="example">
     <p>Geolocation is disabled by default in all cross-origin frames. FastCorp
@@ -102,9 +115,9 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     this by delivering the following HTTP response header to define a restricted
     permissions policy for Geolocation:</p>
     <pre>
-      <a http-header>Permissions-Policy</a>: geolocation 'self' https://example.com</pre>
+      <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com")</pre>
     <p>The <a>allowlist</a> is a list of one or more origins, which can include
-    the application's origin, optionally with the keyword "<code>'self'</code>",
+    the application's origin, optionally with the keyword "<code>self</code>",
     and any third-party origin.</p>
     <p>With this policy in effect, it can then use the "<code>allow</code>"
     iframe attribute as usual to grant geolocation to certain frames, but only
@@ -252,8 +265,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <p>A <dfn data-lt="policy directive|policy directives">policy
     directive</dfn> is an ordered map, mapping <a>policy-controlled features</a>
     to corresponding <a>allowlists</a> of origins.</p>
-    <p>A <a>policy directive</a> is represented in HTTP headers and HTML
-    attributes as its ASCII serialization.</p>
+    <p>A <a>policy directive</a> is represented in HTTP headers as the serialization of an sh-dictionary structure, and in and HTML attributes as its ASCII serialization.</p>
   </section>
   <section>
     <h3 id="allowlists">Allowlists</h3>
@@ -313,9 +325,9 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 <section>
   <h2 id="serialization">Permissions Policy Serialization</h2>
   <section>
-    <h3 id="ascii-serialization">ASCII serialization</h3>
-    <p><a>Policy Directives</a> are represented in HTTP headers and in HTML
-    attributes as ASCII text.</p>
+    <h3 id="ascii-serialization">HTML attribute serialization</h3>
+    <p><a>Policy Directives</a> in HTML attributes are represented as their
+    ASCII serialization, with the following ABNF:
     <pre class="abnf">
       <dfn>serialized-permissions-policy</dfn> = <a>serialized-policy-directive</a> *(";" <a>serialized-policy-directive</a>)
       <dfn>serialized-policy-directive</dfn> = <a>feature-identifier</a> RWS <a>allow-list</a>
@@ -334,6 +346,29 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
       which contains the permissions policy.
     </div>
   </section>
+  <section>
+    <h3 id="structured-header-serialization">Structured header serialization</h3>
+    <a>Policy Directives</a> in HTTP headers are represented as Structured
+    Fields. [[!HEADER-STRUCTURE]]
+
+    In this representation, a <a>policy directive</a> is represented by a
+    Dictionary.
+
+    Each Dictionary Member associates a <a>feature</a> with an <a>allowlist</a>.
+    The Member Names must be Tokens. If a token does not name a supported
+    feature, then the Dictionary Member will be ignored by the processing steps.
+
+    The Member Values represent <a>allowlists</a>, and must be one of:
+    * a String containing the ASCII <a>serialization of an origin</a>
+    * the Token `*`
+    * the Token `self`
+    * an Inner List containing zero or more of the above items.
+
+    Any other items inside of an Inner List will be ignored by the processing
+    steps, and the Member Value will be processed as if they were not present.
+    Member Values of any other form will cause the entire Dictionary Member to
+    be ignored by the processing steps.
+  </section>
 </section>
 <section>
   <h2 id="delivery">Delivery</h2>
@@ -345,11 +380,15 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     HTTP header field can be used in the [=response=] (server to client) to
     communicate the <a>permissions policy</a> that should be enforced by the
     client.</p>
-    <p>The header's value is the <a href="#ascii-serialization"></a> of one or
-    more <a>policy directive</a>s:.</p>
+    <p><a>Permissions-Policy</a> is a structured header. Its value must be a
+    dictionary. It's ABNF is:
     <pre class="abnf">
-      PermissionsPolicy = <a>serialized-permissions-policy</a> *("," <a>serialized-permissions-policy</a>)
+      PermissionsPolicy = <a>sh-dictionary</a>
     </pre>
+    The semantics of the dictionary are defined in
+    [[#structured-header-serialization]].
+
+    The processing steps are defined in [[#algo-parse-header]].
   </section>
   <section>
     <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the
@@ -743,14 +782,31 @@ partial interface HTMLIFrameElement {
     <div class="algorithm" data-algorithm="parse-header">
     Given a string (|value|) and an [=origin=] (|origin|), this algorithm will
     return a <a>declared permissions policy</a>.
+    1. Let |parsed header| be the result of parsing |policy| as a dictionary.
+    1. If |parsed header| is null or failure, abort these steps.
     1. Let |policy| be an empty ordered map.
-    1. For each |element| returned by <a lt="split on commas">splitting |value|
-      on commas</a>:
-        1. Let |directive| be the result of executing <a
-          href="#algo-parse-policy-directive"></a> on |element| with <var
-          ignore>container origin</var> set to |origin|.
-        1. Run <a>Merge directive with declared policy</a> on |directive| and
-          |policy|.
+    1. For each |feature-name| → |value| of |parsed header|:
+        1. If |feature-name| does not identify any recognized
+          <a>policy-controlled feature</a>, then continue.
+        1. Let |feature| be the <a>policy-controlled feature</a> identified by
+          |feature-name|.
+        1. Let |allowlist| be a new <a>allowlist</a>.
+        1. If |value| is the token `*`, or if |value| is a list which contains
+          the token `*`, set |allowlist| to <a>the special value
+          <code>*</code></a>.
+        1. Otherwise:
+            1. Set |allowlist| to an new <a>ordered set</a>.
+            1. If |value| is the token `self`, append |origin| to |allowlist|.
+            1. If |value| is a list, then for each |element| in |value|:
+                1. If |element| is the token `self`, append |origin| to
+                  |allowlist|.
+                1. Otherwise, let |result| be the result of executing the <a>URL
+                  parser</a> on |element|.
+                1. If |result| is not failure:
+                    1. Let |target| be the origin of |result|.
+                    1. If |target| is not an opaque origin, append |target| to
+                      |allowlist|.
+        1. Set |policy|[|feature|] to |allowlist|.
     1. Return |policy|.
 
     </div>
@@ -797,19 +853,6 @@ partial interface HTMLIFrameElement {
                       |allowlist|.
         1. Set |directive|[|feature|] to |allowlist|.
     1. Return |directive|
-
-    </div>
-  </section>
-  <section>
-    ## <dfn>Merge directive with declared policy</dfn> ## {#algo-merge-directive-with-declared-policy}
-
-    <div class="algorithm"
-    data-algorithm="merge-directive-with-declared-policy">
-    Given a policy directive (|directive|) and a declared policy (|policy|),
-    this algorithm will modify |policy| to account for the new directive.
-    1. For each |feature| → |allowlist| of |directive|:
-        1. If |policy| does not contain an allowlist for |feature|, then set
-          |policy|[|feature|] to |allowlist|.
 
     </div>
   </section>
