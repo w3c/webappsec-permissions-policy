@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 4be3a54, updated Mon May 4 06:47:10 2020 -0700" name="generator">
+  <meta content="Bikeshed version cac0058, updated Tue May 19 10:56:43 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/document-policy.html" rel="canonical">
-  <meta content="967795efc09f066c904c4959a0d34fc7e28f2143" name="document-revision">
+  <meta content="b297ab042b111dbf5c2e5bca7ed625f08a337420" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1423,7 +1423,7 @@ dfn > a.self-link::before      { content: "#"; }</style>
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Document Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-12">12 May 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-21">21 May 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1542,9 +1542,9 @@ dfn > a.self-link::before      { content: "#"; }</style>
     <li>
      <a href="#privacy-and-security"><span class="secno">11</span> <span class="content">Privacy and Security</span></a>
      <ol class="toc">
-      <li><a href="#exposure-of-cross-origin-behavior"><span class="secno">11.1</span> <span class="content">Exposure of cross-origin behavior {#exposure-of-cross-origin-behavior}</span></a>
-      <li><a href="#unanticipated-behavior-changes"><span class="secno">11.2</span> <span class="content">Unanticipated behavior changes</span></a>
-      <li><a href="#advertisement-of-required-policy"><span class="secno">11.3</span> <span class="content">Advertisement of required policy</span></a>
+      <li><a href="#exposure-of-cross-origin-behavior"><span class="secno">11.1</span> <span class="content">Exposure of cross-origin behavior</span></a>
+      <li><a href="#advertisement-of-required-policy"><span class="secno">11.2</span> <span class="content">Advertisement of required policy</span></a>
+      <li><a href="#blind-acceptance-of-policy"><span class="secno">11.3</span> <span class="content">Blind acceptance of required policy</span></a>
      </ol>
     <li>
      <a href="#conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
@@ -1664,23 +1664,20 @@ dfn > a.self-link::before      { content: "#"; }</style>
      <p>A <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point②">configuration point</a> has a <dfn class="dfn-paneled" data-dfn-for="configuration point" data-dfn-type="dfn" data-noexport id="configuration-point-range">range</dfn>, which is a subset of all values for
     its <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type">type</a>.</p>
      <p>A <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point③">configuration point</a> has a <dfn class="dfn-paneled" data-dfn-for="configuration point" data-dfn-type="dfn" data-noexport id="configuration-point-default-value">default value</dfn>, which is an element of its <a data-link-type="dfn" href="#configuration-point-range" id="ref-for-configuration-point-range">range</a>.</p>
-     <p>A <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point④">configuration point</a> has a <dfn data-dfn-for="configuration point" data-dfn-type="dfn" data-noexport id="configuration-point-requires-acknowlegement">requires acknowlegement<a class="self-link" href="#configuration-point-requires-acknowlegement"></a></dfn> flag, which is
-    either <code>yes</code> or <code>no</code>.</p>
-     <p>A <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑤">configuration point</a> which has <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type①">type</a> <code>integer</code> or <code>float</code> also has a <a data-link-type="dfn">parameter name</a>, which is a token, which must
+     <p>A <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point④">configuration point</a> which has <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type①">type</a> <code>integer</code> or <code>float</code> also has a <a data-link-type="dfn">parameter name</a>, which is a token, which must
     be a valid param-name.</p>
      <div class="issue" id="issue-91264ad1"><a class="self-link" href="#issue-91264ad1"></a>Should configuration points be allowed to have multiple
     parameters? Perhaps parameters should be defined separately, with names,
     types, and ranges.</div>
-     <div class="informative"> When introducing a new configuration point, the <a data-link-type="dfn" href="#configuration-point-default-value" id="ref-for-configuration-point-default-value">default value</a> and <a data-link-type="dfn">requires acknowlegment</a> flag should be chosen
-    carefully, with highest consideration given to web compatibility. When no
-    explicit policy has been declared for a document, the default value will be
-    in effect. </div>
+     <div class="informative"> When introducing a new configuration point, the <a data-link-type="dfn" href="#configuration-point-default-value" id="ref-for-configuration-point-default-value">default value</a> should be chosen carefully, with
+    highest consideration given to web compatibility. When no explicit policy
+    has been declared for a document, the default value will be in effect. </div>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.2" id="policies"><span class="secno">4.2. </span><span class="content">Policies</span><a class="self-link" href="#policies"></a></h3>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="document-policy">document policy</dfn> is an ordered map from <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑥">configuration
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="document-policy">document policy</dfn> is an ordered map from <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑤">configuration
     points</a> to <a data-link-type="dfn" href="#policy-configuration" id="ref-for-policy-configuration">policy configurations</a></p>
-     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="policy-configuration">policy configuration</dfn> is a tuple consisting of a <dfn class="dfn-paneled" data-dfn-for="policy configuration" data-dfn-type="dfn" data-noexport id="policy-configuration-value">value</dfn>, which is an element of the <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑦">configuration point</a>’s <a data-link-type="dfn" href="#configuration-point-range" id="ref-for-configuration-point-range①">range</a>, and a <dfn class="dfn-paneled" data-dfn-for="policy configuration" data-dfn-type="dfn" data-noexport id="policy-configuration-reporting-endpoint">reporting endpoint</dfn>, which is a string,
+     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="policy-configuration">policy configuration</dfn> is a tuple consisting of a <dfn class="dfn-paneled" data-dfn-for="policy configuration" data-dfn-type="dfn" data-noexport id="policy-configuration-value">value</dfn>, which is an element of the <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑥">configuration point</a>’s <a data-link-type="dfn" href="#configuration-point-range" id="ref-for-configuration-point-range①">range</a>, and a <dfn class="dfn-paneled" data-dfn-for="policy configuration" data-dfn-type="dfn" data-noexport id="policy-configuration-reporting-endpoint">reporting endpoint</dfn>, which is a string,
     and which may be null.</p>
      <p>A <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="required-document-policy">required document policy</dfn>, which
     is a <a data-link-type="dfn" href="#document-policy" id="ref-for-document-policy">document policy</a>. A <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a> with a null <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#opener-browsing-context" id="ref-for-opener-browsing-context">opener
@@ -1789,27 +1786,27 @@ headers.</p>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="directive-name">directive name</dfn> may be one of:</p>
      <ul>
       <li data-md>
-       <p>The <a data-link-type="dfn" href="#configuration-point-name" id="ref-for-configuration-point-name">name</a> of a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑧">configuration point</a>.</p>
+       <p>The <a data-link-type="dfn" href="#configuration-point-name" id="ref-for-configuration-point-name">name</a> of a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑦">configuration point</a>.</p>
       <li data-md>
-       <p>The <a data-link-type="dfn" href="#configuration-point-name" id="ref-for-configuration-point-name①">name</a> of <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑨">configuration point</a> whose <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type②">type</a> is <code>boolean</code>, prefixed by the
+       <p>The <a data-link-type="dfn" href="#configuration-point-name" id="ref-for-configuration-point-name①">name</a> of <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑧">configuration point</a> whose <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type②">type</a> is <code>boolean</code>, prefixed by the
 string "no-",</p>
       <li data-md>
        <p>The Token "<code>*</code>".</p>
      </ul>
-     <p>A <dfn data-dfn-type="dfn" data-noexport id="policy-value">policy value<a class="self-link" href="#policy-value"></a></dfn> is an element of the <a data-link-type="dfn" href="#configuration-point-range" id="ref-for-configuration-point-range②">range</a> for the named <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①⓪">configuration point</a>.</p>
+     <p>A <dfn data-dfn-type="dfn" data-noexport id="policy-value">policy value<a class="self-link" href="#policy-value"></a></dfn> is an element of the <a data-link-type="dfn" href="#configuration-point-range" id="ref-for-configuration-point-range②">range</a> for the named <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point⑨">configuration point</a>.</p>
     </section>
     <h4 class="heading settled" data-level="7.1.1" id="document-policy-directive-parameters"><span class="secno">7.1.1. </span><span class="content">Parameters</span><a class="self-link" href="#document-policy-directive-parameters"></a></h4>
     <p>Any <a data-link-type="dfn" href="#document-policy-directive" id="ref-for-document-policy-directive①">document policy directive</a> may include a parameter named <code>report-to</code>, whose value must be a string.</p>
-    <p>A <a data-link-type="dfn" href="#document-policy-directive" id="ref-for-document-policy-directive②">document policy directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name①">directive name</a> names a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①①">configuration point</a> with <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type③">type</a> <code>boolean</code> has no required
+    <p>A <a data-link-type="dfn" href="#document-policy-directive" id="ref-for-document-policy-directive②">document policy directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name①">directive name</a> names a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①⓪">configuration point</a> with <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type③">type</a> <code>boolean</code> has no required
     parameters.</p>
-    <p>A <a data-link-type="dfn" href="#document-policy-directive" id="ref-for-document-policy-directive③">document policy directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name②">directive name</a> names a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①②">configuration point</a> with <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type④">type</a> <code>integer</code> has a required
-    parameter, whose value must be an integer in the <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①③">configuration
+    <p>A <a data-link-type="dfn" href="#document-policy-directive" id="ref-for-document-policy-directive③">document policy directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name②">directive name</a> names a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①①">configuration point</a> with <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type④">type</a> <code>integer</code> has a required
+    parameter, whose value must be an integer in the <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①②">configuration
     point</a>’s <a data-link-type="dfn">range</a>.</p>
-    <p>A <a data-link-type="dfn" href="#document-policy-directive" id="ref-for-document-policy-directive④">document policy directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name③">directive name</a> names a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①④">Configuration point</a> with <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type⑤">type</a> <code>float</code> has a required
-    parameter, whose value must be an decimal in the <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①⑤">configuration
+    <p>A <a data-link-type="dfn" href="#document-policy-directive" id="ref-for-document-policy-directive④">document policy directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name③">directive name</a> names a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①③">Configuration point</a> with <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type⑤">type</a> <code>float</code> has a required
+    parameter, whose value must be an decimal in the <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①④">configuration
     point</a>’s <a data-link-type="dfn">range</a>.</p>
-    <p>A <a data-link-type="dfn" href="#document-policy-directive" id="ref-for-document-policy-directive⑤">document policy directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name④">directive name</a> names a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①⑥">configuration point</a> with <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type⑥">type</a> <code>enum</code> has a required parameter,
-    whose value must be 'true', and whose name must be a token in the <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①⑦">configuration point</a>’s <a data-link-type="dfn">range</a>.</p>
+    <p>A <a data-link-type="dfn" href="#document-policy-directive" id="ref-for-document-policy-directive⑤">document policy directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name④">directive name</a> names a <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①⑤">configuration point</a> with <a data-link-type="dfn" href="#configuration-point-type" id="ref-for-configuration-point-type⑥">type</a> <code>enum</code> has a required parameter,
+    whose value must be 'true', and whose name must be a token in the <a data-link-type="dfn" href="#configuration-point" id="ref-for-configuration-point①⑥">configuration point</a>’s <a data-link-type="dfn">range</a>.</p>
     <p>Examples:</p>
     <ul>
      <li data-md>
@@ -2024,8 +2021,6 @@ blocked due to document policy</a></p>
        <li data-md>
         <p>For each <var>configuration point</var> → <var>value</var> in <var>requiredPolicy</var>:</p>
         <ol>
-         <li data-md>
-          <p>If <var>configuration point</var>’s <a data-link-type="dfn">requires acknowledgment</a> flag is <code>no</code>, then continue.</p>
          <li data-md>
           <p>If <var>declaredPolicy</var>[<var>configuration point</var>] does not exist, then
   return false.</p>
@@ -2505,16 +2500,19 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
    <section class="informative" id="privacy">
     <h2 class="heading settled" data-level="11" id="privacy-and-security"><span class="secno">11. </span><span class="content">Privacy and Security</span><a class="self-link" href="#privacy-and-security"></a></h2>
     <p>This specification standardizes a mechanism for an embedding page to set a
-  policy which will be enforced on an embedded page. When explicit
-  acknowledgment of a required policy is not required, similar to iframe <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox">sandbox</a></code>, this means that behaviors of existing features may be
-  changed in published web sites, by embedding them in another document with an
-  appropriate required policy.</p>
-    <p>As such, the biggest privacy and security concerns are:</p>
+  policy which will be enforced on an embedded page. Explicit acknowledgment of
+  a required policy is required, however, unlike existing the existing iframe <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox">sandbox</a></code>, mechanism. This means that behaviors of existing features
+  cannot be changed in published web sites, without the cooperation of those
+  sites.</p>
+    <p>There are some privacy and security considerations to keep in mind with this
+  model:</p>
     <ul>
      <li data-md>
       <p>Exposure of behavior in a cross-origin subframe to its embedder.</p>
      <li data-md>
-      <p>Unanticipated behavior changes in subframes controlled by the embedder.</p>
+      <p>Exposure of embedder state to the embedded document thorough policy.</p>
+     <li data-md>
+      <p>Unanticipated behavior change by blindly accepting a required policy.</p>
     </ul>
     <p>To a degree, these concerns are already present in the web platform, and this
   specification attempts to at least not make them needlessly worse.</p>
@@ -2522,7 +2520,7 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
   configuration points, so care must be taken when integrating with this
   specification. This section attempts to provide some guidance as to what kinds
   of behaviors could cause such issues.</p>
-    <h3 class="heading settled" data-level="11.1" id="exposure-of-cross-origin-behavior"><span class="secno">11.1. </span><span class="content">Exposure of cross-origin behavior {#exposure-of-cross-origin-behavior}</span><a class="self-link" href="#exposure-of-cross-origin-behavior"></a></h3>
+    <h3 class="heading settled" data-level="11.1" id="exposure-of-cross-origin-behavior"><span class="secno">11.1. </span><span class="content">Exposure of cross-origin behavior</span><a class="self-link" href="#exposure-of-cross-origin-behavior"></a></h3>
     <p>Configuraton points should be designed such that a violation of the policy in
   a framed document is not observable by documents in other frames. For
   instance, a hypothetical feature which caused a event to be fired in the
@@ -2531,27 +2529,27 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
   known only to be used while a user is logged in to the site, for instance,
   then the embedder could disable that feature for the frame, and then listen
   for the resulting events to determine whether or not the user is logged in.</p>
-    <h3 class="heading settled" data-level="11.2" id="unanticipated-behavior-changes"><span class="secno">11.2. </span><span class="content">Unanticipated behavior changes</span><a class="self-link" href="#unanticipated-behavior-changes"></a></h3>
-    <p>Document policy grants a document the ability to control which features will
-  and will not be availble in a subframe at the time it is loaded. When a
-  feature represents an existing, long-standing behavior of the web platform,
-  this may mean that existing published content on the web was not written with
-  the expectation that a particular API could fail.</p>
-    <p>This is very similar to the existing iframe sandboxing mechanism, where
-  behavior can be changed without the explicit consent of the embedded page,
-  but it is not clear that is always safe.</p>
-    <p>When considering placing such a feature under policy control, standards
-  authors are strongly encouraged to require opt-in by the embedded document.
-  This means that existing content will not be allowed to be loaded in a context
-  where that behavior is changed, until it is configured to recognize and
-  accept the policy.</p>
-    <h3 class="heading settled" data-level="11.3" id="advertisement-of-required-policy"><span class="secno">11.3. </span><span class="content">Advertisement of required policy</span><a class="self-link" href="#advertisement-of-required-policy"></a></h3>
+    <h3 class="heading settled" data-level="11.2" id="advertisement-of-required-policy"><span class="secno">11.2. </span><span class="content">Advertisement of required policy</span><a class="self-link" href="#advertisement-of-required-policy"></a></h3>
     <p>As a mitigation to the behavior change problem discussed above, requests for
   embedded content in a frame with a required policy will be sent with an HTTP
   header detailing the policy requirements. This header is visible to origin
   servers, and its contents may reveal details about the embedder page.
   Embedders should be aware of this when choosing to require a policy on their
   embedded content.</p>
+    <h3 class="heading settled" data-level="11.3" id="blind-acceptance-of-policy"><span class="secno">11.3. </span><span class="content">Blind acceptance of required policy</span><a class="self-link" href="#blind-acceptance-of-policy"></a></h3>
+    <p>Since adhering to the embedder-required policy is necessary in order to be
+  loaded, site owners may be tempted to configure web servers to simply echo the <code>Sec-Required-Document-Policy</code> request header in the response’s <code>Document-Policy</code> header. While this will ensure that the document’s policy is
+  always compatible with the request, it may open up the embedded document to
+  the risk that the embedder can alter control flow within it, by disabling or
+  changing the behavior of existing APIs. This is especially true as new
+  configuration points are added to the document policy model after the content
+  is written. It is difficult to future-proof a document against all possible
+  new behavior changes.</p>
+    <p>Sites which expect to be embedded in a context with a required document policy
+  can mitigate this by setting their policy to the actual strictest policy that
+  they know they can support, or by echoing the incoming policy for only the
+  configuration points which they are aware of, and understand the potential
+  scope of behavior changes.</p>
    </section>
   </main>
   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content">Conformance</span><a class="self-link" href="#conformance"></a></h2>
@@ -2617,7 +2615,6 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
    <li><a href="#request-required-document-policy">request-required-document-policy</a><span>, in §8.2</span>
    <li><a href="#required-document-policy">required document policy</a><span>, in §4.2</span>
    <li><a href="#require-document-policy-header">Require-Document-Policy</a><span>, in §7.2.3</span>
-   <li><a href="#configuration-point-requires-acknowlegement">requires acknowlegement</a><span>, in §4.1</span>
    <li><a href="#sec-required-document-policy-header">Sec-Required-Document-Policy</a><span>, in §7.2.4</span>
    <li><a href="#serialized-document-policy">serialized document policy</a><span>, in §5</span>
    <li><a href="#serialize-required-policy">Serialize required policy</a><span>, in §9.4</span>
@@ -2857,10 +2854,10 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
   <aside class="dfn-panel" data-for="configuration-point">
    <b><a href="#configuration-point">#configuration-point</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-configuration-point">4.1. Configuration Points</a> <a href="#ref-for-configuration-point①">(2)</a> <a href="#ref-for-configuration-point②">(3)</a> <a href="#ref-for-configuration-point③">(4)</a> <a href="#ref-for-configuration-point④">(5)</a> <a href="#ref-for-configuration-point⑤">(6)</a>
-    <li><a href="#ref-for-configuration-point⑥">4.2. Policies</a> <a href="#ref-for-configuration-point⑦">(2)</a>
-    <li><a href="#ref-for-configuration-point⑧">7.1. Policies as Structured Headers</a> <a href="#ref-for-configuration-point⑨">(2)</a> <a href="#ref-for-configuration-point①⓪">(3)</a>
-    <li><a href="#ref-for-configuration-point①①">7.1.1. Parameters</a> <a href="#ref-for-configuration-point①②">(2)</a> <a href="#ref-for-configuration-point①③">(3)</a> <a href="#ref-for-configuration-point①④">(4)</a> <a href="#ref-for-configuration-point①⑤">(5)</a> <a href="#ref-for-configuration-point①⑥">(6)</a> <a href="#ref-for-configuration-point①⑦">(7)</a>
+    <li><a href="#ref-for-configuration-point">4.1. Configuration Points</a> <a href="#ref-for-configuration-point①">(2)</a> <a href="#ref-for-configuration-point②">(3)</a> <a href="#ref-for-configuration-point③">(4)</a> <a href="#ref-for-configuration-point④">(5)</a>
+    <li><a href="#ref-for-configuration-point⑤">4.2. Policies</a> <a href="#ref-for-configuration-point⑥">(2)</a>
+    <li><a href="#ref-for-configuration-point⑦">7.1. Policies as Structured Headers</a> <a href="#ref-for-configuration-point⑧">(2)</a> <a href="#ref-for-configuration-point⑨">(3)</a>
+    <li><a href="#ref-for-configuration-point①⓪">7.1.1. Parameters</a> <a href="#ref-for-configuration-point①①">(2)</a> <a href="#ref-for-configuration-point①②">(3)</a> <a href="#ref-for-configuration-point①③">(4)</a> <a href="#ref-for-configuration-point①④">(5)</a> <a href="#ref-for-configuration-point①⑤">(6)</a> <a href="#ref-for-configuration-point①⑥">(7)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="configuration-point-name">
