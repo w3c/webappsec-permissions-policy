@@ -861,129 +861,105 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    <h3 id="algo-create-from-response"><dfn export
-    id="create-from-response">Create a Permissions Policy for a browsing
-    <var>context</var> from <var>response</var></dfn></h3>
-    <p>Given a <a>browsing context</a> (<var>browsingContext</var>), <a>origin</a>
-    (<var>origin</var>), and a [=response=] (<var>response</var>), this algorithm returns a new
-    <a>Permissions Policy</a></p>
-    <ol>
-      <li>Let <var>policy</var> be the result of running <a>Create a Permissions Policy for a browsing
-      context</a> given <var>browsingContext</var>, and <var>origin</var>.</li>
-      <li>Let <var>d</var> be the result of running <a
-      href="#process-response-policy">Process response policy</a> on
-      <var>response</var> and <var>origin</var>.</li>
-      <li>For each <var>feature</var> → <var>allowlist</var> of <var>d</var>:
-        <ol>
-          <li>If <var>policy</var>'s <a>inherited policy</a>[<var>feature</var>] is true, then
-          set <var>policy</var>'s <a>declared policy</a>[<var>feature</var>] to
-          <var>allowlist</var>.</li>
-        </ol>
-      </li>
-      <li>Return <var>policy</var>.</li>
-    </ol>
+    ## <dfn export id="create-from-response">Create a Permissions Policy for a browsing context from response</dfn> ## {#algo-create-from-response}
+
+    <div class="algorithm" data-algorithm="create-from-response">
+    Given a <a>browsing context</a> (|browsingContext|), <a>origin</a>
+    (|origin|), and a [=response=] (|response|), this algorithm returns a new
+    <a>Permissions Policy</a>.
+    1. Let |policy| be the result of running <a>Create a Permissions Policy for
+      a browsing context</a> given |browsingContext|, and |origin|.
+    1. Let |d| be the result of running <a
+      href="#process-response-policy">Process response policy</a> on |response|
+      and |origin|.
+    1. For each |feature| → |allowlist| of |d|:
+        1. If |policy|'s <a>inherited policy</a>[|feature|] is true, then set
+          |policy|'s <a>declared policy</a>[|feature|] to |allowlist|.
+    1. Return |policy|.
+
+    </div>
   </section>
   <section>
-    <h3 id="algo-define-inherited-policy"><dfn id="define-inherited-policy">Define an inherited policy for
-    <var>feature</var> in <a>browsing context</a></dfn></h3>
-    <p>Given a feature (<var>feature</var>), an <a>origin</a> (<var>origin</var>), and
-    a <a>browsing context</a> (<var>browsingContext</var>), this algorithm returns the
-    <a>inherited policy</a> for that feature.</p>
-    <ol>
-      <li>If <var>browsingContext</var> is the [=nested browsing context=] of a
-        [=browsing context container=] <var>element</var>, return the result of
-        executing <a>Define an inherited policy for feature in container at
-        origin</a> for <var>feature</var> in <var>browsingContext</var>'s <a>browsing
-        context container</a> at <var>origin</var>.</li>
-      <li>Otherwise, return "<code>Enabled</code>".</li>
-    </ol>
+    ## <dfn id="define-inherited-policy">Define an inherited policy for feature in browsing context</dfn> ## {#algo-define-inherited-policy}
+
+    <div class="algorithm" data-algorithm="define-inherited-policy">
+    Given a feature (|feature|), an <a>origin</a> (|origin|), and a <a>browsing
+    context</a> (|browsingContext|), this algorithm returns the <a>inherited
+    policy</a> for that feature.
+    1. If |browsingContext| is the [=nested browsing context=] of a [=browsing
+      context container=], return the result of executing <a>Define an
+      inherited policy for feature in container at origin</a> for |feature| in
+      |browsingContext|'s <a>browsing context container</a> at |origin|.
+    1. Otherwise, return "<code>Enabled</code>".
+
+    </div>
   </section>
   <section>
-    <h3 id="algo-define-inherited-policy-in-container"><dfn>Define an inherited
-    policy for <var>feature</var> in <var>container</var> at
-    <var>origin</var></dfn></h3>
-    <p>Given a feature (<var>feature</var>) a <a>browsing context container</a>
-    (<var>container</var>), and an <a>origin</a> for a document in that
-    container (<var>origin</var>), this algorithm returns the <a>inherited
-    policy</a> for that feature.</p>
-    <ol>
-      <li>Let <var>policy</var> be <var>container</var>'s <a>node document</a>'s
-      <a>Permissions Policy</a>
-      </li>
-      <li>If <var>policy</var>'s <a>inherited policy</a> for <var>feature</var>
-      is "<code>Disabled</code>", return "<code>Disabled</code>".</li>
-      <li>If <var>feature</var> is present in <var>policy</var>'s <a>declared
-      policy</a>, and the <a>allowlist</a> for <var>feature</var> in
-      <var>policy</var>'s <a>declared policy</a> does not <a>match</a>
-      <var>origin</var>, then return "<code>Disabled</code>".
-      </li>
-      <li>Let <var>container policy</var> be the result of running
-        <a>Process permissions policy attributes</a> on
-        <var>container</var>.
-      </li>
-      <li>If <var>feature</var> is a key in <var>container policy</var>:
-        <ol>
-          <li>If the <a>allowlist</a> for <var>feature</var> in
-          <var>container policy</var> <a>matches</a> <var>origin</var>, return
-          "<code>Enabled</code>".
-          </li>
-          <li>Otherwise return "<code>Disabled</code>".</li>
-        </ol>
-      </li>
-      <li>If <var>feature</var>'s <a>default allowlist</a> is
-      <code>*</code>, return "<code>Enabled</code>".
-      </li>
-      <li>If <var>feature</var>'s <a>default allowlist</a> is
-      <code>'self'</code>, and <var>origin</var> is [=same origin=] with
-      <var>document</var>'s origin, return "<code>Enabled</code>".
-      </li>
-      <li>Otherwise return "<code>Disabled</code>".</li>
-    </ol>
+    ## <dfn id="define-inherited-policy-in-container">Define an inherited policy for feature in container at origin</dfn> ## {#algo-define-inherited-policy-in-container}
+
+    <div class="algorithm"
+    data-algorithm="define-inherited-policy-in-container">
+    Given a feature (|feature|) a <a>browsing context container</a>
+    (|container|), and an <a>origin</a> for a document in that container
+    (|origin|), this algorithm returns the <a>inherited policy</a> for that
+    feature.
+    1. Let |policy| be |container|'s <a>node document</a>'s <a>Permissions
+      Policy</a>
+    1. If |policy|'s <a>inherited policy</a> for |feature| is
+      "<code>Disabled</code>", return "<code>Disabled</code>".
+    1. If |feature| is present in |policy|'s <a>declared policy</a>, and the
+      <a>allowlist</a> for |feature| in |policy|'s <a>declared policy</a> does
+      not <a>match</a> |origin|, then return "<code>Disabled</code>".
+    1. Let |container policy| be the result of running <a>Process permissions
+      policy attributes</a> on |container|.
+    1. If |feature| is a key in |container policy|:
+        1. If the <a>allowlist</a> for |feature| in |container policy|
+          <a>matches</a> |origin|, return "<code>Enabled</code>".
+        1. Otherwise return "<code>Disabled</code>".
+    1. If |feature|'s <a>default allowlist</a> is <code>*</code>, return
+      "<code>Enabled</code>".
+    1. If |feature|'s <a>default allowlist</a> is <code>'self'</code>, and
+      |origin| is [=same origin=] with |container|'s <a>node document</a>'s
+      origin, return "<code>Enabled</code>".
+    1. Otherwise return "<code>Disabled</code>".
+
+    </div>
   </section>
   <section>
-    <h3 id="algo-is-feature-enabled"><dfn id="is-feature-enabled">Is
-    <var>feature</var> enabled in <var>document</var> for
-    <var>origin</var>?</dfn></h3>
-    <p>Given a feature (<var>feature</var>), a {{Document}} object
-    (<var>document</var>), and an [=origin=] (<var>origin</var>), this algorithm
-    returns "<code>Disabled</code>" if <var>feature</var> should be considered
+    ## <dfn id="is-feature-enabled">Is feature enabled in document for origin?</dfn> ## {#algo-is-feature-enabled}
+
+    <div class="algorithm" data-algorithm="is-feature-enabled">
+    Given a feature (|feature|), a {{Document}} object
+    (|document|), and an [=origin=] (|origin|), this algorithm
+    returns "<code>Disabled</code>" if |feature| should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
-    <ol>
-      <li>Let <var>policy</var> be <var>document</var>'s <a>Permissions
-      Policy</a></li>
-      <li>If <var>policy</var>'s <a>inherited policy</a> for <var>feature</var>
-      is Disabled, return "<code>Disabled</code>".</li>
-      <li>If <var>feature</var> is present in <var>policy</var>'s <a>declared
-      policy</a>:
-        <ol>
-          <li>If the <a>allowlist</a> for <var>feature</var> in
-          <var>policy</var>'s <a>declared policy</a> <a>matches</a>
-          <var>origin</var>, then return "<code>Enabled</code>".
-          </li>
-          <li>Otherwise return "<code>Disabled</code>".</li>
-        </ol>
-      </li>
-      <li>If <var>feature</var>'s <a>default allowlist</a> is
-      <code>*</code>, return "<code>Enabled</code>".
-      </li>
-      <li>If <var>feature</var>'s <a>default allowlist</a> is
-      <code>'self'</code>, and <var>origin</var> is [=same origin=] with
-      <var>document</var>'s origin, return "<code>Enabled</code>".
-      </li>
-      <li>Return "<code>Disabled</code>".</li>
-    </ol>
+    1. Let |policy| be |document|'s <a>Permissions Policy</a>
+    1. If |policy|'s <a>inherited policy</a> for |feature| is Disabled, return
+      "<code>Disabled</code>".
+    1. If |feature| is present in |policy|'s <a>declared policy</a>:
+        1. If the <a>allowlist</a> for |feature| in |policy|'s <a>declared
+          policy</a> <a>matches</a> |origin|, then return
+          "<code>Enabled</code>".
+        1. Otherwise return "<code>Disabled</code>".
+    1. If |feature|'s <a>default allowlist</a> is <code>*</code>, return
+      "<code>Enabled</code>".
+    1. If |feature|'s <a>default allowlist</a> is <code>'self'</code>, and
+      |origin| is [=same origin=] with |document|'s origin, return
+      "<code>Enabled</code>".
+    1. Return "<code>Disabled</code>".
+
+    </div>
   </section>
   <section>
-    <h3 id="algo-report-permissions-policy-violation"><dfn export
-    id="report-permissions-policy-violation">Generate report for violation of
-    permissions policy on |settings|</h3>
+    ## <dfn export id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings</dfn> ## {#algo-report-permissions-policy-violation}
 
-    <p> Given a feature (|feature|), an <a>environment settings object</a>
+    <div class="algorithm" data-algorithm="report-permissions-policy-violation">
+    Given a feature (|feature|), an <a>environment settings object</a>
     (|settings|), and an optional string (|group|), this algorithm generates a
-    <a>report</a> about the <a>violation</a> of the policy for |feature|.</p>
+    <a>report</a> about the <a>violation</a> of the policy for |feature|.
 
-    1.  Let |body| be a new {{PermissionsPolicyViolationReportBody}}, initialized
-        as follows:
+    1. Let |body| be a new {{PermissionsPolicyViolationReportBody}}, initialized
+      as follows:
 
         :   [=PermissionsPolicyViolationReportBody/featureId=]
         ::  |feature|'s string representation.
@@ -996,38 +972,48 @@ partial interface HTMLIFrameElement {
         :   [=PermissionsPolicyViolationReportBody/disposition=]
         ::  "enforce"
 
-    2.  If the user agent is currently executing script, and can extract the
-        source file's URL, line number, and column number from |settings|, then
-        set |body|'s [=PermissionsPolicyViolationReportBody/sourceFile=],
-        [=PermissionsPolicyViolationReportBody/lineNumber=], and
-        [=PermissionsPolicyViolationReportBody/columnNumber=] accordingly.
+    1. If the user agent is currently executing script, and can extract the
+      source file's URL, line number, and column number from |settings|, then
+      set |body|'s [=PermissionsPolicyViolationReportBody/sourceFile=],
+      [=PermissionsPolicyViolationReportBody/lineNumber=], and
+      [=PermissionsPolicyViolationReportBody/columnNumber=] accordingly.
 
-    3.  If |group| is omitted, set |group| to "default".
+    1. If |group| is omitted, set |group| to "default".
 
-    4.  Execute [[reporting#queue-report]] with |body|,
-        "permissions-policy-violation", |group|, and |settings|.
+    1. Execute [[reporting#queue-report]] with |body|,
+      "permissions-policy-violation", |group|, and |settings|.
+
+    </div>
 
     Note: This algorithm should be called when a permissions policy has
     been <a>violated</a>.
   </section>
   <section>
-    <h3 id="algo-should-request-be-allowed-to-use-feature"><dfn export>Should
-    <var>request</var> be allowed to use <var>feature</var>?</dfn></h3>
-    <p>Given a feature (<var>feature</var>) and a  <a for="/">request</a> (<var>request</var>), this algorithm returns <code>true</code> if the request should be allowed to use <var>feature</var>, and <code>false</code> otherwise.</p>
-    <ol>
-      <li>Set |window| to |request|’s <a for="request">window</a>.</li>
-      <li>If |window| is not a {{Window}}, return <code>false</code>.
-       <div class="issue">Permissions Policy within non-Window contexts ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. *Until* that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
-      </li>
-      <li>Set |document| to |window|’s <a>associated `Document`</a>.</li>
-      <li>Let |origin| be |request|’s <a for="request">origin</a>.</li>
-      <li>Let |result| be the result of executing <a
-        href="#is-feature-enabled">Is feature enabled in document for
+    ## <dfn export>Should request be allowed to use feature?</dfn> ## {#algo-should-request-be-allowed-to-use-feature}
+
+    <div class="algorithm"
+    data-algorithm="should-request-be-allowed-to-use-feature">
+    Given a feature (|feature|) and a  <a for="/">request</a> (|request|), this
+    algorithm returns <code>true</code> if the request should be allowed to use
+    |feature|, and <code>false</code> otherwise.</p>
+    1. Set |window| to |request|’s <a for="request">window</a>.
+    1. If |window| is not a {{Window}}, return <code>false</code>.
+       <div class="issue">Permissions Policy within non-Window contexts
+       ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in
+       <a href="https://github.com/WICG/feature-policy/issues/207">issue
+       #207</a>. After that’s resolved, update this algorithm to allow fetches
+       initiated within these contexts to use policy-controlled features.
+       *Until* that’s resolved, disallow all policy-controlled features (e.g.,
+       sending Client Hints to third parties) in these contexts.</div>
+    1. Set |document| to |window|’s <a>associated `Document`</a>.
+    1. Let |origin| be |request|’s <a for="request">origin</a>.
+    1. Let |result| be the result of executing <a href="#is-feature-enabled">Is
+        feature enabled in document for
         origin?</a> on |feature|, |document|, and |origin|.
-      </li>
-      <li>If |result| is "<code>Enabled</code>", return <code>true</code>.</li>
-      <li>Otherwise, return <code>false</code>.</li>
-    </ol>
+    1. If |result| is "<code>Enabled</code>", return <code>true</code>.
+    1. Otherwise, return <code>false</code>.
+
+    </div>
   </section>
 </section>
 
