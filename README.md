@@ -1,8 +1,8 @@
-# Feature Policy and Document Policy
+# Permissions Policy and Document Policy
 
-## Feature Policy
+## Permisssions Policy
 
-A web platform API which gives a website the ability to allow and deny the use of browser features in its own frame, and in iframes that it embeds. Examples of [features](https://github.com/w3c/webappsec-feature-policy/blob/master/features.md) that could be controlled by feature policy include:
+A web platform API which gives a website the ability to allow and deny the use of browser features in its own frame, and in iframes that it embeds. Examples of [features](https://github.com/w3c/webappsec-feature-policy/blob/master/features.md) that could be controlled by permissions policy include:
 
 - getUserMedia (Camera and Microphone)
 - Fullscreen
@@ -10,15 +10,13 @@ A web platform API which gives a website the ability to allow and deny the use o
 - MIDI
 - Payments
 - Synchronous XHR
-- Synchronous scripts
-- Lazyload
 - ...
 
-See also: [how to integrate a web platform feature with feature policy](https://github.com/w3c/webappsec-feature-policy/blob/master/integration.md).
+See also: [how to integrate a web platform feature with permissions policy](https://github.com/w3c/webappsec-feature-policy/blob/master/integration.md).
 
-The Feature Policy spec is hosted on this repo, at https://w3c.github.io/webappsec-feature-policy/
+The Permissions Policy spec is hosted on this repo, at https://w3c.github.io/webappsec-feature-policy/
 
-For more explanation, use cases, examples, etc., please refer to [the feature policy explainer document](https://docs.google.com/document/d/1k0Ua-ZWlM_PsFCFdLMa8kaVTo32PeNZ4G7FFHqpFx4E/edit).
+For more explanation, use cases, examples, etc., please refer to [the explainer document](https://docs.google.com/document/d/1k0Ua-ZWlM_PsFCFdLMa8kaVTo32PeNZ4G7FFHqpFx4E/edit).
 
 ## Document Policy
 
