@@ -1,23 +1,23 @@
 # Defining Policy-Controlled Features
 
-This guide is for authors of other standards who want to use Feature Policy as
-a mechanism for enabling and disabling their features. It's a collection of
+This guide is for authors of other standards who want to use Permissions Policy
+as a mechanism for enabling and disabling their features. It's a collection of
 principles and guidelines (more than actual rules) for coming up with sensible
 defaults, whether the feature in question is a long standing feature on the
 web, or something brand new.
 
-## Referencing the Feature Policy spec
+## Referencing the Permissions Policy spec
 
 There is no central registry for policy-controlled features. Feature authors who
-wish to allow Feature Policy to control their features on the web can do so by
-referencing the Feature Policy specification.
+wish to allow Permissions Policy to control their features on the web can do so
+by referencing the Permissions Policy specification.
 
 The following example shows how a feature could be declared as a
 policy-controlled feature:
 
 > Example:
 >
->### Section N: Feature Policy Integration
+>### Section N: Permissions Policy Integration
 > The Sample API defines a [*policy-controlled feature*](https://w3c.github.io/webappsec-feature-policy/#policy-controlled-feature)
 > identified by the string "`sample`". Its [default allowlist](https://w3c.github.io/webappsec-feature-policy/#default-allowlist)
 > is `'self'` \[[FEATURE-POLICY](https://w3c.github.io/webappsec-feature-policy/)\].
@@ -44,14 +44,14 @@ allowlist chosen affects how the feature behaves when there are no declared
 policies present. As a rough guide:
 
 * Features which have already been widely available on the web platform, but
-which Feature Policy can now disable selectively, should use `*`. This
+which Permissions Policy can now disable selectively, should use `*`. This
 ensures that the majority of documents on the web, as well as documents which
 are framed without their knowledge, will continue to behave as expected by
 their original authors.
 * New powerful features are often specified such that they are available in
 top-level browsing contexts only, and are not available in cross-origin child
 frames, for security. These kinds of features should use a default allowlist of
-`'self'` to provide this behaviour. In this case, Feature Policy also grants
+`'self'` to provide this behaviour. In this case, Permissions Policy also grants
 site authors the ability to selectively enable the feature in other origins,
 but the default behaviour is to disable it.
 
