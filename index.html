@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version cac0058, updated Tue May 19 10:56:43 2020 -0700" name="generator">
+  <meta content="Bikeshed version 56380d9, updated Thu May 21 13:35:10 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="b297ab042b111dbf5c2e5bca7ed625f08a337420" name="document-revision">
+  <meta content="c6e61e65e8c7e5f5699896d21abf81b3a0154055" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1486,7 +1486,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Feature Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-21">21 May 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-26">26 May 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1673,29 +1673,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     specified features will be disabled for all browsing contexts, regardless of
     their origin.</p>
     </div>
-    <div class="example" id="example-0976fd18">
-     <a class="self-link" href="#example-0976fd18"></a> 
-     <p>SecureCorp Inc. wants to disable use of Geolocation API within all
-    browsing contexts except for its own origin and those whose origin is
-    "<code>https://example.com</code>". It can do so by delivering the
-    following HTTP response header to define a feature policy:</p>
-<pre><a data-link-type="http-header" href="#feature-policy-header" id="ref-for-feature-policy-header①">Feature-Policy</a>: geolocation 'self' https://example.com</pre>
-     <p>The <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist">allowlist</a> is a list of one or more origins, which can include
-    the application’s origin, optionally with the keyword "<code>'self'</code>",
-    and any third-party origin.</p>
-    </div>
-    <div class="example" id="example-652f9c6b">
-     <a class="self-link" href="#example-652f9c6b"></a> 
-     <p>SecureCorp Inc. is hosting an application on
-    "<code>https://example.com</code>" and wants to disable camera and
-    microphone input on its own origin but enable it for a specific embedee
-    ("<code>https://other.com</code>"). It can do so by delivering the
-    following HTTP response header to define a feature policy:</p>
-<pre><a data-link-type="http-header" href="#feature-policy-header" id="ref-for-feature-policy-header②">Feature-Policy</a>: camera https://other.com; microphone https://other.com</pre>
-     <p>Some features are disabled by default in embedded contexts. The policy
-    allows the application to selectively enable such features for specified
-    origins.</p>
-    </div>
     <div class="example" id="example-1db1f085">
      <a class="self-link" href="#example-1db1f085"></a> 
      <p>Geolocation is disabled by default in all cross-origin frames. FastCorp
@@ -1705,6 +1682,23 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 <pre>&lt;iframe src="https://other.com/map" <a href="#iframe-allow-attribute">allow</a>="geolocation">&lt;/iframe></pre>
      <p>Iframe attributes can selectively enable features in certain frames, and
     not in others, even if those contain documents from the same origin.</p>
+    </div>
+    <div class="example" id="example-621c14b7">
+     <a class="self-link" href="#example-621c14b7"></a> 
+     <p>SecureCorp Inc. wants to completely disable use of the Geolocation API
+    within all browsing contexts except for its own origin and those whose
+    origin is "<code>https://example.com</code>", even in the presence of an
+    attacker who can embed their own iframes on SecureCorp’s pages. It can do
+    this by delivering the following HTTP response header to define a restricted
+    feature policy for Geolocation:</p>
+<pre><a data-link-type="http-header" href="#feature-policy-header" id="ref-for-feature-policy-header①">Feature-Policy</a>: geolocation 'self' https://example.com</pre>
+     <p>The <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist">allowlist</a> is a list of one or more origins, which can include
+    the application’s origin, optionally with the keyword "<code>'self'</code>",
+    and any third-party origin.</p>
+     <p>With this policy in effect, it can then use the "<code>allow</code>"
+    iframe attribute as usual to grant geolocation to certain frames, but only
+    those frames hosting content from http://example.com or SecureCorp itself
+    will actually be granted the ability to use that API.</p>
     </div>
    </section>
    <section>
@@ -1869,10 +1863,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       default, and when allowed, is allowed by default to same-origin domain
       documents in child browsing contexts, but is disallowed by default in
       cross-origin documents in child browsing contexts.
-      <dt>'none'
-      <dd>The feature is disallowed in documents in top-level browsing contexts
-      by default, and is also disallowed by default to documents in child
-      browsing contexts.
      </dl>
     </section>
    </section>
@@ -2459,20 +2449,20 @@ set to "enforce".</p>
     container (<var>origin</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑦">inherited
     policy</a> for that feature.</p>
      <ol>
-      <li>Let <var>parent</var> be <var>container</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document④">node
-        document</a>.
+      <li>Let <var>policy</var> be <var>container</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document④">node document</a>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⓪">Feature Policy</a> 
+      <li>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is "<code>Disabled</code>", return "<code>Disabled</code>".
+      <li>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared
+      policy</a>, and the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared policy</a> does not <a data-link-type="dfn" href="#matches" id="ref-for-matches">match</a> <var>origin</var>, then return "<code>Disabled</code>". 
       <li>Let <var>container policy</var> be the result of running <a data-link-type="dfn" href="#process-feature-policy-attributes" id="ref-for-process-feature-policy-attributes">Process feature policy attributes</a> on <var>container</var>. 
       <li>
        If <var>feature</var> is a key in <var>container policy</var>: 
        <ol>
-        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a> for <var>feature</var> in <var>container policy</var> does not <a data-link-type="dfn" href="#matches" id="ref-for-matches">match</a> <var>origin</var>,
-          return "<code>Disabled</code>". 
-        <li>If <a href="#is-feature-enabled" id="ref-for-is-feature-enabled"><var>feature</var> is enabled in <var>parent</var> for <var>parent</var>’s <var>origin</var></a>,
-          return "<code>Enabled</code>". 
+        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, return
+          "<code>Enabled</code>". 
+        <li>Otherwise return "<code>Disabled</code>".
        </ol>
-      <li>If <a href="#is-feature-enabled" id="ref-for-is-feature-enabled①"><var>feature</var> is
-      enabled in <var>parent</var> for <var>origin</var></a>, return
-      "<code>Enabled</code>". 
+      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist③">default allowlist</a> is <code>*</code>, return "<code>Enabled</code>". 
+      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist④">default allowlist</a> is <code>'self'</code>, and <var>origin</var> is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#same-origin" id="ref-for-same-origin">same origin</a> with <var>document</var>’s origin, return "<code>Enabled</code>". 
       <li>Otherwise return "<code>Disabled</code>".
      </ol>
     </section>
@@ -2483,17 +2473,17 @@ set to "enforce".</p>
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
      <ol>
-      <li>Let <var>policy</var> be <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①⓪">Feature Policy</a> 
-      <li>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is Disabled, return "<code>Disabled</code>".
+      <li>Let <var>policy</var> be <var>document</var>’s <a data-link-type="dfn" href="#feature-policy" id="ref-for-feature-policy①①">Feature Policy</a> 
+      <li>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑨">inherited policy</a> for <var>feature</var> is Disabled, return "<code>Disabled</code>".
       <li>
-       If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared
+       If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑨">declared
       policy</a>: 
        <ol>
-        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
+        <li>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①⓪">declared policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches②">matches</a> <var>origin</var>, then return "<code>Enabled</code>". 
         <li>Otherwise return "<code>Disabled</code>".
        </ol>
-      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist③">default allowlist</a> is <code>*</code>, return "<code>Enabled</code>". 
-      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist④">default allowlist</a> is <code>'self'</code>, and <var>origin</var> is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#same-origin" id="ref-for-same-origin">same origin</a> with <var>document</var>’s origin, return "<code>Enabled</code>". 
+      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist⑤">default allowlist</a> is <code>*</code>, return "<code>Enabled</code>". 
+      <li>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist⑥">default allowlist</a> is <code>'self'</code>, and <var>origin</var> is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#same-origin" id="ref-for-same-origin①">same origin</a> with <var>document</var>’s origin, return "<code>Enabled</code>". 
       <li>Return "<code>Disabled</code>".
      </ol>
     </section>
@@ -2544,7 +2534,7 @@ set to "enforce".</p>
        <div class="issue" id="issue-79a5ddf0"><a class="self-link" href="#issue-79a5ddf0"></a>Feature Policy within non-Window contexts (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope" id="ref-for-workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope" id="ref-for-workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue #207</a>. After that’s resolved, update this algorithm to allow fetches initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g., sending Client Hints to third parties) in these contexts.</div>
       <li>Set <var>document</var> to <var>window</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window" id="ref-for-concept-document-window">associated <code>Document</code></a>.
       <li>Let <var>origin</var> be <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-origin" id="ref-for-concept-request-origin">origin</a>.
-      <li>Let <var>result</var> be the result of executing <a href="#is-feature-enabled" id="ref-for-is-feature-enabled②">Is feature enabled in document for
+      <li>Let <var>result</var> be the result of executing <a href="#is-feature-enabled" id="ref-for-is-feature-enabled">Is feature enabled in document for
         origin?</a> on <var>feature</var>, <var>document</var>, and <var>origin</var>. 
       <li>If <var>result</var> is "<code>Enabled</code>", return <code>true</code>.
       <li>Otherwise, return <code>false</code>.
@@ -3017,7 +3007,10 @@ set to "enforce".</p>
   <aside class="dfn-panel" data-for="term-for-same-origin">
    <a href="https://html.spec.whatwg.org/multipage/origin.html#same-origin">https://html.spec.whatwg.org/multipage/origin.html#same-origin</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-same-origin">9.10. Is
+    <li><a href="#ref-for-same-origin">9.9. Define an inherited
+    policy for feature in container at
+    origin</a>
+    <li><a href="#ref-for-same-origin①">9.10. Is
     feature enabled in document for
     origin?</a>
    </ul>
@@ -3391,7 +3384,10 @@ set to "enforce".</p>
     Feature Policy for a browsing context</a> <a href="#ref-for-feature-policy⑧">(2)</a>
     <li><a href="#ref-for-feature-policy⑨">9.7. Create a Feature
     Policy for a browsing context from response</a>
-    <li><a href="#ref-for-feature-policy①⓪">9.10. Is
+    <li><a href="#ref-for-feature-policy①⓪">9.9. Define an inherited
+    policy for feature in container at
+    origin</a>
+    <li><a href="#ref-for-feature-policy①①">9.10. Is
     feature enabled in document for
     origin?</a>
    </ul>
@@ -3408,8 +3404,8 @@ set to "enforce".</p>
     feature in browsing context</a>
     <li><a href="#ref-for-inherited-policy⑦">9.9. Define an inherited
     policy for feature in container at
-    origin</a>
-    <li><a href="#ref-for-inherited-policy⑧">9.10. Is
+    origin</a> <a href="#ref-for-inherited-policy⑧">(2)</a>
+    <li><a href="#ref-for-inherited-policy⑨">9.10. Is
     feature enabled in document for
     origin?</a>
    </ul>
@@ -3426,9 +3422,12 @@ set to "enforce".</p>
     origin</a>
     <li><a href="#ref-for-declared-policy⑥">9.7. Create a Feature
     Policy for a browsing context from response</a>
-    <li><a href="#ref-for-declared-policy⑦">9.10. Is
+    <li><a href="#ref-for-declared-policy⑦">9.9. Define an inherited
+    policy for feature in container at
+    origin</a> <a href="#ref-for-declared-policy⑧">(2)</a>
+    <li><a href="#ref-for-declared-policy⑨">9.10. Is
     feature enabled in document for
-    origin?</a> <a href="#ref-for-declared-policy⑧">(2)</a>
+    origin?</a> <a href="#ref-for-declared-policy①⓪">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="header-policy">
@@ -3479,8 +3478,8 @@ set to "enforce".</p>
     <li><a href="#ref-for-allowlist①⓪">9.3. Parse policy directive</a>
     <li><a href="#ref-for-allowlist①①">9.9. Define an inherited
     policy for feature in container at
-    origin</a>
-    <li><a href="#ref-for-allowlist①②">9.10. Is
+    origin</a> <a href="#ref-for-allowlist①②">(2)</a>
+    <li><a href="#ref-for-allowlist①③">9.10. Is
     feature enabled in document for
     origin?</a>
    </ul>
@@ -3499,8 +3498,8 @@ set to "enforce".</p>
    <ul>
     <li><a href="#ref-for-matches">9.9. Define an inherited
     policy for feature in container at
-    origin</a>
-    <li><a href="#ref-for-matches①">9.10. Is
+    origin</a> <a href="#ref-for-matches①">(2)</a>
+    <li><a href="#ref-for-matches②">9.10. Is
     feature enabled in document for
     origin?</a>
    </ul>
@@ -3510,9 +3509,12 @@ set to "enforce".</p>
    <ul>
     <li><a href="#ref-for-default-allowlist">4.1. Policy-controlled Features</a>
     <li><a href="#ref-for-default-allowlist①">4.9. Default Allowlists</a> <a href="#ref-for-default-allowlist②">(2)</a>
-    <li><a href="#ref-for-default-allowlist③">9.10. Is
+    <li><a href="#ref-for-default-allowlist③">9.9. Define an inherited
+    policy for feature in container at
+    origin</a> <a href="#ref-for-default-allowlist④">(2)</a>
+    <li><a href="#ref-for-default-allowlist⑤">9.10. Is
     feature enabled in document for
-    origin?</a> <a href="#ref-for-default-allowlist④">(2)</a>
+    origin?</a> <a href="#ref-for-default-allowlist⑥">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="serialized-feature-policy">
@@ -3557,7 +3559,7 @@ set to "enforce".</p>
   <aside class="dfn-panel" data-for="feature-policy-header">
    <b><a href="#feature-policy-header">#feature-policy-header</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-feature-policy-header">2. Examples</a> <a href="#ref-for-feature-policy-header①">(2)</a> <a href="#ref-for-feature-policy-header②">(3)</a>
+    <li><a href="#ref-for-feature-policy-header">2. Examples</a> <a href="#ref-for-feature-policy-header①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="featurepolicy">
@@ -3765,9 +3767,6 @@ set to "enforce".</p>
   <aside class="dfn-panel" data-for="is-feature-enabled">
    <b><a href="#is-feature-enabled">#is-feature-enabled</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-is-feature-enabled">9.9. Define an inherited
-    policy for feature in container at
-    origin</a> <a href="#ref-for-is-feature-enabled">(2)</a>
     <li><a href="#ref-for-is-feature-enabled">9.12. Should
     request be allowed to use feature?</a>
    </ul>
