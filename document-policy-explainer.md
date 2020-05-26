@@ -381,11 +381,10 @@ frames.
 just the content that it embeds. It can be used in conjunction with the
 `Document-Policy` header, though.
 
-When you set a required document policy, most features will have to be
-acknowledged by the document being embedded, as otherwise it can be possible to
-affect the content on that page in unexpected ways. Any policies which require
-acknowledgment will be advertised with a `Sec-Required-Document-Policy` request
-header.
+When you set a required document policy, it will have to be acknowledged by the
+document being embedded, as otherwise it would be possible to affect the content
+on that page in unexpected ways. The required policy will be advertised with a
+`Sec-Required-Document-Policy` request header.
 
 If the content which is returned doesn't have a `Document-Policy` header which
 is at least as strict as the `Sec-Required-Document-Policy`, then it will not be
@@ -419,18 +418,11 @@ as a sandbox flag, can be controlled independently as well.
 
 ### More Details: Opting in to being embedded with a policy
 
-Some (most?) features require acknowledgment when they are part of a required
+Document policy features require acknowledgment when they are part of a required
 policy -- that is, a page cannot simply set the "`policy`" attribute on an
 iframe and impose the requirement on the page in the frame. The page being
 embedded must be serverd with its own `Document-Policy` header which
 acknowledges the requirement (specifying a policy which it at least as strict).
-Other features, such as the pre-existing sandbox flags, don't require
-acknowledgment. They are considered safe to impose on embedded content (mostly
-by virtue of the fact that the `sandbox` attribute has existsed for years with
-no such requirment.)
-
-As a starting point for discussion, all existing sandbox flags would not require
-acknowledgment, and all other document policies would.
 
 In documents generated from `data:` URLs, and in iframe srcdoc documents, where
 the parent document controls the content of the child explicitly, and there is
@@ -443,8 +435,8 @@ For an iframe, that required policy is the union<sup>[1](#fn1)</sup> of the
 parent's required document policy, the parent's `Require-Document-Policy`
 header, and the policy attribute of the containing iframe element.
 
-All features in the required policy which require acknowledgment will be
-advertised in a `Sec-Required-Document-Policy` request header.
+The required policy will be advertised in a `Sec-Required-Document-Policy`
+request header.
 
 Example:
 

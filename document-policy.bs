@@ -164,10 +164,6 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     for="configuration point">default value</dfn>, which is an element of its
     <a for="configuration point">range</a>.
 
-    A <a>configuration point</a> has a <dfn
-    for="configuration point">requires acknowlegement</dfn> flag, which is
-    either `yes` or `no`.
-
     A <a>configuration point</a> which has <a
     for="configuration point">type</a> `integer` or `float` also has a <a
     for="configuration point">parameter name</a>, which is a token, which must
@@ -179,11 +175,9 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
 
     <div class="informative">
     When introducing a new configuration point, the <a
-    for="configuration point">default value</a> and <a
-    for="configuration point">requires acknowlegment</a> flag should be chosen
-    carefully, with highest consideration given to web compatibility. When no
-    explicit policy has been declared for a document, the default value will be
-    in effect.
+    for="configuration point">default value</a> should be chosen carefully, with
+    highest consideration given to web compatibility. When no explicit policy
+    has been declared for a document, the default value will be in effect.
     </div>
   </section>
   <section>
@@ -583,8 +577,6 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     |declaredPolicy| is compatible with |requiredPolicy|, or false otherwise.
 
     1. For each |configuration point| → |value| in |requiredPolicy|:
-        1. If |configuration point|'s <a>requires acknowledgment</a> flag is
-            `no`, then continue.
         1. If |declaredPolicy|[|configuration point|] does not exist, then
             return false.
         1. If |value| is stricter than |declaredPolicy|[|configuration point|],
@@ -971,16 +963,18 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
   # Privacy and Security # {#privacy-and-security}
 
   This specification standardizes a mechanism for an embedding page to set a
-  policy which will be enforced on an embedded page. When explicit
-  acknowledgment of a required policy is not required, similar to iframe
-  <{iframe/sandbox}>, this means that behaviors of existing features may be
-  changed in published web sites, by embedding them in another document with an
-  appropriate required policy.
+  policy which will be enforced on an embedded page. Explicit acknowledgment of
+  a required policy is required, however, unlike existing the existing iframe
+  <{iframe/sandbox}>, mechanism. This means that behaviors of existing features
+  cannot be changed in published web sites, without the cooperation of those
+  sites.
 
-  As such, the biggest privacy and security concerns are:
+  There are some privacy and security considerations to keep in mind with this
+  model:
 
   * Exposure of behavior in a cross-origin subframe to its embedder.
-  * Unanticipated behavior changes in subframes controlled by the embedder.
+  * Exposure of embedder state to the embedded document thorough policy.
+  * Unanticipated behavior change by blindly accepting a required policy.
 
   To a degree, these concerns are already present in the web platform, and this
   specification attempts to at least not make them needlessly worse.
@@ -990,7 +984,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
   specification. This section attempts to provide some guidance as to what kinds
   of behaviors could cause such issues.
 
-  ## Exposure of cross-origin behavior {#exposure-of-cross-origin-behavior}
+  ## Exposure of cross-origin behavior ## {#exposure-of-cross-origin-behavior}
 
   Configuraton points should be designed such that a violation of the policy in
   a framed document is not observable by documents in other frames. For
@@ -1001,24 +995,6 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
   then the embedder could disable that feature for the frame, and then listen
   for the resulting events to determine whether or not the user is logged in.
 
-  ## Unanticipated behavior changes ## {#unanticipated-behavior-changes}
-
-  Document policy grants a document the ability to control which features will
-  and will not be availble in a subframe at the time it is loaded. When a
-  feature represents an existing, long-standing behavior of the web platform,
-  this may mean that existing published content on the web was not written with
-  the expectation that a particular API could fail.
-
-  This is very similar to the existing iframe sandboxing mechanism, where
-  behavior can be changed without the explicit consent of the embedded page,
-  but it is not clear that is always safe.
-
-  When considering placing such a feature under policy control, standards
-  authors are strongly encouraged to require opt-in by the embedded document.
-  This means that existing content will not be allowed to be loaded in a context
-  where that behavior is changed, until it is configured to recognize and
-  accept the policy.
-
   ## Advertisement of required policy ## {#advertisement-of-required-policy}
 
   As a mitigation to the behavior change problem discussed above, requests for
@@ -1027,4 +1003,23 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
   servers, and its contents may reveal details about the embedder page.
   Embedders should be aware of this when choosing to require a policy on their
   embedded content.
+
+  ## Blind acceptance of required policy ## {#blind-acceptance-of-policy}
+
+  Since adhering to the embedder-required policy is necessary in order to be
+  loaded, site owners may be tempted to configure web servers to simply echo the
+  `Sec-Required-Document-Policy` request header in the response's
+  `Document-Policy` header. While this will ensure that the document's policy is
+  always compatible with the request, it may open up the embedded document to
+  the risk that the embedder can alter control flow within it, by disabling or
+  changing the behavior of existing APIs. This is especially true as new
+  configuration points are added to the document policy model after the content
+  is written. It is difficult to future-proof a document against all possible
+  new behavior changes.
+
+  Sites which expect to be embedded in a context with a required document policy
+  can mitigate this by setting their policy to the actual strictest policy that
+  they know they can support, or by echoing the incoming policy for only the
+  configuration points which they are aware of, and understand the potential
+  scope of behavior changes.
 </section>
