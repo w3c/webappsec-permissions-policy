@@ -54,8 +54,6 @@ frames, for security. These kinds of features should use a default allowlist of
 `'self'` to provide this behaviour. In this case, Feature Policy also grants
 site authors the ability to selectively enable the feature in other origins,
 but the default behaviour is to disable it.
-* A default allowlist of `'none'` should be restricted to new features, as a
-Feature Policy header is *required* in order to enable it in any document.
 
 ## Considerations for behavior when disallowed
 
@@ -88,11 +86,8 @@ allowed to fail in the past, then it may be dangerous to turn it into a
 policy-controlled feature, where it may start to fail on pages that were always
 able to assume that it would not.
 
-In this case, features can take advantage of the concept of
-[feature-policy-awareness](https://w3c.github.io/webappsec-feature-policy/#feature-policy-aware)
-to define different behaviour when disabled in a document written to be aware of
-Feature Policy (and hence the possiblity that the API could fail) and in a
-document written without that knowledge.
+In this case, features may be better defined using [Document Policy](https://w3c.github.io/webappsec-feature-policy/document-policy.html), as that mechanism requires an explicit
+opt-in by any embedded document where that policy is required.
 
 > Example:
 >
@@ -111,36 +106,9 @@ document written without that knowledge.
 > then an attacker could embed that page in a frame with the `document.write`
 > feature disabled, and bypass the critical security script.
 >
-> To avoid this, a better way to disable it woudl to to declare that, if
-> disallowed in a *feature-policy-aware* document, calling `document.write()` will
-> fire a `SecurityError` exception on the `document` object, but if disallowed in
-> a *feature-policy-oblivious* document, calling `document.write()` API must cause
-> the current page to be navigated to an error page which provides the option to open
-> the page that violated the policy in a new top-level browsing context.
-
-## Allow versus Deny features
-
-In some cases, when defining a new policy-controlled feature, it may not be
-obvious whether allowing or restricting an action should be considered the
-feature.
-
-In a case like this, consider that Feature Policy tries to guarantee that, once
-disabled in a document, a feature -- however defined -- cannot be reenabled in
-that document or any of its children.
-
-> As an example, if a browser was considering a feature which would block the
-> loading of any images which appeared to be pictures of cats (as a
-> productivity measure,) and wanted to make this a policy-controlled feature,
-> then the developers would have a choice -- whether to define the new feature
-> as "block cat pictures", or as "load cat pictures".
->
-> If the goal is to block cat pictures, such that they cannot be loaded into a
-> document at all, then defining the feature as "load cat pictures" makes
-> sense, and the feature would be given a default allowlist of `*`. This way,
-> cat pictures would be allowed by default on the entire web, but once disabled
-> in a document, would not be available anywhere in that document, even in
-> child frames.
-
-In general, framing features in the positive sense, as 'allow' rather than 'deny',
-will be the right choice. This also avoids potentially-confusing double-negatives,
-and means that features will behave more consistently with each other.
+> To avoid this, a better way to disable it would be to define the availability of
+> `document.write()` as a configuration point using document policy. Then the use of
+> `document.write()` in a document which disables it can fire a `SecurityError`
+> exception on the `document` object. If a document which is to be embedded in a frame
+> which requires the policy does not conform to that required policy, it is simply not
+> loaded. (See the document policy explainer and spec for details).
