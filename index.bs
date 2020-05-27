@@ -72,6 +72,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   </ol>
   <p>This specification defines a policy mechanism that addresses the above use
   cases.</p>
+  <p class="note">This specification used to be named Feature Policy.</p>
 </section>
 <section>
   <h2 id="examples">Examples</h2>
