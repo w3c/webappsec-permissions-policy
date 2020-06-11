@@ -29,6 +29,9 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   type: dfn
     text: report type
     text: visible to reportingobservers
+spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#
+  type: dfn
+    text: sh-dictionary; url: dictionary
 </pre>
 <pre class="biblio">
 {
@@ -96,7 +99,8 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <pre>
       <a http-header>Permissions-Policy</a>: fullscreen=(), geolocation=()</pre>
     <p>By specifying an empty origin list, the specified features will be
-    disabled for all browsing contexts, regardless of their origin.</p>
+    disabled for all documents, including nested documents, regardless of their
+    origin.</p>
   </div>
   <div class="example">
     <p>Geolocation is disabled by default in all cross-origin frames. FastCorp
@@ -265,7 +269,9 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     <p>A <dfn data-lt="policy directive|policy directives">policy
     directive</dfn> is an ordered map, mapping <a>policy-controlled features</a>
     to corresponding <a>allowlists</a> of origins.</p>
-    <p>A <a>policy directive</a> is represented in HTTP headers as the serialization of an sh-dictionary structure, and in and HTML attributes as its ASCII serialization.</p>
+    <p>A <a>policy directive</a> is represented in HTTP headers as the
+    serialization of an <a>sh-dictionary</a> structure, and in and HTML
+    attributes as its ASCII serialization.</p>
   </section>
   <section>
     <h3 id="allowlists">Allowlists</h3>
@@ -388,7 +394,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
     The semantics of the dictionary are defined in
     [[#structured-header-serialization]].
 
-    The processing steps are defined in [[#algo-parse-header]].
+    The processing steps are defined in [[#algo-construct-policy]].
   </section>
   <section>
     <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the
@@ -763,29 +769,24 @@ partial interface HTMLIFrameElement {
     Given a [=response=] (|response|) and an [=origin=] (|origin|), this
     algorithm returns a <a>declared permissions policy</a>.
 
-    1. Abort these steps if |response|’s <a for="response">header list</a> does
-      not contain a [=header=] whose [=name=] is
-      "<code>Permissions-Policy</code>".
-    1. Let |header| be the concatenation of the [=value=]s of all [=header=]
-      fields in |response|’s <a for="response">header list</a> whose name is
-      "<code>Permissions-Policy</code>", separated by U+002C (,) (according to
-      [RFC7230, 3.2.2]).
-    1. Let |policy| be the result of executing <a>Parse header from value and
-      origin</a> on |header| and |origin|.
+    1. Let |parsed header| be the result of executing <a>get a structured
+      header</a> given "<code>Permissions-Policy</code>" and "dictionary" from
+      |response|’s header list.
+    1. If |parsed header| is null or failure, abort these steps.
+    1. Let |policy| be the result of executing <a>Construct policy from
+      dictionary and origin</a> on |parsed header| and |origin|.
     1. Return |policy|.
 
     </div>
   </section>
   <section>
-    ## <dfn>Parse header from value and origin</dfn> ## {#algo-parse-header}
+    ## <dfn>Construct policy from dictionary and origin</dfn> ## {#algo-construct-policy}
 
-    <div class="algorithm" data-algorithm="parse-header">
-    Given a string (|value|) and an [=origin=] (|origin|), this algorithm will
-    return a <a>declared permissions policy</a>.
-    1. Let |parsed header| be the result of parsing |policy| as a dictionary.
-    1. If |parsed header| is null or failure, abort these steps.
+    <div class="algorithm" data-algorithm="construct-policy">
+    Given an <a>ordered map</a> (|dictionary|) and an [=origin=] (|origin|), this
+    algorithm will return a <a>declared permissions policy</a>.
     1. Let |policy| be an empty ordered map.
-    1. For each |feature-name| → |value| of |parsed header|:
+    1. For each |feature-name| → |value| of |dictionary|:
         1. If |feature-name| does not identify any recognized
           <a>policy-controlled feature</a>, then continue.
         1. Let |feature| be the <a>policy-controlled feature</a> identified by
