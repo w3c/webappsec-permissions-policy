@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 792aee4, updated Fri Jun 5 17:22:42 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="0cad474782455fdf4d6aeb7eb1b88f5ed1755517" name="document-revision">
+  <meta content="87bf90c323164b1b349528552b90726151d38d43" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1564,7 +1564,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#serialization"><span class="secno">5</span> <span class="content">Permissions Policy Serialization</span></a>
      <ol class="toc">
-      <li><a href="#ascii-serialization"><span class="secno">5.1</span> <span class="content">ASCII serialization</span></a>
+      <li><a href="#ascii-serialization"><span class="secno">5.1</span> <span class="content">HTML attribute serialization</span></a>
+      <li><a href="#structured-header-serialization"><span class="secno">5.2</span> <span class="content">Structured header serialization</span></a>
      </ol>
     <li>
      <a href="#delivery"><span class="secno">6</span> <span class="content">Delivery</span></a>
@@ -1596,17 +1597,16 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <a href="#algorithms"><span class="secno">9</span> <span class="content">Algorithms</span></a>
      <ol class="toc">
       <li><a href="#algo-process-response-policy"><span class="secno">9.1</span> <span class="content"><span>Process response policy</span></span></a>
-      <li><a href="#algo-parse-header"><span class="secno">9.2</span> <span class="content"><span>Parse header from value and origin</span></span></a>
+      <li><a href="#algo-construct-policy"><span class="secno">9.2</span> <span class="content"><span>Construct policy from dictionary and origin</span></span></a>
       <li><a href="#algo-parse-policy-directive"><span class="secno">9.3</span> <span class="content"><span>Parse policy directive</span></span></a>
-      <li><a href="#algo-merge-directive-with-declared-policy"><span class="secno">9.4</span> <span class="content"><span>Merge directive with declared policy</span></span></a>
-      <li><a href="#algo-process-policy-attributes"><span class="secno">9.5</span> <span class="content"><span>Process permissions policy attributes</span></span></a>
-      <li><a href="#algo-create-for-browsingcontext"><span class="secno">9.6</span> <span class="content"><span>Create a Permissions Policy for a browsing context</span></span></a>
-      <li><a href="#algo-create-from-response"><span class="secno">9.7</span> <span class="content"><span>Create a Permissions Policy for a browsing context from response</span></span></a>
-      <li><a href="#algo-define-inherited-policy"><span class="secno">9.8</span> <span class="content"><span>Define an inherited policy for feature in browsing context</span></span></a>
-      <li><a href="#algo-define-inherited-policy-in-container"><span class="secno">9.9</span> <span class="content"><span>Define an inherited policy for feature in container at origin</span></span></a>
-      <li><a href="#algo-is-feature-enabled"><span class="secno">9.10</span> <span class="content"><span>Is feature enabled in document for origin?</span></span></a>
-      <li><a href="#algo-report-permissions-policy-violation"><span class="secno">9.11</span> <span class="content"><span>Generate report for violation of permissions policy on settings</span></span></a>
-      <li><a href="#algo-should-request-be-allowed-to-use-feature"><span class="secno">9.12</span> <span class="content"><span>Should request be allowed to use feature?</span></span></a>
+      <li><a href="#algo-process-policy-attributes"><span class="secno">9.4</span> <span class="content"><span>Process permissions policy attributes</span></span></a>
+      <li><a href="#algo-create-for-browsingcontext"><span class="secno">9.5</span> <span class="content"><span>Create a Permissions Policy for a browsing context</span></span></a>
+      <li><a href="#algo-create-from-response"><span class="secno">9.6</span> <span class="content"><span>Create a Permissions Policy for a browsing context from response</span></span></a>
+      <li><a href="#algo-define-inherited-policy"><span class="secno">9.7</span> <span class="content"><span>Define an inherited policy for feature in browsing context</span></span></a>
+      <li><a href="#algo-define-inherited-policy-in-container"><span class="secno">9.8</span> <span class="content"><span>Define an inherited policy for feature in container at origin</span></span></a>
+      <li><a href="#algo-is-feature-enabled"><span class="secno">9.9</span> <span class="content"><span>Is feature enabled in document for origin?</span></span></a>
+      <li><a href="#algo-report-permissions-policy-violation"><span class="secno">9.10</span> <span class="content"><span>Generate report for violation of permissions policy on settings</span></span></a>
+      <li><a href="#algo-should-request-be-allowed-to-use-feature"><span class="secno">9.11</span> <span class="content"><span>Should request be allowed to use feature?</span></span></a>
      </ol>
     <li><a href="#iana-considerations"><span class="secno">10</span> <span class="content">IANA Considerations</span></a>
     <li>
@@ -1669,15 +1669,15 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    </section>
    <section>
     <h2 class="heading settled" data-level="2" id="examples"><span class="secno">2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
-    <div class="example" id="example-0a0e894a">
-     <a class="self-link" href="#example-0a0e894a"></a> 
+    <div class="example" id="example-cd5e6c93">
+     <a class="self-link" href="#example-cd5e6c93"></a> 
      <p>SecureCorp Inc. wants to disable use of Fullscreen and Geolocation APIs
     within their application. It can do so by delivering the following HTTP
     response header to define a permissions policy:</p>
-<pre><a data-link-type="http-header" href="#permissions-policy-header" id="ref-for-permissions-policy-header">Permissions-Policy</a>: fullscreen 'none'; geolocation 'none'</pre>
-     <p>By specifying the "<code>'none'</code>"keyword for the origin list, the
-    specified features will be disabled for all browsing contexts, regardless of
-    their origin.</p>
+<pre><a data-link-type="http-header" href="#permissions-policy-header" id="ref-for-permissions-policy-header">Permissions-Policy</a>: fullscreen=(), geolocation=()</pre>
+     <p>By specifying an empty origin list, the specified features will be
+    disabled for all documents, including nested documents, regardless of their
+    origin.</p>
     </div>
     <div class="example" id="example-1db1f085">
      <a class="self-link" href="#example-1db1f085"></a> 
@@ -1689,17 +1689,17 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <p>Iframe attributes can selectively enable features in certain frames, and
     not in others, even if those contain documents from the same origin.</p>
     </div>
-    <div class="example" id="example-134854c8">
-     <a class="self-link" href="#example-134854c8"></a> 
+    <div class="example" id="example-aa224f11">
+     <a class="self-link" href="#example-aa224f11"></a> 
      <p>SecureCorp Inc. wants to completely disable use of the Geolocation API
     within all browsing contexts except for its own origin and those whose
     origin is "<code>https://example.com</code>", even in the presence of an
     attacker who can embed their own iframes on SecureCorp’s pages. It can do
     this by delivering the following HTTP response header to define a restricted
     permissions policy for Geolocation:</p>
-<pre><a data-link-type="http-header" href="#permissions-policy-header" id="ref-for-permissions-policy-header①">Permissions-Policy</a>: geolocation 'self' https://example.com</pre>
+<pre><a data-link-type="http-header" href="#permissions-policy-header" id="ref-for-permissions-policy-header①">Permissions-Policy</a>: geolocation=(self "https://example.com")</pre>
      <p>The <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist">allowlist</a> is a list of one or more origins, which can include
-    the application’s origin, optionally with the keyword "<code>'self'</code>",
+    the application’s origin, optionally with the keyword "<code>self</code>",
     and any third-party origin.</p>
      <p>With this policy in effect, it can then use the "<code>allow</code>"
     iframe attribute as usual to grant geolocation to certain frames, but only
@@ -1811,7 +1811,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     which may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> can set by attributes on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container">browsing context container</a>.</p>
      <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy②">container policy</a> for a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context①">nested browsing context</a> influences
     the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy④">inherited policy</a> of any document loaded into that context.
-    (See <a href="#algo-define-inherited-policy">§ 9.8 Define an inherited policy for feature in browsing context</a>)</p>
+    (See <a href="#algo-define-inherited-policy">§ 9.7 Define an inherited policy for feature in browsing context</a>)</p>
      <div class="note" role="note"> Currently, the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy③">container policy</a> cannot be set directly, but is
       indirectly set by <code>iframe</code> "<a href="#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
       "<a href="#iframe-allowpaymentrequest-attribute"><code>allowpaymentrequest</code></a>",
@@ -1823,7 +1823,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <h3 class="heading settled" data-level="4.7" id="policy-directives"><span class="secno">4.7. </span><span class="content">Policy directives</span><a class="self-link" href="#policy-directives"></a></h3>
      <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="policy directive|policy directives" data-noexport id="policy-directive">policy
     directive</dfn> is an ordered map, mapping <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature⑨">policy-controlled features</a> to corresponding <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist②">allowlists</a> of origins.</p>
-     <p>A <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive③">policy directive</a> is represented in HTTP headers and HTML
+     <p>A <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive③">policy directive</a> is represented in HTTP headers as the
+    serialization of an <a data-link-type="dfn" href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#dictionary" id="ref-for-dictionary">sh-dictionary</a> structure, and in and HTML
     attributes as its ASCII serialization.</p>
     </section>
     <section>
@@ -1874,10 +1875,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <section>
     <h2 class="heading settled" data-level="5" id="serialization"><span class="secno">5. </span><span class="content">Permissions Policy Serialization</span><a class="self-link" href="#serialization"></a></h2>
     <section>
-     <h3 class="heading settled" data-level="5.1" id="ascii-serialization"><span class="secno">5.1. </span><span class="content">ASCII serialization</span><a class="self-link" href="#ascii-serialization"></a></h3>
-     <p><a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive④">Policy Directives</a> are represented in HTTP headers and in HTML
-    attributes as ASCII text.</p>
-<pre class="abnf"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="serialized-permissions-policy">serialized-permissions-policy</dfn> = <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive">serialized-policy-directive</a> *(";" <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive①">serialized-policy-directive</a>)
+     <h3 class="heading settled" data-level="5.1" id="ascii-serialization"><span class="secno">5.1. </span><span class="content">HTML attribute serialization</span><a class="self-link" href="#ascii-serialization"></a></h3>
+     <p><a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive④">Policy Directives</a> in HTML attributes are represented as their
+    ASCII serialization, with the following ABNF: </p>
+<pre class="abnf"><dfn data-dfn-type="dfn" data-noexport id="serialized-permissions-policy">serialized-permissions-policy<a class="self-link" href="#serialized-permissions-policy"></a></dfn> = <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive">serialized-policy-directive</a> *(";" <a data-link-type="dfn" href="#serialized-policy-directive" id="ref-for-serialized-policy-directive①">serialized-policy-directive</a>)
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="serialized-policy-directive">serialized-policy-directive</dfn> = <a data-link-type="dfn" href="#feature-identifier" id="ref-for-feature-identifier">feature-identifier</a> RWS <a data-link-type="dfn" href="#allow-list" id="ref-for-allow-list">allow-list</a>
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="feature-identifier">feature-identifier</dfn> = 1*( ALPHA / DIGIT / "-")
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="allow-list">allow-list</dfn> = <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value">allow-list-value</a> *(RWS <a data-link-type="dfn" href="#allow-list-value" id="ref-for-allow-list-value①">allow-list-value</a>)
@@ -1891,6 +1892,31 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       When it is used in this way, it will refer to the origin of the document
       which contains the permissions policy. </div>
     </section>
+    <section>
+     <h3 class="heading settled" data-level="5.2" id="structured-header-serialization"><span class="secno">5.2. </span><span class="content">Structured header serialization</span><a class="self-link" href="#structured-header-serialization"></a></h3>
+      <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑤">Policy Directives</a> in HTTP headers are represented as Structured
+    Fields. <a data-link-type="biblio" href="#biblio-header-structure">[HEADER-STRUCTURE]</a> 
+     <p>In this representation, a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑥">policy directive</a> is represented by a
+    Dictionary.</p>
+     <p>Each Dictionary Member associates a <a data-link-type="dfn">feature</a> with an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a>.
+    The Member Names must be Tokens. If a token does not name a supported
+    feature, then the Dictionary Member will be ignored by the processing steps.</p>
+     <p>The Member Values represent <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑧">allowlists</a>, and must be one of:</p>
+     <ul>
+      <li data-md>
+       <p>a String containing the ASCII <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin①">serialization of an origin</a></p>
+      <li data-md>
+       <p>the Token <code>*</code></p>
+      <li data-md>
+       <p>the Token <code>self</code></p>
+      <li data-md>
+       <p>an Inner List containing zero or more of the above items.</p>
+     </ul>
+     <p>Any other items inside of an Inner List will be ignored by the processing
+    steps, and the Member Value will be processed as if they were not present.
+    Member Values of any other form will cause the entire Dictionary Member to
+    be ignored by the processing steps.</p>
+    </section>
    </section>
    <section>
     <h2 class="heading settled" data-level="6" id="delivery"><span class="secno">6. </span><span class="content">Delivery</span><a class="self-link" href="#delivery"></a></h2>
@@ -1901,10 +1927,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     HTTP header field can be used in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response">response</a> (server to client) to
     communicate the <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy④">permissions policy</a> that should be enforced by the
     client.</p>
-     <p>The header’s value is the <a href="#ascii-serialization">§ 5.1 ASCII serialization</a> of one or
-    more <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑤">policy directive</a>s:.</p>
-<pre class="abnf">PermissionsPolicy = <a data-link-type="dfn" href="#serialized-permissions-policy" id="ref-for-serialized-permissions-policy">serialized-permissions-policy</a> *("," <a data-link-type="dfn" href="#serialized-permissions-policy" id="ref-for-serialized-permissions-policy①">serialized-permissions-policy</a>)
+     <p><a data-link-type="dfn">Permissions-Policy</a> is a structured header. Its value must be a
+    dictionary. It’s ABNF is: </p>
+<pre class="abnf">PermissionsPolicy = <a data-link-type="dfn" href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#dictionary" id="ref-for-dictionary①">sh-dictionary</a>
 </pre>
+     <p>The semantics of the dictionary are defined in <a href="#structured-header-serialization">§ 5.2 Structured header serialization</a>.</p>
+     <p>The processing steps are defined in <a href="#algo-construct-policy">§ 9.2 Construct policy from dictionary and origin</a>.</p>
     </section>
     <section>
      <h3 class="heading settled" data-level="6.2" id="iframe-allow-attribute"><span class="secno">6.2. </span><span class="content">The <code>allow</code> attribute of the <code>iframe</code> element</span><a class="self-link" href="#iframe-allow-attribute"></a></h3>
@@ -1915,7 +1943,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     that case, the default value for the allowlist is <code>'src'</code>, which
     represents the origin of the URL in the iframe’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-src" id="ref-for-attr-iframe-src">src</a></code> attribute. </p>
      <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①②">feature</a> to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context②">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑤">container policy</a>, when it is
+    an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑨">allowlist</a> for each recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①②">feature</a> to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context②">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑤">container policy</a>, when it is
     constructed.</p>
     </section>
     <section>
@@ -1932,7 +1960,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       value contains the token "<code>fullscreen</code>", then the
       "<code>allowfullscreen</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowfullscreen</code>" attribute
-      on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑧">allowlist</a> of <code>*</code> for the "<code>fullscreen</code>" feature to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context③">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑥">container policy</a>, when it is
+      on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⓪">allowlist</a> of <code>*</code> for the "<code>fullscreen</code>" feature to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context③">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑥">container policy</a>, when it is
       constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
         allow="fullscreen"></code>, and is for compatibility with existing
@@ -1948,7 +1976,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       value contains the token "<code>payment</code>", then the
       "<code>allowpaymentrequest</code>" attribute must have no effect.</p>
       <p>Otherwise, the presence of an "<code>allowpaymentrequest</code>"
-      attribute on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑨">allowlist</a> of <code>*</code> for the "<code>payment</code>" feature to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context④">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container policy</a>, when it
+      attribute on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a> of <code>*</code> for the "<code>payment</code>" feature to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context④">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container policy</a>, when it
       is constructed.</p>
       <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
         allow="payment"></code>, and is for compatibility with existing uses
@@ -2168,7 +2196,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <p>Otherwise, for each <var>origin</var> in <var>allowlist</var>:</p>
        <ol>
         <li data-md>
-         <p>Append the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin①">serialization</a> of <var>origin</var> to <var>result</var></p>
+         <p>Append the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin②">serialization</a> of <var>origin</var> to <var>result</var></p>
        </ol>
       <li data-md>
        <p>Return <var>result</var>.</p>
@@ -2283,36 +2311,65 @@ be set to "enforce".</p>
     algorithm returns a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy④">declared permissions policy</a>. 
       <ol>
        <li data-md>
-        <p>Abort these steps if <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list">header list</a> does
-not contain a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header">header</a> whose <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-name" id="ref-for-concept-header-name">name</a> is
-"<code>Permissions-Policy</code>".</p>
+        <p>Let <var>parsed header</var> be the result of executing <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header" id="ref-for-concept-header-list-get-structured-header">get a structured
+header</a> given "<code>Permissions-Policy</code>" and "dictionary" from <var>response</var>’s header list.</p>
        <li data-md>
-        <p>Let <var>header</var> be the concatenation of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-value" id="ref-for-concept-header-value">value</a>s of all <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header①">header</a> fields in <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list①">header list</a> whose name is
-"<code>Permissions-Policy</code>", separated by U+002C (,) (according to
-[RFC7230, 3.2.2]).</p>
+        <p>If <var>parsed header</var> is null or failure, abort these steps.</p>
        <li data-md>
-        <p>Let <var>policy</var> be the result of executing <a data-link-type="dfn" href="#parse-header-from-value-and-origin" id="ref-for-parse-header-from-value-and-origin">Parse header from value and
-origin</a> on <var>header</var> and <var>origin</var>.</p>
+        <p>Let <var>policy</var> be the result of executing <a data-link-type="dfn" href="#construct-policy-from-dictionary-and-origin" id="ref-for-construct-policy-from-dictionary-and-origin">Construct policy from
+dictionary and origin</a> on <var>parsed header</var> and <var>origin</var>.</p>
        <li data-md>
         <p>Return <var>policy</var>.</p>
       </ol>
      </div>
     </section>
     <section>
-     <h3 class="heading settled" data-level="9.2" id="algo-parse-header"><span class="secno">9.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="parse-header-from-value-and-origin">Parse header from value and origin</dfn></span><a class="self-link" href="#algo-parse-header"></a></h3>
-     <div class="algorithm" data-algorithm="parse-header">
-       Given a string (<var>value</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑤">origin</a> (<var>origin</var>), this algorithm will
-    return a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑤">declared permissions policy</a>. 
+     <h3 class="heading settled" data-level="9.2" id="algo-construct-policy"><span class="secno">9.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="construct-policy-from-dictionary-and-origin">Construct policy from dictionary and origin</dfn></span><a class="self-link" href="#algo-construct-policy"></a></h3>
+     <div class="algorithm" data-algorithm="construct-policy">
+       Given an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">ordered map</a> (<var>dictionary</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑤">origin</a> (<var>origin</var>), this
+    algorithm will return a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑤">declared permissions policy</a>. 
       <ol>
        <li data-md>
         <p>Let <var>policy</var> be an empty ordered map.</p>
        <li data-md>
-        <p>For each <var>element</var> returned by <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#split-on-commas" id="ref-for-split-on-commas">splitting <var>value</var> on commas</a>:</p>
+        <p>For each <var>feature-name</var> → <var>value</var> of <var>dictionary</var>:</p>
         <ol>
          <li data-md>
-          <p>Let <var>directive</var> be the result of executing <a href="#algo-parse-policy-directive">§ 9.3 Parse policy directive</a> on <var>element</var> with <var>container origin</var> set to <var>origin</var>.</p>
+          <p>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑤">policy-controlled feature</a>, then continue.</p>
          <li data-md>
-          <p>Run <a data-link-type="dfn" href="#merge-directive-with-declared-policy" id="ref-for-merge-directive-with-declared-policy">Merge directive with declared policy</a> on <var>directive</var> and <var>policy</var>.</p>
+          <p>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑥">policy-controlled feature</a> identified by <var>feature-name</var>.</p>
+         <li data-md>
+          <p>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a>.</p>
+         <li data-md>
+          <p>If <var>value</var> is the token <code>*</code>, or if <var>value</var> is a list which contains
+the token <code>*</code>, set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value①">the special value <code>*</code></a>.</p>
+         <li data-md>
+          <p>Otherwise:</p>
+          <ol>
+           <li data-md>
+            <p>Set <var>allowlist</var> to an new <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set①">ordered set</a>.</p>
+           <li data-md>
+            <p>If <var>value</var> is the token <code>self</code>, append <var>origin</var> to <var>allowlist</var>.</p>
+           <li data-md>
+            <p>If <var>value</var> is a list, then for each <var>element</var> in <var>value</var>:</p>
+            <ol>
+             <li data-md>
+              <p>If <var>element</var> is the token <code>self</code>, append <var>origin</var> to <var>allowlist</var>.</p>
+             <li data-md>
+              <p>Otherwise, let <var>result</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL
+parser</a> on <var>element</var>.</p>
+             <li data-md>
+              <p>If <var>result</var> is not failure:</p>
+              <ol>
+               <li data-md>
+                <p>Let <var>target</var> be the origin of <var>result</var>.</p>
+               <li data-md>
+                <p>If <var>target</var> is not an opaque origin, append <var>target</var> to <var>allowlist</var>.</p>
+              </ol>
+            </ol>
+          </ol>
+         <li data-md>
+          <p>Set <var>policy</var>[<var>feature</var>] to <var>allowlist</var>.</p>
         </ol>
        <li data-md>
         <p>Return <var>policy</var>.</p>
@@ -2323,7 +2380,7 @@ origin</a> on <var>header</var> and <var>origin</var>.</p>
      <h3 class="heading settled" data-level="9.3" id="algo-parse-policy-directive"><span class="secno">9.3. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="parse-policy-directive">Parse policy directive</dfn></span><a class="self-link" href="#algo-parse-policy-directive"></a></h3>
      <div class="algorithm" data-algorithm="parse-policy-directive">
        Given a string (<var>value</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑥">origin</a> (<var>container origin</var>), and an
-    optional <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑦">origin</a> (<var>target origin</var>), this algorithm returns a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑥">policy
+    optional <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑦">origin</a> (<var>target origin</var>), this algorithm returns a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑦">policy
     directive</a>. 
       <ol>
        <li data-md>
@@ -2340,20 +2397,20 @@ ASCII whitespace.</a></p>
          <li data-md>
           <p>Let <var>feature-name</var> be the first element of <var>tokens</var>.</p>
          <li data-md>
-          <p>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑤">policy-controlled feature</a>, then continue.</p>
+          <p>If <var>feature-name</var> does not identify any recognized <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑦">policy-controlled feature</a>, then continue.</p>
          <li data-md>
-          <p>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑥">policy-controlled feature</a> identified by <var>feature-name</var>.</p>
+          <p>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑧">policy-controlled feature</a> identified by <var>feature-name</var>.</p>
          <li data-md>
           <p>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>.</p>
          <li data-md>
-          <p>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⓪">allowlist</a>.</p>
+          <p>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a>.</p>
          <li data-md>
-          <p>If any element of <var>targetlist</var> is the string "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value①">the special value <code>*</code></a>.</p>
+          <p>If any element of <var>targetlist</var> is the string "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value②">the special value <code>*</code></a>.</p>
          <li data-md>
           <p>Otherwise:</p>
           <ol>
            <li data-md>
-            <p>Set <var>allowlist</var> to an new <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set①">ordered set</a>.</p>
+            <p>Set <var>allowlist</var> to an new <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set②">ordered set</a>.</p>
            <li data-md>
             <p>If <var>targetlist</var> is empty and <var>target origin</var> is given, append <var>target origin</var> to <var>allowlist</var>.</p>
            <li data-md>
@@ -2366,7 +2423,7 @@ ASCII whitespace.</a></p>
               <p>If <var>target origin</var> is given, and <var>element</var> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive①">ASCII
 case-insensitive</a> match for "<code>'src'</code>", let <var>result</var> be <var>target origin</var>.</p>
              <li data-md>
-              <p>Otherwise, let <var>result</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL
+              <p>Otherwise, let <var>result</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser①">URL
 parser</a> on <var>element</var>.</p>
              <li data-md>
               <p>If <var>result</var> is not failure:</p>
@@ -2387,22 +2444,7 @@ parser</a> on <var>element</var>.</p>
      </div>
     </section>
     <section>
-     <h3 class="heading settled" data-level="9.4" id="algo-merge-directive-with-declared-policy"><span class="secno">9.4. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="merge-directive-with-declared-policy">Merge directive with declared policy</dfn></span><a class="self-link" href="#algo-merge-directive-with-declared-policy"></a></h3>
-     <div class="algorithm" data-algorithm="merge-directive-with-declared-policy">
-       Given a policy directive (<var>directive</var>) and a declared policy (<var>policy</var>),
-    this algorithm will modify <var>policy</var> to account for the new directive. 
-      <ol>
-       <li data-md>
-        <p>For each <var>feature</var> → <var>allowlist</var> of <var>directive</var>:</p>
-        <ol>
-         <li data-md>
-          <p>If <var>policy</var> does not contain an allowlist for <var>feature</var>, then set <var>policy</var>[<var>feature</var>] to <var>allowlist</var>.</p>
-        </ol>
-      </ol>
-     </div>
-    </section>
-    <section>
-     <h3 class="heading settled" data-level="9.5" id="algo-process-policy-attributes"><span class="secno">9.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="process-permissions-policy-attributes">Process permissions policy attributes</dfn></span><a class="self-link" href="#algo-process-policy-attributes"></a></h3>
+     <h3 class="heading settled" data-level="9.4" id="algo-process-policy-attributes"><span class="secno">9.4. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="process-permissions-policy-attributes">Process permissions policy attributes</dfn></span><a class="self-link" href="#algo-process-policy-attributes"></a></h3>
      <div class="algorithm" data-algorithm="process-policy-attributes">
        Given an element (<var>element</var>), this algorithm returns a <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑧">container
     policy</a>, which may be empty. 
@@ -2421,7 +2463,7 @@ and <var>container policy</var> does not contain an allowlist for <code>fullscre
           <ol>
            <li data-md>
             <p>Construct a new declaration for <code>fullscreen</code>, whose
-allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value②">the special value <code>*</code></a>.</p>
+allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value③">the special value <code>*</code></a>.</p>
            <li data-md>
             <p>Add <var>declaration</var> to <var>container policy</var>.</p>
           </ol>
@@ -2431,7 +2473,7 @@ specified, and <var>container policy</var> does not contain an allowlist for <co
           <ol>
            <li data-md>
             <p>Construct a new declaration for <code>payment</code>, whose
-allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value③">the special value <code>*</code></a>.</p>
+allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value④">the special value <code>*</code></a>.</p>
            <li data-md>
             <p>Add <var>declaration</var> to <var>container policy</var>.</p>
           </ol>
@@ -2442,7 +2484,7 @@ allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-s
      </div>
     </section>
     <section>
-     <h3 class="heading settled" data-level="9.6" id="algo-create-for-browsingcontext"><span class="secno">9.6. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="create-for-browsingcontext">Create a Permissions Policy for a browsing context</dfn></span><a class="self-link" href="#algo-create-for-browsingcontext"></a></h3>
+     <h3 class="heading settled" data-level="9.5" id="algo-create-for-browsingcontext"><span class="secno">9.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="create-for-browsingcontext">Create a Permissions Policy for a browsing context</dfn></span><a class="self-link" href="#algo-create-for-browsingcontext"></a></h3>
      <div class="algorithm" data-algorithm="create-for-browsingcontext">
        Given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> (<var>browsingContext</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑧">origin</a> (<var>origin</var>) this algorithm returns a new <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy⑦">Permissions Policy</a>. 
       <ol>
@@ -2467,7 +2509,7 @@ in browsing context</a> on <var>feature</var>, <var>origin</var> and <var>browsi
      </div>
     </section>
     <section>
-     <h3 class="heading settled" data-level="9.7" id="algo-create-from-response"><span class="secno">9.7. </span><span class="content"><dfn data-dfn-type="dfn" data-export id="create-from-response">Create a Permissions Policy for a browsing context from response<a class="self-link" href="#create-from-response"></a></dfn></span><a class="self-link" href="#algo-create-from-response"></a></h3>
+     <h3 class="heading settled" data-level="9.6" id="algo-create-from-response"><span class="secno">9.6. </span><span class="content"><dfn data-dfn-type="dfn" data-export id="create-from-response">Create a Permissions Policy for a browsing context from response<a class="self-link" href="#create-from-response"></a></dfn></span><a class="self-link" href="#algo-create-from-response"></a></h3>
      <div class="algorithm" data-algorithm="create-from-response">
        Given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a> (<var>browsingContext</var>), <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑨">origin</a> (<var>origin</var>), and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response②">response</a> (<var>response</var>), this algorithm returns a new <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy⑨">Permissions Policy</a>. 
       <ol>
@@ -2488,7 +2530,7 @@ a browsing context</a> given <var>browsingContext</var>, and <var>origin</var>.<
      </div>
     </section>
     <section>
-     <h3 class="heading settled" data-level="9.8" id="algo-define-inherited-policy"><span class="secno">9.8. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="define-inherited-policy">Define an inherited policy for feature in browsing context</dfn></span><a class="self-link" href="#algo-define-inherited-policy"></a></h3>
+     <h3 class="heading settled" data-level="9.7" id="algo-define-inherited-policy"><span class="secno">9.7. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="define-inherited-policy">Define an inherited policy for feature in browsing context</dfn></span><a class="self-link" href="#algo-define-inherited-policy"></a></h3>
      <div class="algorithm" data-algorithm="define-inherited-policy">
        Given a feature (<var>feature</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin①⓪">origin</a> (<var>origin</var>), and a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context②">browsing
     context</a> (<var>browsingContext</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑥">inherited
@@ -2504,7 +2546,7 @@ inherited policy for feature in container at origin</a> for <var>feature</var> i
      </div>
     </section>
     <section>
-     <h3 class="heading settled" data-level="9.9" id="algo-define-inherited-policy-in-container"><span class="secno">9.9. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="define-inherited-policy-in-container">Define an inherited policy for feature in container at origin</dfn></span><a class="self-link" href="#algo-define-inherited-policy-in-container"></a></h3>
+     <h3 class="heading settled" data-level="9.8" id="algo-define-inherited-policy-in-container"><span class="secno">9.8. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="define-inherited-policy-in-container">Define an inherited policy for feature in container at origin</dfn></span><a class="self-link" href="#algo-define-inherited-policy-in-container"></a></h3>
      <div class="algorithm" data-algorithm="define-inherited-policy-in-container">
        Given a feature (<var>feature</var>) a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container③">browsing context container</a> (<var>container</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin①①">origin</a> for a document in that container
     (<var>origin</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑦">inherited policy</a> for that
@@ -2517,7 +2559,7 @@ Policy</a></p>
         <p>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is
 "<code>Disabled</code>", return "<code>Disabled</code>".</p>
        <li data-md>
-        <p>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared policy</a>, and the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared policy</a> does
+        <p>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared policy</a>, and the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①④">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared policy</a> does
 not <a data-link-type="dfn" href="#matches" id="ref-for-matches">match</a> <var>origin</var>, then return "<code>Disabled</code>".</p>
        <li data-md>
         <p>Let <var>container policy</var> be the result of running <a data-link-type="dfn" href="#process-permissions-policy-attributes" id="ref-for-process-permissions-policy-attributes">Process permissions
@@ -2526,7 +2568,7 @@ policy attributes</a> on <var>container</var>.</p>
         <p>If <var>feature</var> is a key in <var>container policy</var>:</p>
         <ol>
          <li data-md>
-          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, return "<code>Enabled</code>".</p>
+          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑤">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, return "<code>Enabled</code>".</p>
          <li data-md>
           <p>Otherwise return "<code>Disabled</code>".</p>
         </ol>
@@ -2542,7 +2584,7 @@ origin, return "<code>Enabled</code>".</p>
      </div>
     </section>
     <section>
-     <h3 class="heading settled" data-level="9.10" id="algo-is-feature-enabled"><span class="secno">9.10. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="is-feature-enabled">Is feature enabled in document for origin?</dfn></span><a class="self-link" href="#algo-is-feature-enabled"></a></h3>
+     <h3 class="heading settled" data-level="9.9" id="algo-is-feature-enabled"><span class="secno">9.9. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="is-feature-enabled">Is feature enabled in document for origin?</dfn></span><a class="self-link" href="#algo-is-feature-enabled"></a></h3>
      <div class="algorithm" data-algorithm="is-feature-enabled">
        Given a feature (<var>feature</var>), a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑨">Document</a></code> object
     (<var>document</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin①②">origin</a> (<var>origin</var>), this algorithm
@@ -2559,7 +2601,7 @@ origin, return "<code>Enabled</code>".</p>
         <p>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑨">declared policy</a>:</p>
         <ol>
          <li data-md>
-          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①⓪">declared
+          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑥">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①⓪">declared
 policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches②">matches</a> <var>origin</var>, then return
 "<code>Enabled</code>".</p>
          <li data-md>
@@ -2577,7 +2619,7 @@ policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches②">match
      </div>
     </section>
     <section>
-     <h3 class="heading settled" data-level="9.11" id="algo-report-permissions-policy-violation"><span class="secno">9.11. </span><span class="content"><dfn data-dfn-type="dfn" data-export id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings<a class="self-link" href="#report-permissions-policy-violation"></a></dfn></span><a class="self-link" href="#algo-report-permissions-policy-violation"></a></h3>
+     <h3 class="heading settled" data-level="9.10" id="algo-report-permissions-policy-violation"><span class="secno">9.10. </span><span class="content"><dfn data-dfn-type="dfn" data-export id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings<a class="self-link" href="#report-permissions-policy-violation"></a></dfn></span><a class="self-link" href="#algo-report-permissions-policy-violation"></a></h3>
      <div class="algorithm" data-algorithm="report-permissions-policy-violation">
        Given a feature (<var>feature</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a> (<var>settings</var>), and an optional string (<var>group</var>), this algorithm generates a <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report">report</a> about the <a data-link-type="dfn" href="#violate" id="ref-for-violate⑦">violation</a> of the policy for <var>feature</var>. 
       <ol>
@@ -2616,7 +2658,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     been <a data-link-type="dfn" href="#violate" id="ref-for-violate⑧">violated</a>.</p>
     </section>
     <section>
-     <h3 class="heading settled" data-level="9.12" id="algo-should-request-be-allowed-to-use-feature"><span class="secno">9.12. </span><span class="content"><dfn data-dfn-type="dfn" data-export id="should-request-be-allowed-to-use-feature">Should request be allowed to use feature?<a class="self-link" href="#should-request-be-allowed-to-use-feature"></a></dfn></span><a class="self-link" href="#algo-should-request-be-allowed-to-use-feature"></a></h3>
+     <h3 class="heading settled" data-level="9.11" id="algo-should-request-be-allowed-to-use-feature"><span class="secno">9.11. </span><span class="content"><dfn data-dfn-type="dfn" data-export id="should-request-be-allowed-to-use-feature">Should request be allowed to use feature?<a class="self-link" href="#should-request-be-allowed-to-use-feature"></a></dfn></span><a class="self-link" href="#algo-should-request-be-allowed-to-use-feature"></a></h3>
      <div class="algorithm" data-algorithm="should-request-be-allowed-to-use-feature">
        Given a feature (<var>feature</var>) and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> (<var>request</var>), this
     algorithm returns <code>true</code> if the request should be allowed to use <var>feature</var>, and <code>false</code> otherwise.
@@ -2809,17 +2851,18 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
      <li><a href="#dom-permissionspolicyviolationreportbody-columnnumber">attribute for PermissionsPolicyViolationReportBody</a><span>, in §8</span>
      <li><a href="#permissionspolicyviolationreportbody-columnnumber">dfn for PermissionsPolicyViolationReportBody</a><span>, in §8</span>
     </ul>
+   <li><a href="#construct-policy-from-dictionary-and-origin">Construct policy from dictionary and origin</a><span>, in §9.2</span>
    <li><a href="#container-policy">container policy</a><span>, in §4.6</span>
-   <li><a href="#create-for-browsingcontext">Create a Permissions Policy for a browsing context</a><span>, in §9.6</span>
-   <li><a href="#create-from-response">Create a Permissions Policy for a browsing context from response</a><span>, in §9.7</span>
+   <li><a href="#create-for-browsingcontext">Create a Permissions Policy for a browsing context</a><span>, in §9.5</span>
+   <li><a href="#create-from-response">Create a Permissions Policy for a browsing context from response</a><span>, in §9.6</span>
    <li><a href="#declared-origin">declared origin</a><span>, in §7.2</span>
    <li><a href="#declared-policy">declared permissions policy</a><span>, in §4.4</span>
    <li><a href="#declared-policy">declared policy</a><span>, in §4.4</span>
    <li><a href="#default-allowlist">default allowlist</a><span>, in §4.9</span>
    <li><a href="#default-allowlist">default allowlists</a><span>, in §4.9</span>
    <li><a href="#default-origin">default origin</a><span>, in §7.2</span>
-   <li><a href="#define-inherited-policy">Define an inherited policy for feature in browsing context</a><span>, in §9.8</span>
-   <li><a href="#define-inherited-policy-in-container">Define an inherited policy for feature in container at origin</a><span>, in §9.9</span>
+   <li><a href="#define-inherited-policy">Define an inherited policy for feature in browsing context</a><span>, in §9.7</span>
+   <li><a href="#define-inherited-policy-in-container">Define an inherited policy for feature in container at origin</a><span>, in §9.8</span>
    <li>
     disposition
     <ul>
@@ -2835,13 +2878,13 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     </ul>
    <li><a href="#feature-identifier">feature-identifier</a><span>, in §5.1</span>
    <li><a href="#dom-permissionspolicy-features">features()</a><span>, in §7.2</span>
-   <li><a href="#report-permissions-policy-violation">Generate report for violation of permissions policy on settings</a><span>, in §9.11</span>
+   <li><a href="#report-permissions-policy-violation">Generate report for violation of permissions policy on settings</a><span>, in §9.10</span>
    <li><a href="#dom-permissionspolicy-getallowlistforfeature">getAllowlistForFeature(feature)</a><span>, in §7.2</span>
    <li><a href="#header-policy">header policy</a><span>, in §4.5</span>
    <li><a href="#inherited-policy">inherited policies</a><span>, in §4.3</span>
    <li><a href="#inherited-policy">inherited policy</a><span>, in §4.3</span>
    <li><a href="#inherited-policy-for-a-feature">inherited policy for a feature</a><span>, in §4.3</span>
-   <li><a href="#is-feature-enabled">Is feature enabled in document for origin?</a><span>, in §9.10</span>
+   <li><a href="#is-feature-enabled">Is feature enabled in document for origin?</a><span>, in §9.9</span>
    <li>
     lineNumber
     <ul>
@@ -2849,9 +2892,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
      <li><a href="#permissionspolicyviolationreportbody-linenumber">dfn for PermissionsPolicyViolationReportBody</a><span>, in §8</span>
     </ul>
    <li><a href="#matches">matches</a><span>, in §4.8</span>
-   <li><a href="#merge-directive-with-declared-policy">Merge directive with declared policy</a><span>, in §9.4</span>
    <li><a href="#observable-policy">observable policy</a><span>, in §7.2</span>
-   <li><a href="#parse-header-from-value-and-origin">Parse header from value and origin</a><span>, in §9.2</span>
    <li><a href="#parse-policy-directive">Parse policy directive</a><span>, in §9.3</span>
    <li><a href="#permissions-policy">permissions policy</a><span>, in §4.2</span>
    <li><a href="#permissions-policy-header">Permissions-Policy</a><span>, in §6.1</span>
@@ -2873,12 +2914,12 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
      <li><a href="#document-policy-object">dfn for Document</a><span>, in §7.2</span>
      <li><a href="#iframe-policy-object">dfn for iframe</a><span>, in §7.2</span>
     </ul>
-   <li><a href="#process-permissions-policy-attributes">Process permissions policy attributes</a><span>, in §9.5</span>
+   <li><a href="#process-permissions-policy-attributes">Process permissions policy attributes</a><span>, in §9.4</span>
    <li><a href="#process-response-policy">Process response policy</a><span>, in §9.1</span>
    <li><a href="#serialized-origin">serialized-origin</a><span>, in §5.1</span>
    <li><a href="#serialized-permissions-policy">serialized-permissions-policy</a><span>, in §5.1</span>
    <li><a href="#serialized-policy-directive">serialized-policy-directive</a><span>, in §5.1</span>
-   <li><a href="#should-request-be-allowed-to-use-feature">Should request be allowed to use feature?</a><span>, in §9.12</span>
+   <li><a href="#should-request-be-allowed-to-use-feature">Should request be allowed to use feature?</a><span>, in §9.11</span>
    <li>
     sourceFile
     <ul>
@@ -2902,7 +2943,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <ul>
     <li><a href="#ref-for-document">4.3. Inherited policies</a> <a href="#ref-for-document①">(2)</a>
     <li><a href="#ref-for-document②">7.2. The permissionsPolicy object</a> <a href="#ref-for-document③">(2)</a> <a href="#ref-for-document④">(3)</a> <a href="#ref-for-document⑤">(4)</a> <a href="#ref-for-document⑥">(5)</a> <a href="#ref-for-document⑦">(6)</a> <a href="#ref-for-document⑧">(7)</a>
-    <li><a href="#ref-for-document⑨">9.10. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-document⑨">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-element">
@@ -2927,37 +2968,25 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <a href="https://dom.spec.whatwg.org/#concept-node-document">https://dom.spec.whatwg.org/#concept-node-document</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-concept-node-document">7.2. The permissionsPolicy object</a> <a href="#ref-for-concept-node-document①">(2)</a> <a href="#ref-for-concept-node-document②">(3)</a> <a href="#ref-for-concept-node-document③">(4)</a>
-    <li><a href="#ref-for-concept-node-document④">9.9. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-concept-node-document⑤">(2)</a>
+    <li><a href="#ref-for-concept-node-document④">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-concept-node-document⑤">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-header">
-   <a href="https://fetch.spec.whatwg.org/#concept-header">https://fetch.spec.whatwg.org/#concept-header</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-concept-header-list-get-structured-header">
+   <a href="https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header">https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-header">9.1. Process response policy</a> <a href="#ref-for-concept-header①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-response-header-list">
-   <a href="https://fetch.spec.whatwg.org/#concept-response-header-list">https://fetch.spec.whatwg.org/#concept-response-header-list</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-response-header-list">9.1. Process response policy</a> <a href="#ref-for-concept-response-header-list①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-header-name">
-   <a href="https://fetch.spec.whatwg.org/#concept-header-name">https://fetch.spec.whatwg.org/#concept-header-name</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-header-name">9.1. Process response policy</a>
+    <li><a href="#ref-for-concept-header-list-get-structured-header">9.1. Process response policy</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request-origin">
    <a href="https://fetch.spec.whatwg.org/#concept-request-origin">https://fetch.spec.whatwg.org/#concept-request-origin</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request-origin">9.12. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-concept-request-origin">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request">
    <a href="https://fetch.spec.whatwg.org/#concept-request">https://fetch.spec.whatwg.org/#concept-request</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request">9.12. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-concept-request">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-response-response">
@@ -2966,25 +2995,27 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-concept-response-response">6.1. Permissions-Policy HTTP Header
     Field</a>
     <li><a href="#ref-for-concept-response-response①">9.1. Process response policy</a>
-    <li><a href="#ref-for-concept-response-response②">9.7. Create a Permissions Policy for a browsing context from response</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-header-value">
-   <a href="https://fetch.spec.whatwg.org/#concept-header-value">https://fetch.spec.whatwg.org/#concept-header-value</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-header-value">9.1. Process response policy</a>
+    <li><a href="#ref-for-concept-response-response②">9.6. Create a Permissions Policy for a browsing context from response</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request-window">
    <a href="https://fetch.spec.whatwg.org/#concept-request-window">https://fetch.spec.whatwg.org/#concept-request-window</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request-window">9.12. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-concept-request-window">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-element-requestfullscreen">
    <a href="https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen">https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-element-requestfullscreen">6.3.1. allowfullscreen</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dictionary">
+   <a href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#dictionary">https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#dictionary</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dictionary">4.7. Policy directives</a>
+    <li><a href="#ref-for-dictionary①">6.1. Permissions-Policy HTTP Header
+    Field</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-htmliframeelement">
@@ -2996,35 +3027,35 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
   <aside class="dfn-panel" data-for="term-for-window">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-window">9.12. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-window">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-workerglobalscope">
    <a href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-workerglobalscope">9.12. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-workerglobalscope">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-document-window">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window">https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-document-window">9.12. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-concept-document-window">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-browsing-context">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">https://html.spec.whatwg.org/multipage/browsers.html#browsing-context</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-browsing-context">9.6. Create a Permissions Policy for a browsing context</a>
-    <li><a href="#ref-for-browsing-context①">9.7. Create a Permissions Policy for a browsing context from response</a>
-    <li><a href="#ref-for-browsing-context②">9.8. Define an inherited policy for feature in browsing context</a>
+    <li><a href="#ref-for-browsing-context">9.5. Create a Permissions Policy for a browsing context</a>
+    <li><a href="#ref-for-browsing-context①">9.6. Create a Permissions Policy for a browsing context from response</a>
+    <li><a href="#ref-for-browsing-context②">9.7. Define an inherited policy for feature in browsing context</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-browsing-context-container">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container">https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-browsing-context-container">4.6. Container policies</a>
-    <li><a href="#ref-for-browsing-context-container①">9.8. Define an inherited policy for feature in browsing context</a> <a href="#ref-for-browsing-context-container②">(2)</a>
-    <li><a href="#ref-for-browsing-context-container③">9.9. Define an inherited policy for feature in container at origin</a>
+    <li><a href="#ref-for-browsing-context-container①">9.7. Define an inherited policy for feature in browsing context</a> <a href="#ref-for-browsing-context-container②">(2)</a>
+    <li><a href="#ref-for-browsing-context-container③">9.8. Define an inherited policy for feature in container at origin</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-child-browsing-context">
@@ -3036,7 +3067,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
   <aside class="dfn-panel" data-for="term-for-environment-settings-object">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object">https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-environment-settings-object">9.11. Generate report for violation of permissions policy on settings</a>
+    <li><a href="#ref-for-environment-settings-object">9.10. Generate report for violation of permissions policy on settings</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-the-iframe-element">
@@ -3048,7 +3079,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-the-iframe-element③">6.3.1. allowfullscreen</a>
     <li><a href="#ref-for-the-iframe-element④">6.3.2. allowpaymentrequest</a>
     <li><a href="#ref-for-the-iframe-element⑤">7.2. The permissionsPolicy object</a> <a href="#ref-for-the-iframe-element⑥">(2)</a> <a href="#ref-for-the-iframe-element⑦">(3)</a>
-    <li><a href="#ref-for-the-iframe-element⑧">9.5. Process permissions policy attributes</a>
+    <li><a href="#ref-for-the-iframe-element⑧">9.4. Process permissions policy attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-nested-browsing-context">
@@ -3059,7 +3090,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     iframe element</a>
     <li><a href="#ref-for-nested-browsing-context③">6.3.1. allowfullscreen</a>
     <li><a href="#ref-for-nested-browsing-context④">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-nested-browsing-context⑤">9.8. Define an inherited policy for feature in browsing context</a>
+    <li><a href="#ref-for-nested-browsing-context⑤">9.7. Define an inherited policy for feature in browsing context</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-origin">
@@ -3068,20 +3099,20 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-concept-origin">4.8. Allowlists</a> <a href="#ref-for-concept-origin①">(2)</a>
     <li><a href="#ref-for-concept-origin②">7.2. The permissionsPolicy object</a> <a href="#ref-for-concept-origin③">(2)</a>
     <li><a href="#ref-for-concept-origin④">9.1. Process response policy</a>
-    <li><a href="#ref-for-concept-origin⑤">9.2. Parse header from value and origin</a>
+    <li><a href="#ref-for-concept-origin⑤">9.2. Construct policy from dictionary and origin</a>
     <li><a href="#ref-for-concept-origin⑥">9.3. Parse policy directive</a> <a href="#ref-for-concept-origin⑦">(2)</a>
-    <li><a href="#ref-for-concept-origin⑧">9.6. Create a Permissions Policy for a browsing context</a>
-    <li><a href="#ref-for-concept-origin⑨">9.7. Create a Permissions Policy for a browsing context from response</a>
-    <li><a href="#ref-for-concept-origin①⓪">9.8. Define an inherited policy for feature in browsing context</a>
-    <li><a href="#ref-for-concept-origin①①">9.9. Define an inherited policy for feature in container at origin</a>
-    <li><a href="#ref-for-concept-origin①②">9.10. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-concept-origin⑧">9.5. Create a Permissions Policy for a browsing context</a>
+    <li><a href="#ref-for-concept-origin⑨">9.6. Create a Permissions Policy for a browsing context from response</a>
+    <li><a href="#ref-for-concept-origin①⓪">9.7. Define an inherited policy for feature in browsing context</a>
+    <li><a href="#ref-for-concept-origin①①">9.8. Define an inherited policy for feature in container at origin</a>
+    <li><a href="#ref-for-concept-origin①②">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-same-origin">
    <a href="https://html.spec.whatwg.org/multipage/origin.html#same-origin">https://html.spec.whatwg.org/multipage/origin.html#same-origin</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-same-origin">9.9. Define an inherited policy for feature in container at origin</a>
-    <li><a href="#ref-for-same-origin①">9.10. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-same-origin">9.8. Define an inherited policy for feature in container at origin</a>
+    <li><a href="#ref-for-same-origin①">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-same-origin-domain">
@@ -3107,8 +3138,9 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
   <aside class="dfn-panel" data-for="term-for-ascii-serialisation-of-an-origin">
    <a href="https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin">https://html.spec.whatwg.org/multipage/origin.html#ascii-serialisation-of-an-origin</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-ascii-serialisation-of-an-origin">5.1. ASCII serialization</a>
-    <li><a href="#ref-for-ascii-serialisation-of-an-origin①">7.2. The permissionsPolicy object</a>
+    <li><a href="#ref-for-ascii-serialisation-of-an-origin">5.1. HTML attribute serialization</a>
+    <li><a href="#ref-for-ascii-serialisation-of-an-origin①">5.2. Structured header serialization</a>
+    <li><a href="#ref-for-ascii-serialisation-of-an-origin②">7.2. The permissionsPolicy object</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-attr-iframe-src">
@@ -3137,23 +3169,24 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-ascii-case-insensitive">9.3. Parse policy directive</a> <a href="#ref-for-ascii-case-insensitive①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-ordered-map">
+   <a href="https://infra.spec.whatwg.org/#ordered-map">https://infra.spec.whatwg.org/#ordered-map</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ordered-map">9.2. Construct policy from dictionary and origin</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-ordered-set">
    <a href="https://infra.spec.whatwg.org/#ordered-set">https://infra.spec.whatwg.org/#ordered-set</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-ordered-set">4.8. Allowlists</a>
-    <li><a href="#ref-for-ordered-set①">9.3. Parse policy directive</a>
+    <li><a href="#ref-for-ordered-set①">9.2. Construct policy from dictionary and origin</a>
+    <li><a href="#ref-for-ordered-set②">9.3. Parse policy directive</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-split-on-ascii-whitespace">
    <a href="https://infra.spec.whatwg.org/#split-on-ascii-whitespace">https://infra.spec.whatwg.org/#split-on-ascii-whitespace</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-split-on-ascii-whitespace">9.3. Parse policy directive</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-split-on-commas">
-   <a href="https://infra.spec.whatwg.org/#split-on-commas">https://infra.spec.whatwg.org/#split-on-commas</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-split-on-commas">9.2. Parse header from value and origin</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-strictly-split">
@@ -3183,7 +3216,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
   <aside class="dfn-panel" data-for="term-for-report">
    <a href="https://w3c.github.io/reporting/#report">https://w3c.github.io/reporting/#report</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report">9.11. Generate report for violation of permissions policy on settings</a>
+    <li><a href="#ref-for-report">9.10. Generate report for violation of permissions policy on settings</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-report-type">
@@ -3201,7 +3234,8 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
   <aside class="dfn-panel" data-for="term-for-concept-url-parser">
    <a href="https://url.spec.whatwg.org/#concept-url-parser">https://url.spec.whatwg.org/#concept-url-parser</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-url-parser">9.3. Parse policy directive</a>
+    <li><a href="#ref-for-concept-url-parser">9.2. Construct policy from dictionary and origin</a>
+    <li><a href="#ref-for-concept-url-parser①">9.3. Parse policy directive</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMString">
@@ -3239,7 +3273,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
   <aside class="dfn-panel" data-for="term-for-workletglobalscope">
    <a href="https://drafts.css-houdini.org/worklets/#workletglobalscope">https://drafts.css-houdini.org/worklets/#workletglobalscope</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-workletglobalscope">9.12. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-workletglobalscope">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -3261,19 +3295,21 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <li>
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-concept-header" style="color:initial">header</span>
-     <li><span class="dfn-paneled" id="term-for-concept-response-header-list" style="color:initial">header list</span>
-     <li><span class="dfn-paneled" id="term-for-concept-header-name" style="color:initial">name</span>
+     <li><span class="dfn-paneled" id="term-for-concept-header-list-get-structured-header" style="color:initial">get a structured header</span>
      <li><span class="dfn-paneled" id="term-for-concept-request-origin" style="color:initial">origin</span>
      <li><span class="dfn-paneled" id="term-for-concept-request" style="color:initial">request</span>
      <li><span class="dfn-paneled" id="term-for-concept-response-response" style="color:initial">response</span>
-     <li><span class="dfn-paneled" id="term-for-concept-header-value" style="color:initial">value</span>
      <li><span class="dfn-paneled" id="term-for-concept-request-window" style="color:initial">window</span>
     </ul>
    <li>
     <a data-link-type="biblio">[FULLSCREEN]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-element-requestfullscreen" style="color:initial">requestFullscreen()</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[HEADER-STRUCTURE]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dictionary" style="color:initial">sh-dictionary</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
@@ -3302,9 +3338,9 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-ascii-case-insensitive" style="color:initial">ascii case-insensitive</span>
+     <li><span class="dfn-paneled" id="term-for-ordered-map" style="color:initial">ordered map</span>
      <li><span class="dfn-paneled" id="term-for-ordered-set" style="color:initial">ordered set</span>
      <li><span class="dfn-paneled" id="term-for-split-on-ascii-whitespace" style="color:initial">split on ascii whitespace</span>
-     <li><span class="dfn-paneled" id="term-for-split-on-commas" style="color:initial">split on commas</span>
      <li><span class="dfn-paneled" id="term-for-strictly-split" style="color:initial">strictly split</span>
     </ul>
    <li>
@@ -3352,6 +3388,8 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fullscreen">[FULLSCREEN]
    <dd>Philip Jägenstedt. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
+   <dt id="biblio-header-structure">[HEADER-STRUCTURE]
+   <dd>Mark Nottingham; Poul-Henning Kamp. <a href="https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-18">Structured Field Values for HTTP</a>. Draft. URL: <a href="https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-18">https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-18</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
@@ -3429,7 +3467,8 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-policy-controlled-feature①③">6.3. Additional attributes to support legacy
     features</a>
     <li><a href="#ref-for-policy-controlled-feature①④">8. Reporting</a>
-    <li><a href="#ref-for-policy-controlled-feature①⑤">9.3. Parse policy directive</a> <a href="#ref-for-policy-controlled-feature①⑥">(2)</a>
+    <li><a href="#ref-for-policy-controlled-feature①⑤">9.2. Construct policy from dictionary and origin</a> <a href="#ref-for-policy-controlled-feature①⑥">(2)</a>
+    <li><a href="#ref-for-policy-controlled-feature①⑦">9.3. Parse policy directive</a> <a href="#ref-for-policy-controlled-feature①⑧">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="supported-features">
@@ -3450,10 +3489,10 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-permissions-policy④">6.1. Permissions-Policy HTTP Header
     Field</a>
     <li><a href="#ref-for-permissions-policy⑤">7.2. The permissionsPolicy object</a> <a href="#ref-for-permissions-policy⑥">(2)</a>
-    <li><a href="#ref-for-permissions-policy⑦">9.6. Create a Permissions Policy for a browsing context</a> <a href="#ref-for-permissions-policy⑧">(2)</a>
-    <li><a href="#ref-for-permissions-policy⑨">9.7. Create a Permissions Policy for a browsing context from response</a>
-    <li><a href="#ref-for-permissions-policy①⓪">9.9. Define an inherited policy for feature in container at origin</a>
-    <li><a href="#ref-for-permissions-policy①①">9.10. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-permissions-policy⑦">9.5. Create a Permissions Policy for a browsing context</a> <a href="#ref-for-permissions-policy⑧">(2)</a>
+    <li><a href="#ref-for-permissions-policy⑨">9.6. Create a Permissions Policy for a browsing context from response</a>
+    <li><a href="#ref-for-permissions-policy①⓪">9.8. Define an inherited policy for feature in container at origin</a>
+    <li><a href="#ref-for-permissions-policy①①">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="inherited-policy">
@@ -3462,10 +3501,10 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-inherited-policy">4.2. Policies</a> <a href="#ref-for-inherited-policy①">(2)</a>
     <li><a href="#ref-for-inherited-policy②">4.3. Inherited policies</a> <a href="#ref-for-inherited-policy③">(2)</a>
     <li><a href="#ref-for-inherited-policy④">4.6. Container policies</a>
-    <li><a href="#ref-for-inherited-policy⑤">9.7. Create a Permissions Policy for a browsing context from response</a>
-    <li><a href="#ref-for-inherited-policy⑥">9.8. Define an inherited policy for feature in browsing context</a>
-    <li><a href="#ref-for-inherited-policy⑦">9.9. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-inherited-policy⑧">(2)</a>
-    <li><a href="#ref-for-inherited-policy⑨">9.10. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-inherited-policy⑤">9.6. Create a Permissions Policy for a browsing context from response</a>
+    <li><a href="#ref-for-inherited-policy⑥">9.7. Define an inherited policy for feature in browsing context</a>
+    <li><a href="#ref-for-inherited-policy⑦">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-inherited-policy⑧">(2)</a>
+    <li><a href="#ref-for-inherited-policy⑨">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="declared-policy">
@@ -3475,10 +3514,10 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-declared-policy②">4.3. Inherited policies</a>
     <li><a href="#ref-for-declared-policy③">4.5. Header policies</a>
     <li><a href="#ref-for-declared-policy④">9.1. Process response policy</a>
-    <li><a href="#ref-for-declared-policy⑤">9.2. Parse header from value and origin</a>
-    <li><a href="#ref-for-declared-policy⑥">9.7. Create a Permissions Policy for a browsing context from response</a>
-    <li><a href="#ref-for-declared-policy⑦">9.9. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-declared-policy⑧">(2)</a>
-    <li><a href="#ref-for-declared-policy⑨">9.10. Is feature enabled in document for origin?</a> <a href="#ref-for-declared-policy①⓪">(2)</a>
+    <li><a href="#ref-for-declared-policy⑤">9.2. Construct policy from dictionary and origin</a>
+    <li><a href="#ref-for-declared-policy⑥">9.6. Create a Permissions Policy for a browsing context from response</a>
+    <li><a href="#ref-for-declared-policy⑦">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-declared-policy⑧">(2)</a>
+    <li><a href="#ref-for-declared-policy⑨">9.9. Is feature enabled in document for origin?</a> <a href="#ref-for-declared-policy①⓪">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="header-policy">
@@ -3496,7 +3535,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     iframe element</a>
     <li><a href="#ref-for-container-policy⑥">6.3.1. allowfullscreen</a>
     <li><a href="#ref-for-container-policy⑦">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-container-policy⑧">9.5. Process permissions policy attributes</a>
+    <li><a href="#ref-for-container-policy⑧">9.4. Process permissions policy attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="policy-directive">
@@ -3506,10 +3545,9 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-policy-directive①">4.5. Header policies</a>
     <li><a href="#ref-for-policy-directive②">4.6. Container policies</a>
     <li><a href="#ref-for-policy-directive③">4.7. Policy directives</a>
-    <li><a href="#ref-for-policy-directive④">5.1. ASCII serialization</a>
-    <li><a href="#ref-for-policy-directive⑤">6.1. Permissions-Policy HTTP Header
-    Field</a>
-    <li><a href="#ref-for-policy-directive⑥">9.3. Parse policy directive</a>
+    <li><a href="#ref-for-policy-directive④">5.1. HTML attribute serialization</a>
+    <li><a href="#ref-for-policy-directive⑤">5.2. Structured header serialization</a> <a href="#ref-for-policy-directive⑥">(2)</a>
+    <li><a href="#ref-for-policy-directive⑦">9.3. Parse policy directive</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="allowlist">
@@ -3519,28 +3557,31 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-allowlist①">4.4. Declared policies</a>
     <li><a href="#ref-for-allowlist②">4.7. Policy directives</a>
     <li><a href="#ref-for-allowlist③">4.8. Allowlists</a> <a href="#ref-for-allowlist④">(2)</a> <a href="#ref-for-allowlist⑤">(3)</a> <a href="#ref-for-allowlist⑥">(4)</a>
-    <li><a href="#ref-for-allowlist⑦">6.2. The allow attribute of the
+    <li><a href="#ref-for-allowlist⑦">5.2. Structured header serialization</a> <a href="#ref-for-allowlist⑧">(2)</a>
+    <li><a href="#ref-for-allowlist⑨">6.2. The allow attribute of the
     iframe element</a>
-    <li><a href="#ref-for-allowlist⑧">6.3.1. allowfullscreen</a>
-    <li><a href="#ref-for-allowlist⑨">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-allowlist①⓪">9.3. Parse policy directive</a>
-    <li><a href="#ref-for-allowlist①①">9.9. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-allowlist①②">(2)</a>
-    <li><a href="#ref-for-allowlist①③">9.10. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-allowlist①⓪">6.3.1. allowfullscreen</a>
+    <li><a href="#ref-for-allowlist①①">6.3.2. allowpaymentrequest</a>
+    <li><a href="#ref-for-allowlist①②">9.2. Construct policy from dictionary and origin</a>
+    <li><a href="#ref-for-allowlist①③">9.3. Parse policy directive</a>
+    <li><a href="#ref-for-allowlist①④">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-allowlist①⑤">(2)</a>
+    <li><a href="#ref-for-allowlist①⑥">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="the-special-value">
    <b><a href="#the-special-value">#the-special-value</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-the-special-value">4.8. Allowlists</a>
-    <li><a href="#ref-for-the-special-value①">9.3. Parse policy directive</a>
-    <li><a href="#ref-for-the-special-value②">9.5. Process permissions policy attributes</a> <a href="#ref-for-the-special-value③">(2)</a>
+    <li><a href="#ref-for-the-special-value①">9.2. Construct policy from dictionary and origin</a>
+    <li><a href="#ref-for-the-special-value②">9.3. Parse policy directive</a>
+    <li><a href="#ref-for-the-special-value③">9.4. Process permissions policy attributes</a> <a href="#ref-for-the-special-value④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="matches">
    <b><a href="#matches">#matches</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-matches">9.9. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-matches①">(2)</a>
-    <li><a href="#ref-for-matches②">9.10. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-matches">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-matches①">(2)</a>
+    <li><a href="#ref-for-matches②">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="default-allowlist">
@@ -3548,21 +3589,14 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <ul>
     <li><a href="#ref-for-default-allowlist">4.1. Policy-controlled Features</a>
     <li><a href="#ref-for-default-allowlist①">4.9. Default Allowlists</a> <a href="#ref-for-default-allowlist②">(2)</a>
-    <li><a href="#ref-for-default-allowlist③">9.9. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-default-allowlist④">(2)</a>
-    <li><a href="#ref-for-default-allowlist⑤">9.10. Is feature enabled in document for origin?</a> <a href="#ref-for-default-allowlist⑥">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="serialized-permissions-policy">
-   <b><a href="#serialized-permissions-policy">#serialized-permissions-policy</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-serialized-permissions-policy">6.1. Permissions-Policy HTTP Header
-    Field</a> <a href="#ref-for-serialized-permissions-policy①">(2)</a>
+    <li><a href="#ref-for-default-allowlist③">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-default-allowlist④">(2)</a>
+    <li><a href="#ref-for-default-allowlist⑤">9.9. Is feature enabled in document for origin?</a> <a href="#ref-for-default-allowlist⑥">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="serialized-policy-directive">
    <b><a href="#serialized-policy-directive">#serialized-policy-directive</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-serialized-policy-directive">5.1. ASCII serialization</a> <a href="#ref-for-serialized-policy-directive①">(2)</a>
+    <li><a href="#ref-for-serialized-policy-directive">5.1. HTML attribute serialization</a> <a href="#ref-for-serialized-policy-directive①">(2)</a>
     <li><a href="#ref-for-serialized-policy-directive">6.2. The allow attribute of the
     iframe element</a>
    </ul>
@@ -3570,25 +3604,25 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
   <aside class="dfn-panel" data-for="feature-identifier">
    <b><a href="#feature-identifier">#feature-identifier</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-feature-identifier">5.1. ASCII serialization</a>
+    <li><a href="#ref-for-feature-identifier">5.1. HTML attribute serialization</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="allow-list">
    <b><a href="#allow-list">#allow-list</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-allow-list">5.1. ASCII serialization</a>
+    <li><a href="#ref-for-allow-list">5.1. HTML attribute serialization</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="allow-list-value">
    <b><a href="#allow-list-value">#allow-list-value</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-allow-list-value">5.1. ASCII serialization</a> <a href="#ref-for-allow-list-value①">(2)</a>
+    <li><a href="#ref-for-allow-list-value">5.1. HTML attribute serialization</a> <a href="#ref-for-allow-list-value①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="serialized-origin">
    <b><a href="#serialized-origin">#serialized-origin</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-serialized-origin">5.1. ASCII serialization</a>
+    <li><a href="#ref-for-serialized-origin">5.1. HTML attribute serialization</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="permissions-policy-header">
@@ -3677,7 +3711,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <b><a href="#declared-origin">#declared-origin</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-declared-origin">7.2. The permissionsPolicy object</a> <a href="#ref-for-declared-origin①">(2)</a> <a href="#ref-for-declared-origin②">(3)</a>
-    <li><a href="#ref-for-declared-origin③">9.5. Process permissions policy attributes</a>
+    <li><a href="#ref-for-declared-origin③">9.4. Process permissions policy attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="permissions-policy-violation-reports">
@@ -3690,7 +3724,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <b><a href="#violate">#violate</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-violate">8. Reporting</a> <a href="#ref-for-violate①">(2)</a> <a href="#ref-for-violate②">(3)</a> <a href="#ref-for-violate③">(4)</a> <a href="#ref-for-violate④">(5)</a> <a href="#ref-for-violate⑤">(6)</a> <a href="#ref-for-violate⑥">(7)</a>
-    <li><a href="#ref-for-violate⑦">9.11. Generate report for violation of permissions policy on settings</a> <a href="#ref-for-violate⑧">(2)</a>
+    <li><a href="#ref-for-violate⑦">9.10. Generate report for violation of permissions policy on settings</a> <a href="#ref-for-violate⑧">(2)</a>
     <li><a href="#ref-for-violate⑨">11.1. Exposure of cross-origin behavior</a>
    </ul>
   </aside>
@@ -3698,94 +3732,88 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <b><a href="#permissionspolicyviolationreportbody">#permissionspolicyviolationreportbody</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-permissionspolicyviolationreportbody">8. Reporting</a>
-    <li><a href="#ref-for-permissionspolicyviolationreportbody①">9.11. Generate report for violation of permissions policy on settings</a>
+    <li><a href="#ref-for-permissionspolicyviolationreportbody①">9.10. Generate report for violation of permissions policy on settings</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="permissionspolicyviolationreportbody-featureid">
    <b><a href="#permissionspolicyviolationreportbody-featureid">#permissionspolicyviolationreportbody-featureid</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-permissionspolicyviolationreportbody-featureid">9.11. Generate report for violation of permissions policy on settings</a>
+    <li><a href="#ref-for-permissionspolicyviolationreportbody-featureid">9.10. Generate report for violation of permissions policy on settings</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="permissionspolicyviolationreportbody-sourcefile">
    <b><a href="#permissionspolicyviolationreportbody-sourcefile">#permissionspolicyviolationreportbody-sourcefile</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-permissionspolicyviolationreportbody-sourcefile">8. Reporting</a> <a href="#ref-for-permissionspolicyviolationreportbody-sourcefile①">(2)</a>
-    <li><a href="#ref-for-permissionspolicyviolationreportbody-sourcefile②">9.11. Generate report for violation of permissions policy on settings</a> <a href="#ref-for-permissionspolicyviolationreportbody-sourcefile③">(2)</a>
+    <li><a href="#ref-for-permissionspolicyviolationreportbody-sourcefile②">9.10. Generate report for violation of permissions policy on settings</a> <a href="#ref-for-permissionspolicyviolationreportbody-sourcefile③">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="permissionspolicyviolationreportbody-linenumber">
    <b><a href="#permissionspolicyviolationreportbody-linenumber">#permissionspolicyviolationreportbody-linenumber</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-permissionspolicyviolationreportbody-linenumber">9.11. Generate report for violation of permissions policy on settings</a> <a href="#ref-for-permissionspolicyviolationreportbody-linenumber①">(2)</a>
+    <li><a href="#ref-for-permissionspolicyviolationreportbody-linenumber">9.10. Generate report for violation of permissions policy on settings</a> <a href="#ref-for-permissionspolicyviolationreportbody-linenumber①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="permissionspolicyviolationreportbody-columnnumber">
    <b><a href="#permissionspolicyviolationreportbody-columnnumber">#permissionspolicyviolationreportbody-columnnumber</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-permissionspolicyviolationreportbody-columnnumber">9.11. Generate report for violation of permissions policy on settings</a> <a href="#ref-for-permissionspolicyviolationreportbody-columnnumber①">(2)</a>
+    <li><a href="#ref-for-permissionspolicyviolationreportbody-columnnumber">9.10. Generate report for violation of permissions policy on settings</a> <a href="#ref-for-permissionspolicyviolationreportbody-columnnumber①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="permissionspolicyviolationreportbody-disposition">
    <b><a href="#permissionspolicyviolationreportbody-disposition">#permissionspolicyviolationreportbody-disposition</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-permissionspolicyviolationreportbody-disposition">8. Reporting</a> <a href="#ref-for-permissionspolicyviolationreportbody-disposition①">(2)</a>
-    <li><a href="#ref-for-permissionspolicyviolationreportbody-disposition②">9.11. Generate report for violation of permissions policy on settings</a>
+    <li><a href="#ref-for-permissionspolicyviolationreportbody-disposition②">9.10. Generate report for violation of permissions policy on settings</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="process-response-policy">
    <b><a href="#process-response-policy">#process-response-policy</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-process-response-policy">9.7. Create a Permissions Policy for a browsing context from response</a>
+    <li><a href="#ref-for-process-response-policy">9.6. Create a Permissions Policy for a browsing context from response</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="parse-header-from-value-and-origin">
-   <b><a href="#parse-header-from-value-and-origin">#parse-header-from-value-and-origin</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="construct-policy-from-dictionary-and-origin">
+   <b><a href="#construct-policy-from-dictionary-and-origin">#construct-policy-from-dictionary-and-origin</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-parse-header-from-value-and-origin">9.1. Process response policy</a>
+    <li><a href="#ref-for-construct-policy-from-dictionary-and-origin">9.1. Process response policy</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="parse-policy-directive">
    <b><a href="#parse-policy-directive">#parse-policy-directive</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-parse-policy-directive">9.5. Process permissions policy attributes</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="merge-directive-with-declared-policy">
-   <b><a href="#merge-directive-with-declared-policy">#merge-directive-with-declared-policy</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-merge-directive-with-declared-policy">9.2. Parse header from value and origin</a>
+    <li><a href="#ref-for-parse-policy-directive">9.4. Process permissions policy attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="process-permissions-policy-attributes">
    <b><a href="#process-permissions-policy-attributes">#process-permissions-policy-attributes</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-process-permissions-policy-attributes">9.9. Define an inherited policy for feature in container at origin</a>
+    <li><a href="#ref-for-process-permissions-policy-attributes">9.8. Define an inherited policy for feature in container at origin</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="create-for-browsingcontext">
    <b><a href="#create-for-browsingcontext">#create-for-browsingcontext</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-create-for-browsingcontext">9.7. Create a Permissions Policy for a browsing context from response</a>
+    <li><a href="#ref-for-create-for-browsingcontext">9.6. Create a Permissions Policy for a browsing context from response</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="define-inherited-policy">
    <b><a href="#define-inherited-policy">#define-inherited-policy</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-define-inherited-policy">9.6. Create a Permissions Policy for a browsing context</a>
+    <li><a href="#ref-for-define-inherited-policy">9.5. Create a Permissions Policy for a browsing context</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="define-inherited-policy-in-container">
    <b><a href="#define-inherited-policy-in-container">#define-inherited-policy-in-container</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-define-inherited-policy-in-container">7.2. The permissionsPolicy object</a>
-    <li><a href="#ref-for-define-inherited-policy-in-container①">9.8. Define an inherited policy for feature in browsing context</a>
+    <li><a href="#ref-for-define-inherited-policy-in-container①">9.7. Define an inherited policy for feature in browsing context</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="is-feature-enabled">
    <b><a href="#is-feature-enabled">#is-feature-enabled</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-is-feature-enabled">9.12. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-is-feature-enabled">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */
