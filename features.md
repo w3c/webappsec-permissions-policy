@@ -21,6 +21,8 @@ specification.
 | `autoplay` | [HTML][html] | [Chrome 64](https://www.chromestatus.com/feature/5100524789563392) |
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
 | `camera` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
+| `clipboard-read` | [Clipboard][clipboard] | [Chrome 85](https://www.chromestatus.com/feature/5767075295395840) |
+| `clipboard-write` | [Clipboard][clipboard] | [Chrome 85](https://www.chromestatus.com/feature/5767075295395840) |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
@@ -88,6 +90,7 @@ names will be added to this list as they are actually defined.
 <a name="fn5">[5]</a>: The earlier version of this feature ([`lazyload`](https://www.chromestatus.com/feature/5641405942726656)) is available behind a flag in Chrome<sup>[1](#fn1)</sup>.
 
 [battery-status]: https://w3c.github.io/battery/#feature-policy-integration
+[clipboard]: https://w3c.github.io/clipboard-apis/#clipboard-permissions
 [encrypted-media]: https://w3c.github.io/encrypted-media/#feature-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#feature-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
