@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 76c0936, updated Fri Jun 12 19:44:53 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="58580649eb03150e7c77f35ebacda602a4d6eae6" name="document-revision">
+  <meta content="909f9be3a97fec9e5415d4e81fe37d28ac67da0f" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1497,7 +1497,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Permissions Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-06-16">16 June 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-06-22">22 June 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2650,7 +2650,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
        <li data-md>
         <p>If <var>group</var> is omitted, set <var>group</var> to "default".</p>
        <li data-md>
-        <p>Execute <a href="https://w3c.github.io/reporting/#queue-report">Reporting API §2.3 Queue data as type for destination</a> with <var>body</var>,
+        <p>Execute <a data-link-type="dfn" href="https://w3c.github.io/reporting/#reporting-queue" id="ref-for-reporting-queue">queue a report</a> with <var>body</var>,
 "permissions-policy-violation", <var>group</var>, and <var>settings</var>.</p>
       </ol>
      </div>
@@ -3213,6 +3213,12 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-report-body">8. Reporting</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-reporting-queue">
+   <a href="https://w3c.github.io/reporting/#reporting-queue">https://w3c.github.io/reporting/#reporting-queue</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-reporting-queue">9.10. Generate report for violation of permissions policy on settings</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-report">
    <a href="https://w3c.github.io/reporting/#report">https://w3c.github.io/reporting/#report</a><b>Referenced in:</b>
    <ul>
@@ -3353,6 +3359,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <ul>
      <li><span class="dfn-paneled" id="term-for-reportbody" style="color:initial">ReportBody</span>
      <li><span class="dfn-paneled" id="term-for-report-body" style="color:initial">body</span>
+     <li><span class="dfn-paneled" id="term-for-reporting-queue" style="color:initial">queue</span>
      <li><span class="dfn-paneled" id="term-for-report" style="color:initial">report</span>
      <li><span class="dfn-paneled" id="term-for-report-type" style="color:initial">report type</span>
      <li><span class="dfn-paneled" id="term-for-visible-to-reportingobservers" style="color:initial">visible to reportingobservers</span>
