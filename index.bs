@@ -1025,7 +1025,7 @@ partial interface HTMLIFrameElement {
 
     1. If |group| is omitted, set |group| to "default".
 
-    1. Execute [[reporting#queue-report]] with |body|,
+    1. Execute <a for="reporting" lt="queue">queue a report</a> with |body|,
       "permissions-policy-violation", |group|, and |settings|.
 
     </div>
