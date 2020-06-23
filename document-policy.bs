@@ -164,11 +164,6 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     for="configuration point">default value</dfn>, which is an element of its
     <a for="configuration point">range</a>.
 
-    A <a>configuration point</a> which has <a
-    for="configuration point">type</a> `integer` or `float` also has a <a
-    for="configuration point">parameter name</a>, which is a token, which must
-    be a valid param-name.
-
     <div class="issue">Should configuration points be allowed to have multiple
     parameters? Perhaps parameters should be defined separately, with names,
     types, and ranges.</div>
@@ -265,7 +260,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
 
     Example:
     ```
-    Document-Policy: something;f=1.0;report-to=endpoint1, no-something-else;report-to=endpoint2
+    Document-Policy: something=1.0;report-to=endpoint1, something-else=?0;report-to=endpoint2
     ```
 
     ### Setting the default reporting endpoint ### {#reporting-default}
@@ -280,7 +275,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
 
     Example:
     ```
-    Document-Policy: something;f=1.0, no-something-else, *;report-to=endpoint
+    Document-Policy: something=1.0, something-else=?0, *;report-to=endpoint
     ```
 
     ### Disabling reporting for a feature ### {#reporting-disable}
@@ -293,7 +288,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
 
     Example:
     ```
-    Document-Policy: something;f=1.0;report-to=none, no-something-else,
+    Document-Policy: something=1.0;report-to=none, something-else=?0,
                      *;report-to=endpoiont
     ```
 
@@ -316,8 +311,8 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
 
     Example:
     ```
-    Document-Policy-Report-Only: something;f=1.0;report-to=endpoint,
-                                 no-something-else;report-to=endpoint2
+    Document-Policy-Report-Only: something=1.0;report-to=endpoint,
+                                 something-else=?0;report-to=endpoint2
     ```
   </section>
 
@@ -329,8 +324,8 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     ## Policies as Structured Headers ## {#policies-as-structured-headers}
 
     Policies are represented in HTTP headers and in HTML attributes as the
-    serialization of an sh-list structure. The list members are parameterized
-    tokens, each of which is a <a>document policy directive</a>.
+    serialization of an sh-dictionary structure. Each dictionary member is a
+    <a>document policy directive</a>.
 
     A <dfn export>document policy directive</dfn> is an element of a
     <a>serialized document policy</a>, and consists of a <a>directive name</a>,
@@ -339,10 +334,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
 
     A <dfn>directive name</dfn> may be one of:
 
-    * The <a for="configuration point">name</a> of a <a>configuration point</a>.
-    * The <a for="configuration point">name</a> of <a>configuration point</a>
-      whose <a for="configuration point">type</a> is `boolean`, prefixed by the
-      string "no-",
+    * The <a for="configuration point">name</a> of a <a>configuration point</a>
     * The Token "`*`".
 
     A <dfn>policy value</dfn> is an element of the <a for="configuration point">range</a>
@@ -375,10 +367,10 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
 
     Examples:
         * `boolean-feature`
-        * `no-boolean-feature`
-        * `integer-feature;p=2`
-        * `float-feature;q=-0.2`
-        * `enum-feature;state`
+        * `boolean-feature=?0`
+        * `integer-feature=2`
+        * `float-feature=-0.2`
+        * `enum-feature=state`
 
   </section>
   <section>
@@ -392,14 +384,13 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     <a>document policy</a> that should be enforced by the client.
 
     The <code>Document-Policy</code> header is a Structured Header. Its value
-    must be a list. Its ABNF is:
+    must be a dictionary. Its ABNF is:
 
-    Document-Policy = sh-list
+    Document-Policy = sh-dictionary
 
-    Each list element must be a token. If the token does not name a supported
-    configuration point or a supported boolean configuration point prefixed by
-    "no-", or the special value "*", then the list element will be ignored by
-    the processing steps.
+    If any dictionary member name does not name a supported configuration point
+    or the special value "*", then the dictionary memver will be ignored by the
+    processing steps.
   </section>
   <section>
     ### Document-Policy-Report-Only ### {#document-policy-report-only-http-header}
@@ -410,7 +401,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     the <a>report-only document policy</a> for the document.
 
     The <code>Document-Policy-Report-Only</code> header is a Structured Header.
-    Its value must be a list. It has exactly the same syntax as the
+    Its value must be a dictionary. It has exactly the same syntax as the
     `Document-Policy` header.
   </section>
   <section>
@@ -422,7 +413,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     client the minimum <a>required document policy</a> to apply to all nested
     content.
 
-    The `Require-Document-Policy` header is a Structured Header list, with
+    The `Require-Document-Policy` header is a Structured Header dictionary, with
     exactly the same syntax as the `Document-Policy` header.
   </section>
   <section>
@@ -616,53 +607,30 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
 
     1. Let |policy| be a new ordered map.
     1. Let |defaultEndpoint| be a new string, set to null.
-    1. Let |list| be the result of parsing |policyString| as a list.
+    1. Let |dict| be the result of parsing |policyString| as a dictionary.
     1. If parsing fails, then fail.
-    1. For each |element| in |list|,
-        1. If |element| is not a token, then fail.
+    1. For each |name|->(|value|,|parameters|) in |dict|,
         1. Let |currentEndpoint| be a new string, set to null.
-        1. If |element|["report-to"] exists, and is a string, then:
-            1. Set |currentEndpoint| to the value of |element|["report-to"].
-            1. Remove |element|["report-to"].
-        1. If |element| is the string "`*`", then:
+        1. If |parameters|["report-to"] exists, and is a string, then:
+            1. Set |currentEndpoint| to the value of |parameters|["report-to"].
+        1. If |name| is the string "`*`", then:
             1. Set |defaultEndpoint| to |currentEndpoint|.
-        1. Otherwise, if |element| is the name of a supported configuration
-          point whose type is boolean, then:
-            1. If |element| has any associated parameters, then fail.
+        1. Otherwise, if |name| is the name of a supported configuration point,
+          then:
             1. Let |configuration point| be the supported configuration point
-               with name |element|.
+              with name |name|.
             1. If |policy|[|configuration point|] exists, then continue with the
               next |element|.
-            1. Set |policy|[|configuration point|] to a new boolean <a>policy
-              configuration</a> with <a for="policy configuration">value</a>
-              true, and <a for="policy configuration">reporting endpoint</a>
-              |currentEndpoint|.
-            1. Continue with the next |element|.
-        1. Otherwise, if |element| begins with the string `"no-"`, and the
-          remaining characters match the name of a supported configuration point
-          whose type is boolean, then:
-            1. If |element| has any associated parameters, then fail.
-            1. Let |elementName| be the substring of |element| after the prefix
-              `"no-"`.
-            1. Let |configuration point| be the supported configuration point
-              with name |elementName|.
-            1. If |policy|[|configuration point|] exists, then continue with the
-              next |element|.
-            1. Set |policy|[|configuration point|] to a new boolean <a>policy
-              configuration</a> with <a for="policy configuration">value</a>
-              false, and <a for="policy configuration">reporting endpoint</a>
-              |currentEndpoint|.
-            1. Continue with the next |element|.
-        1. Otherwise, if |element| is the name of a supported configuration
-          point, then:
-            1. If |element| does not have exactly one parameter, then fail.
-            1. Let |configuration point| be the supported configuration point
-              with name |element|.
-            1. If |policy|[|configuration point|] exists, then continue with the
-              next |element|.
+            1. If |configuration point|'s type is boolean, then:
+                1. If |value| is not a Boolean, then fail.
+                1. Set |policy|[|configuration point|] to a new boolean
+                  <a>policy configuration</a> with <a
+                  for="policy configuration">value</a> |value|, and <a
+                  for="policy configuration">reporting endpoint</a>
+                  |currentEndpoint|.
+                1. Continue with the next |element|.
             1. If |configuration point|'s type is enum, then:
-                1. If |element|'s parameter has a value, then fail.
-                1. Let |value| be the name of |element|'s parameter.
+                1. If |value| is not a Token, then fail.
                 1. If |value| is not the name of one of |configuration point|s
                   allowed enum values, then fail.
                 1. Set |policy|[|configuration point|] to a new enum <a>policy
@@ -671,11 +639,8 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
                   for="policy configuration">reporting endpoint</a>
                   |currentEndpoint|.
                 1. Continue with the next |element|.
-            1. If |element|'s parameter's name does not match |configuration
-              point|'s parameter name, then fail.
-            1. Let |value| be the value of |element|'s parameter.
             1. If |configuration point|'s type is integer, then:
-                1. If |value| is not an integer, then fail.
+                1. If |value| is not an Integer, then fail.
                 1. If |value| is not in |configuration point|'s range, then
                   fail.
                 1. Set |policy|[|configuration point|] to a new integer
@@ -685,7 +650,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
                   |currentEndpoint|.
                 1. Continue with the next |element|.
             1. If |configuration point|'s type is float, then:
-                1. If |value| is not a float, then fail.
+                1. If |value| is not a Decimal, then fail.
                 1. If |value| is not in |configuration point|'s range, then
                   fail.
                 1. Set |policy|[|configuration point|] to a new float <a>policy
@@ -711,28 +676,13 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     Given a <a>document policy</a> (|requiredPolicy|), this algorithm returns a
     string which represents the canonical serialization of the policy.
 
-    1. Let |list| be an empty sh-list
-    1. Let |features| be the keys of |requiredPolicy|
+    1. Let |dict| be a new ordered map.
+    1. Let |features| be the keys of |requiredPolicy|.
     1. Sort |features| by the name of each element, in ASCII order.
     1. For each |feature| in |features|:
-        1. If |feature| is a boolean-valued feature, then
-            1. If |requiredPolicy|[|feature|] is true, append |feature|'s name
-              to |list|.
-            1. Otherwise, append the sh-token formed by concatenating the string
-              `"no-"` and |feature|'s name to |list|.
-        1. Otherwise, if |feature| is an enum-valued feature, then
-            1. Let |value| be |requiredPolicy|[|feature|].
-            1. Let |param| be a parameter with param-name |value| and with no
-              param-value.
-            1. Append an sh-item which is an sh-token formed from |feature|'s
-              name, with the single parameter |param|, to |list|.
-        1. Otherwise,
-            1. Let |value| be |requiredPolicy|[|feature|].
-            1. Let |param| be a parameter with param-name being |feature|'s
-              parameter name, and with param-value |value|.
-            1. Append an sh-item which is an sh-token formed from |feature|'s
-              name, with the single parameter |param|, to |list|.
-    1. Return the serialization of |list|.
+        1. Let |value| be |requiredPolicy|[|feature|].
+        1. Set |dict|[|feature|] to |value|.
+    1. Return the serialization of |dict|.
 
     </div>
   </section>
