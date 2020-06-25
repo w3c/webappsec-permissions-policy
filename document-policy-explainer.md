@@ -29,8 +29,8 @@ achieve this:
 They can do this by serving their HTML content with this HTTP header:
 
 ```http
-Document-Policy: no-unsized-media, no-document-write,
-                 image-compression;bpp=2.0, frame-loading;lazy
+Document-Policy: unsized-media=?0, document-write=?0,
+                 max-image-bpp=2.0, frame-loading=lazy
 ```
 
 A document served with this header may embed other content, first- or
@@ -49,7 +49,7 @@ in that frame:
 
 ```html
 <iframe src="https://img.example.com/"
-        policy="no-unsized-media,image-compression;bpp=2.0">
+        policy="unsized-media=?0, max-image-bpp=2.0">
 ```
 
 Since a document policy like this can affect a site's behavior, perhaps in ways
@@ -64,22 +64,22 @@ something like this (abbreviated):
 ```http
 GET / HTTP/1.1
 Host: img.example.com
-Sec-Required-Document-Policy: no-unsized-media,image-compression;bpp=2
+Sec-Required-Document-Policy: unsized-media=?0, max-image-bpp=2.0
 ```
 
 The response will need to have a conforming header in order to be loaded, so a
 document served with this header would work:
 
 ```http
-Document-Policy: image-compression;bpp=1.5,no-document-write,no-unsized-media
+Document-Policy: max-image-bpp=1.5, document-write=?0, unsized-media=?0
 ```
 
 While either of these headers would cause a network error to be returned
 instead:
 
 ```http
-Document-Policy: no-unsized-media,image-compression;bpp=3.0
-Document-Policy: image-compression;bpp=2.0
+Document-Policy: unsized-media=?0, max-image-bpp=3.0
+Document-Policy: max-image-bpp=2.0
 ```
 
 To ensure that there's no cheating, if the user clicks a link inside the
@@ -96,7 +96,7 @@ If Example Magazine embeds its image server partner with the iframe tag:
 
 ```html
 <iframe src="https://img.example.com/"
-        policy="no-unsized-media,image-compression;bpp=2.0">
+        policy="unsized-media=?0, max-image-bpp=2.0">
 ```
 
 Then the page at img.example.com will need to be served with a Document-Policy
@@ -117,7 +117,7 @@ doesn't have to be an exact match: If the partner site knows that the images
 it serves have even better compression, it could set its own policy like this:
 
 ```http
-Document-Policy: no-unsized-media, image-compression;bpp=1.5
+Document-Policy: unsized-media=?0, max-image-bpp=1.5
 ```
 
 But that doesn't have any effect on the requirements for its embedded frames.
@@ -127,7 +127,7 @@ If it wanted to, img.example.com could set a different policy for its ads -- it
 could embed them with
 
 ```html
-<iframe src="https://ads.example.com/" policy="image-compression:bpp=1.25">
+<iframe src="https://ads.example.com/" policy="max-image-bpp=1.25">
 ```
 
 In that case, the advertisement will have a stricter required policy, which it
@@ -142,20 +142,20 @@ As an example, if img.example.com had a required policy (set by Example
 Magazine) of
 
 ```
-image-compression;bpp=2.0
+max-image-bpp=2.0
 ```
 
 and it included an advertisement in a frame with a policy attribute of
 
 ```
-image-compression;bpp=4.0, no-document-write
+max-image-bpp=4.0, document-write=?0
 ```
 
 Then the required polcicy which the browser would compute for the advertisement
 frame would contain the strictest value for each feature:
 
 ```
-image-compression;bpp=2.0, no-document-write
+max-image-bpp=2.0, document-write=?0
 ```
 
 
@@ -173,7 +173,7 @@ This means that sandbox features can be applied individually to iframes which
 are not otherwised sandboxed:
 
 ```html
-<iframe policy="no-scripts">
+<iframe policy="scripts=?0">
 ```
 
 Since the `policy` attribute creates a frame with a Required Policy, which
@@ -196,10 +196,10 @@ sandboxed iframe:
 ```html
 <iframe sandbox>
 <iframe sandbox="allow-scripts allow-forms">
-<iframe policy="no-scripts">
+<iframe policy="scripts=?0">
 <iframe sandbox policy="scripts"> (Should this be allowed?)
-<iframe sandbox="allow-scripts" policy="no-scripts"> (This one needs some work)
-<iframe policy="no-same-origin"> (This is a frame with an opaque origin, but no other sandboxing)
+<iframe sandbox="allow-scripts" policy="scripts=?0"> (This one needs some work)
+<iframe policy="same-origin=?0"> (This is a frame with an opaque origin, but no other sandboxing)
 ```
 
 None of these result in a `Sec-Required-Document-Policy` header, as all of the
@@ -209,16 +209,16 @@ However, new features are not safelisted, and so would result in a header if any
 of them are restricted:
 
 ```html
-<iframe policy="no-scripts, no-document-write">
+<iframe policy="scripts=?0, document-write=?0">
 ```
 
 results in a request header:
 
 ```http
-Sec-Required-Document-Policy: no-document-write
+Sec-Required-Document-Policy: document-write=?0
 ```
 
-(Note that `no-scripts` is not present in the header; only those values which
+(Note that `scripts=?0` is not present in the header; only those values which
 are required to appear in the response header are listed.)
 
 The sandbox attribute in an iframe tag serves to disable all of the
@@ -226,13 +226,13 @@ currently-defined sandbox features. These can also be toggled individually with
 the policy attribute:
 
 ```html
-<iframe policy="no-document-write, no-escape-in-popups">
+<iframe policy="document-write=?0, escape-in-popups=?0">
 ```
 
 They can also be set from an HTTP header:
 
 ```http
-Require-Document-Policy: no-forms
+Require-Document-Policy: forms=?0
 ```
 
 Would impose the sandboxed forms browsing context flag on all nested content.
@@ -240,8 +240,8 @@ Would impose the sandboxed forms browsing context flag on all nested content.
 ### Sandboxing yourself
 
 ```http
-Document-Policy: no-popups, no-modals, no-presentation-lock, no-forms,
-                 no-pointer-lock
+Document-Policy: popups=?0, modals=?0, presentation-lock=?0, forms=?0,
+                 pointer-lock=?0
 ```
 
 In this case (like in the first document policy example), the document may embed
@@ -251,8 +251,8 @@ You can also include both headers, to sandbox yourself as well as all nested
 content:
 
 ```http
-Document-Policy: no-popups, no-modals, no-presentation-lock, no-forms, no-pointer-lock
-Require-Document-Policy: no-popups, no-modals, no-presentation-lock, no-forms, no-pointer-lock
+Document-Policy: popups=?0, modals=?0, presentation-lock=?0, forms=?0, pointer-lock=?0
+Require-Document-Policy: popups=?0, modals=?0, presentation-lock=?0, forms=?0, pointer-lock=?0
 ```
 
 ## Use cases -- what's this good for?
@@ -354,20 +354,23 @@ Examples:
 * `document-write`
 * `scripts`
 
-Some policies are boolean switches, and can be turned off with the syntax
-"`no-<feature-name>`":
+Some policies are boolean switches, which can be enabled by simply naming them,
+and disabled with the false value "?0":
 
-* `no-popups`
-* `no-scripts`
-* `no-document-write`
+* `popups`
+* `popups=?0`
+* `scripts`
+* `no-scripts=?0`
+* `document-write`
+* `document-write=?0`
 
-Others take parameters, whose types and names are specific to each policy:
+Others take parameters, whose types are specific to each policy:
 
-* `image-compression;min-bpp=2`
-* `frame-loading;lazy`
+* `max-image-bpp=2.0`
+* `frame-loading=lazy`
 
 All of the directives can be combined with commas into a single header. In
-Structured-header-speak, this is a parameterized list.
+Structured-header-speak, this is a Dictonary.
 
 ### Requiring a policy in your embedded content
 
@@ -442,7 +445,7 @@ Example:
 
 ```http
 Sec-Required-Document-Policy:
-     no-document-write,no-storage,image-compression;bpp=4
+     document-write=?0, storage=?0, max-image-bpp=4.0
 ```
 
 If the response does not have a document policy response header which conforms
@@ -451,9 +454,9 @@ returned instead, similar to CSP.
 
 Note: This does not mean strictly increasing strictness: the following would work:
 
-* Top-doc contains `<iframe policy="image-compression;bpp=4">`
-  * First nested doc uses header `image-compression;bpp=2` (okay)
-    * Second nested doc uses header `image-compression;bpp=3` (looser, still okay)
+* Top-doc contains `<iframe policy="max-image-bpp=4.0">`
+  * First nested doc uses header `max-image-bpp=2.0` (okay)
+    * Second nested doc uses header `max-image-bpp=3.0` (looser, still okay)
 
 A document's final policy is the union<sup>[1](#fn1)</sup> of its browsing
 context's required policy and it's own header policy. (If it weren't for
