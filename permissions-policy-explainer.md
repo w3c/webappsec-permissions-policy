@@ -31,7 +31,8 @@ Google Chrome since 2016.
 
 There have been several changes to the API since it shipped as Feature Policy.
 If you're already familiar with Feature Policy, feel free to skip to the
-["Big Changes"](#big-changes) section below.
+["Big Changes"](#appendix-big-changes-since-this-was-called-feature-policy)
+section below.
 
 
 ## A bit of history
@@ -149,37 +150,30 @@ potentially be granted to any frame (although it is not granted by default; the
 
 ## How are Features Disabled?
 
-The way that features get disabled varies from feature-to-feature. 
+The way that disabled features behave varies from feature-to-feature. 
 Permission-like features, such as geolocation, already fail sensibly and return 
 error values when the permission to use it is missing. When such a feature is 
-disabled by Feature Policy, it would be equivalent to a denied permission and 
+disabled by Permissions Policy, it would be equivalent to a denied permission and 
 would exercise a similar code path (perhaps returning a different error code).  
 
 In other cases, the feature may fail silently, be removed from the global 
 object altogether or fail in some other way that makes the most sense for that 
-API - i.e. we’ll consider and choose the best strategy on a case by case basis. 
-
-For example disabling synchronous `<script>` tags on a page, would cause those 
-parser-blocking script resources not to be loaded. Note that in these types of 
-cases, the control flow of JavaScript on the page may change due to features 
-being removed or disabled. As such, it is possible that some attackers could 
-potentially exploit these changes in control flow to exploit the page. In such 
-cases, if a violation of feature policy is detected, the browser may unload the 
-page to mitigate against such attacks. 
+API - i.e. we’ll consider and choose the best strategy on a case by case basis.
 
 ## Permissions Policy and the Permissions API
 
-One of the goals of feature policy is to give control to embedders over how 
+One of the goals of permissions policy is to give control to embedders over how 
 permissions are enabled/disabled in iframes. There are open questions around 
-the relationship between Feature Policy, Permission Delegation and the 
-Permissions API which need to be worked out. A separate document Feature Policy 
-and Permissions describes some of these questions in more detail.
+the relationship between Permissions Policy, Permission Delegation and the 
+Permissions API which need to be worked out. A separate document, "[Feature Policy 
+and Permissions](https://docs.google.com/document/d/1iMIpTUJWzrW-_TqL9IBkxRwbFUto7P7Dn1oXVok7h5U/edit#heading=h.ciuptq8j47e6)",
+describes some of these questions in more detail.
 
 ## Permissions Policy and the Reporting API
 
-Feature policy integrates with the Reporting API, so that you can get reports 
+Permissions policy integrates with the Reporting API, so that you can get reports 
 from users when a policy is violated in their browser, or respond to violations 
-in JavaScript. See the separate explainer, Feature Policy Reporting, for 
+in JavaScript. See the separate explainer, [Feature Policy Reporting](reporting.md), for 
 details.
 
 ## Inspecting the Current Policy
@@ -187,8 +181,9 @@ details.
 Permissions policy provides a JavaScript interface to query the policy which is 
 active in the current document. You can use it to tell whether specific 
 features are enabled or not, or whether they would be enabled by iframes 
-(depending on the content loaded into that iframe). See Policy Introspection 
-from Scripts in the specification for more details.
+(depending on the content loaded into that iframe). See [Policy Introspection 
+from Scripts](https://w3c.github.io/webappsec-feature-policy/#introspection) in
+the specification for more details.
 
 ## Examples
 
@@ -331,7 +326,7 @@ example.com:
 <iframe src="https://ad.com/"></iframe>
 ```
 
-## Appendix: Big changes since this was called Feature Policy {#big-changes}
+## Appendix: Big changes since this was called Feature Policy
 
 Permissions Policy works largely exactly the way that feature policy did before
 it. However, there are a number of cosmetic and logical differences:
