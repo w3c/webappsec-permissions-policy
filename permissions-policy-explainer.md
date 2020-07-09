@@ -1,14 +1,14 @@
 # Permissions Policy Explainer
 
-Permissions policy is a web platform API which gives a website the ability to
+Permissions Policy is a web platform API which gives a website the ability to
 allow or block the use of browser features in its own frame or in iframes that
 it embeds. It operates on the principle that top-level documents should
 generally have access to the web's powerful features (often at the discretion of
-the user, who needs to grant permission,) but that embedded content should not
+the user, who needs to grant permission), but that embedded content should not
 have such access automatically. A document which embeds another document should
 be able to declare which features it trusts that embedded content to use.
 
-Examples of features that can be controlled by permissions policy include:
+Examples of features that can be controlled by Permissions Policy include:
 * Battery status
 * Client Hints
 * Encrypted-media decoding
@@ -37,7 +37,7 @@ section below.
 
 ## A bit of history
 
-The ideas for permissions policy, and feature policy before it, came out of
+The ideas for Permissions Policy, and Feature Policy before it, came out of
 several needs that arose in the web platform space:
 
 * It became apparent that some features are better off disabled by default in 
@@ -51,9 +51,9 @@ document, or have been usable everywhere except in sandboxed iframes.
 
 * Similarly, folks working on permissions have seen a need to disable sensitive 
 features like geolocation by default in iframes, to reduce the chance of users 
-being confused or tricked into giving embedded websites access. See FP + 
-Permissions for more details on the relationship between this document and 
-permissions.
+being confused or tricked into giving embedded websites access. See [FP + 
+Permissions](https://docs.google.com/document/d/1iMIpTUJWzrW-_TqL9IBkxRwbFUto7P7Dn1oXVok7h5U/edit)
+for more details on the relationship between this document and permissions.
 
 * Ideas for mitigations against XSS attacks were also being discussed. For 
 example, if a website knows it never uses the Bluetooth API, it can mitigate 
@@ -70,21 +70,17 @@ path" optimizations in the browser, or to assert a promise about conformance
 with some requirements set by other embedders - e.g. various social networks, 
 search engines, and so on.
 
-* There is a desire for a framework to expose experimental features (Origin 
-Trials) in the browser, but only to specific/registered origins, and for 
-limited duration and subject to global usage caps.
-
-Feature policy grew out of the ideas and aims to address the above needs 
+Feature Policy grew out of the ideas and aims to address the above needs 
 via a single and unified interface. 
 
-Since then, feature policy has split into two related APIs to cover the widely
-different use cases: Permissions policy to handle the control of powerful
-features and permissions, even in the presence of XSS; and [Document policy](https://github.com/w3c/webappsec-feature-policy/blob/master/document-policy-explainer.md),
+Since then, Feature Policy has split into two related APIs to cover the widely
+different use cases: Permissions Policy to handle the control of powerful
+features and permissions, even in the presence of XSS; and [Document Policy](https://github.com/w3c/webappsec-feature-policy/blob/master/document-policy-explainer.md),
 to handle performance optimizations and other kinds of configurable APIs.
 
 ## How is a Policy Specified?
 
-Permissions policy can be thought of conceptually as a way to control delegation
+Permissions Policy can be thought of conceptually as a way to control delegation
 of powerful features to subframes. It operates on allowed lists of origins for
 each feature, where a "feature" is a well-defined token that maps to and
 controls some web platform API - e.g. “geolocation” is a feature name for the 
@@ -94,7 +90,7 @@ indicates that geolocation is enabled for foo.com and bar.com.
 Any frames a website embeds that aren’t of a listed origin will have that 
 feature disabled - e.g. with above policy a frame containing https://baz.com/ 
 would have the Geolocation API disabled. If the website's own origin doesn’t 
-appear jin the allowlist, the feature will be disabled for itself too. And, 
+appear in the allowlist, the feature will be disabled for itself too. And, 
 finally, if no policy is specified by a website for a particular feature, then 
 a default allowlist will be used for that feature. 
 
@@ -128,7 +124,7 @@ access granted to a document in that frame. Restricting this list through the
 header means that even if an iframe specifies an origin, if the origin is not
 allowed by the header, the feature will not be given to the framed document.
 
-As an example, a policy may be specified in the HTTP “Feature-Policy” header
+As an example, a policy may be specified in the HTTP “Permissions-Policy” header
 like this (which is formatted for ease of reading):
 
 ```http
@@ -146,7 +142,7 @@ This policy indicates that geolocation permission can only be granted to
 same-origin frames and to frames hosting documents from foo.com. Camera access
 is disabled for *all* documents, including this one, and full screen mode can
 potentially be granted to any frame (although it is not granted by default; the
-`allow` attribute must still be used on individual frames.)
+`allow` attribute must still be used on individual frames).
 
 ## How are Features Disabled?
 
@@ -162,7 +158,7 @@ API - i.e. we’ll consider and choose the best strategy on a case by case basis
 
 ## Permissions Policy and the Permissions API
 
-One of the goals of permissions policy is to give control to embedders over how 
+One of the goals of Permissions Policy is to give control to embedders over how 
 permissions are enabled/disabled in iframes. There are open questions around 
 the relationship between Permissions Policy, Permission Delegation and the 
 Permissions API which need to be worked out. A separate document, "[Feature Policy 
@@ -171,14 +167,14 @@ describes some of these questions in more detail.
 
 ## Permissions Policy and the Reporting API
 
-Permissions policy integrates with the Reporting API, so that you can get reports 
+Permissions Policy integrates with the Reporting API, so that you can get reports 
 from users when a policy is violated in their browser, or respond to violations 
-in JavaScript. See the separate explainer, [Feature Policy Reporting](reporting.md), for 
+in JavaScript. See the separate explainer, [Permissions Policy Reporting](reporting.md), for 
 details.
 
 ## Inspecting the Current Policy
 
-Permissions policy provides a JavaScript interface to query the policy which is 
+Permissions Policy provides a JavaScript interface to query the policy which is 
 active in the current document. You can use it to tell whether specific 
 features are enabled or not, or whether they would be enabled by iframes 
 (depending on the content loaded into that iframe). See [Policy Introspection 
@@ -218,19 +214,19 @@ user's location, The ad.com frame is still unable to even make the request.
 
 example.com:
 ```html
-<iframe src="https://game.com/" allow="geolocation"></iframe>
+<iframe src="https://maps.example.com/" allow="geolocation"></iframe>
 <iframe src="https://ad.com/"></iframe>
 ```
 
 Note that `allow="geolocation"` here is actually shorthand for
 `allow="geolocation 'src'"`, where `'src'` is a special token which will expand
 into the origin which the iframe tag names, usually in its `src` attribute.
-https://game.com, in this case.
+https://maps.example.com, in this case.
 
 ### Example 3 - Cascading disable 
 
 Here, example.com embeds an advertisement from bad-ad.com. It does not grant 
-that frame access to geolocation, The ad then embeds a frame of its own, and 
+that frame access to geolocation, the ad then embeds a frame of its own, and 
 attempts to grant that frame access. This will also be blocked by permissions 
 policy, as a frame which is not allowed a specific feature cannot grant that 
 feature to any of its subframes.
@@ -240,7 +236,7 @@ example.com:
 <iframe src="https://bad-ad.com/"></iframe>
 ```
 
-bad-ad.com
+bad-ad.com:
 ```html
 <iframe src="https://evil.com/" allow="geolocation"></iframe>
 ```
@@ -257,12 +253,12 @@ counter-intuitive but it accurately reflects the trust relationship that is
 expressed in the policy: example.com trusts game.com to use geolocation and so 
 game.com must be trusted to responsibly delegate access further.
 
-example.com 
+example.com:
 ```html
 <iframe src="https://game.com/" allow="geolocation"></iframe>
 ```
 
-game.com
+game.com:
 ```html
 <iframe src="https://resources.game.com/" allow="geolocation"></iframe>
 ```
@@ -276,7 +272,7 @@ iframe on example.com and can set its `allow` attribute.
 It can do this with the `Permissions-Policy` header, which sets the origins that
 can potentially be granted access to features;
 
-example.com
+example.com:
 ```http
 Permissions-Policy: geolocation=(self "https://game.com" "https://map.example.com")
 ```
@@ -300,7 +296,7 @@ with an allow attribute can be inserted into its documents that would otherwise
 grant that. The empty allowlist ensures that the feature is disabled in all 
 contexts everywhere. 
 
-example.com
+example.com:
 ```http
 Permissions-Policy: geolocation=()
 ```
@@ -328,7 +324,7 @@ example.com:
 
 ## Appendix: Big changes since this was called Feature Policy
 
-Permissions Policy works largely exactly the way that feature policy did before
+Permissions Policy works largely exactly the way that Feature Policy did before
 it. However, there are a number of cosmetic and logical differences:
 
 ### New header
@@ -337,9 +333,9 @@ The biggest visible change is that the `Feature-Policy` header is now spelled
 `Permissions-Policy`, and its value is a [Structured Field Value](https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html).
 (Technically, it's a structured Dictionary, whose names are the feature names,
 and values are either items or inner lists, but see the spec for all of the
-details there)
+details there.)
 
-A policy which would previously have been expressed as
+A policy which would previously have been expressed as:
 
 ```http
 Feature-Policy: fullscreen 'self' https://example.com https://another.example.com;

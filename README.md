@@ -16,7 +16,7 @@ See also: [how to integrate a web platform feature with permissions policy](http
 
 The Permissions Policy spec is hosted on this repo, at https://w3c.github.io/webappsec-feature-policy/ (the URL reflects the previous name of this API, "Feature Policy".)
 
-For more explanation, use cases, examples, etc., please refer to [the explainer document](https://docs.google.com/document/d/1k0Ua-ZWlM_PsFCFdLMa8kaVTo32PeNZ4G7FFHqpFx4E/edit).
+For more explanation, use cases, examples, etc., please refer to [the explainer document](https://github.com/w3c/webappsec-feature-policy/blob/master/permissions-policy-explainer.md).
 
 ## Document Policy
 
