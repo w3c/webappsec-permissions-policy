@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 04c91f0, updated Mon Jun 29 08:51:04 2020 +0200" name="generator">
+  <meta content="Bikeshed version eed57b9, updated Thu Jul 9 18:41:51 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="1cce557e82d08f5ae1ca10bb678aea70d1c5f886" name="document-revision">
+  <meta content="23f32533fecbb79b042f8784a7ebc375bdce4545" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1497,7 +1497,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Permissions Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-09">9 July 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-10">10 July 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1615,6 +1615,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#privacy-expose-behavior"><span class="secno">11.1</span> <span class="content">Exposure of cross-origin behavior</span></a>
       <li><a href="#privacy-alter-behavior"><span class="secno">11.2</span> <span class="content">Unanticipated behavior changes</span></a>
       <li><a href="#privacy-expose-policy"><span class="secno">11.3</span> <span class="content">Exposure of embedding policy</span></a>
+     </ol>
+    <li>
+     <a href="#change-log"><span class="secno">12</span> <span class="content">Change log</span></a>
+     <ol class="toc">
+      <li><a href="#changes-since-fpwd"><span class="secno">12.1</span> <span class="content">Changes since FPWD</span></a>
      </ol>
     <li>
      <a href="#conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
@@ -2800,6 +2805,26 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
   certain cases — when the user is logged in to the embedding site, for
   instance — then the embedded site can learn something about the state of
   its embedder.</p>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="12" id="change-log"><span class="secno">12. </span><span class="content">Change log</span><a class="self-link" href="#change-log"></a></h2>
+    <h3 class="heading settled" data-level="12.1" id="changes-since-fpwd"><span class="secno">12.1. </span><span class="content">Changes since FPWD</span><a class="self-link" href="#changes-since-fpwd"></a></h3>
+    <ul>
+     <li data-md>
+      <p>Expose new algorithms to create a Feature Policy before document is created. <a href="https://github.com/w3c/webappsec-feature-policy/pull/324">Link</a></p>
+     <li data-md>
+      <p>Remove algorithms no longer needed. <a href="https://github.com/w3c/webappsec-feature-policy/pull/325">Link</a></p>
+     <li data-md>
+      <p>Change same-origin-domain check to same-origin. <a href="https://github.com/w3c/webappsec-feature-policy/pull/326">Link</a></p>
+     <li data-md>
+      <p>Change Header and attribute combination from OR to AND semantics. <a href="https://github.com/w3c/webappsec-feature-policy/pull/378">Link</a></p>
+     <li data-md>
+      <p>Rename to "Permissions Policy". <a href="https://github.com/w3c/webappsec-feature-policy/pull/379">Link</a></p>
+     <li data-md>
+      <p>Define "Permissions-Policy" as a structured header. <a href="https://github.com/w3c/webappsec-feature-policy/pull/383">Link</a></p>
+     <li data-md>
+      <p>Editorial fixes.</p>
+    </ul>
    </section>
   </main>
   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content">Conformance</span><a class="self-link" href="#conformance"></a></h2>
