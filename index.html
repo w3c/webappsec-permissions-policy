@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version eed57b9, updated Thu Jul 9 18:41:51 2020 -0700" name="generator">
+  <meta content="Bikeshed version 1bdc5b2, updated Tue Jul 14 16:26:50 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="23f32533fecbb79b042f8784a7ebc375bdce4545" name="document-revision">
+  <meta content="06fbb21121ee18d488c9c549f9c6dec69f2746f1" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1497,7 +1497,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Permissions Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-10">10 July 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-16">16 July 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2317,9 +2317,9 @@ be set to "enforce".</p>
       <ol>
        <li data-md>
         <p>Let <var>parsed header</var> be the result of executing <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header" id="ref-for-concept-header-list-get-structured-header">get a structured
-header</a> given "<code>Permissions-Policy</code>" and "dictionary" from <var>response</var>’s header list.</p>
+field value</a> given "<code>Permissions-Policy</code>" and "dictionary" from <var>response</var>’s header list.</p>
        <li data-md>
-        <p>If <var>parsed header</var> is null or failure, abort these steps.</p>
+        <p>If <var>parsed header</var> is null, abort these steps.</p>
        <li data-md>
         <p>Let <var>policy</var> be the result of executing <a data-link-type="dfn" href="#construct-policy-from-dictionary-and-origin" id="ref-for-construct-policy-from-dictionary-and-origin">Construct policy from
 dictionary and origin</a> on <var>parsed header</var> and <var>origin</var>.</p>
@@ -3326,7 +3326,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <li>
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-concept-header-list-get-structured-header" style="color:initial">get a structured header</span>
+     <li><span class="dfn-paneled" id="term-for-concept-header-list-get-structured-header" style="color:initial">get a structured field value</span>
      <li><span class="dfn-paneled" id="term-for-concept-request-origin" style="color:initial">origin</span>
      <li><span class="dfn-paneled" id="term-for-concept-request" style="color:initial">request</span>
      <li><span class="dfn-paneled" id="term-for-concept-response-response" style="color:initial">response</span>
