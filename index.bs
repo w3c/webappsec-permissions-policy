@@ -771,9 +771,9 @@ partial interface HTMLIFrameElement {
     algorithm returns a <a>declared permissions policy</a>.
 
     1. Let |parsed header| be the result of executing <a>get a structured
-      header</a> given "<code>Permissions-Policy</code>" and "dictionary" from
+      field value</a> given "<code>Permissions-Policy</code>" and "dictionary" from
       |response|’s header list.
-    1. If |parsed header| is null or failure, abort these steps.
+    1. If |parsed header| is null, abort these steps.
     1. Let |policy| be the result of executing <a>Construct policy from
       dictionary and origin</a> on |parsed header| and |origin|.
     1. Return |policy|.
