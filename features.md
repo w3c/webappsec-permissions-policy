@@ -38,6 +38,7 @@ specification.
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | Chrome 60 |
 | `wake-lock` | [Wake Lock API][wake-lock] | |
+| `web-share` | [Web Share API][web-share] | Chrome 86 |
 | `xr-spatial-tracking`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
 
 ## Proposed Features
@@ -101,6 +102,7 @@ names will be added to this list as they are actually defined.
 [publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-feature-policy
 [wake-lock]: https://www.w3.org/TR/wake-lock/#dfn-wake-lock-feature
 [web-midi]: https://webaudio.github.io/web-midi-api/#feature-policy-integration
+[web-share]: https://w3c.github.io/web-share/#feature-policy
 [webusb]: https://wicg.github.io/webusb/#feature-policy
 [xhr]: https://xhr.spec.whatwg.org/#feature-policy-integration
 [xr]: https://immersive-web.github.io/webxr/#feature-policy
