@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version f948ea9, updated Thu Jul 16 13:39:07 2020 -0700" name="generator">
+  <meta content="Bikeshed version a1fcaa3, updated Fri Jul 17 17:22:25 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/document-policy.html" rel="canonical">
-  <meta content="f254030dfff7d65e66aad4a29587c65de8bb79ca" name="document-revision">
+  <meta content="613ec9c583abaf114a2024e8a7bffa7be6e60745" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1423,7 +1423,7 @@ dfn > a.self-link::before      { content: "#"; }</style>
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Document Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-17">17 July 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-22">22 July 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2451,6 +2451,14 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
   known only to be used while a user is logged in to the site, for instance,
   then the embedder could disable that feature for the frame, and then listen
   for the resulting events to determine whether or not the user is logged in.</p>
+    <p>Additionally, care must be taken so that information about the contents of
+  cross-origin resources (which is not normally available to a document) is not
+  made visible by a policy. Image contents, for instance, may contain private
+  information, and a fine-grained policy may allow an attacker to infer
+  something about the contents of the image by carefully tuning the policy’s
+  configuration parameter. Policies which act on the contents of subresources
+  should either exclude non-readable resources, or take steps to limit the
+  amount of information which can be inferred about the resource.</p>
     <h3 class="heading settled" data-level="11.2" id="advertisement-of-required-policy"><span class="secno">11.2. </span><span class="content">Advertisement of required policy</span><a class="self-link" href="#advertisement-of-required-policy"></a></h3>
     <p>As a mitigation to the behavior change problem discussed above, requests for
   embedded content in a frame with a required policy will be sent with an HTTP
@@ -2758,7 +2766,7 @@ calling <a data-link-type="dfn" href="#determine-compatibility" id="ref-for-dete
    <dt id="biblio-ecma-262">[ECMA-262]
    <dd><a href="https://tc39.es/ecma262/">ECMAScript Language Specification</a>. URL: <a href="https://tc39.es/ecma262/">https://tc39.es/ecma262/</a>
    <dt id="biblio-feature-policy">[FEATURE-POLICY]
-   <dd>Ian Clelland. <a href="https://www.w3.org/TR/feature-policy-1/">Feature Policy</a>. 16 April 2019. WD. URL: <a href="https://www.w3.org/TR/feature-policy-1/">https://www.w3.org/TR/feature-policy-1/</a>
+   <dd>Ian Clelland. <a href="https://www.w3.org/TR/permissions-policy-1/">Permissions Policy</a>. 16 July 2020. WD. URL: <a href="https://www.w3.org/TR/permissions-policy-1/">https://www.w3.org/TR/permissions-policy-1/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
