@@ -24,7 +24,7 @@ specification.
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
-| `geolocation` | https://github.com/w3c/permissions/pull/163 | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
+| `geolocation` | [Geolocation API][geolocation] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `fullscreen` | [Fullscreen API][fullscreen] | [Chrome 62](https://www.chromestatus.com/feature/5094837900541952) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `execution-while-out-of-viewport` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -91,6 +91,7 @@ names will be added to this list as they are actually defined.
 [encrypted-media]: https://w3c.github.io/encrypted-media/#feature-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#feature-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
+[geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
 [media-capture]: https://w3c.github.io/mediacapture-main/#feature-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#feature-policy-integration
