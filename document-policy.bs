@@ -945,6 +945,15 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
   then the embedder could disable that feature for the frame, and then listen
   for the resulting events to determine whether or not the user is logged in.
 
+  Additionally, care must be taken so that information about the contents of
+  cross-origin resources (which is not normally available to a document) is not
+  made visible by a policy. Image contents, for instance, may contain private
+  information, and a fine-grained policy may allow an attacker to infer
+  something about the contents of the image by carefully tuning the policy's
+  configuration parameter. Policies which act on the contents of subresources
+  should either exclude non-readable resources, or take steps to limit the
+  amount of information which can be inferred about the resource.
+
   ## Advertisement of required policy ## {#advertisement-of-required-policy}
 
   As a mitigation to the behavior change problem discussed above, requests for
