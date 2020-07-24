@@ -50,7 +50,7 @@ integrated into their respective specs.
 | Feature name | Spec/PR link(s) | Browser Support |
 | ------------ | --------------- | --------------- |
 | Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
-| `gamepad` | https://github.com/w3c/permissions/pull/163 |  |
+| `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
 | `geolocation` | https://github.com/w3c/permissions/pull/163 | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 
 ## Experimental Features
