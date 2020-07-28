@@ -50,6 +50,7 @@ integrated into their respective specs.
 | Feature name | Spec/PR link(s) | Browser Support |
 | ------------ | --------------- | --------------- |
 | Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
+| `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
 
 ## Experimental Features
