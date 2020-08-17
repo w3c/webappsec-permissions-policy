@@ -5,10 +5,10 @@ Level: 1
 Indent: 2
 Status: ED
 Group: WebAppSec
-URL: https://w3c.github.io/webappsec-feature-policy/
+URL: https://w3c.github.io/webappsec-permissions-policy/
 Editor: Ian Clelland, Google, iclelland@google.com
 Abstract: This specification defines a mechanism that allows developers to selectively enable and disable use of various browser features and APIs.
-Repository: https://github.com/w3c/webappsec-feature-policy/
+Repository: https://github.com/w3c/webappsec-permissions-policy/
 Markup Shorthands: css no, markdown yes
 </pre>
 <pre class="link-defaults">
@@ -189,7 +189,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       The <a>policy-controlled features</a> themselves are not themselves part
       of this framework. A non-normative list of currently-defined features is
       maintained as a
-      <a href="https://github.com/w3c/webappsec-feature-policy/blob/master/features.md">companion
+      <a href="https://github.com/w3c/webappsec-permissions-policy/blob/master/features.md">companion
       document</a> alongside this specification.
     </div>
   </section>
@@ -1045,7 +1045,7 @@ partial interface HTMLIFrameElement {
     1. If |window| is not a {{Window}}, return <code>false</code>.
        <div class="issue">Permissions Policy within non-Window contexts
        ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in
-       <a href="https://github.com/WICG/feature-policy/issues/207">issue
+       <a href="https://github.com/w3c/webappsec-permissions-policy/issues/207">issue
        #207</a>. After that’s resolved, update this algorithm to allow fetches
        initiated within these contexts to use policy-controlled features.
        *Until* that’s resolved, disallow all policy-controlled features (e.g.,
@@ -1201,12 +1201,12 @@ partial interface HTMLIFrameElement {
 
   <h3>Changes since FPWD</h3>
 
-  * Expose new algorithms to create a Feature Policy before document is created. [Link](https://github.com/w3c/webappsec-feature-policy/pull/324)
-  * Remove algorithms no longer needed. [Link](https://github.com/w3c/webappsec-feature-policy/pull/325)
-  * Change same-origin-domain check to same-origin. [Link](https://github.com/w3c/webappsec-feature-policy/pull/326)
-  * Change Header and attribute combination from OR to AND semantics. [Link](https://github.com/w3c/webappsec-feature-policy/pull/378)
-  * Rename to "Permissions Policy". [Link](https://github.com/w3c/webappsec-feature-policy/pull/379)
-  * Define "Permissions-Policy" as a structured header. [Link](https://github.com/w3c/webappsec-feature-policy/pull/383)
+  * Expose new algorithms to create a Feature Policy before document is created. [Link](https://github.com/w3c/webappsec-permissions-policy/pull/324)
+  * Remove algorithms no longer needed. [Link](https://github.com/w3c/webappsec-permissions-policy/pull/325)
+  * Change same-origin-domain check to same-origin. [Link](https://github.com/w3c/webappsec-permissions-policy/pull/326)
+  * Change Header and attribute combination from OR to AND semantics. [Link](https://github.com/w3c/webappsec-permissions-policy/pull/378)
+  * Rename to "Permissions Policy". [Link](https://github.com/w3c/webappsec-permissions-policy/pull/379)
+  * Define "Permissions-Policy" as a structured header. [Link](https://github.com/w3c/webappsec-permissions-policy/pull/383)
   * Editorial fixes.
 
 </section>
