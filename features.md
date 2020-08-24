@@ -62,6 +62,7 @@ experimentation by web developers.
 
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
+| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[6](#fn6)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `loading-frame-default-eager` | [loading-frame-default-eager.md](policies/loading-frame-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
 | `loading-image-default-eager` | [loading-image-default-eager.md](policies/loading-image-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
@@ -84,6 +85,9 @@ names will be added to this list as they are actually defined.
 `--enable-blink-features=Serial`.
 
 <a name="fn5">[5]</a>: The earlier version of this feature ([`lazyload`](https://www.chromestatus.com/feature/5641405942726656)) is available behind a flag in Chrome<sup>[1](#fn1)</sup>.
+
+<a name="fn4">[6]</a>: To enable this, use the Chrome command line flag
+`--enable-blink-features=ConversionMeasurement`.
 
 [battery-status]: https://w3c.github.io/battery/#feature-policy-integration
 [encrypted-media]: https://w3c.github.io/encrypted-media/#feature-policy-integration
