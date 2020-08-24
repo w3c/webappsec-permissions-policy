@@ -21,6 +21,7 @@ specification.
 | `autoplay` | [HTML][html] | [Chrome 64](https://www.chromestatus.com/feature/5100524789563392) |
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
 | `camera` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
+| `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
