@@ -71,7 +71,7 @@ experimentation by web developers.
 | `loading-image-default-eager` | [loading-image-default-eager.md](policies/loading-image-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
-| `serial` | | Experimental in Chrome<sup>[4](#fn4)</sup> |
+| `serial` | [Explainer](https://github.com/WICG/serial/blob/gh-pages/EXPLAINER.md) | Experimental in Chrome<sup>[4](#fn4)</sup> or available in [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2992641952387694593) in Chrome 80-88 |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 
 
