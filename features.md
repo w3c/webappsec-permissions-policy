@@ -66,6 +66,7 @@ experimentation by web developers.
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[6](#fn6)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `hid` | [Explainer](https://github.com/WICG/webhid/blob/master/EXPLAINER.md) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/1074108511127863297) in Chrome 85-87 |
+| `idle-detection` | [Draft spec](https://github.com/WICG/idle-detection/pull/29) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/551690954352885761) in Chrome 84-86 |
 | `loading-frame-default-eager` | [loading-frame-default-eager.md](policies/loading-frame-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
 | `loading-image-default-eager` | [loading-image-default-eager.md](policies/loading-image-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
