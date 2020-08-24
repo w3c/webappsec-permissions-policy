@@ -72,6 +72,7 @@ experimentation by web developers.
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `serial` | | Experimental in Chrome<sup>[4](#fn4)</sup> |
+| `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 
 
 ## Notes
