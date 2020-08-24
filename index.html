@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version dbcda79, updated Mon Jul 27 13:38:30 2020 -0700" name="generator">
+  <meta content="Bikeshed version 1e61f30, updated Tue Aug 18 15:51:53 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="3e81141857bca45fddf6be590d199b51f73b38f3" name="document-revision">
+  <meta content="8c33a963f0f202d11dbb376db6683e63210ed808" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1378,6 +1378,62 @@ figcaption:not(.no-marker)::before {
 [data-md] > :last-child {
     margin-bottom: 0;
 }</style>
+<style>/* style-mdn-anno */
+
+            @media (max-width: 767px) { .mdn-anno { opacity: .1 } }
+            .mdn-anno { font: 1em sans-serif; padding: 0.3em; position: absolute; z-index: 8; right: 0.3em; background: #EEE; color: black; box-shadow: 0 0 3px #999; overflow: hidden; border-collapse: initial; border-spacing: initial; min-width: 9em; max-width: min-content; white-space: nowrap; word-wrap: normal; hyphens: none}
+            .mdn-anno:not(.wrapped) { opacity: 1}
+            .mdn-anno:hover { z-index: 9 }
+            .mdn-anno.wrapped { min-width: 0 }
+            .mdn-anno.wrapped > :not(button) { display: none; }
+            .mdn-anno > .mdn-anno-btn { cursor: pointer; border: none; color: #000; background: transparent; margin: -8px; float: right; padding: 10px 8px 8px 8px; outline: none; }
+            .mdn-anno > .mdn-anno-btn > .less-than-two-engines-flag { color: red; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > .all-engines-flag { color: green; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > span { color: #fff; background-color: #000; font-weight: normal; font-family: zillaslab, Palatino, "Palatino Linotype", serif; padding: 2px 3px 0px 3px; line-height: 1.3em; vertical-align: top; }
+            .mdn-anno > .feature { margin-top: 20px; }
+            .mdn-anno > .feature:not(:first-of-type) { border-top: 1px solid #999; margin-top: 6px; padding-top: 2px; }
+            .mdn-anno > .feature > .less-than-two-engines-text { color: red }
+            .mdn-anno > .feature > .all-engines-text { color: green }
+            .mdn-anno > .feature > p { font-size: .75em; margin-top: 6px; margin-bottom: 0; }
+            .mdn-anno > .feature > p + p { margin-top: 3px; }
+            .mdn-anno > .feature > .support { display: block; font-size: 0.6em; margin: 0; padding: 0; margin-top: 2px }
+            .mdn-anno > .feature > .support + div { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > hr { display: block; border: none; border-top: 1px dotted #999; padding: 3px 0px 0px 0px; margin: 2px 3px 0px 3px; }
+            .mdn-anno > .feature > .support > hr::before { content: ""; }
+            .mdn-anno > .feature > .support > span { padding: 0.2em 0; display: block; display: table; }
+            .mdn-anno > .feature > .support > span.no { color: #CCCCCC; filter: grayscale(100%); }
+            .mdn-anno > .feature > .support > span.no::before { opacity: 0.5; }
+            .mdn-anno > .feature > .support > span:first-of-type { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > span > span { padding: 0 0.5em; display: table-cell; }
+            .mdn-anno > .feature > .support > span > span:first-child { width: 100%; }
+            .mdn-anno > .feature > .support > span > span:last-child { width: 100%; white-space: pre; padding: 0; }
+            .mdn-anno > .feature > .support > span::before { content: ' '; display: table-cell; min-width: 1.5em; height: 1.5em; background: no-repeat center center; background-size: contain; text-align: right; font-size: 0.75em; font-weight: bold; }
+            .mdn-anno > .feature > .support > .chrome_android::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .firefox_android::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .chrome::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .edge_blink::before { background-image: url(https://resources.whatwg.org/browser-logos/edge.svg); }
+            .mdn-anno > .feature > .support > .edge::before { background-image: url(https://resources.whatwg.org/browser-logos/edge_legacy.svg); }
+            .mdn-anno > .feature > .support > .firefox::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .ie::before { background-image: url(https://resources.whatwg.org/browser-logos/ie.png); }
+            .mdn-anno > .feature > .support > .safari_ios::before { background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg); }
+            .mdn-anno > .feature > .support > .nodejs::before { background-image: url(https://nodejs.org/static/images/favicons/favicon.ico); }
+            .mdn-anno > .feature > .support > .opera_android::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .opera::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .safari::before { background-image: url(https://resources.whatwg.org/browser-logos/safari.png); }
+            .mdn-anno > .feature > .support > .samsunginternet_android::before { background-image: url(https://resources.whatwg.org/browser-logos/samsung.svg); }
+            .mdn-anno > .feature > .support > .webview_android::before { background-image: url(https://resources.whatwg.org/browser-logos/android-webview.png); }
+            .name-slug-mismatch { color: red }
+            .caniuse-status:hover { z-index: 9; }
+
+            /* dt, li, .issue, .note, and .example are "position: relative", so to put annotation at right margin, must move to right of containing block */
+            .h-entry:not(.status-LS) dt > .mdn-anno, .h-entry:not(.status-LS) li > .mdn-anno, .h-entry:not(.status-LS) .issue > .mdn-anno, .h-entry:not(.status-LS) .note > .mdn-anno, .h-entry:not(.status-LS) .example > .mdn-anno { right: -6.7em; }
+            .h-entry p + .mdn-anno { margin-top: 0; }
+            h2 + .mdn-anno.after { margin: -48px 0 0 0; }
+            h3 + .mdn-anno.after { margin: -46px 0 0 0; }
+            h4 + .mdn-anno.after { margin: -42px 0 0 0; }
+            h5 + .mdn-anno.after { margin: -40px 0 0 0; }
+            h6 + .mdn-anno.after { margin: -40px 0 0 0; }
+            </style>
 <style>/* style-selflinks */
 
 .heading, .issue, .note, .example, li, dt {
@@ -1497,7 +1553,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Permissions Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-28">28 July 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-08-24">24 August 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1928,6 +1984,21 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <section>
      <h3 class="heading settled" data-level="6.1" id="permissions-policy-http-header-field"><span class="secno">6.1. </span><span class="content">Permissions-Policy HTTP Header
     Field</span><a class="self-link" href="#permissions-policy-http-header-field"></a></h3>
+     <div class="mdn-anno wrapped after">
+      <button class="mdn-anno-btn"><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy" title="The HTTP Feature-Policy header provides a mechanism to allow and deny the use of browser features in its own frame, and in content within any <iframe> elements in the document.">Headers/Feature-Policy</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>74+</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>60+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>47+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span title="Requires setting a user preference or runtime flag.">🔰 65+</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>60+</span></span><span class="webview_android yes"><span>Android WebView</span><span>60+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>8.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>44+</span></span>
+       </div>
+      </div>
+     </div>
      <p>The `<dfn class="dfn-paneled" data-dfn-type="http-header" data-export id="permissions-policy-header"><code>Permissions-Policy</code></dfn>`
     HTTP header field can be used in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response">response</a> (server to client) to
     communicate the <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy④">permissions policy</a> that should be enforced by the
@@ -2111,7 +2182,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#permissionspolicy" id="ref-for-permissionspolicy②"><c- n>PermissionsPolicy</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Document" data-dfn-type="attribute" data-export data-readonly data-type="PermissionsPolicy" id="dom-document-permissionspolicy"><code><c- g>permissionsPolicy</c-></code></dfn>;
 };
 
-<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement" id="ref-for-htmliframeelement"><c- g>HTMLIFrameElement</c-></a> {
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface"><c- g>HTMLIFrameElement</c-></a> {
     [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#permissionspolicy" id="ref-for-permissionspolicy③"><c- n>PermissionsPolicy</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export data-readonly data-type="PermissionsPolicy" id="dom-htmliframeelement-permissionspolicy"><code><c- g>permissionsPolicy</c-></code></dfn>;
 };
 </pre>
@@ -2674,7 +2745,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
        <li data-md>
         <p>If <var>window</var> is not a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window">Window</a></code>, return <code>false</code>.</p>
         <div class="issue" id="issue-154a63d1"><a class="self-link" href="#issue-154a63d1"></a>Permissions Policy within non-Window contexts
- (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope" id="ref-for-workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope" id="ref-for-workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue
+ (<code class="idl"><a data-link-type="idl">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope" id="ref-for-workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue
  #207</a>. After that’s resolved, update this algorithm to allow fetches
  initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g.,
  sending Client Hints to third parties) in these contexts.</div>
@@ -3043,22 +3114,10 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     Field</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-htmliframeelement">
-   <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-htmliframeelement">7.2. The permissionsPolicy object</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-window">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-window">9.11. Should request be allowed to use feature?</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-workerglobalscope">
-   <a href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-workerglobalscope">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-document-window">
@@ -3345,9 +3404,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-htmliframeelement" style="color:initial">HTMLIFrameElement</span>
      <li><span class="dfn-paneled" id="term-for-window" style="color:initial">Window</span>
-     <li><span class="dfn-paneled" id="term-for-workerglobalscope" style="color:initial">WorkerGlobalScope</span>
      <li><span class="dfn-paneled" id="term-for-concept-document-window" style="color:initial">associated document</span>
      <li><span class="dfn-paneled" id="term-for-browsing-context" style="color:initial">browsing context</span>
      <li><span class="dfn-paneled" id="term-for-browsing-context-container" style="color:initial">browsing context container</span>
@@ -3461,7 +3518,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#permissionspolicy"><c- n>PermissionsPolicy</c-></a> <a data-readonly data-type="PermissionsPolicy" href="#dom-document-permissionspolicy"><code><c- g>permissionsPolicy</c-></code></a>;
 };
 
-<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement"><c- g>HTMLIFrameElement</c-></a> {
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface"><c- g>HTMLIFrameElement</c-></a> {
     [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#permissionspolicy"><c- n>PermissionsPolicy</c-></a> <a data-readonly data-type="PermissionsPolicy" href="#dom-htmliframeelement-permissionspolicy"><code><c- g>permissionsPolicy</c-></code></a>;
 };
 
@@ -3481,7 +3538,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     Documents. We should figure out how to word this to include the possibility
     of features and permissions policies in Workers and Worklets as well.<a href="#issue-4ecdbcc2"> ↵ </a></div>
    <div class="issue">Permissions Policy within non-Window contexts
- (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue
+ (<code class="idl"><a data-link-type="idl">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue
  #207</a>. After that’s resolved, update this algorithm to allow fetches
  initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g.,
  sending Client Hints to third parties) in these contexts.<a href="#issue-154a63d1"> ↵ </a></div>
@@ -3904,6 +3961,14 @@ document.body.addEventListener("click", function(e) {
 
 });
 </script>
+<script>/* script-mdn-anno */
+
+            document.body.addEventListener("click", (e) => {
+                if(e.target.closest(".mdn-anno-btn")) {
+                    e.target.closest(".mdn-anno").classList.toggle("wrapped");
+                }
+            });
+            </script>
 <script>/* script-var-click-highlighting */
 
     document.addEventListener("click", e=>{
