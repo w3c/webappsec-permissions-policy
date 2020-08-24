@@ -37,9 +37,9 @@ specification.
 | `payment` | [Payment Request API][payment-request] | Chrome 60 |
 | `picture-in-picture` | [Picture-in-Picture][pip] | Shipped in Chrome |
 | `publickey-credentials-get` | [Web Authentication API][publickey-credentials-get] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=993007)" in Chrome |
+| `screen-wake-lock` | [Wake Lock API][wake-lock] | [Chrome 84](https://www.chromestatus.com/feature/4636879949398016) |
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | Chrome 60 |
-| `wake-lock` | [Wake Lock API][wake-lock] | |
 | `web-share` | [Web Share API][web-share] | Chrome 86 |
 | `xr-spatial-tracking`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
 
@@ -106,7 +106,7 @@ names will be added to this list as they are actually defined.
 [payment-request]: https://www.w3.org/TR/payment-request/#feature-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
 [publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-feature-policy
-[wake-lock]: https://www.w3.org/TR/wake-lock/#dfn-wake-lock-feature
+[wake-lock]: https://w3c.github.io/screen-wake-lock/#policy-control
 [web-midi]: https://webaudio.github.io/web-midi-api/#feature-policy-integration
 [web-share]: https://w3c.github.io/web-share/#feature-policy
 [webusb]: https://wicg.github.io/webusb/#feature-policy
