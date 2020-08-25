@@ -1221,9 +1221,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 1e61f30, updated Tue Aug 18 15:51:53 2020 -0700" name="generator">
+  <meta content="Bikeshed version 4eaf75d, updated Tue Aug 25 08:24:50 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="5e7c294ddc40da8f74c837584b61dda8a5351bac" name="document-revision">
+  <meta content="a4857d2a0cef9d6c2ae566a45577569060bb5393" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1553,7 +1553,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Permissions Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-08-24">24 August 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-08-25">25 August 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2182,7 +2182,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#permissionspolicy" id="ref-for-permissionspolicy②"><c- n>PermissionsPolicy</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Document" data-dfn-type="attribute" data-export data-readonly data-type="PermissionsPolicy" id="dom-document-permissionspolicy"><code><c- g>permissionsPolicy</c-></code></dfn>;
 };
 
-<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface"><c- g>HTMLIFrameElement</c-></a> {
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement" id="ref-for-htmliframeelement"><c- g>HTMLIFrameElement</c-></a> {
     [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#permissionspolicy" id="ref-for-permissionspolicy③"><c- n>PermissionsPolicy</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export data-readonly data-type="PermissionsPolicy" id="dom-htmliframeelement-permissionspolicy"><code><c- g>permissionsPolicy</c-></code></dfn>;
 };
 </pre>
@@ -2745,7 +2745,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
        <li data-md>
         <p>If <var>window</var> is not a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window">Window</a></code>, return <code>false</code>.</p>
         <div class="issue" id="issue-154a63d1"><a class="self-link" href="#issue-154a63d1"></a>Permissions Policy within non-Window contexts
- (<code class="idl"><a data-link-type="idl">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope" id="ref-for-workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue
+ (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope" id="ref-for-workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope" id="ref-for-workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue
  #207</a>. After that’s resolved, update this algorithm to allow fetches
  initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g.,
  sending Client Hints to third parties) in these contexts.</div>
@@ -3114,10 +3114,22 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     Field</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-htmliframeelement">
+   <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-htmliframeelement">7.2. The permissionsPolicy object</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-window">
    <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-window">9.11. Should request be allowed to use feature?</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-workerglobalscope">
+   <a href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-workerglobalscope">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-document-window">
@@ -3404,7 +3416,9 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="term-for-htmliframeelement" style="color:initial">HTMLIFrameElement</span>
      <li><span class="dfn-paneled" id="term-for-window" style="color:initial">Window</span>
+     <li><span class="dfn-paneled" id="term-for-workerglobalscope" style="color:initial">WorkerGlobalScope</span>
      <li><span class="dfn-paneled" id="term-for-concept-document-window" style="color:initial">associated document</span>
      <li><span class="dfn-paneled" id="term-for-browsing-context" style="color:initial">browsing context</span>
      <li><span class="dfn-paneled" id="term-for-browsing-context-container" style="color:initial">browsing context container</span>
@@ -3518,7 +3532,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#permissionspolicy"><c- n>PermissionsPolicy</c-></a> <a data-readonly data-type="PermissionsPolicy" href="#dom-document-permissionspolicy"><code><c- g>permissionsPolicy</c-></code></a>;
 };
 
-<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface"><c- g>HTMLIFrameElement</c-></a> {
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement"><c- g>HTMLIFrameElement</c-></a> {
     [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#permissionspolicy"><c- n>PermissionsPolicy</c-></a> <a data-readonly data-type="PermissionsPolicy" href="#dom-htmliframeelement-permissionspolicy"><code><c- g>permissionsPolicy</c-></code></a>;
 };
 
@@ -3538,7 +3552,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     Documents. We should figure out how to word this to include the possibility
     of features and permissions policies in Workers and Worklets as well.<a href="#issue-4ecdbcc2"> ↵ </a></div>
    <div class="issue">Permissions Policy within non-Window contexts
- (<code class="idl"><a data-link-type="idl">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue
+ (<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> or <code class="idl"><a data-link-type="idl" href="https://drafts.css-houdini.org/worklets/#workletglobalscope">WorkletGlobalScope</a></code>) is being figured out in <a href="https://github.com/WICG/feature-policy/issues/207">issue
  #207</a>. After that’s resolved, update this algorithm to allow fetches
  initiated within these contexts to use policy-controlled features. <em>Until</em> that’s resolved, disallow all policy-controlled features (e.g.,
  sending Client Hints to third parties) in these contexts.<a href="#issue-154a63d1"> ↵ </a></div>
