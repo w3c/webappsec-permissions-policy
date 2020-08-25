@@ -63,12 +63,10 @@ experimentation by web developers.
 
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
-| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[6](#fn6)</sup> |
+| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `hid` | [Explainer](https://github.com/WICG/webhid/blob/master/EXPLAINER.md) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/1074108511127863297) in Chrome 86-88 |
 | `idle-detection` | [Draft spec](https://github.com/WICG/idle-detection/pull/29) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/551690954352885761) in Chrome 84-86 |
-| `loading-frame-default-eager` | [loading-frame-default-eager.md](policies/loading-frame-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
-| `loading-image-default-eager` | [loading-image-default-eager.md](policies/loading-image-default-eager.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=949683)" in Chrome<sup>[5](#fn5)</sup> |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `serial` | [Explainer](https://github.com/WICG/serial/blob/gh-pages/EXPLAINER.md) | Experimental in Chrome<sup>[4](#fn4)</sup> or available in [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2992641952387694593) in Chrome 80-88 |
@@ -88,9 +86,7 @@ names will be added to this list as they are actually defined.
 <a name="fn4">[4]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=Serial`.
 
-<a name="fn5">[5]</a>: The earlier version of this feature ([`lazyload`](https://www.chromestatus.com/feature/5641405942726656)) is available behind a flag in Chrome<sup>[1](#fn1)</sup>.
-
-<a name="fn4">[6]</a>: To enable this, use the Chrome command line flag
+<a name="fn5">[5]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=ConversionMeasurement`.
 
 [battery-status]: https://w3c.github.io/battery/#feature-policy-integration
