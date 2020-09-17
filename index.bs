@@ -258,8 +258,6 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       Currently, the <a>container policy</a> cannot be set directly, but is
       indirectly set by <code>iframe</code> "<a href=
       "#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
-      "<a href=
-      "#iframe-allowpaymentrequest-attribute"><code>allowpaymentrequest</code></a>",
       "and <a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
       Future revisions to this spec may introduce a mechanism to explicitly
       declare the full <a>container policy</a>.
@@ -439,27 +437,6 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
         <code>allow="fullscreen"</code> and <code>allowfullscreen</code> are
         both present on an iframe element, then the more restrictive allowlist
         of <code>allow="fullscreen"</code> will be used.
-      </div>
-    </section>
-    <section>
-      <h4 id="iframe-allowpaymentrequest-attribute">allowpaymentrequest</h4>
-      <p>The "<code>allowpaymentrequest</code>" iframe attribute controls
-      access to <a>PaymentRequest</a>.</p>
-      <p>If the iframe element has an "<code>allow</code>" attribute whose
-      value contains the token "<code>payment</code>", then the
-      "<code>allowpaymentrequest</code>" attribute must have no effect.</p>
-      <p>Otherwise, the presence of an "<code>allowpaymentrequest</code>"
-      attribute on an iframe will result in adding an <a>allowlist</a> of
-      <code>*</code> for the "<code>payment</code>" feature to the <{iframe}>
-      element's [=nested browsing context=]'s <a>container policy</a>, when it
-      is constructed.</p>
-      <div class="note">
-        This is different from the behaviour of <code>&lt;iframe
-        allow="payment"&gt;</code>, and is for compatibility with existing uses
-        of <code>allowpaymentrequest</code>. If <code>allow="payment"</code>
-        and <code>allowpaymentrequest</code> are both present on an iframe
-        element, then the more restrictive allowlist of
-        <code>allow="payment"</code> will be used.
       </div>
     </section>
   </section>
@@ -876,12 +853,6 @@ partial interface HTMLIFrameElement {
             1. Construct a new declaration for <code>fullscreen</code>, whose
               allowlist is <a>the special value <code>*</code></a>.
             1. Add |declaration| to |container policy|.
-        1. If |element|'s <code>allowpaymentrequest</code> attribute is
-          specified, and |container policy| does not contain an allowlist for
-          <code>payment</code>:
-            1. Construct a new declaration for <code>payment</code>, whose
-              allowlist is <a>the special value <code>*</code></a>.
-            1. Add |declaration| to |container policy|.
     1. Return |container policy|.
 
     </div>
@@ -1208,5 +1179,6 @@ partial interface HTMLIFrameElement {
   * Rename to "Permissions Policy". [Link](https://github.com/w3c/webappsec-feature-policy/pull/379)
   * Define "Permissions-Policy" as a structured header. [Link](https://github.com/w3c/webappsec-feature-policy/pull/383)
   * Editorial fixes.
+  * The <code>allowpaymentrequest</code> attribute was removed due to deprecation by Payment Request API and HTML. [Link](https://github.com/w3c/webappsec-feature-policy/pull/)
 
 </section>
