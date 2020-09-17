@@ -68,6 +68,8 @@
  *
  ******************************************************************************/
 
+/* color variables included separately for reliability */
+
 /******************************************************************************/
 /*                                   Body                                     */
 /******************************************************************************/
@@ -92,7 +94,9 @@
 
 		/* Colors */
 		color: black;
+		color: var(--text);
 		background: white top left fixed no-repeat;
+		background-color: var(--bg);
 		background-size: 25px auto;
 	}
 
@@ -124,10 +128,13 @@
 	.head img[src*="logos/W3C"] {
 		display: block;
 		border: solid #1a5e9a;
+		border: solid var(--logo-bg);
 		border-width: .65rem .7rem .6rem;
 		border-radius: .4rem;
 		background: #1a5e9a;
+		background: var(--logo-bg);
 		color: white;
+		color: var(--logo-text);
 		font-weight: bold;
 	}
 
@@ -138,7 +145,9 @@
 
 	.head a:active > img[src*="logos/W3C"] {
 		background: #c00;
+		background: var(--logo-active-bg);
 		border-color: #c00;
+		border-color: var(--logo-active-bg);
 	}
 
 	/* see also additional rules in Link Styling section */
@@ -165,7 +174,6 @@
 			border-top-right-radius: 2rem;
 			box-shadow: 0 0 2px;
 			font-size: 1.5em;
-			color: black;
 		}
 		#toc-nav > a {
 			display: block;
@@ -175,23 +183,32 @@
 			padding: .1em 0.3em;
 			margin: 0;
 
-			background: white;
 			box-shadow: 0 0 2px;
 			border: none;
 			border-top-right-radius: 1.33em;
+
+			color: #707070;
+			color: var(--tocnav-normal-text);
 			background: white;
+			background: var(--tocnav-normal-bg);
 		}
+		#toc-nav > a:hover,
+		#toc-nav > a:focus {
+			color: black;
+			color: var(--tocnav-hover-text);
+			background: #f8f8f8;
+			background: var(--tocnav-hover-bg);
+		}
+		#toc-nav > a:active {
+			color: #c00;
+			color: var(--tocnav-active-text);
+			background: white;
+			background: var(--tocnav-active-bg);
+		}
+
 		#toc-nav > #toc-jump {
 			padding-bottom: 2em;
 			margin-bottom: -1.9em;
-		}
-
-		#toc-nav > a:hover,
-		#toc-nav > a:focus {
-			background: #f8f8f8;
-		}
-		#toc-nav > a:not(:hover):not(:focus) {
-			color: #707070;
 		}
 
 		/* statusbar gets in the way on keyboard focus; remove once browsers fix */
@@ -205,26 +222,6 @@
 		}
 		#toc-nav > a > span + span {
 			padding-right: 0.2em;
-		}
-
-		#toc-toggle-inline {
-			vertical-align: 0.05em;
-			font-size: 80%;
-			color: gray;
-			color: hsla(203,20%,40%,.7);
-			border-style: none;
-			background: transparent;
-			position: relative;
-		}
-		#toc-toggle-inline:hover:not(:active),
-		#toc-toggle-inline:focus:not(:active) {
-			text-shadow: 1px 1px silver;
-			top: -1px;
-			left: -1px;
-		}
-
-		#toc-nav :active {
-			color: #C00;
 		}
 	}
 
@@ -243,10 +240,14 @@
 			padding: 0 1em;
 			padding-left: 42px;
 			padding-left: calc(1em + 26px);
+			color: black;
+			color: var(--tocsidebar-text);
 			background: inherit;
 			background-color: #f7f8f9;
+			background-color: var(--tocsidebar-bg);
 			z-index: 1;
 			box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;
+			box-shadow: -.1em 0 .25em var(--tocsidebar-shadow) inset;
 		}
 		body.toc-sidebar #toc h2 {
 			margin-top: .8rem;
@@ -256,6 +257,7 @@
 			font-weight: bold;
 			color: gray;
 			color: hsla(203,20%,40%,.7);
+			color: var(--tocsidebar-heading-text);
 		}
 		body.toc-sidebar #toc-jump:not(:focus) {
 			width: 0;
@@ -283,10 +285,14 @@
 			padding: 0 1em;
 			padding-left: 42px;
 			padding-left: calc(1em + 26px);
+			color: black;
+			color: var(--tocsidebar-text);
 			background: inherit;
 			background-color: #f7f8f9;
+			background-color: var(--tocsidebar-bg);
 			z-index: 1;
 			box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;
+			box-shadow: -.1em 0 .25em var(--tocsidebar-shadow) inset;
 		}
 		body:not(.toc-inline) #toc h2 {
 			margin-top: .8rem;
@@ -296,6 +302,7 @@
 			font-weight: bold;
 			color: gray;
 			color: hsla(203,20%,40%,.7);
+			color: var(--tocsidebar-heading-text);
 		}
 
 		body:not(.toc-inline) {
@@ -338,7 +345,7 @@
 
 	h1, h2, h3 {
 		color: #005A9C;
-		background: transparent;
+		color: var(--heading-text);
 	}
 
 	h1 { font-size: 170%; }
@@ -365,11 +372,13 @@
 
 /** Section divider ***********************************************************/
 
-	:not(.head) > hr {
+	:not(.head) > :not(.head) + hr {
 		font-size: 1.5em;
 		text-align: center;
 		margin: 1em auto;
 		height: auto;
+		color: black;
+		color: var(--hr-text);
 		border: transparent solid 0;
 		background: transparent;
 	}
@@ -412,12 +421,15 @@
 	ol.algorithm ol:not(.algorithm),
 	.algorithm > ol ol:not(.algorithm) {
 	 border-left: 0.5em solid #DEF;
+	 border-left: 0.5em solid var(--algo-border);
 	}
 
 	/* Put nice boxes around each algorithm. */
 	[data-algorithm]:not(.heading) {
 	  padding: .5em;
-	  border: thin solid #ddd; border-radius: .5em;
+	  border: thin solid #ddd;
+	  border: thin solid var(--algo-border);
+	  border-radius: .5em;
 	  margin: .5em calc(-0.5em - 1px);
 	}
 	[data-algorithm]:not(.heading) > :first-child {
@@ -478,8 +490,20 @@
 
 /** Change Marking ************************************************************/
 
-	del { color: red;  text-decoration: line-through; }
-	ins { color: #080; text-decoration: underline;    }
+	del {
+		color: red;
+		color: var(--del-text);
+		background: transparent;
+		background: var(--del-bg);
+		text-decoration: line-through;
+	}
+	ins {
+		color: #080;
+		color: var(--ins-text);
+		background: transparent;
+		background: var(--ins-bg);
+		text-decoration: underline;
+	}
 
 /** Miscellaneous improvements to inline formatting ***************************/
 
@@ -497,9 +521,14 @@
 	pre, code, samp {
 		font-family: Menlo, Consolas, "DejaVu Sans Mono", Monaco, monospace;
 		font-size: .9em;
-		page-break-inside: avoid;
 		hyphens: none;
 		text-transform: none;
+		text-align: left;
+		text-align: start;
+		font-variant: normal;
+		orphans: 3;
+		widows: 3;
+		page-break-before: avoid;
 	}
 	pre code,
 	code code {
@@ -525,14 +554,19 @@
 	/* We hyperlink a lot, so make it less intrusive */
 	a[href] {
 		color: #034575;
+		color: var(--a-normal-text);
 		text-decoration: none;
 		border-bottom: 1px solid #707070;
+		border-bottom: 1px solid var(--a-normal-underline);
 		/* Need a bit of extending for it to look okay */
 		padding: 0 1px 0;
 		margin: 0 -1px 0;
 	}
 	a:visited {
-		border-bottom-color: #BBB;
+		color: #034575;
+		color: var(--a-visited-text);
+		border-bottom-color: #bbb;
+		border-bottom-color: var(--a-visited-underline);
 	}
 
 	/* Use distinguishing colors when user is interacting with the link */
@@ -540,12 +574,15 @@
 	a[href]:hover {
 		background: #f8f8f8;
 		background: rgba(75%, 75%, 75%, .25);
+		background: var(--a-hover-bg);
 		border-bottom-width: 3px;
 		margin-bottom: -2px;
 	}
 	a[href]:active {
-		color: #C00;
-		border-color: #C00;
+		color: #c00;
+		color: var(--a-active-text);
+		border-color: #c00;
+		border-color: var(--a-active-underline);
 	}
 
 	/* Backout above styling for W3C logo */
@@ -564,6 +601,11 @@
 		border-style: none;
 	}
 
+	img, svg {
+		/* Intentionally not color-scheme aware. */
+		background: white;
+	}
+
 	/* For autogen numbers, add
 	   .caption::before, figcaption::before { content: "Figure " counter(figure) ". "; }
 	*/
@@ -577,6 +619,7 @@
 	.figure object, .sidefigure object, figure object {
 		max-width: 100%;
 		margin: auto;
+		height: auto;
 	}
 	.figure pre, .sidefigure pre, figure pre {
 		text-align: left;
@@ -639,25 +682,46 @@
 		margin-bottom: 0;
 	}
 
+
+	.issue::before, .issue > .marker,
+	.example::before, .example > .marker,
+	.note::before, .note > .marker,
+	details.note > summary > .marker {
+		text-transform: uppercase;
+		padding-right: 1em;
+	}
+
+	.example::before, .example > .marker {
+		display: block;
+		padding-right: 0em;
+	}
+
 /** Blockquotes ***************************************************************/
 
 	blockquote {
 		border-color: silver;
+		border-color: var(--blockquote-border);
+		background: transparent;
+		background: var(--blockquote-bg);
+		color: currentcolor;
+		color: var(--blockquote-text);
 	}
 
 /** Open issue ****************************************************************/
 
 	.issue {
-		border-color: #E05252;
-		background: #FBE9E9;
+		border-color: #e05252;
+		border-color: var(--issue-border);
+		background: #fbe9e9;
+		background: var(--issue-bg);
+		color: black;
+		color: var(--issue-text);
 		counter-increment: issue;
 		overflow: auto;
 	}
 	.issue::before, .issue > .marker {
-		text-transform: uppercase;
-		color: #AE1E1E;
-		padding-right: 1em;
-		text-transform: uppercase;
+		color: #831616;
+		color: var(--issueheading-text);
 	}
 	/* Add .issue::before { content: "Issue " counter(issue) " "; } for autogen numbers,
 	   or use class="marker" to mark up the issue number in source. */
@@ -665,17 +729,19 @@
 /** Example *******************************************************************/
 
 	.example {
-		border-color: #E0CB52;
-		background: #FCFAEE;
+		border-color: #e0cb52;
+		border-color: var(--example-border);
+		background: #fcfaee;
+		background: var(--example-bg);
+		color: black;
+		color: var(--example-text);
 		counter-increment: example;
 		overflow: auto;
 		clear: both;
 	}
 	.example::before, .example > .marker {
-		text-transform: uppercase;
-		color: #827017;
-		min-width: 7.5em;
-		display: block;
+		color: #574b0f;
+		color: var(--exampleheading-text);
 	}
 	/* Add .example::before { content: "Example " counter(example) " "; } for autogen numbers,
 	   or use class="marker" to mark up the example number in source. */
@@ -683,27 +749,26 @@
 /** Non-normative Note ********************************************************/
 
 	.note {
-		border-color: #52E052;
-		background: #E9FBE9;
+		border-color: #52e052;
+		border-color: var(--note-border);
+		background: #e9fbe9;
+		background: var(--note-bg);
+		color: black;
+		color: var(--note-text);
 		overflow: auto;
 	}
 
 	.note::before, .note > .marker,
-	details.note > summary::before,
-	details.note > summary > .marker {
-		text-transform: uppercase;
-		display: block;
+	details.note > summary {
 		color: hsl(120, 70%, 30%);
+		color: var(--noteheading-text);
 	}
-	/* Add .note::before { content: "Note"; } for autogen label,
+	/* Add .note::before { content: "Note "; } for autogen label,
 	   or use class="marker" to mark up the label in source. */
 
-	details.note > summary {
-		display: block;
-		color: hsl(120, 70%, 30%);
-	}
 	details.note[open] > summary {
 		border-bottom: 1px silver solid;
+		border-bottom: 1px var(--notesummary-underline) solid;
 	}
 
 /** Assertion Box *************************************************************/
@@ -711,7 +776,11 @@
 
 	.assertion {
 		border-color: #AAA;
+		border-color: var(--assertion-border);
 		background: #EEE;
+		background: var(--assertion-bg);
+		color: black;
+		color: var(--assertion-text);
 	}
 
 /** Advisement Box ************************************************************/
@@ -719,15 +788,20 @@
 
 	.advisement {
 		border-color: orange;
+		border-color: var(--advisement-border);
 		border-style: none solid;
-		background: #FFEECC;
+		background: #fec;
+		background: var(--advisement-bg);
+		color: black;
+		color: var(--advisement-text);
 	}
 	strong.advisement {
 		display: block;
 		text-align: center;
 	}
-	.advisement > .marker {
-		color: #B35F00;
+	.advisement::before, .advisement > .marker {
+		color: #b35f00;
+		color: var(--advisementheading-text);
 	}
 
 /** Spec Obsoletion Notice ****************************************************/
@@ -743,27 +817,30 @@
 	.annoying-warning:not(details),
 	details.annoying-warning:not([open]) > summary,
 	details.annoying-warning[open] {
-		background: #fdd;
-		color: red;
-		font-weight: bold;
+		background: hsla(40,100%,50%,0.95);
+		background: var(--warning-bg);
+		color: black;
+		color: var(--warning-text);
 		padding: .75em 1em;
-		border: thick red;
-		border-style: solid;
-		border-radius: 1em;
+		border: red;
+		border: var(--warning-border);
+		border-style: solid none;
+		box-shadow: 0 2px 8px black;
+		text-align: center;
 	}
 	.annoying-warning :last-child {
 		margin-bottom: 0;
 	}
 
-@media not print {
-	details.annoying-warning[open] {
-		position: fixed;
-		left: 1em;
-		right: 1em;
-		bottom: 1em;
-		z-index: 1000;
+	@media not print {
+		details.annoying-warning[open] {
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 2em;
+			z-index: 1000;
+		}
 	}
-}
 
 	details.annoying-warning:not([open]) > summary {
 		text-align: center;
@@ -773,9 +850,13 @@
 
 	.def {
 		padding: .5em 1em;
-		background: #DEF;
+		background: #def;
+		background: var(--def-bg);
 		margin: 1.2em 0;
-		border-left: 0.5em solid #8CCBF2;
+		border-left: 0.5em solid #8ccbf2;
+		border-left: 0.5em solid var(--def-border);
+		color: black;
+		color: var(--def-text);
 	}
 
 /******************************************************************************/
@@ -800,6 +881,7 @@
 		padding: 0.5em;
 		vertical-align: baseline;
 		border-bottom: 1px solid #bbd7e9;
+		border-bottom: 1px solid var(--defrow-border);
 	}
 
 	table.def > tbody > tr:last-child th,
@@ -820,10 +902,10 @@
 	}
 
 	/* A footnote at the bottom of a def table */
-	table.def           td.footnote {
+	table.def td.footnote {
 		padding-top: 0.6em;
 	}
-	table.def           td.footnote::before {
+	table.def td.footnote::before {
 		content: " ";
 		display: block;
 		height: 0.6em;
@@ -868,6 +950,7 @@
 		padding: 0.5em 1em;
 		border-width: 1px;
 		border-color: silver;
+		border-color: var(--datacell-border);
 		border-top-style: solid;
 	}
 
@@ -892,6 +975,7 @@
 	table.index tbody th:first-child  {
 		border-right: 2px solid;
 		border-top: 1px solid silver;
+		border-top: 1px solid var(--datacell-border);
 		padding-right: 1em;
 	}
 
@@ -903,13 +987,14 @@
 	table.complex.data th,
 	table.complex.data td {
 		border: 1px solid silver;
+		border: 1px solid var(--datacell-border);
 		text-align: center;
 	}
 
 	table.data.longlastcol td:last-child,
 	table.data td.long {
-	 vertical-align: baseline;
-	 text-align: left;
+		vertical-align: baseline;
+		text-align: left;
 	}
 
 	table.data img {
@@ -967,12 +1052,15 @@ Possible extra rowspan handling
 		display: block;
 		/* Reverse color scheme */
 		color: black;
-		border-color: #3980B5;
-		border-bottom-width: 3px !important;
-		margin-bottom: 0px !important;
+		color: var(--toclink-text);
+		border-color: #3980b5;
+		border-color: var(--toclink-underline);
 	}
 	.toc a:visited {
+		color: black;
+		color: var(--toclink-visited-text);
 		border-color: #054572;
+		border-color: var(--toclink-visited-underline);
 	}
 	.toc a:not(:focus):not(:hover) {
 		/* Allow colors to cascade through from link styling */
@@ -1027,6 +1115,15 @@ Possible extra rowspan handling
 			.toc > li li li li .secno    { margin-left: -6rem; }
 			.toc > li li li li li .secno { margin-left: -7rem; }
 		}
+		/* Loosen it on wide screens */
+		@media screen and (min-width: 78em) {
+			body:not(.toc-inline) :not(li) > .toc              { margin-left:  4rem; }
+			body:not(.toc-inline) .toc .secno                  { margin-left: -4rem; }
+			body:not(.toc-inline) .toc > li li li              { margin-left:  1rem; }
+			body:not(.toc-inline) .toc > li li li .secno       { margin-left: -5rem; }
+			body:not(.toc-inline) .toc > li li li li .secno    { margin-left: -6rem; }
+			body:not(.toc-inline) .toc > li li li li li .secno { margin-left: -7rem; }
+	}
 	/* } */
 
 	@supports (display:grid) and (display:contents) {
@@ -1068,9 +1165,12 @@ Possible extra rowspan handling
 			width: auto;
 			margin-right: 1rem;
 		}
-		#toc .content:hover {
+		#toc .content:hover,
+		#toc .content:focus {
 			background: rgba(75%, 75%, 75%, .25);
+			background: var(--a-hover-bg);
 			border-bottom: 3px solid #054572;
+			border-bottom: 3px solid var(--toclink-underline);
 			margin-bottom: -3px;
 		}
 		#toc li li li .content {
@@ -1101,6 +1201,7 @@ Possible extra rowspan handling
 		ul.index li a:hover + span,
 		ul.index li a:focus + span {
 			color: #707070;
+			color: var(--indexinfo-text);
 		}
 	}
 
@@ -1122,7 +1223,10 @@ Possible extra rowspan handling
 
 	table.index tr:hover td:not([rowspan]),
 	table.index tr:hover th:not([rowspan]) {
+		color: black;
+		color: var(--indextable-hover-text);
 		background: #f7f8f9;
+		background: var(--indextable-hover-bg);
 	}
 
 	/* The link in the first column in the property table (formerly a TD) */
@@ -1147,13 +1251,6 @@ Possible extra rowspan handling
 	@page {
 		margin: 1.5cm 1.1cm;
 	}
-
-/******************************************************************************/
-/*                                    Legacy                                  */
-/******************************************************************************/
-
-	/* This rule is inherited from past style sheets. No idea what it's for. */
-	.hide { display: none }
 
 
 
@@ -1221,9 +1318,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 4eaf75d, updated Tue Aug 25 08:24:50 2020 -0700" name="generator">
+  <meta content="Bikeshed version a18c8f2, updated Wed Sep 16 17:34:49 2020 -0700" name="generator">
   <link href="https://w3c.github.io/webappsec-feature-policy/" rel="canonical">
-  <meta content="582b8ed02f626cd55a9ac238f027b7d712542d65" name="document-revision">
+  <meta content="7defe71577f13ddad6a1a03012df04a8abc4b2a7" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1243,7 +1340,7 @@ Possible extra rowspan handling
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -1302,6 +1399,108 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
 <style>/* style-counters */
 
 body {
@@ -1333,6 +1532,10 @@ figcaption:not(.no-marker)::before {
 }</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -1344,8 +1547,8 @@ figcaption:not(.no-marker)::before {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
@@ -1436,6 +1639,11 @@ figcaption:not(.no-marker)::before {
             </style>
 <style>/* style-selflinks */
 
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
 .heading, .issue, .note, .example, li, dt {
     position: relative;
 }
@@ -1465,8 +1673,8 @@ dfn > a.self-link {
     opacity: 0;
     width: 1.5em;
     height: 1.5em;
-    background: gray;
-    color: white;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
     font-style: normal;
     transition: opacity .2s, background-color .2s, color .2s;
 }
@@ -1474,17 +1682,23 @@ dfn:hover > a.self-link {
     opacity: 1;
 }
 dfn > a.self-link:hover {
-    color: black;
+    color: var(--selflink-hover-text);
 }
 
 a.self-link::before            { content: "¶"; }
 .heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-syntax-highlighting */
-pre.idl.highlight { color: #708090; }
-.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
+
+            pre.idl.highlight {
+                background: var(--borderedblock-bg, var(--def-bg));
+            }
+            
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: #fdf6e3; }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -1549,11 +1763,485 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
     var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
     </style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: #111;
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Permissions Policy</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-08-25">25 August 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-09-17">17 September 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1594,7 +2282,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 	W3C maintains a <a href="https://www.w3.org/2004/01/pp-impl/49309/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group;
 	that page also includes instructions for disclosing a patent.
 	An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p> This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
   </div>
   <div data-fill-with="at-risk"></div>
@@ -1634,7 +2322,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     features</span></a>
        <ol class="toc">
         <li><a href="#iframe-allowfullscreen-attribute"><span class="secno">6.3.1</span> <span class="content">allowfullscreen</span></a>
-        <li><a href="#iframe-allowpaymentrequest-attribute"><span class="secno">6.3.2</span> <span class="content">allowpaymentrequest</span></a>
        </ol>
      </ol>
     <li>
@@ -1875,7 +2562,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     (See <a href="#algo-define-inherited-policy">§ 9.7 Define an inherited policy for feature in browsing context</a>)</p>
      <div class="note" role="note"> Currently, the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy③">container policy</a> cannot be set directly, but is
       indirectly set by <code>iframe</code> "<a href="#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
-      "<a href="#iframe-allowpaymentrequest-attribute"><code>allowpaymentrequest</code></a>",
       "and <a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
       Future revisions to this spec may introduce a mechanism to explicitly
       declare the full <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy④">container policy</a>. </div>
@@ -1890,11 +2576,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </section>
     <section>
      <h3 class="heading settled" data-level="4.8" id="allowlists"><span class="secno">4.8. </span><span class="content">Allowlists</span><a class="self-link" href="#allowlists"></a></h3>
-     <p>A permissions policy <dfn class="dfn-paneled" data-dfn-type="dfn" data-export data-lt="allowlist|allowlists" id="allowlist">allowlist</dfn> is conceptually a set of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin">origins</a>. An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist③">allowlist</a> may be either: </p>
+     <p>A permissions policy <dfn class="dfn-paneled" data-dfn-type="dfn" data-export data-lt="allowlist|allowlists" id="allowlist">allowlist</dfn> is conceptually a set of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin">origins</a>. An <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist③">allowlist</a> may be either: </p>
      <ul>
       <li><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="the-special-value">The special value <code>*</code></dfn>, which represents every
       origin, or
-      <li>An <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set">ordered set</a> of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin①">origins</a>
+      <li>An <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set">ordered set</a> of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin①">origins</a>
      </ul>
      <div class="note" role="note"> The keywords <code>'self'</code>, <code>'src'</code>, and <code>'none'</code> can appear in the text representation of allowlists in
       headers and attribute strings. These keywords are always interpreted in
@@ -2044,21 +2730,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
         both present on an iframe element, then the more restrictive allowlist
         of <code>allow="fullscreen"</code> will be used. </div>
      </section>
-     <section>
-      <h4 class="heading settled" data-level="6.3.2" id="iframe-allowpaymentrequest-attribute"><span class="secno">6.3.2. </span><span class="content">allowpaymentrequest</span><a class="self-link" href="#iframe-allowpaymentrequest-attribute"></a></h4>
-      <p>The "<code>allowpaymentrequest</code>" iframe attribute controls
-      access to <a data-link-type="dfn" href="https://w3c.github.io/payment-request/#dom-paymentrequest" id="ref-for-dom-paymentrequest">PaymentRequest</a>.</p>
-      <p>If the iframe element has an "<code>allow</code>" attribute whose
-      value contains the token "<code>payment</code>", then the
-      "<code>allowpaymentrequest</code>" attribute must have no effect.</p>
-      <p>Otherwise, the presence of an "<code>allowpaymentrequest</code>"
-      attribute on an iframe will result in adding an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a> of <code>*</code> for the "<code>payment</code>" feature to the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a></code> element’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context④">nested browsing context</a>'s <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container policy</a>, when it
-      is constructed.</p>
-      <div class="note" role="note"> This is different from the behaviour of <code>&lt;iframe
-        allow="payment"></code>, and is for compatibility with existing uses
-        of <code>allowpaymentrequest</code>. If <code>allow="payment"</code> and <code>allowpaymentrequest</code> are both present on an iframe
-        element, then the more restrictive allowlist of <code>allow="payment"</code> will be used. </div>
-     </section>
     </section>
    </section>
    <section>
@@ -2189,12 +2860,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <p>A <code class="idl"><a data-link-type="idl" href="#permissionspolicy" id="ref-for-permissionspolicy④">PermissionsPolicy</a></code> object has an <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="associated-node">associated node</dfn>, which
     is a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#node" id="ref-for-node">Node</a></code>. The <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node">associated node</a> is set when the <code class="idl"><a data-link-type="idl" href="#permissionspolicy" id="ref-for-permissionspolicy⑤">PermissionsPolicy</a></code> object is created.</p>
      <p>A <code class="idl"><a data-link-type="idl" href="#permissionspolicy" id="ref-for-permissionspolicy⑥">PermissionsPolicy</a></code> object has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="default-origin">default origin</dfn>, which is
-    an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin②">origin</a>, whose value depends on the state of the <code class="idl"><a data-link-type="idl" href="#permissionspolicy" id="ref-for-permissionspolicy⑦">PermissionsPolicy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node①">associated node</a>: </p>
+    an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin②">origin</a>, whose value depends on the state of the <code class="idl"><a data-link-type="idl" href="#permissionspolicy" id="ref-for-permissionspolicy⑦">PermissionsPolicy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node①">associated node</a>: </p>
      <ul>
       <li data-md>
        <p>If the <code class="idl"><a data-link-type="idl" href="#permissionspolicy" id="ref-for-permissionspolicy⑧">PermissionsPolicy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node②">associated node</a> is a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document③">Document</a></code>, then its <a data-link-type="dfn" href="#default-origin" id="ref-for-default-origin">default origin</a> is the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document④">Document</a></code>'s</p>
      </ul>
-      <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin③">origin</a>. 
+      <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin③">origin</a>. 
      <ul>
       <li data-md>
        <p>If the <code class="idl"><a data-link-type="idl" href="#permissionspolicy" id="ref-for-permissionspolicy⑨">PermissionsPolicy</a></code> object’s <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node③">associated node</a> is an <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element">Element</a></code>, then its <a data-link-type="dfn" href="#default-origin" id="ref-for-default-origin①">default origin</a> is the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element①">Element</a></code>'s</p>
@@ -2204,11 +2875,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     a <code class="idl"><a data-link-type="idl" href="#permissionspolicy" id="ref-for-permissionspolicy①⓪">PermissionsPolicy</a></code> instance whose <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node④">associated node</a> is that <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑥">Document</a></code>.</p>
      <p>A <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑦">Document</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-document-permissionspolicy" id="ref-for-dom-document-permissionspolicy">permissionsPolicy</a></code> IDL attribute, on
     getting, must return the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑧">Document</a></code>'s <a data-link-type="dfn" href="#document-policy-object" id="ref-for-document-policy-object">policy object</a>.</p>
-     <p>Each <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑤">iframe</a></code> element has a <dfn class="dfn-paneled" data-dfn-for="iframe" data-dfn-type="dfn" data-noexport id="iframe-policy-object">policy object</dfn>,
+     <p>Each <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a></code> element has a <dfn class="dfn-paneled" data-dfn-for="iframe" data-dfn-type="dfn" data-noexport id="iframe-policy-object">policy object</dfn>,
     which is a <code class="idl"><a data-link-type="idl" href="#permissionspolicy" id="ref-for-permissionspolicy①①">PermissionsPolicy</a></code> instance whose <a data-link-type="dfn" href="#associated-node" id="ref-for-associated-node⑤">associated node</a> is
     that element.</p>
-     <p>An <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑥">iframe</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-htmliframeelement-permissionspolicy" id="ref-for-dom-htmliframeelement-permissionspolicy">permissionsPolicy</a></code> IDL attribute, on
-    getting, must return the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑦">iframe</a></code>'s <a data-link-type="dfn" href="#iframe-policy-object" id="ref-for-iframe-policy-object">policy object</a>.</p>
+     <p>An <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑤">iframe</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-htmliframeelement-permissionspolicy" id="ref-for-dom-htmliframeelement-permissionspolicy">permissionsPolicy</a></code> IDL attribute, on
+    getting, must return the <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑥">iframe</a></code>'s <a data-link-type="dfn" href="#iframe-policy-object" id="ref-for-iframe-policy-object">policy object</a>.</p>
      <p>The <code class="idl"><a data-link-type="idl" href="#dom-permissionspolicy-allowsfeature" id="ref-for-dom-permissionspolicy-allowsfeature">allowsFeature(feature, origin)</a></code> method must run the following
     steps: </p>
      <ol>
@@ -2383,7 +3054,7 @@ be set to "enforce".</p>
     <section>
      <h3 class="heading settled" data-level="9.1" id="algo-process-response-policy"><span class="secno">9.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="process-response-policy">Process response policy</dfn></span><a class="self-link" href="#algo-process-response-policy"></a></h3>
      <div class="algorithm" data-algorithm="process-response-policy">
-       Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response①">response</a> (<var>response</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin④">origin</a> (<var>origin</var>), this
+       Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response①">response</a> (<var>response</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin④">origin</a> (<var>origin</var>), this
     algorithm returns a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy④">declared permissions policy</a>. 
       <ol>
        <li data-md>
@@ -2402,7 +3073,7 @@ dictionary and origin</a> on <var>parsed header</var> and <var>origin</var>.</p>
     <section>
      <h3 class="heading settled" data-level="9.2" id="algo-construct-policy"><span class="secno">9.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="construct-policy-from-dictionary-and-origin">Construct policy from dictionary and origin</dfn></span><a class="self-link" href="#algo-construct-policy"></a></h3>
      <div class="algorithm" data-algorithm="construct-policy">
-       Given an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">ordered map</a> (<var>dictionary</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑤">origin</a> (<var>origin</var>), this
+       Given an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">ordered map</a> (<var>dictionary</var>) and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin⑤">origin</a> (<var>origin</var>), this
     algorithm will return a <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑤">declared permissions policy</a>. 
       <ol>
        <li data-md>
@@ -2415,7 +3086,7 @@ dictionary and origin</a> on <var>parsed header</var> and <var>origin</var>.</p>
          <li data-md>
           <p>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑥">policy-controlled feature</a> identified by <var>feature-name</var>.</p>
          <li data-md>
-          <p>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a>.</p>
+          <p>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a>.</p>
          <li data-md>
           <p>If <var>value</var> is the token <code>*</code>, or if <var>value</var> is a list which contains
 the token <code>*</code>, set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value①">the special value <code>*</code></a>.</p>
@@ -2455,8 +3126,8 @@ parser</a> on <var>element</var>.</p>
     <section>
      <h3 class="heading settled" data-level="9.3" id="algo-parse-policy-directive"><span class="secno">9.3. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="parse-policy-directive">Parse policy directive</dfn></span><a class="self-link" href="#algo-parse-policy-directive"></a></h3>
      <div class="algorithm" data-algorithm="parse-policy-directive">
-       Given a string (<var>value</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑥">origin</a> (<var>container origin</var>), and an
-    optional <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑦">origin</a> (<var>target origin</var>), this algorithm returns a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑦">policy
+       Given a string (<var>value</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin⑥">origin</a> (<var>container origin</var>), and an
+    optional <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin⑦">origin</a> (<var>target origin</var>), this algorithm returns a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑦">policy
     directive</a>. 
       <ol>
        <li data-md>
@@ -2479,7 +3150,7 @@ ASCII whitespace.</a></p>
          <li data-md>
           <p>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>.</p>
          <li data-md>
-          <p>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a>.</p>
+          <p>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlist</a>.</p>
          <li data-md>
           <p>If any element of <var>targetlist</var> is the string "<code>*</code>", set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value②">the special value <code>*</code></a>.</p>
          <li data-md>
@@ -2522,7 +3193,7 @@ parser</a> on <var>element</var>.</p>
     <section>
      <h3 class="heading settled" data-level="9.4" id="algo-process-policy-attributes"><span class="secno">9.4. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="process-permissions-policy-attributes">Process permissions policy attributes</dfn></span><a class="self-link" href="#algo-process-policy-attributes"></a></h3>
      <div class="algorithm" data-algorithm="process-policy-attributes">
-       Given an element (<var>element</var>), this algorithm returns a <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑧">container
+       Given an element (<var>element</var>), this algorithm returns a <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy⑦">container
     policy</a>, which may be empty. 
       <ol>
        <li data-md>
@@ -2531,7 +3202,7 @@ directive</a> on the value of <var>element</var>’s <code>allow</code> attribut
 with <var>container origin</var> set to the origin of <var>element</var>’s
 node document, and <var>target origin</var> set to <var>element</var>’s <a data-link-type="dfn" href="#declared-origin" id="ref-for-declared-origin③">declared origin</a>.</p>
        <li data-md>
-        <p>If <var>element</var> is an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑧">iframe</a></code> element:</p>
+        <p>If <var>element</var> is an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element⑦">iframe</a></code> element:</p>
         <ol>
          <li data-md>
           <p>If <var>element</var>’s <code>allowfullscreen</code> attribute is specified,
@@ -2540,16 +3211,6 @@ and <var>container policy</var> does not contain an allowlist for <code>fullscre
            <li data-md>
             <p>Construct a new declaration for <code>fullscreen</code>, whose
 allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value③">the special value <code>*</code></a>.</p>
-           <li data-md>
-            <p>Add <var>declaration</var> to <var>container policy</var>.</p>
-          </ol>
-         <li data-md>
-          <p>If <var>element</var>’s <code>allowpaymentrequest</code> attribute is
-specified, and <var>container policy</var> does not contain an allowlist for <code>payment</code>:</p>
-          <ol>
-           <li data-md>
-            <p>Construct a new declaration for <code>payment</code>, whose
-allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value④">the special value <code>*</code></a>.</p>
            <li data-md>
             <p>Add <var>declaration</var> to <var>container policy</var>.</p>
           </ol>
@@ -2562,7 +3223,7 @@ allowlist is <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-s
     <section>
      <h3 class="heading settled" data-level="9.5" id="algo-create-for-browsingcontext"><span class="secno">9.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="create-for-browsingcontext">Create a Permissions Policy for a browsing context</dfn></span><a class="self-link" href="#algo-create-for-browsingcontext"></a></h3>
      <div class="algorithm" data-algorithm="create-for-browsingcontext">
-       Given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> (<var>browsingContext</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑧">origin</a> (<var>origin</var>) this algorithm returns a new <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy⑦">Permissions Policy</a>. 
+       Given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> (<var>browsingContext</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin⑧">origin</a> (<var>origin</var>) this algorithm returns a new <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy⑦">Permissions Policy</a>. 
       <ol>
        <li data-md>
         <p>Let <var>inherited policy</var> be a new ordered map.</p>
@@ -2587,7 +3248,7 @@ in browsing context</a> on <var>feature</var>, <var>origin</var> and <var>browsi
     <section>
      <h3 class="heading settled" data-level="9.6" id="algo-create-from-response"><span class="secno">9.6. </span><span class="content"><dfn data-dfn-type="dfn" data-export id="create-from-response">Create a Permissions Policy for a browsing context from response<a class="self-link" href="#create-from-response"></a></dfn></span><a class="self-link" href="#algo-create-from-response"></a></h3>
      <div class="algorithm" data-algorithm="create-from-response">
-       Given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a> (<var>browsingContext</var>), <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin⑨">origin</a> (<var>origin</var>), and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response②">response</a> (<var>response</var>), this algorithm returns a new <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy⑨">Permissions Policy</a>. 
+       Given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a> (<var>browsingContext</var>), <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin⑨">origin</a> (<var>origin</var>), and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-response" id="ref-for-concept-response-response②">response</a> (<var>response</var>), this algorithm returns a new <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy⑨">Permissions Policy</a>. 
       <ol>
        <li data-md>
         <p>Let <var>policy</var> be the result of running <a data-link-type="dfn" href="#create-for-browsingcontext" id="ref-for-create-for-browsingcontext">Create a Permissions Policy for
@@ -2608,12 +3269,12 @@ a browsing context</a> given <var>browsingContext</var>, and <var>origin</var>.<
     <section>
      <h3 class="heading settled" data-level="9.7" id="algo-define-inherited-policy"><span class="secno">9.7. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="define-inherited-policy">Define an inherited policy for feature in browsing context</dfn></span><a class="self-link" href="#algo-define-inherited-policy"></a></h3>
      <div class="algorithm" data-algorithm="define-inherited-policy">
-       Given a feature (<var>feature</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin①⓪">origin</a> (<var>origin</var>), and a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context②">browsing
+       Given a feature (<var>feature</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin①⓪">origin</a> (<var>origin</var>), and a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context②">browsing
     context</a> (<var>browsingContext</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑥">inherited
     policy</a> for that feature. 
       <ol>
        <li data-md>
-        <p>If <var>browsingContext</var> is the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context⑤">nested browsing context</a> of a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container①">browsing
+        <p>If <var>browsingContext</var> is the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#nested-browsing-context" id="ref-for-nested-browsing-context④">nested browsing context</a> of a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container①">browsing
 context container</a>, return the result of executing <a data-link-type="dfn" href="#define-inherited-policy-in-container" id="ref-for-define-inherited-policy-in-container①">Define an
 inherited policy for feature in container at origin</a> for <var>feature</var> in <var>browsingContext</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container②">browsing context container</a> at <var>origin</var>.</p>
        <li data-md>
@@ -2624,7 +3285,7 @@ inherited policy for feature in container at origin</a> for <var>feature</var> i
     <section>
      <h3 class="heading settled" data-level="9.8" id="algo-define-inherited-policy-in-container"><span class="secno">9.8. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="define-inherited-policy-in-container">Define an inherited policy for feature in container at origin</dfn></span><a class="self-link" href="#algo-define-inherited-policy-in-container"></a></h3>
      <div class="algorithm" data-algorithm="define-inherited-policy-in-container">
-       Given a feature (<var>feature</var>) a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container③">browsing context container</a> (<var>container</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin①①">origin</a> for a document in that container
+       Given a feature (<var>feature</var>) a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context-container" id="ref-for-browsing-context-container③">browsing context container</a> (<var>container</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin①①">origin</a> for a document in that container
     (<var>origin</var>), this algorithm returns the <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑦">inherited policy</a> for that
     feature. 
       <ol>
@@ -2635,7 +3296,7 @@ Policy</a></p>
         <p>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is
 "<code>Disabled</code>", return "<code>Disabled</code>".</p>
        <li data-md>
-        <p>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared policy</a>, and the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①④">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared policy</a> does
+        <p>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared policy</a>, and the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared policy</a> does
 not <a data-link-type="dfn" href="#matches" id="ref-for-matches">match</a> <var>origin</var>, then return "<code>Disabled</code>".</p>
        <li data-md>
         <p>Let <var>container policy</var> be the result of running <a data-link-type="dfn" href="#process-permissions-policy-attributes" id="ref-for-process-permissions-policy-attributes">Process permissions
@@ -2644,7 +3305,7 @@ policy attributes</a> on <var>container</var>.</p>
         <p>If <var>feature</var> is a key in <var>container policy</var>:</p>
         <ol>
          <li data-md>
-          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑤">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, return "<code>Enabled</code>".</p>
+          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①④">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, return "<code>Enabled</code>".</p>
          <li data-md>
           <p>Otherwise return "<code>Disabled</code>".</p>
         </ol>
@@ -2663,7 +3324,7 @@ origin, return "<code>Enabled</code>".</p>
      <h3 class="heading settled" data-level="9.9" id="algo-is-feature-enabled"><span class="secno">9.9. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="is-feature-enabled">Is feature enabled in document for origin?</dfn></span><a class="self-link" href="#algo-is-feature-enabled"></a></h3>
      <div class="algorithm" data-algorithm="is-feature-enabled">
        Given a feature (<var>feature</var>), a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑨">Document</a></code> object
-    (<var>document</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin" id="ref-for-concept-origin①②">origin</a> (<var>origin</var>), this algorithm
+    (<var>document</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin" id="ref-for-concept-request-origin①②">origin</a> (<var>origin</var>), this algorithm
     returns "<code>Disabled</code>" if <var>feature</var> should be considered
     disabled, and "<code>Enabled</code>" otherwise.
       <p></p>
@@ -2677,7 +3338,7 @@ origin, return "<code>Enabled</code>".</p>
         <p>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑨">declared policy</a>:</p>
         <ol>
          <li data-md>
-          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑥">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①⓪">declared
+          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑤">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①⓪">declared
 policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches②">matches</a> <var>origin</var>, then return
 "<code>Enabled</code>".</p>
          <li data-md>
@@ -2752,7 +3413,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
        <li data-md>
         <p>Set <var>document</var> to <var>window</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window" id="ref-for-concept-document-window">associated <code>Document</code></a>.</p>
        <li data-md>
-        <p>Let <var>origin</var> be <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-origin" id="ref-for-concept-request-origin">origin</a>.</p>
+        <p>Let <var>origin</var> be <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-origin" id="ref-for-concept-request-origin①③">origin</a>.</p>
        <li data-md>
         <p>Let <var>result</var> be the result of executing <a href="#is-feature-enabled" id="ref-for-is-feature-enabled">Is
   feature enabled in document for
@@ -2895,6 +3556,8 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
       <p>Define "Permissions-Policy" as a structured header. <a href="https://github.com/w3c/webappsec-feature-policy/pull/383">Link</a></p>
      <li data-md>
       <p>Editorial fixes.</p>
+     <li data-md>
+      <p>The <code>allowpaymentrequest</code> attribute was removed due to deprecation by Payment Request API and HTML. <a href="https://github.com/w3c/webappsec-feature-policy/pull/">Link</a></p>
     </ul>
    </section>
   </main>
@@ -3076,7 +3739,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
   <aside class="dfn-panel" data-for="term-for-concept-request-origin">
    <a href="https://fetch.spec.whatwg.org/#concept-request-origin">https://fetch.spec.whatwg.org/#concept-request-origin</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-request-origin">9.11. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-concept-request-origin①③">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-request">
@@ -3173,9 +3836,8 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-the-iframe-element①">6.2. The allow attribute of the
     iframe element</a> <a href="#ref-for-the-iframe-element②">(2)</a>
     <li><a href="#ref-for-the-iframe-element③">6.3.1. allowfullscreen</a>
-    <li><a href="#ref-for-the-iframe-element④">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-the-iframe-element⑤">7.2. The permissionsPolicy object</a> <a href="#ref-for-the-iframe-element⑥">(2)</a> <a href="#ref-for-the-iframe-element⑦">(3)</a>
-    <li><a href="#ref-for-the-iframe-element⑧">9.4. Process permissions policy attributes</a>
+    <li><a href="#ref-for-the-iframe-element④">7.2. The permissionsPolicy object</a> <a href="#ref-for-the-iframe-element⑤">(2)</a> <a href="#ref-for-the-iframe-element⑥">(3)</a>
+    <li><a href="#ref-for-the-iframe-element⑦">9.4. Process permissions policy attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-nested-browsing-context">
@@ -3185,23 +3847,22 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-nested-browsing-context②">6.2. The allow attribute of the
     iframe element</a>
     <li><a href="#ref-for-nested-browsing-context③">6.3.1. allowfullscreen</a>
-    <li><a href="#ref-for-nested-browsing-context④">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-nested-browsing-context⑤">9.7. Define an inherited policy for feature in browsing context</a>
+    <li><a href="#ref-for-nested-browsing-context④">9.7. Define an inherited policy for feature in browsing context</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-origin">
-   <a href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin">https://html.spec.whatwg.org/multipage/origin.html#concept-origin</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-concept-request-origin">
+   <a href="https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin">https://html.spec.whatwg.org/multipage/infrastructure.html#concept-request-origin</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-origin">4.8. Allowlists</a> <a href="#ref-for-concept-origin①">(2)</a>
-    <li><a href="#ref-for-concept-origin②">7.2. The permissionsPolicy object</a> <a href="#ref-for-concept-origin③">(2)</a>
-    <li><a href="#ref-for-concept-origin④">9.1. Process response policy</a>
-    <li><a href="#ref-for-concept-origin⑤">9.2. Construct policy from dictionary and origin</a>
-    <li><a href="#ref-for-concept-origin⑥">9.3. Parse policy directive</a> <a href="#ref-for-concept-origin⑦">(2)</a>
-    <li><a href="#ref-for-concept-origin⑧">9.5. Create a Permissions Policy for a browsing context</a>
-    <li><a href="#ref-for-concept-origin⑨">9.6. Create a Permissions Policy for a browsing context from response</a>
-    <li><a href="#ref-for-concept-origin①⓪">9.7. Define an inherited policy for feature in browsing context</a>
-    <li><a href="#ref-for-concept-origin①①">9.8. Define an inherited policy for feature in container at origin</a>
-    <li><a href="#ref-for-concept-origin①②">9.9. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-concept-request-origin">4.8. Allowlists</a> <a href="#ref-for-concept-request-origin①">(2)</a>
+    <li><a href="#ref-for-concept-request-origin②">7.2. The permissionsPolicy object</a> <a href="#ref-for-concept-request-origin③">(2)</a>
+    <li><a href="#ref-for-concept-request-origin④">9.1. Process response policy</a>
+    <li><a href="#ref-for-concept-request-origin⑤">9.2. Construct policy from dictionary and origin</a>
+    <li><a href="#ref-for-concept-request-origin⑥">9.3. Parse policy directive</a> <a href="#ref-for-concept-request-origin⑦">(2)</a>
+    <li><a href="#ref-for-concept-request-origin⑧">9.5. Create a Permissions Policy for a browsing context</a>
+    <li><a href="#ref-for-concept-request-origin⑨">9.6. Create a Permissions Policy for a browsing context from response</a>
+    <li><a href="#ref-for-concept-request-origin①⓪">9.7. Define an inherited policy for feature in browsing context</a>
+    <li><a href="#ref-for-concept-request-origin①①">9.8. Define an inherited policy for feature in container at origin</a>
+    <li><a href="#ref-for-concept-request-origin①②">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-same-origin">
@@ -3289,12 +3950,6 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <a href="https://infra.spec.whatwg.org/#strictly-split">https://infra.spec.whatwg.org/#strictly-split</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-strictly-split">9.3. Parse policy directive</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-paymentrequest">
-   <a href="https://w3c.github.io/payment-request/#dom-paymentrequest">https://w3c.github.io/payment-request/#dom-paymentrequest</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-paymentrequest">6.3.2. allowpaymentrequest</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-reportbody">
@@ -3426,7 +4081,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
      <li><span class="dfn-paneled" id="term-for-environment-settings-object" style="color:initial">environment settings object</span>
      <li><span class="dfn-paneled" id="term-for-the-iframe-element" style="color:initial">iframe</span>
      <li><span class="dfn-paneled" id="term-for-nested-browsing-context" style="color:initial">nested browsing context</span>
-     <li><span class="dfn-paneled" id="term-for-concept-origin" style="color:initial">origin</span>
+     <li><span class="dfn-paneled" id="term-for-concept-request-origin①" style="color:initial">origin</span>
      <li><span class="dfn-paneled" id="term-for-same-origin" style="color:initial">same origin</span>
      <li><span class="dfn-paneled" id="term-for-same-origin-domain" style="color:initial">same origin-domain</span>
      <li><span class="dfn-paneled" id="term-for-attr-iframe-sandbox" style="color:initial">sandbox</span>
@@ -3444,11 +4099,6 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
      <li><span class="dfn-paneled" id="term-for-ordered-set" style="color:initial">ordered set</span>
      <li><span class="dfn-paneled" id="term-for-split-on-ascii-whitespace" style="color:initial">split on ascii whitespace</span>
      <li><span class="dfn-paneled" id="term-for-strictly-split" style="color:initial">strictly split</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[payment-request]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-paymentrequest" style="color:initial">paymentrequest</span>
     </ul>
    <li>
     <a data-link-type="biblio">[reporting-1]</a> defines the following terms:
@@ -3497,8 +4147,6 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
-   <dt id="biblio-payment-request">[PAYMENT-REQUEST]
-   <dd>Marcos Caceres; et al. <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>. 12 December 2019. CR. URL: <a href="https://www.w3.org/TR/payment-request/">https://www.w3.org/TR/payment-request/</a>
    <dt id="biblio-reporting-1">[REPORTING-1]
    <dd>Douglas Creager; et al. <a href="https://www.w3.org/TR/reporting-1/">Reporting API</a>. 25 September 2018. WD. URL: <a href="https://www.w3.org/TR/reporting-1/">https://www.w3.org/TR/reporting-1/</a>
    <dt id="biblio-rfc2119">[RFC2119]
@@ -3510,7 +4158,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
    <dt id="biblio-webidl">[WebIDL]
    <dd>Boris Zbarsky. <a href="https://heycam.github.io/webidl/">Web IDL</a>. 15 December 2016. ED. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
    <dt id="biblio-worklets-1">[WORKLETS-1]
-   <dd>Ian Kilpatrick. <a href="https://www.w3.org/TR/worklets-1/">Worklets Level 1</a>. 7 June 2016. WD. URL: <a href="https://www.w3.org/TR/worklets-1/">https://www.w3.org/TR/worklets-1/</a>
+   <dd>Ian Kilpatrick. <a href="https://www.w3.org/TR/worklets-1/">Worklets Level 1</a>. 8 September 2020. WD. URL: <a href="https://www.w3.org/TR/worklets-1/">https://www.w3.org/TR/worklets-1/</a>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
@@ -3637,8 +4285,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-container-policy⑤">6.2. The allow attribute of the
     iframe element</a>
     <li><a href="#ref-for-container-policy⑥">6.3.1. allowfullscreen</a>
-    <li><a href="#ref-for-container-policy⑦">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-container-policy⑧">9.4. Process permissions policy attributes</a>
+    <li><a href="#ref-for-container-policy⑦">9.4. Process permissions policy attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="policy-directive">
@@ -3664,11 +4311,10 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-allowlist⑨">6.2. The allow attribute of the
     iframe element</a>
     <li><a href="#ref-for-allowlist①⓪">6.3.1. allowfullscreen</a>
-    <li><a href="#ref-for-allowlist①①">6.3.2. allowpaymentrequest</a>
-    <li><a href="#ref-for-allowlist①②">9.2. Construct policy from dictionary and origin</a>
-    <li><a href="#ref-for-allowlist①③">9.3. Parse policy directive</a>
-    <li><a href="#ref-for-allowlist①④">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-allowlist①⑤">(2)</a>
-    <li><a href="#ref-for-allowlist①⑥">9.9. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-allowlist①①">9.2. Construct policy from dictionary and origin</a>
+    <li><a href="#ref-for-allowlist①②">9.3. Parse policy directive</a>
+    <li><a href="#ref-for-allowlist①③">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-allowlist①④">(2)</a>
+    <li><a href="#ref-for-allowlist①⑤">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="the-special-value">
@@ -3677,7 +4323,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
     <li><a href="#ref-for-the-special-value">4.8. Allowlists</a>
     <li><a href="#ref-for-the-special-value①">9.2. Construct policy from dictionary and origin</a>
     <li><a href="#ref-for-the-special-value②">9.3. Parse policy directive</a>
-    <li><a href="#ref-for-the-special-value③">9.4. Process permissions policy attributes</a> <a href="#ref-for-the-special-value④">(2)</a>
+    <li><a href="#ref-for-the-special-value③">9.4. Process permissions policy attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="matches">
