@@ -47,6 +47,20 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   }
 }
 </pre>
+<pre class="biblio">
+{
+	"feature-registry": {
+		"href": "https://github.com/w3c/webappsec-feature-policy/blob/master/features.md",
+		"title": "Feature Policy Feature Registry",
+		"publisher": "W3C"
+	},
+  "registries": {
+    "href": "https://www.w3.org/wiki/Registries",
+    "title": "Registries",
+    "publisher": "W3C"
+  }
+}
+</pre>
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -185,12 +199,14 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     of <a data-lt="policy-controlled feature">features</a> which it allows to be
     controlled through policies. User agents are not required to support every
     <a data-lt="policy-controlled feature">feature</a>.</p>
+
+    This document defines a registry of policy-controlled features.
+
     <div class="note">
       The <a>policy-controlled features</a> themselves are not themselves part
-      of this framework. A non-normative list of currently-defined features is
-      maintained as a
-      <a href="https://github.com/w3c/webappsec-feature-policy/blob/master/features.md">companion
-      document</a> alongside this specification.
+      of this framework. The registry controls the names of features, to avoid
+      collisions, but this specification makes no requirement on browsers to
+      implement any or all features.
     </div>
   </section>
   <section>
@@ -1031,6 +1047,64 @@ partial interface HTMLIFrameElement {
 
     </div>
   </section>
+</section>
+
+<section>
+
+  <h2 id="feature-registry">Feature Registry</h2>
+  <p>This section defines a registry, per the process defined in [[REGISTRIES]].
+  The registry exists to document the names of features which are implemented,
+  or are being experimented with. It is expected that browser vendors will
+  experiment with different features, so it is deliberately easy to add new
+  items, and to change their values while they are still under development and
+  experimentation. These items can and should be removed from the registry if
+  all implementers have abandoned work on a feature which was never shipped.
+  Features which were previously shipped, and then removed, may be marked as
+  deprecated, but not removed from the registry, as old browser versions may
+  still be available, and information regarding features in those browsers may
+  be relevant.</p>
+  <h3 id="registry-details">Details</h3>
+  <p>This registry is defined in accordance with [[REGISTRIES]].</p>
+  <p>The custodian of this registry is the W3C Web Application Security Working
+  Group.</p>
+  <p>The registry includes these fields:
+  <dl>
+  <dt>Feature name</dt>
+  <dd>a token, conforming to the <a>feature-identifier</a> ABNF.</dd>
+  <dt>Deprecated</dt>
+  <dd>a boolean</dd>
+  <dt>Specification document</dt>
+  <dd>a URL or text reference to the document which defines the behaviour of
+  the feature.</dd>
+  </dl>
+  </p>
+  <h3 id="registry-policies">Registry policies</h3>
+  <p>Changes to the registry can be made through GitHub pull requests containing
+  changes to the registry document. The editors of this document will merge pull
+  requests which appear to accurately reflect the state of feature
+  implementation.</p>
+  <p>New entries may be added to the registry.</p>
+  <p>The feature name field must be unique within the registry,</p>
+  <p>Entries may be deleted if they have not been shipped in a stable
+  configuration of any user agent. They may be marked as deprecated if they are
+  not availble in any current or upcoming version of any user agent, and there
+  are no plans to implement or ship them.</p>
+  <p>Changes to the specification document field may be made at any time, when
+  the specification for the feature moves to a new location.</p>
+  <p>The feature name field may be changed in entries which would be subject to
+  deletion. In entries which are not subject to deletion, the feature name field
+  may not be changed, but those entries may be superceded by a more up-to-date
+  version with a new feature name, In that case, the original entry may be
+  marked as deprecated.</p>
+  <p>Feature names from previously-deleted values may be reused in new
+  values.</p>
+  <h3 id="registry-values">Registry values</h3>
+  <p>The Registry values are maintained in a separate document, located at
+  [[FEATURE-REGISTRY]].</p>
+  <h3 id="registry-other-requirements">Other requirements</h3>
+  <p>There is no requirement for evidence of implementability for features, for
+  values to be added. For values to be removed, some evidence that no shipped
+  implementation exists should be provided.</p>
 </section>
 
 <section>

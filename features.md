@@ -1,13 +1,24 @@
-# Policy Controlled Features
+# Feature Policy Feature Registry
 
-This document lists policy-controlled features being implemented in browsers. It
-is broken into sections based on the standardization state of each feature. The
-names used here should be consistent between browsers implementing a particular
-feature, but there is no requirement that all browsers implement any single
-feature.
+This document serves as a central registry for all policy-controlled features
+being implemented in browsers. It defines the names of each feature, and links
+to the specification or explainer document where the behavior of that feature is
+defined.
 
-The exact definition of the behaviour controlled by each feature belongs in the
-spec which defines the feature. Those are linked where available.
+For convenience, this document is broken into sections based on the
+standardization state of each feature, and attempts to describe the current
+level of browser support for each, but that information is necessarily
+non-normative.
+
+Note that there is no requirement that any or all browsers implement any single
+feature. Features are largely independent of feature policy itself.
+
+## Registry requirements
+
+The Referencing Document for this registry is the
+[Feature Policy](https://w3c.github.io/webappsec-feature-policy) specification.
+See that document for the Registry definition, including requirements on items
+in this registry, and procedures for modifying it.
 
 ## Standardized Features
 
