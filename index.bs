@@ -932,6 +932,9 @@ partial interface HTMLIFrameElement {
         1. If the <a>allowlist</a> for |feature| in |container policy|
           <a>matches</a> |origin|, return "<code>Enabled</code>".
         1. Otherwise return "<code>Disabled</code>".
+    1. If |feature| is present in |policy|’s <a>declared policy</a>, and the
+      <a>allowlist</a> for |feature| in |policy|’s <a>declared policy</a>
+      <a>matches</a> |origin|, then return "<code>Enabled</code>".
     1. If |feature|'s <a>default allowlist</a> is <code>*</code>, return
       "<code>Enabled</code>".
     1. If |feature|'s <a>default allowlist</a> is <code>'self'</code>, and
