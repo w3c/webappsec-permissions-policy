@@ -73,14 +73,14 @@ name specific hints which should be sent to the embedded document
 If an embedded document is same-origin with its embedder, then Permissions
 Policy will delegate all available hints by default. In that case, the `allow`
 attribute can still be useful, both for restricting hints which would otherwise
-be sent [Example 3](#example-3), and also for controlling hints when the iframe
-is navigated away from its initial origin [Example 4](#example-4).
+be sent ([Example 3](#example-3)), and also for controlling hints when the iframe
+is navigated away from its initial origin ([Example 4](#example-4)).
 
 The `Permissions-Policy` header is also considered when delegating hints to
 embedded documents. If a hint is named in a document's `Permissions-Policy`
 header, then the corresponding allowlist is also checked, and the embedded
 document's origin must *also* be included in that list in order for it to be
-sent hints [Example 5](#example-5).
+sent hints ([Example 5](#example-5)).
 
 Note that any hints which were not sent to a document *cannot* be sent to any
 documents which it embeds.
@@ -96,11 +96,11 @@ For hints to be sent to an origin server for a subresource request, the
 `Permissions-Policy` header is checked in every case. By default, any
 low-entropy hints with the embedding document received will be sent with all
 requests, while high-entropy hints are only sent if the resource is same-origin
-with the document [Example 6](#example-6).
+with the document ([Example 6](#example-6)).
 
 By using the `Permissions-Policy` header, it is possible to name the origins for
 which subresrouces should (or by omission, should not) receive hints
-[Example 7](#example-7).
+([Example 7](#example-7)).
 
 Note that any hints which were not sent to the document in the first place
 *cannot* be sent with any subresource requests, regardless of origin.
@@ -109,9 +109,14 @@ Note that any hints which were not sent to the document in the first place
 
 ### Example 1: Default behaviour of delegation to frames
 
-https://example.com/
-Accept-CH: Sec-CH-DPR
+Resource: https://example.com/
 
+Response headers:
+```http
+Accept-CH: Sec-CH-DPR
+```
+
+Markup:
 ```html
 <iframe src="page2.html"></iframe>
 <br>
@@ -127,9 +132,14 @@ low-entropy hints.
 
 ### Example 2: Adding additional hints with markup
 
-https://example.com/
-Accept-CH: Sec-CH-DPR
+Resource: https://example.com/
 
+Response headers:
+```http
+Accept-CH: Sec-CH-DPR
+```
+
+Markup:
 ```html
 <iframe src="https://external.example/" allow="ch-dpr;ch-ua-arch"></iframe>
 ```
@@ -140,9 +150,14 @@ hint cannot be sent, as it was not received by the parent document.
 
 ### Example 3: Restricting hints from same-origin frames
 
-https://example.com/
-Accept-CH: Sec-CH-DPR
+Resource: https://example.com/
 
+Response headers:
+```http
+Accept-CH: Sec-CH-DPR
+```
+
+Markup:
 ```html
 <iframe src="page2.html" allow="ch-dpr 'none';ch-save-data 'none'"></iframe>
 ```
@@ -153,14 +168,21 @@ high-entropy DPR hint have been excluded by policy.
 
 ### Example 4: Restricting hints after navigation
 
-https://example.com/
-Accept-CH: Sec-CH-DPR
+Resource: https://example.com/
 
+Response headers:
+```http
+Accept-CH: Sec-CH-DPR
+```
+
+Markup:
 ```html
 <iframe src="page2.html" allow="ch-save-data 'self'"></iframe>
 ```
 
-https://example.com/page2.html:
+Resource: https://example.com/page2.html
+
+Markup:
 ```html
 <a href="https://external.example/">External link</a>
 ```
@@ -175,10 +197,15 @@ origin unless specifically delegated.
 
 ### Example 5: Restricting delegation with response headers
 
-https://example.com/
+Resource: https://example.com/
+
+Response Headers:
+```http
 Accept-CH: Sec-CH-DPR
 Permissions-Policy: ch-dpr=(self "https://external.example")
+```
 
+Markup:
 ```html
 <iframe src="https://external.example/" allow="ch-dpr"></iframe>
 <br>
@@ -198,9 +225,14 @@ present in the header allowlist.
 
 ### Example 6: Default behaviour of hints for subresources
 
-https://example.com/
-Accept-CH: Sec-CH-DPR
+Resource: https://example.com/
 
+Response headers:
+```http
+Accept-CH: Sec-CH-DPR
+```
+
+Markup:
 ```html
 <img src="banner.png">
 <br>
@@ -215,10 +247,14 @@ The request for the second image will only be sent with the low-entropy hints.
 
 ### Example 7: Adding additional hints with response headers
 
-https://example.com/
+Resource: https://example.com/
+
+Response headers:
+```http
 Accept-CH: Sec-CH-DPR
 Permissions-Policy: ch-dpr=(self "https://external.example")
-
+```
+Markup:
 ```html
 <img src="https://external.example/photo.jpg">
 <br>
