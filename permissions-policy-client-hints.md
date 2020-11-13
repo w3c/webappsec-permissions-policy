@@ -107,4 +107,131 @@ Note that any hints which were not sent to the document in the first place
 
 ## Examples
 
-[Incoming]
+### Example 1: Default behaviour of delegation to frames
+
+https://example.com/
+Accept-CH: Sec-CH-DPR
+
+```html
+<iframe src="page2.html"></iframe>
+<br>
+<iframe src="https://external.example/"></iframe>
+```
+
+The request for the document in the first frame will be sent with the
+low-entropy hints (UA, UA-Mobile and Save-Data) and the single received
+high-entropy hint (DPR).
+
+The request for the document in the second frame will only be sent with the
+low-entropy hints.
+
+### Example 2: Adding additional hints with markup
+
+https://example.com/
+Accept-CH: Sec-CH-DPR
+
+```html
+<iframe src="https://external.example/" allow="ch-dpr;ch-ua-arch"></iframe>
+```
+
+The request for the document in the frame will be sent with the low-entropy
+hints (UA, UA-Mobile and Save-Data) and the DPR high-entropy hint. The UA-Arch
+hint cannot be sent, as it was not received by the parent document.
+
+### Example 3: Restricting hints from same-origin frames
+
+https://example.com/
+Accept-CH: Sec-CH-DPR
+
+```html
+<iframe src="page2.html" allow="ch-dpr 'none';ch-save-data 'none'"></iframe>
+```
+
+The request for the document in the frame will only be sent with two low-entropy
+hints: UA and UA-Mobile. Both the low-entropy Save-Data hint and the
+high-entropy DPR hint have been excluded by policy.
+
+### Example 4: Restricting hints after navigation
+
+https://example.com/
+Accept-CH: Sec-CH-DPR
+
+```html
+<iframe src="page2.html" allow="ch-save-data 'self'"></iframe>
+```
+
+https://example.com/page2.html:
+```html
+<a href="https://external.example/">External link</a>
+```
+
+The initial request for the document in the frame (`page2,html`) will be sent
+with the low-entropy hints, as well as DPR. However, if the frame is navigated
+away from the `https://example.com` origin, requests for other documents will
+only be sent with the UA and UA-Mobile hints. The Save-Data hint will be
+excluded because of the policy in the `allow` attribute, and the DPR hint will
+be excluded because it is a high-entropy hint, and is not sent to a third-party
+origin unless specifically delegated.
+
+### Example 5: Restricting delegation with response headers
+
+https://example.com/
+Accept-CH: Sec-CH-DPR
+Permissions-Policy: ch-dpr=(self "https://external.example")
+
+```html
+<iframe src="https://external.example/" allow="ch-dpr"></iframe>
+<br>
+<iframe src="https://another.example/" allow="ch-dpr"></iframe>
+```
+
+In this example, a `Permissions-Policy` response header has been used to set the
+list of origins which can be sent the DPR hint.
+
+The request for the document in the first frame will be sent with the
+low-entropy hints and the DPR high-entropy hint, as it is present in the header
+allowlist.
+
+The request for the document in the second frame will only be sent with the
+low-entropy hints. The DPR hint cannot be sent to that origin, as it was not
+present in the header allowlist.
+
+### Example 6: Default behaviour of hints for subresources
+
+https://example.com/
+Accept-CH: Sec-CH-DPR
+
+```html
+<img src="banner.png">
+<br>
+<img src="https://external.example/photo.jpg">
+```
+
+The request for the first image will be sent with the
+low-entropy hints (UA, UA-Mobile and Save-Data) and the single received
+high-entropy hint (DPR).
+
+The request for the second image will only be sent with the low-entropy hints.
+
+### Example 7: Adding additional hints with response headers
+
+https://example.com/
+Accept-CH: Sec-CH-DPR
+Permissions-Policy: ch-dpr=(self "https://external.example")
+
+```html
+<img src="https://external.example/photo.jpg">
+<br>
+<img src="https://another.example/photo2.jpg">
+```
+
+In this example, a `Permissions-Policy` response header has been used to set the
+list of origins which can be sent the DPR hint.
+
+The request for the first image will be sent with the low-entropy hints and the
+DPR high-entropy hint, as it is present in the header allowlist.
+
+The request for the second image will only be sent with the low-entropy hints.
+The DPR hint cannot be sent to that origin, either in a subresource request, as
+shownhere, or in a subframe, as in the example above, as it was not present in
+the header allowlist.
