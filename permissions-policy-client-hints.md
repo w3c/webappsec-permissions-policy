@@ -24,8 +24,8 @@ delegation of powerful features to subframes.
 ## Relationship between Permissions Policy and Client Hints
 
 Every client hint is represented in Permissions Policy as a policy-controlled
-feature. The feature, which is always enabled at the top-level, represents the
-ability to receive the hint in a subframe.
+feature. The feature, which is always enabled for top-level documents,
+represents the ability to receive the hint in a subframe.
 
 There are two broad classes of hints defined: High-entropy and Low-entropy. High
 entropy hints contain a greater amount of potententially identifying information
@@ -38,17 +38,23 @@ High-entropy hints are backed by features with a default allowlist of `self`.
 Low-entropy hints are backed by features with a default allowlist of `*`.
 
 Example high-entropy hints (and their corresponding features):
-    * DPR (`ch-dpr`)
-    * UA-Arch (`ch-ua-arch`)
+  * DPR (`ch-dpr`)
+  * UA-Arch (`ch-ua-arch`)
 
 Example low-entropy hints (and their corresponding features):
-    * Save-Data (`ch-save-data`)
-    * UA (`ch-ua`)
+  * Save-Data (`ch-save-data`)
+  * UA (`ch-ua`)
 
 ## How delegation works
 
 In top-level documents, hints are requested with the Accept-CH HTTP response
-header [ref](https://tools.ietf.org/html/draft-ietf-httpbis-client-hints-15).
+header
+([reference](https://tools.ietf.org/html/draft-ietf-httpbis-client-hints-15)).
+
+Permissions Policy cannot be used to change the hints received by the top-level
+document, as the `Permissions-Policy` response header cannot be sent before the
+hints (which are request headers) are received. However, it can be used to
+control where those hints are sent after that.
 
 ### Delegation to embedded documents
 
@@ -57,15 +63,15 @@ documents which it embeds inside of an `<iframe>` element.
 
 By default, low-entropy hints are sent to all embedded documents, while
 high-entropy hints are only sent if the embedded document is same-origin with
-its embedder [Example 1](#example-1). The iframe's `allow` attribute is used to
+its embedder ([Example 1](#example-1)). The iframe's `allow` attribute is used to
 name specific hints which should be sent to the embedded document
-[Example 2](#example-2).
+([Example 2](#example-2)).
 
-Question: Does the embeddded document's Accept-CH header affect this processing
-at all?
+> **Question:** Does the embeddded document's `Accept-CH` header affect this
+> processing at all?
 
 If an embedded document is same-origin with its embedder, then Permissions
-Policy will delegate all available hints by default. In that case, the allow
+Policy will delegate all available hints by default. In that case, the `allow`
 attribute can still be useful, both for restricting hints which would otherwise
 be sent [Example 3](#example-3), and also for controlling hints when the iframe
 is navigated away from its initial origin [Example 4](#example-4).
