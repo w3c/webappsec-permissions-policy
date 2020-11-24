@@ -1,7 +1,5 @@
 # Permissions Policy and Client Hints
 
-[Draft]
-
 ## Background
 
 [Client Hints](https://wicg.github.io/client-hints-infrastructure/) are a
@@ -67,9 +65,6 @@ its embedder ([Example 1](#example-1)). The iframe's `allow` attribute is used t
 name specific hints which should be sent to the embedded document
 ([Example 2](#example-2)).
 
-> **Question:** Does the embeddded document's `Accept-CH` header affect this
-> processing at all?
-
 If an embedded document is same-origin with its embedder, then Permissions
 Policy will delegate all available hints by default. In that case, the `allow`
 attribute can still be useful, both for restricting hints which would otherwise
@@ -113,7 +108,7 @@ Resource: https://example.com/
 
 Response headers:
 ```http
-Accept-CH: Sec-CH-DPR
+Accept-CH: DPR
 ```
 
 Markup:
@@ -136,7 +131,7 @@ Resource: https://example.com/
 
 Response headers:
 ```http
-Accept-CH: Sec-CH-DPR
+Accept-CH: DPR
 ```
 
 Markup:
@@ -154,7 +149,7 @@ Resource: https://example.com/
 
 Response headers:
 ```http
-Accept-CH: Sec-CH-DPR
+Accept-CH: DPR
 ```
 
 Markup:
@@ -172,7 +167,7 @@ Resource: https://example.com/
 
 Response headers:
 ```http
-Accept-CH: Sec-CH-DPR
+Accept-CH: DPR
 ```
 
 Markup:
@@ -201,7 +196,7 @@ Resource: https://example.com/
 
 Response Headers:
 ```http
-Accept-CH: Sec-CH-DPR
+Accept-CH: DPR
 Permissions-Policy: ch-dpr=(self "https://external.example")
 ```
 
@@ -229,7 +224,7 @@ Resource: https://example.com/
 
 Response headers:
 ```http
-Accept-CH: Sec-CH-DPR
+Accept-CH: DPR
 ```
 
 Markup:
@@ -251,7 +246,7 @@ Resource: https://example.com/
 
 Response headers:
 ```http
-Accept-CH: Sec-CH-DPR
+Accept-CH: DPR
 Permissions-Policy: ch-dpr=(self "https://external.example")
 ```
 Markup:
