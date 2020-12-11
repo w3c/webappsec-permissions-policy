@@ -86,8 +86,9 @@ allowed to fail in the past, then it may be dangerous to turn it into a
 policy-controlled feature, where it may start to fail on pages that were always
 able to assume that it would not.
 
-In this case, features may be better defined using [Document Policy](https://w3c.github.io/webappsec-feature-policy/document-policy.html), as that mechanism requires an explicit
-opt-in by any embedded document where that policy is required.
+In this case, features may be better defined using [Document Policy](https://wicg.github.io/document-policy/),
+as that mechanism requires an explicit opt-in by any embedded document for which
+that policy is required.
 
 > Example:
 >

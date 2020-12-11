@@ -13,7 +13,7 @@ install:
 script:
 - mkdir out
 - bikeshed spec index.bs out/index.html
-- bikeshed spec document-policy.bs out/document-policy.html
+- cp document-policy.redirect.html out/document-policy.html
 before_deploy:
 - openssl aes-256-cbc -K $encrypted_b330ad4127a4_key -iv $encrypted_b330ad4127a4_iv
   -in deploy_key.enc -out deploy_key -d
