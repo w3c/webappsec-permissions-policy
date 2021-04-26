@@ -191,7 +191,7 @@ example, but any other permission should work in an analogous way.
 
 In this scenario, example.com embeds an advertisement from ad.com. Being the
 top-level document, example.com has the ability to request permission to access
-the user's locatioin, but this ability is not granted to ad.com.
+the user's location, but this ability is not granted to ad.com.
 
 If ad.com attempts to access the user's location, it will receive a "permission
 denied" error, exactly as if the user denied permission to the site.
