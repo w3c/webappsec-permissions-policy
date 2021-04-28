@@ -75,7 +75,7 @@ via a single and unified interface.
 
 Since then, Feature Policy has split into two related APIs to cover the widely
 different use cases: Permissions Policy to handle the control of powerful
-features and permissions, even in the presence of XSS; and [Document Policy](https://github.com/w3c/webappsec-feature-policy/blob/master/document-policy-explainer.md),
+features and permissions, even in the presence of XSS; and [Document Policy](https://github.com/wicg/document-policy/blob/main/document-policy-explainer.md),
 to handle performance optimizations and other kinds of configurable APIs.
 
 ## How is a Policy Specified?
