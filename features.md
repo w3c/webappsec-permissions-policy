@@ -71,6 +71,7 @@ experimentation by web developers.
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
+| `window-placement` | [Explainer](https://github.com/webscreens/window-placement/blob/master/EXPLAINER.md) | Behind a flag in Chrome<sup>[6](#fn6)</sup> |
 
 
 ## Notes
@@ -88,6 +89,9 @@ names will be added to this list as they are actually defined.
 
 <a name="fn5">[5]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=ConversionMeasurement`.
+
+<a name="fn5">[6]</a>: To enable this, use the Chrome command line flag
+`--enable-blink-features=WindowPlacement`.
 
 [battery-status]: https://w3c.github.io/battery/#feature-policy-integration
 [encrypted-media]: https://w3c.github.io/encrypted-media/#feature-policy-integration
