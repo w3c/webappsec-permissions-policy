@@ -89,22 +89,22 @@ names will be added to this list as they are actually defined.
 <a name="fn5">[5]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=ConversionMeasurement`.
 
-[battery-status]: https://w3c.github.io/battery/#feature-policy-integration
-[encrypted-media]: https://w3c.github.io/encrypted-media/#feature-policy-integration
-[fullscreen]: https://fullscreen.spec.whatwg.org/#feature-policy-integration
+[battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
+[encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
+[fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
-[media-capture]: https://w3c.github.io/mediacapture-main/#feature-policy-integration
-[media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#feature-policy-integration
+[media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
+[media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
 [navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
 [page-lifecycle]: https://wicg.github.io/page-lifecycle/#feature-policies
-[payment-request]: https://www.w3.org/TR/payment-request/#feature-policy
+[payment-request]: https://www.w3.org/TR/payment-request/#permissions-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
-[publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-feature-policy
+[publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-permissions-policy
 [wake-lock]: https://w3c.github.io/screen-wake-lock/#policy-control
-[web-midi]: https://webaudio.github.io/web-midi-api/#feature-policy-integration
-[web-share]: https://w3c.github.io/web-share/#feature-policy
-[webusb]: https://wicg.github.io/webusb/#feature-policy
+[web-midi]: https://webaudio.github.io/web-midi-api/#permissions-policy-integration
+[web-share]: https://w3c.github.io/web-share/#permissions-policy
+[webusb]: https://wicg.github.io/webusb/#permissions-policy
 [xhr]: https://xhr.spec.whatwg.org/#feature-policy-integration
-[xr]: https://immersive-web.github.io/webxr/#feature-policy
+[xr]: https://immersive-web.github.io/webxr/#permissions-policy
