@@ -42,6 +42,7 @@ specification.
 | `usb` | [WebUSB][webusb] | Chrome 60 |
 | `web-share` | [Web Share API][web-share] | Chrome 86 |
 | `xr-spatial-tracking`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
+| `keyboard-map` | [Keyboard API][keyboard] | [Chrome 69](https://www.chromestatus.com/feature/6730004075380736) |
 
 ## Proposed Features
 
@@ -95,6 +96,7 @@ names will be added to this list as they are actually defined.
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
+[keyboard]: https://wicg.github.io/keyboard-map/#permissions-policy
 [media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
 [navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
