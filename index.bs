@@ -258,7 +258,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       Currently, the <a>container policy</a> cannot be set directly, but is
       indirectly set by <code>iframe</code> "<a href=
       "#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
-      "and <a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
+      and "<a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
       Future revisions to this spec may introduce a mechanism to explicitly
       declare the full <a>container policy</a>.
     </div>
