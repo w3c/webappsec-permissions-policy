@@ -63,10 +63,11 @@ experimentation by web developers.
 
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
-| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
+| `conversion-measurement` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `hid` | [Explainer](https://github.com/WICG/webhid/blob/master/EXPLAINER.md) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/1074108511127863297) in Chrome 86-88 |
 | `idle-detection` | [Draft spec](https://github.com/WICG/idle-detection/pull/29) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/551690954352885761) in Chrome 84-86 |
+| `interest-cohort` | [Explainer](https://github.com/WICG/floc/blob/main/README.md) | In [Origin Trial](https://www.chromestatus.com/feature/5710139774468096) |
 | `serial` | [Explainer](https://github.com/WICG/serial/blob/gh-pages/EXPLAINER.md) | Experimental in Chrome<sup>[4](#fn4)</sup> or available in [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2992641952387694593) in Chrome 80-88 |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
