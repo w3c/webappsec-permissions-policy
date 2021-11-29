@@ -67,6 +67,8 @@ experimentation by web developers.
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `hid` | [Explainer](https://github.com/WICG/webhid/blob/master/EXPLAINER.md) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/1074108511127863297) in Chrome 86-88 |
 | `idle-detection` | [Draft spec](https://github.com/WICG/idle-detection/pull/29) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/551690954352885761) in Chrome 84-86 |
+| `join-ad-interest-group` | [Explainer](https://github.com/WICG/turtledove/blob/main/FLEDGE.md) | Behind a flag in Chrome<sup>[6](#fn6)</sup> |
+| `run-ad-auction` | [Explainer](https://github.com/WICG/turtledove/blob/main/FLEDGE.md) | Behind a flag in Chrome<sup>[6](#fn6)</sup> |
 | `serial` | [Explainer](https://github.com/WICG/serial/blob/gh-pages/EXPLAINER.md) | Experimental in Chrome<sup>[4](#fn4)</sup> or available in [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2992641952387694593) in Chrome 80-88 |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
@@ -89,6 +91,9 @@ names will be added to this list as they are actually defined.
 
 <a name="fn5">[5]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=ConversionMeasurement`.
+
+<a name="fn6">[6]</a>: To enable this, use the Chrome command line flag
+`--enable-features=AdInterestGroupAPI,InterestGroupStorage,Fledge`.
 
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
