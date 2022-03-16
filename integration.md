@@ -18,9 +18,9 @@ policy-controlled feature:
 > Example:
 >
 >### Section N: Permissions Policy Integration
-> The Sample API defines a [*policy-controlled feature*](https://w3c.github.io/webappsec-feature-policy/#policy-controlled-feature)
-> identified by the string "`sample`". Its [default allowlist](https://w3c.github.io/webappsec-feature-policy/#default-allowlist)
-> is `'self'` \[[FEATURE-POLICY](https://w3c.github.io/webappsec-feature-policy/)\].
+> The Sample API defines a [*policy-controlled feature*](https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature)
+> identified by the string "`sample`". Its [default allowlist](https://w3c.github.io/webappsec-permissions-policy/#default-allowlist)
+> is `'self'` \[[PERMISSIONS-POLICY](https://w3c.github.io/webappsec-permissions-policy/)\].
 
 The specification can then refer to this feature, and test whether it is enabled
 or not in a specific document, with text similar to this:
@@ -39,7 +39,7 @@ defines that feature.)
 ## Choosing a default allowlist
 
 As described in the
-[spec](https://w3c.github.io/webappsec-feature-policy/#default-allowlists), the default
+[spec](https://w3c.github.io/webappsec-permissions-policy/#default-allowlists), the default
 allowlist chosen affects how the feature behaves when there are no declared
 policies present. As a rough guide:
 
