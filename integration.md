@@ -27,8 +27,7 @@ or not in a specific document, with text similar to this:
 
 > Example:
 >
-> If the [current global object](https://html.spec.whatwg.org/multipage/webappapis.html#current-global-object)'s 
-> [associated Document](https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window)
+> If [this](https://webidl.spec.whatwg.org/#this)'s [relevant global object](https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global)'s [associated Document](https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window)
 > is not [allowed to use](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use)
 > the `sample` feature, then throw a `SecurityError`
 > [DOMException](https://heycam.github.io/webidl/#dfn-DOMException) and abort these steps.
