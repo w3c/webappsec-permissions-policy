@@ -27,7 +27,7 @@ or not in a specific document, with text similar to this:
 
 > Example:
 >
-> If the [responsible document](https://html.spec.whatwg.org/multipage/webappapis.html#responsible-document)
+> If [this](https://webidl.spec.whatwg.org/#this)'s [relevant global object](https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global)'s [associated Document](https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window)
 > is not [allowed to use](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use)
 > the `sample` feature, then throw a `SecurityError`
 > [DOMException](https://heycam.github.io/webidl/#dfn-DOMException) and abort these steps.
@@ -95,7 +95,7 @@ that policy is required.
 > The `document.write` API has existed on the web since roughly the dawn of
 > JavaScript, and has no failure modes.
 >
-> One means of disallowing this feature via Feature Policy would be to declare that
+> One means of disallowing this feature via Permissions Policy would be to declare that
 > any calls to `document.write()` will silently fail. However, this would mean that
 > if a page contained a script like this:
 >
