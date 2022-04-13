@@ -741,7 +741,7 @@ partial interface HTMLIFrameElement {
 <section>
   <h2 id="algorithms">Algorithms</h2>
   <section>
-    ## <dfn export>Process response policy</dfn> ## {#algo-process-response-policy}
+    ## <dfn export abstract-op id="process-response-policy">Process response policy</dfn> ## {#algo-process-response-policy}
 
     <div class="algorithm" data-algorithm="process-response-policy">
     Given a [=response=] (|response|) and an [=origin=] (|origin|), this
@@ -758,7 +758,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn>Construct policy from dictionary and origin</dfn> ## {#algo-construct-policy}
+    ## <dfn export abstract-op id="construct-policy">Construct policy from dictionary and origin</dfn> ## {#algo-construct-policy}
 
     <div class="algorithm" data-algorithm="construct-policy">
     Given an <a>ordered map</a> (|dictionary|) and an [=origin=] (|origin|), this
@@ -791,7 +791,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn>Parse policy directive</dfn> ## {#algo-parse-policy-directive}
+    ## <dfn export abstract-op id="parse-policy-directive">Parse policy directive</dfn> ## {#algo-parse-policy-directive}
 
     <div class="algorithm" data-algorithm="parse-policy-directive">
     Given a string (|value|), an [=origin=] (|container origin|), and an
@@ -836,7 +836,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn>Process permissions policy attributes</dfn> ## {#algo-process-policy-attributes}
+    ## <dfn export abstract-op id="process-policy-attributes">Process permissions policy attributes</dfn> ## {#algo-process-policy-attributes}
 
     <div class="algorithm" data-algorithm="process-policy-attributes">
     Given an element (|element|), this algorithm returns a <a>container
@@ -858,7 +858,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn export id="create-for-browsingcontext">Create a Permissions Policy for a browsing context</dfn> ## {#algo-create-for-browsingcontext}
+    ## <dfn export abstract-op id="create-for-browsingcontext">Create a Permissions Policy for a browsing context</dfn> ## {#algo-create-for-browsingcontext}
 
     <div class="algorithm" data-algorithm="create-for-browsingcontext">
     Given a <a>browsing context</a> (|browsingContext|), and an <a>origin</a>
@@ -877,7 +877,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn export id="create-from-response">Create a Permissions Policy for a browsing context from response</dfn> ## {#algo-create-from-response}
+    ## <dfn export abstract-op id="create-from-response">Create a Permissions Policy for a browsing context from response</dfn> ## {#algo-create-from-response}
 
     <div class="algorithm" data-algorithm="create-from-response">
     Given a <a>browsing context</a> (|browsingContext|), <a>origin</a>
@@ -896,7 +896,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn id="define-inherited-policy">Define an inherited policy for feature in browsing context</dfn> ## {#algo-define-inherited-policy}
+    ## <dfn export abstract-op id="define-inherited-policy">Define an inherited policy for feature in browsing context</dfn> ## {#algo-define-inherited-policy}
 
     <div class="algorithm" data-algorithm="define-inherited-policy">
     Given a feature (|feature|), an <a>origin</a> (|origin|), and a <a>browsing
@@ -911,7 +911,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn id="define-inherited-policy-in-container">Define an inherited policy for feature in container at origin</dfn> ## {#algo-define-inherited-policy-in-container}
+    ## <dfn export abstract-op id="define-inherited-policy-in-container">Define an inherited policy for feature in container at origin</dfn> ## {#algo-define-inherited-policy-in-container}
 
     <div class="algorithm"
     data-algorithm="define-inherited-policy-in-container">
@@ -942,7 +942,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn id="is-feature-enabled">Is feature enabled in document for origin?</dfn> ## {#algo-is-feature-enabled}
+    ## <dfn export abstract-op id="is-feature-enabled">Is feature enabled in document for origin?</dfn> ## {#algo-is-feature-enabled}
 
     <div class="algorithm" data-algorithm="is-feature-enabled">
     Given a feature (|feature|), a {{Document}} object
@@ -967,7 +967,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn export id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings</dfn> ## {#algo-report-permissions-policy-violation}
+    ## <dfn export abstract-op id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings</dfn> ## {#algo-report-permissions-policy-violation}
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
     Given a feature (|feature|), an <a>environment settings object</a>
@@ -1005,7 +1005,7 @@ partial interface HTMLIFrameElement {
     been <a>violated</a>.
   </section>
   <section>
-    ## <dfn export>Should request be allowed to use feature?</dfn> ## {#algo-should-request-be-allowed-to-use-feature}
+    ## <dfn export abstract-op id="should-request-be-allowed-to-use-feature">Should request be allowed to use feature?</dfn> ## {#algo-should-request-be-allowed-to-use-feature}
 
     <div class="algorithm"
     data-algorithm="should-request-be-allowed-to-use-feature">
