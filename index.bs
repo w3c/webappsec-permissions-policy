@@ -647,8 +647,8 @@ partial interface HTMLIFrameElement {
         1. Let |inherited policy| be a new ordered map.
         2. Let |declared policy| be a new ordered map.
         3. For each <a>supported feature</a> |feature|:
-            1. Let |isInherited| be the result of running <a>Define an inherited
-                policy for feature in container at origin</a> on |feature|,
+            1. Let |isInherited| be the result of running <a abstract-op>Define an
+                inherited policy for feature in container at origin</a> on |feature|,
                 |node| and |node|'s <a>declared origin</a>.
             2. Set |inherited policy|[|feature|] to |isInherited|.
         4. Return a new <a>permissions policy</a> with inherited policy
@@ -751,7 +751,7 @@ partial interface HTMLIFrameElement {
       field value</a> given "<code>Permissions-Policy</code>" and "dictionary" from
       |response|’s header list.
     1. If |parsed header| is null, abort these steps.
-    1. Let |policy| be the result of executing <a>Construct policy from
+    1. Let |policy| be the result of executing <a abstract-op>Construct policy from
       dictionary and origin</a> on |parsed header| and |origin|.
     1. Return |policy|.
 
@@ -866,9 +866,9 @@ partial interface HTMLIFrameElement {
     1. Let |inherited policy| be a new ordered map.
     1. Let |declared policy| be a new ordered map.
     1. For each |feature| supported,
-        1. Let |isInherited| be the result of running <a
-          href="#define-inherited-policy">Define an inherited policy for feature
-          in browsing context</a> on |feature|, |origin| and |browsingContext|.
+        1. Let |isInherited| be the result of running <a abstract-op>Define an
+          inherited policy for feature in browsing context</a> on |feature|,
+          |origin| and |browsingContext|.
         1. Set |inherited policy|[|feature|] to |isInherited|.
     1. Let |policy| be a new <a>permissions policy</a>, with inherited policy
       |inherited policy| and declared policy |declared policy|.
@@ -883,11 +883,10 @@ partial interface HTMLIFrameElement {
     Given a <a>browsing context</a> (|browsingContext|), <a>origin</a>
     (|origin|), and a [=response=] (|response|), this algorithm returns a new
     <a>Permissions Policy</a>.
-    1. Let |policy| be the result of running <a>Create a Permissions Policy for
-      a browsing context</a> given |browsingContext|, and |origin|.
-    1. Let |d| be the result of running <a
-      href="#process-response-policy">Process response policy</a> on |response|
-      and |origin|.
+    1. Let |policy| be the result of running <a abstract-op>Create a Permissions
+      Policy for a browsing context</a> given |browsingContext|, and |origin|.
+    1. Let |d| be the result of running <a abstract-op>Process response
+      policy</a> on |response| and |origin|.
     1. For each |feature| → |allowlist| of |d|:
         1. If |policy|'s <a>inherited policy</a>[|feature|] is true, then set
           |policy|'s <a>declared policy</a>[|feature|] to |allowlist|.
@@ -903,9 +902,9 @@ partial interface HTMLIFrameElement {
     context</a> (|browsingContext|), this algorithm returns the <a>inherited
     policy</a> for that feature.
     1. If |browsingContext| is the [=nested browsing context=] of a [=browsing
-      context container=], return the result of executing <a>Define an
-      inherited policy for feature in container at origin</a> for |feature| in
-      |browsingContext|'s <a>browsing context container</a> at |origin|.
+      context container=], return the result of executing <a abstract-op>Define
+      an inherited policy for feature in container at origin</a> for |feature|
+      in |browsingContext|'s <a>browsing context container</a> at |origin|.
     1. Otherwise, return "<code>Enabled</code>".
 
     </div>
@@ -926,8 +925,8 @@ partial interface HTMLIFrameElement {
     1. If |feature| is present in |policy|'s <a>declared policy</a>, and the
       <a>allowlist</a> for |feature| in |policy|'s <a>declared policy</a> does
       not <a>match</a> |origin|, then return "<code>Disabled</code>".
-    1. Let |container policy| be the result of running <a>Process permissions
-      policy attributes</a> on |container|.
+    1. Let |container policy| be the result of running <a abstract-op>Process
+      permissions policy attributes</a> on |container|.
     1. If |feature| is a key in |container policy|:
         1. If the <a>allowlist</a> for |feature| in |container policy|
           <a>matches</a> |origin|, return "<code>Enabled</code>".
@@ -1023,9 +1022,8 @@ partial interface HTMLIFrameElement {
        sending Client Hints to third parties) in these contexts.</div>
     1. Set |document| to |window|’s <a>associated `Document`</a>.
     1. Let |origin| be |request|’s <a for="request">origin</a>.
-    1. Let |result| be the result of executing <a href="#is-feature-enabled">Is
-        feature enabled in document for
-        origin?</a> on |feature|, |document|, and |origin|.
+    1. Let |result| be the result of executing <a abstract-op>Is feature
+      enabled in document for origin?</a> on |feature|, |document|, and |origin|.
     1. If |result| is "<code>Enabled</code>", return <code>true</code>.
     1. Otherwise, return <code>false</code>.
 
