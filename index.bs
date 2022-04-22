@@ -577,10 +577,10 @@ partial interface HTMLIFrameElement {
     {{PermissionsPolicy}} object's <a>associated node</a>:
     * If the {{PermissionsPolicy}} object's <a>associated node</a> is a
         {{Document}}, then its <a>default origin</a> is the {{Document}}'s
-	<a>origin</a>.
+        <a>origin</a>.
     * If the {{PermissionsPolicy}} object's <a>associated node</a> is an
         {{Element}}, then its <a>default origin</a> is the {{Element}}'s
-	<a>declared origin</a>.
+        <a>declared origin</a>.
 
     <p>Each {{Document}} has a <dfn for="Document">policy object</dfn>, which is
     a {{PermissionsPolicy}} instance whose <a>associated node</a> is that
