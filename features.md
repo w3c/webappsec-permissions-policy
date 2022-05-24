@@ -104,7 +104,7 @@ experimentation by web developers.
 
 ## Deprecated Features
 
-These features that were added to a browser and are still listed in the 
+These features were added to a browser and are still listed in the 
 browsers source code, but have since been deprecated or replaced with a 
 different feature name.
 
