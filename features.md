@@ -50,6 +50,7 @@ specification.
 | `execution-while-out-of-viewport` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `focus-without-user-activation` | [HTML][focus-without-user-activation] | [Chrome 76](https://chromestatus.com/feature/5179186249465856) | 
 | `fullscreen` | [Fullscreen API][fullscreen] | [Chrome 62](https://www.chromestatus.com/feature/5094837900541952) |
+| `gamepad` | [Gamepad API][gamepad] | [Chrome 86](https://chromestatus.com/feature/5138714634223616) |
 | `geolocation` | [Geolocation API][geolocation] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `gyroscope` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `hid` | [WebHID API][webhid] | [Chrome 89](https://chromestatus.com/feature/5172464636133376) |
@@ -81,7 +82,6 @@ integrated into their respective specs.
 | `ch-prefers-forced-colors` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
 | Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
 | `direct-sockets` | https://wicg.github.io/direct-sockets/#permissions-policy | |
-| `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
 
 ## Experimental Features
@@ -137,6 +137,7 @@ names will be added to this list as they are actually defined.
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [focus-without-user-activation]: https://github.com/whatwg/html/pull/4585
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
+[gamepad]: https://www.w3.org/TR/gamepad/#permission-policy
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
