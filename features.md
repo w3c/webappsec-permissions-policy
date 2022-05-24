@@ -22,7 +22,24 @@ specification.
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
 | `bluetooth` | [Web Bluetooth API][bluetooth] | [Chrome 104](https://chromestatus.com/feature/6439287120723968) |
 | `camera` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
+| `ch-device-memory` | [Device Memory API][ch-device-memory] | [Chrome 61](https://chromestatus.com/feature/5741299856572416) |
+| `ch-downlink` | [Network Information API][ch-downlink] | [Chrome 69](https://chromestatus.com/feature/5407907378102272) |
+| `ch-dpr` | [Responsive Image Client Hints][ch-dpr] | [Chrome 46](https://chromestatus.com/feature/5504430086553600) |
+| `ch-ect` | [Network Information API][ch-ect] | [Chrome 69](https://chromestatus.com/feature/5407907378102272) |
+| `ch-rtt` | [Network Information API][ch-rtt] | [Chrome 69](https://chromestatus.com/feature/5407907378102272) |
 | `ch-prefers-color-scheme` | [User Preference Media Features Client Hints Headers][ch-prefers-color-scheme] | [Chrome 93](https://chromestatus.com/feature/5642300464037888) |
+| `ch-save-data` | [Save Data API][ch-save-data] | [Chrome 102](https://chromestatus.com/feature/5645928215085056) |
+| `ch-ua` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-arch` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-bitness` | [User-Agent Client Hints][ch-ua-*] | [Chrome 93](https://chromestatus.com/feature/5733498725859328) |
+| `ch-ua-full-version-list` | [User-Agent Client Hints][ch-ua-*] | [Chrome 98](https://caniuse.com/mdn-http_headers_sec-ch-ua-full-version-list) |
+| `ch-ua-mobile` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-model` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-platform` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-platform-version` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-wow64` | [User-Agent Client Hints][ch-ua-*] | [Chrome 100](https://chromestatus.com/feature/5682026601512960) |
+| `ch-viewport-width` | [User-Agent Client Hints][ch-viewport-width] | [Chrome 46](https://chromestatus.com/feature/5504430086553600) |
+| `ch-width` | [User-Agent Client Hints][ch-width] | [Chrome 46](https://chromestatus.com/feature/5504430086553600) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -75,6 +92,8 @@ experimentation by web developers.
 | ------------ | ------- | --------------- |
 | `attribution-reporting` | [Attribution Reporting API][attribution-reporting] | In [Origin Trial](https://chromestatus.com/feature/6412002824028160) in Chrome 101-104 |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | In [Origin Trial](https://chromestatus.com/feature/5680923054964736) in Chrome 101-104 |
+| `ch-partitioned-cookies` | [CHIPS (Cookies Having Independent Partitioned State)](https://github.com/WICG/CHIPS) | In [Origin Trial](https://chromestatus.com/feature/5179189105786880) in Chrome 100-102 |
+| `ch-viewport-height` | [Responsive Image Client Hints](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height) | In [Origin Trial]([https://chromestatus.com/feature/5179189105786880](https://chromestatus.com/feature/5646861215989760)) in Chrome 100-104 |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -102,7 +121,16 @@ names will be added to this list as they are actually defined.
 [attribution-reporting]: https://wicg.github.io/conversion-measurement-api/#permission-policy-integration
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
 [bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
+[ch-device-memory]: https://www.w3.org/TR/device-memory/
+[ch-downlink]: https://wicg.github.io/netinfo/#downlink-attribute
+[ch-dpr]: https://wicg.github.io/responsive-image-client-hints/#sec-ch-dpr
+[ch-ect]:  https://wicg.github.io/netinfo/#ect-request-header-field
+[ch-rtt]: https://wicg.github.io/netinfo/#rtt-attribute
+[ch-save-data]: https://wicg.github.io/savedata/
+[ch-ua-*]: https://wicg.github.io/ua-client-hints/
 [ch-prefers-color-scheme]: https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features
+[ch-viewport-width]: https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width
+[ch-width]: https://wicg.github.io/responsive-image-client-hints/#sec-ch-width
 [direct-sockets]: https://wicg.github.io/direct-sockets/#permissions-policy
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
