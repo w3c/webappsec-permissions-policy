@@ -20,9 +20,9 @@ specification.
 | `ambient-light-sensor` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `autoplay` | [HTML][html] | [Chrome 64](https://www.chromestatus.com/feature/5100524789563392) |
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
-| `bluetooth` | [Web Bluetooth API](https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy) | [Chrome 104](https://chromestatus.com/feature/6439287120723968) |
+| `bluetooth` | [Web Bluetooth API][bluetooth] | [Chrome 104](https://chromestatus.com/feature/6439287120723968) |
 | `camera` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
-| `ch-prefers-color-scheme` | [User Preference Media Features Client Hints Headers](https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features) | [Chrome 93](https://chromestatus.com/feature/5642300464037888) |
+| `ch-prefers-color-scheme` | [User Preference Media Features Client Hints Headers][ch-prefers-color-scheme] | [Chrome 93](https://chromestatus.com/feature/5642300464037888) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -73,7 +73,7 @@ experimentation by web developers.
 
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
-| `attribution-reporting` | [Attribution Reporting API](https://wicg.github.io/conversion-measurement-api/#permission-policy-integration) | In [Origin Trial](https://chromestatus.com/feature/6412002824028160) in Chrome 101-104 |
+| `attribution-reporting` | [Attribution Reporting API][attribution-reporting] | In [Origin Trial](https://chromestatus.com/feature/6412002824028160) in Chrome 101-104 |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
@@ -99,6 +99,7 @@ names will be added to this list as they are actually defined.
 <a name="fn5">[5]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=ConversionMeasurement`.
 
+[attribution-reporting]: https://wicg.github.io/conversion-measurement-api/#permission-policy-integration
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
 [bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
 [ch-prefers-color-scheme]: https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features
