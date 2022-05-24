@@ -101,6 +101,7 @@ names will be added to this list as they are actually defined.
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
 [bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
 [ch-prefers-color-scheme]: https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features
+[direct-sockets]: https://wicg.github.io/direct-sockets/#permissions-policy
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
