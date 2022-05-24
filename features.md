@@ -93,7 +93,7 @@ experimentation by web developers.
 | `attribution-reporting` | [Attribution Reporting API][attribution-reporting] | In [Origin Trial](https://chromestatus.com/feature/6412002824028160) in Chrome 101-104 |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | In [Origin Trial](https://chromestatus.com/feature/5680923054964736) in Chrome 101-104 |
 | `ch-partitioned-cookies` | [CHIPS (Cookies Having Independent Partitioned State)](https://github.com/WICG/CHIPS) | In [Origin Trial](https://chromestatus.com/feature/5179189105786880) in Chrome 100-102 |
-| `ch-viewport-height` | [Responsive Image Client Hints](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height) | In [Origin Trial]([https://chromestatus.com/feature/5179189105786880](https://chromestatus.com/feature/5646861215989760)) in Chrome 100-104 |
+| `ch-viewport-height` | [Responsive Image Client Hints](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height) | In [Origin Trial](https://chromestatus.com/feature/5646861215989760) in Chrome 100-104 |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
