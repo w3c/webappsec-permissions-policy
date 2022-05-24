@@ -80,9 +80,9 @@ integrated into their respective specs.
 | `ch-prefers-reduced-transparency` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
 | `ch-prefers-contrast` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
 | `ch-prefers-forced-colors` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
-| Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
+| Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | See above |
 | `direct-sockets` | https://wicg.github.io/direct-sockets/#permissions-policy | |
-| `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
+| `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | [Behind a flag in Firefox 92](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy/speaker-selection) |
 
 ## Experimental Features
 
