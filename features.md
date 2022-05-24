@@ -103,7 +103,6 @@ experimentation by web developers.
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `join-ad-interest-group` | [First "Locally-Executed Decision over Groups" Experiment (FLEDGE)][join-ad-interest-group] |  In [Origin Trial](https://chromestatus.com/feature/5733583115255808) in Chrome 101-104 |
 | `run-ad-auction` | [First "Locally-Executed Decision over Groups" Experiment (FLEDGE)](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#21-initiating-an-on-device-auction) |  In [Origin Trial](https://chromestatus.com/feature/5733583115255808) in Chrome 101-104 |
-| `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Trust Token API](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://chromestatus.com/feature/5078049450098688) in Chrome 84-101 |
 
 ## Deprecated Features
@@ -117,6 +116,8 @@ different feature name.
 | `ch-ua-full-version` | [User-Agent Client Hints][ch-ua-full-version] | Shipped new name in [Chrome 98](https://chromestatus.com/feature/5703317813460992) | `ch-ua-full-version` is deprecated and will be removed in the future. Developers should use `ch-ua-full-version-list` instead. |
 | `conversion-measurement` | [Attribution Reporting API][conversion-measurement] | In [Origin Trial](https://chromestatus.com/feature/6412002824028160) in Chrome 101-104 | `conversion-measurement` has been renamed to `attribution-reporting` |
 | `interest-cohort` | [Federated Learning of Cohorts][interest-cohort] | In [Origin Trial](https://chromestatus.com/feature/5710139774468096) in Chrome 89 to undefined | This proposal has been replaced by the [Topics API](https://github.com/jkarlin/topics/). |
+
+| `sync-script` | [Document Policy][sync-script] | [Pending Chrome Feature](https://chromestatus.com/feature/6218263637786624) | `sync-script` has been taken from [Feature Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Feature_Policy) and been added to [Document Policy API](https://wicg.github.io/document-policy/) instead of [Permissions Policy API](https://w3c.github.io/webappsec-permissions-policy/) |
 
 
 ## Notes
@@ -169,6 +170,7 @@ names will be added to this list as they are actually defined.
 [payment-request]: https://www.w3.org/TR/payment-request/#permissions-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
 [publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-permissions-policy
+[sync-script]: https://github.com/WICG/document-policy/issues/2
 [wake-lock]: https://w3c.github.io/screen-wake-lock/#policy-control
 [web-midi]: https://webaudio.github.io/web-midi-api/#permissions-policy-integration
 [web-serial]: https://wicg.github.io/serial/#permissions-policy
