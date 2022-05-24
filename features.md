@@ -67,7 +67,7 @@ specification.
 | `screen-wake-lock` | [Wake Lock API][wake-lock] | [Chrome 84](https://www.chromestatus.com/feature/4636879949398016) |
 | `serial` | [Web Serial API][web-serial] | [Chrome 89](https://chromestatus.com/feature/6577673212002304) |
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
-| `usb` | [WebUSB][webusb] | Chrome 60 |
+| `usb` | [WebUSB][webusb] | [Chrome 61](https://chromestatus.com/feature/5651917954875392) |
 | `web-share` | [Web Share API][web-share] | Chrome 86 |
 | `xr-spatial-tracking`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
 
