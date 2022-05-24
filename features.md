@@ -57,7 +57,7 @@ specification.
 | `idle-detection` | [Idle Detection API][idle-detection] | [Chrome 94](https://chromestatus.com/feature/4590256452009984) |
 | `keyboard-map` | [Keyboard Map API][keyboard-map] | [Chrome 97](https://chromestatus.com/feature/5657965899022336) |
 | `local-fonts` | [Local Font Access API][local-fonts-access] |  [Chrome 103](https://chromestatus.com/feature/6234451761692672) |
-| `magnetometer` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
+| `magnetometer` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `microphone` |[Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `midi` | [Web MIDI][web-midi] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
