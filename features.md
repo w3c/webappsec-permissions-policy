@@ -42,7 +42,7 @@ specification.
 | `ch-width` | [User-Agent Client Hints][ch-width] | [Chrome 46](https://chromestatus.com/feature/5504430086553600) |
 | `clipboard-read` | [Clipboard API and events][clipboard] | [Chrome 85](https://chromestatus.com/feature/57670752953958400) |
 | `clipboard-write` | [Clipboard API and events][clipboard] | [Chrome 85](https://chromestatus.com/feature/57670752953958400) |
-| `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
+| `cross-origin-isolated` | [HTML][html] | [Chrome 87](https://chromestatus.com/feature/5690888397258752) |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
