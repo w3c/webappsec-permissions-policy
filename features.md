@@ -110,7 +110,7 @@ different feature name.
 
 | Feature name | Spec link(s) | Browser Support | Description |
 | ------------ | ------------ | --------------- | ----------- |
-| `interest-cohort` | [Responsive Image Client Hints](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height) | In [Origin Trial](https://chromestatus.com/feature/5710139774468096) in Chrome 89 to undefined | This proposal has been replaced by the [Topics API](https://github.com/jkarlin/topics/). |
+| `interest-cohort` | [Federated Learning of Cohorts][interest-cohort] | In [Origin Trial](https://chromestatus.com/feature/5710139774468096) in Chrome 89 to undefined | This proposal has been replaced by the [Topics API](https://github.com/jkarlin/topics/). |
 
 
 ## Notes
@@ -152,6 +152,7 @@ names will be added to this list as they are actually defined.
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
 [idle-detection]: https://wicg.github.io/idle-detection/#api-permissions-policy
+[interest-cohort]: https://wicg.github.io/floc/#permissions-policy-integration
 [media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
 [navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
