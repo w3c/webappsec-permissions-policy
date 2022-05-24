@@ -61,6 +61,7 @@ specification.
 | `microphone` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `midi` | [Web MIDI][web-midi] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
+| `otp-credentials` | [WebOTP API][otp-credentials] | [Chrome 84](https://chromestatus.com/feature/5873577578463232) |
 | `payment` | [Payment Request API][payment-request] | [Chrome 62](https://chromestatus.com/feature/5639348045217792)] |
 | `picture-in-picture` | [Picture-in-Picture (PIP) API][pip] | [Chrome 72](https://chromestatus.com/feature/5729206566649856) |
 | `publickey-credentials-get` | [Web Authentication API][publickey-credentials-get] | [Chrome 70](https://chromestatus.com/feature/5669923372138496) |
@@ -162,6 +163,7 @@ names will be added to this list as they are actually defined.
 [media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
 [navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
+[otp-credentials]: https://wicg.github.io/web-otp/#otp-credentials-feature
 [page-lifecycle]: https://wicg.github.io/page-lifecycle/#feature-policies
 [payment-request]: https://www.w3.org/TR/payment-request/#permissions-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
