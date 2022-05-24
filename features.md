@@ -68,6 +68,7 @@ specification.
 | `serial` | [Web Serial API][web-serial] | [Chrome 89](https://chromestatus.com/feature/6577673212002304) |
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | [Chrome 61](https://chromestatus.com/feature/5651917954875392) |
+| `vertical-scroll` | [Vertical Scroll](policies/vertical_scroll.md) | [Chrome 88](https://caniuse.com/permissions-policy) |
 | `web-share` | [Web Share API][web-share] | Chrome 86 |
 | `xr-spatial-tracking`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
 
@@ -104,7 +105,6 @@ experimentation by web developers.
 | `run-ad-auction` | [First "Locally-Executed Decision over Groups" Experiment (FLEDGE)](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#21-initiating-an-on-device-auction) |  In [Origin Trial](https://chromestatus.com/feature/5733583115255808) in Chrome 101-104 |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Trust Token API](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://chromestatus.com/feature/5078049450098688) in Chrome 84-101 |
-| `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `window-placement` | [Explainer](https://github.com/webscreens/window-placement/blob/main/EXPLAINER.md) | In [Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/-8087339030850568191) in Chrome 93-96 |
 
 ## Deprecated Features
