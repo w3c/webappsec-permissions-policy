@@ -69,7 +69,7 @@ specification.
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | [Chrome 61](https://chromestatus.com/feature/5651917954875392) |
 | `vertical-scroll` | [Vertical Scroll](policies/vertical_scroll.md) | [Chrome 88](https://caniuse.com/permissions-policy) |
-| `web-share` | [Web Share API][web-share] | Chrome 86 |
+| `web-share` | [Web Share API][web-share] | [Chrome 86](https://chromestatus.com/feature/5668769141620736) |
 | `xr-spatial-tracking`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
 
 ## Proposed Features
