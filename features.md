@@ -32,7 +32,7 @@ specification.
 | `ch-ua` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-arch` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-bitness` | [User-Agent Client Hints][ch-ua-*] | [Chrome 93](https://chromestatus.com/feature/5733498725859328) |
-| `ch-ua-full-version-list` | [User-Agent Client Hints][ch-ua-*] | [Chrome 98](https://caniuse.com/mdn-http_headers_sec-ch-ua-full-version-list) |
+| `ch-ua-full-version-list` | [User-Agent Client Hints][ch-ua-*] | [Chrome 98](https://chromestatus.com/feature/5703317813460992) |
 | `ch-ua-mobile` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-model` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-platform` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -115,6 +115,7 @@ different feature name.
 
 | Feature name | Spec link(s) | Browser Support | Description |
 | ------------ | ------------ | --------------- | ----------- |
+| `ch-ua-full-version` | [User-Agent Client Hints][ch-ua-full-version] | Shipped new name in [Chrome 98](https://chromestatus.com/feature/5703317813460992) | `ch-ua-full-version` is deprecated and will be removed in the future. Developers should use `ch-ua-full-version-list` instead. |
 | `interest-cohort` | [Federated Learning of Cohorts][interest-cohort] | In [Origin Trial](https://chromestatus.com/feature/5710139774468096) in Chrome 89 to undefined | This proposal has been replaced by the [Topics API](https://github.com/jkarlin/topics/). |
 
 
@@ -144,6 +145,7 @@ names will be added to this list as they are actually defined.
 [ch-rtt]: https://wicg.github.io/netinfo/#rtt-attribute
 [ch-save-data]: https://wicg.github.io/savedata/
 [ch-ua-*]: https://wicg.github.io/ua-client-hints/
+[ch-ua-full-version]: https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version
 [ch-prefers-color-scheme]: https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features
 [ch-viewport-width]: https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width
 [ch-width]: https://wicg.github.io/responsive-image-client-hints/#sec-ch-width
