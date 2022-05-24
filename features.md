@@ -101,6 +101,7 @@ experimentation by web developers.
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `join-ad-interest-group` | [First "Locally-Executed Decision over Groups" Experiment (FLEDGE)][join-ad-interest-group] |  In [Origin Trial](https://chromestatus.com/feature/5733583115255808) in Chrome 101-104 |
+| `run-ad-auction` | [First "Locally-Executed Decision over Groups" Experiment (FLEDGE)](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#21-initiating-an-on-device-auction) |  In [Origin Trial](https://chromestatus.com/feature/5733583115255808) in Chrome 101-104 |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
