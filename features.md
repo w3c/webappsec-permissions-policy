@@ -107,8 +107,8 @@ names will be added to this list as they are actually defined.
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
 [idle-detection]: https://wicg.github.io/idle-detection/#api-permissions-policy
-[media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
 [media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
+[media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
 [navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
 [page-lifecycle]: https://wicg.github.io/page-lifecycle/#feature-policies
 [payment-request]: https://www.w3.org/TR/payment-request/#permissions-policy
