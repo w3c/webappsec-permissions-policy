@@ -40,6 +40,8 @@ specification.
 | `ch-ua-wow64` | [User-Agent Client Hints][ch-ua-*] | [Chrome 100](https://chromestatus.com/feature/5682026601512960) |
 | `ch-viewport-width` | [User-Agent Client Hints][ch-viewport-width] | [Chrome 46](https://chromestatus.com/feature/5504430086553600) |
 | `ch-width` | [User-Agent Client Hints][ch-width] | [Chrome 46](https://chromestatus.com/feature/5504430086553600) |
+| `clipboard-read` | [Clipboard API and events][clipboard] | [Chrome 85](https://chromestatus.com/feature/57670752953958400) |
+| `clipboard-write` | [Clipboard API and events][clipboard] | [Chrome 85](https://chromestatus.com/feature/57670752953958400) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -77,8 +79,6 @@ integrated into their respective specs.
 | `ch-prefers-contrast` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
 | `ch-prefers-forced-colors` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
 | Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
-| `clipboard-read` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
-| `clipboard-write` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `direct-sockets` | https://wicg.github.io/direct-sockets/#permissions-policy | |
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
@@ -131,6 +131,7 @@ names will be added to this list as they are actually defined.
 [ch-prefers-color-scheme]: https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features
 [ch-viewport-width]: https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width
 [ch-width]: https://wicg.github.io/responsive-image-client-hints/#sec-ch-width
+[clipboard]: https://w3c.github.io/clipboard-apis/#clipboard-permissions
 [direct-sockets]: https://wicg.github.io/direct-sockets/#permissions-policy
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
