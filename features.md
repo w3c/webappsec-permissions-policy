@@ -55,6 +55,7 @@ specification.
 | `gyroscope` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `hid` | [WebHID API][webhid] | [Chrome 89](https://chromestatus.com/feature/5172464636133376) |
 | `idle-detection` | [Idle Detection API][idle-detection] | [Chrome 94](https://chromestatus.com/feature/4590256452009984) |
+| `keyboard-map` | [Keyboard Map API][keyboard-map] | [Chrome 97](https://chromestatus.com/feature/5657965899022336) |
 | `magnetometer` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `microphone` |[Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `midi` | [Web MIDI][web-midi] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
@@ -155,6 +156,7 @@ names will be added to this list as they are actually defined.
 [idle-detection]: https://wicg.github.io/idle-detection/#api-permissions-policy
 [interest-cohort]: https://wicg.github.io/floc/#permissions-policy-integration
 [join-ad-interest-group]: https://github.com/WICG/turtledove/blob/main/FLEDGE.md#11-joining-interest-groups
+[keyboard-map]: https://wicg.github.io/keyboard-map/#permissions-policy
 [media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
 [navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
