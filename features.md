@@ -97,6 +97,7 @@ experimentation by web developers.
 | `ch-viewport-height` | [Responsive Image Client Hints](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height) | In [Origin Trial](https://chromestatus.com/feature/5646861215989760) in Chrome 100-104 |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
+| `join-ad-interest-group` | [First "Locally-Executed Decision over Groups" Experiment (FLEDGE)][join-ad-interest-group] |  In [Origin Trial](https://chromestatus.com/feature/5733583115255808) in Chrome 101-104 |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -153,6 +154,7 @@ names will be added to this list as they are actually defined.
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
 [idle-detection]: https://wicg.github.io/idle-detection/#api-permissions-policy
 [interest-cohort]: https://wicg.github.io/floc/#permissions-policy-integration
+[join-ad-interest-group]: https://github.com/WICG/turtledove/blob/main/FLEDGE.md#11-joining-interest-groups
 [media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
 [navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
