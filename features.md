@@ -103,7 +103,7 @@ experimentation by web developers.
 | `join-ad-interest-group` | [First "Locally-Executed Decision over Groups" Experiment (FLEDGE)][join-ad-interest-group] |  In [Origin Trial](https://chromestatus.com/feature/5733583115255808) in Chrome 101-104 |
 | `run-ad-auction` | [First "Locally-Executed Decision over Groups" Experiment (FLEDGE)](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#21-initiating-an-on-device-auction) |  In [Origin Trial](https://chromestatus.com/feature/5733583115255808) in Chrome 101-104 |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
-| `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
+| `trust-token-redemption` | [Trust Token API](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://chromestatus.com/feature/5078049450098688) in Chrome 84-101 |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `window-placement` | [Explainer](https://github.com/webscreens/window-placement/blob/main/EXPLAINER.md) | In [Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/-8087339030850568191) in Chrome 93-96 |
 
