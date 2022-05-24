@@ -88,6 +88,7 @@ integrated into their respective specs.
 | `direct-sockets` | https://wicg.github.io/direct-sockets/#permissions-policy | |
 | `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | [Behind a flag in Firefox 92](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy/speaker-selection) |
+| `storage-access-api` / `request-storage-access` | [The Storage Access API][storage-access-api] | [Pending adding to Chrome](https://chromestatus.com/feature/5612590694662144) |
 
 ## Experimental Features
 
@@ -172,6 +173,7 @@ names will be added to this list as they are actually defined.
 [payment-request]: https://www.w3.org/TR/payment-request/#permissions-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
 [publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-permissions-policy
+[storage-access-api]: https://privacycg.github.io/storage-access/#permissions-policy-integration
 [sync-script]: https://github.com/WICG/document-policy/issues/2
 [wake-lock]: https://w3c.github.io/screen-wake-lock/#policy-control
 [web-midi]: https://webaudio.github.io/web-midi-api/#permissions-policy-integration
