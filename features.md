@@ -118,6 +118,7 @@ different feature name.
 | `ch-ua-full-version` | [User-Agent Client Hints][ch-ua-full-version] | Shipped new name in [Chrome 98](https://chromestatus.com/feature/5703317813460992) | `ch-ua-full-version` is deprecated and will be removed in the future. Developers should use `ch-ua-full-version-list` instead |
 | `conversion-measurement` | [Attribution Reporting API][conversion-measurement] | In [Origin Trial](https://chromestatus.com/feature/6412002824028160) in Chrome 101-104 | `conversion-measurement` has been renamed to `attribution-reporting` |
 | `interest-cohort` | [Federated Learning of Cohorts][interest-cohort] | In [Origin Trial](https://chromestatus.com/feature/5710139774468096) in Chrome 89 to undefined | This proposal has been replaced by the [Topics API](https://github.com/jkarlin/topics/) |
+| `shared-autofill` | | [Chromium team info](https://groups.google.com/a/chromium.org/g/blink-reviews/c/vxrAOYtUrXg/m/CFXkm3z7AAAJ) | Chrome has disabled the feature by default and reverting the `shared-autofill` feature |
 | `sync-script` | [Document Policy][sync-script] | [Pending Chrome Feature](https://chromestatus.com/feature/6218263637786624) | `sync-script` has been taken from [Feature Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Feature_Policy) and been added to [Document Policy API](https://wicg.github.io/document-policy/) instead of [Permissions Policy API](https://w3c.github.io/webappsec-permissions-policy/) |
 
 
