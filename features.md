@@ -35,7 +35,7 @@ specification.
 | `ch-ua-full-version-list` | [User-Agent Client Hints][ch-ua-*] | [Chrome 98](https://caniuse.com/mdn-http_headers_sec-ch-ua-full-version-list) |
 | `ch-ua-mobile` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-model` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
-| `ch-ua-platform` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-platform` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `ch-ua-platform-version` | [User-Agent Client Hints][ch-ua-*] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-wow64` | [User-Agent Client Hints][ch-ua-*] | [Chrome 100](https://chromestatus.com/feature/5682026601512960) |
 | `ch-viewport-width` | [User-Agent Client Hints][ch-viewport-width] | [Chrome 46](https://chromestatus.com/feature/5504430086553600) |
@@ -48,6 +48,7 @@ specification.
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `execution-while-out-of-viewport` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
+| `focus-without-user-activation` | [HTML][focus-without-user-activation] | [Chrome 76](https://chromestatus.com/feature/5179186249465856) | 
 | `fullscreen` | [Fullscreen API][fullscreen] | [Chrome 62](https://www.chromestatus.com/feature/5094837900541952) |
 | `geolocation` | [Geolocation API][geolocation] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `gyroscope` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
@@ -134,6 +135,7 @@ names will be added to this list as they are actually defined.
 [clipboard]: https://w3c.github.io/clipboard-apis/#clipboard-permissions
 [direct-sockets]: https://wicg.github.io/direct-sockets/#permissions-policy
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
+[focus-without-user-activation]: https://github.com/whatwg/html/pull/4585
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
