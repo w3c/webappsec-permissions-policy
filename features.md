@@ -20,7 +20,9 @@ specification.
 | `ambient-light-sensor` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `autoplay` | [HTML][html] | [Chrome 64](https://www.chromestatus.com/feature/5100524789563392) |
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
+| `bluetooth` | [Web Bluetooth API](https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy) | [Chrome 104](https://chromestatus.com/feature/6439287120723968) |
 | `camera` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
+| `ch-prefers-color-scheme` | [User Preference Media Features Client Hints Headers](https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features) | [Chrome 93](https://chromestatus.com/feature/5642300464037888) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -53,9 +55,14 @@ integrated into their respective specs.
 
 | Feature name | Spec/PR link(s) | Browser Support |
 | ------------ | --------------- | --------------- |
+| `ch-prefers-reduced-motion` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
+| `ch-prefers-reduced-transparency` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
+| `ch-prefers-contrast` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
+| `ch-prefers-forced-colors` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
 | Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
 | `clipboard-read` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `clipboard-write` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
+| `direct-sockets` | https://wicg.github.io/direct-sockets/#permissions-policy | |
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
 
@@ -92,14 +99,16 @@ names will be added to this list as they are actually defined.
 `--enable-blink-features=ConversionMeasurement`.
 
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
+[bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
+[ch-prefers-color-scheme]: https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
 [idle-detection]: https://wicg.github.io/idle-detection/#api-permissions-policy
-[media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
+[media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
 [navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
 [page-lifecycle]: https://wicg.github.io/page-lifecycle/#feature-policies
 [payment-request]: https://www.w3.org/TR/payment-request/#permissions-policy
