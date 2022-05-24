@@ -99,6 +99,8 @@ experimentation by web developers.
 | `attribution-reporting` | [Attribution Reporting API][attribution-reporting] | In [Origin Trial](https://chromestatus.com/feature/6412002824028160) in Chrome 101-104 |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | In [Origin Trial](https://chromestatus.com/feature/5680923054964736) in Chrome 101-104 |
 | `ch-partitioned-cookies` | [CHIPS (Cookies Having Independent Partitioned State)](https://github.com/WICG/CHIPS) | In [Origin Trial](https://chromestatus.com/feature/5179189105786880) in Chrome 100-102 |
+| `ch-ua-full` | [User-Agent Reduction Origin Trial and Dates](https://blog.chromium.org/2021/09/user-agent-reduction-origin-trial-and-dates.html) | In [Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/2608710084154359809) in Chrome 100-113 |
+| `ch-ua-reduced` | [User-Agent Reduction Origin Trial and Dates](https://blog.chromium.org/2021/09/user-agent-reduction-origin-trial-and-dates.html) | In [Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/-7123568710593282047) in Chrome 95-103 |
 | `ch-viewport-height` | [Responsive Image Client Hints](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height) | In [Origin Trial](https://chromestatus.com/feature/5646861215989760) in Chrome 100-104 |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `join-ad-interest-group` | [First "Locally-Executed Decision over Groups" Experiment (FLEDGE)][join-ad-interest-group] |  In [Origin Trial](https://chromestatus.com/feature/5733583115255808) in Chrome 101-104 |
@@ -113,10 +115,9 @@ different feature name.
 
 | Feature name | Spec link(s) | Browser Support | Description |
 | ------------ | ------------ | --------------- | ----------- |
-| `ch-ua-full-version` | [User-Agent Client Hints][ch-ua-full-version] | Shipped new name in [Chrome 98](https://chromestatus.com/feature/5703317813460992) | `ch-ua-full-version` is deprecated and will be removed in the future. Developers should use `ch-ua-full-version-list` instead. |
+| `ch-ua-full-version` | [User-Agent Client Hints][ch-ua-full-version] | Shipped new name in [Chrome 98](https://chromestatus.com/feature/5703317813460992) | `ch-ua-full-version` is deprecated and will be removed in the future. Developers should use `ch-ua-full-version-list` instead |
 | `conversion-measurement` | [Attribution Reporting API][conversion-measurement] | In [Origin Trial](https://chromestatus.com/feature/6412002824028160) in Chrome 101-104 | `conversion-measurement` has been renamed to `attribution-reporting` |
-| `interest-cohort` | [Federated Learning of Cohorts][interest-cohort] | In [Origin Trial](https://chromestatus.com/feature/5710139774468096) in Chrome 89 to undefined | This proposal has been replaced by the [Topics API](https://github.com/jkarlin/topics/). |
-
+| `interest-cohort` | [Federated Learning of Cohorts][interest-cohort] | In [Origin Trial](https://chromestatus.com/feature/5710139774468096) in Chrome 89 to undefined | This proposal has been replaced by the [Topics API](https://github.com/jkarlin/topics/) |
 | `sync-script` | [Document Policy][sync-script] | [Pending Chrome Feature](https://chromestatus.com/feature/6218263637786624) | `sync-script` has been taken from [Feature Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Feature_Policy) and been added to [Document Policy API](https://wicg.github.io/document-policy/) instead of [Permissions Policy API](https://w3c.github.io/webappsec-permissions-policy/) |
 
 
