@@ -71,7 +71,7 @@ specification.
 | `vertical-scroll` | [Vertical Scroll](policies/vertical_scroll.md) | [Chrome 88](https://caniuse.com/permissions-policy) |
 | `web-share` | [Web Share API][web-share] | [Chrome 86](https://chromestatus.com/feature/5668769141620736) |
 | `window-placement` | [Multi-Screen Window Placement on the Web API][window-placement] | [Chrome 103](https://chromestatus.com/feature/5173162437246976) |
-| `xr-spatial-tracking`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
+| `xr-spatial-tracking` | [WebXR Device API][xr] | [Chrome 79](https://chromestatus.com/feature/5680169905815552) |
 
 ## Proposed Features
 
