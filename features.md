@@ -60,7 +60,6 @@ specification.
 | `magnetometer` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `microphone` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `midi` | [Web MIDI][web-midi] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
-| `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
 | `otp-credentials` | [WebOTP API][otp-credentials] | [Chrome 84](https://chromestatus.com/feature/5873577578463232) |
 | `payment` | [Payment Request API][payment-request] | [Chrome 62](https://chromestatus.com/feature/5639348045217792)] |
 | `picture-in-picture` | [Picture-in-Picture (PIP) API][pip] | [Chrome 72](https://chromestatus.com/feature/5729206566649856) |
@@ -85,6 +84,7 @@ integrated into their respective specs.
 | `ch-prefers-forced-colors` | https://wicg.github.io/user-preference-media-features-headers/#policy-controlled-features |  |
 | Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | See above |
 | `direct-sockets` | https://wicg.github.io/direct-sockets/#permissions-policy | |
+| `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | [Behind a flag in Firefox 92](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy/speaker-selection) |
 
 ## Experimental Features
