@@ -61,7 +61,7 @@ specification.
 | `microphone` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `midi` | [Web MIDI][web-midi] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
-| `payment` | [Payment Request API][payment-request] | Chrome 60 |
+| `payment` | [Payment Request API][payment-request] | [Chrome 62](https://chromestatus.com/feature/5639348045217792)] |
 | `picture-in-picture` | [Picture-in-Picture][pip] | Shipped in Chrome |
 | `publickey-credentials-get` | [Web Authentication API][publickey-credentials-get] | [Chrome 70](https://chromestatus.com/feature/5669923372138496) |
 | `screen-wake-lock` | [Wake Lock API][wake-lock] | [Chrome 84](https://www.chromestatus.com/feature/4636879949398016) |
