@@ -102,6 +102,16 @@ experimentation by web developers.
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `window-placement` | [Explainer](https://github.com/webscreens/window-placement/blob/main/EXPLAINER.md) | In [Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/-8087339030850568191) in Chrome 93-96 |
 
+## Deprecated Features
+
+These features that were added to a browser and are still listed in the 
+browsers source code, but have since been deprecated or replaced with a 
+different feature name.
+
+| Feature name | Spec link(s) | Browser Support | Description |
+| ------------ | ------------ | --------------- | ----------- |
+| `interest-cohort` | [Responsive Image Client Hints](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height) | In [Origin Trial](https://chromestatus.com/feature/5710139774468096) in Chrome 89 to undefined | This proposal has been replaced by the [Topics API](https://github.com/jkarlin/topics/). |
+
 
 ## Notes
 
