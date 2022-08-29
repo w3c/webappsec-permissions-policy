@@ -297,8 +297,28 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       then return true.</li>
       <li>Otherwise, for each <var>item</var> in the <a>allowlist</a>:
         <ol>
-          <li>If <var>item</var> is [=same origin-domain=] with
-          <var>origin</var>, then return true.</li>
+          <li>If <var>item</var> is a <a>serialized-origin</a> that's [=same origin-domain=] 
+          with <var>origin</var>, then return true.</li>
+          <li>Else if <var>item</var> is a <a>serialized-origin-with-wildcard-subdomain</a>
+          then:</li>
+          <ol>
+            <li>If <var>origin</var> does not have a host with a <a>registrable domain</a>
+            return false.<li>
+            <li>Set <var>originWithoutWildcard</var> to be <var>item</var> without the "*."
+            at the start of the host.</li>
+            <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] </li> with
+            <var>origin</var>, then return false.</li>
+            <li>Set <var>originCandidate</var> to be equal to <var>origin</var> with the
+            left most domain label (and the dot after it) removed.</li>
+            <li>While <var>originCandidate</var> has a host with a <a>registrable domain</a>:</li>
+            <ol>
+              <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] </li> with
+              <var>originCandidate</var>, then return true.</li>
+              <li>Set <var>originCandidate</var> to be equal to <var>originCandidate</var> with
+              the left most domain label (and the dot after it) removed.</li>
+            </ol>
+            <li>return false.</li>
+          </ol>
         </ol>
       </li>
       <li>return false.</li>
