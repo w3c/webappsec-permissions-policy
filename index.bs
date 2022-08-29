@@ -345,7 +345,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     U+0021 (*), U+002C (,) and U+003B (;) MUST NOT appear in the serialization.
     If they are required, they must be percent-encoded as "`%27`", "`%2A`",
     "`%2C`" or "`%3B`", respectively.</p>
-    <p><dfn><code>serialized-origin-with-wildcard-subdomai</code></dfn> is a
+    <p><dfn><code>serialized-origin-with-wildcard-subdomain</code></dfn> is a
     <a>serialized-origin</a> with (1) a <a>registrable domain</a> for the <a>host</a>
     and (2) a "*." inserted before the <a>host</a> in the serialization.</p>
     <div class="note">
