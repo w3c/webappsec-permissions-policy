@@ -13,7 +13,6 @@ Markup Shorthands: css no, markdown yes
 </pre>
 <pre class="link-defaults">
 spec:dom; type:interface; for:/; text:Document
-spec:html; type:dfn; for:/; text:origin
 spec:fetch; type:dfn; for:Response; text:response
 spec:html; type:dfn; for:/; text:browsing context
 spec:html; type:element; text:script
@@ -302,15 +301,15 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
           <li>Else if <var>item</var> is a <a>serialized-origin-with-wildcard-subdomain</a>
           then:</li>
           <ol>
-            <li>If <var>origin</var> does not have a host with a <a>registrable domain</a>
+            <li>If the <var>tuple origin</var> lacks a <a>host</a> with a <a>registrable domain</a>
             return false.<li>
             <li>Set <var>originWithoutWildcard</var> to be <var>item</var> without the "*."
-            at the start of the host.</li>
+            at the start of the <a>host</a>.</li>
             <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] </li> with
             <var>origin</var>, then return false.</li>
             <li>Set <var>originCandidate</var> to be equal to <var>origin</var> with the
             left most domain label (and the dot after it) removed.</li>
-            <li>While <var>originCandidate</var> has a host with a <a>registrable domain</a>:</li>
+            <li>While <var>originCandidate</var> has a  <a>host</a> with a <a>registrable domain</a>:</li>
             <ol>
               <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] </li> with
               <var>originCandidate</var>, then return true.</li>
@@ -366,8 +365,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     If they are required, they must be percent-encoded as "`%27`", "`%2A`",
     "`%2C`" or "`%3B`", respectively.</p>
     <p><dfn><code>serialized-origin-with-wildcard-subdomain</code></dfn> is a serialization of an
-    <a>origin</a> whose host is a domain which is the concatenation of the string "*." and a
-    domain which has a non-null <a>registrable domain</a>.</p>
+    <a>tuple origin</a> whose <a>tuple</a>'s <a>host</a> is a <a>domain</a> has a non-null
+    <a>registrable domain</a>, and is <a>prefixed</a> by the string "*.".</p>
     <div class="note">
       The string "<code>'self'</code>" may be used as an origin in an allowlist.
       When it is used in this way, it will refer to the origin of the document
