@@ -303,8 +303,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
           <ol>
             <li>If the <var>tuple origin</var> lacks a <a>host</a> with a <a>registrable domain</a>
             return false.<li>
-            <li>Set <var>originWithoutWildcard</var> to be <var>item</var> without the "*."
-            at the start of the <a>host</a>.</li>
+            <li>Set <var>originWithoutWildcard</var> to be equal to <var>item</var> with the sequence
+            of <a>code points</a> "*." removed at the start of the <a>host</a>.</li>
             <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] </li> with
             <var>origin</var>, then return false.</li>
             <li>Set <var>originCandidate</var> to be equal to <var>origin</var> with the
