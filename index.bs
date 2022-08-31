@@ -322,7 +322,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
           <li>Else if <var>item</var> is a <a>serialized-origin-with-wildcard-subdomain</a>
           then:</li>
           <ol>
-            <li>If the <var>tuple origin</var> lacks a <a>host</a> with a <a>registrable domain</a>
+            <li>If the <var>tuple origin</var> has a <a>host</a> with a null <a>registrable domain</a>
             return false.<li>
             <li>Set <var>originWithoutWildcard</var> to be equal to <var>item</var> with the sequence
             of <a>code points</a> "*." removed at the start of the <a>host</a>.</li>
@@ -330,7 +330,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
             <var>origin</var>, then return false.</li>
             <li>Set <var>originCandidate</var> to be equal to <var>origin</var> with the
             left most domain label (and the dot after it) removed.</li>
-            <li>While <var>originCandidate</var> has a  <a>host</a> with a <a>registrable domain</a>:</li>
+            <li>While <var>originCandidate</var> has a <a>host</a> with a non-nill <a>registrable domain</a>:</li>
             <ol>
               <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] </li> with
               <var>originCandidate</var>, then return true.</li>
@@ -385,8 +385,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     U+0021 (*), U+002C (,) and U+003B (;) MUST NOT appear in the serialization.
     If they are required, they must be percent-encoded as "`%27`", "`%2A`",
     "`%2C`" or "`%3B`", respectively.</p>
-    <p><dfn><code>serialized-origin-with-wildcard-subdomain</code></dfn> is a serialization of an
-    <a>tuple origin</a> whose <a>tuple</a>'s <a>host</a> is a <a>domain</a> has a non-null
+    <p><dfn><code>serialized-origin-with-wildcard-subdomain</code></dfn> is a serialization of a
+    <a>tuple origin</a> whose <a>tuple</a>'s <a>host</a> is a <a>domain</a>, has a non-null
     <a>registrable domain</a>, and is <a>prefixed</a> by the string "*.".</p>
     <div class="note">
       The string "<code>'self'</code>" may be used as an origin in an allowlist.
