@@ -869,12 +869,14 @@ partial interface HTMLIFrameElement {
                   parser</a> on |element|.
                 1. If |result| is not failure:
                     1. Let |target| be the origin of |result|.
-                    1. If |target| is not an opaque origin, append |target| to
+                    1. If |target| is not an opaque origin, append the tuple |target|, <code>False</code> to
                       |allowlist|.
         1. Set |directive|[|feature|] to |allowlist|.
     1. Return |directive|
 
     </div>
+    
+    Note: This algorithm does not support wildcard subdomains in allowlists.
   </section>
   <section>
     ## <dfn export abstract-op id="process-policy-attributes">Process permissions policy attributes</dfn> ## {#algo-process-policy-attributes}
