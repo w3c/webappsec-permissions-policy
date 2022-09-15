@@ -300,7 +300,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     <ul>
       <li><dfn>The special value <code>*</code></dfn>, which represents every
       origin, or</li>
-      <li>An <a>ordered set</a> of [=origins=]</li>
+      <li>An <a>ordered set</a> of tuples containing an [=origin=] and a boolean
+      indicating whether or not a wildcard subdomain was present.</li>
     </ul>
     <div class="note">
       The keywords <code>'self'</code>, <code>'src'</code>, and
@@ -317,17 +318,14 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       then return true.</li>
       <li>Otherwise, for each <var>item</var> in the <a>allowlist</a>:
         <ol>
-          <li>If <var>item</var> is a <a>serialized-origin</a> that's [=same origin-domain=] 
-          with <var>origin</var>, then return true.</li>
-          <li>Else if <var>item</var> is a <a>serialized-origin-with-wildcard-subdomain</a>
-          then:</li>
+          <li>If <var>item</var> is a tuple of a <a>serialized-origin</a> that's [=same origin-domain=] 
+          with <var>origin</var> and the boolean <code>False</code>, then return true.</li>
+          <li>Else if <var>item</var> is a tuple of a <a>serialized-origin</a> that's not [=same origin-domain=] 
+          with <var>origin</var> and the boolean <code>True</code>, then:</li>
           <ol>
             <li>If the <var>tuple origin</var> has a <a>host</a> with a null <a>registrable domain</a>
             return false.<li>
-            <li>Set <var>originWithoutWildcard</var> to be equal to <var>item</var> with the sequence
-            of <a>code points</a> "*." removed at the start of the <a>host</a>.</li>
-            <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] </li> with
-            <var>origin</var>, then return false.</li>
+            <li>Set <var>originWithoutWildcard</var> to be equal to the first value of the tuple <var>item</var>.</li>
             <li>Set <var>originCandidate</var> to be equal to <var>origin</var> with the sequence
             of <a>code points</a> in the <a>host</a> from the start up to and including the first "." removed.</li>
             <li>While <var>originCandidate</var> has a <a>host</a> with a non-nill <a>registrable domain</a>:</li>
