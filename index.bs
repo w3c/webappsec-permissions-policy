@@ -816,16 +816,17 @@ partial interface HTMLIFrameElement {
           <code>*</code></a>.
         1. Otherwise:
             1. Set |allowlist| to an new <a>ordered set</a>.
-            1. If |value| is the token `self`, append |origin| to |allowlist|.
+            1. If |value| is the token `self`, append the tuple |origin|, <code>False</code> to |allowlist|.
             1. If |value| is a list, then for each |element| in |value|:
-                1. If |element| is the token `self`, append |origin| to
-                  |allowlist|.
-                1. Otherwise, let |result| be the result of executing the <a>URL
-                  parser</a> on |element|.
+                1. If |element| is the token `self`, append the tuple |origin|, <code>False</code> to |allowlist|.
+                1. Otherwise, set |hasWildcardSubdomain| to <code>False</code>.
+                1. If |element| is a <a>serialized-origin-with-wildcard-subdomain</a>, then:
+                  1. Set |hasWildcardSubdomain| to <code>True</code>
+                  1. Set |element| to |element| with the sequence of <a>code points</a> "*." removed at the start of the <a>host</a>.
+                1. Let |result| be the result of executing the <a>URL parser</a> on |element|.
                 1. If |result| is not failure:
                     1. Let |target| be the origin of |result|.
-                    1. If |target| is not an opaque origin, append |target| to
-                      |allowlist|.
+                    1. If |target| is not an opaque origin, append the tuple |target|, |hasWildcardSubdomain| to |allowlist|.
         1. Set |policy|[|feature|] to |allowlist|.
     1. Return |policy|.
 
