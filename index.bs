@@ -318,13 +318,13 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       then return true.</li>
       <li>Otherwise, for each <var>item</var> in the <a>allowlist</a>:
         <ol>
-          <li>If <var>item</var> is a tuple of a <a>serialized-origin</a> that's [=same origin-domain=] 
+          <li>If <var>item</var> is a tuple of an [=origin=] that's [=same origin-domain=] 
           with <var>origin</var> and the boolean <code>False</code>, then return true.</li>
           <li>Else if <var>item</var> is a tuple of a <a>serialized-origin</a> that's not [=same origin-domain=] 
           with <var>origin</var> and the boolean <code>True</code>, then:</li>
           <ol>
-            <li>If the <var>tuple origin</var> has a <a>host</a> with a null <a>registrable domain</a>
-            return false.<li>
+            <li>If <var>origin</var> is not a <a>tuple origin</a>, then return false.<li>
+            <li>If <var>origin</var>'s <a>host</a> has a null <a>registrable domain</a>, return false.<li>
             <li>Set <var>originWithoutWildcard</var> to be equal to the first value of the tuple <var>item</var>.</li>
             <li>Set <var>originCandidate</var> to be equal to <var>origin</var> with the sequence
             of <a>code points</a> in the <a>host</a> from the start up to and including the first "." removed.</li>
@@ -816,9 +816,9 @@ partial interface HTMLIFrameElement {
           <code>*</code></a>.
         1. Otherwise:
             1. Set |allowlist| to an new <a>ordered set</a>.
-            1. If |value| is the token `self`, append the tuple |origin|, <code>False</code> to |allowlist|.
+            1. If |value| is the token `self`, append (|origin|, <code>False</code>) to |allowlist|.
             1. If |value| is a list, then for each |element| in |value|:
-                1. If |element| is the token `self`, append the tuple |origin|, <code>False</code> to |allowlist|.
+                1. If |element| is the token `self`, append (|origin|, <code>False</code>) to |allowlist|.
                 1. Otherwise, set |hasWildcardSubdomain| to <code>False</code>.
                 1. If |element| is a <a>serialized-origin-with-wildcard-subdomain</a>, then:
                   1. Set |hasWildcardSubdomain| to <code>True</code>
@@ -826,7 +826,7 @@ partial interface HTMLIFrameElement {
                 1. Let |result| be the result of executing the <a>URL parser</a> on |element|.
                 1. If |result| is not failure:
                     1. Let |target| be the origin of |result|.
-                    1. If |target| is not an opaque origin, append the tuple |target|, |hasWildcardSubdomain| to |allowlist|.
+                    1. If |target| is not an opaque origin, append (|target|, |hasWildcardSubdomain|) to |allowlist|.
         1. Set |policy|[|feature|] to |allowlist|.
     1. Return |policy|.
 
@@ -870,14 +870,15 @@ partial interface HTMLIFrameElement {
                   parser</a> on |element|.
                 1. If |result| is not failure:
                     1. Let |target| be the origin of |result|.
-                    1. If |target| is not an opaque origin, append the tuple |target|, <code>False</code> to
+                    1. If |target| is not an opaque origin, append (|target|, <code>False</code>) to
                       |allowlist|.
         1. Set |directive|[|feature|] to |allowlist|.
     1. Return |directive|
 
     </div>
     
-    Note: This algorithm does not support wildcard subdomains in allowlists.
+    Note: This algorithm does not support wildcard subdomains in allowlists. It might be allowed in future, but the
+    security implications have not yet been reviewed.
   </section>
   <section>
     ## <dfn export abstract-op id="process-policy-attributes">Process permissions policy attributes</dfn> ## {#algo-process-policy-attributes}
