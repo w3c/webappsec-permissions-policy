@@ -324,11 +324,11 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
           with <var>origin</var> and the boolean <code>True</code>, then:</li>
           <ol>
             <li>If <var>origin</var> is not a <a>tuple origin</a>, then return false.<li>
-            <li>If <var>origin</var>'s <a>host</a> has a null <a>registrable domain</a>, return false.<li>
+            <li>If the <a>host</a> for an <var>origin</var> has a null <a>registrable domain</a>, return false.<li>
             <li>Set <var>originWithoutWildcard</var> to be equal to the first value of the tuple <var>item</var>.</li>
             <li>Set <var>originCandidate</var> to be equal to <var>origin</var> with the sequence
             of <a>code points</a> in the <a>host</a> from the start up to and including the first "." removed.</li>
-            <li>While <var>originCandidate</var> has a <a>host</a> with a non-nill <a>registrable domain</a>:</li>
+            <li>While the <a>host</a for an <var>originCandidate</var> has a non-null <a>registrable domain</a>:</li>
             <ol>
               <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] with
               <var>originCandidate</var>, then return true.</li>
