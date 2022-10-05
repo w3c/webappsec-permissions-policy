@@ -330,7 +330,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
             of <a>code points</a> in the <a>host</a> from the start up to and including the first "." removed.</li>
             <li>While <var>originCandidate</var> has a <a>host</a> with a non-nill <a>registrable domain</a>:</li>
             <ol>
-              <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] </li> with
+              <li>If <var>originWithoutWildcard</var> is [=same origin-domain=] with
               <var>originCandidate</var>, then return true.</li>
               <li>Set <var>originCandidate</var> to be equal to <var>originCandidate</var> with the sequence
               of <a>code points</a> in the <a>host</a> from the start up to and including the first "." removed.</li>
