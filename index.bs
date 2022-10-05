@@ -320,7 +320,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
         <ol>
           <li>If <var>item</var> is a tuple of an [=origin=] that's [=same origin-domain=] 
           with <var>origin</var> and the boolean <code>False</code>, then return true.</li>
-          <li>Else if <var>item</var> is a tuple of a <a>serialized-origin</a> that's not [=same origin-domain=] 
+          <li>Else if <var>item</var> is a tuple of an [=origin=] that's not [=same origin-domain=] 
           with <var>origin</var> and the boolean <code>True</code>, then:</li>
           <ol>
             <li>If <var>origin</var> is not a <a>tuple origin</a>, then return false.<li>
