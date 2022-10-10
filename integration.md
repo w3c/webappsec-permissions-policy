@@ -18,16 +18,16 @@ policy-controlled feature:
 > Example:
 >
 >### Section N: Permissions Policy Integration
-> The Sample API defines a [*policy-controlled feature*](https://w3c.github.io/webappsec-feature-policy/#policy-controlled-feature)
-> identified by the string "`sample`". Its [default allowlist](https://w3c.github.io/webappsec-feature-policy/#default-allowlist)
-> is `'self'` \[[FEATURE-POLICY](https://w3c.github.io/webappsec-feature-policy/)\].
+> The Sample API defines a [*policy-controlled feature*](https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature)
+> identified by the string "`sample`". Its [default allowlist](https://w3c.github.io/webappsec-permissions-policy/#default-allowlist)
+> is `'self'` \[[PERMISSIONS-POLICY](https://w3c.github.io/webappsec-permissions-policy/)\].
 
 The specification can then refer to this feature, and test whether it is enabled
 or not in a specific document, with text similar to this:
 
 > Example:
 >
-> If the [responsible document](https://html.spec.whatwg.org/multipage/webappapis.html#responsible-document)
+> If [this](https://webidl.spec.whatwg.org/#this)'s [relevant global object](https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global)'s [associated Document](https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window)
 > is not [allowed to use](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use)
 > the `sample` feature, then throw a `SecurityError`
 > [DOMException](https://heycam.github.io/webidl/#dfn-DOMException) and abort these steps.
@@ -39,7 +39,7 @@ defines that feature.)
 ## Choosing a default allowlist
 
 As described in the
-[spec](https://w3c.github.io/webappsec-feature-policy/#default-allowlists), the default
+[spec](https://w3c.github.io/webappsec-permissions-policy/#default-allowlists), the default
 allowlist chosen affects how the feature behaves when there are no declared
 policies present. As a rough guide:
 
@@ -95,7 +95,7 @@ that policy is required.
 > The `document.write` API has existed on the web since roughly the dawn of
 > JavaScript, and has no failure modes.
 >
-> One means of disallowing this feature via Feature Policy would be to declare that
+> One means of disallowing this feature via Permissions Policy would be to declare that
 > any calls to `document.write()` will silently fail. However, this would mean that
 > if a page contained a script like this:
 >
