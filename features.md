@@ -58,15 +58,6 @@ integrated into their respective specs.
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
 
-## Retired Features
-
-These features were once standardized or proposed, but their specificion and/or
-implementations have been removed.
-
-| Feature name | Spec link(s) | Browser Support |
-| ------------ | ------------ | --------------- |
-| `document-domain` | [HTML][html] | Formerly in Chrome, behind a flag |
-
 ## Experimental Features
 
 These features generally have an explainer only, but may be available for
@@ -82,6 +73,15 @@ experimentation by web developers.
 | `unload` | [Explainer](https://github.com/fergald/docs/blob/master/explainers/permissions-policy-unload.md) | Status "[Started](https://crbug.com/1324111) in Chrome |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `window-placement` | [Explainer](https://github.com/webscreens/window-placement/blob/main/EXPLAINER.md) | In [Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/-8087339030850568191) in Chrome 93-96 |
+
+## Retired Features
+
+These features were once standardized or proposed, but their specificion and/or
+implementations have been removed.
+
+| Feature name | Spec link(s) | Browser Support |
+| ------------ | ------------ | --------------- |
+| `document-domain` | [HTML][html] | Formerly in Chrome, behind a flag |
 
 
 ## Notes
