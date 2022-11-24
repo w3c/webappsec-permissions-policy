@@ -23,7 +23,6 @@ specification.
 | `camera` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
-| `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `execution-while-out-of-viewport` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -58,6 +57,15 @@ integrated into their respective specs.
 | `clipboard-write` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
+
+## Retired Features
+
+These features were once standardized or proposed, but their specificion and/or
+implementations have been removed.
+
+| Feature name | Spec link(s) | Browser Support |
+| ------------ | ------------ | --------------- |
+| `document-domain` | [HTML][html] | Formerly in Chrome, behind a flag |
 
 ## Experimental Features
 
