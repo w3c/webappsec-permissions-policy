@@ -76,8 +76,8 @@ experimentation by web developers.
 
 ## Retired Features
 
-These features were once standardized or proposed, but their specificion and/or
-implementations have been removed.
+These features were once standardized or proposed, but their specification
+and/or implementations have been removed.
 
 | Feature name | Spec link(s) | Browser Support |
 | ------------ | ------------ | --------------- |
