@@ -24,7 +24,6 @@ specification.
 | `camera` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
-| `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `execution-while-out-of-viewport` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -75,6 +74,15 @@ experimentation by web developers.
 | `unload` | [Explainer](https://github.com/fergald/docs/blob/master/explainers/permissions-policy-unload.md) | Status "[Started](https://crbug.com/1324111) in Chrome |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `window-placement` | [Explainer](https://github.com/webscreens/window-placement/blob/main/EXPLAINER.md) | In [Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/-8087339030850568191) in Chrome 93-96 |
+
+## Retired Features
+
+These features were once standardized or proposed, but their specification
+and/or implementations have been removed.
+
+| Feature name | Spec link(s) | Browser Support |
+| ------------ | ------------ | --------------- |
+| `document-domain` | [HTML][html] | Formerly in Chrome, behind a flag |
 
 
 ## Notes
