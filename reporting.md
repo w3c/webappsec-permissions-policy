@@ -1,20 +1,20 @@
-Feature Policy Reporting
-========================
+Permissions Policy Reporting
+============================
 
 In a nutshell
 -------------
 
-A document's feature policy sets limits on what kinds of actions it can
+A document's permissions policy sets limits on what kinds of actions it can
 perform; what APIs are available. When a page tries to do something that is
-blocked by policy, the browser currently sends a message to the JavaScript
-console -- this can be great when developing a site, but is often not enough
+blocked by policy, the browser currently surfaces a message in developer
+tools -- this can be great when developing a site, but is often not enough
 when dealing with a site in production. It would be very useful to be able to
 collect reports about real problems that users are seeing.
 
-We're addressing this by integrating feature policy with the
-[Reporting API](https://wicg.github.io/reporting/). In the same way that sites
+We're addressing this by integrating permissions policy with the
+[Reporting API](https://w3c.github.io/reporting/). In the same way that sites
 can opt in to receiving reports about CSP violations or deprecations, they will
-now be able to receive reports about feature policy violations in the wild.
+now be able to receive reports about permissions policy violations in the wild.
 
 Sounds great! How do I do it?
 -------------
@@ -24,28 +24,29 @@ web server to send an HTTP header that declares where the reports should be
 sent. Something like:
 
 ```http
-Report-To: {
-            "max_age": 86400,
-            "endpoints": [{
-              "url": "https://reportingapi.tools/public/submit"
-            }]
-           }
+Reporting-Endpoints: violation-reports="https://reportingapi.tools/public/submit"
 ```
 
-Once we add feature policy reporting to the Reporting API, per this proposal,
-this header will make the browser send details about any feature policy
+Then, in the `Permissions-Policy` header, specify a `report-to` directive, whose
+value is the name of the reporting endpoint:
+
+```http
+Permissions-Policy: geolocation=(), report-to=violation-reports
+```
+
+This header will cause the browser to send details about any per policy
 violations, via an HTTP POST, to a web server running at that URL. The messages
 that the browser sends will look something like this:
 
 ```json
 {
- "type": "feature-policy-violation",
+ "type": "permissions-policy-violation",
  "url": "https://a.featurepolicy.rocks/geolocation.html",
  "age": 60000,
  "user_agent": "Mozilla/1.22 (compatible; MSIE 2.0; Windows 95)",
  "body": {
     "featureId": "geolocation",
-    "message": "Geolocation access has been blocked because of a Feature Policy applied to the current document. See https://goo.gl/EuHzyv for more details.",
+    "message": "Geolocation access has been blocked because of a policy applied to the current document. See https://goo.gl/EuHzyv for more details.",
     "source_file": "https://a.featurepolicy.rocks/geolocation.html",
     "line_number": 20,
     "column_number": 37,
@@ -62,7 +63,7 @@ const myObserver = new ReportingObserver(reportList => {
   reportList.forEach(report => {
     alert("Whatever you just tried to do was blocked by policy.: " + report.body.featureId);
   });
-}, {"types": ["feature-policy-violation"]});
+}, {"types": ["permissions-policy-violation"]});
 
 myObserver.observe();
 ```
@@ -85,12 +86,12 @@ there is no way to unilaterally set up reporting from the embedder.
 Can I just trigger reports, without actually enforcing the policy?
 -------------
 
-Yes! In addition to using feature policy to disable features, you can use it
+Yes! In addition to using permissions policy to disable features, you can use it
 tentatively, to ask "what would break, if I used this policy?".
 
 To do this, you can specify a "report-only" policy for any given feature. Like
 [Content Security Policy](https://w3c.github.io/webappsec-csp/#cspro-header),
-this uses a separate HTTP header, in this case named `Feature-Policy-Report-Only`.
+this uses a separate HTTP header, in this case named `Permissions-Policy-Report-Only`.
 This policy looks like any other policy, but can specify features which, even if
 allowed, should trigger reporting when used.
 
@@ -106,14 +107,14 @@ report-only policy is local to the current document and does not affect child
 frames at all.)
 
 ```http
-Feature-Policy-Report-Only: sync-xhr 'none'
+Permissions-Policy-Report-Only: geolocation=(); report-to=violation-reports
 ```
 
 If the enforcing policy for the frame is such that the feature should be allowed,
 but the reporting policy disallows it, then a page which uses the feature will see it
 succeed (as usual), but a report will be sent to the frame's Reporting API endpoint.
 
-The report looks much like a feature policy violation report, but the
+The report looks much like a permissions policy violation report, but the
 `"disposition"` field is set to `"report"` rather than `"enforce"`.
 
 Note that if any ancestor frame actually disables the feature using a policy,

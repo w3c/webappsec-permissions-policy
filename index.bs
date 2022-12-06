@@ -315,11 +315,11 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     <p>The <a>default allowlist</a> for a <a
     data-lt="policy-controlled feature">feature</a> is one of these values:</p>
     <dl>
-      <dt><code>*</code></dt>
+      <dt><dfn for="default allowlist" export><code>*</code></dfn></dt>
       <dd>The feature is allowed in documents in top-level browsing contexts by
       default, and when allowed, is allowed by default to documents in child
       browsing contexts.</dd>
-      <dt><code>'self'</code></dt>
+      <dt><dfn for="default allowlist" export><code>'self'</code></dfn></dt>
       <dd>The feature is allowed in documents in top-level browsing contexts by
       default, and when allowed, is allowed by default to same-origin domain
       documents in child browsing contexts, but is disallowed by default in
@@ -995,7 +995,7 @@ partial interface HTMLIFrameElement {
 
     1. If |group| is omitted, set |group| to "default".
 
-    1. Execute <a for="reporting" lt="queue">queue a report</a> with |body|,
+    1. Execute [=reporting/generate and queue a report=] with |body|,
       "permissions-policy-violation", |group|, and |settings|.
 
     </div>
