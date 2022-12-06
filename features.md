@@ -68,7 +68,7 @@ experimentation by web developers.
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
-| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
+| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[4](#fn4)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -98,9 +98,6 @@ and/or implementations have been removed.
 names will be added to this list as they are actually defined.
 
 <a name="fn4">[4]</a>: To enable this, use the Chrome command line flag
-`--enable-blink-features=Serial`.
-
-<a name="fn5">[5]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=ConversionMeasurement`.
 
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
