@@ -20,16 +20,18 @@ specification.
 | `ambient-light-sensor` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `autoplay` | [HTML][html] | [Chrome 64](https://www.chromestatus.com/feature/5100524789563392) |
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
+| `bluetooth` | [Web Bluetooth][bluetooth] | [Chrome 104](https://chromestatus.com/feature/6439287120723968) |
 | `camera` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
-| `document-domain` | [HTML][html] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `execution-while-out-of-viewport` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `fullscreen` | [Fullscreen API][fullscreen] | [Chrome 62](https://www.chromestatus.com/feature/5094837900541952) |
 | `geolocation` | [Geolocation API][geolocation] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `gyroscope` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
+| `hid` | [WebHID API][webhid] | [Chrome 89](https://chromestatus.com/feature/5172464636133376) |
+| `idle-detection` | [Idle Detection API][idle-detection] | [Chrome 94](https://chromestatus.com/feature/4590256452009984) |
 | `keyboard-map` | [Keyboard API][keyboard] | [Chrome 97](https://www.chromestatus.com/feature/5657965899022336) |
 | `magnetometer` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `microphone` |[Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
@@ -39,6 +41,7 @@ specification.
 | `picture-in-picture` | [Picture-in-Picture][pip] | Shipped in Chrome |
 | `publickey-credentials-get` | [Web Authentication API][publickey-credentials-get] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=993007)" in Chrome |
 | `screen-wake-lock` | [Wake Lock API][wake-lock] | [Chrome 84](https://www.chromestatus.com/feature/4636879949398016) |
+| `serial` | [Web Serial API][web-serial] | [Chrome 89](https://chromestatus.com/feature/6577673212002304) |
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | Chrome 60 |
 | `web-share` | [Web Share API][web-share] | Chrome 86 |
@@ -64,14 +67,23 @@ experimentation by web developers.
 
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
+| `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
-| `hid` | [Explainer](https://github.com/WICG/webhid/blob/master/EXPLAINER.md) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/1074108511127863297) in Chrome 86-88 |
-| `idle-detection` | [Draft spec](https://github.com/WICG/idle-detection/pull/29) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/551690954352885761) in Chrome 84-86 |
-| `serial` | [Explainer](https://github.com/WICG/serial/blob/gh-pages/EXPLAINER.md) | Experimental in Chrome<sup>[4](#fn4)</sup> or available in [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2992641952387694593) in Chrome 80-88 |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
+| `unload` | [Explainer](https://github.com/fergald/docs/blob/master/explainers/permissions-policy-unload.md) | Status "[Started](https://crbug.com/1324111) in Chrome |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
+| `window-placement` | [Explainer](https://github.com/webscreens/window-placement/blob/main/EXPLAINER.md) | In [Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/-8087339030850568191) in Chrome 93-96 |
+
+## Retired Features
+
+These features were once standardized or proposed, but their specification
+and/or implementations have been removed.
+
+| Feature name | Spec link(s) | Browser Support |
+| ------------ | ------------ | --------------- |
+| `document-domain` | [HTML][html] | Formerly in Chrome, behind a flag |
 
 
 ## Notes
@@ -91,11 +103,13 @@ names will be added to this list as they are actually defined.
 `--enable-blink-features=ConversionMeasurement`.
 
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
+[bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
 [html]: https://html.spec.whatwg.org/multipage/infrastructure.html#policy-controlled-features
+[idle-detection]: https://wicg.github.io/idle-detection/#api-permissions-policy
 [keyboard]: https://wicg.github.io/keyboard-map/#permissions-policy
 [media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
@@ -106,7 +120,9 @@ names will be added to this list as they are actually defined.
 [publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-permissions-policy
 [wake-lock]: https://w3c.github.io/screen-wake-lock/#policy-control
 [web-midi]: https://webaudio.github.io/web-midi-api/#permissions-policy-integration
+[web-serial]: https://wicg.github.io/serial/#permissions-policy
 [web-share]: https://w3c.github.io/web-share/#permissions-policy
+[webhid]: https://wicg.github.io/webhid/#permissions-policy
 [webusb]: https://wicg.github.io/webusb/#permissions-policy
 [xhr]: https://xhr.spec.whatwg.org/#feature-policy-integration
 [xr]: https://immersive-web.github.io/webxr/#permissions-policy
