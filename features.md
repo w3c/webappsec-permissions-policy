@@ -22,6 +22,16 @@ specification.
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
 | `bluetooth` | [Web Bluetooth][bluetooth] | [Chrome 104](https://chromestatus.com/feature/6439287120723968) |
 | `camera` | [Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
+| `ch-ua` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-arch` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-bitness` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-full-version` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-full-version-list` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-mobile` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-model` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-platform` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-platform-version` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-wow64` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
@@ -54,7 +64,6 @@ integrated into their respective specs.
 
 | Feature name | Spec/PR link(s) | Browser Support |
 | ------------ | --------------- | --------------- |
-| Client Hints<sup>[3](#fn3)</sup> | https://github.com/w3c/webappsec-feature-policy/issues/129 | |
 | `clipboard-read` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `clipboard-write` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
@@ -68,7 +77,7 @@ experimentation by web developers.
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
-| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
+| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[4](#fn4)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -94,17 +103,15 @@ and/or implementations have been removed.
 
 <a name="fn2">[2]</a>: Implemented in Chrome as `vr` prior to Chrome 79.
 
-<a name="fn3">[3]</a>: This represents a number of features. Individual feature
-names will be added to this list as they are actually defined.
-
-<a name="fn4">[4]</a>: To enable this, use the Chrome command line flag
+<a name="fn3">[3]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=Serial`.
 
-<a name="fn5">[5]</a>: To enable this, use the Chrome command line flag
+<a name="fn4">[4]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=ConversionMeasurement`.
 
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
 [bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
+[client-hints]: https://wicg.github.io/ua-client-hints/
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
