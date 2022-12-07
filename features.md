@@ -58,6 +58,7 @@ integrated into their respective specs.
 | `clipboard-read` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `clipboard-write` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
+| `shared-autofill` | https://github.com/schwering/shared-autofill | |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
 
 ## Experimental Features
