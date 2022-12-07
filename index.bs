@@ -1,7 +1,7 @@
 <pre class="metadata">
 Title: Permissions Policy
 Shortname: permissions-policy
-Level: None
+Level: 1
 Indent: 2
 Status: ED
 TR: https://www.w3.org/TR/permissions-policy/
