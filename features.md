@@ -71,6 +71,7 @@ experimentation by web developers.
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[5](#fn5)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
+| `smart-card` | [Explainer](https://github.com/WICG/web-smart-card#readme) | [Prototyping in Chrome](https://chromestatus.com/feature/6411735804674048)
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 | `unload` | [Explainer](https://github.com/fergald/docs/blob/master/explainers/permissions-policy-unload.md) | Status "[Started](https://crbug.com/1324111) in Chrome |
