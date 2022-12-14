@@ -14,7 +14,7 @@ Markup Shorthands: css no, markdown yes
 </pre>
 <pre class="link-defaults">
 spec:dom; type:interface; for:/; text:Document
-spec:html; type:dfn; for:/; text:origin
+spec:url; type:dfn; for:url; text:origin
 spec:fetch; type:dfn; for:Response; text:response
 spec:html; type:dfn; for:/; text:browsing context
 spec:html; type:element; text:script
@@ -308,7 +308,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   <section>
     <h3 id="default-allowlists">Default Allowlists</h3>
     <p>Every <a>policy-controlled feature</a> has a <dfn export lt=
-    "default allowlist|default allowlists">default allowlist</dfn>. The
+    "default allowlist|default allowlists" for="/">default allowlist</dfn>. The
     <a>default allowlist</a> determines whether the feature is allowed in a
     document with no declared policy in a top-level browsing context, and also
     whether access to the feature is automatically delegated to documents in
@@ -386,7 +386,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     HTTP header field can be used in the [=response=] (server to client) to
     communicate the <a>permissions policy</a> that should be enforced by the
     client.</p>
-    <p><a>Permissions-Policy</a> is a structured header. Its value must be a
+    <p><a http-header>Permissions-Policy</a> is a structured header. Its value must be a
     dictionary. It's ABNF is:
     <pre class="abnf">
       PermissionsPolicy = <a>sh-dictionary</a>
@@ -842,7 +842,7 @@ partial interface HTMLIFrameElement {
     <div class="algorithm" data-algorithm="process-policy-attributes">
     Given an element (|element|), this algorithm returns a <a>container
     policy</a>, which may be empty.
-    1. Let |container policy| be the result of running <a>Parse policy
+    1. Let |container policy| be the result of running <a abstract-op>Parse policy
       directive</a> on the value of |element|'s <code>allow</code> attribute,
       with <var ignore>container origin</var> set to the origin of |element|'s
       node document, and <var ignore>target origin</var> set to |element|'s
@@ -851,7 +851,7 @@ partial interface HTMLIFrameElement {
         1. If |element|'s <code>allowfullscreen</code> attribute is specified,
           and |container policy| does not contain an allowlist for
           <code>fullscreen</code>:
-            1. Construct a new declaration for <code>fullscreen</code>, whose
+            1. Let |declaration| be a new declaration for <code>fullscreen</code>, whose
               allowlist is <a>the special value <code>*</code></a>.
             1. Add |declaration| to |container policy|.
     1. Return |container policy|.
@@ -996,7 +996,7 @@ partial interface HTMLIFrameElement {
 
     1. If |group| is omitted, set |group| to "default".
 
-    1. Execute [=reporting/generate and queue a report=] with |body|,
+    1. Execute [=generate and queue a report=] with |body|,
       "permissions-policy-violation", |group|, and |settings|.
 
     </div>
@@ -1169,7 +1169,7 @@ partial interface HTMLIFrameElement {
 <section>
   <h2 id="change-log">Change log</h2>
 
-  <h3>Changes since FPWD</h3>
+  <h3 id="changes-since-fpwd">Changes since FPWD</h3>
 
   * Expose new algorithms to create a Feature Policy before document is created. [Link](https://github.com/w3c/webappsec-permissions-policy/pull/324)
   * Remove algorithms no longer needed. [Link](https://github.com/w3c/webappsec-permissions-policy/pull/325)
