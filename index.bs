@@ -946,7 +946,7 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="is-feature-enabled">
     Given a feature (|feature|), a {{Document}} object
-    (|document|), an [=origin=] (|origin|), and a [=list=] of [=policy-controlled feature=] (|optInFeatures|), this algorithm
+    (|document|), an [=origin=] (|origin|), and an [=ordered set=] of [=policy-controlled feature=] (|optInFeatures|), this algorithm
     returns "<code>Disabled</code>" if |feature| should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
     1. Let |policy| be |document|'s <a>Permissions Policy</a>
@@ -1024,7 +1024,7 @@ partial interface HTMLIFrameElement {
        sending Client Hints to third parties) in these contexts.</div>
     1. Set |document| to |window|’s <a>associated `Document`</a>.
     1. Let |origin| be |request|’s <a for="request">origin</a>.
-    1. Let |optInFeatures| be an empty [=list=].
+    1. Let |optInFeatures| be an empty [=ordered set=].
     1. For each supported [=policy-controlled feature=] |feature|:
         1. If |request| contains an equivalent opt-in flag for |feature|, append |feature| to |optInFeatures|.
 
