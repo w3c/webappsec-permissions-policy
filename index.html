@@ -6,9 +6,9 @@
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version 63e66730b, updated Tue Oct 25 12:35:05 2022 -0700" name="generator">
+  <meta content="Bikeshed version 26e85e599, updated Thu Dec 8 15:29:31 2022 -0800" name="generator">
   <link href="https://www.w3.org/TR/permissions-policy/" rel="canonical">
-  <meta content="b44d90529fe0c05fbe75fb117ed9248a264726a6" name="document-revision">
+  <meta content="81dcf776ffdc9d3734ad48605e62b8e199979347" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -841,7 +841,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Permissions Policy</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-12-07">7 December 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-01-09">9 January 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -860,7 +860,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2022 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -1061,10 +1061,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    </section>
    <section>
     <h2 class="heading settled" data-level="3" id="other-and-related-mechanisms"><span class="secno">3. </span><span class="content">Other and related mechanisms</span><a class="self-link" href="#other-and-related-mechanisms"></a></h2>
-    <p><a data-link-type="biblio" href="#biblio-html5">[HTML5]</a> defines a <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox">sandbox</a></code> attribute for <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element">iframe</a></code> elements
+    <p><a data-link-type="biblio" href="#biblio-html5" title="HTML5">[HTML5]</a> defines a <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox">sandbox</a></code> attribute for <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element">iframe</a></code> elements
   that allows developers to reduce the risk of including potentially untrusted
   content by imposing restrictions on content’s abilities - e.g. prevent it
-  from submitting forms, running scripts and plugins, and more. The <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#sandbox" id="ref-for-sandbox">sandbox</a> directive defined by <a data-link-type="biblio" href="#biblio-csp2">[CSP2]</a> extends this capability to any
+  from submitting forms, running scripts and plugins, and more. The <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#sandbox" id="ref-for-sandbox">sandbox</a> directive defined by <a data-link-type="biblio" href="#biblio-csp2" title="Content Security Policy Level 2">[CSP2]</a> extends this capability to any
   resource, framed or not, to ask for the same set of restrictions - e.g. via an
   HTTP response header (<code>Content-Security-Policy: sandbox</code>). These
   mechanisms enable the developer to:</p>
@@ -1246,7 +1246,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <section>
      <h3 class="heading settled" data-level="5.2" id="structured-header-serialization"><span class="secno">5.2. </span><span class="content">Structured header serialization</span><a class="self-link" href="#structured-header-serialization"></a></h3>
       <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑤">Policy Directives</a> in HTTP headers are represented as Structured
-    Fields. <a data-link-type="biblio" href="#biblio-header-structure">[HEADER-STRUCTURE]</a> 
+    Fields. <a data-link-type="biblio" href="#biblio-header-structure" title="Structured Field Values for HTTP">[HEADER-STRUCTURE]</a> 
      <p>In this representation, a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑥">policy directive</a> is represented by a
     Dictionary.</p>
      <p>Each Dictionary Member associates a <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dfn-powerful-feature" id="ref-for-dfn-powerful-feature">feature</a> with an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑦">allowlist</a>.
@@ -1893,13 +1893,15 @@ an inherited policy for feature in container at origin</a> for <var>feature</var
       <ol>
        <li data-md>
         <p>Let <var>policy</var> be <var>container</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document④">node document</a>’s <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy①⓪">Permissions
-Policy</a></p>
+Policy</a>.</p>
        <li data-md>
-        <p>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is
-"<code>Disabled</code>", return "<code>Disabled</code>".</p>
+        <p>If the result of executing <a data-link-type="abstract-op" href="#is-feature-enabled" id="ref-for-is-feature-enabled">Is feature
+enabled in document for origin?</a> on <var>feature</var>, <var>container</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document⑤">node document</a>, and <var>container</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document⑥">node document</a>''s origin
+is "<code>Disabled</code>", return "<code>Disabled</code>".</p>
        <li data-md>
-        <p>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared policy</a>, and the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared policy</a> does
-not <a data-link-type="dfn" href="#matches" id="ref-for-matches">match</a> <var>origin</var>, then return "<code>Disabled</code>".</p>
+        <p>If the result of executing <a data-link-type="abstract-op" href="#is-feature-enabled" id="ref-for-is-feature-enabled①">Is feature
+enabled in document for origin?</a> on <var>feature</var>, <var>container</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document⑦">node document</a>, and <var>origin</var> is "<code>Disabled</code>",
+return "<code>Disabled</code>".</p>
        <li data-md>
         <p>Let <var>container policy</var> be the result of running <a data-link-type="abstract-op" href="#process-policy-attributes" id="ref-for-process-policy-attributes">Process
 permissions policy attributes</a> on <var>container</var>.</p>
@@ -1907,7 +1909,7 @@ permissions policy attributes</a> on <var>container</var>.</p>
         <p>If <var>feature</var> is a key in <var>container policy</var>:</p>
         <ol>
          <li data-md>
-          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①④">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, return "<code>Enabled</code>".</p>
+          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①③">allowlist</a> for <var>feature</var> in <var>container policy</var> <a data-link-type="dfn" href="#matches" id="ref-for-matches">matches</a> <var>origin</var>, return "<code>Enabled</code>".</p>
          <li data-md>
           <p>Otherwise return "<code>Disabled</code>".</p>
         </ol>
@@ -1915,7 +1917,7 @@ permissions policy attributes</a> on <var>container</var>.</p>
         <p>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist③">default allowlist</a> is <code>*</code>, return
 "<code>Enabled</code>".</p>
        <li data-md>
-        <p>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist④">default allowlist</a> is <code>'self'</code>, and <var>origin</var> is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#same-origin" id="ref-for-same-origin">same origin</a> with <var>container</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document⑤">node document</a>’s
+        <p>If <var>feature</var>’s <a data-link-type="dfn" href="#default-allowlist" id="ref-for-default-allowlist④">default allowlist</a> is <code>'self'</code>, and <var>origin</var> is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#same-origin" id="ref-for-same-origin">same origin</a> with <var>container</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document⑧">node document</a>’s
 origin, return "<code>Enabled</code>".</p>
        <li data-md>
         <p>Otherwise return "<code>Disabled</code>".</p>
@@ -1934,14 +1936,14 @@ origin, return "<code>Enabled</code>".</p>
        <li data-md>
         <p>Let <var>policy</var> be <var>document</var>’s <a data-link-type="dfn" href="#permissions-policy" id="ref-for-permissions-policy①①">Permissions Policy</a></p>
        <li data-md>
-        <p>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑨">inherited policy</a> for <var>feature</var> is Disabled, return
+        <p>If <var>policy</var>’s <a data-link-type="dfn" href="#inherited-policy" id="ref-for-inherited-policy⑧">inherited policy</a> for <var>feature</var> is Disabled, return
 "<code>Disabled</code>".</p>
        <li data-md>
-        <p>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑨">declared policy</a>:</p>
+        <p>If <var>feature</var> is present in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑦">declared policy</a>:</p>
         <ol>
          <li data-md>
-          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑤">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy①⓪">declared
-policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches②">matches</a> <var>origin</var>, then return
+          <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①④">allowlist</a> for <var>feature</var> in <var>policy</var>’s <a data-link-type="dfn" href="#declared-policy" id="ref-for-declared-policy⑧">declared
+policy</a> <a data-link-type="dfn" href="#matches" id="ref-for-matches①">matches</a> <var>origin</var>, then return
 "<code>Enabled</code>".</p>
          <li data-md>
           <p>Otherwise return "<code>Disabled</code>".</p>
@@ -2017,7 +2019,7 @@ set <var>body</var>’s <a data-link-type="dfn" href="#permissionspolicyviolatio
        <li data-md>
         <p>Let <var>origin</var> be <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-origin" id="ref-for-concept-request-origin①③">origin</a>.</p>
        <li data-md>
-        <p>Let <var>result</var> be the result of executing <a data-link-type="abstract-op" href="#is-feature-enabled" id="ref-for-is-feature-enabled">Is feature
+        <p>Let <var>result</var> be the result of executing <a data-link-type="abstract-op" href="#is-feature-enabled" id="ref-for-is-feature-enabled②">Is feature
 enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, and <var>origin</var>.</p>
        <li data-md>
         <p>If <var>result</var> is "<code>Enabled</code>", return <code>true</code>.</p>
@@ -2030,7 +2032,7 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
    <section>
     <h2 class="heading settled" data-level="10" id="iana-considerations"><span class="secno">10. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
     <p>The permanent message header field registry should be updated with the
-  following registration <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a>:</p>
+  following registration <a data-link-type="biblio" href="#biblio-rfc3864" title="Registration Procedures for Message Header Fields">[RFC3864]</a>:</p>
     <dl>
      <dt>Header field name
      <dd>Permissions-Policy
@@ -2174,7 +2176,7 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
     However, for readability,
     these words do not appear in all uppercase letters in this specification. </p>
    <p>All of the text of this specification is normative
-    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
    <p>Examples in this specification are introduced with the words “for example”
     or are set apart from the normative text
     with <code>class="example"</code>,
@@ -2340,7 +2342,7 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
    <a href="https://dom.spec.whatwg.org/#concept-node-document">https://dom.spec.whatwg.org/#concept-node-document</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-concept-node-document">7.2. The permissionsPolicy object</a> <a href="#ref-for-concept-node-document①">(2)</a> <a href="#ref-for-concept-node-document②">(3)</a> <a href="#ref-for-concept-node-document③">(4)</a>
-    <li><a href="#ref-for-concept-node-document④">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-concept-node-document⑤">(2)</a>
+    <li><a href="#ref-for-concept-node-document④">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-concept-node-document⑤">(2)</a> <a href="#ref-for-concept-node-document⑥">(3)</a> <a href="#ref-for-concept-node-document⑦">(4)</a> <a href="#ref-for-concept-node-document⑧">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-header-list-get-structured-header">
@@ -2847,8 +2849,8 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
     <li><a href="#ref-for-inherited-policy④">4.6. Container policies</a>
     <li><a href="#ref-for-inherited-policy⑤">9.6. Create a Permissions Policy for a browsing context from response</a>
     <li><a href="#ref-for-inherited-policy⑥">9.7. Define an inherited policy for feature in browsing context</a>
-    <li><a href="#ref-for-inherited-policy⑦">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-inherited-policy⑧">(2)</a>
-    <li><a href="#ref-for-inherited-policy⑨">9.9. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-inherited-policy⑦">9.8. Define an inherited policy for feature in container at origin</a>
+    <li><a href="#ref-for-inherited-policy⑧">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="declared-policy">
@@ -2860,8 +2862,7 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
     <li><a href="#ref-for-declared-policy④">9.1. Process response policy</a>
     <li><a href="#ref-for-declared-policy⑤">9.2. Construct policy from dictionary and origin</a>
     <li><a href="#ref-for-declared-policy⑥">9.6. Create a Permissions Policy for a browsing context from response</a>
-    <li><a href="#ref-for-declared-policy⑦">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-declared-policy⑧">(2)</a>
-    <li><a href="#ref-for-declared-policy⑨">9.9. Is feature enabled in document for origin?</a> <a href="#ref-for-declared-policy①⓪">(2)</a>
+    <li><a href="#ref-for-declared-policy⑦">9.9. Is feature enabled in document for origin?</a> <a href="#ref-for-declared-policy⑧">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="header-policy">
@@ -2906,8 +2907,8 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
     <li><a href="#ref-for-allowlist①⓪">6.3.1. allowfullscreen</a>
     <li><a href="#ref-for-allowlist①①">9.2. Construct policy from dictionary and origin</a>
     <li><a href="#ref-for-allowlist①②">9.3. Parse policy directive</a>
-    <li><a href="#ref-for-allowlist①③">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-allowlist①④">(2)</a>
-    <li><a href="#ref-for-allowlist①⑤">9.9. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-allowlist①③">9.8. Define an inherited policy for feature in container at origin</a>
+    <li><a href="#ref-for-allowlist①④">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="the-special-value">
@@ -2922,8 +2923,8 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
   <aside class="dfn-panel" data-for="matches">
    <b><a href="#matches">#matches</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-matches">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-matches①">(2)</a>
-    <li><a href="#ref-for-matches②">9.9. Is feature enabled in document for origin?</a>
+    <li><a href="#ref-for-matches">9.8. Define an inherited policy for feature in container at origin</a>
+    <li><a href="#ref-for-matches①">9.9. Is feature enabled in document for origin?</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="default-allowlist">
@@ -3149,7 +3150,8 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
   <aside class="dfn-panel" data-for="is-feature-enabled">
    <b><a href="#is-feature-enabled">#is-feature-enabled</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-is-feature-enabled">9.11. Should request be allowed to use feature?</a>
+    <li><a href="#ref-for-is-feature-enabled">9.8. Define an inherited policy for feature in container at origin</a> <a href="#ref-for-is-feature-enabled①">(2)</a>
+    <li><a href="#ref-for-is-feature-enabled②">9.11. Should request be allowed to use feature?</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */
@@ -3216,12 +3218,13 @@ document.body.addEventListener("click", (e) => {
 });</script>
 <script>/* script-var-click-highlighting */
 
-    document.addEventListener("click", e=>{
-        if(e.target.nodeName == "VAR") {
-            highlightSameAlgoVars(e.target);
-        }
-    });
+    "use strict";
     {
+        document.addEventListener("click", e=>{
+            if(e.target.nodeName == "VAR") {
+                highlightSameAlgoVars(e.target);
+            }
+        });
         const indexCounts = new Map();
         const indexNames = new Map();
         function highlightSameAlgoVars(v) {
