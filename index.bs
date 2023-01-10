@@ -308,8 +308,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   <section>
     <h3 id="default-allowlists">Default Allowlists</h3>
     <p>Every <a>policy-controlled feature</a> has a <dfn export lt=
-    "default allowlist|default allowlists" for="/">default allowlist</dfn>. The
-    <a>default allowlist</a> determines whether the feature is allowed in a
+    "default allowlist|default allowlists" for="policy-controlled feature">default allowlist</dfn>.
+    The <a>default allowlist</a> determines whether the feature is allowed in a
     document with no declared policy in a top-level browsing context, and also
     whether access to the feature is automatically delegated to documents in
     child browsing contexts.</p>
