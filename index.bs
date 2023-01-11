@@ -17,6 +17,8 @@ spec:dom; type:interface; for:/; text:Document
 spec:url; type:dfn; for:url; text:origin
 spec:fetch; type:dfn; for:Response; text:response
 spec:html; type:dfn; for:/; text:browsing context
+spec:html; type:dfn; for:/; text:navigable container
+spec:html; type:dfn; for:/; text:nested navigable
 spec:html; type:element; text:script
 spec:html; type:element; text:link
 spec:fetch; type:dfn; text:name
@@ -226,11 +228,11 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     each feature, and whether it can be controlled by a <a>declared policy</a>
     in the document.
     </p>
-    <p>In a {{Document}} in a [=top-level browsing context=], the inherited
+    <p>In a {{Document}} in a [=/top-level traversable=], the inherited
     policy is based on defined defaults for each feature.</p>
-    <p>In a {{Document}} in a [=child browsing context=], the inherited policy
-    is based on the parent document's permissions policy, as well as the [=child
-    browsing context=]'s <a>container policy</a>.
+    <p>In a {{Document}} in a [=child navigable=], the inherited policy is based
+    on the parent document's permissions policy, as well as the [=child
+    navigable=]'s <a>container policy</a>.
     </div>
   </section>
   <section>
@@ -248,12 +250,12 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   </section>
   <section>
     <h3 id="container-policies">Container policies</h3>
-    <p>In addition to the <a>header policy</a>, each [=nested browsing context=]
-    has a <dfn export>container policy</dfn>, which is a <a>policy directive</a>,
+    <p>In addition to the <a>header policy</a>, each [=nested navigable=] has a
+    <dfn export>container policy</dfn>, which is a <a>policy directive</a>,
     which may be empty. The <a>container policy</a> can set by attributes on the
-    [=browsing context container=].</p>
-    <p>The <a>container policy</a> for a [=nested browsing context=] influences
-    the <a>inherited policy</a> of any document loaded into that context.
+    [=navigable container=].</p>
+    <p>The <a>container policy</a> for a [=nested navigable=] influences the
+    <a>inherited policy</a> of any document loaded into that context.
     (See <a href="#algo-define-inherited-policy"></a>)</p>
     <div class="note">
       Currently, the <a>container policy</a> cannot be set directly, but is
@@ -310,21 +312,21 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     <p>Every <a>policy-controlled feature</a> has a <dfn export lt=
     "default allowlist|default allowlists" for="policy-controlled feature">default allowlist</dfn>.
     The <a>default allowlist</a> determines whether the feature is allowed in a
-    document with no declared policy in a top-level browsing context, and also
+    document with no declared policy in a [=/top-level traversable=], and also
     whether access to the feature is automatically delegated to documents in
-    child browsing contexts.</p>
+    [=child navigables=].</p>
     <p>The <a>default allowlist</a> for a <a
     data-lt="policy-controlled feature">feature</a> is one of these values:</p>
     <dl>
       <dt><dfn for="default allowlist" export><code>*</code></dfn></dt>
-      <dd>The feature is allowed in documents in top-level browsing contexts by
+      <dd>The feature is allowed in documents in top-level traversables by
       default, and when allowed, is allowed by default to documents in child
-      browsing contexts.</dd>
+      navigables.</dd>
       <dt><dfn for="default allowlist" export><code>'self'</code></dfn></dt>
-      <dd>The feature is allowed in documents in top-level browsing contexts by
+      <dd>The feature is allowed in documents in top-level traversables by
       default, and when allowed, is allowed by default to same-origin domain
-      documents in child browsing contexts, but is disallowed by default in
-      cross-origin documents in child browsing contexts.</dd>
+      documents in child navigables, but is disallowed by default in
+      cross-origin documents in child navigables.</dd>
     </dl>
   </section>
 </section>
@@ -409,7 +411,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     <p>When not empty, the "<code>allow</code>" attribute will result in adding
     an <a>allowlist</a> for each recognized
     <a data-lt="policy-controlled feature">feature</a> to the <{iframe}>
-    element's [=nested browsing context=]'s <a>container policy</a>, when it is
+    element's [=nested navigable=]'s <a>container policy</a>, when it is
     constructed.</p>
   </section>
   <section>
@@ -429,7 +431,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       <p>Otherwise, the presence of an "<code>allowfullscreen</code>" attribute
       on an iframe will result in adding an <a>allowlist</a> of <code>*</code>
       for the "<code>fullscreen</code>" feature to the <{iframe}> element's
-      [=nested browsing context=]'s <a>container policy</a>, when it is
+      [=nested navigable=]'s <a>container policy</a>, when it is
       constructed.</p>
       <div class="note">
         This is different from the behaviour of <code>&lt;iframe
@@ -505,8 +507,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   a feature is actually currently allowed in the frame, as the document in the
   frame may have applied its own policy via an HTTP header, or may have
   navigated away from its initial location to a new origin. Revealing the
-  effective policy in the iframe element's nested browsing context in that case
-  could leak information about the behaviour of a cross-origin document.</p>
+  effective policy in the iframe element's nested navigable in that case could
+  leak information about the behaviour of a cross-origin document.</p>
 
   <div class="example">
   <pre>
@@ -902,10 +904,10 @@ partial interface HTMLIFrameElement {
     Given a feature (|feature|), an <a>origin</a> (|origin|), and a <a>browsing
     context</a> (|browsingContext|), this algorithm returns the <a>inherited
     policy</a> for that feature.
-    1. If |browsingContext| is the [=nested browsing context=] of a [=browsing
-      context container=], return the result of executing <a abstract-op>Define
-      an inherited policy for feature in container at origin</a> for |feature|
-      in |browsingContext|'s <a>browsing context container</a> at |origin|.
+    1. If |browsingContext| is the [=nested navigable=] of a [=navigable
+      container=], return the result of executing <a abstract-op>Define an
+      inherited policy for feature in container at origin</a> for |feature|
+      in |browsingContext|'s <a>navigable container</a> at |origin|.
     1. Otherwise, return "<code>Enabled</code>".
 
     </div>
@@ -915,10 +917,9 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm"
     data-algorithm="define-inherited-policy-in-container">
-    Given a feature (|feature|) a <a>browsing context container</a>
-    (|container|), and an <a>origin</a> for a document in that container
-    (|origin|), this algorithm returns the <a>inherited policy</a> for that
-    feature.
+    Given a feature (|feature|), a <a>navigable container</a> (|container|), and
+    an <a>origin</a> for a document in that container (|origin|), this algorithm
+    returns the <a>inherited policy</a> for that feature.
     1. If the result of executing <a abstract-op>Is feature
       enabled in document for origin?</a> on |feature|, |container|'s
       <a>node document</a>, and |container|'s <a>node document</a>''s origin
