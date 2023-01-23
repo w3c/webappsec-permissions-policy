@@ -114,11 +114,11 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   </div>
   <div class="example">
     <p>SecureCorp Inc. wants to completely disable use of the Geolocation API
-    within all browsing contexts except for its own origin and those whose
-    origin is "<code>https://example.com</code>", even in the presence of an
-    attacker who can embed their own iframes on SecureCorp's pages. It can do
-    this by delivering the following HTTP response header to define a restricted
-    permissions policy for Geolocation:</p>
+    within all [=Document/descendant navigables=] except for its own origin and
+    those whose origin is "<code>https://example.com</code>", even in the
+    presence of an attacker who can embed their own iframes on SecureCorp's
+    pages. It can do this by delivering the following HTTP response header to
+    define a restricted permissions policy for Geolocation:</p>
     <pre>
       <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com")</pre>
     <p>The <a>allowlist</a> is a list of one or more origins, which can include
@@ -875,8 +875,6 @@ partial interface HTMLIFrameElement {
       |inherited policy| and declared policy |declared policy|.
     1. Return |policy|.
 
-    Note: HTML should be updated to call this algorithm from "create a new
-    browsing context and document".
     </div>
   </section>
   <section>
