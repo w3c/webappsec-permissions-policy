@@ -78,7 +78,7 @@ experimentation by web developers.
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
-| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[4](#fn4)</sup> |
+| `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[3](#fn4)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -105,9 +105,6 @@ and/or implementations have been removed.
 <a name="fn2">[2]</a>: Implemented in Chrome as `vr` prior to Chrome 79.
 
 <a name="fn3">[3]</a>: To enable this, use the Chrome command line flag
-`--enable-blink-features=Serial`.
-
-<a name="fn4">[4]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=ConversionMeasurement`.
 
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
