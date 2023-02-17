@@ -33,7 +33,7 @@ specification.
 | `ch-ua-platform-version` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-wow64` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
-| `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | |
+| `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | [Chrome 94](https://chromestatus.com/feature/5144822362931200) |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `execution-while-out-of-viewport` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
