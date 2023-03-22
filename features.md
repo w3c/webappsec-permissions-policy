@@ -80,7 +80,9 @@ experimentation by web developers.
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[3](#fn4)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
+| `join-ad-interest-group` | [FLEDGE][fledge] | Behind a flag in Chrome<sup>[6](#fn6)</sup> |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
+| `run-ad-auction` | [FLEDGE][fledge] | Behind a flag in Chrome<sup>[6](#fn6)</sup> |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 | `unload` | [Explainer](https://github.com/fergald/docs/blob/master/explainers/permissions-policy-unload.md) | Status "[Started](https://crbug.com/1324111) in Chrome |
@@ -107,10 +109,14 @@ and/or implementations have been removed.
 <a name="fn3">[3]</a>: To enable this, use the Chrome command line flag
 `--enable-blink-features=ConversionMeasurement`.
 
+<a name="fn6">[6]</a>: To enable this, use the Chrome command line flag
+`--enable-features=AdInterestGroupAPI,InterestGroupStorage,Fledge`.
+
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
 [bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
 [client-hints]: https://wicg.github.io/ua-client-hints/
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
+[fledge]: https://wicg.github.io/turtledove/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
