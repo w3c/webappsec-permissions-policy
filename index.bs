@@ -14,12 +14,14 @@ Markup Shorthands: css no, markdown yes
 </pre>
 <pre class="link-defaults">
 spec:dom; type:interface; for:/; text:Document
+spec:dom; type:dfn; for:/; text:element
 spec:url; type:dfn; for:url; text:origin
 spec:fetch; type:dfn; for:Response; text:response
 spec:html; type:element; text:script
 spec:html; type:element; text:link
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
+spec:infra; type:dfn; text:list
 </pre>
 <pre class="anchors">
 spec:payment-request; urlPrefix: https://w3c.github.io/payment-request/
@@ -195,36 +197,39 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   </section>
   <section>
     <h3 id="policies">Policies</h3>
-    <p>A <dfn>permissions policy</dfn> is a struct with the following items:</p>
-    <ul>
-      <li>An <a data-lt="inherited policy">inherited policy</a>.
-      </li>
-      <li>A <a data-lt="declared policy">declared policy</a>.
-      </li>
-    </ul>
+    <p>A <dfn>permissions policy</dfn> is a [=struct=] with the following items:</p>
+
+    <dl dfn-for="permissions policy">
+      : <dfn>inherited policy</dfn>
+      :: an <a for=/>inherited policy</a>
+
+      : <dfn>declared policy</dfn>
+      :: an <a for=/>declared policy</a>
+    </dl>
     <p>An <dfn export>empty permissions policy</dfn> is a <a>permissions
-    policy</a> that has an <a>inherited policy</a> which contains
-    "<code>Enabled</code>" for every <a>supported feature</a>, and a <a>declared
+    policy</a> that has an <a for="permissions policy">inherited policy</a> which
+    contains "<code>Enabled</code>" for every <a>supported feature</a>, and a <a for="permissions policy">declared
     policy</a> which is an empty map.</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
     <p>An <dfn data-lt="inherited policy|inherited policies">inherited
-    policy</dfn> is an ordered map from <a
+    policy</dfn> is an [=ordered map=] from <a
     data-lt="policy-controlled feature">features</a> to either
     "<code>Enabled</code>" or "<code>Disabled</code>".</p>
     <p>The <dfn export>inherited policy for a feature</dfn> <var>feature</var>
-    is the value in the <a>inherited policy</a> whose key is <var>feature</var>.
-    After a <a>permissions policy</a> has been initialized, its <a>inherited
-    policy</a> will contain a value for each <a>supported feature</a>.</p>
+    is the value in the <a for="permissions policy">inherited policy</a> whose
+    key is <var>feature</var>. After a <a>permissions policy</a> has been
+    initialized, its <a for="permissions policy">inherited policy</a> will
+    contain a value for each <a>supported feature</a>.</p>
     <div class="note">
-    <p>Each document in a frame tree inherits a set of policies from its parent
-    frame, or in the case of the top-level document, from the defined defaults
-    for each <a>policy-controlled feature</a>. This inherited policy determines
-    the initial state ("<code>Enabled</code>" or "<code>Disabled</code>") of
-    each feature, and whether it can be controlled by a <a>declared policy</a>
-    in the document.
-    </p>
+    <p>Upon both creation and navigation, Each {{Document}} inherits a set of
+    policies from its parent frame, or in the case of the {{Document}} in a
+    [=/top-level traversable=], from the defined defaults for each
+    <a>policy-controlled feature</a>. This inherited policy determines the
+    initial state ("<code>Enabled</code>" or "<code>Disabled</code>") of each
+    feature, and whether it can be controlled by a <a for="permissions
+    policy">declared policy</a> in the {{Document}}.</p>
     <p>In a {{Document}} in a [=/top-level traversable=], the inherited
     policy is based on defined defaults for each feature.</p>
     <p>In a {{Document}} in a [=child navigable=], the inherited policy is based
@@ -235,7 +240,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   <section>
     <h3 id="declared-policies">Declared policies</h3>
     <p>A <dfn data-lt="declared policy|declared permissions policy">declared
-    policy</dfn> is an ordered map from
+    policy</dfn> is an [=ordered map=] from
     <a data-lt="policy-controlled feature">features</a> to <a>allowlists</a>.
     </p>
   </section>
@@ -243,7 +248,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     <h3 id="header-policies">Header policies</h3>
     <p>A <dfn>header policy</dfn> is a list of <a>policy directives</a>
     delivered via an HTTP header with a document. This forms the document's
-    <a>permissions policy</a>'s <a>declared policy</a>.</p>
+    <a>permissions policy</a>'s <a for="permissions policy">declared
+    policy</a>.</p>
   </section>
   <section>
     <h3 id="container-policies">Container policies</h3>
@@ -251,12 +257,12 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     <dfn export>container policy</dfn>, which is a <a>policy directive</a>,
     which may be empty. The <a>container policy</a> can set by attributes on the
     [=navigable container=].</p>
-    <p>The <a>container policy</a> for a [=child navigable=] influences the
-    <a>inherited policy</a> of any document loaded into that navigable.
-    (See <a href="#algo-define-inherited-policy-in-container"></a>)</p>
+    <p>The <a>container policy</a> for a [=child navigable=] influences the <a
+    for="permissions policy">inherited policy</a> of any {{Document}} loaded into
+    that navigable. (See [[#algo-define-inherited-policy-in-container]]).</p>
     <div class="note">
       Currently, the <a>container policy</a> cannot be set directly, but is
-      indirectly set by <code>iframe</code> "<a href=
+      indirectly set by <{iframe}> "<a href=
       "#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
       and "<a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
       Future revisions to this spec may introduce a mechanism to explicitly
@@ -266,8 +272,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   <section>
     <h3 id="policy-directives">Policy directives</h3>
     <p>A <dfn data-lt="policy directive|policy directives">policy
-    directive</dfn> is an ordered map, mapping <a>policy-controlled features</a>
-    to corresponding <a>allowlists</a> of origins.</p>
+    directive</dfn> is an [=ordered map=], mapping <a>policy-controlled
+    features</a> to corresponding <a>allowlists</a> of origins.</p>
     <p>A <a>policy directive</a> is represented in HTTP headers as the
     serialization of an <a>sh-dictionary</a> structure, and in and HTML
     attributes as its ASCII serialization.</p>
@@ -290,41 +296,49 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       stored in the allowlist. The keywords themselves are not part of the
       allowlist.
     </div>
-    <p>To determine whether an <a>allowlist</a> <dfn>matches</dfn> an origin
-    <var>origin</var>, run these steps:
-    <ol>
-      <li>If the <a>allowlist</a> is <a>the special value <code>*</code></a>,
-      then return true.</li>
-      <li>Otherwise, for each <var>item</var> in the <a>allowlist</a>:
-        <ol>
-          <li>If <var>item</var> is [=same origin-domain=] with
-          <var>origin</var>, then return true.</li>
-        </ol>
-      </li>
-      <li>return false.</li>
-    </ol>
+    <div algorithm=matches>
+      <p>To determine whether an <a>allowlist</a> <dfn>matches</dfn> an origin
+      <var>origin</var>, run these steps:
+
+      1. If the <a>allowlist</a> is <a>the special value <code>*</code></a>,
+         then return true.
+
+      1. Otherwise, [=set/for each=] |item| in the <a>allowlist</a>:
+
+        1. If |item| is [=same origin-domain=] with <var>origin</var>, then
+           return true.
+
+      1. Return false.
+    </div>
   </section>
   <section>
     <h3 id="default-allowlists">Default Allowlists</h3>
     <p>Every <a>policy-controlled feature</a> has a <dfn export
     lt="default allowlist|default allowlists"
     for="policy-controlled feature">default allowlist</dfn>. The <a>default
-    allowlist</a> determines whether the feature is allowed in a document with
-    no declared policy in a [=/top-level traversable=], and also whether access
-    to the feature is automatically delegated to documents in [=child
-    navigables=].</p>
+    allowlist</a> determines whether the feature is allowed in a {{Document}} with
+    no <a for="permissions policy">declared policy</a> in a [=/top-level
+    traversable=], and also whether access to the feature is automatically
+    delegated to documents in [=child navigables=].</p>
     <p>The <a>default allowlist</a> for a <a
     data-lt="policy-controlled feature">feature</a> is one of these values:</p>
     <dl>
       <dt><dfn for="default allowlist" export><code>*</code></dfn></dt>
-      <dd>The feature is allowed in documents in top-level traversables by
-      default, and when allowed, is allowed by default to documents in child
-      navigables.</dd>
+      <dd>The feature is allowed in {{Document}}s in [=/top-level
+      traversables=] by default, as well as those in all [=child navigables=].
+      It can be disallowed in [=child navigables=] by explicitly supplying a
+      [=container policy=] on the [=navigable container=] that overrides this
+      default.</dd>
       <dt><dfn for="default allowlist" export><code>'self'</code></dfn></dt>
-      <dd>The feature is allowed in documents in top-level traversables by
-      default, and when allowed, is allowed by default to same-origin domain
-      documents in child navigables, but is disallowed by default in
-      cross-origin documents in child navigables.</dd>
+      <dd>The feature is allowed in [=navigable/active document|documents=] in
+      [=/top-level traversables=] by default, as well as those in [=child
+      navigables=] whose [=navigable/active document|document=] is
+      [=same origin=] with the [=/top-level traversable=]'s [=navigable/active
+      document|document=]. It is disallowed by default in [=child navigables=]
+      whose [=navigable/active document|document=] is cross-origin with the
+      [=/top-level traversable=]'s [=navigable/active document|document=], but
+      can be enabled by explicitly supplying a [=container policy=] that
+      delegates the feature.</dd>
     </dl>
   </section>
 </section>
@@ -347,9 +361,10 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     If they are required, they must be percent-encoded as "`%27`", "`%2A`",
     "`%2C`" or "`%3B`", respectively.</p>
     <div class="note">
-      The string "<code>'self'</code>" may be used as an origin in an allowlist.
-      When it is used in this way, it will refer to the origin of the document
-      which contains the permissions policy.
+      The string "<code>'self'</code>" may be used as an origin in an
+      [=allow-list=]. When it is used in this way, it will refer to the
+      [=Document/origin=] of the {{Document}} which contains the [=permissions
+      policy=].
     </div>
   </section>
   <section>
@@ -386,8 +401,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     HTTP header field can be used in the [=response=] (server to client) to
     communicate the <a>permissions policy</a> that should be enforced by the
     client.</p>
-    <p><a http-header>Permissions-Policy</a> is a structured header. Its value must be a
-    dictionary. It's ABNF is:
+    <p><a http-header>Permissions-Policy</a> is a structured header. Its value
+    must be a dictionary. It's ABNF is:
     <pre class="abnf">
       PermissionsPolicy = <a>sh-dictionary</a>
     </pre>
@@ -399,35 +414,35 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   <section>
     <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the
     <code>iframe</code> element</h3>
-    <p><{iframe}> elements have an "<code>allow</code>" attribute, which
-    contains an <a href="#serialized-policy-directive">ASCII-serialized policy
+    <p><{iframe}> elements have an <{iframe/allow}> attribute, which contains an
+    <a href="#serialized-policy-directive">ASCII-serialized policy
     directive</a>.</p>
-    <p>The allowlist for the features named in the attribute may be empty; in
+    <p>The [=allowlist=] for the features named in the attribute may be empty; in
     that case, the default value for the allowlist is <code>'src'</code>, which
     represents the origin of the URL in the iframe's <{iframe/src}> attribute.
     </p>
-    <p>When not empty, the "<code>allow</code>" attribute will result in adding
-    an <a>allowlist</a> for each recognized
-    <a data-lt="policy-controlled feature">feature</a> to the <{iframe}>
-    element's [=navigable container/content navigable=]'s <a>container
-    policy</a>, when it is constructed.</p>
+    <p>When not empty, the <{iframe/allow}> attribute will result in adding an
+    [=allowlist=] for each recognized <a data-lt="policy-controlled
+    feature">feature</a> to the <{iframe}> element's [=navigable
+    container/content navigable=]'s <a>container policy</a>, when it is
+    constructed.</p>
   </section>
   <section>
     <h3 id="legacy-attributes">Additional attributes to support legacy
     features</h3>
     <p>Some <a data-lt="policy-controlled feature">features</a> controlled by
     Permissions Policy have existing iframe attributes defined. This
-    specification redefines these attributes to act as declared policies for the
-    iframe element.</p>
+    specification redefines these attributes to influence the <{iframe}>'s [=content navigable=]'s
+    [=container policy=].</p>
     <section>
       <h4 id="iframe-allowfullscreen-attribute">allowfullscreen</h4>
-      <p>The "<code>allowfullscreen</code>" iframe attribute controls access to
+      <p>The <{iframe/allowfullscreen}> <{iframe}> attribute controls access to
       {{requestFullscreen()}}.</p>
-      <p>If the iframe element has an "<code>allow</code>" attribute whose
-      value contains the token "<code>fullscreen</code>", then the
-      "<code>allowfullscreen</code>" attribute must have no effect.</p>
-      <p>Otherwise, the presence of an "<code>allowfullscreen</code>" attribute
-      on an iframe will result in adding an <a>allowlist</a> of <code>*</code>
+      <p>If the iframe element has an <{iframe/allow}>  attribute whose value
+      contains the token "<code>fullscreen</code>", then the
+      <{iframe/allowfullscreen}> attribute must have no effect.</p>
+      <p>Otherwise, the presence of an <{iframe/allowfullscreen}> attribute
+      on an <{iframe}> will result in adding an <a>allowlist</a> of <code>*</code>
       for the "<code>fullscreen</code>" feature to the <{iframe}> element's
       [=navigable container/content navigable=]'s <a>container policy</a>, when
       it is constructed.</p>
@@ -644,15 +659,15 @@ partial interface HTMLIFrameElement {
     |document|'s permissions policy.</p>
     <p>To get the <a>observable policy</a> for an Element |node|, run the
     following steps:</p>
-        1. Let |inherited policy| be a new ordered map.
-        2. Let |declared policy| be a new ordered map.
-        3. For each <a>supported feature</a> |feature|:
+        1. Let |inherited policy| be a new [=ordered map=].
+        3. [=set/For each=] <a>supported feature</a> |feature|:
             1. Let |isInherited| be the result of running <a abstract-op>Define
                 an inherited policy for feature in container at origin</a> on
                 |feature|, |node| and |node|'s <a>declared origin</a>.
             2. Set |inherited policy|[|feature|] to |isInherited|.
-        4. Return a new <a>permissions policy</a> with inherited policy
-            |inherited policy| and declared policy |declared policy|.
+        4. Return a new <a>permissions policy</a> with <a for="permissions
+           policy">inherited policy</a> |inherited policy| and <a
+           for="permissions policy">declared policy</a> a new [=ordered map=].
 
     <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
     following steps:
@@ -750,7 +765,7 @@ partial interface HTMLIFrameElement {
     1. Let |parsed header| be the result of executing <a>get a structured
       field value</a> given "<code>Permissions-Policy</code>" and "dictionary" from
       |response|’s header list.
-    1. If |parsed header| is null, abort these steps.
+    1. If |parsed header| is null, return an empty [=ordered map=].
     1. Let |policy| be the result of executing <a abstract-op>Construct policy from
       dictionary and origin</a> on |parsed header| and |origin|.
     1. Return |policy|.
@@ -763,28 +778,30 @@ partial interface HTMLIFrameElement {
     <div class="algorithm" data-algorithm="construct-policy">
     Given an <a>ordered map</a> (|dictionary|) and an [=origin=] (|origin|), this
     algorithm will return a <a>declared permissions policy</a>.
-    1. Let |policy| be an empty ordered map.
-    1. For each |feature-name| → |value| of |dictionary|:
+    1. Let |policy| be an empty [=ordered map=].
+    1. [=map/For each=] |feature-name| → |value| of |dictionary|:
         1. If |feature-name| does not identify any recognized
-          <a>policy-controlled feature</a>, then continue.
+          <a>policy-controlled feature</a>, then [=iteration/continue=].
         1. Let |feature| be the <a>policy-controlled feature</a> identified by
           |feature-name|.
-        1. Let |allowlist| be a new <a>allowlist</a>.
+        1. Let |allowlist| be a new <a>allowlist</a> that is an empty [=ordered
+           set=].
         1. If |value| is the token `*`, or if |value| is a list which contains
           the token `*`, set |allowlist| to <a>the special value
           <code>*</code></a>.
         1. Otherwise:
-            1. Set |allowlist| to an new <a>ordered set</a>.
-            1. If |value| is the token `self`, append |origin| to |allowlist|.
-            1. If |value| is a list, then for each |element| in |value|:
-                1. If |element| is the token `self`, append |origin| to
-                  |allowlist|.
+            1. If |value| is the token `self`, [=list/append=] |origin| to
+               |allowlist|.
+            1. Otherwise if |value| is a [=list=], then [=list/for each=]
+               |element| in |value|:
+                1. If |element| is the token `self`, [=list/append=] |origin| to
+                   |allowlist|.
                 1. Otherwise, let |result| be the result of executing the <a>URL
-                  parser</a> on |element|.
+                   parser</a> on |element|.
                 1. If |result| is not failure:
-                    1. Let |target| be the origin of |result|.
-                    1. If |target| is not an opaque origin, append |target| to
-                      |allowlist|.
+                    1. Let |target| be the [=url/origin=] of |result|.
+                    1. If |target| is not an [=opaque origin=], [=list/append=]
+                       |target| to |allowlist|.
         1. Set |policy|[|feature|] to |allowlist|.
     1. Return |policy|.
 
@@ -797,27 +814,27 @@ partial interface HTMLIFrameElement {
     Given a string (|value|), an [=origin=] (|container origin|), and an
     optional [=origin=] (|target origin|), this algorithm returns a <a>policy
     directive</a>.
-    1. Let |directive| be an empty ordered map.
+    1. Let |directive| be an empty [=ordered map=].
     1. For each |serialized-declaration| returned by <a
       lt="strictly split">strictly splitting |value| on the delimiter
       U+003B (;)</a>:
         1. Let |tokens| be the result of <a
           lt="split on ascii whitespace">splitting |serialized-declaration| on
           ASCII whitespace.</a>
-        1. If |tokens| is an empty list, then continue.
+        1. If |tokens| is an empty list, then [=iteration/continue=].
         1. Let |feature-name| be the first element of |tokens|.
         1. If |feature-name| does not identify any recognized
-          <a>policy-controlled feature</a>, then continue.
+          <a>policy-controlled feature</a>, then [=iteration/continue=].
         1. Let |feature| be the <a>policy-controlled feature</a> identified by
           |feature-name|.
         1. Let |targetlist| be the remaining elements, if any, of |tokens|.
-        1. Let |allowlist| be a new <a>allowlist</a>.
+        1. Let |allowlist| be a new <a>allowlist</a> that is an empty [=ordered
+           set=].
         1. If any element of |targetlist| is the string "<code>*</code>", set
           |allowlist| to <a>the special value <code>*</code></a>.
         1. Otherwise:
-            1. Set |allowlist| to an new <a>ordered set</a>.
-            1. If |targetlist| is empty and |target origin| is given, append
-              |target origin| to |allowlist|.
+            1. If |targetlist| is empty and |target origin| is given,
+               [=list/append=] |target origin| to |allowlist|.
             1. For each |element| in |targetlist|:
                 1. If |element| is an <a>ASCII case-insensitive</a> match for
                   "<code>'self'</code>", let |result| be |container origin|.
@@ -827,9 +844,9 @@ partial interface HTMLIFrameElement {
                 1. Otherwise, let |result| be the result of executing the <a>URL
                   parser</a> on |element|.
                 1. If |result| is not failure:
-                    1. Let |target| be the origin of |result|.
-                    1. If |target| is not an opaque origin, append |target| to
-                      |allowlist|.
+                    1. Let |target| be the [=url/origin=] of |result|.
+                    1. If |target| is not an [=opaque origin=], [=list/append=]
+                       |target| to |allowlist|.
         1. Set |directive|[|feature|] to |allowlist|.
     1. Return |directive|
 
@@ -841,18 +858,17 @@ partial interface HTMLIFrameElement {
     <div class="algorithm" data-algorithm="process-policy-attributes">
     Given an element (|element|), this algorithm returns a <a>container
     policy</a>, which may be empty.
+    1. If |element| is not an <{iframe}> element, then return an empty [=policy
+       directive=].
     1. Let |container policy| be the result of running <a abstract-op>Parse policy
-      directive</a> on the value of |element|'s <code>allow</code> attribute,
-      with <var ignore>container origin</var> set to the origin of |element|'s
-      node document, and <var ignore>target origin</var> set to |element|'s
+      directive</a> given the value of |element|'s <{iframe/allow}> attribute,
+      the [=Document/origin=] of |element|'s [=node document=], and |element|'s
       <a>declared origin</a>.
-    1. If |element| is an <{iframe}> element:
-        1. If |element|'s <code>allowfullscreen</code> attribute is specified,
-          and |container policy| does not contain an allowlist for
-          <code>fullscreen</code>:
-            1. Let |declaration| be a new declaration for <code>fullscreen</code>, whose
-              allowlist is <a>the special value <code>*</code></a>.
-            1. Add |declaration| to |container policy|.
+    1. If |element|'s <{iframe/allowfullscreen}> attribute is specified, and
+       |container policy| does not [=map/contain=] an entry for the
+       <code>fullscreen</code> [=feature=].
+      1. [=map/Set=] |container policy|[<code>fullscreen</code>] = <a>the
+         special value <code>*</code></a>.
     1. Return |container policy|.
 
     </div>
@@ -864,15 +880,15 @@ partial interface HTMLIFrameElement {
     Given null or an <a for="/">element</a> (|container|) and an <a>origin</a>
     (|origin|) this algorithm returns a new <a>Permissions Policy</a>.
     1. Assert: If not null, |container| is a <a>navigable container</a>.
-    1. Let |inherited policy| be a new ordered map.
-    1. Let |declared policy| be a new ordered map.
-    1. For each |feature| supported,
+    1. Let |inherited policy| be a new [=ordered map=].
+    1. [=set/For each=] |feature| [=supported feature|supported=],
         1. Let |isInherited| be the result of running <a abstract-op>Define an
           inherited policy for feature in container at origin</a> on |feature|,
           |container| and |origin|.
         1. Set |inherited policy|[|feature|] to |isInherited|.
-    1. Let |policy| be a new <a>permissions policy</a>, with inherited policy
-      |inherited policy| and declared policy |declared policy|.
+    1. Let |policy| be a new <a>permissions policy</a>, with <a for="permissions
+       policy">inherited policy</a> |inherited policy| and <a for="permissions
+       policy">declared policy</a> a new [=ordered map=].
     1. Return |policy|.
 
     </div>
@@ -883,14 +899,15 @@ partial interface HTMLIFrameElement {
     <div class="algorithm" data-algorithm="create-from-response">
     Given null or a <a>navigable container</a> (|container|), an <a>origin</a>
     (|origin|), and a [=response=] (|response|), this algorithm returns a new
-    <a>Permissions Policy</a>.
+    <a>permissions policy</a>.
     1. Let |policy| be the result of running <a abstract-op>Create a Permissions
       Policy for a navigable</a> given |container| and |origin|.
     1. Let |d| be the result of running <a abstract-op>Process response
       policy</a> on |response| and |origin|.
     1. For each |feature| → |allowlist| of |d|:
-        1. If |policy|'s <a>inherited policy</a>[|feature|] is true, then set
-          |policy|'s <a>declared policy</a>[|feature|] to |allowlist|.
+        1. If |policy|'s <a for="permissions policy">inherited
+           policy</a>[|feature|] is true, then set |policy|'s <a for="permissions
+           policy">declared policy</a>[|feature|] to |allowlist|.
     1. Return |policy|.
 
     </div>
@@ -900,10 +917,10 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm"
     data-algorithm="define-inherited-policy-in-container">
-    Given a feature (|feature|), null or a <a>navigable container</a>
-    (|container|), and an <a>origin</a> for a document in that container
-    (|origin|), this algorithm returns the <a>inherited policy</a> for that
-    feature.
+    Given a [=feature=] (|feature|), null or a <a>navigable container</a>
+    (|container|), and an <a for="Document">origin</a> for a {{Document}} in
+    that container (|origin|), this algorithm returns the <a for=/>inherited
+    policy</a> for that feature.
     1. If |container| is null, return "<code>Enabled</code>".
     1. If the result of executing <a abstract-op>Is feature
       enabled in document for origin?</a> on |feature|, |container|'s
@@ -915,7 +932,7 @@ partial interface HTMLIFrameElement {
       return "<code>Disabled</code>".
     1. Let |container policy| be the result of running <a abstract-op>Process
       permissions policy attributes</a> on |container|.
-    1. If |feature| is a key in |container policy|:
+    1. If |feature| [=map/exists=] in |container policy|:
         1. If the <a>allowlist</a> for |feature| in |container policy|
           <a>matches</a> |origin|, return "<code>Enabled</code>".
         1. Otherwise return "<code>Disabled</code>".
@@ -923,7 +940,7 @@ partial interface HTMLIFrameElement {
       "<code>Enabled</code>".
     1. If |feature|'s <a>default allowlist</a> is <code>'self'</code>, and
       |origin| is [=same origin=] with |container|'s <a>node document</a>'s
-      origin, return "<code>Enabled</code>".
+      [=Document/origin=], return "<code>Enabled</code>".
     1. Otherwise return "<code>Disabled</code>".
 
     </div>
@@ -932,22 +949,23 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="is-feature-enabled">Is feature enabled in document for origin?</dfn> ## {#algo-is-feature-enabled}
 
     <div class="algorithm" data-algorithm="is-feature-enabled">
-    Given a feature (|feature|), a {{Document}} object
+    Given a [=feature=] (|feature|), a {{Document}} object
     (|document|), and an [=origin=] (|origin|), this algorithm
     returns "<code>Disabled</code>" if |feature| should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
-    1. Let |policy| be |document|'s <a>Permissions Policy</a>
-    1. If |policy|'s <a>inherited policy</a> for |feature| is Disabled, return
-      "<code>Disabled</code>".
-    1. If |feature| is present in |policy|'s <a>declared policy</a>:
-        1. If the <a>allowlist</a> for |feature| in |policy|'s <a>declared
-          policy</a> <a>matches</a> |origin|, then return
-          "<code>Enabled</code>".
+    1. Let |policy| be |document|'s [=Document/permissions policy=].
+    1. If |policy|'s <a for="permissions policy">inherited policy</a> for
+       |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
+    1. If |feature| is present in |policy|'s <a for="permissions policy">declared
+       policy</a>:
+        1. If the <a>allowlist</a> for |feature| in |policy|'s <a for="permissions
+           policy">declared policy</a> <a>matches</a> |origin|, then return
+           "<code>Enabled</code>".
         1. Otherwise return "<code>Disabled</code>".
     1. If |feature|'s <a>default allowlist</a> is <code>*</code>, return
       "<code>Enabled</code>".
     1. If |feature|'s <a>default allowlist</a> is <code>'self'</code>, and
-      |origin| is [=same origin=] with |document|'s origin, return
+      |origin| is [=same origin=] with |document|'s [=Document/origin=], return
       "<code>Enabled</code>".
     1. Return "<code>Disabled</code>".
 
@@ -957,7 +975,7 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings</dfn> ## {#algo-report-permissions-policy-violation}
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
-    Given a feature (|feature|), an <a>environment settings object</a>
+    Given a [=feature=] (|feature|), an <a>environment settings object</a>
     (|settings|), and an optional string (|group|), this algorithm generates a
     <a>report</a> about the <a>violation</a> of the policy for |feature|.
 
@@ -996,9 +1014,9 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm"
     data-algorithm="should-request-be-allowed-to-use-feature">
-    Given a feature (|feature|) and a  <a for="/">request</a> (|request|), this
-    algorithm returns <code>true</code> if the request should be allowed to use
-    |feature|, and <code>false</code> otherwise.</p>
+    Given a [=feature=] (|feature|) and a  <a for="/">request</a> (|request|),
+    this algorithm returns <code>true</code> if the request should be allowed to
+    use |feature|, and <code>false</code> otherwise.</p>
     1. Set |window| to |request|’s <a for="request">window</a>.
     1. If |window| is not a {{Window}}, return <code>false</code>.
        <div class="issue">Permissions Policy within non-Window contexts
