@@ -294,7 +294,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       stored in the allowlist. The keywords themselves are not part of the
       allowlist.
     </div>
-    <div algorithm=matches>
+    <div algorithm="matches">
       <p>To determine whether an <a>allowlist</a> <dfn>matches</dfn> an origin
       <var>origin</var>, run these steps:
 
