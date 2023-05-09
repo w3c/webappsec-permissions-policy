@@ -201,10 +201,10 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
 
     <dl dfn-for="permissions policy">
       : <dfn>inherited policy</dfn>
-      :: an <a for=/>inherited policy</a>
+      :: an [=ordered map=] from [=features=] to "`Enabled`" or "`Disabled`"
 
       : <dfn>declared policy</dfn>
-      :: an <a for=/>declared policy</a>
+      :: an [=ordered map=] from [=features=] to [=allowlists=]
     </dl>
     <p>An <dfn export>empty permissions policy</dfn> is a <a>permissions
     policy</a> that has an <a for="permissions policy">inherited policy</a> which
@@ -213,10 +213,6 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
-    <p>An <dfn data-lt="inherited policy|inherited policies">inherited
-    policy</dfn> is an [=ordered map=] from <a
-    data-lt="policy-controlled feature">features</a> to either
-    "<code>Enabled</code>" or "<code>Disabled</code>".</p>
     <p>The <dfn export>inherited policy for a feature</dfn> <var>feature</var>
     is the value in the <a for="permissions policy">inherited policy</a> whose
     key is <var>feature</var>. After a <a>permissions policy</a> has been
@@ -236,13 +232,6 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     on the parent document's permissions policy, as well as the [=child
     navigable=]'s <a>container policy</a>.
     </div>
-  </section>
-  <section>
-    <h3 id="declared-policies">Declared policies</h3>
-    <p>A <dfn data-lt="declared policy|declared permissions policy">declared
-    policy</dfn> is an [=ordered map=] from
-    <a data-lt="policy-controlled feature">features</a> to <a>allowlists</a>.
-    </p>
   </section>
   <section>
     <h3 id="header-policies">Header policies</h3>
@@ -759,7 +748,7 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="process-response-policy">
     Given a [=response=] (|response|) and an [=origin=] (|origin|), this
-    algorithm returns a <a>declared permissions policy</a>.
+    algorithm returns a <a for="permissions policy">declared policy</a>.
 
     1. Let |parsed header| be the result of executing <a>get a structured
       field value</a> given "<code>Permissions-Policy</code>" and "dictionary" from
@@ -776,7 +765,7 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="construct-policy">
     Given an <a>ordered map</a> (|dictionary|) and an [=origin=] (|origin|), this
-    algorithm will return a <a>declared permissions policy</a>.
+    algorithm will return a <a for="permissions policy">declared policy</a>.
     1. Let |policy| be an empty [=ordered map=].
     1. [=map/For each=] |feature-name| → |value| of |dictionary|:
         1. If |feature-name| does not identify any recognized
