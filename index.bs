@@ -326,7 +326,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       traversables=] by default, as well as those in all [=child navigables=].
       It can be disallowed in [=child navigables=] by explicitly supplying a
       [=container policy=] on the [=navigable container=] that overrides this
-      default.</dd>
+      default (or in any [=/navigable=], by delivering the {{Document}} with a
+      suitable <a http-header>`Permissions-Policy`</a> header).</dd>
       <dt><dfn for="default allowlist" export><code>'self'</code></dfn></dt>
       <dd>The feature is allowed in [=navigable/active document|documents=] in
       [=/top-level traversables=] by default, as well as those in [=child
