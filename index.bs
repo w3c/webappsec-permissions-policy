@@ -262,11 +262,9 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     that navigable. (See [[#algo-define-inherited-policy-in-container]]).</p>
     <div class="note">
       Currently, the <a>container policy</a> cannot be set directly, but is
-      indirectly set by <{iframe}> "<a href=
-      "#iframe-allowfullscreen-attribute"><code>allowfullscreen</code></a>",
-      and "<a href="#iframe-allow-attribute"><code>allow</code></a>" attributes.
-      Future revisions to this spec may introduce a mechanism to explicitly
-      declare the full <a>container policy</a>.
+      indirectly set by the <{iframe}> <{iframe/allowfullscreen}>, and
+      <{iframe/allow}> attributes. Future revisions to this spec may introduce a
+      mechanism to explicitly declare the full <a>container policy</a>.
     </div>
   </section>
   <section>
@@ -362,7 +360,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     "`%2C`" or "`%3B`", respectively.</p>
     <div class="note">
       The string "<code>'self'</code>" may be used as an origin in an
-      [=allow-list=]. When it is used in this way, it will refer to the
+      [=allowlist=]. When it is used in this way, it will refer to the
       [=Document/origin=] of the {{Document}} which contains the [=permissions
       policy=].
     </div>
@@ -432,13 +430,13 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     features</h3>
     <p>Some <a data-lt="policy-controlled feature">features</a> controlled by
     Permissions Policy have existing iframe attributes defined. This
-    specification redefines these attributes to influence the <{iframe}>'s [=content navigable=]'s
-    [=container policy=].</p>
+    specification redefines these attributes to influence the <{iframe}>'s
+    [=content navigable=]'s [=container policy=].</p>
     <section>
       <h4 id="iframe-allowfullscreen-attribute">allowfullscreen</h4>
       <p>The <{iframe/allowfullscreen}> <{iframe}> attribute controls access to
       {{requestFullscreen()}}.</p>
-      <p>If the iframe element has an <{iframe/allow}>  attribute whose value
+      <p>If the iframe element has an <{iframe/allow}> attribute whose value
       contains the token "<code>fullscreen</code>", then the
       <{iframe/allowfullscreen}> attribute must have no effect.</p>
       <p>Otherwise, the presence of an <{iframe/allowfullscreen}> attribute
