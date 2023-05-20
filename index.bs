@@ -208,8 +208,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     </dl>
     <p>An <dfn export>empty permissions policy</dfn> is a <a>permissions
     policy</a> that has an <a for="permissions policy">inherited policy</a> which
-    contains "<code>Enabled</code>" for every <a>supported feature</a>, and a <a for="permissions policy">declared
-    policy</a> which is an empty map.</p>
+    contains "<code>Enabled</code>" for every <a>supported feature</a>, and a <a
+    for="permissions policy">declared policy</a> which is an empty map.</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
@@ -647,7 +647,7 @@ partial interface HTMLIFrameElement {
     |document|'s permissions policy.</p>
     <p>To get the <a>observable policy</a> for an Element |node|, run the
     following steps:</p>
-        1. Let |inherited policy| be a new [=ordered map=].
+        1. Let |inherited policy| be an empty [=ordered map=].
         3. [=set/For each=] <a>supported feature</a> |feature|:
             1. Let |isInherited| be the result of running <a abstract-op>Define
                 an inherited policy for feature in container at origin</a> on
