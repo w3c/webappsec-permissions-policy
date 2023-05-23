@@ -321,12 +321,12 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       <dd>The feature is allowed in [=navigable/active document|documents=] in
       [=/top-level traversables=] by default, as well as those in [=child
       navigables=] whose [=navigable/active document|document=] is
-      [=same origin=] with the [=/top-level traversable=]'s [=navigable/active
-      document|document=]. It is disallowed by default in [=child navigables=]
-      whose [=navigable/active document|document=] is cross-origin with its
-      [=navigable/parent=]'s [=navigable/active document|document=], but can be
-      enabled by explicitly supplying a [=container policy=] that delegates the
-      feature.</dd>
+      [=same origin=] with its [=navigable/parent=]'s [=navigable/active
+      document|document=], when allowed in that {{Document}}. It is disallowed
+      by default in [=child navigables=] whose [=navigable/active
+      document|document=] is cross-origin with its [=navigable/parent=]'s
+      [=navigable/active document|document=], but can be enabled by explicitly
+      supplying a [=container policy=] that delegates the feature.</dd>
     </dl>
   </section>
 </section>
