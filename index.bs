@@ -909,14 +909,13 @@ partial interface HTMLIFrameElement {
     that container (|origin|), this algorithm returns the [=inherited policy for
     a feature|inherited policy value=] for |feature|.
     1. If |container| is null, return "<code>Enabled</code>".
-    1. If the result of executing <a abstract-op>Is feature
-      enabled in document for origin?</a> on |feature|, |container|'s
-      <a>node document</a>, and |container|'s <a>node document</a>'s origin
-      is "<code>Disabled</code>", return "<code>Disabled</code>".
-    1. If the result of executing <a abstract-op>Is feature
-      enabled in document for origin?</a> on |feature|, |container|'s
-      <a>node document</a>, and |origin| is "<code>Disabled</code>",
-      return "<code>Disabled</code>".
+    1. If the result of executing <a abstract-op>Get feature value for
+      origin</a> on |feature|, |container|'s <a>node document</a>, and
+      |container|'s <a>node document</a>'s origin is
+      "<code>Disabled</code>", return "<code>Disabled</code>".
+    1. If the result of executing <a abstract-op>Get feature value for
+      origin</a> on |feature|, |container|'s <a>node document</a>, and
+      |origin| is "<code>Disabled</code>", return "<code>Disabled</code>".
     1. Let |container policy| be the result of running <a abstract-op>Process
       permissions policy attributes</a> on |container|.
     1. If |feature| [=map/exists=] in |container policy|:
@@ -929,6 +928,27 @@ partial interface HTMLIFrameElement {
       |origin| is [=same origin=] with |container|'s <a>node document</a>'s
       [=Document/origin=], return "<code>Enabled</code>".
     1. Otherwise return "<code>Disabled</code>".
+
+    </div>
+  </section>
+  <section>
+    ## <dfn export abstract-op id="get-feature-value-for-origin">Get feature value for origin</dfn> ## {#algo-get-feature-value-for-origin}
+
+    <div class="algorithm" data-algorithm="get-feature-value-for-origin">
+    Given a [=feature=] (|feature|), a {{Document}} object
+    (|document|), and an [=origin=] (|origin|), this algorithm
+    returns "<code>Disabled</code>" if |feature| should be considered
+    disabled, and "<code>Enabled</code>" otherwise.</p>
+    1. Let |policy| be |document|'s [=Document/permissions policy=].
+    1. If |policy|'s <a for="permissions policy">inherited policy</a> for
+       |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
+    1. If |feature| is present in |policy|'s <a for="permissions policy">declared
+       policy</a>:
+        1. If the <a>allowlist</a> for |feature| in |policy|'s <a for="permissions
+           policy">declared policy</a> <a>matches</a> |origin|, then return
+           "<code>Enabled</code>".
+        1. Otherwise return "<code>Disabled</code>".
+    1. Return "<code>Enabled</code>".
 
     </div>
   </section>
