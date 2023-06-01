@@ -131,6 +131,47 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     those frames hosting content from http://example.com or SecureCorp itself
     will actually be granted the ability to use that API.</p>
   </div>
+  <div class="example">
+    <p>SecureCorp Inc. restructured its domains and now needs to needs to delegate
+    use of the Geolocation API to its origin ("<code>https://example.com</code>")
+    as well as three subdomains ("<code>https://geo.example.com</code>",
+    "<code>https://geo2.example.com</code>", and "<code>https://new.geo2.example.com</code>").
+    This needs to be accomplished while still disabling the use of the Geolocation API
+    within all other browsing contexts. It can do this by delivering the following HTTP response header:</p>
+    <pre>
+      <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com" "https://geo.example.com" "https://geo2.example.com" "https://new.geo2.example.com")
+    </pre>
+    <p>This works, but if SecureCorp Inc. feels safe delegating to any subdomains on
+    "<code>https://example.com</code>" the HTTP response header could instead be:</p>
+    <pre>
+      <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com" "https://*.example.com")
+    </pre>
+    <p>Not only would the above header permit "<code>https://geo.example.com</code>",
+    "<code>https://geo2.example.com</code>", and "<code>https://new.geo2.example.com</code>"
+    to use the Geolocation API, but any other subdomains of "<code>https://example.com</code>"
+    could use it too. Note that "<code>https://example.com</code>" is not covered by the 
+    <a>allowlist</a> entry "<code>https://*.example.com</code>" and must also be added.</p>
+  </div>
+  <div class="example">
+    <p>SecureCorp Inc. restructured its services and now needs to needs to delegate
+    use of the Geolocation API to its origin ("<code>https://example.com</code>")
+    as well as three non-default ports ("<code>https://example.com:444</code>",
+    "<code>https://example.com:445</code>", and "<code>https://example.com:446</code>").
+    This needs to be accomplished while still disabling the use of the Geolocation API
+    within all other browsing contexts. It can do this by delivering the following HTTP response header:</p>
+    <pre>
+      <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com" "https://example.com:444" "https://example.com:445" "https://example.com:446")
+    </pre>
+    <p>This works, but if SecureCorp Inc. feels safe delegating to any ports on
+    "<code>https://example.com</code>" the HTTP response header could instead be:</p>
+    <pre>
+      <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com:*")
+    </pre>
+    <p>Not only would the above header permit "<code>https://example.com:444</code>",
+    "<code>https://example.com:444</code>", and "<code>https://example.com:445</code>"
+    to use the Geolocation API, but any other ports on "<code>https://example.com</code>"
+    could use it too.</p>
+  </div>
 </section>
 <section>
   <h2 id="other-and-related-mechanisms">Other and related mechanisms</h2>
