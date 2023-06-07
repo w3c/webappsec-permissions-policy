@@ -335,8 +335,10 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
 
       1. If the <a>allowlist</a> is <a>the special value <code>*</code></a>,
          then return true.
-      
+
       Note: We are not using the CSP variant of wildcard matching as it requires the HTTPS scheme.
+
+      1. If <var>origin</var> is opaque, return false.
 
       1. Otherwise, [=set/for each=] |item| in the <a>allowlist</a>:
 
