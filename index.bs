@@ -315,7 +315,7 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
     <h3 id="allowlists">Allowlists</h3>
     <p>A permissions policy <dfn export
     lt="allowlist|allowlists">allowlist</dfn> is conceptually a set of
-    <a>permissions-source-expression</a>s. An <a>allowlist</a> may be either:
+    [=origins=]. An <a>allowlist</a> may be either:
     <ul>
       <li><dfn>The special value <code>*</code></dfn>, which represents every
       origin, or</li>
