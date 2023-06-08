@@ -692,7 +692,7 @@ partial interface HTMLIFrameElement {
        append the <a lt="serialization of an origin">serialization</a> of it to |result|
     8. If the <a>allowlist</a> contains an [=origin=] representing `src`,
        append the <a lt="serialization of an origin">serialization</a> of it to |result|
-    9. Otherwise, for each |item| in |allowlist|:
+    9. Otherwise, for each <a>permissions-source-expression</a> |item| in |allowlist|:
         1. Append |item| to |result|
     10. Return |result|.
 
