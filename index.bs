@@ -340,10 +340,10 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
       Note: We are not using the CSP variant of wildcard matching as it requires the HTTPS scheme.
       
       1. If the <a>allowlist</a> contains an [=origin=] representing `self`,
-         and it is [=same origin-domain=] <var>origin</var>, then return true.
+         and it is [=same origin-domain=] with <var>origin</var>, then return true.
       
       1. If the <a>allowlist</a> contains an [=origin=] representing `src`,
-         and it is [=same origin-domain=] <var>origin</var>, then return true.
+         and it is [=same origin-domain=] with <var>origin</var>, then return true.
 
       1. If <var>origin</var> is opaque, return false.
 
@@ -685,10 +685,16 @@ partial interface HTMLIFrameElement {
         {{PermissionsPolicy}} object's <a>associated node</a>.
     4. If |feature| is not allowed in |policy| for |origin|, return |result|
     5. Let |allowlist| be |policy|'s declared policy[|feature|]
-    6. If |allowlist| is the special value `*`, append "`*`" to |result|
-    7. Otherwise, for each |item| in |allowlist|:
+    6. If |allowlist| is the special value `*`:
+        1. Append "`*`" to |result|
+        2. Return |result|.
+    7. If the <a>allowlist</a> contains an [=origin=] representing `self`,
+       append the <a lt="serialization of an origin">serialization</a> of it to |result|
+    8. If the <a>allowlist</a> contains an [=origin=] representing `src`,
+       append the <a lt="serialization of an origin">serialization</a> of it to |result|
+    9. Otherwise, for each |item| in |allowlist|:
         1. Append |item| to |result|
-    8. Return |result|.
+    10. Return |result|.
 
     <p>The <dfn>observable policy</dfn> for any Node is a <a>permissions
     policy</a>, which contains the information about the policy in the navigable
