@@ -872,16 +872,17 @@ partial interface HTMLIFrameElement {
           |allowlist| to <a>the special value <code>*</code></a>.
         1. Otherwise:
             1. If |targetlist| is empty and |target origin| is given,
-               [=list/append=] the <a lt="serialization of an origin">serialization</a>
-               of |target origin| to |allowlist|.
+               let the [=origin=] representing `self` in |allowlist| be |target origin|.
             1. For each |element| in |targetlist|:
                 1. If |element| is an <a>ASCII case-insensitive</a> match for
-                  "<code>'self'</code>", let |result| be |container origin|.
+                  "<code>'self'</code>":
+                    1. Let the [=origin=] representing `self` in |allowlist| be |target origin|.
+                    1. Continue to the next |element|.
                 1. If |target origin| is given, and |element| is an <a>ASCII
-                  case-insensitive</a> match for "<code>'src'</code>", let
-                  |result| be |target origin|.
-                1. Otherwise, let |result| be the result of executing the <a>URL
-                  parser</a> on |element|.
+                  case-insensitive</a> match for "<code>'src'</code>":
+                    1. Let the [=origin=] representing `src` in |allowlist| be |target origin|.
+                    1. Continue to the next |element|.
+                1. Let |result| be the result of executing the <a>URL parser</a> on |element|.
                 1. If |result| is not failure:
                     1. Let |target| be the [=url/origin=] of |result|.
                     1. If |target| is not an [=opaque origin=], [=list/append=]
