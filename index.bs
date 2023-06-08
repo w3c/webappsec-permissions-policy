@@ -319,7 +319,8 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
     <ul>
       <li><dfn>The special value <code>*</code></dfn>, which represents every
       origin, or</li>
-      <li>An <a>ordered set</a> of <a>permissions-source-expression</a>s</li>
+      <li>An <a>ordered set</a> of <a>permissions-source-expression</a>s and
+      up to two additional [=origins=] (one representing `self` and one representing `src`).</li>
     </ul>
     <div class="note">
       The keywords <code>'self'</code>, <code>'src'</code>, and
