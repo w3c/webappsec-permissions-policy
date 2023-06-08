@@ -835,12 +835,10 @@ partial interface HTMLIFrameElement {
           the token `*`, set |allowlist| to <a>the special value
           <code>*</code></a>.
         1. Otherwise:
-            1. If |value| is the token `self`, [=list/append=] the <a lt="serialization of an origin">serialization</a>
-               of |origin| to |allowlist|.
+            1. If |value| is the token `self`, let the [=origin=] representing `self` in |allowlist| be |origin|.
             1. Otherwise if |value| is a [=list=], then [=list/for each=]
                |element| in |value|:
-                1. If |element| is the token `self`, [=list/append=] the <a lt="serialization of an origin">serialization</a>
-                   of |origin| to |allowlist|.
+                1. If |element| is the token `self`, let the [=origin=] representing `self` in |allowlist| be |origin|.
                 1. If |element| is a valid <a>permissions-source-expression</a>, [=list/append=] |element| to |allowlist|.
         1. Set |policy|[|feature|] to |allowlist|.
     1. Return |policy|.
