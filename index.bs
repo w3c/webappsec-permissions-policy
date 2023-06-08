@@ -338,10 +338,16 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
          then return true.
 
       Note: We are not using the CSP variant of wildcard matching as it requires the HTTPS scheme.
+      
+      1. If the <a>allowlist</a> contains an [=origin=] representing `self`,
+         and it is [=same origin-domain=] <var>origin</var>, then return true.
+      
+      1. If the <a>allowlist</a> contains an [=origin=] representing `src`,
+         and it is [=same origin-domain=] <var>origin</var>, then return true.
 
       1. If <var>origin</var> is opaque, return false.
 
-      1. Otherwise, [=set/for each=] |item| in the <a>allowlist</a>:
+      1. Otherwise, [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>:
 
         1. If the result of running <a>Does url match expression in origin with redirect count?</a>
            on <var>origin</var>, |item|, <var>origin</var>, and 0 is true then return true.
