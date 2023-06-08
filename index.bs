@@ -306,7 +306,7 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
     <h3 id="policy-directives">Policy directives</h3>
     <p>A <dfn data-lt="policy directive|policy directives">policy
     directive</dfn> is an [=ordered map=], mapping <a>policy-controlled
-    features</a> to corresponding <a>allowlists</a> of <a>permissions-source-expression</a>s.</p>
+    features</a> to corresponding <a>allowlists</a> of origins.</p>
     <p>A <a>policy directive</a> is represented in HTTP headers as the
     serialization of an <a>sh-dictionary</a> structure, and in and HTML
     attributes as its ASCII serialization.</p>
