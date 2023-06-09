@@ -34,6 +34,11 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#
   type: dfn
     text: sh-dictionary; url: dictionary
+spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
+  type: dfn
+    text: scheme-source; url: grammardef-scheme-source
+    text: host-source; url: grammardef-host-source
+    text: Does url match expression in origin with redirect count?; url: match-url-to-source-expression
 </pre>
 <pre class="biblio">
 {
@@ -130,6 +135,47 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     iframe attribute as usual to grant geolocation to certain frames, but only
     those frames hosting content from http://example.com or SecureCorp itself
     will actually be granted the ability to use that API.</p>
+  </div>
+  <div class="example">
+    <p>SecureCorp Inc. restructured its domains and now needs to needs to delegate
+    use of the Geolocation API to its origin ("<code>https://example.com</code>")
+    as well as three subdomains ("<code>https://geo.example.com</code>",
+    "<code>https://geo2.example.com</code>", and "<code>https://new.geo2.example.com</code>").
+    This needs to be accomplished while still disabling the use of the Geolocation API
+    within all other browsing contexts. It can do this by delivering the following HTTP response header:</p>
+    <pre>
+      <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com" "https://geo.example.com" "https://geo2.example.com" "https://new.geo2.example.com")
+    </pre>
+    <p>This works, but if SecureCorp Inc. feels safe delegating to any subdomains on
+    "<code>https://example.com</code>" the HTTP response header could instead be:</p>
+    <pre>
+      <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com" "https://*.example.com")
+    </pre>
+    <p>Not only would the above header permit "<code>https://geo.example.com</code>",
+    "<code>https://geo2.example.com</code>", and "<code>https://new.geo2.example.com</code>"
+    to use the Geolocation API, but any other subdomains of "<code>https://example.com</code>"
+    could use it too. Note that "<code>https://example.com</code>" is not covered by the 
+    <a>allowlist</a> entry "<code>https://*.example.com</code>" and must also be added.</p>
+  </div>
+  <div class="example">
+    <p>SecureCorp Inc. restructured its services and now needs to needs to delegate
+    use of the Geolocation API to its origin ("<code>https://example.com</code>")
+    as well as three non-default ports ("<code>https://example.com:444</code>",
+    "<code>https://example.com:445</code>", and "<code>https://example.com:446</code>").
+    This needs to be accomplished while still disabling the use of the Geolocation API
+    within all other browsing contexts. It can do this by delivering the following HTTP response header:</p>
+    <pre>
+      <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com" "https://example.com:444" "https://example.com:445" "https://example.com:446")
+    </pre>
+    <p>This works, but if SecureCorp Inc. feels safe delegating to any ports on
+    "<code>https://example.com</code>" the HTTP response header could instead be:</p>
+    <pre>
+      <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com:*")
+    </pre>
+    <p>Not only would the above header permit "<code>https://example.com:444</code>",
+    "<code>https://example.com:444</code>", and "<code>https://example.com:445</code>"
+    to use the Geolocation API, but any other ports on "<code>https://example.com</code>"
+    could use it too.</p>
   </div>
 </section>
 <section>
@@ -273,7 +319,8 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     <ul>
       <li><dfn>The special value <code>*</code></dfn>, which represents every
       origin, or</li>
-      <li>An <a>ordered set</a> of [=origins=]</li>
+      <li>An <a>ordered set</a> of <a>permissions-source-expression</a>s and
+      up to two additional [=origins=] (one representing `self` and one representing `src`).</li>
     </ul>
     <div class="note">
       The keywords <code>'self'</code>, <code>'src'</code>, and
@@ -290,10 +337,20 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       1. If the <a>allowlist</a> is <a>the special value <code>*</code></a>,
          then return true.
 
-      1. Otherwise, [=set/for each=] |item| in the <a>allowlist</a>:
+      Note: We are not using the CSP variant of wildcard matching as it requires the HTTPS scheme.
+      
+      1. If the <a>allowlist</a> contains an [=origin=] representing `self`,
+         and it is [=same origin-domain=] with <var>origin</var>, then return true.
+      
+      1. If the <a>allowlist</a> contains an [=origin=] representing `src`,
+         and it is [=same origin-domain=] with <var>origin</var>, then return true.
 
-        1. If |item| is [=same origin-domain=] with <var>origin</var>, then
-           return true.
+      1. If <var>origin</var> is opaque, return false.
+
+      1. Otherwise, [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>:
+
+        1. If the result of running <a>Does url match expression in origin with redirect count?</a>
+           on <var>origin</var>, |item|, <var>origin</var>, and 0 is true then return true.
 
       1. Return false.
     </div>
@@ -340,13 +397,9 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       <dfn>serialized-policy-directive</dfn> = <a>feature-identifier</a> RWS <a>allow-list</a>
       <dfn>feature-identifier</dfn> = 1*( ALPHA / DIGIT / "-")
       <dfn>allow-list</dfn> = <a>allow-list-value</a> *(RWS <a>allow-list-value</a>)
-      <dfn>allow-list-value</dfn> = <a>serialized-origin</a> / "*" / "'self'" / "'src'" / "'none'"
+      <dfn>allow-list-value</dfn> = <a>permissions-source-expression</a> / "*" / "'self'" / "'src'" / "'none'"
+      <dfn>permissions-source-expression</dfn> = <a>scheme-source</a> / <a>host-source</a>
     </pre>
-    <p><dfn><code>serialized-origin</code></dfn> is the
-    <a>serialization of an origin</a>. However, the code points U+0027 ('),
-    U+0021 (*), U+002C (,) and U+003B (;) MUST NOT appear in the serialization.
-    If they are required, they must be percent-encoded as "`%27`", "`%2A`",
-    "`%2C`" or "`%3B`", respectively.</p>
     <div class="note">
       The string "<code>'self'</code>" may be used as an origin in an
       [=allowlist=]. When it is used in this way, it will refer to the
@@ -367,7 +420,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
     feature, then the Dictionary Member will be ignored by the processing steps.
 
     The Member Values represent <a>allowlists</a>, and must be one of:
-    * a String containing the ASCII <a>serialization of an origin</a>
+    * a String containing the ASCII <a>permissions-source-expression</a>
     * the Token `*`
     * the Token `self`
     * an Inner List containing zero or more of the above items.
@@ -632,11 +685,16 @@ partial interface HTMLIFrameElement {
         {{PermissionsPolicy}} object's <a>associated node</a>.
     4. If |feature| is not allowed in |policy| for |origin|, return |result|
     5. Let |allowlist| be |policy|'s declared policy[|feature|]
-    6. If |allowlist| is the special value `*`, append "`*`" to |result|
-    7. Otherwise, for each |origin| in |allowlist|:
-        1. Append the <a lt="serialization of an origin">serialization</a> of
-            |origin| to |result|
-    8. Return |result|.
+    6. If |allowlist| is the special value `*`:
+        1. Append "`*`" to |result|
+        2. Return |result|.
+    7. If the <a>allowlist</a> contains an [=origin=] representing `self`,
+       append the <a lt="serialization of an origin">serialization</a> of it to |result|
+    8. If the <a>allowlist</a> contains an [=origin=] representing `src`,
+       append the <a lt="serialization of an origin">serialization</a> of it to |result|
+    9. Otherwise, for each <a>permissions-source-expression</a> |item| in |allowlist|:
+        1. Append |item| to |result|
+    10. Return |result|.
 
     <p>The <dfn>observable policy</dfn> for any Node is a <a>permissions
     policy</a>, which contains the information about the policy in the navigable
@@ -777,18 +835,11 @@ partial interface HTMLIFrameElement {
           the token `*`, set |allowlist| to <a>the special value
           <code>*</code></a>.
         1. Otherwise:
-            1. If |value| is the token `self`, [=list/append=] |origin| to
-               |allowlist|.
+            1. If |value| is the token `self`, let the [=origin=] representing `self` in |allowlist| be |origin|.
             1. Otherwise if |value| is a [=list=], then [=list/for each=]
                |element| in |value|:
-                1. If |element| is the token `self`, [=list/append=] |origin| to
-                   |allowlist|.
-                1. Otherwise, let |result| be the result of executing the <a>URL
-                   parser</a> on |element|.
-                1. If |result| is not failure:
-                    1. Let |target| be the [=url/origin=] of |result|.
-                    1. If |target| is not an [=opaque origin=], [=list/append=]
-                       |target| to |allowlist|.
+                1. If |element| is the token `self`, let the [=origin=] representing `self` in |allowlist| be |origin|.
+                1. If |element| is a valid <a>permissions-source-expression</a>, [=list/append=] |element| to |allowlist|.
         1. Set |policy|[|feature|] to |allowlist|.
     1. Return |policy|.
 
@@ -821,19 +872,22 @@ partial interface HTMLIFrameElement {
           |allowlist| to <a>the special value <code>*</code></a>.
         1. Otherwise:
             1. If |targetlist| is empty and |target origin| is given,
-               [=list/append=] |target origin| to |allowlist|.
+               let the [=origin=] representing `src` in |allowlist| be |target origin|.
             1. For each |element| in |targetlist|:
                 1. If |element| is an <a>ASCII case-insensitive</a> match for
-                  "<code>'self'</code>", let |result| be |container origin|.
+                  "<code>'self'</code>":
+                    1. Let the [=origin=] representing `self` in |allowlist| be |container origin|.
+                    1. Continue to the next |element|.
                 1. If |target origin| is given, and |element| is an <a>ASCII
-                  case-insensitive</a> match for "<code>'src'</code>", let
-                  |result| be |target origin|.
-                1. Otherwise, let |result| be the result of executing the <a>URL
-                  parser</a> on |element|.
+                  case-insensitive</a> match for "<code>'src'</code>":
+                    1. Let the [=origin=] representing `src` in |allowlist| be |target origin|.
+                    1. Continue to the next |element|.
+                1. Let |result| be the result of executing the <a>URL parser</a> on |element|.
                 1. If |result| is not failure:
                     1. Let |target| be the [=url/origin=] of |result|.
                     1. If |target| is not an [=opaque origin=], [=list/append=]
-                       |target| to |allowlist|.
+                       the <a lt="serialization of an origin">serialization</a>
+                       of |target| to |allowlist|.
         1. Set |directive|[|feature|] to |allowlist|.
     1. Return |directive|
 
