@@ -22,6 +22,8 @@ spec:html; type:element; text:link
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
 spec:infra; type:dfn; text:list
+spec:csp3; type:dfn; text:scheme-source
+spec:csp3; type:dfn; text:host-source
 </pre>
 <pre class="anchors">
 spec:payment-request; urlPrefix: https://w3c.github.io/payment-request/
