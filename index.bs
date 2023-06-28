@@ -344,7 +344,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
 
       1. Otherwise, [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>:
 
-        1. If the result of running [=Does url match expression in origin with redirect count?=]
+        1. If the result of running [=Does |url| match |expression| in |origin| with |redirect count|?=]
            on <var>origin</var>, |item|, <var>origin</var>, and 0 is true then return true.
 
       1. Return false.
