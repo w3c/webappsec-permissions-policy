@@ -345,7 +345,7 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
       1. If the <a>allowlist</a> contains an [=origin=] representing `src`,
          and it is [=same origin-domain=] with <var>origin</var>, then return true.
 
-      1. If <var>origin</var> is opaque, return false.
+      1. If <var>origin</var> is an [=opaque origin=], return false.
 
       1. Otherwise, [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>:
 
@@ -717,10 +717,10 @@ partial interface HTMLIFrameElement {
     <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
     following steps:
         1. If |node|'s <a>node document</a>'s <a>sandboxed origin browsing
-            context flag</a> is set, then return a unique opaque origin.
+            context flag</a> is set, then return a unique [=opaque origin=].
         2. If |node|'s <{iframe/sandbox}> attribute is set, and does not contain
             the <code>allow-same-origin</code> keyword, then return a unique
-            opaque origin.
+            [=opaque origin=].
         3. If |node|'s <{iframe/srcdoc}> attribute is set, then return |node|'s
             <a>node document</a>'s origin.
         4. If |node|'s <{iframe/src}> attribute is set:
