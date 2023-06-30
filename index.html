@@ -5,9 +5,9 @@
   <title>Permissions Policy</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 5fcd28d6d, updated Tue May 30 13:12:11 2023 -0700" name="generator">
+  <meta content="Bikeshed version 5edf5e459, updated Thu Jun 22 11:28:01 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/permissions-policy/" rel="canonical">
-  <meta content="dbb0ffb0d9e80f69d52b4bfb77d76224f7caeb2f" name="document-revision">
+  <meta content="f1eea19cd2a845048ae176d5e28977c356e5e397" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -750,33 +750,12 @@ a.self-link::before            { content: "¶"; }
 .heading > a.self-link::before { content: "§"; }
 dfn > a.self-link::before      { content: "#"; }
 </style>
-<style>/* Boilerplate: style-style-syntax-highlighting */
+<style>/* Boilerplate: style-syntax-highlighting */
 
             pre.idl.highlight {
                 background: var(--borderedblock-bg, var(--def-bg));
             }
             
-</style>
-<style>/* Boilerplate: style-style-var-click-highlighting */
-/*
-Colors were chosen in Lab using https://nixsensor.com/free-color-converter/
-D50 2deg illuminant, L in [0,100], a and b in [-128, 128]
-0 = lab(85,0,85)
-1 = lab(85,80,30)
-2 = lab(85,-40,40)
-3 = lab(85,-50,0)
-4 = lab(85,5,15)
-5 = lab(85,-10,-50)
-6 = lab(85,35,-15)
-*/
-var { cursor: pointer; }
-var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
-var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
-var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
-var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
-var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
-var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
-var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
 </style>
 <style>/* Boilerplate: style-syntax-highlighting */
 
@@ -901,11 +880,32 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
 }
 </style>
+<style>/* Boilerplate: style-var-click-highlighting */
+/*
+Colors were chosen in Lab using https://nixsensor.com/free-color-converter/
+D50 2deg illuminant, L in [0,100], a and b in [-128, 128]
+0 = lab(85,0,85)
+1 = lab(85,80,30)
+2 = lab(85,-40,40)
+3 = lab(85,-50,0)
+4 = lab(85,5,15)
+5 = lab(85,-10,-50)
+6 = lab(85,35,-15)
+*/
+var { cursor: pointer; }
+var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
+var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
+var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
+var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
+var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
+var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
+var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Permissions Policy</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-06-09">9 June 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-06-30">30 June 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -924,7 +924,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2023/software-license" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/copyright-software" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -1303,7 +1303,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
         <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑧">allowlist</a> contains an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin③">origin</a> representing <code>src</code>,
  and it is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#same-origin-domain" id="ref-for-same-origin-domain①">same origin-domain</a> with <var>origin</var>, then return true.</p>
        <li data-md>
-        <p>If <var>origin</var> is opaque, return false.</p>
+        <p>If <var>origin</var> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque">opaque origin</a>, return false.</p>
        <li data-md>
         <p>Otherwise, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate" id="ref-for-list-iterate">for each</a> <a data-link-type="dfn" href="#permissions-source-expression" id="ref-for-permissions-source-expression①">permissions-source-expression</a> <var>item</var> in the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist⑨">allowlist</a>:</p>
         <ol>
@@ -1677,11 +1677,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol>
       <li data-md>
        <p>If <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document">node document</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#sandboxed-origin-browsing-context-flag" id="ref-for-sandboxed-origin-browsing-context-flag">sandboxed origin browsing
-  context flag</a> is set, then return a unique opaque origin.</p>
+  context flag</a> is set, then return a new <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque①">opaque origin</a>.</p>
       <li data-md>
        <p>If <var>node</var>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox" id="ref-for-attr-iframe-sandbox①">sandbox</a></code> attribute is set, and does not contain
-  the <code>allow-same-origin</code> keyword, then return a unique
-  opaque origin.</p>
+  the <code>allow-same-origin</code> keyword, then return a new <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque②">opaque origin</a>.</p>
       <li data-md>
        <p>If <var>node</var>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-srcdoc" id="ref-for-attr-iframe-srcdoc">srcdoc</a></code> attribute is set, then return <var>node</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-concept-node-document①">node document</a>’s origin.</p>
       <li data-md>
@@ -1879,7 +1878,7 @@ case-insensitive</a> match for "<code>'src'</code>":</p>
                <li data-md>
                 <p>Let <var>target</var> be the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin①⑦">origin</a> of <var>result</var>.</p>
                <li data-md>
-                <p>If <var>target</var> is not an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque">opaque origin</a>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append①">append</a> the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin②">serialization</a> of <var>target</var> to <var>allowlist</var>.</p>
+                <p>If <var>target</var> is not an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque③">opaque origin</a>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append①">append</a> the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin②">serialization</a> of <var>target</var> to <var>allowlist</var>.</p>
               </ol>
             </ol>
           </ol>
@@ -2975,7 +2974,7 @@ window.dfnpanelData['3e12e042'] = {"dfnID": "3e12e042", "url": "https://html.spe
 window.dfnpanelData['87fcd40c'] = {"dfnID": "87fcd40c", "url": "https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element", "dfnText": "iframe", "refSections": [{"refs": [{"id": "ref-for-the-iframe-element"}], "title": "3. Other and related mechanisms"}, {"refs": [{"id": "ref-for-the-iframe-element\u2460"}], "title": "4.5. Container policies"}, {"refs": [{"id": "ref-for-the-iframe-element\u2461"}, {"id": "ref-for-the-iframe-element\u2462"}], "title": "6.2. The allow attribute of the\n    iframe element"}, {"refs": [{"id": "ref-for-the-iframe-element\u2463"}], "title": "6.3. Additional attributes to support legacy\n    features"}, {"refs": [{"id": "ref-for-the-iframe-element\u2464"}, {"id": "ref-for-the-iframe-element\u2465"}, {"id": "ref-for-the-iframe-element\u2466"}], "title": "6.3.1. allowfullscreen"}, {"refs": [{"id": "ref-for-the-iframe-element\u2467"}, {"id": "ref-for-the-iframe-element\u2468"}, {"id": "ref-for-the-iframe-element\u2460\u24ea"}], "title": "7.2. The permissionsPolicy object"}, {"refs": [{"id": "ref-for-the-iframe-element\u2460\u2460"}], "title": "9.4. Process permissions policy attributes"}], "external": true};
 window.dfnpanelData['9c19b7fc'] = {"dfnID": "9c19b7fc", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#navigable", "dfnText": "navigable", "refSections": [{"refs": [{"id": "ref-for-navigable"}], "title": "4.8. Default Allowlists"}], "external": true};
 window.dfnpanelData['bf63a402'] = {"dfnID": "bf63a402", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#navigable-container", "dfnText": "navigable container", "refSections": [{"refs": [{"id": "ref-for-navigable-container"}], "title": "4.5. Container policies"}, {"refs": [{"id": "ref-for-navigable-container\u2460"}], "title": "4.8. Default Allowlists"}, {"refs": [{"id": "ref-for-navigable-container\u2461"}], "title": "9.5. Create a Permissions Policy for a navigable"}, {"refs": [{"id": "ref-for-navigable-container\u2462"}], "title": "9.6. Create a Permissions Policy for a navigable from response"}, {"refs": [{"id": "ref-for-navigable-container\u2463"}], "title": "9.7. Define an inherited policy for feature in container at origin"}], "external": true};
-window.dfnpanelData['b01b1359'] = {"dfnID": "b01b1359", "url": "https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque", "dfnText": "opaque origin", "refSections": [{"refs": [{"id": "ref-for-concept-origin-opaque"}], "title": "9.3. Parse policy directive"}], "external": true};
+window.dfnpanelData['b01b1359'] = {"dfnID": "b01b1359", "url": "https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque", "dfnText": "opaque origin", "refSections": [{"refs": [{"id": "ref-for-concept-origin-opaque"}], "title": "4.7. Allowlists"}, {"refs": [{"id": "ref-for-concept-origin-opaque\u2460"}, {"id": "ref-for-concept-origin-opaque\u2461"}], "title": "7.2. The permissionsPolicy object"}, {"refs": [{"id": "ref-for-concept-origin-opaque\u2462"}], "title": "9.3. Parse policy directive"}], "external": true};
 window.dfnpanelData['1bba3db7'] = {"dfnID": "1bba3db7", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#nav-parent", "dfnText": "parent", "refSections": [{"refs": [{"id": "ref-for-nav-parent"}, {"id": "ref-for-nav-parent\u2460"}], "title": "4.8. Default Allowlists"}], "external": true};
 window.dfnpanelData['a41102eb'] = {"dfnID": "a41102eb", "url": "https://html.spec.whatwg.org/multipage/dom.html#concept-document-permissions-policy", "dfnText": "permissions policy", "refSections": [{"refs": [{"id": "ref-for-concept-document-permissions-policy"}], "title": "9.8. Get feature value for origin"}, {"refs": [{"id": "ref-for-concept-document-permissions-policy\u2460"}], "title": "9.9. Is feature enabled in document for origin?"}], "external": true};
 window.dfnpanelData['7393da89'] = {"dfnID": "7393da89", "url": "https://html.spec.whatwg.org/multipage/browsers.html#same-origin", "dfnText": "same origin", "refSections": [{"refs": [{"id": "ref-for-same-origin"}], "title": "4.8. Default Allowlists"}, {"refs": [{"id": "ref-for-same-origin\u2460"}], "title": "9.7. Define an inherited policy for feature in container at origin"}, {"refs": [{"id": "ref-for-same-origin\u2461"}], "title": "9.9. Is feature enabled in document for origin?"}], "external": true};
