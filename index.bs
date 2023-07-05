@@ -319,8 +319,12 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
     <ul>
       <li><dfn>The special value <code>*</code></dfn>, which represents every
       origin, or</li>
-      <li>An <a>ordered set</a> of <a>permissions-source-expression</a>s and
-      up to two additional [=origins=] (one representing `self` and one representing `src`).</li>
+      <li>A struct containing:</li>
+      <ul>
+        <li><dfn>expressions</dfn>, which is an ordered set of <a>permissions-source-expression</a></li>
+        <li><dfn>self-origin</dfn>, which is an [=origin=] or `null`</li>
+        <li><dfn>src-origin</dfn>, which is an [=origin=] or `null`</li>
+      </ul>
     </ul>
     <div class="note">
       The keywords <code>'self'</code>, <code>'src'</code>, and
@@ -339,15 +343,15 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
 
       Note: We are not using the CSP variant of wildcard matching as it requires the HTTPS scheme.
       
-      1. If the <a>allowlist</a> contains an [=origin=] representing `self`,
-         and it is [=same origin-domain=] with <var>origin</var>, then return true.
+      1. If the <a>allowlist</a>'s <a>self-origin</a> is not null and it is
+         [=same origin-domain=] with <var>origin</var>, then return true.
       
-      1. If the <a>allowlist</a> contains an [=origin=] representing `src`,
-         and it is [=same origin-domain=] with <var>origin</var>, then return true.
+      1. If the <a>allowlist</a>'s <a>src-origin</a> is not null and it is
+         [=same origin-domain=] with <var>origin</var>, then return true.
 
       1. If <var>origin</var> is an [=opaque origin=], return false.
 
-      1. Otherwise, [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>:
+      1. Otherwise, [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>'s <a>expressions</a>:
 
         1. If the result of running <a>Does url match expression in origin with redirect count?</a>
            on <var>origin</var>, |item|, <var>origin</var>, and 0 is true then return true.
@@ -688,11 +692,11 @@ partial interface HTMLIFrameElement {
     6. If |allowlist| is the special value `*`:
         1. Append "`*`" to |result|
         2. Return |result|.
-    7. If the <a>allowlist</a> contains an [=origin=] representing `self`,
+    7. If the <a>allowlist</a>'s <a>self-origin</a> is not null,
        append the <a lt="serialization of an origin">serialization</a> of it to |result|
-    8. If the <a>allowlist</a> contains an [=origin=] representing `src`,
+    8. If the <a>allowlist</a>'s <a>src-origin</a> is not null,
        append the <a lt="serialization of an origin">serialization</a> of it to |result|
-    9. Otherwise, for each <a>permissions-source-expression</a> |item| in |allowlist|:
+    9. Otherwise, for each <a>permissions-source-expression</a> |item| in |allowlist|'s <a>expressions</a>:
         1. Append |item| to |result|
     10. Return |result|.
 
@@ -829,17 +833,16 @@ partial interface HTMLIFrameElement {
           <a>policy-controlled feature</a>, then [=iteration/continue=].
         1. Let |feature| be the <a>policy-controlled feature</a> identified by
           |feature-name|.
-        1. Let |allowlist| be a new <a>allowlist</a> that is an empty [=ordered
-           set=].
+        1. Let |allowlist| be a new <a>allowlist</a>.
         1. If |value| is the token `*`, or if |value| is a list which contains
           the token `*`, set |allowlist| to <a>the special value
           <code>*</code></a>.
         1. Otherwise:
-            1. If |value| is the token `self`, let the [=origin=] representing `self` in |allowlist| be |origin|.
+            1. If |value| is the token `self`, let |allowlist|'s <a>self-origin</a> be |origin|.
             1. Otherwise if |value| is a [=list=], then [=list/for each=]
                |element| in |value|:
-                1. If |element| is the token `self`, let the [=origin=] representing `self` in |allowlist| be |origin|.
-                1. If |element| is a valid <a>permissions-source-expression</a>, [=list/append=] |element| to |allowlist|.
+                1. If |element| is the token `self`, let |allowlist|'s <a>self-origin</a> be |origin|.
+                1. If |element| is a valid <a>permissions-source-expression</a>, [=list/append=] |element| to |allowlist|'s <a>expressions</a>.
         1. Set |policy|[|feature|] to |allowlist|.
     1. Return |policy|.
 
@@ -866,28 +869,27 @@ partial interface HTMLIFrameElement {
         1. Let |feature| be the <a>policy-controlled feature</a> identified by
           |feature-name|.
         1. Let |targetlist| be the remaining elements, if any, of |tokens|.
-        1. Let |allowlist| be a new <a>allowlist</a> that is an empty [=ordered
-           set=].
+        1. Let |allowlist| be a new <a>allowlist</a>.
         1. If any element of |targetlist| is the string "<code>*</code>", set
           |allowlist| to <a>the special value <code>*</code></a>.
         1. Otherwise:
             1. If |targetlist| is empty and |target origin| is given,
-               let the [=origin=] representing `src` in |allowlist| be |target origin|.
+               let |allowlist|'s <a>src-origin</a> be |target origin|.
             1. For each |element| in |targetlist|:
                 1. If |element| is an <a>ASCII case-insensitive</a> match for
                   "<code>'self'</code>":
-                    1. Let the [=origin=] representing `self` in |allowlist| be |container origin|.
+                    1. Let |allowlist|'s <a>self-origin</a> be |container origin|.
                     1. Continue to the next |element|.
                 1. If |target origin| is given, and |element| is an <a>ASCII
                   case-insensitive</a> match for "<code>'src'</code>":
-                    1. Let the [=origin=] representing `src` in |allowlist| be |target origin|.
+                    1. Let |allowlist|'s <a>src-origin</a> be |target origin|.
                     1. Continue to the next |element|.
                 1. Let |result| be the result of executing the <a>URL parser</a> on |element|.
                 1. If |result| is not failure:
                     1. Let |target| be the [=url/origin=] of |result|.
                     1. If |target| is not an [=opaque origin=], [=list/append=]
                        the <a lt="serialization of an origin">serialization</a>
-                       of |target| to |allowlist|.
+                       of |target| to |allowlist|'s <a>expressions</a>.
         1. Set |directive|[|feature|] to |allowlist|.
     1. Return |directive|
 
