@@ -34,6 +34,10 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#
   type: dfn
     text: sh-dictionary; url: dictionary
+spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
+  type: dfn
+    text: scheme-source; url: grammardef-scheme-source
+    text: host-source; url: grammardef-host-source
 </pre>
 <pre class="biblio">
 {
