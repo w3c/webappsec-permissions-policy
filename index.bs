@@ -349,7 +349,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       1. Let <var>url</var> be the result of calling the [=url parser=] on the
          [=serialization of an origin|serialization=] of <var>origin</var>.
 
-      1. Otherwise, [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>'s <a>expressions</a>:
+      1. [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>'s <a>expressions</a>:
 
         1. If the result of running [=Does url match expression in origin with redirect count?=]
            on <var>url</var>, |item|, <var>origin</var>, and 0 is true then return true.
