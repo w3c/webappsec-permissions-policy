@@ -31,9 +31,9 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   type: dfn
     text: report type
     text: visible to reportingobservers
-spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#
+spec: HEADER-STRUCTURE; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#name-dictionaries
   type: dfn
-    text: sh-dictionary; url: dictionary
+    text: sf-dictionary; url: dictionary
 spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
   type: dfn
     text: scheme-source; url: grammardef-scheme-source
@@ -47,7 +47,7 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
       "Mark Nottingham",
       "Poul-Henning Kamp"
     ],
-    "href": "https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-18",
+    "href": "https://datatracker.ietf.org/doc/html/rfc8941",
     "title": "Structured Field Values for HTTP",
     "status": "Draft",
     "publisher": "IETF"
@@ -308,7 +308,7 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
     directive</dfn> is an [=ordered map=], mapping <a>policy-controlled
     features</a> to corresponding <a>allowlists</a> of origins.</p>
     <p>A <a>policy directive</a> is represented in HTTP headers as the
-    serialization of an <a>sh-dictionary</a> structure, and in and HTML
+    serialization of an <a>sf-dictionary</a> structure, and in and HTML
     attributes as its ASCII serialization.</p>
   </section>
   <section>
@@ -448,7 +448,7 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
     <p><a http-header>Permissions-Policy</a> is a structured header. Its value
     must be a dictionary. It's ABNF is:
     <pre class="abnf">
-      PermissionsPolicy = <a>sh-dictionary</a>
+      PermissionsPolicy = <a>sf-dictionary</a>
     </pre>
     The semantics of the dictionary are defined in
     [[#structured-header-serialization]].
