@@ -400,7 +400,7 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
       <dfn>feature-identifier</dfn> = 1*( ALPHA / DIGIT / "-")
       <dfn>allow-list</dfn> = <a>allow-list-value</a> *(RWS <a>allow-list-value</a>)
       <dfn>allow-list-value</dfn> = <a>permissions-source-expression</a> / "*" / "'self'" / "'src'" / "'none'"
-      <dfn>permissions-source-expression</dfn> = <l>scheme-source</l> / <l>host-source</l>
+      <dfn>permissions-source-expression</dfn> = <l>{{scheme-source}}</l> / <l>{{host-source}}</l>
     </pre>
     <div class="note">
       The string "<code>'self'</code>" may be used as an origin in an
