@@ -34,11 +34,6 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#
   type: dfn
     text: sh-dictionary; url: dictionary
-spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
-  type: dfn
-    text: scheme-source; url: grammardef-scheme-source
-    text: host-source; url: grammardef-host-source
-    text: Does url match expression in origin with redirect count?; url: match-url-to-source-expression
 </pre>
 <pre class="biblio">
 {
@@ -351,10 +346,13 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
 
       1. If <var>origin</var> is an [=opaque origin=], return false.
 
-      1. Otherwise, [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>'s <a>expressions</a>:
+      1. Let <var>url</var> be the result of calling the [=url parser=] on the
+         [=serialization of an origin|serialization=] of <var>origin</var>.
 
-        1. If the result of running <a>Does url match expression in origin with redirect count?</a>
-           on <var>origin</var>, |item|, <var>origin</var>, and 0 is true then return true.
+      1. [=set/For each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>'s <a>expressions</a>:
+
+        1. If the result of running [=Does url match expression in origin with redirect count?=]
+           on <var>url</var>, |item|, <var>origin</var>, and 0 is true then return true.
 
       1. Return false.
     </div>
@@ -402,7 +400,7 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
       <dfn>feature-identifier</dfn> = 1*( ALPHA / DIGIT / "-")
       <dfn>allow-list</dfn> = <a>allow-list-value</a> *(RWS <a>allow-list-value</a>)
       <dfn>allow-list-value</dfn> = <a>permissions-source-expression</a> / "*" / "'self'" / "'src'" / "'none'"
-      <dfn>permissions-source-expression</dfn> = <a>scheme-source</a> / <a>host-source</a>
+      <dfn>permissions-source-expression</dfn> = <a grammar>scheme-source</a> / <a grammar>host-source</a>
     </pre>
     <div class="note">
       The string "<code>'self'</code>" may be used as an origin in an
