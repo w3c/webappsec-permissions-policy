@@ -31,7 +31,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
   type: dfn
     text: report type
     text: visible to reportingobservers
-spec: HEADER-STRUCTURE; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#name-dictionaries
+spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   type: dfn
     text: sf-dictionary; url: dictionary
 spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
@@ -42,16 +42,6 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
 </pre>
 <pre class="biblio">
 {
-  "HEADER-STRUCTURE": {
-    "authors": [
-      "Mark Nottingham",
-      "Poul-Henning Kamp"
-    ],
-    "href": "https://datatracker.ietf.org/doc/html/rfc8941",
-    "title": "Structured Field Values for HTTP",
-    "status": "Draft",
-    "publisher": "IETF"
-  }
 }
 </pre>
 <style>
@@ -414,7 +404,7 @@ spec: CSP; urlPrefix: https://www.w3.org/TR/CSP3/#
   <section>
     <h3 id="structured-header-serialization">Structured header serialization</h3>
     <a>Policy Directives</a> in HTTP headers are represented as Structured
-    Fields. [[!HEADER-STRUCTURE]]
+    Fields. [[!RFC8941]]
 
     In this representation, a <a>policy directive</a> is represented by a
     Dictionary.
