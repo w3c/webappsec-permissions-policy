@@ -342,10 +342,13 @@ spec: HEADER-STRUCTURE; urlPrefix: https://httpwg.org/http-extensions/draft-ietf
 
       1. If <var>origin</var> is opaque, return false.
 
+      1. Let <var>url</var> be the result of calling the [=url parser=] on the
+         [=serialization of an origin|serialization=] of <var>origin</var>.
+
       1. Otherwise, [=set/for each=] <a>permissions-source-expression</a> |item| in the <a>allowlist</a>:
 
         1. If the result of running [=Does url match expression in origin with redirect count?=]
-           on a [=url=] of <var>origin</var>, |item|, <var>origin</var>, and 0 is true then return true.
+           on <var>url</var>, |item|, <var>origin</var>, and 0 is true then return true.
 
       1. Return false.
     </div>
