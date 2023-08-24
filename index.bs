@@ -11,6 +11,7 @@ Editor: Ian Clelland 76841, Google, iclelland@google.com
 Abstract: This specification defines a mechanism that allows developers to selectively enable and disable use of various browser features and APIs.
 Repository: https://github.com/w3c/webappsec-permissions-policy/
 Markup Shorthands: css no, markdown yes
+Mailing List:
 </pre>
 <pre class="link-defaults">
 spec:dom; type:interface; for:/; text:Document
