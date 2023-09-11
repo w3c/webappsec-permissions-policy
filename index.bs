@@ -1104,7 +1104,7 @@ partial interface HTMLIFrameElement {
     <dd>W3C</dd>
     <dt>Specification document</dt>
     <dd>
-      <a href="">Permissions Policy API</a>
+      [LATEST]
     </dd>
   </dl>
 </section>
