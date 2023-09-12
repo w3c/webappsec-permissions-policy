@@ -238,7 +238,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
       : <dfn>reporting configuration</dfn>
       :: an [=ordered map=] from [=features=] to [=strings=]
 
-    <dl>
+    </dl>
 
     <p>A <dfn>permissions policy</dfn> is a [=struct=] with the following items:</p>
 
