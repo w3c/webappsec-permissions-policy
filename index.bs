@@ -229,18 +229,20 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   </section>
   <section>
     <h3 id="policies">Policies</h3>
-    <p>A <dfn>declared policy</dfn> is a [=struct=] with the following items:</p>
+    <p>A <dfn>declared policy</dfn> is a [=struct=] with the following
+    [=struct/items=]:</p>
 
     <dl dfn-for="declared policy">
       : <dfn>declarations</dfn>
-      :: an [=ordered map=] from [=features=] to [=/allowlists=]
+      :: an [=ordered map=] from [=features=] to [=allowlists=]
 
       : <dfn>reporting configuration</dfn>
       :: an [=ordered map=] from [=features=] to [=strings=]
 
     </dl>
 
-    <p>A <dfn>permissions policy</dfn> is a [=struct=] with the following items:</p>
+    <p>A <dfn>permissions policy</dfn> is a [=struct=] with the following
+    [=struct/items=]:</p>
 
     <dl dfn-for="permissions policy">
       : <dfn>inherited policy</dfn>
@@ -254,7 +256,9 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     <p>An <dfn export>empty permissions policy</dfn> is a <a>permissions
     policy</a> that has an <a for="permissions policy">inherited policy</a> which
     contains "<code>Enabled</code>" for every <a>supported feature</a>, a <a
-    for="permissions policy">declared policy</a> which is «[],[]».</p>
+    for="permissions policy">declared policy</a> whose [=declared
+    policy/declarations=] and [=declared policy/reporting configuration=] are
+    both empty [=ordered maps=].</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
@@ -305,7 +309,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     <h3 id="policy-directives">Policy directives</h3>
     <p>A <dfn data-lt="policy directive|policy directives">policy
     directive</dfn> is an [=ordered map=], mapping <a>policy-controlled
-    features</a> to corresponding [=/allowlists=] of origins.</p>
+    features</a> to corresponding [=allowlists=] of origins.</p>
     <p>A <a>policy directive</a> is represented in HTTP headers as the
     serialization of an <a>sf-dictionary</a> structure, and in and HTML
     attributes as its ASCII serialization.</p>
@@ -424,8 +428,9 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     Each Dictionary Member associates a <a>feature</a> with an <a>allowlist</a>.
     The Member Names must be Tokens. If a Member Name is the Token `*`, then it
     will only be used to configure the default reporting endpoint. If a Member
-    Name is not the Token `*`, and also does not name a supported feature, then
-    the Dictionary Member will be ignored by the processing steps.
+    Name is not the Token `*`, and also does not name one of the user agent's
+    [=supported features=], then the Dictionary Member will be ignored by the
+    processing steps.
 
     The Member Values represent <a>allowlists</a>, and must be one of:
     * a String containing the ASCII <a>permissions-source-expression</a>
@@ -446,8 +451,8 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
 <section>
   <h2 id="delivery">Delivery</h2>
   <section>
-    <h3 id="permissions-policy-http-header-field">Permissions-Policy HTTP Header
-    Field</h3>
+    <h3 id="permissions-policy-http-header-field">`Permissions-Policy` HTTP
+    Header Field</h3>
     <p>The &#96;<dfn export http-header
     id="permissions-policy-header"><code>Permissions-Policy</code></dfn>&#96;
     HTTP header field can be used in the [=response=] (server to client) to
@@ -690,22 +695,25 @@ partial interface HTMLIFrameElement {
 
     <p>The {{getAllowlistForFeature(feature)}} method must run the following
     steps:
-    1. Set |result| to an empty list
+    1. Set |result| to an empty list.
     2. Let |origin| be this {{PermissionsPolicy}} object's <a>default
-        origin</a>.
+       origin</a>.
     3. Let |policy| be the <a>observable policy</a> for this
-        {{PermissionsPolicy}} object's <a>associated node</a>.
+       {{PermissionsPolicy}} object's <a>associated node</a>.
     4. If |feature| is not allowed in |policy| for |origin|, return |result|
-    5. Let |allowlist| be |policy|'s declared policy[|feature|]'s [=declared
-        policy/declarations=].
+    5. Let |allowlist| be |policy|'s [=/declared policy=][|feature|]'s
+       [=declared policy/declarations=].
     6. If |allowlist| is the special value `*`:
         1. Append "`*`" to |result|
         2. Return |result|.
     7. If the <a>allowlist</a>'s <a>self-origin</a> is not null,
-       append the <a lt="serialization of an origin">serialization</a> of it to |result|
+       append the <a lt="serialization of an origin">serialization</a> of it to
+       |result|.
     8. If the <a>allowlist</a>'s <a>src-origin</a> is not null,
-       append the <a lt="serialization of an origin">serialization</a> of it to |result|
-    9. Otherwise, for each <a>permissions-source-expression</a> |item| in |allowlist|'s <a>expressions</a>:
+       append the <a lt="serialization of an origin">serialization</a> of it to
+       |result|.
+    9. Otherwise, for each <a>permissions-source-expression</a> |item| in
+       |allowlist|'s <a>expressions</a>:
         1. Append |item| to |result|
     10. Return |result|.
 
@@ -725,7 +733,9 @@ partial interface HTMLIFrameElement {
             2. Set |inherited policy|[|feature|] to |isInherited|.
         4. Return a new <a>permissions policy</a> with <a for="permissions
            policy">inherited policy</a> |inherited policy|, <a
-           for="permissions policy">declared policy</a> «[], []».
+           for="permissions policy">declared policy</a> a [=struct=] with both
+           [=declared policy/declarations=] and [=declared policy/reporting
+           configuration=] new [=ordered maps=].
 
     <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
     following steps:
@@ -807,7 +817,7 @@ partial interface HTMLIFrameElement {
       by the user agent in response to the violation).
 
   <section>
-    <h3 id="permissions-policy-report-only-http-header-field">Permissions-Policy-Report-Only
+    <h3 id="permissions-policy-report-only-http-header-field">`Permissions-Policy-Report-Only`
     HTTP Header Field</h3>
     <p>The &#96;<dfn export http-header
     id="permissions-policy-report-only-header"><code>Permissions-Policy-Report-Only</code></dfn>&#96;
