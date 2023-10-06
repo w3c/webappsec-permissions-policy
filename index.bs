@@ -426,18 +426,15 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     Dictionary.
 
     Each Dictionary Member associates a <a>feature</a> with an <a>allowlist</a>.
-    The Member Names must be Tokens. If a Member Name is the Token `*`, then it
-    will only be used to configure the default reporting endpoint. If a Member
-    Name is not the Token `*`, and also does not name one of the user agent's
-    [=supported features=], then the Dictionary Member will be ignored by the
-    processing steps.
+    The Member Names must be Tokens. If a token does not name one of the user
+    agent's [=supported features=], then the Dictionary Member will be ignored
+    by the processing steps.
 
     The Member Values represent <a>allowlists</a>, and must be one of:
     * a String containing the ASCII <a>permissions-source-expression</a>
     * the Token `*`
     * the Token `self`
     * an Inner List containing zero or more of the above items.
-    * the Boolean ?1, iff the Member Name is `*`.
 
     Member Values may have a Parameter named `"report-to"`, whose value must be
     a String. Any other parameters will be ignored.
@@ -866,10 +863,6 @@ partial interface HTMLIFrameElement {
     1. Let |declarations| be an empty ordered map.
     1. Let |reporting-config| be an empty ordered map.
     1. [=map/For each=] |feature-name| → (|value|, |params|) of |dictionary|:
-        1. If |feature-name| is the token `*`:
-            1. If |params|["report-to"] exists, and is a string, then set
-              |reporting-config|[`*`] to |params|["report-to"].
-            1. [=iteration/Continue=].
         1. If |feature-name| does not identify any recognized
           <a>policy-controlled feature</a>, then [=iteration/continue=].
         1. Let |feature| be the <a>policy-controlled feature</a> identified by
@@ -1141,7 +1134,6 @@ partial interface HTMLIFrameElement {
     1. Let |config| be |policy|'s [=permissions policy/declared policy=]'s
         <a>reporting configuration</a>.
     1. If |config|[|feature|] exists, return |config|[|feature|].
-    1. If |config|[`*`] exists, return |config|[`*`].
     1. Return null.
 
     </div>
