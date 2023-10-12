@@ -448,15 +448,15 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
 <section>
   <h2 id="delivery">Delivery</h2>
   <section>
-    <h3 id="permissions-policy-http-header-field">`Permissions-Policy` HTTP
+    <h3 id="permissions-policy-http-header-field">\``Permissions-Policy`\` HTTP
     Header Field</h3>
-    <p>The &#96;<dfn export http-header
-    id="permissions-policy-header"><code>Permissions-Policy</code></dfn>&#96;
+    <p>The \`<dfn export http-header
+    id="permissions-policy-header"><code>Permissions-Policy</code></dfn>\`
     HTTP header field can be used in the [=response=] (server to client) to
     communicate the <a>permissions policy</a> that should be enforced by the
     client.</p>
-    <p><a http-header>Permissions-Policy</a> is a structured header. Its value
-    must be a dictionary. It's ABNF is:
+    <p>\`<a http-header><code>Permissions-Policy</code></a>\` is a structured
+    header. Its value must be a dictionary. It's ABNF is:
     <pre class="abnf">
       PermissionsPolicy = <a>sf-dictionary</a>
     </pre>
@@ -814,17 +814,17 @@ partial interface HTMLIFrameElement {
       by the user agent in response to the violation).
 
   <section>
-    <h3 id="permissions-policy-report-only-http-header-field">`Permissions-Policy-Report-Only`
+    <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\`
     HTTP Header Field</h3>
-    <p>The &#96;<dfn export http-header
-    id="permissions-policy-report-only-header"><code>Permissions-Policy-Report-Only</code></dfn>&#96;
+    <p>The \`<dfn export http-header
+    id="permissions-policy-report-only-header"><code>Permissions-Policy-Report-Only</code></dfn>\`
     HTTP header field can be used in the [=response=] (server to client) to
     communicate a <a>permissions policy</a> that should not be enforced by the
     client, but instead should be used to trigger reports to be sent if any
     policy declared within it *would* have been violated, had the policy been
     active.</p>
-    <p><a http-header>Permissions-Policy-Report-Only</a> is a structured header.
-    Its value must be a dictionary.
+    <p>\`<a http-header><code>Permissions-Policy-Report-Only</code></a>\` is a
+    structured header. Its value must be a dictionary.
 
     The semantics of the dictionary are defined in
     [[#structured-header-serialization]].
@@ -846,7 +846,7 @@ partial interface HTMLIFrameElement {
       |report-only| is True, or "<code>Permissions-Policy</code>" otherwise.
     1. Let |parsed header| be the result of executing <a>get a structured
       field value</a> given |header name| and "dictionary" from |response|’s
-      header list.
+      [=response/header list=].
     1. If |parsed header| is null, return an empty [=ordered map=].
     1. Let |policy| be the result of executing <a abstract-op>Construct policy from
       dictionary and origin</a> on |parsed header| and |origin|.
@@ -860,8 +860,8 @@ partial interface HTMLIFrameElement {
     <div class="algorithm" data-algorithm="construct-policy">
     Given an <a>ordered map</a> (|dictionary|) and an [=origin=] (|origin|), this
     algorithm will return a [=/declared policy=].
-    1. Let |declarations| be an empty ordered map.
-    1. Let |reporting-config| be an empty ordered map.
+    1. Let |declarations| be an empty [=ordered map=].
+    1. Let |reporting-config| be an empty [=ordered map=].
     1. [=map/For each=] |feature-name| → (|value|, |params|) of |dictionary|:
         1. If |feature-name| does not identify any recognized
           <a>policy-controlled feature</a>, then [=iteration/continue=].
@@ -1128,9 +1128,9 @@ partial interface HTMLIFrameElement {
     ## <dfn abstract-op id="get-reporting-endpoint">Get the reporting endpoint for a feature</dfn> ## {#algo-get-reporting-endpoint}
 
     <div class="algorithm" data-algorithm="get-reporting-endpoint">
-    Given a feature (|feature|) and a permissions policy (|policy|), this
-    algorithm returns a string naming the endpoint to send violation reports to,
-    or null if no such endpoint has been declared in |policy|.
+    Given a [=feature=] (|feature|) and a [=permissions policy=] (|policy|),
+    this algorithm returns a string naming the endpoint to send violation
+    reports to, or null if no such endpoint has been declared in |policy|.
     1. Let |config| be |policy|'s [=permissions policy/declared policy=]'s
         <a>reporting configuration</a>.
     1. If |config|[|feature|] exists, return |config|[|feature|].
@@ -1143,7 +1143,7 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
     Given a [=feature=] (|feature|), an <a>environment settings object</a>
-    (|settings|), a String (|disposition|), and an optional string (|group|),
+    (|settings|), a string (|disposition|), and a string-or-null (|endpoint|),
     this algorithm generates a <a>report</a> about the <a>violation</a> of the
     policy for |feature|.
 
@@ -1167,15 +1167,10 @@ partial interface HTMLIFrameElement {
       [=PermissionsPolicyViolationReportBody/lineNumber=], and
       [=PermissionsPolicyViolationReportBody/columnNumber=] accordingly.
 
-    1. If |group| is omitted, set |group| to "default".
-
     1. Execute [=generate and queue a report=] with |body|,
-      "permissions-policy-violation", |group|, and |settings|.
+      "permissions-policy-violation", |endpoint|, and |settings|.
 
     </div>
-
-    Note: This algorithm should be called when a permissions policy has
-    been <a>violated</a>.
   </section>
   <section>
     ## <dfn export abstract-op id="should-request-be-allowed-to-use-feature">Should request be allowed to use feature?</dfn> ## {#algo-should-request-be-allowed-to-use-feature}
@@ -1210,7 +1205,7 @@ partial interface HTMLIFrameElement {
 
   <section>
     <h3 id="changes-to-html">Changes to the HTML specification</h3>
-    Every {{Document}} has a <dfn for="Document">Report-only permissions
+    Every {{Document}} has a <dfn for="Document">report-only permissions
     policy</dfn>, which is a [=permissions policy=], which is initially empty.
 
     In <a
