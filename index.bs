@@ -1083,8 +1083,8 @@ partial interface HTMLIFrameElement {
     (|document|), an [=origin=] (|origin|), and an optional boolean (|report|),
     with a default value of True, this algorithm returns "<code>Disabled</code>"
     if |feature| should be considered disabled, and "<code>Enabled</code>"
-    otherwise. If |report| is True, then it will also generate and queue a
-    report if the feature is not enabled in either |document|'s
+    otherwise. If |report| is True, then it will also [=generate and queue a
+    report=] if the feature is not enabled in either |document|'s
     [=Document/permissions policy=] or |document|'s [=Document/report-only
     permissions policy=]</p>
 
