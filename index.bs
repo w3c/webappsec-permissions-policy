@@ -229,19 +229,36 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   </section>
   <section>
     <h3 id="policies">Policies</h3>
-    <p>A <dfn>permissions policy</dfn> is a [=struct=] with the following items:</p>
+    <p>A <dfn>declared policy</dfn> is a [=struct=] with the following
+    [=struct/items=]:</p>
+
+    <dl dfn-for="declared policy">
+      : <dfn>declarations</dfn>
+      :: an [=ordered map=] from [=features=] to [=allowlists=]
+
+      : <dfn>reporting configuration</dfn>
+      :: an [=ordered map=] from [=features=] to [=strings=]
+
+    </dl>
+
+    <p>A <dfn>permissions policy</dfn> is a [=struct=] with the following
+    [=struct/items=]:</p>
 
     <dl dfn-for="permissions policy">
       : <dfn>inherited policy</dfn>
       :: an [=ordered map=] from [=features=] to "`Enabled`" or "`Disabled`"
 
       : <dfn>declared policy</dfn>
-      :: an [=ordered map=] from [=features=] to [=allowlists=]
+      :: a [=/declared policy=]
+
     </dl>
+
     <p>An <dfn export>empty permissions policy</dfn> is a <a>permissions
     policy</a> that has an <a for="permissions policy">inherited policy</a> which
-    contains "<code>Enabled</code>" for every <a>supported feature</a>, and a <a
-    for="permissions policy">declared policy</a> which is an empty map.</p>
+    contains "<code>Enabled</code>" for every <a>supported feature</a>, a <a
+    for="permissions policy">declared policy</a> whose [=declared
+    policy/declarations=] and [=declared policy/reporting configuration=] are
+    both empty [=ordered maps=].</p>
   </section>
   <section>
     <h3 id="inherited-policies">Inherited policies</h3>
@@ -292,7 +309,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     <h3 id="policy-directives">Policy directives</h3>
     <p>A <dfn data-lt="policy directive|policy directives">policy
     directive</dfn> is an [=ordered map=], mapping <a>policy-controlled
-    features</a> to corresponding <a>allowlists</a> of origins.</p>
+    features</a> to corresponding [=allowlists=] of origins.</p>
     <p>A <a>policy directive</a> is represented in HTTP headers as the
     serialization of an <a>sf-dictionary</a> structure, and in and HTML
     attributes as its ASCII serialization.</p>
@@ -409,14 +426,18 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     Dictionary.
 
     Each Dictionary Member associates a <a>feature</a> with an <a>allowlist</a>.
-    The Member Names must be Tokens. If a token does not name a supported
-    feature, then the Dictionary Member will be ignored by the processing steps.
+    The Member Names must be Tokens. If a token does not name one of the user
+    agent's [=supported features=], then the Dictionary Member will be ignored
+    by the processing steps.
 
     The Member Values represent <a>allowlists</a>, and must be one of:
     * a String containing the ASCII <a>permissions-source-expression</a>
     * the Token `*`
     * the Token `self`
     * an Inner List containing zero or more of the above items.
+
+    Member Values may have a Parameter named `"report-to"`, whose value must be
+    a String. Any other parameters will be ignored.
 
     Any other items inside of an Inner List will be ignored by the processing
     steps, and the Member Value will be processed as if they were not present.
@@ -427,15 +448,15 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
 <section>
   <h2 id="delivery">Delivery</h2>
   <section>
-    <h3 id="permissions-policy-http-header-field">Permissions-Policy HTTP Header
-    Field</h3>
-    <p>The &#96;<dfn export http-header
-    id="permissions-policy-header"><code>Permissions-Policy</code></dfn>&#96;
+    <h3 id="permissions-policy-http-header-field">\``Permissions-Policy`\` HTTP
+    Header Field</h3>
+    <p>The \`<dfn export http-header
+    id="permissions-policy-header"><code>Permissions-Policy</code></dfn>\`
     HTTP header field can be used in the [=response=] (server to client) to
     communicate the <a>permissions policy</a> that should be enforced by the
     client.</p>
-    <p><a http-header>Permissions-Policy</a> is a structured header. Its value
-    must be a dictionary. It's ABNF is:
+    <p>\`<a http-header><code>Permissions-Policy</code></a>\` is a structured
+    header. Its value must be a dictionary. It's ABNF is:
     <pre class="abnf">
       PermissionsPolicy = <a>sf-dictionary</a>
     </pre>
@@ -671,21 +692,25 @@ partial interface HTMLIFrameElement {
 
     <p>The {{getAllowlistForFeature(feature)}} method must run the following
     steps:
-    1. Set |result| to an empty list
+    1. Set |result| to an empty list.
     2. Let |origin| be this {{PermissionsPolicy}} object's <a>default
-        origin</a>.
+       origin</a>.
     3. Let |policy| be the <a>observable policy</a> for this
-        {{PermissionsPolicy}} object's <a>associated node</a>.
+       {{PermissionsPolicy}} object's <a>associated node</a>.
     4. If |feature| is not allowed in |policy| for |origin|, return |result|
-    5. Let |allowlist| be |policy|'s declared policy[|feature|]
+    5. Let |allowlist| be |policy|'s [=/declared policy=][|feature|]'s
+       [=declared policy/declarations=].
     6. If |allowlist| is the special value `*`:
         1. Append "`*`" to |result|
         2. Return |result|.
     7. If the <a>allowlist</a>'s <a>self-origin</a> is not null,
-       append the <a lt="serialization of an origin">serialization</a> of it to |result|
+       append the <a lt="serialization of an origin">serialization</a> of it to
+       |result|.
     8. If the <a>allowlist</a>'s <a>src-origin</a> is not null,
-       append the <a lt="serialization of an origin">serialization</a> of it to |result|
-    9. Otherwise, for each <a>permissions-source-expression</a> |item| in |allowlist|'s <a>expressions</a>:
+       append the <a lt="serialization of an origin">serialization</a> of it to
+       |result|.
+    9. Otherwise, for each <a>permissions-source-expression</a> |item| in
+       |allowlist|'s <a>expressions</a>:
         1. Append |item| to |result|
     10. Return |result|.
 
@@ -704,8 +729,10 @@ partial interface HTMLIFrameElement {
                 |feature|, |node| and |node|'s <a>declared origin</a>.
             2. Set |inherited policy|[|feature|] to |isInherited|.
         4. Return a new <a>permissions policy</a> with <a for="permissions
-           policy">inherited policy</a> |inherited policy| and <a
-           for="permissions policy">declared policy</a> a new [=ordered map=].
+           policy">inherited policy</a> |inherited policy|, <a
+           for="permissions policy">declared policy</a> a [=struct=] with both
+           [=declared policy/declarations=] and [=declared policy/reporting
+           configuration=] new [=ordered maps=].
 
     <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
     following steps:
@@ -786,9 +813,24 @@ partial interface HTMLIFrameElement {
       resulted only in this report being generated (with no further action taken
       by the user agent in response to the violation).
 
-      Note: There is currently no mechanism in place for enabling report-only
-      mode, so [=PermissionsPolicyViolationReportBody/disposition=] will always
-      be set to "enforce".
+  <section>
+    <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\`
+    HTTP Header Field</h3>
+    <p>The \`<dfn export http-header
+    id="permissions-policy-report-only-header"><code>Permissions-Policy-Report-Only</code></dfn>\`
+    HTTP header field can be used in the [=response=] (server to client) to
+    communicate a <a>permissions policy</a> that should not be enforced by the
+    client, but instead should be used to trigger reports to be sent if any
+    policy declared within it *would* have been violated, had the policy been
+    active.</p>
+    <p>\`<a http-header><code>Permissions-Policy-Report-Only</code></a>\` is a
+    structured header. Its value must be a dictionary.
+
+    The semantics of the dictionary are defined in
+    [[#structured-header-serialization]].
+
+    The processing steps are defined in [[#algo-construct-policy]].
+  </section>
 </section>
 
 <section>
@@ -797,12 +839,14 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="process-response-policy">Process response policy</dfn> ## {#algo-process-response-policy}
 
     <div class="algorithm" data-algorithm="process-response-policy">
-    Given a [=response=] (|response|) and an [=origin=] (|origin|), this
-    algorithm returns a <a for="permissions policy">declared policy</a>.
+    Given a [=response=] (|response|), an [=origin=] (|origin|), and a boolean
+    (|report-only|), this algorithm returns a [=/declared policy=].
 
+    1. Let |header name| be "<code>Permissions-Policy-Report-Only</code>" if
+      |report-only| is True, or "<code>Permissions-Policy</code>" otherwise.
     1. Let |parsed header| be the result of executing <a>get a structured
-      field value</a> given "<code>Permissions-Policy</code>" and "dictionary" from
-      |response|’s header list.
+      field value</a> given |header name| and "dictionary" from |response|’s
+      [=response/header list=].
     1. If |parsed header| is null, return an empty [=ordered map=].
     1. Let |policy| be the result of executing <a abstract-op>Construct policy from
       dictionary and origin</a> on |parsed header| and |origin|.
@@ -815,13 +859,16 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="construct-policy">
     Given an <a>ordered map</a> (|dictionary|) and an [=origin=] (|origin|), this
-    algorithm will return a <a for="permissions policy">declared policy</a>.
-    1. Let |policy| be an empty [=ordered map=].
-    1. [=map/For each=] |feature-name| → |value| of |dictionary|:
+    algorithm will return a [=/declared policy=].
+    1. Let |declarations| be an empty [=ordered map=].
+    1. Let |reporting-config| be an empty [=ordered map=].
+    1. [=map/For each=] |feature-name| → (|value|, |params|) of |dictionary|:
         1. If |feature-name| does not identify any recognized
           <a>policy-controlled feature</a>, then [=iteration/continue=].
         1. Let |feature| be the <a>policy-controlled feature</a> identified by
           |feature-name|.
+        1. If |params|["report-to"] exists, and is a string, then set
+          |reporting-config|[|feature|] to |params|["report-to"].
         1. Let |allowlist| be a new <a>allowlist</a>.
         1. If |value| is the token `*`, or if |value| is a list which contains
           the token `*`, set |allowlist| to <a>the special value
@@ -832,8 +879,8 @@ partial interface HTMLIFrameElement {
                |element| in |value|:
                 1. If |element| is the token `self`, let |allowlist|'s <a>self-origin</a> be |origin|.
                 1. If |element| is a valid <a>permissions-source-expression</a>, [=list/append=] |element| to |allowlist|'s <a>expressions</a>.
-        1. Set |policy|[|feature|] to |allowlist|.
-    1. Return |policy|.
+        1. Set |declarations|[|feature|] to |allowlist|.
+    1. Return «|declarations|, |reporting-config|».
 
     </div>
   </section>
@@ -920,7 +967,7 @@ partial interface HTMLIFrameElement {
         1. Set |inherited policy|[|feature|] to |isInherited|.
     1. Let |policy| be a new <a>permissions policy</a>, with <a for="permissions
        policy">inherited policy</a> |inherited policy| and <a for="permissions
-       policy">declared policy</a> a new [=ordered map=].
+       policy">declared policy</a> «[], []».
     1. Return |policy|.
 
     </div>
@@ -930,16 +977,21 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="create-from-response">
     Given null or a <a>navigable container</a> (|container|), an <a>origin</a>
-    (|origin|), and a [=response=] (|response|), this algorithm returns a new
+    (|origin|), a [=response=] (|response|), and an optional boolean
+    (|report-only|), with a default value of False, this algorithm returns a new
     <a>permissions policy</a>.
     1. Let |policy| be the result of running <a abstract-op>Create a Permissions
       Policy for a navigable</a> given |container| and |origin|.
     1. Let |d| be the result of running <a abstract-op>Process response
-      policy</a> on |response| and |origin|.
-    1. For each |feature| → |allowlist| of |d|:
+      policy</a> given |response|, |origin| and |report-only|.
+    1. For each |feature| → |allowlist| of |d|'s [=declared policy/declarations=]:
         1. If |policy|'s <a for="permissions policy">inherited
            policy</a>[|feature|] is true, then set |policy|'s <a for="permissions
-           policy">declared policy</a>[|feature|] to |allowlist|.
+           policy">declared policy</a>'s [=declared
+           policy/declarations=][|feature|] to |allowlist|.
+    1. Set |policy|'s <a for="permissions policy">declared
+       policy</a>[|feature|]'s [=declared policy/reporting configuration=] to
+       |d|'s [=declared policy/reporting configuration=].
     1. Return |policy|.
 
     </div>
@@ -989,11 +1041,37 @@ partial interface HTMLIFrameElement {
        |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
     1. If |feature| is present in |policy|'s <a for="permissions policy">declared
        policy</a>:
-        1. If the <a>allowlist</a> for |feature| in |policy|'s <a for="permissions
-           policy">declared policy</a> <a>matches</a> |origin|, then return
-           "<code>Enabled</code>".
+        1. If |policy|'s <a for="permissions policy">declared
+           policy</a>'s [=declared policy/declarations=][|feature|]
+           <a>matches</a> |origin|, then return "<code>Enabled</code>".
         1. Otherwise return "<code>Disabled</code>".
     1. Return "<code>Enabled</code>".
+
+    </div>
+  </section>
+  <section>
+    ## <dfn abstract-op id="check-permissions-policy">Check permissions policy</dfn> ## {#algo-check-permissions-policy}
+
+    <div class="algorithm" data-algorithm="check-permissions-policy">
+    To check a permissions policy, given [=permissions policy=] (|policy|), a
+    [=feature=] (|feature|), an [=origin=] (|origin|) and another [=origin=]
+    (|document origin|), this algorithm returns "<code>Disabled</code>" if
+    |feature| should be considered disabled, and "<code>Enabled</code>"
+    otherwise.
+    1. If |policy|'s <a for="permissions policy">inherited policy</a> for
+       |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
+    1. If |feature| is present in |policy|'s <a for="permissions
+       policy">declared policy</a>:
+        1. If |policy|'s <a for="permissions policy">declared
+           policy</a>'s [=declared policy/declarations=][|feature|]
+           <a>matches</a> |origin|, then return "<code>Enabled</code>".
+        1. Otherwise return "<code>Disabled</code>".
+    1. If |feature|'s <a>default allowlist</a> is <code>*</code>, return
+      "<code>Enabled</code>".
+    1. If |feature|'s <a>default allowlist</a> is <code>'self'</code>, and
+      |origin| is [=same origin=] with |document origin|, return
+      "<code>Enabled</code>".
+    1. Return "<code>Disabled</code>".
 
     </div>
   </section>
@@ -1002,24 +1080,61 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="is-feature-enabled">
     Given a [=feature=] (|feature|), a {{Document}} object
-    (|document|), and an [=origin=] (|origin|), this algorithm
-    returns "<code>Disabled</code>" if |feature| should be considered
-    disabled, and "<code>Enabled</code>" otherwise.</p>
+    (|document|), an [=origin=] (|origin|), and an optional boolean (|report|),
+    with a default value of True, this algorithm returns "<code>Disabled</code>"
+    if |feature| should be considered disabled, and "<code>Enabled</code>"
+    otherwise. If |report| is True, then it will also [=generate and queue a
+    report=] if the feature is not enabled in either |document|'s
+    [=Document/permissions policy=] or |document|'s [=Document/report-only
+    permissions policy=]</p>
+
+    Note: The default value of True for |report| means that most permissions
+    policy checks will generate a violation report if the feature is not
+    enabled. This is the expected result, as most checks are for an actual
+    attempted use of the feature. If a call to this algorithm is performed just
+    to query the state of a feature, and does not represent an actual attempt to
+    use the feature, then |report| should be set to False.
+
     1. Let |policy| be |document|'s [=Document/permissions policy=].
-    1. If |policy|'s <a for="permissions policy">inherited policy</a> for
-       |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
-    1. If |feature| is present in |policy|'s <a for="permissions policy">declared
-       policy</a>:
-        1. If the <a>allowlist</a> for |feature| in |policy|'s <a for="permissions
-           policy">declared policy</a> <a>matches</a> |origin|, then return
-           "<code>Enabled</code>".
-        1. Otherwise return "<code>Disabled</code>".
-    1. If |feature|'s <a>default allowlist</a> is <code>*</code>, return
-      "<code>Enabled</code>".
-    1. If |feature|'s <a>default allowlist</a> is <code>'self'</code>, and
-      |origin| is [=same origin=] with |document|'s [=Document/origin=], return
-      "<code>Enabled</code>".
-    1. Return "<code>Disabled</code>".
+    1. Let |report-only policy| be |document|'s [=Document/report-only
+       permissions policy=].
+    1. Let |result| be the result of calling <a abstract-op>Check permissions
+       policy</a>, given |policy|,
+       |feature|, |origin|, and |document|'s [=Document/origin=].
+    1. Let |report-only result| be the result of calling <a abstract-op>Check
+       permissions policy</a>, given |report-only policy|, |feature|, |origin|,
+       and |document|'s [=Document/origin=].
+    1. If |report| is True:
+        1. Let |settings| be |document|'s <a>environment settings object</a>.
+        1. If |result| is "<code>Disabled</code>":
+            1. Let |endpoint| be the result of calling <a abstract-op>Get the
+                reporting endpoint for a feature</a> given |feature| and
+                |policy|.
+            1. Call <a abstract-op>Generate report for violation of permissions
+                policy on settings</a> given |feature|, |settings|,
+                "<code>Enforce</code>", and |endpoint|.
+        1. Else, if |report-only result| is "<code>Disabled</code>":
+            1. Let |report-only endpoint| be the result of calling <a
+                abstract-op>Get the reporting endpoint for a feature</a> given
+               |feature| and |report-only policy|.
+            1. Call <a abstract-op>Generate report for violation of permissions
+                policy on settings</a> given |feature|, |settings|,
+                "<code>Report</code>", and |report-only endpoint|.
+    1. Return result
+
+    </div>
+  </section>
+  <section>
+    ## <dfn abstract-op id="get-reporting-endpoint">Get the reporting endpoint for a feature</dfn> ## {#algo-get-reporting-endpoint}
+
+    <div class="algorithm" data-algorithm="get-reporting-endpoint">
+    Given a [=feature=] (|feature|) and a [=permissions policy=] (|policy|),
+    this algorithm returns a string naming the endpoint to send violation
+    reports to, or null if no such endpoint has been declared in |policy|.
+    1. Let |config| be |policy|'s [=permissions policy/declared policy=]'s
+        <a>reporting configuration</a>.
+    1. If |config|[|feature|] exists, return |config|[|feature|].
+    1. Return null.
 
     </div>
   </section>
@@ -1028,8 +1143,9 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
     Given a [=feature=] (|feature|), an <a>environment settings object</a>
-    (|settings|), and an optional string (|group|), this algorithm generates a
-    <a>report</a> about the <a>violation</a> of the policy for |feature|.
+    (|settings|), a string (|disposition|), and a string-or-null (|endpoint|),
+    this algorithm generates a <a>report</a> about the <a>violation</a> of the
+    policy for |feature|.
 
     1. Let |body| be a new {{PermissionsPolicyViolationReportBody}}, initialized
       as follows:
@@ -1043,7 +1159,7 @@ partial interface HTMLIFrameElement {
         :   [=PermissionsPolicyViolationReportBody/columnNumber=]
         ::  null
         :   [=PermissionsPolicyViolationReportBody/disposition=]
-        ::  "enforce"
+        ::  |disposition|
 
     1. If the user agent is currently executing script, and can extract the
       source file's URL, line number, and column number from |settings|, then
@@ -1051,15 +1167,10 @@ partial interface HTMLIFrameElement {
       [=PermissionsPolicyViolationReportBody/lineNumber=], and
       [=PermissionsPolicyViolationReportBody/columnNumber=] accordingly.
 
-    1. If |group| is omitted, set |group| to "default".
-
     1. Execute [=generate and queue a report=] with |body|,
-      "permissions-policy-violation", |group|, and |settings|.
+      "permissions-policy-violation", |endpoint|, and |settings|.
 
     </div>
-
-    Note: This algorithm should be called when a permissions policy has
-    been <a>violated</a>.
   </section>
   <section>
     ## <dfn export abstract-op id="should-request-be-allowed-to-use-feature">Should request be allowed to use feature?</dfn> ## {#algo-should-request-be-allowed-to-use-feature}
@@ -1086,6 +1197,29 @@ partial interface HTMLIFrameElement {
     1. Otherwise, return <code>false</code>.
 
     </div>
+  </section>
+</section>
+
+<section>
+  <h2 id="changes-to-other-specifications">Changes to other specifications</h2>
+
+  <section>
+    <h3 id="changes-to-html">Changes to the HTML specification</h3>
+    Every {{Document}} has a <dfn for="Document">report-only permissions
+    policy</dfn>, which is a [=permissions policy=], which is initially empty.
+
+    In <a
+    href="https://html.spec.whatwg.org/#shared-document-creation-infrastructure">7.5.1
+    Shared document creation infrastructure</a>, after step 3, insert the
+    following step:
+
+    4. Let |reportOnlyPermissionsPolicy| be the result of calling <a
+       abstract-op>Create a Permissions Policy for a navigable from
+       response</a> given navigationParams's navigable's container,
+       navigationParams's origin, navigationParams's response, and True.
+
+    And in the same section, in step 10, set the new {{Document}}'s
+   [=Document/report-only permissions policy=] to |reportOnlyPermissionsPolicy|.
   </section>
 </section>
 
