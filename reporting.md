@@ -27,14 +27,14 @@ sent. Something like:
 Reporting-Endpoints: violation-reports="https://reportingapi.tools/public/submit"
 ```
 
-Then, in the `Permissions-Policy` header, specify a `report-to` directive, whose
-value is the name of the reporting endpoint:
+Then, in the `Permissions-Policy` header, specify a `report-to` parameter on any
+directive, whose value is the name of the reporting endpoint:
 
 ```http
-Permissions-Policy: geolocation=(), report-to=violation-reports
+Permissions-Policy: geolocation=();report-to=violation-reports
 ```
 
-This header will cause the browser to send details about any per policy
+This header would cause the browser to send details about any geolocation policy
 violations, via an HTTP POST, to a web server running at that URL. The messages
 that the browser sends will look something like this:
 
@@ -107,7 +107,7 @@ report-only policy is local to the current document and does not affect child
 frames at all.)
 
 ```http
-Permissions-Policy-Report-Only: geolocation=(); report-to=violation-reports
+Permissions-Policy-Report-Only: geolocation=();report-to=violation-reports
 ```
 
 If the enforcing policy for the frame is such that the feature should be allowed,
