@@ -55,6 +55,7 @@ specification.
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
 | `usb` | [WebUSB][webusb] | Chrome 60 |
 | `web-share` | [Web Share API][web-share] | Chrome 86 |
+| `window-management`<sup>[5](#fn5)</sup> | [Window Management API][window-management] | [Chrome 111](https://chromestatus.com/feature/5146352391028736) |
 | `xr-spatial-tracking`<sup>[2](#fn2)</sup> | [WebXR Device API][xr] | [Available as a Chrome Origin Trial](https://developers.chrome.com/origintrials/#/trials/active) |
 
 ## Proposed Features
@@ -87,7 +88,6 @@ experimentation by web developers.
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 | `unload` | [Explainer](https://github.com/fergald/docs/blob/master/explainers/permissions-policy-unload.md) | Status "[Started](https://crbug.com/1324111) in Chrome |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
-| `window-placement` | [Explainer](https://github.com/webscreens/window-placement/blob/main/EXPLAINER.md) | In [Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/-8087339030850568191) in Chrome 93-96 |
 
 ## Retired Features
 
@@ -97,7 +97,7 @@ and/or implementations have been removed.
 | Feature name | Spec link(s) | Browser Support |
 | ------------ | ------------ | --------------- |
 | `document-domain` | [HTML][html] | Formerly in Chrome, behind a flag |
-
+| `window-placement` | [Window Management API][window-management] | Formerly in Chrome, changed to `window-management`<sup>[5](#fn5)</sup> |
 
 ## Notes
 
@@ -111,6 +111,9 @@ and/or implementations have been removed.
 
 <a name="fn4">[4]</a>: To enable this, use the Chrome command line flag
 `--enable-features=AdInterestGroupAPI,InterestGroupStorage,Fledge`.
+
+<a name="fn5">[5]</a>: Implemented in [Chrome 100](https://chromestatus.com/feature/5252960583942144) as `window-placement`;
+changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `window-management`.
 
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
 [bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
@@ -137,5 +140,6 @@ and/or implementations have been removed.
 [web-share]: https://w3c.github.io/web-share/#permissions-policy
 [webhid]: https://wicg.github.io/webhid/#permissions-policy
 [webusb]: https://wicg.github.io/webusb/#permissions-policy
+[window-management]: https://w3c.github.io/window-management/#api-permission-policy-integration
 [xhr]: https://xhr.spec.whatwg.org/#feature-policy-integration
 [xr]: https://immersive-web.github.io/webxr/#permissions-policy
