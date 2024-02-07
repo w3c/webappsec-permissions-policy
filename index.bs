@@ -776,6 +776,7 @@ partial interface HTMLIFrameElement {
     [Exposed=Window]
     interface PermissionsPolicyViolationReportBody : ReportBody {
       readonly attribute DOMString featureId;
+      readonly attribute DOMString documentUrl;
       readonly attribute DOMString? sourceFile;
       readonly attribute long? lineNumber;
       readonly attribute long? columnNumber;
@@ -791,6 +792,10 @@ partial interface HTMLIFrameElement {
       string identifying the <a>policy-controlled feature</a> whose policy has
       been <a>violated</a>. This string can be used for grouping and counting
       related reports.
+
+    - <dfn for="PermissionsPolicyViolationReportBody">documentUrl</dfn>: The
+      string identifying the document's URL where <a>violated</a> has been
+      occured.
 
     - <dfn for="PermissionsPolicyViolationReportBody">sourceFile</dfn>: If
       known, the file where the <a>violation</a> occured, or null otherwise.
@@ -1105,20 +1110,19 @@ partial interface HTMLIFrameElement {
        permissions policy</a>, given |report-only policy|, |feature|, |origin|,
        and |document|'s [=Document/origin=].
     1. If |report| is True:
-        1. Let |settings| be |document|'s <a>environment settings object</a>.
         1. If |result| is "<code>Disabled</code>":
             1. Let |endpoint| be the result of calling <a abstract-op>Get the
                 reporting endpoint for a feature</a> given |feature| and
                 |policy|.
             1. Call <a abstract-op>Generate report for violation of permissions
-                policy on settings</a> given |feature|, |settings|,
+                policy on settings</a> given |feature|, |document|,
                 "<code>Enforce</code>", and |endpoint|.
         1. Else, if |report-only result| is "<code>Disabled</code>":
             1. Let |report-only endpoint| be the result of calling <a
                 abstract-op>Get the reporting endpoint for a feature</a> given
                |feature| and |report-only policy|.
             1. Call <a abstract-op>Generate report for violation of permissions
-                policy on settings</a> given |feature|, |settings|,
+                policy on settings</a> given |feature|, |document|,
                 "<code>Report</code>", and |report-only endpoint|.
     1. Return result
 
@@ -1142,8 +1146,8 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings</dfn> ## {#algo-report-permissions-policy-violation}
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
-    Given a [=feature=] (|feature|), an <a>environment settings object</a>
-    (|settings|), a string (|disposition|), and a string-or-null (|endpoint|),
+    Given a [=feature=] (|feature|), a {{Document}} object
+    (|document|), a string (|disposition|), and a string-or-null (|endpoint|),
     this algorithm generates a <a>report</a> about the <a>violation</a> of the
     policy for |feature|.
 
@@ -1152,6 +1156,8 @@ partial interface HTMLIFrameElement {
 
         :   [=PermissionsPolicyViolationReportBody/featureId=]
         ::  |feature|'s string representation.
+        :   [=PermissionsPolicyViolationReportBody/documentUrl=]
+        ::  |document|'s URL.
         :   [=PermissionsPolicyViolationReportBody/sourceFile=]
         ::  null
         :   [=PermissionsPolicyViolationReportBody/lineNumber=]
@@ -1161,6 +1167,7 @@ partial interface HTMLIFrameElement {
         :   [=PermissionsPolicyViolationReportBody/disposition=]
         ::  |disposition|
 
+    1. Let |settings| be |document|'s <a>environment settings object</a>.
     1. If the user agent is currently executing script, and can extract the
       source file's URL, line number, and column number from |settings|, then
       set |body|'s [=PermissionsPolicyViolationReportBody/sourceFile=],
