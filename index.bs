@@ -776,7 +776,7 @@ partial interface HTMLIFrameElement {
     [Exposed=Window]
     interface PermissionsPolicyViolationReportBody : ReportBody {
       readonly attribute DOMString featureId;
-      readonly attribute DOMString documentUrl;
+      readonly attribute DOMString documentURL;
       readonly attribute DOMString? sourceFile;
       readonly attribute long? lineNumber;
       readonly attribute long? columnNumber;
@@ -793,7 +793,7 @@ partial interface HTMLIFrameElement {
       been <a>violated</a>. This string can be used for grouping and counting
       related reports.
 
-    - <dfn for="PermissionsPolicyViolationReportBody">documentUrl</dfn>: The
+    - <dfn for="PermissionsPolicyViolationReportBody">documentURL</dfn>: The
       string identifying the document's URL where <a>violation</a> has occured.
 
     - <dfn for="PermissionsPolicyViolationReportBody">sourceFile</dfn>: If
@@ -1155,7 +1155,7 @@ partial interface HTMLIFrameElement {
 
         :   [=PermissionsPolicyViolationReportBody/featureId=]
         ::  |feature|'s string representation.
-        :   [=PermissionsPolicyViolationReportBody/documentUrl=]
+        :   [=PermissionsPolicyViolationReportBody/documentURL=]
         ::  |document|'s URL.
         :   [=PermissionsPolicyViolationReportBody/sourceFile=]
         ::  null
