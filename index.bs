@@ -1114,15 +1114,15 @@ partial interface HTMLIFrameElement {
                 reporting endpoint for a feature</a> given |feature| and
                 |policy|.
             1. Call <a abstract-op>Generate report for violation of permissions
-                policy on settings</a> given |feature|, |document|,
-                "<code>Enforce</code>", and |endpoint|.
+                policy</a> given |feature|, |document|, "<code>Enforce</code>",
+                and |endpoint|.
         1. Else, if |report-only result| is "<code>Disabled</code>":
             1. Let |report-only endpoint| be the result of calling <a
                 abstract-op>Get the reporting endpoint for a feature</a> given
                |feature| and |report-only policy|.
             1. Call <a abstract-op>Generate report for violation of permissions
-                policy on settings</a> given |feature|, |document|,
-                "<code>Report</code>", and |report-only endpoint|.
+                policy</a> given |feature|, |document|, "<code>Report</code>",
+                and |report-only endpoint|.
     1. Return result
 
     </div>
@@ -1142,7 +1142,7 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
-    ## <dfn export abstract-op id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings</dfn> ## {#algo-report-permissions-policy-violation}
+    ## <dfn export abstract-op id="report-permissions-policy-violation">Generate report for violation of permissions policy</dfn> ## {#algo-report-permissions-policy-violation}
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
     Given a [=feature=] (|feature|), a {{Document}} object
