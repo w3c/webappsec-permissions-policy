@@ -794,8 +794,7 @@ partial interface HTMLIFrameElement {
       related reports.
 
     - <dfn for="PermissionsPolicyViolationReportBody">documentUrl</dfn>: The
-      string identifying the document's URL where <a>violated</a> has been
-      occured.
+      string identifying the document's URL where <a>violation</a> has occured.
 
     - <dfn for="PermissionsPolicyViolationReportBody">sourceFile</dfn>: If
       known, the file where the <a>violation</a> occured, or null otherwise.
