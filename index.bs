@@ -809,9 +809,12 @@ partial interface HTMLIFrameElement {
       string indicating whether the <a>violated</a> permissions policy was
       enforced in this case.
       [=PermissionsPolicyViolationReportBody/disposition=] will be set to
-      "enforce" if the policy was enforced, or "report" if the <a>violation</a>
+      "enforce" if the policy was enforced, "report" if the <a>violation</a>
       resulted only in this report being generated (with no further action taken
-      by the user agent in response to the violation).
+      by the user agent in response to the violation), "potential-enforce" if the
+      policy was potentially enforced on iframes, or "potential-report" if the
+      potential <a>violation</a> on iframes resulted only in this report being
+      generated.
 
   <section>
     <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\`
