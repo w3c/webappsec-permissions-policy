@@ -18,6 +18,7 @@ specification.
 | ------------ | ------------ | --------------- |
 | `accelerometer` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `ambient-light-sensor` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
+| `attribution-reporting` | [Attribution Reporting API][attribution-reporting] | [Chrome 115](https://chromestatus.com/feature/6412002824028160)  |
 | `autoplay` | [HTML][html] | [Chrome 64](https://www.chromestatus.com/feature/5100524789563392) |
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
 | `bluetooth` | [Web Bluetooth][bluetooth] | [Chrome 104](https://chromestatus.com/feature/6439287120723968) |
@@ -32,7 +33,9 @@ specification.
 | `ch-ua-platform` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-platform-version` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-wow64` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `compute-pressure` | [Compute Pressure API][compute-pressure] | [Available as a Chrome Origin Trial](https://chromestatus.com/feature/5597608644968448) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
+| `direct-sockets` | [Direct Sockets API][direct-sockets] | | Status "[Started](https://chromestatus.com/feature/6398297361088512)" in Chrome |  
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | [Chrome 94](https://chromestatus.com/feature/5144822362931200) |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -79,6 +82,7 @@ experimentation by web developers.
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
+| `captured-surface-control` | [Captured Surface Control API][capture-surface-control]  | In [Origin Trial](https://chromestatus.com/feature/5092615678066688) |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[3](#fn3)</sup> |
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `join-ad-interest-group` | [Protected Audience (formerly FLEDGE)][protected-audience] | Behind a flag in Chrome<sup>[4](#fn4)</sup> |
@@ -115,9 +119,13 @@ and/or implementations have been removed.
 <a name="fn5">[5]</a>: Implemented in [Chrome 100](https://chromestatus.com/feature/5252960583942144) as `window-placement`;
 changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `window-management`.
 
+[attribution-reporting]: https://wicg.github.io/attribution-reporting-api/#permission-policy-integration
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
 [bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
+[capture-surface-control]: https://screen-share.github.io/captured-surface-control
+[compute-pressure]: https://www.w3.org/TR/compute-pressure/#policy-control
 [client-hints]: https://wicg.github.io/ua-client-hints/
+[direct-sockets]: https://wicg.github.io/direct-sockets/#permissions-policy
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [protected-audience]: https://wicg.github.io/turtledove/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
