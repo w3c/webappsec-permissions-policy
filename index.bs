@@ -951,6 +951,12 @@ partial interface HTMLIFrameElement {
        <code>fullscreen</code> [=feature=].
       1. [=map/Set=] |container policy|[<code>fullscreen</code>] = <a>the
          special value <code>*</code></a>.
+    1. [=map/For each=] [=feature=] in |container policy|:
+      1. If [=feature=]'s <a>allowlist</a> does not [=list/contain=] <a>the special
+         value <code>*</code></a>, then [=list/for each=] [=origins=] in
+         <a>allowlist</a>:
+        1. Executing <a abstract-op>Is feature enabled in document for origin?</a>
+           on |feature|, |element|'s [=node document=], |origin|, True, and True.
     1. Return |container policy|.
 
     </div>
@@ -1083,13 +1089,14 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="is-feature-enabled">
     Given a [=feature=] (|feature|), a {{Document}} object
-    (|document|), an [=origin=] (|origin|), and an optional boolean (|report|),
-    with a default value of True, this algorithm returns "<code>Disabled</code>"
-    if |feature| should be considered disabled, and "<code>Enabled</code>"
+    (|document|), an [=origin=] (|origin|), an optional boolean (|report|) with
+    a default value of True, and an optional boolean (|potential|) with a
+    default value of False, this algorithm returns "<code>Disabled</code>" if
+    |feature| should be considered disabled, and "<code>Enabled</code>"
     otherwise. If |report| is True, then it will also [=generate and queue a
     report=] if the feature is not enabled in either |document|'s
-    [=Document/permissions policy=] or |document|'s [=Document/report-only
-    permissions policy=]</p>
+    [=Document/permissions policy=] or |document|'s
+    [=Document/report-only permissions policy=]</p>
 
     Note: The default value of True for |report| means that most permissions
     policy checks will generate a violation report if the feature is not
@@ -1113,16 +1120,20 @@ partial interface HTMLIFrameElement {
             1. Let |endpoint| be the result of calling <a abstract-op>Get the
                 reporting endpoint for a feature</a> given |feature| and
                 |policy|.
+            1. Let |disposition| be "<code>potential-enforce</code>" if
+               |potential| is True, or "<code>enforce</code>" otherwise.
             1. Call <a abstract-op>Generate report for violation of permissions
                 policy on settings</a> given |feature|, |settings|,
-                "<code>Enforce</code>", and |endpoint|.
+                |disposition|, and |endpoint|.
         1. Else, if |report-only result| is "<code>Disabled</code>":
             1. Let |report-only endpoint| be the result of calling <a
                 abstract-op>Get the reporting endpoint for a feature</a> given
                |feature| and |report-only policy|.
+            1. Let |disposition| be "<code>potential-report</code>" if
+               |potential| is True, or "<code>report</code>" otherwise.
             1. Call <a abstract-op>Generate report for violation of permissions
                 policy on settings</a> given |feature|, |settings|,
-                "<code>Report</code>", and |report-only endpoint|.
+                |potential|, and |report-only endpoint|.
     1. Return result
 
     </div>
