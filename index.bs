@@ -780,6 +780,7 @@ partial interface HTMLIFrameElement {
       readonly attribute long? lineNumber;
       readonly attribute long? columnNumber;
       readonly attribute DOMString disposition;
+      readonly attribute DOMString? allowAttribute;
     };
   </pre>
 
@@ -815,6 +816,10 @@ partial interface HTMLIFrameElement {
       policy was potentially enforced on iframes, or "potential-report" if the
       potential <a>violation</a> on iframes resulted only in this report being
       generated.
+
+    - <dfn for="PermissionsPolicyViolationReportBody">allowAttribute</dfn>: If
+      known, the value of <{iframe}> element's <{iframe/allow}> attribute, or 
+      null otherwise.
 
   <section>
     <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\`
@@ -942,10 +947,11 @@ partial interface HTMLIFrameElement {
     policy</a>, which may be empty.
     1. If |element| is not an <{iframe}> element, then return an empty [=policy
        directive=].
+    1. Let |allowAttribute| be the value of |element|'s <{iframe/allow}>
+       attribute.
     1. Let |container policy| be the result of running <a abstract-op>Parse policy
-      directive</a> given the value of |element|'s <{iframe/allow}> attribute,
-      the [=Document/origin=] of |element|'s [=node document=], and |element|'s
-      <a>declared origin</a>.
+      directive</a> given |allowAttribute|, the [=Document/origin=] of |element|'s
+      [=node document=], and |element|'s <a>declared origin</a>.
     1. If |element|'s <{iframe/allowfullscreen}> attribute is specified, and
        |container policy| does not [=map/contain=] an entry for the
        <code>fullscreen</code> [=feature=].
@@ -956,7 +962,8 @@ partial interface HTMLIFrameElement {
          value <code>*</code></a>, then [=list/for each=] [=origins=] in
          <a>allowlist</a>:
         1. Executing <a abstract-op>Is feature enabled in document for origin?</a>
-           on |feature|, |element|'s [=node document=], |origin|, True, and True.
+           on |feature|, |element|'s [=node document=], |origin|, True, True, and
+           |allowAttribute|.
     1. Return |container policy|.
 
     </div>
@@ -1090,12 +1097,12 @@ partial interface HTMLIFrameElement {
     <div class="algorithm" data-algorithm="is-feature-enabled">
     Given a [=feature=] (|feature|), a {{Document}} object
     (|document|), an [=origin=] (|origin|), an optional boolean (|report|) with
-    a default value of True, and an optional boolean (|potential|) with a
-    default value of False, this algorithm returns "<code>Disabled</code>" if
-    |feature| should be considered disabled, and "<code>Enabled</code>"
-    otherwise. If |report| is True, then it will also [=generate and queue a
-    report=] if the feature is not enabled in either |document|'s
-    [=Document/permissions policy=] or |document|'s
+    a default value of True, an optional boolean (|potential|) with a default
+    value of False, and an optional string (|allowAttribute|), this algorithm
+    returns "<code>Disabled</code>" if |feature| should be considered disabled,
+    and "<code>Enabled</code>" otherwise. If |report| is True, then it will also
+    [=generate and queue a report=] if the feature is not enabled in either
+    |document|'s [=Document/permissions policy=] or |document|'s
     [=Document/report-only permissions policy=]</p>
 
     Note: The default value of True for |report| means that most permissions
@@ -1124,7 +1131,7 @@ partial interface HTMLIFrameElement {
                |potential| is True, or "<code>enforce</code>" otherwise.
             1. Call <a abstract-op>Generate report for violation of permissions
                 policy on settings</a> given |feature|, |settings|,
-                |disposition|, and |endpoint|.
+                |disposition|, |endpoint|, and |allowAttribute|.
         1. Else, if |report-only result| is "<code>Disabled</code>":
             1. Let |report-only endpoint| be the result of calling <a
                 abstract-op>Get the reporting endpoint for a feature</a> given
@@ -1133,7 +1140,7 @@ partial interface HTMLIFrameElement {
                |potential| is True, or "<code>report</code>" otherwise.
             1. Call <a abstract-op>Generate report for violation of permissions
                 policy on settings</a> given |feature|, |settings|,
-                |potential|, and |report-only endpoint|.
+                |potential|, |report-only endpoint|, and |allowAttribute|.
     1. Return result
 
     </div>
@@ -1157,9 +1164,9 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
     Given a [=feature=] (|feature|), an <a>environment settings object</a>
-    (|settings|), a string (|disposition|), and a string-or-null (|endpoint|),
-    this algorithm generates a <a>report</a> about the <a>violation</a> of the
-    policy for |feature|.
+    (|settings|), a string (|disposition|), a string-or-null (|endpoint|), and
+    a string-or-null (|allowAttribute|), this algorithm generates a
+    <a>report</a> about the <a>violation</a> of the policy for |feature|.
 
     1. Let |body| be a new {{PermissionsPolicyViolationReportBody}}, initialized
       as follows:
@@ -1174,12 +1181,18 @@ partial interface HTMLIFrameElement {
         ::  null
         :   [=PermissionsPolicyViolationReportBody/disposition=]
         ::  |disposition|
+        :   [=PermissionsPolicyViolationReportBody/allowAttribute=]
+        ::  |allowAttribute|
 
     1. If the user agent is currently executing script, and can extract the
       source file's URL, line number, and column number from |settings|, then
       set |body|'s [=PermissionsPolicyViolationReportBody/sourceFile=],
       [=PermissionsPolicyViolationReportBody/lineNumber=], and
       [=PermissionsPolicyViolationReportBody/columnNumber=] accordingly.
+
+    1. If |allowAttribute| is not null, then set |body|'s
+       [=PermissionsPolicyViolationReportBody/allowAttribute=] to
+       |allowAttribute|.
 
     1. Execute [=generate and queue a report=] with |body|,
       "permissions-policy-violation", |endpoint|, and |settings|.
