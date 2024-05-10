@@ -123,7 +123,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     will actually be granted the ability to use that API.</p>
   </div>
   <div class="example">
-    <p>SecureCorp Inc. restructured its domains and now needs to needs to delegate
+    <p>SecureCorp Inc. restructured its domains and now needs to delegate
     use of the Geolocation API to its origin ("<code>https://example.com</code>")
     as well as three subdomains ("<code>https://geo.example.com</code>",
     "<code>https://geo2.example.com</code>", and "<code>https://new.geo2.example.com</code>").
@@ -162,6 +162,38 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     "<code>https://example.com:444</code>", and "<code>https://example.com:445</code>"
     to use the Geolocation API, but any other ports on "<code>https://example.com</code>"
     could use it too.</p>
+  </div>
+  <div class="example">
+    <p>JSPlaygroundCorp Inc. wants to host user-generated web applications, but wants the
+    browser to manage their permissions to use powerful features in isolation of each other.
+    This can be accomplished by creating discrete subdomains for each piece of web-content
+    or web-content creator, and navigating them as top-level documents (framework and
+    user-content can still be separated using same-origin iframes).
+
+    JSPlaygroundCorp should avoid iframing the web-content using the "<code>allow</code>"
+    attribute from its own domain.
+  </div>
+  <div class="example">
+    <p>PlatformCorp Inc. wants to offer a marketplace of embeddable third-party components
+    to build from or games to play. It wants to delegate
+    the use of powerful features like the getUserMedia API responsibly. It keeps
+    track of which components need a feature, using bespoke "install" UX to keep end-users
+    in charge.</p>
+    <p>Camera and microphone are disabled by default in all cross-origin frames.
+    Each third-party component has a subdomain, and can be embedded in a
+    cross-origin iframe. PlatformCorp can use the "<code>allow</code>" attribute on
+    the iframe element to control whether to delegate camera or microphone access or
+    not to each subdomain.
+    An iframe where "plugin1" and "plugin3" should have camera access and "plugin2"
+    should have microphone access might look like this:
+    <pre>
+    &lt;iframe
+     <a href="#iframe-allow-attribute">allow</a>="camera //plugin1.site.com //plugin3.site.com; microphone //plugin2.site.com"
+            src="//doc1.site.com" sandbox="allow-same-origin allow-scripts"&gt;&lt;/iframe&gt;
+    </pre>
+    <p>Iframe attributes can selectively enable features in certain frames, and
+    not in others, even if those contain documents from the same origin.
+    The list of sandbox tokens might be longer in practice.</p>
   </div>
 </section>
 <section>
