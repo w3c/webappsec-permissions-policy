@@ -399,7 +399,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
       navigables=].  It can be allowed {{Document}}s in [=/top-level
       traversables=] by delivering the {{Document}} with a suitable <a
       http-header> `Permissions-Policy`</a> header). It can be allowed
-      in in [=child navigables=] if it allowed in the parent
+      in [=child navigables=] if it is allowed in the parent
       {{Document}} by explicitly supplying a [=container policy=] on
       the [=navigable container=] that overrides this default and by
       delivering the {{Document}} with a suitable <a
