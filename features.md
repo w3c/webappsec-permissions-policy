@@ -33,7 +33,7 @@ specification.
 | `ch-ua-platform` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-platform-version` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-wow64` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
-| `compute-pressure` | [Compute Pressure API][compute-pressure] | [Available as a Chrome Origin Trial](https://chromestatus.com/feature/5597608644968448) |
+| `compute-pressure` | [Compute Pressure API][compute-pressure] | [Chrome 125](https://chromestatus.com/feature/5597608644968448) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
 | `direct-sockets` | [Direct Sockets API][direct-sockets] | | Status "[Started](https://chromestatus.com/feature/6398297361088512)" in Chrome |  
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | [Chrome 94](https://chromestatus.com/feature/5144822362931200) |
