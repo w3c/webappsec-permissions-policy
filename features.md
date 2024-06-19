@@ -41,6 +41,7 @@ specification.
 | `geolocation` | [Geolocation API][geolocation] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `gyroscope` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `hid` | [WebHID API][webhid] | [Chrome 89](https://chromestatus.com/feature/5172464636133376) |
+| `identity-credentials-get` | [Federated Credential Management API][fedcm] | [Chrome 110](https://chromestatus.com/feature/5162418615877632) |
 | `idle-detection` | [Idle Detection API][idle-detection] | [Chrome 94](https://chromestatus.com/feature/4590256452009984) |
 | `keyboard-map` | [Keyboard API][keyboard] | [Chrome 97](https://www.chromestatus.com/feature/5657965899022336) |
 | `magnetometer` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
@@ -67,7 +68,6 @@ integrated into their respective specs.
 | ------------ | --------------- | --------------- |
 | `clipboard-read` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `clipboard-write` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
-| `identity-credential-get` | https://github.com/fedidcg/FedCM/pull/236 | Chrome 108 |
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
 | `shared-autofill` | https://github.com/schwering/shared-autofill | |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
@@ -121,6 +121,7 @@ changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `w
 [client-hints]: https://wicg.github.io/ua-client-hints/
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [protected-audience]: https://wicg.github.io/turtledove/#permissions-policy-integration
+[fedcm]: https://fedidcg.github.io/FedCM/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
