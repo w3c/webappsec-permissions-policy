@@ -23,6 +23,7 @@ spec:html; type:element; text:link
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
 spec:infra; type:dfn; text:list
+spec:permissions; type:dfn; text:feature
 </pre>
 <pre class="anchors">
 spec:payment-request; urlPrefix: https://w3c.github.io/payment-request/
@@ -170,25 +171,31 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     or web-content creator, and navigating them as top-level documents (framework and
     user-content can still be separated using same-origin iframes).
 
-    JSPlaygroundCorp should avoid iframing the web-content using the "<code>allow</code>"
-    attribute from its own domain.
+    This is necessary since users grant permissions to the domain they perceive they
+    are interacting with in the browser, which is the top-level domain.
+
+    JSPlaygroundCorp should avoid iframing user-generated web applications using the
+    <{iframe/allow}> attribute from its own domain in this case, as this would grant
+    its domain permissions to all of them.
   </div>
   <div class="example">
-    <p>PlatformCorp Inc. wants to offer a marketplace of embeddable third-party components
-    to build from or games to play. It wants to delegate
-    the use of powerful features like the getUserMedia API responsibly. It keeps
-    track of which components need a feature, using bespoke "install" UX to keep end-users
-    in charge.</p>
+    <p>PlatformCorp Inc. wants to offer a marketplace of embeddable third-party
+    components to build from or games to play under its top-level domain. It wants to
+    delegate the use of [=powerful features=] like the {{MediaDevices/getUserMedia()}}
+    API responsibly. It accepts responsibility for tracking which of its component
+    applications need a feature, using bespoke "install" UX to keep end-users in
+    charge.</p>
     <p>Camera and microphone are disabled by default in all cross-origin frames.
     Each third-party component has a subdomain, and can be embedded in a
-    cross-origin iframe. PlatformCorp can use the "<code>allow</code>" attribute on
-    the iframe element to control whether to delegate camera or microphone access or
-    not to each subdomain.
-    An iframe where "plugin1" and "plugin3" should have camera access and "plugin2"
-    should have microphone access might look like this:
+    cross-origin iframe. PlatformCorp can use the <{iframe/allow}> attribute on
+    the <{iframe}> element to control whether to delegate camera or microphone
+    access or not to each subdomain. If the user already trusts PlatformCorp then
+    there might be no additional permission prompt in this case.
+
+    An iframe where the component "app1" should have camera access, "app2" should
+    have microphone access, and "app3" should have both might look like this:
     <pre>
-    &lt;iframe
-     <a href="#iframe-allow-attribute">allow</a>="camera //plugin1.site.com //plugin3.site.com; microphone //plugin2.site.com"
+    &lt;iframe allow="camera //app1.site.com //app3.site.com; microphone //app2.site.com"
             src="//doc1.site.com" sandbox="allow-same-origin allow-scripts"&gt;&lt;/iframe&gt;
     </pre>
     <p>Iframe attributes can selectively enable features in certain frames, and
