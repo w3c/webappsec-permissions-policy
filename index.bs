@@ -165,7 +165,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   </div>
   <div class="example">
     <p>JSPlaygroundCorp Inc. wants to host user-generated web applications, but wants the
-    browser to manage their permissions to use powerful features in isolation of each other.
+    browser to manage their permissions to use [=powerful features=] in isolation of each other.
     This can be accomplished by creating discrete subdomains for each piece of web-content
     or web-content creator, and navigating them as top-level documents (framework and
     user-content can still be separated using same-origin iframes).
