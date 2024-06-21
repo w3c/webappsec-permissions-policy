@@ -393,6 +393,17 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
       by default in [=child navigables=] whose [=navigable/active
       document|document=] is cross-origin with its [=navigable/parent=]'s
       [=navigable/active document|document=].</dd>
+      <dt><dfn for="default allowlist" export><code>none</code></dfn></dt>
+      <dd>The feature is not allowed in {{Document}}s in [=/top-level
+      traversables=] by default, as well as those in all [=child
+      navigables=].  It can be allowed {{Document}}s in [=/top-level
+      traversables=] by delivering the {{Document}} with a suitable <a
+      http-header> `Permissions-Policy`</a> header). It can be allowed
+      in [=child navigables=] if it is allowed in the parent
+      {{Document}} by explicitly supplying a [=container policy=] on
+      the [=navigable container=] that overrides this default and by
+      delivering the {{Document}} with a suitable <a
+      http-header>`Permissions-Policy`</a> header.</dd>
     </dl>
   </section>
 </section>
@@ -1045,7 +1056,9 @@ partial interface HTMLIFrameElement {
            policy</a>'s [=declared policy/declarations=][|feature|]
            <a>matches</a> |origin|, then return "<code>Enabled</code>".
         1. Otherwise return "<code>Disabled</code>".
-    1. Return "<code>Enabled</code>".
+    1. If |feature|'s <a>default allowlist</a> is <code>*</code> or
+       <code>self</code>, return "<code>Enabled</code>".
+    1. Return "<code>Disabled</code>".
 
     </div>
   </section>
@@ -1054,8 +1067,8 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="check-permissions-policy">
     To check a permissions policy, given [=permissions policy=] (|policy|), a
-    [=feature=] (|feature|), an [=origin=] (|origin|) and another [=origin=]
-    (|document origin|), this algorithm returns "<code>Disabled</code>" if
+    [=feature=] (|feature|), an [=origin=] (|origin|) and a {{Document}} object
+    (|document|), this algorithm returns "<code>Disabled</code>" if
     |feature| should be considered disabled, and "<code>Enabled</code>"
     otherwise.
     1. If |policy|'s <a for="permissions policy">inherited policy</a> for
@@ -1068,9 +1081,11 @@ partial interface HTMLIFrameElement {
         1. Otherwise return "<code>Disabled</code>".
     1. If |feature|'s <a>default allowlist</a> is <code>*</code>, return
       "<code>Enabled</code>".
+    1. Let |document origin| be |document|'s [=Document/origin=].
     1. If |feature|'s <a>default allowlist</a> is <code>'self'</code>, and
       |origin| is [=same origin=] with |document origin|, return
       "<code>Enabled</code>".
+    1. If |document| is a headerless document, return "<code>Enabled</code>".
     1. Return "<code>Disabled</code>".
 
     </div>
@@ -1100,7 +1115,7 @@ partial interface HTMLIFrameElement {
        permissions policy=].
     1. Let |result| be the result of calling <a abstract-op>Check permissions
        policy</a>, given |policy|,
-       |feature|, |origin|, and |document|'s [=Document/origin=].
+       |feature|, |origin|, and |document|.
     1. Let |report-only result| be the result of calling <a abstract-op>Check
        permissions policy</a>, given |report-only policy|, |feature|, |origin|,
        and |document|'s [=Document/origin=].
