@@ -234,10 +234,10 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
 
     <dl dfn-for="declared policy">
       : <dfn>declarations</dfn>
-      :: an [=ordered map=] from [=features=] to [=allowlists=]
+      :: an [=ordered map=] from [=policy-controlled features|features=] to [=allowlists=]
 
       : <dfn>reporting configuration</dfn>
-      :: an [=ordered map=] from [=features=] to [=strings=]
+      :: an [=ordered map=] from [=policy-controlled features|features=] to [=strings=]
 
     </dl>
 
@@ -246,7 +246,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
 
     <dl dfn-for="permissions policy">
       : <dfn>inherited policy</dfn>
-      :: an [=ordered map=] from [=features=] to "`Enabled`" or "`Disabled`"
+      :: an [=ordered map=] from [=policy-controlled features|features=] to "`Enabled`" or "`Disabled`"
 
       : <dfn>declared policy</dfn>
       :: a [=/declared policy=]
@@ -425,7 +425,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     In this representation, a <a>policy directive</a> is represented by a
     Dictionary.
 
-    Each Dictionary Member associates a <a>feature</a> with an <a>allowlist</a>.
+    Each Dictionary Member associates a <a data-lt="policy-controlled feature">feature</a> with an <a>allowlist</a>.
     The Member Names must be Tokens. If a token does not name one of the user
     agent's [=supported features=], then the Dictionary Member will be ignored
     by the processing steps.
@@ -945,7 +945,7 @@ partial interface HTMLIFrameElement {
       <a>declared origin</a>.
     1. If |element|'s <{iframe/allowfullscreen}> attribute is specified, and
        |container policy| does not [=map/contain=] an entry for the
-       <code>fullscreen</code> [=feature=].
+       <code>fullscreen</code> [=policy-controlled feature|feature=].
       1. [=map/Set=] |container policy|[<code>fullscreen</code>] = <a>the
          special value <code>*</code></a>.
     1. Return |container policy|.
@@ -1001,7 +1001,7 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm"
     data-algorithm="define-inherited-policy-in-container">
-    Given a [=feature=] (|feature|), null or a <a>navigable container</a>
+    Given a [=policy-controlled feature|feature=] (|feature|), null or a <a>navigable container</a>
     (|container|), and an <a for="Document">origin</a> for a {{Document}} in
     that container (|origin|), this algorithm returns the [=inherited policy for
     a feature|inherited policy value=] for |feature|.
@@ -1032,7 +1032,7 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="get-feature-value-for-origin">Get feature value for origin</dfn> ## {#algo-get-feature-value-for-origin}
 
     <div class="algorithm" data-algorithm="get-feature-value-for-origin">
-    Given a [=feature=] (|feature|), a {{Document}} object
+    Given a [=policy-controlled feature|feature=] (|feature|), a {{Document}} object
     (|document|), and an [=origin=] (|origin|), this algorithm
     returns "<code>Disabled</code>" if |feature| should be considered
     disabled, and "<code>Enabled</code>" otherwise.</p>
@@ -1054,7 +1054,7 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="check-permissions-policy">
     To check a permissions policy, given [=permissions policy=] (|policy|), a
-    [=feature=] (|feature|), an [=origin=] (|origin|) and another [=origin=]
+    [=policy-controlled feature|feature=] (|feature|), an [=origin=] (|origin|) and another [=origin=]
     (|document origin|), this algorithm returns "<code>Disabled</code>" if
     |feature| should be considered disabled, and "<code>Enabled</code>"
     otherwise.
@@ -1079,7 +1079,7 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="is-feature-enabled">Is feature enabled in document for origin?</dfn> ## {#algo-is-feature-enabled}
 
     <div class="algorithm" data-algorithm="is-feature-enabled">
-    Given a [=feature=] (|feature|), a {{Document}} object
+    Given a [=policy-controlled feature|feature=] (|feature|), a {{Document}} object
     (|document|), an [=origin=] (|origin|), and an optional boolean (|report|),
     with a default value of True, this algorithm returns "<code>Disabled</code>"
     if |feature| should be considered disabled, and "<code>Enabled</code>"
@@ -1128,7 +1128,7 @@ partial interface HTMLIFrameElement {
     ## <dfn abstract-op id="get-reporting-endpoint">Get the reporting endpoint for a feature</dfn> ## {#algo-get-reporting-endpoint}
 
     <div class="algorithm" data-algorithm="get-reporting-endpoint">
-    Given a [=feature=] (|feature|) and a [=permissions policy=] (|policy|),
+    Given a [=policy-controlled feature|feature=] (|feature|) and a [=permissions policy=] (|policy|),
     this algorithm returns a string naming the endpoint to send violation
     reports to, or null if no such endpoint has been declared in |policy|.
     1. Let |config| be |policy|'s [=permissions policy/declared policy=]'s
@@ -1142,7 +1142,7 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings</dfn> ## {#algo-report-permissions-policy-violation}
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
-    Given a [=feature=] (|feature|), an <a>environment settings object</a>
+    Given a [=policy-controlled feature|feature=] (|feature|), an <a>environment settings object</a>
     (|settings|), a string (|disposition|), and a string-or-null (|endpoint|),
     this algorithm generates a <a>report</a> about the <a>violation</a> of the
     policy for |feature|.
@@ -1177,7 +1177,7 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm"
     data-algorithm="should-request-be-allowed-to-use-feature">
-    Given a [=feature=] (|feature|) and a  <a for="/">request</a> (|request|),
+    Given a [=policy-controlled feature|feature=] (|feature|) and a  <a for="/">request</a> (|request|),
     this algorithm returns <code>true</code> if the request should be allowed to
     use |feature|, and <code>false</code> otherwise.</p>
     1. Set |window| to |request|’s <a for="request">window</a>.
