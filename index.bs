@@ -194,14 +194,20 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     An iframe where the component "app1" should have camera access, "app2" should
     have microphone access, and "app3" should have both might look like this:
     <pre>
-    &lt;iframe allow="camera //app1.site.com //app3.site.com; microphone //app2.site.com"
-            src="//doc1.site.com" sandbox="allow-same-origin allow-scripts"&gt;&lt;/iframe&gt;
+    &lt;iframe
+      allow="camera https://app1.site.com https://app3.site.com;
+             microphone https://app2.site.com https://app3.site.com"
+      src="https://doc1.site.com"
+      sandbox="allow-same-origin allow-scripts"&gt;
+    &lt;/iframe&gt;
     </pre>
     <p>Iframe attributes can selectively enable features in certain frames, and
     not in others, even if those contain documents from the [=same origin=].
     The list of sandbox tokens might be longer in practice.</p>
-    <p>If the user already trusts PlatformCorp then
-    there might not be any additional permission prompt in this case.</p>
+    <p>Since browsers generally ask users to grant permissions to the top-level
+    domain, there might not be any additional permission prompt for the
+    components to request camera or microphone access if the user already
+    trusts PlatformCorp.</p>
   </div>
 </section>
 <section>
