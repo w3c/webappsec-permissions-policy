@@ -494,8 +494,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
 <section>
   <h2 id="delivery">Delivery</h2>
   <section>
-    <h3 id="permissions-policy-http-header-field">\``Permissions-Policy`\` HTTP
-    Header Field</h3>
+    <h3 id="permissions-policy-http-header-field">\``Permissions-Policy`\` HTTP Header Field</h3>
     <p>The \`<dfn export http-header
     id="permissions-policy-header"><code>Permissions-Policy</code></dfn>\`
     HTTP header field can be used in the [=response=] (server to client) to
@@ -512,8 +511,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     The processing steps are defined in [[#algo-construct-policy]].
   </section>
   <section>
-    <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the
-    <code>iframe</code> element</h3>
+    <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the <code>iframe</code> element</h3>
     <p><{iframe}> elements have an <{iframe/allow}> attribute, which contains an
     <a href="#serialized-policy-directive">ASCII-serialized policy
     directive</a>.</p>
@@ -527,8 +525,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     constructed.</p>
   </section>
   <section>
-    <h3 id="legacy-attributes">Additional attributes to support legacy
-    features</h3>
+    <h3 id="legacy-attributes">Additional attributes to support legacy features</h3>
     <p>Some <a data-lt="policy-controlled feature">features</a> controlled by
     Permissions Policy have existing iframe attributes defined. This
     specification redefines these attributes to influence the <{iframe}>'s
@@ -859,8 +856,7 @@ partial interface HTMLIFrameElement {
       by the user agent in response to the violation).
 
   <section>
-    <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\`
-    HTTP Header Field</h3>
+    <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\` HTTP Header Field</h3>
     <p>The \`<dfn export http-header
     id="permissions-policy-report-only-header"><code>Permissions-Policy-Report-Only</code></dfn>\`
     HTTP header field can be used in the [=response=] (server to client) to
