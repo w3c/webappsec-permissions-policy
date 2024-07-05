@@ -23,6 +23,7 @@ spec:html; type:element; text:link
 spec:fetch; type:dfn; text:name
 spec:fetch; type:dfn; text:value
 spec:infra; type:dfn; text:list
+spec:permissions; type:dfn; text:feature
 </pre>
 <pre class="anchors">
 spec:payment-request; urlPrefix: https://w3c.github.io/payment-request/
@@ -123,7 +124,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     will actually be granted the ability to use that API.</p>
   </div>
   <div class="example">
-    <p>SecureCorp Inc. restructured its domains and now needs to needs to delegate
+    <p>SecureCorp Inc. restructured its domains and now needs to delegate
     use of the Geolocation API to its origin ("<code>https://example.com</code>")
     as well as three subdomains ("<code>https://geo.example.com</code>",
     "<code>https://geo2.example.com</code>", and "<code>https://new.geo2.example.com</code>").
@@ -163,6 +164,51 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     to use the Geolocation API, but any other ports on "<code>https://example.com</code>"
     could use it too.</p>
   </div>
+  <div class="example">
+    <p>JSPlaygroundCorp Inc. wants to host user-generated web applications, but wants the
+    browser to manage their permissions to use [=powerful features=] in isolation of each other.
+    This can be accomplished by creating discrete subdomains for each piece of web-content
+    or web-content creator, and navigating them as top-level documents (framework and
+    user-content can still be separated using same-origin iframes).</p>
+
+    This is necessary since users grant permissions to the domain they perceive they
+    are interacting with in the browser, which is the top-level domain.
+
+    JSPlaygroundCorp should avoid iframing user-generated web applications using the
+    <{iframe/allow}> attribute from its own domain in this case, as this would grant
+    its domain permissions to all of them.
+  </div>
+  <div class="example">
+    <p>PlatformCorp Inc. wants to offer a marketplace of embeddable third-party
+    components to build from or games to play under its top-level domain. It wants to
+    delegate the use of [=powerful features=] like the {{MediaDevices/getUserMedia()}}
+    API responsibly. It accepts responsibility for tracking which of its component
+    applications need a feature, using bespoke "install" UX to keep end-users in
+    charge.</p>
+    <p>Camera and microphone are disabled by default in all cross-origin frames.
+    Each third-party component has a subdomain, and can be embedded in a
+    cross-origin iframe. PlatformCorp can use the <{iframe/allow}> attribute on
+    the <{iframe}> element to control whether to delegate camera or microphone
+    access or not to each subdomain.</p>
+
+    An iframe where the component "app1" should have camera access, "app2" should
+    have microphone access, and "app3" should have both might look like this:
+    <pre>
+    &lt;iframe
+      allow="camera https://app1.site.com https://app3.site.com;
+             microphone https://app2.site.com https://app3.site.com"
+      src="https://doc1.site.com"
+      sandbox="allow-same-origin allow-scripts"&gt;
+    &lt;/iframe&gt;
+    </pre>
+    <p>Iframe attributes can selectively enable features in certain frames, and
+    not in others, even if those contain documents from the [=same origin=].
+    The list of sandbox tokens might be longer in practice.</p>
+    <p>Since browsers generally ask users to grant permissions to the top-level
+    domain, there might not be any additional permission prompt for the
+    components to request camera or microphone access if the user already
+    trusts PlatformCorp.</p>
+  </div>
 </section>
 <section>
   <h2 id="other-and-related-mechanisms">Other and related mechanisms</h2>
@@ -194,13 +240,13 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   limitations.</p>
 </section>
 <section>
-  <h2 id="framwork">Framework</h2>
+  <h2 id="framework">Framework</h2>
   <section>
     <h3 id="features">Policy-controlled Features</h3>
     <p>A <dfn export
     data-lt="policy-controlled feature">policy-controlled feature</dfn> is an
     API or behaviour which can be enabled or disabled in a document by referring
-    to it in a <a>permissions policy</a>.
+    to it in a <a>permissions policy</a>.</p>
     <div class="note">For brevity, policy-controlled features will often be
     referred to in this document simply as "Features". Unless otherwise
     indicated, the term "feature" refers to <a>policy-controlled features</a>.
@@ -210,7 +256,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     Documents. We should figure out how to word this to include the possibility
     of features and permissions policies in Workers and Worklets as well.</div>
     <p><a>Policy-controlled features</a> are identified by tokens, which are
-    character strings used in <a>policy directives</a>.
+    character strings used in <a>policy directives</a>.</p>
     <p>Each <a>policy-controlled feature</a> has a <a>default allowlist</a>,
     which defines whether that feature is available in documents in top-level
     traversables, and how access to that feature is inherited in child
@@ -234,10 +280,10 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
 
     <dl dfn-for="declared policy">
       : <dfn>declarations</dfn>
-      :: an [=ordered map=] from [=features=] to [=allowlists=]
+      :: an [=ordered map=] from [=policy-controlled features|features=] to [=allowlists=]
 
       : <dfn>reporting configuration</dfn>
-      :: an [=ordered map=] from [=features=] to [=strings=]
+      :: an [=ordered map=] from [=policy-controlled features|features=] to [=strings=]
 
     </dl>
 
@@ -246,7 +292,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
 
     <dl dfn-for="permissions policy">
       : <dfn>inherited policy</dfn>
-      :: an [=ordered map=] from [=features=] to "`Enabled`" or "`Disabled`"
+      :: an [=ordered map=] from [=policy-controlled features|features=] to "`Enabled`" or "`Disabled`"
 
       : <dfn>declared policy</dfn>
       :: a [=/declared policy=]
@@ -279,7 +325,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     policy is based on defined defaults for each feature.</p>
     <p>In a {{Document}} in a [=child navigable=], the inherited policy is based
     on the parent document's permissions policy, as well as the [=child
-    navigable=]'s <a>container policy</a>.
+    navigable=]'s <a>container policy</a>.</p>
     </div>
   </section>
   <section>
@@ -318,7 +364,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     <h3 id="allowlists">Allowlists</h3>
     <p>A permissions policy <dfn export
     lt="allowlist|allowlists">allowlist</dfn> is conceptually a set of
-    [=origins=]. An <a>allowlist</a> may be either:
+    [=origins=]. An <a>allowlist</a> may be either:</p>
     <ul>
       <li><dfn>The special value <code>*</code></dfn>, which represents every
       origin, or</li>
@@ -339,16 +385,16 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     </div>
     <div algorithm="matches">
       <p>To determine whether an <a>allowlist</a> <dfn>matches</dfn> an origin
-      <var>origin</var>, run these steps:
+      <var>origin</var>, run these steps:</p>
 
       1. If the <a>allowlist</a> is <a>the special value <code>*</code></a>,
          then return true.
 
       Note: We are not using the CSP variant of wildcard matching as it requires the HTTPS scheme.
-      
+
       1. If the <a>allowlist</a>'s <a>self-origin</a> is not null and it is
          [=same origin-domain=] with <var>origin</var>, then return true.
-      
+
       1. If the <a>allowlist</a>'s <a>src-origin</a> is not null and it is
          [=same origin-domain=] with <var>origin</var>, then return true.
 
@@ -401,7 +447,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   <section>
     <h3 id="ascii-serialization">HTML attribute serialization</h3>
     <p><a>Policy Directives</a> in HTML attributes are represented as their
-    ASCII serialization, with the following ABNF:
+    ASCII serialization, with the following ABNF:</p>
     <pre class="abnf">
       <dfn noexport>serialized-permissions-policy</dfn> = <a>serialized-policy-directive</a> *(";" <a>serialized-policy-directive</a>)
       <dfn>serialized-policy-directive</dfn> = <a>feature-identifier</a> RWS <a>allow-list</a>
@@ -425,7 +471,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     In this representation, a <a>policy directive</a> is represented by a
     Dictionary.
 
-    Each Dictionary Member associates a <a>feature</a> with an <a>allowlist</a>.
+    Each Dictionary Member associates a <a data-lt="policy-controlled feature">feature</a> with an <a>allowlist</a>.
     The Member Names must be Tokens. If a token does not name one of the user
     agent's [=supported features=], then the Dictionary Member will be ignored
     by the processing steps.
@@ -448,15 +494,14 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
 <section>
   <h2 id="delivery">Delivery</h2>
   <section>
-    <h3 id="permissions-policy-http-header-field">\``Permissions-Policy`\` HTTP
-    Header Field</h3>
+    <h3 id="permissions-policy-http-header-field">\``Permissions-Policy`\` HTTP Header Field</h3>
     <p>The \`<dfn export http-header
     id="permissions-policy-header"><code>Permissions-Policy</code></dfn>\`
     HTTP header field can be used in the [=response=] (server to client) to
     communicate the <a>permissions policy</a> that should be enforced by the
     client.</p>
     <p>\`<a http-header><code>Permissions-Policy</code></a>\` is a structured
-    header. Its value must be a dictionary. It's ABNF is:
+    header. Its value must be a dictionary. It's ABNF is:</p>
     <pre class="abnf">
       PermissionsPolicy = <a>sf-dictionary</a>
     </pre>
@@ -466,15 +511,13 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     The processing steps are defined in [[#algo-construct-policy]].
   </section>
   <section>
-    <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the
-    <code>iframe</code> element</h3>
+    <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the <code>iframe</code> element</h3>
     <p><{iframe}> elements have an <{iframe/allow}> attribute, which contains an
     <a href="#serialized-policy-directive">ASCII-serialized policy
     directive</a>.</p>
     <p>The [=allowlist=] for the features named in the attribute may be empty; in
     that case, the default value for the allowlist is <code>'src'</code>, which
-    represents the origin of the URL in the iframe's <{iframe/src}> attribute.
-    </p>
+    represents the origin of the URL in the iframe's <{iframe/src}> attribute.</p>
     <p>When not empty, the <{iframe/allow}> attribute will result in adding an
     [=allowlist=] for each recognized <a data-lt="policy-controlled
     feature">feature</a> to the <{iframe}> element's [=navigable
@@ -482,8 +525,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     constructed.</p>
   </section>
   <section>
-    <h3 id="legacy-attributes">Additional attributes to support legacy
-    features</h3>
+    <h3 id="legacy-attributes">Additional attributes to support legacy features</h3>
     <p>Some <a data-lt="policy-controlled feature">features</a> controlled by
     Permissions Policy have existing iframe attributes defined. This
     specification redefines these attributes to influence the <{iframe}>'s
@@ -526,14 +568,13 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   <h4 id="document-policies">Document policies</h4>
   <p>To retreive the currently effective policy, use
   <code>document.permissionsPolicy</code>. This returns a {{PermissionsPolicy}}
-  object, which can be used to:
+  object, which can be used to:</p>
     * query the state (allowed or denied) in the current document for a given
         feature,
     * get a list of all available features (allowed or not) in the current
         document,
     * get a list of all allowed features in the current document, or
     * get the allowlist for a given feature in the current document.
-  </p>
 
   <div class="example">
   <pre>
@@ -644,7 +685,7 @@ partial interface HTMLIFrameElement {
     {{PermissionsPolicy}} object is created.</p>
     <p>A {{PermissionsPolicy}} object has a <dfn>default origin</dfn>, which is
     an <a>origin</a>, whose value depends on the state of the
-    {{PermissionsPolicy}} object's <a>associated node</a>:
+    {{PermissionsPolicy}} object's <a>associated node</a>:</p>
     * If the {{PermissionsPolicy}} object's <a>associated node</a> is a
         {{Document}}, then its <a>default origin</a> is the {{Document}}'s
         <a>origin</a>.
@@ -665,7 +706,7 @@ partial interface HTMLIFrameElement {
     getting, must return the <{iframe}>'s [=iframe/policy object=].</p>
 
     <p>The {{allowsFeature(feature, origin)}} method must run the following
-    steps:
+    steps:</p>
     1. If |origin| is omitted, set |origin| to this {{PermissionsPolicy}}
         object's <a>default origin</a>.
     2. Let |policy| be the <a>observable policy</a> for this
@@ -673,13 +714,13 @@ partial interface HTMLIFrameElement {
     3. If |feature| is allowed by |policy| for |origin|, return true.
     4. Otherwise, return false.
 
-    <p>The {{features()}} method must run the following steps:
+    <p>The {{features()}} method must run the following steps:</p>
     1. Set |result| to an empty ordered set.
     2. For each <a>supported feature</a> |feature|:
         1. Append |feature| to |result|.
     3. return result
 
-    <p>The {{allowedFeatures()}} method must run the following steps:
+    <p>The {{allowedFeatures()}} method must run the following steps:</p>
     1. Set |result| to an empty ordered set.
     2. Let |origin| be this {{PermissionsPolicy}} object's <a>default
         origin</a>.
@@ -691,7 +732,7 @@ partial interface HTMLIFrameElement {
     5. return result
 
     <p>The {{getAllowlistForFeature(feature)}} method must run the following
-    steps:
+    steps:</p>
     1. Set |result| to an empty list.
     2. Let |origin| be this {{PermissionsPolicy}} object's <a>default
        origin</a>.
@@ -735,7 +776,7 @@ partial interface HTMLIFrameElement {
            configuration=] new [=ordered maps=].
 
     <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
-    following steps:
+    following steps:</p>
         1. If |node|'s <a>node document</a>'s <a>sandboxed origin browsing
             context flag</a> is set, then return a new [=opaque origin=].
         2. If |node|'s <{iframe/sandbox}> attribute is set, and does not contain
@@ -753,7 +794,7 @@ partial interface HTMLIFrameElement {
       the document which the embedding page intends to load into a frame. This
       means, for instance, that if the browser does not support the
       <code>sandbox</code> or <code>srcdoc</code> attributes, it should not take
-      those attributes into account when computing the declared origin.
+      those attributes into account when computing the declared origin.</p>
   </section>
 
 </section>
@@ -770,11 +811,12 @@ partial interface HTMLIFrameElement {
   "permissions-policy-violation".</p>
 
   <p><a>Permissions policy violation reports</a> are <a>visible to
-  <code>ReportingObserver</code>s</a>.
+  <code>ReportingObserver</code>s</a>.</p>
 
   <pre class="idl">
     [Exposed=Window]
     interface PermissionsPolicyViolationReportBody : ReportBody {
+      [Default] object toJSON();
       readonly attribute DOMString featureId;
       readonly attribute DOMString? sourceFile;
       readonly attribute long? lineNumber;
@@ -814,8 +856,7 @@ partial interface HTMLIFrameElement {
       by the user agent in response to the violation).
 
   <section>
-    <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\`
-    HTTP Header Field</h3>
+    <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\` HTTP Header Field</h3>
     <p>The \`<dfn export http-header
     id="permissions-policy-report-only-header"><code>Permissions-Policy-Report-Only</code></dfn>\`
     HTTP header field can be used in the [=response=] (server to client) to
@@ -824,7 +865,7 @@ partial interface HTMLIFrameElement {
     policy declared within it *would* have been violated, had the policy been
     active.</p>
     <p>\`<a http-header><code>Permissions-Policy-Report-Only</code></a>\` is a
-    structured header. Its value must be a dictionary.
+    structured header. Its value must be a dictionary.</p>
 
     The semantics of the dictionary are defined in
     [[#structured-header-serialization]].
@@ -945,7 +986,7 @@ partial interface HTMLIFrameElement {
       <a>declared origin</a>.
     1. If |element|'s <{iframe/allowfullscreen}> attribute is specified, and
        |container policy| does not [=map/contain=] an entry for the
-       <code>fullscreen</code> [=feature=].
+       <code>fullscreen</code> [=policy-controlled feature|feature=].
       1. [=map/Set=] |container policy|[<code>fullscreen</code>] = <a>the
          special value <code>*</code></a>.
     1. Return |container policy|.
@@ -1001,7 +1042,7 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm"
     data-algorithm="define-inherited-policy-in-container">
-    Given a [=feature=] (|feature|), null or a <a>navigable container</a>
+    Given a [=policy-controlled feature|feature=] (|feature|), null or a <a>navigable container</a>
     (|container|), and an <a for="Document">origin</a> for a {{Document}} in
     that container (|origin|), this algorithm returns the [=inherited policy for
     a feature|inherited policy value=] for |feature|.
@@ -1032,10 +1073,10 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="get-feature-value-for-origin">Get feature value for origin</dfn> ## {#algo-get-feature-value-for-origin}
 
     <div class="algorithm" data-algorithm="get-feature-value-for-origin">
-    Given a [=feature=] (|feature|), a {{Document}} object
+    Given a [=policy-controlled feature|feature=] (|feature|), a {{Document}} object
     (|document|), and an [=origin=] (|origin|), this algorithm
     returns "<code>Disabled</code>" if |feature| should be considered
-    disabled, and "<code>Enabled</code>" otherwise.</p>
+    disabled, and "<code>Enabled</code>" otherwise.
     1. Let |policy| be |document|'s [=Document/permissions policy=].
     1. If |policy|'s <a for="permissions policy">inherited policy</a> for
        |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
@@ -1054,7 +1095,7 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="check-permissions-policy">
     To check a permissions policy, given [=permissions policy=] (|policy|), a
-    [=feature=] (|feature|), an [=origin=] (|origin|) and another [=origin=]
+    [=policy-controlled feature|feature=] (|feature|), an [=origin=] (|origin|) and another [=origin=]
     (|document origin|), this algorithm returns "<code>Disabled</code>" if
     |feature| should be considered disabled, and "<code>Enabled</code>"
     otherwise.
@@ -1079,14 +1120,14 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="is-feature-enabled">Is feature enabled in document for origin?</dfn> ## {#algo-is-feature-enabled}
 
     <div class="algorithm" data-algorithm="is-feature-enabled">
-    Given a [=feature=] (|feature|), a {{Document}} object
+    Given a [=policy-controlled feature|feature=] (|feature|), a {{Document}} object
     (|document|), an [=origin=] (|origin|), and an optional boolean (|report|),
     with a default value of True, this algorithm returns "<code>Disabled</code>"
     if |feature| should be considered disabled, and "<code>Enabled</code>"
     otherwise. If |report| is True, then it will also [=generate and queue a
     report=] if the feature is not enabled in either |document|'s
     [=Document/permissions policy=] or |document|'s [=Document/report-only
-    permissions policy=]</p>
+    permissions policy=].
 
     Note: The default value of True for |report| means that most permissions
     policy checks will generate a violation report if the feature is not
@@ -1128,7 +1169,7 @@ partial interface HTMLIFrameElement {
     ## <dfn abstract-op id="get-reporting-endpoint">Get the reporting endpoint for a feature</dfn> ## {#algo-get-reporting-endpoint}
 
     <div class="algorithm" data-algorithm="get-reporting-endpoint">
-    Given a [=feature=] (|feature|) and a [=permissions policy=] (|policy|),
+    Given a [=policy-controlled feature|feature=] (|feature|) and a [=permissions policy=] (|policy|),
     this algorithm returns a string naming the endpoint to send violation
     reports to, or null if no such endpoint has been declared in |policy|.
     1. Let |config| be |policy|'s [=permissions policy/declared policy=]'s
@@ -1142,7 +1183,7 @@ partial interface HTMLIFrameElement {
     ## <dfn export abstract-op id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings</dfn> ## {#algo-report-permissions-policy-violation}
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
-    Given a [=feature=] (|feature|), an <a>environment settings object</a>
+    Given a [=policy-controlled feature|feature=] (|feature|), an <a>environment settings object</a>
     (|settings|), a string (|disposition|), and a string-or-null (|endpoint|),
     this algorithm generates a <a>report</a> about the <a>violation</a> of the
     policy for |feature|.
@@ -1177,9 +1218,9 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm"
     data-algorithm="should-request-be-allowed-to-use-feature">
-    Given a [=feature=] (|feature|) and a  <a for="/">request</a> (|request|),
+    Given a [=policy-controlled feature|feature=] (|feature|) and a  <a for="/">request</a> (|request|),
     this algorithm returns <code>true</code> if the request should be allowed to
-    use |feature|, and <code>false</code> otherwise.</p>
+    use |feature|, and <code>false</code> otherwise.
     1. Set |window| to |request|’s <a for="request">window</a>.
     1. If |window| is not a {{Window}}, return <code>false</code>.
        <div class="issue">Permissions Policy within non-Window contexts
