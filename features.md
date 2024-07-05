@@ -80,7 +80,7 @@ experimentation by web developers.
 | ------------ | ------- | --------------- |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[3](#fn3)</sup> |
-| `digital-credential-get` | [Explainer](https://wicg.github.io/digital-credentials/) | Behind a flag in Chrome<sup>[6](#fn6)</sup>
+| `digital-credentials-get` | [Explainer](https://wicg.github.io/digital-credentials/) | Behind a flag in Chrome<sup>[6](#fn6)</sup>
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `join-ad-interest-group` | [Protected Audience (formerly FLEDGE)][protected-audience] | Behind a flag in Chrome<sup>[4](#fn4)</sup> |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
