@@ -82,6 +82,7 @@ experimentation by web developers.
 
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
+| `all-screens-capture` | [Capture all screens API](https://screen-share.github.io/capture-all-screens/#feature-policy-integration) | In [Origin Trial](https://chromestatus.com/feature/6284029979525120) |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
 | `captured-surface-control` | [Captured Surface Control API][capture-surface-control]  | In [Origin Trial](https://chromestatus.com/feature/5092615678066688) |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[3](#fn3)</sup> |
