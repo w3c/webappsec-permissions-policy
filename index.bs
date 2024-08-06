@@ -852,12 +852,9 @@ partial interface HTMLIFrameElement {
       string indicating whether the <a>violated</a> permissions policy was
       enforced in this case.
       [=PermissionsPolicyViolationReportBody/disposition=] will be set to
-      "enforce" if the policy was enforced, "report" if the <a>violation</a>
+      "enforce" if the policy was enforced, or "report" if the <a>violation</a>
       resulted only in this report being generated (with no further action taken
-      by the user agent in response to the violation), "potential-enforce" if the
-      policy was potentially enforced on iframes, or "potential-report" if the
-      potential <a>violation</a> on iframes resulted only in this report being
-      generated.
+      by the user agent in response to the violation).
 
     - <dfn for="PermissionsPolicyViolationReportBody">allowAttribute</dfn>: If
       known, the value of <{iframe}> element's <{iframe/allow}> attribute, or 
@@ -1166,22 +1163,30 @@ partial interface HTMLIFrameElement {
         1. Let |settings| be |document|'s <a>environment settings object</a>.
         1. If |result| is "<code>Disabled</code>":
             1. Let |endpoint| be the result of calling <a abstract-op>Get the
-                reporting endpoint for a feature</a> given |feature| and
-                |policy|.
-            1. Let |disposition| be "<code>potential-enforce</code>" if
-               |potential| is True, or "<code>enforce</code>" otherwise.
-            1. Call <a abstract-op>Generate report for violation of permissions
-                policy on settings</a> given |feature|, |settings|,
-                |disposition|, |endpoint|, and |allowAttribute|.
+               reporting endpoint for a feature</a> given |feature| and
+               |policy|.
+            1. If |potential| is True:
+                1. Call <a abstract-op>Generate report for potential violation
+                   of permissions policy on settings</a> given |feature|,
+                   |settings|, "<code>enforce</code>", |endpoint|, and
+                   |allowAttribute|.
+            1. Else:
+                1. Call <a abstract-op>Generate report for violation of
+                   permissions policy on settings</a> given |feature|, |settings|,
+                   "<code>enforce</code>", and |endpoint|.
         1. Else, if |report-only result| is "<code>Disabled</code>":
             1. Let |report-only endpoint| be the result of calling <a
-                abstract-op>Get the reporting endpoint for a feature</a> given
+               abstract-op>Get the reporting endpoint for a feature</a> given
                |feature| and |report-only policy|.
-            1. Let |disposition| be "<code>potential-report</code>" if
-               |potential| is True, or "<code>report</code>" otherwise.
-            1. Call <a abstract-op>Generate report for violation of permissions
-                policy on settings</a> given |feature|, |settings|,
-                |potential|, |report-only endpoint|, and |allowAttribute|.
+            1. If |potential| is True:
+                1. Call <a abstract-op>Generate report for potential violation of
+                   permissions policy on settings</a> given |feature|, |settings|,
+                   "<code>report</code>", |report-only endpoint|, and
+                   |allowAttribute|.
+            1. Else:
+                1. Call <a abstract-op>Generate report for violation of permissions
+                   policy on settings</a> given |feature|, |settings|,
+                   "<code>report</code>", and |report-only endpoint|.
     1. Return result
 
     </div>
@@ -1222,6 +1227,40 @@ partial interface HTMLIFrameElement {
         ::  null
         :   [=PermissionsPolicyViolationReportBody/disposition=]
         ::  |disposition|
+
+    1. If the user agent is currently executing script, and can extract the
+      source file's URL, line number, and column number from |settings|, then
+      set |body|'s [=PermissionsPolicyViolationReportBody/sourceFile=],
+      [=PermissionsPolicyViolationReportBody/lineNumber=], and
+      [=PermissionsPolicyViolationReportBody/columnNumber=] accordingly.
+
+    1. Execute [=generate and queue a report=] with |body|,
+      "permissions-policy-violation", |endpoint|, and |settings|.
+
+    </div>
+  </section>
+  <section>
+    ## <dfn export abstract-op id="report-potential-permissions-policy-violation">Generate report for potential violation of permissions policy on settings</dfn> ## {#algo-report-potential-permissions-policy-violation}
+
+    <div class="algorithm" data-algorithm="report-potential-permissions-policy-violation">
+    Given a [=policy-controlled feature|feature=] (|feature|), an <a>environment settings object</a>
+    (|settings|), a string (|disposition|), a string-or-null (|endpoint|), and a string-or-null
+    (|allowAttribute|), this algorithm generates a <a>report</a> about the <a>violation</a> of the
+    policy for |feature|.
+
+    1. Let |body| be a new {{PermissionsPolicyViolationReportBody}}, initialized
+      as follows:
+
+        :   [=PermissionsPolicyViolationReportBody/featureId=]
+        ::  |feature|'s string representation.
+        :   [=PermissionsPolicyViolationReportBody/sourceFile=]
+        ::  null
+        :   [=PermissionsPolicyViolationReportBody/lineNumber=]
+        ::  null
+        :   [=PermissionsPolicyViolationReportBody/columnNumber=]
+        ::  null
+        :   [=PermissionsPolicyViolationReportBody/disposition=]
+        ::  |disposition|
         :   [=PermissionsPolicyViolationReportBody/allowAttribute=]
         ::  |allowAttribute|
 
@@ -1236,7 +1275,7 @@ partial interface HTMLIFrameElement {
        |allowAttribute|.
 
     1. Execute [=generate and queue a report=] with |body|,
-      "permissions-policy-violation", |endpoint|, and |settings|.
+      "potential-permissions-policy-violation", |endpoint|, and |settings|.
 
     </div>
   </section>
