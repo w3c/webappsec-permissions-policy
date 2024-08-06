@@ -18,6 +18,7 @@ specification.
 | ------------ | ------------ | --------------- |
 | `accelerometer` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `ambient-light-sensor` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
+| `attribution-reporting` | [Attribution Reporting API][attribution-reporting] | [Chrome 115](https://chromestatus.com/feature/6412002824028160)  |
 | `autoplay` | [HTML][html] | [Chrome 64](https://www.chromestatus.com/feature/5100524789563392) |
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
 | `bluetooth` | [Web Bluetooth][bluetooth] | [Chrome 104](https://chromestatus.com/feature/6439287120723968) |
@@ -32,7 +33,9 @@ specification.
 | `ch-ua-platform` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-platform-version` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-wow64` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `compute-pressure` | [Compute Pressure API][compute-pressure] | [Chrome 125](https://chromestatus.com/feature/5597608644968448) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
+| `direct-sockets` | [Direct Sockets API][direct-sockets] | | Status "[Started](https://chromestatus.com/feature/6398297361088512)" in Chrome |  
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | [Chrome 94](https://chromestatus.com/feature/5144822362931200) |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -41,6 +44,7 @@ specification.
 | `geolocation` | [Geolocation API][geolocation] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `gyroscope` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
 | `hid` | [WebHID API][webhid] | [Chrome 89](https://chromestatus.com/feature/5172464636133376) |
+| `identity-credentials-get` | [Federated Credential Management API][fedcm] | [Chrome 110](https://chromestatus.com/feature/5162418615877632) |
 | `idle-detection` | [Idle Detection API][idle-detection] | [Chrome 94](https://chromestatus.com/feature/4590256452009984) |
 | `keyboard-map` | [Keyboard API][keyboard] | [Chrome 97](https://www.chromestatus.com/feature/5657965899022336) |
 | `magnetometer` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
@@ -78,12 +82,16 @@ experimentation by web developers.
 
 | Feature name | Link(s) | Browser Support |
 | ------------ | ------- | --------------- |
+| `all-screens-capture` | [Capture all screens API](https://screen-share.github.io/capture-all-screens/#feature-policy-integration) | In [Origin Trial](https://chromestatus.com/feature/6284029979525120) |
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
+| `captured-surface-control` | [Captured Surface Control API][capture-surface-control]  | In [Origin Trial](https://chromestatus.com/feature/5092615678066688) |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[3](#fn3)</sup> |
+| `digital-credentials-get` | [Explainer](https://wicg.github.io/digital-credentials/) | Behind a flag in Chrome<sup>[6](#fn6)</sup>
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `join-ad-interest-group` | [Protected Audience (formerly FLEDGE)][protected-audience] | Behind a flag in Chrome<sup>[4](#fn4)</sup> |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
 | `run-ad-auction` | [Protected Audience (formerly FLEDGE)][protected-audience] | Behind a flag in Chrome<sup>[4](#fn4)</sup> |
+| `smart-card` | [Draft Spec](https://wicg.github.io/web-smart-card/#permissions-policy) and [Explainer](https://github.com/WICG/web-smart-card#readme) | [Prototyping in Chrome](https://chromestatus.com/feature/6411735804674048) |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 | `unload` | [Explainer](https://github.com/fergald/docs/blob/master/explainers/permissions-policy-unload.md) | Status "[Started](https://crbug.com/1324111) in Chrome |
@@ -115,11 +123,19 @@ and/or implementations have been removed.
 <a name="fn5">[5]</a>: Implemented in [Chrome 100](https://chromestatus.com/feature/5252960583942144) as `window-placement`;
 changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `window-management`.
 
+<a name="fn6">[6]</a>: To enable this, user the Chrome command line flag
+`--enable-features=WebIdentityDigitalCredentials`.
+
+[attribution-reporting]: https://wicg.github.io/attribution-reporting-api/#permission-policy-integration
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
 [bluetooth]: https://webbluetoothcg.github.io/web-bluetooth/#permissions-policy
+[capture-surface-control]: https://screen-share.github.io/captured-surface-control
+[compute-pressure]: https://www.w3.org/TR/compute-pressure/#policy-control
 [client-hints]: https://wicg.github.io/ua-client-hints/
+[direct-sockets]: https://wicg.github.io/direct-sockets/#permissions-policy
 [encrypted-media]: https://w3c.github.io/encrypted-media/#permissions-policy-integration
 [protected-audience]: https://wicg.github.io/turtledove/#permissions-policy-integration
+[fedcm]: https://fedidcg.github.io/FedCM/#permissions-policy-integration
 [fullscreen]: https://fullscreen.spec.whatwg.org/#permissions-policy-integration
 [generic-sensor]: https://www.w3.org/TR/generic-sensor/#feature-policy
 [geolocation]: https://w3c.github.io/geolocation-api/#permissions-policy
