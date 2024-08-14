@@ -995,13 +995,14 @@ partial interface HTMLIFrameElement {
        <code>fullscreen</code> [=policy-controlled feature|feature=].
       1. [=map/Set=] |container policy|[<code>fullscreen</code>] = <a>the
          special value <code>*</code></a>.
-    1. [=map/For each=] [=feature=] in |container policy|:
+    1. [=map/For each=] |feature| in |container policy|:
       1. If [=feature=]'s <a>allowlist</a> does not [=list/contain=] <a>the special
-         value <code>*</code></a>, then [=list/for each=] [=origins=] in
+         value <code>*</code></a>, then [=list/for each=] |origin| in
          <a>allowlist</a>:
-        1. Executing <a abstract-op>Is feature enabled in document for origin?</a>
+        1. Call <a abstract-op>Is feature enabled in document for origin?</a>
            on |feature|, |element|'s [=node document=], |origin|, True, True, and
            |allowAttribute|.
+        Note: The purpose of the call is to generate a report, and not to allow or deny a feature usage.
     1. Return |container policy|.
 
     </div>
@@ -1269,10 +1270,6 @@ partial interface HTMLIFrameElement {
       set |body|'s [=PermissionsPolicyViolationReportBody/sourceFile=],
       [=PermissionsPolicyViolationReportBody/lineNumber=], and
       [=PermissionsPolicyViolationReportBody/columnNumber=] accordingly.
-
-    1. If |allowAttribute| is not null, then set |body|'s
-       [=PermissionsPolicyViolationReportBody/allowAttribute=] to
-       |allowAttribute|.
 
     1. Execute [=generate and queue a report=] with |body|,
       "potential-permissions-policy-violation", |endpoint|, and |settings|.
