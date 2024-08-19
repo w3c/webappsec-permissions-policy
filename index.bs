@@ -986,25 +986,15 @@ partial interface HTMLIFrameElement {
     policy</a>, which may be empty.
     1. If |element| is not an <{iframe}> element, then return an empty [=policy
        directive=].
-    1. Let |allowAttribute| be the value of |element|'s <{iframe/allow}>
-       attribute.
     1. Let |container policy| be the result of running <a abstract-op>Parse policy
-      directive</a> given |allowAttribute|, the [=Document/origin=] of |element|'s
-      [=node document=], and |element|'s <a>declared origin</a>.
+      directive</a> given the value of |element|'s <{iframe/allow}> attribute,
+      the [=Document/origin=] of |element|'s [=node document=], and |element|'s
+      <a>declared origin</a>.
     1. If |element|'s <{iframe/allowfullscreen}> attribute is specified, and
        |container policy| does not [=map/contain=] an entry for the
        <code>fullscreen</code> [=policy-controlled feature|feature=].
       1. [=map/Set=] |container policy|[<code>fullscreen</code>] = <a>the
          special value <code>*</code></a>.
-    1. [=map/For each=] |feature| in |container policy|:
-      1. If [=feature=]'s <a>allowlist</a> does not [=list/contain=] <a>the special
-         value <code>*</code></a>, then [=list/for each=] |origin| in
-         <a>allowlist</a>:
-        1. Call <a abstract-op>Is feature enabled in document for origin?</a>
-           on |feature|, |element|'s [=node document=], |origin|, True, True, and
-           |allowAttribute|.
-
-        Note: The purpose of the call is to generate a report, and not to allow or deny a feature usage.
     1. Return |container policy|.
 
     </div>
@@ -1137,14 +1127,13 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="is-feature-enabled">
     Given a [=policy-controlled feature|feature=] (|feature|), a {{Document}} object
-    (|document|), an [=origin=] (|origin|), an optional boolean (|report|), with a
-    default value of True, an optional boolean (|potential|) with a default value of
-    False, and an optional string (|allowAttribute|), this algorithm returns
-    "<code>Disabled</code>" if |feature| should be considered disabled, and
-    "<code>Enabled</code>" otherwise. If |report| is True, then it will also
-    [=generate and queue a report=] if the feature is not enabled in either
-    |document|'s [=Document/permissions policy=] or |document|'s
-    [=Document/report-only permissions policy=].
+    (|document|), an [=origin=] (|origin|), and an optional boolean (|report|),
+    with a default value of True, this algorithm returns "<code>Disabled</code>"
+    if |feature| should be considered disabled, and "<code>Enabled</code>"
+    otherwise. If |report| is True, then it will also [=generate and queue a
+    report=] if the feature is not enabled in either |document|'s
+    [=Document/permissions policy=] or |document|'s [=Document/report-only
+    permissions policy=].
 
     Note: The default value of True for |report| means that most permissions
     policy checks will generate a violation report if the feature is not
@@ -1167,29 +1156,17 @@ partial interface HTMLIFrameElement {
         1. If |result| is "<code>Disabled</code>":
             1. Let |endpoint| be the result of calling <a abstract-op>Get the
                reporting endpoint for a feature</a> given |feature| and
-               |policy|.
-            1. If |potential| is True:
-                1. Call <a abstract-op>Generate report for potential violation
-                   of permissions policy on settings</a> given |feature|,
-                   |settings|, "<code>enforce</code>", |endpoint|, and
-                   |allowAttribute|.
-            1. Else:
-                1. Call <a abstract-op>Generate report for violation of
-                   permissions policy on settings</a> given |feature|, |settings|,
-                   "<code>enforce</code>", and |endpoint|.
+                |policy|.
+            1. Call <a abstract-op>Generate report for violation of permissions
+                policy on settings</a> given |feature|, |settings|,
+                "<code>Enforce</code>", and |endpoint|.
         1. Else, if |report-only result| is "<code>Disabled</code>":
             1. Let |report-only endpoint| be the result of calling <a
                abstract-op>Get the reporting endpoint for a feature</a> given
                |feature| and |report-only policy|.
-            1. If |potential| is True:
-                1. Call <a abstract-op>Generate report for potential violation of
-                   permissions policy on settings</a> given |feature|, |settings|,
-                   "<code>report</code>", |report-only endpoint|, and
-                   |allowAttribute|.
-            1. Else:
-                1. Call <a abstract-op>Generate report for violation of permissions
-                   policy on settings</a> given |feature|, |settings|,
-                   "<code>report</code>", and |report-only endpoint|.
+            1. Call <a abstract-op>Generate report for violation of permissions
+                policy on settings</a> given |feature|, |settings|,
+                "<code>Report</code>", and |report-only endpoint|.
     1. Return result
 
     </div>
