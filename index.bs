@@ -856,9 +856,10 @@ partial interface HTMLIFrameElement {
       resulted only in this report being generated (with no further action taken
       by the user agent in response to the violation).
 
-    - <dfn for="PermissionsPolicyViolationReportBody">allowAttribute</dfn>: If
-      known, the value of <{iframe}> element's <{iframe/allow}> attribute, or 
-      null otherwise.
+    - <dfn for="PermissionsPolicyViolationReportBody">allowAttribute</dfn>: For
+      reports of potential violations, which can be attributed to a specific
+      <{iframe}> element, the value of the <{iframe/allow}> attribute of that
+      element, or omitted otherwise.
 
   <section>
     <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\` HTTP Header Field</h3>
