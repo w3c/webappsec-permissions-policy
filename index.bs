@@ -764,12 +764,35 @@ partial interface HTMLIFrameElement {
     <p>To get the <a>observable policy</a> for an Element |node|, run the
     following steps:</p>
         1. Let |inherited policy| be an empty [=ordered map=].
-        3. [=set/For each=] <a>supported feature</a> |feature|:
+        2. [=set/For each=] <a>supported feature</a> |feature|:
             1. Let |isInherited| be the result of running <a abstract-op>Define
                 an inherited policy for feature in container at origin</a> on
                 |feature|, |node| and |node|'s <a>declared origin</a>.
             2. Set |inherited policy|[|feature|] to |isInherited|.
-        4. Return a new <a>permissions policy</a> with <a for="permissions
+            3. If |node| is a <a>navigable container</a>:
+              1. Let |document| be |node|'s <a>node document</a>.
+              2. Let |settings| be |document|'s <a>environment settings
+                 object</a>.
+              3. If |isInherited| is "<code>Disabled</code>":
+                1. Let |endpoint| be the result of calling <a abstract-op>Get
+                   the reporting endpoint for a feature</a> given |feature| and
+                   |document|'s [=Document/permissions policy=].
+                2. Call <a abstract-op>Generate report for potential violation
+                   of permissions policy on settings</a> given |feature|,
+                   |settings|, "<code>Enforce</code>", and |endpoint|.
+              4. If the result of running <a abstract-op>Define an inherited
+                 policy for feature in container at origin</a> on |feature|,
+                 |node|, |node|'s <a>declared origin</a> and True is
+                 "<code>Disabled</code>":
+                1. Let |report-only endpoint| be the result of calling <a
+                   abstract-op>Get the reporting endpoint for a feature</a>
+                   given |feature| and |document|'s [=Document/report-only
+                   permissions policy=].
+                2. Call <a abstract-op>Generate report for potential violation
+                   of permissions policy on settings</a> given |feature|,
+                   |settings|, "<code>Report</code>", and |report-only
+                   endpoint|.
+        3. Return a new <a>permissions policy</a> with <a for="permissions
            policy">inherited policy</a> |inherited policy|, <a
            for="permissions policy">declared policy</a> a [=struct=] with both
            [=declared policy/declarations=] and [=declared policy/reporting
