@@ -1072,17 +1072,19 @@ partial interface HTMLIFrameElement {
     <div class="algorithm"
     data-algorithm="define-inherited-policy-in-container">
     Given a [=policy-controlled feature|feature=] (|feature|), null or a <a>navigable container</a>
-    (|container|), and an <a for="Document">origin</a> for a {{Document}} in
-    that container (|origin|), this algorithm returns the [=inherited policy for
-    a feature|inherited policy value=] for |feature|.
+    (|container|), an <a for="Document">origin</a> for a {{Document}} in
+    that container (|origin|), and an optional boolean (|report-only|), with
+    a default value of False, this algorithm returns the [=inherited policy
+    for a feature|inherited policy value=] for |feature|.
     1. If |container| is null, return "<code>Enabled</code>".
     1. If the result of executing <a abstract-op>Get feature value for
-      origin</a> on |feature|, |container|'s <a>node document</a>, and
-      |container|'s <a>node document</a>'s origin is
+      origin</a> on |feature|, |container|'s <a>node document</a>,
+      |container|'s <a>node document</a>'s origin, and |report-only| is
       "<code>Disabled</code>", return "<code>Disabled</code>".
     1. If the result of executing <a abstract-op>Get feature value for
-      origin</a> on |feature|, |container|'s <a>node document</a>, and
-      |origin| is "<code>Disabled</code>", return "<code>Disabled</code>".
+      origin</a> on |feature|, |container|'s <a>node document</a>, |origin|,
+      and |report-only| is "<code>Disabled</code>", return
+      "<code>Disabled</code>".
     1. Let |container policy| be the result of running <a abstract-op>Process
       permissions policy attributes</a> on |container|.
     1. If |feature| [=map/exists=] in |container policy|:
@@ -1103,10 +1105,12 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="get-feature-value-for-origin">
     Given a [=policy-controlled feature|feature=] (|feature|), a {{Document}} object
-    (|document|), and an [=origin=] (|origin|), this algorithm
-    returns "<code>Disabled</code>" if |feature| should be considered
-    disabled, and "<code>Enabled</code>" otherwise.
-    1. Let |policy| be |document|'s [=Document/permissions policy=].
+    (|document|), an [=origin=] (|origin|), and a boolean (|report-only|),
+    this algorithm returns "<code>Disabled</code>" if |feature| should be
+    considered disabled, and "<code>Enabled</code>" otherwise.
+    1. Let |policy| be |document|'s [=Document/report-only permissions
+       policy=] if |report-only| is True, or |document|'s
+       [=Document/permissions policy=] otherwise.
     1. If |policy|'s <a for="permissions policy">inherited policy</a> for
        |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
     1. If |feature| is present in |policy|'s <a for="permissions policy">declared
