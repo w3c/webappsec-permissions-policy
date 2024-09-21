@@ -339,8 +339,8 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     <h3 id="container-policies">Container policies</h3>
     <p>In addition to the <a>header policy</a>, each [=child navigable=] has a
     <dfn export>container policy</dfn>, which is a <a>policy directive</a>,
-    which may be empty. The <a>container policy</a> can set by attributes on the
-    [=navigable container=].</p>
+    which may be empty. The <a>container policy</a> can be set by attributes on
+    the [=navigable container=].</p>
     <p>The <a>container policy</a> for a [=child navigable=] influences the <a
     for="permissions policy">inherited policy</a> of any {{Document}} loaded into
     that navigable. (See [[#algo-define-inherited-policy-in-container]]).</p>
