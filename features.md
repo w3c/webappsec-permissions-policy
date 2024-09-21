@@ -17,7 +17,7 @@ specification.
 | Feature name | Spec link(s) | Browser Support |
 | ------------ | ------------ | --------------- |
 | `accelerometer` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
-| `ambient-light-sensor` | [Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
+| `ambient-light-sensor` | [Generic Sensor API][generic-sensor] | Behind a flag in Chrome<sup>[7](#fn7)</sup> |
 | `attribution-reporting` | [Attribution Reporting API][attribution-reporting] | [Chrome 115](https://chromestatus.com/feature/6412002824028160)  |
 | `autoplay` | [HTML][html] | [Chrome 64](https://www.chromestatus.com/feature/5100524789563392) |
 | `battery` | [Battery Status API][battery-status] | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=1007264)" in Chrome |
@@ -126,6 +126,9 @@ changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `w
 
 <a name="fn6">[6]</a>: To enable this, user the Chrome command line flag
 `--enable-features=WebIdentityDigitalCredentials`.
+
+<a name="fn7">[7]</a>: To enable this, user the Chrome command line flag
+`--enable-features=SensorExtraClasses`.
 
 [attribution-reporting]: https://wicg.github.io/attribution-reporting-api/#permission-policy-integration
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
