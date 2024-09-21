@@ -255,8 +255,9 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     <div class="issue">This spec currently only deals with features defined in
     Documents. We should figure out how to word this to include the possibility
     of features and permissions policies in Workers and Worklets as well.</div>
-    <p><a>Policy-controlled features</a> are identified by tokens, which are
-    character strings used in <a>policy directives</a>.</p>
+    <p><a>Policy-controlled features</a> are identified by <dfn export
+    for="policy-controlled-feature">tokens</dfn>, which are character strings
+    used in <a>policy directives</a>.</p>
     <p>Each <a>policy-controlled feature</a> has a <a>default allowlist</a>,
     which defines whether that feature is available in documents in top-level
     traversables, and how access to that feature is inherited in child
