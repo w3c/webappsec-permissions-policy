@@ -59,6 +59,7 @@ specification.
 | `screen-wake-lock` | [Wake Lock API][wake-lock] | [Chrome 84](https://www.chromestatus.com/feature/4636879949398016) |
 | `serial` | [Web Serial API][web-serial] | [Chrome 89](https://chromestatus.com/feature/6577673212002304) |
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
+| `storage-access` | [Storage Access][storage-access] | [Chrome 115](https://chromestatus.com/feature/5612590694662144) |
 | `usb` | [WebUSB][webusb] | Chrome 60 |
 | `web-share` | [Web Share API][web-share] | Chrome 86 |
 | `window-management`<sup>[5](#fn5)</sup> | [Window Management API][window-management] | [Chrome 111](https://chromestatus.com/feature/5146352391028736) |
@@ -158,6 +159,7 @@ changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `w
 [payment-request]: https://www.w3.org/TR/payment-request/#permissions-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
 [publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-permissions-policy
+[storage-access]: https://privacycg.github.io/storage-access/#permissions-policy-integration
 [wake-lock]: https://w3c.github.io/screen-wake-lock/#policy-control
 [web-midi]: https://webaudio.github.io/web-midi-api/#permissions-policy-integration
 [web-serial]: https://wicg.github.io/serial/#permissions-policy
