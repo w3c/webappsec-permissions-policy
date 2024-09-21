@@ -53,7 +53,7 @@ specification.
 | `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
 | `otp-credentials` | [WebOTP API][otp-credentials] | [Chrome 84](https://chromestatus.com/feature/5873577578463232) |
 | `payment` | [Payment Request API][payment-request] | Chrome 60 |
-| `picture-in-picture` | [Picture-in-Picture][pip] | Shipped in Chrome |
+| `picture-in-picture` | [Picture-in-Picture][pip] | [Chrome 71](https://chromestatus.com/feature/5729206566649856) |
 | `publickey-credentials-get` | [Web Authentication API][publickey-credentials-get] | [Chrome 84](https://bugs.chromium.org/p/chromium/issues/detail?id=993007) |
 | `screen-wake-lock` | [Wake Lock API][wake-lock] | [Chrome 84](https://www.chromestatus.com/feature/4636879949398016) |
 | `serial` | [Web Serial API][web-serial] | [Chrome 89](https://chromestatus.com/feature/6577673212002304) |
