@@ -48,6 +48,7 @@ specification.
 | `idle-detection` | [Idle Detection API][idle-detection] | [Chrome 94](https://chromestatus.com/feature/4590256452009984) |
 | `keyboard-map` | [Keyboard API][keyboard] | [Chrome 97](https://www.chromestatus.com/feature/5657965899022336) |
 | `magnetometer` |[Generic Sensor API][generic-sensor] | [Chrome 66](https://www.chromestatus.com/feature/5758486868656128) |
+| `mediasession` | [Media Session API][mediasession] | |
 | `microphone` |[Media Capture][media-capture] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `midi` | [Web MIDI][web-midi] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `navigation-override` | [CSS Spatial Navigation][navigation-override] |  |
@@ -149,6 +150,7 @@ changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `w
 [local-fonts]: https://wicg.github.io/local-font-access/#permissions-policy
 [media-capture]: https://w3c.github.io/mediacapture-main/#permissions-policy-integration
 [media-capture-screen-share]: https://w3c.github.io/mediacapture-screen-share/#permissions-policy-integration
+[mediasession]: https://w3c.github.io/mediasession/#permissions-policy
 [navigation-override]: https://drafts.csswg.org/css-nav-1/#policy-feature
 [otp-credentials]: https://wicg.github.io/web-otp/#otp-credentials-feature
 [page-lifecycle]: https://wicg.github.io/page-lifecycle/#feature-policies
