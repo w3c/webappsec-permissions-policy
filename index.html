@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/permissions-policy/" rel="canonical">
-  <meta content="f15a4548691ea69a87227c0f67571da2cc0e08c1" name="document-revision">
+  <meta content="3987e901ca0af79550ba1d96d97736afaa29f67a" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -905,7 +905,7 @@ var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Permissions Policy</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-07-24">24 July 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-09-21">21 September 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1316,7 +1316,8 @@ var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
     <section>
      <h3 class="heading settled" data-level="4.5" id="container-policies"><span class="secno">4.5. </span><span class="content">Container policies</span><a class="self-link" href="#container-policies"></a></h3>
      <p>In addition to the <a data-link-type="dfn" href="#header-policy" id="ref-for-header-policy">header policy</a>, each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#child-navigable" id="ref-for-child-navigable②">child navigable</a> has a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="container-policy">container policy</dfn>, which is a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive②">policy directive</a>,
-    which may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> can set by attributes on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#navigable-container" id="ref-for-navigable-container">navigable container</a>.</p>
+    which may be empty. The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy①">container policy</a> can be set by attributes on
+    the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#navigable-container" id="ref-for-navigable-container">navigable container</a>.</p>
      <p>The <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy②">container policy</a> for a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#child-navigable" id="ref-for-child-navigable③">child navigable</a> influences the <a data-link-type="dfn" href="#permissions-policy-inherited-policy" id="ref-for-permissions-policy-inherited-policy③">inherited policy</a> of any <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑤">Document</a></code> loaded into
     that navigable. (See <a href="#algo-define-inherited-policy-in-container">§ 9.7 Define an inherited policy for feature in container at origin</a>).</p>
      <div class="note" role="note"> Currently, the <a data-link-type="dfn" href="#container-policy" id="ref-for-container-policy③">container policy</a> cannot be set directly, but is
