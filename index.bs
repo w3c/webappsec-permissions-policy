@@ -358,8 +358,8 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     directive</dfn> is an [=ordered map=], mapping <a>policy-controlled
     features</a> to corresponding [=allowlists=] of origins.</p>
     <p>A <a>policy directive</a> is represented in HTTP headers as the
-    serialization of an <a>sf-dictionary</a> structure, and in and HTML
-    attributes as its ASCII serialization.</p>
+    serialization of an <a>sf-dictionary</a> structure, and in HTML attributes
+    as its ASCII serialization.</p>
   </section>
   <section>
     <h3 id="allowlists">Allowlists</h3>
