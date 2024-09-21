@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/permissions-policy/" rel="canonical">
-  <meta content="3987e901ca0af79550ba1d96d97736afaa29f67a" name="document-revision">
+  <meta content="9d645680dd810053398e754207fb49e254e565de" name="document-revision">
 <style>
   .unstable::before {
     content: "This section is not stable.";
@@ -1251,8 +1251,8 @@ var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
      <div class="issue" id="issue-4ecdbcc2"><a class="self-link" href="#issue-4ecdbcc2"></a>This spec currently only deals with features defined in
     Documents. We should figure out how to word this to include the possibility
     of features and permissions policies in Workers and Worklets as well.</div>
-     <p><a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①">Policy-controlled features</a> are identified by tokens, which are
-    character strings used in <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive">policy directives</a>.</p>
+     <p><a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①">Policy-controlled features</a> are identified by <dfn data-dfn-for="policy-controlled-feature" data-dfn-type="dfn" data-export id="policy-controlled-feature-tokens">tokens<a class="self-link" href="#policy-controlled-feature-tokens"></a></dfn>, which are character strings
+    used in <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive">policy directives</a>.</p>
      <p>Each <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature②">policy-controlled feature</a> has a <a data-link-type="dfn" href="#policy-controlled-feature-default-allowlist" id="ref-for-policy-controlled-feature-default-allowlist">default allowlist</a>,
     which defines whether that feature is available in documents in top-level
     traversables, and how access to that feature is inherited in child
@@ -2590,6 +2590,7 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
    <li><a href="#supported-features">supported features</a><span>, in § 4.1</span>
    <li><a href="#the-special-value">The special value *</a><span>, in § 4.7</span>
    <li><a href="#dom-permissionspolicyviolationreportbody-tojson">toJSON()</a><span>, in § 8</span>
+   <li><a href="#policy-controlled-feature-tokens">tokens</a><span>, in § 4.1</span>
    <li><a href="#violate">violate</a><span>, in § 8</span>
    <li><a href="#violate">violated</a><span>, in § 8</span>
    <li><a href="#violate">violation</a><span>, in § 8</span>
