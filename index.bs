@@ -1209,7 +1209,7 @@ partial interface HTMLIFrameElement {
           2. Call <a abstract-op>Generate report for potential violation
              of permissions policy on settings</a> given |feature|,
              |settings|, "<code>Enforce</code>", and |endpoint|.
-        2. If the result of running <a abstract-op>Define an inherited
+        2. Else, if the result of running <a abstract-op>Define an inherited
            policy for feature in container at origin</a> on |feature|,
            |container|, |container|'s <a>declared origin</a> and True is
            "<code>Disabled</code>":
