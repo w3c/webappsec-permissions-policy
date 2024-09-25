@@ -823,6 +823,7 @@ partial interface HTMLIFrameElement {
       readonly attribute long? lineNumber;
       readonly attribute long? columnNumber;
       readonly attribute DOMString disposition;
+      readonly attribute DOMString? allowAttribute;
     };
   </pre>
 
@@ -855,6 +856,11 @@ partial interface HTMLIFrameElement {
       "enforce" if the policy was enforced, or "report" if the <a>violation</a>
       resulted only in this report being generated (with no further action taken
       by the user agent in response to the violation).
+
+    - <dfn for="PermissionsPolicyViolationReportBody">allowAttribute</dfn>: For
+      reports of potential violations, which can be attributed to a specific
+      <{iframe}> element, the value of the <{iframe/allow}> attribute of that
+      element, or omitted otherwise.
 
   <section>
     <h3 id="permissions-policy-report-only-http-header-field">\``Permissions-Policy-Report-Only`\` HTTP Header Field</h3>
@@ -1044,17 +1050,19 @@ partial interface HTMLIFrameElement {
     <div class="algorithm"
     data-algorithm="define-inherited-policy-in-container">
     Given a [=policy-controlled feature|feature=] (|feature|), null or a <a>navigable container</a>
-    (|container|), and an <a for="Document">origin</a> for a {{Document}} in
-    that container (|origin|), this algorithm returns the [=inherited policy for
-    a feature|inherited policy value=] for |feature|.
+    (|container|), an <a for="Document">origin</a> for a {{Document}} in
+    that container (|origin|), and an optional boolean (|report-only|), with
+    a default value of False, this algorithm returns the [=inherited policy
+    for a feature|inherited policy value=] for |feature|.
     1. If |container| is null, return "<code>Enabled</code>".
     1. If the result of executing <a abstract-op>Get feature value for
-      origin</a> on |feature|, |container|'s <a>node document</a>, and
-      |container|'s <a>node document</a>'s origin is
+      origin</a> on |feature|, |container|'s <a>node document</a>,
+      |container|'s <a>node document</a>'s origin, and |report-only| is
       "<code>Disabled</code>", return "<code>Disabled</code>".
     1. If the result of executing <a abstract-op>Get feature value for
-      origin</a> on |feature|, |container|'s <a>node document</a>, and
-      |origin| is "<code>Disabled</code>", return "<code>Disabled</code>".
+      origin</a> on |feature|, |container|'s <a>node document</a>, |origin|,
+      and |report-only| is "<code>Disabled</code>", return
+      "<code>Disabled</code>".
     1. Let |container policy| be the result of running <a abstract-op>Process
       permissions policy attributes</a> on |container|.
     1. If |feature| [=map/exists=] in |container policy|:
@@ -1075,10 +1083,12 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="get-feature-value-for-origin">
     Given a [=policy-controlled feature|feature=] (|feature|), a {{Document}} object
-    (|document|), and an [=origin=] (|origin|), this algorithm
-    returns "<code>Disabled</code>" if |feature| should be considered
-    disabled, and "<code>Enabled</code>" otherwise.
-    1. Let |policy| be |document|'s [=Document/permissions policy=].
+    (|document|), an [=origin=] (|origin|), and a boolean (|report-only|),
+    this algorithm returns "<code>Disabled</code>" if |feature| should be
+    considered disabled, and "<code>Enabled</code>" otherwise.
+    1. Let |policy| be |document|'s [=Document/report-only permissions
+       policy=] if |report-only| is True, or |document|'s
+       [=Document/permissions policy=] otherwise.
     1. If |policy|'s <a for="permissions policy">inherited policy</a> for
        |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
     1. If |feature| is present in |policy|'s <a for="permissions policy">declared
@@ -1181,6 +1191,41 @@ partial interface HTMLIFrameElement {
     </div>
   </section>
   <section>
+    ## <dfn abstract-op id="check-potential-violation-in-container">Check potential violation of permissions policy in container</dfn> ## {#algo-check-potential-violation-in-container}
+
+    <div class="algorithm" data-algorithm="check-potential-violation-in-container">
+    Given a <a>navigable container</a> (|container|), this algorithm sends potential
+    violation reports.
+    1. Let |document| be |container|'s <a>node document</a>.
+    2. Let |settings| be |document|'s <a>environment settings
+       object</a>.
+    3. [=set/For each=] <a>supported feature</a> |feature|:
+        1. If the result of running <a abstract-op>Define an inherited
+           policy for feature in container at origin</a> on |feature|,
+           |container| and |container|'s <a>declared origin</a> is
+           "<code>Disabled</code>":
+          1. Let |endpoint| be the result of calling <a abstract-op>Get
+             the reporting endpoint for a feature</a> given |feature| and
+             |document|'s [=Document/permissions policy=].
+          2. Call <a abstract-op>Generate report for potential violation
+             of permissions policy on settings</a> given |feature|,
+             |settings|, "<code>Enforce</code>", and |endpoint|.
+        2. Else, if the result of running <a abstract-op>Define an inherited
+           policy for feature in container at origin</a> on |feature|,
+           |container|, |container|'s <a>declared origin</a> and True is
+           "<code>Disabled</code>":
+          1. Let |report-only endpoint| be the result of calling <a
+             abstract-op>Get the reporting endpoint for a feature</a>
+             given |feature| and |document|'s [=Document/report-only
+             permissions policy=].
+          2. Call <a abstract-op>Generate report for potential violation
+             of permissions policy on settings</a> given |feature|,
+             |settings|, "<code>Report</code>", and |report-only
+             endpoint|.
+
+    </div>
+  </section>
+  <section>
     ## <dfn export abstract-op id="report-permissions-policy-violation">Generate report for violation of permissions policy on settings</dfn> ## {#algo-report-permissions-policy-violation}
 
     <div class="algorithm" data-algorithm="report-permissions-policy-violation">
@@ -1211,6 +1256,42 @@ partial interface HTMLIFrameElement {
 
     1. Execute [=generate and queue a report=] with |body|,
       "permissions-policy-violation", |endpoint|, and |settings|.
+
+    </div>
+  </section>
+  <section>
+    ## <dfn export abstract-op id="report-potential-permissions-policy-violation">Generate report for potential violation of permissions policy on settings</dfn> ## {#algo-report-potential-permissions-policy-violation}
+
+    <div class="algorithm" data-algorithm="report-potential-permissions-policy-violation">
+    Given a [=policy-controlled feature|feature=] (|feature|), an <a>environment settings object</a>
+    (|settings|), a string (|disposition|), a string-or-null (|endpoint|), and a string-or-null
+    (|allowAttribute|), this algorithm generates a <a>report</a> about the <a>violation</a> of the
+    policy for |feature|.
+
+    1. Let |body| be a new {{PermissionsPolicyViolationReportBody}}, initialized
+      as follows:
+
+        :   [=PermissionsPolicyViolationReportBody/featureId=]
+        ::  |feature|'s string representation.
+        :   [=PermissionsPolicyViolationReportBody/sourceFile=]
+        ::  null
+        :   [=PermissionsPolicyViolationReportBody/lineNumber=]
+        ::  null
+        :   [=PermissionsPolicyViolationReportBody/columnNumber=]
+        ::  null
+        :   [=PermissionsPolicyViolationReportBody/disposition=]
+        ::  |disposition|
+        :   [=PermissionsPolicyViolationReportBody/allowAttribute=]
+        ::  |allowAttribute|
+
+    1. If the user agent is currently executing script, and can extract the
+      source file's URL, line number, and column number from |settings|, then
+      set |body|'s [=PermissionsPolicyViolationReportBody/sourceFile=],
+      [=PermissionsPolicyViolationReportBody/lineNumber=], and
+      [=PermissionsPolicyViolationReportBody/columnNumber=] accordingly.
+
+    1. Execute [=generate and queue a report=] with |body|,
+      "potential-permissions-policy-violation", |endpoint|, and |settings|.
 
     </div>
   </section>
@@ -1261,7 +1342,13 @@ partial interface HTMLIFrameElement {
        navigationParams's origin, navigationParams's response, and True.
 
     And in the same section, in step 10, set the new {{Document}}'s
-   [=Document/report-only permissions policy=] to |reportOnlyPermissionsPolicy|.
+    [=Document/report-only permissions policy=] to |reportOnlyPermissionsPolicy|.
+
+    And in the same section, in step 19 before the return, insert the following step:
+
+    19. If navigationParams's navigable's container is not null, call <a
+        abstract-op>Check potential violation of permissions policy in
+        container</a> given navigationParams's navigable's container.
   </section>
 </section>
 
