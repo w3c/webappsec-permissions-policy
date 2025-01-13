@@ -128,10 +128,10 @@ and/or implementations have been removed.
 <a name="fn5">[5]</a>: Implemented in [Chrome 100](https://chromestatus.com/feature/5252960583942144) as `window-placement`;
 changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `window-management`.
 
-<a name="fn6">[6]</a>: To enable this, user the Chrome command line flag
+<a name="fn6">[6]</a>: To enable this, use the Chrome command line flag
 `--enable-features=WebIdentityDigitalCredentials`.
 
-<a name="fn7">[7]</a>: To enable this, user the Chrome command line flag
+<a name="fn7">[7]</a>: To enable this, use the Chrome command line flag
 `--enable-features=SensorExtraClasses`.
 
 <a name="fn8">[8]</a>: To enable this, user the Chrome command line flag
