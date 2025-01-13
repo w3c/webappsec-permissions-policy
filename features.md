@@ -27,7 +27,8 @@ specification.
 | `ch-ua-arch` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-bitness` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-full-version` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
-| `ch-ua-full-version-list` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
+| `ch-ua-full-version-list` | [User-Agent Client Hints][client-hints] | Behind a flag in Chrome<sup>[8](#fn8)</sup> |
+| `ch-ua-high-entropy-values` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-mobile` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-model` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `ch-ua-platform` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
@@ -35,7 +36,7 @@ specification.
 | `ch-ua-wow64` | [User-Agent Client Hints][client-hints] | [Chrome 89](https://chromestatus.com/feature/5995832180473856) |
 | `compute-pressure` | [Compute Pressure API][compute-pressure] | [Chrome 125](https://chromestatus.com/feature/5597608644968448) |
 | `cross-origin-isolated` | [HTML][html] | Experimental in Chrome 85 |
-| `direct-sockets` | [Direct Sockets API][direct-sockets] | | Status "[Started](https://chromestatus.com/feature/6398297361088512)" in Chrome |  
+| `direct-sockets` | [Direct Sockets API][direct-sockets] | | Status "[Started](https://chromestatus.com/feature/6398297361088512)" in Chrome |
 | `display-capture` | [Media Capture: Screen Share][media-capture-screen-share] | [Chrome 94](https://chromestatus.com/feature/5144822362931200) |
 | `encrypted-media` | [Encrypted Media Extensions][encrypted-media] | [Chrome 64](https://www.chromestatus.com/feature/5023919287304192) |
 | `execution-while-not-rendered` | [Page Lifecycle][page-lifecycle] | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
@@ -127,11 +128,14 @@ and/or implementations have been removed.
 <a name="fn5">[5]</a>: Implemented in [Chrome 100](https://chromestatus.com/feature/5252960583942144) as `window-placement`;
 changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `window-management`.
 
-<a name="fn6">[6]</a>: To enable this, user the Chrome command line flag
+<a name="fn6">[6]</a>: To enable this, use the Chrome command line flag
 `--enable-features=WebIdentityDigitalCredentials`.
 
-<a name="fn7">[7]</a>: To enable this, user the Chrome command line flag
+<a name="fn7">[7]</a>: To enable this, use the Chrome command line flag
 `--enable-features=SensorExtraClasses`.
+
+<a name="fn8">[8]</a>: To enable this, user the Chrome command line flag
+`--enable-features=ClientHintUAHighEntropyValuesPermissionPolicy`.
 
 [attribution-reporting]: https://wicg.github.io/attribution-reporting-api/#permission-policy-integration
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
