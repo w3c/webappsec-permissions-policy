@@ -824,6 +824,7 @@ partial interface HTMLIFrameElement {
       readonly attribute long? columnNumber;
       readonly attribute DOMString disposition;
       readonly attribute DOMString? allowAttribute;
+      readonly attribute DOMString? srcAttribute;
     };
   </pre>
 
@@ -860,6 +861,11 @@ partial interface HTMLIFrameElement {
     - <dfn for="PermissionsPolicyViolationReportBody">allowAttribute</dfn>: For
       reports of potential violations, which can be attributed to a specific
       <{iframe}> element, the value of the <{iframe/allow}> attribute of that
+      element, or omitted otherwise.
+
+    - <dfn for="PermissionsPolicyViolationReportBody">srcAttribute</dfn>: For
+      reports of potential violations, which can be attributed to a specific
+      <{iframe}> element, the value of the <{iframe/src}> attribute of that
       element, or omitted otherwise.
 
   <section>
@@ -1194,8 +1200,9 @@ partial interface HTMLIFrameElement {
     ## <dfn abstract-op id="check-potential-violation-in-container">Check potential violation of permissions policy in container</dfn> ## {#algo-check-potential-violation-in-container}
 
     <div class="algorithm" data-algorithm="check-potential-violation-in-container">
-    Given a <a>navigable container</a> (|container|), this algorithm sends potential
-    violation reports.
+    Given a <a>navigable container</a> (|container|), a string-or-null
+    (|allowAttribute|), and a string-or-null (|srcAttribute|), this algorithm
+    sends potential violation reports.
     1. Let |document| be |container|'s <a>node document</a>.
     2. Let |settings| be |document|'s <a>environment settings
        object</a>.
@@ -1209,7 +1216,8 @@ partial interface HTMLIFrameElement {
              |document|'s [=Document/permissions policy=].
           2. Call <a abstract-op>Generate report for potential violation
              of permissions policy on settings</a> given |feature|,
-             |settings|, "<code>Enforce</code>", and |endpoint|.
+             |settings|, "<code>Enforce</code>", |endpoint|, |allowAttribute|,
+             and |srcAttribute|.
         2. Else, if the result of running <a abstract-op>Define an inherited
            policy for feature in container at origin</a> on |feature|,
            |container|, |container|'s <a>declared origin</a> and True is
@@ -1220,8 +1228,8 @@ partial interface HTMLIFrameElement {
              permissions policy=].
           2. Call <a abstract-op>Generate report for potential violation
              of permissions policy on settings</a> given |feature|,
-             |settings|, "<code>Report</code>", and |report-only
-             endpoint|.
+             |settings|, "<code>Report</code>", |report-only endpoint|,
+             |allowAttribute|, and |srcAttribute|.
 
     </div>
   </section>
@@ -1264,9 +1272,9 @@ partial interface HTMLIFrameElement {
 
     <div class="algorithm" data-algorithm="report-potential-permissions-policy-violation">
     Given a [=policy-controlled feature|feature=] (|feature|), an <a>environment settings object</a>
-    (|settings|), a string (|disposition|), a string-or-null (|endpoint|), and a string-or-null
-    (|allowAttribute|), this algorithm generates a <a>report</a> about the <a>violation</a> of the
-    policy for |feature|.
+    (|settings|), a string (|disposition|), a string-or-null (|endpoint|), a string-or-null
+    (|allowAttribute|), and a string-or-null (|srcAttribute|), this algorithm generates a
+    <a>report</a> about the <a>violation</a> of the policy for |feature|.
 
     1. Let |body| be a new {{PermissionsPolicyViolationReportBody}}, initialized
       as follows:
@@ -1283,6 +1291,8 @@ partial interface HTMLIFrameElement {
         ::  |disposition|
         :   [=PermissionsPolicyViolationReportBody/allowAttribute=]
         ::  |allowAttribute|
+        :   [=PermissionsPolicyViolationReportBody/srcAttribute=]
+        ::  |srcAttribute|
 
     1. If the user agent is currently executing script, and can extract the
       source file's URL, line number, and column number from |settings|, then
@@ -1344,11 +1354,13 @@ partial interface HTMLIFrameElement {
     And in the same section, in step 10, set the new {{Document}}'s
     [=Document/report-only permissions policy=] to |reportOnlyPermissionsPolicy|.
 
-    And in the same section, in step 19 before the return, insert the following step:
+    In <a
+    href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#iframe-load-event-steps">iframe
+    load event steps</a>, after step 6, insert the following step:
 
-    19. If navigationParams's navigable's container is not null, call <a
-        abstract-op>Check potential violation of permissions policy in
-        container</a> given navigationParams's navigable's container.
+    7. Call <a abstract-op>Check potential violation of permissions policy in
+       container</a> given |element|, |element|'s allow attribute, and
+       |element|'s src attribute.
   </section>
 </section>
 
