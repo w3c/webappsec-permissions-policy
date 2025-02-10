@@ -1289,9 +1289,9 @@ partial interface HTMLIFrameElement {
         ::  null
         :   [=PermissionsPolicyViolationReportBody/disposition=]
         ::  |disposition|
-        :   [=PermissionsPolicyViolationReportBody/allowAttribute=]
+        :   [==]
         ::  |allowAttribute|
-        :   [=PermissionsPolicyViolationReportBody/allowAttribute=]
+        :   [=PermissionsPolicyViolationReportBody/srcAttribute=]
         ::  |srcAttribute|
 
     1. If the user agent is currently executing script, and can extract the
