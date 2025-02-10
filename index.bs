@@ -1289,7 +1289,7 @@ partial interface HTMLIFrameElement {
         ::  null
         :   [=PermissionsPolicyViolationReportBody/disposition=]
         ::  |disposition|
-        :   [==]
+        :   [=PermissionsPolicyViolationReportBody/allowAttribute=]
         ::  |allowAttribute|
         :   [=PermissionsPolicyViolationReportBody/srcAttribute=]
         ::  |srcAttribute|
