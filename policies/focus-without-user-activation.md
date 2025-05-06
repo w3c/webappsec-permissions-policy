@@ -45,7 +45,7 @@ has been triggered by user activation.
 
 To disable the feature for a specific `<iframe>`, the `allow` attribute can be used:
 ```HTTP
-<iframe src="..." allow="focus-without-user-activation 'self'></iframe>
+<iframe src="..." allow="focus-without-user-activation 'self'"></iframe>
 ```
 which would block use of focus (without activation) for the document inside the `<iframe>`
 unless it is a same-origin document.
