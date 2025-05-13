@@ -1314,7 +1314,7 @@ partial interface HTMLIFrameElement {
     this algorithm returns <code>true</code> if the request should be allowed to
     use |feature|, and <code>false</code> otherwise.
     1. Let |client| be |request|’s [=request/client=].
-    1. If |client| is not an [=environment settings object=], return <code>false</code>.
+    1. If |client| is null, return <code>false</code>.
     1. If |client|'s [=environment settings object/global object=] is not a {{Window}}, return
        <code>false</code>.
        <div class="issue">Permissions Policy within non-Window contexts
