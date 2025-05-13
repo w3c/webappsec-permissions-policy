@@ -1313,8 +1313,10 @@ partial interface HTMLIFrameElement {
     Given a [=policy-controlled feature|feature=] (|feature|) and a  <a for="/">request</a> (|request|),
     this algorithm returns <code>true</code> if the request should be allowed to
     use |feature|, and <code>false</code> otherwise.
-    1. Set |window| to |request|’s <a for="request">window</a>.
-    1. If |window| is not a {{Window}}, return <code>false</code>.
+    1. Let |client| be |request|’s [=request/client=].
+    1. If |client| is not an [=environment settings object=], return <code>false</code>.
+    1. If |client|'s [=environment settings object/global object=] is not a {{Window}}, return
+       <code>false</code>.
        <div class="issue">Permissions Policy within non-Window contexts
        ({{WorkerGlobalScope}} or {{WorkletGlobalScope}}) is being figured out in
        <a href="https://github.com/w3c/webappsec-permissions-policy/issues/207">issue
@@ -1322,7 +1324,8 @@ partial interface HTMLIFrameElement {
        initiated within these contexts to use policy-controlled features.
        *Until* that’s resolved, disallow all policy-controlled features (e.g.,
        sending Client Hints to third parties) in these contexts.</div>
-    1. Set |document| to |window|’s <a>associated `Document`</a>.
+    1. Set |document| to |client|’s [=environment settings object/global object=]’s
+       <a>associated `Document`</a>.
     1. Let |origin| be |request|’s <a for="request">origin</a>.
     1. Let |result| be the result of executing <a abstract-op>Is feature
       enabled in document for origin?</a> on |feature|, |document|, and |origin|.
