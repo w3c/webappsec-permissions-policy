@@ -101,6 +101,7 @@ experimentation by web developers.
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 | `unload` | [Explainer](https://github.com/fergald/docs/blob/master/explainers/permissions-policy-unload.md) | Status "[Started](https://crbug.com/1324111) in Chrome |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
+| `monetization` | [Draft Spec](https://webmonetization.org/specification/#permissions-policy) | |
 
 ## Retired Features
 
