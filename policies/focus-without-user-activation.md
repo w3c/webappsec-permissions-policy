@@ -57,30 +57,31 @@ in all sandbox-ed frames (treat the policy as a sandbox flag).
 
 Alternative Solutions Considered
 -----------
-This section lists other possible solutions that came up during the development of the one proposed in this explainer.
+This section lists other possible solutions that were considered during the development of the proposal outlined in this explainer.
 
-1. A new `disallowprogrammaticfocus` boolean attribute on the [HTMLIFrameElement](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement) was explored. Whenever it is set, all the nested iframes can no longer take input focus through script. This would look as follows for example,
+1. **HTMLIFrameElement boolean attribute**: A new `disallowprogrammaticfocus` boolean attribute on the [HTMLIFrameElement](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement) was explored. When set, this attribute would prevent all nested iframes from taking input focus through script. An example implementation would look as follows:
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>iframe steal focus prevention</title>
-  </head>
-  <body>
-    <iframe src=""
-            disallowprogrammaticfocus>
-    </iframe>
-  </body>
-</html>
-```
+   ```html
+   <!DOCTYPE html>
+   <html>
+     <head>
+       <meta charset="utf-8">
+       <title>iframe steal focus prevention</title>
+     </head>
+     <body>
+       <iframe src=""
+               disallowprogrammaticfocus>
+       </iframe>
+     </body>
+   </html>
+   ```
 
-In this case, the iframe wouldn't be able to steal focus unless the user explicitly switches focus to that element.
+   In this approach, the iframe would be unable to steal focus unless the user explicitly switches focus to that element.
 
-This idea was abandoned because it's a heavier weight approach compared to a permission policy. Also, it could be easier for sites to adopt a new permission policy if they're already using them to control other things versus a new attribute.
+   This approach was abandoned because it represents a heavier-weight solution compared to a permission policy. Additionally, it would be easier for sites to adopt a new permission policy if they are already using permission policies to control other behaviors, rather than introducing a new HTML attribute.
 
-2. An alternative policy name was considered at one point: "disallow-programmatic-focus". However, in order to match the style of existing permission policies, it's more convenient to have the polarity the other way around, so that denying the policy disables the functionality, for backwards compatibility.
+2. **Alternative policy naming**: An alternative policy name was considered: `disallow-programmatic-focus`. However, to maintain consistency with existing permission policies, it is more appropriate to use positive polarity (where denying the policy disables the functionality) for backwards compatibility.
 
-3. Instead of a permission policy, it was analyzed whether having a sandbox flag could make more sense.
-But adding it to sandbox is potentially breaking as it would immediately affect every sandboxed frame and all sites would need to update their code to avoid it if they needed control back. On the other hand, it isn't breaking when controllable through a permission policy, with a default allowlist of 'self' it would be an option which could be disabled but would be enabled by default everywhere.
+3. **Sandbox flag approach**: The possibility of implementing this control as a sandbox flag was analyzed instead of a permission policy.
+
+   Adding this functionality to the sandbox would be potentially breaking, as it would immediately affect every sandboxed frame and require all sites to update their code if they needed to restore the functionality. In contrast, implementing this as a permission policy is non-breaking: with a default allowlist of `'self'`, it provides an opt-in control mechanism that is enabled by default everywhere but can be selectively disabled when needed.
