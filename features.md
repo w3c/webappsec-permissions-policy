@@ -73,16 +73,17 @@ integrated into their respective specs.
 
 | Feature name | Spec/PR link(s) | Browser Support |
 | ------------ | --------------- | --------------- |
+| `autofill` | https://github.com/explainers-by-googlers/safe-text-input/blob/main/autofill.md | |
 | `clipboard-read` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `clipboard-write` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `deferred-fetch` |https://github.com/whatwg/fetch/pull/1647 | |
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
 | `language-detector` | https://github.com/webmachinelearning/translation-api | Chrome 138 |
 | `language-model` | https://github.com/webmachinelearning/prompt-api | |
+| `manual-text` | https://github.com/explainers-by-googlers/safe-text-input/blob/main/manual-text.md | |
 | `rewriter` | https://github.com/webmachinelearning/writing-assistance-apis | |
-| `summarizer` | https://github.com/webmachinelearning/writing-assistance-apis | Chrome 138 |
-| `shared-autofill` | https://github.com/schwering/shared-autofill | |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
+| `summarizer` | https://github.com/webmachinelearning/writing-assistance-apis | Chrome 138 |
 | `translator` | https://github.com/webmachinelearning/translation-api | Chrome 138 |
 | `writer` | https://github.com/webmachinelearning/writing-assistance-apis | |
 
