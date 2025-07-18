@@ -38,7 +38,7 @@ Using the Feature
 -------------
 This feature can be introduced with the HTTP headers. For instance,
 ```HTTP
-Permissions-Policy: focus-without-user-activation 'none'
+Permissions-Policy: focus-without-user-activation=()
 ```
 would cause the use of automatic focus in the page (and nested contexts) to fail unless it 
 has been triggered by user activation.
