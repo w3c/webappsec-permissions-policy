@@ -553,6 +553,55 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
       </div>
     </section>
   </section>
+  <section>
+    <h3 id="meta-element">
+      The `<meta>` element
+    </h3>
+
+    A {{Document}} may deliver a policy via one or more HTML <{meta}> elements
+    whose <{meta/http-equiv}> attributes are an <a>ASCII case-insensitive</a>
+    match for the string "`Feature-Policy`". For example:
+
+    <div class="example">
+      <pre highlight="html">
+        &lt;meta http-equiv="Feature-Policy" content="fullscreen 'none'; geolocation 'none'"&gt;
+      </pre>
+    </div>
+
+    Implementation details can be found in HTML's <a>Feature Policy state</a>
+    `http-equiv` processing instructions [[!HTML]].
+
+    Authors are <em>strongly encouraged</em> to place <{meta}> elements as early
+    in the document as possible, because policies in <{meta}> elements are not
+    applied to content which precedes them.
+
+    <div class="example">
+
+      For example, a script tag that preceded a <{meta}>-delivered policy
+      directive of `sync-xhr ‘none’` would still be able to call
+      `XMLHttpRequest.open()`.
+
+      <pre highlight="html">
+        &lt;script&gt;
+          var req = new XMLHttpRequest();
+          req.open("GET", "/api/security_check.json", false);
+          req.send();
+        &lt;/script&gt;
+
+        &lt;meta http-equiv="Feature-Policy" content="sync-xhr ‘none"&gt;
+      </pre>
+
+      In the above, the call to `req.open` will succeed, because the policy
+      disabling `sync-xhr` occurs after it, in the markup. 
+
+    </div>
+
+    Note: A policy specified via a <{meta}> element will be enforced along with any other policies active, regardless of where they're specified. However, once a specific Feature Policy directive has been set by way of an HTTP header or <{meta}> element, that directive cannot be further updated or changed.
+    <!--TODO this is first wins. do we want last wins? -->
+
+    Note: Modifications to the <{meta/content}> attribute of a <{meta}> element after the element has been parsed will be ignored.
+
+  </section>
 </section>
 <section>
   <h2 id="introspection">Policy Introspection from Scripts</h2>
@@ -1364,6 +1413,26 @@ partial interface HTMLIFrameElement {
     7. Call <a abstract-op>Check potential violation of permissions policy in
        container</a> given |element|, |element|'s allow attribute, and
        |element|'s src attribute.
+  </section>
+  <section>
+    <h3 id="algo-merge-two-feature-policies"><dfn export>Merge two declared policies</dfn></h3>
+    <p>Given two <a>declared policies</a>, <var>existing policy</var> and <var>new policy</var>, this algorithm returns a single, merged <a>declared policy</a>.</p>
+    <ol>
+      <li>Let <var>merged policy</var> be a copy of <var>existing policy</var>.</li>
+      <li>For each <var>feature</var> → <var>allowlist</var> of <var>new policy:</var>
+          <ol><li>If <var>merged policy</var> does not contain an <var>allowlist</var> for </var>feature</var>, then set <var>merged policy</var>[<var>feature</var>] to <var>allowlist</var>.
+          </li></ol>
+      </li>
+      <li>Return <var>merged policy</var>.</li>
+    </ol>
+    <div class="issue">
+      <p>This isn't all that different from <a href="#algo-merge-directive-with-declared-policy">Merge directive with declared policy</a>, except that:
+      <ul>
+        <li>It takes two <a>declared policies</a>, rather than one <a>declared policy</a> and one <a>policy directive</a>. However, both <a>declared policies</a> and <a>policy directives</a> are ordered maps of <a href="#policy-controlled-feature">features</a> to <a>allowlists</a>.</li>
+        <li>It returns a new <a>declared policy</a>, rather than altering the original in place.</li>
+      </ul>
+      <p>So I guess, given that, does this really need to exist as a separate algorithm?</p>
+    </div>
   </section>
 </section>
 
