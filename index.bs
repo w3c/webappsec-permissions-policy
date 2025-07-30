@@ -1162,6 +1162,7 @@ partial interface HTMLIFrameElement {
     1. Let |report-only result| be the result of calling <a abstract-op>Check
        permissions policy</a>, given |report-only policy|, |feature|, |origin|,
        and |document|'s [=Document/origin=].
+    1. Let |result| be "<code>Disabled</code>" at the user agent's discretion.
     1. If |report| is True:
         1. Let |settings| be |document|'s <a>environment settings object</a>.
         1. If |result| is "<code>Disabled</code>":
