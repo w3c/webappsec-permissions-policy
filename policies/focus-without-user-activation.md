@@ -101,12 +101,12 @@ Appendix
 
 These are some example cases of how focus setting would now work with this new policy in the pseudo-algorithm described above:
 
-| Case | Policy Enabled on `focus_setter_frame` | `focus_setter_frame` | `currently_focused_frame` | Allowed to Set Focus? | Reason |
+| Case | Policy Allowed on `focus_setter_frame` | `focus_setter_frame` | `currently_focused_frame` | Allowed to Set Focus? | Reason |
 |------|----------------------------------------|------------------------|----------------------------|------------------------|--------|
 | 1    | No                                  | Parent                 | Child                      | Yes                 | Parent-child relationship is allowed by default. |
 | 2    | No                                  | Child                  | Parent                     | No                  | No policy and not a permitted direction. |
 | 3    | No                                  | Grandparent            | Grandchild                 | Yes                 | Ancestor allowed to set focus when a descendant has it. |
-| 4    | No                                  | Grandchild             | Grandparent                | No                  | No policy and not a direct relationship. |
+| 4    | No                                  | Grandchild             | Grandparent                | No                  | No policy and not a permitted direction. |
 | 5    | No                                  | Same frame             | Same frame                 | Yes                 | A frame is always allowed to set focus on (maybe another element of) itself if it already has focus. |
 | 6    | Yes                                 | Parent                 | Child                      | Yes                 | Policy allows it explicitly. |
 | 7    | Yes                                 | Child                  | Parent                     | Yes                 | Policy allows it explicitly. |
