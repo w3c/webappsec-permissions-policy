@@ -73,12 +73,19 @@ integrated into their respective specs.
 
 | Feature name | Spec/PR link(s) | Browser Support |
 | ------------ | --------------- | --------------- |
+| `autofill` | https://github.com/explainers-by-googlers/safe-text-input/blob/main/autofill.md | |
 | `clipboard-read` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `clipboard-write` | https://github.com/w3c/clipboard-apis/pull/120 | Chrome 86 |
 | `deferred-fetch` |https://github.com/whatwg/fetch/pull/1647 | |
 | `gamepad` | https://github.com/w3c/gamepad/pull/112 |  |
-| `shared-autofill` | https://github.com/schwering/shared-autofill | |
+| `language-detector` | https://github.com/webmachinelearning/translation-api | Chrome 138 |
+| `language-model` | https://github.com/webmachinelearning/prompt-api | |
+| `manual-text` | https://github.com/explainers-by-googlers/safe-text-input/blob/main/manual-text.md | |
+| `rewriter` | https://github.com/webmachinelearning/writing-assistance-apis | |
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
+| `summarizer` | https://github.com/webmachinelearning/writing-assistance-apis | Chrome 138 |
+| `translator` | https://github.com/webmachinelearning/translation-api | Chrome 138 |
+| `writer` | https://github.com/webmachinelearning/writing-assistance-apis | |
 
 ## Experimental Features
 
@@ -91,7 +98,8 @@ experimentation by web developers.
 | `browsing-topics` | [Explainer](https://github.com/jkarlin/topics/) | Status "[Started](https://bugs.chromium.org/p/chromium/issues/detail?id=1294456)" in Chrome |
 | `captured-surface-control` | [Captured Surface Control API][capture-surface-control]  | In [Origin Trial](https://chromestatus.com/feature/5092615678066688) |
 | `conversion-measurement ` | [Explainer](https://github.com/WICG/conversion-measurement-api#publisher-controls-for-impression-declaration) | Experimental in Chrome<sup>[3](#fn3)</sup> |
-| `digital-credentials-get` | [Explainer](https://wicg.github.io/digital-credentials/) | Behind a flag in Chrome<sup>[6](#fn6)</sup>
+| `digital-credentials-create` | [Explainer](https://w3c-fedid.github.io/digital-credentials/) | Behind a flag in Chrome<sup>[9](#fn9)</sup>
+| `digital-credentials-get` | [Explainer](https://w3c-fedid.github.io/digital-credentials/) | Behind a flag in Chrome<sup>[6](#fn6)</sup>
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `join-ad-interest-group` | [Protected Audience (formerly FLEDGE)][protected-audience] | Behind a flag in Chrome<sup>[4](#fn4)</sup> |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
@@ -136,6 +144,9 @@ changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `w
 
 <a name="fn8">[8]</a>: To enable this, user the Chrome command line flag
 `--enable-features=ClientHintUAHighEntropyValuesPermissionPolicy`.
+
+<a name="fn9">[9]</a>: To enable this, use the Chrome command line flag
+`--enable-features=WebIdentityDigitalCredentialsCreation`.
 
 [attribution-reporting]: https://wicg.github.io/attribution-reporting-api/#permission-policy-integration
 [battery-status]: https://w3c.github.io/battery/#permissions-policy-integration
