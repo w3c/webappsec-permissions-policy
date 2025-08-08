@@ -41,11 +41,13 @@ algorithm is_allowed_to_set_focus(focus_setter_frame, currently_focused_frame):
   if focus_setter_frame has the policy allowed:
     return true
 
-  if currently_focused_frame is an [inclusive descendant](https://html.spec.whatwg.org/#inclusive-descendant-navigables) frame of focus_setter_frame:
+  if currently_focused_frame is an inclusive descendant frame of focus_setter_frame:
     return true
 
   return false
 ```
+
+Note: An [inclusive descendant](https://html.spec.whatwg.org/#inclusive-descendant-navigables) frame is a frame that is either the same frame or a descendant frame in the frame tree hierarchy.
 
 Using the Feature
 -------------
