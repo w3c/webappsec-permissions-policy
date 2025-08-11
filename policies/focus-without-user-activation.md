@@ -23,18 +23,8 @@ initialized through user activation. This essentially means that `autofocus` wil
 (unless a new element is inserted, with `autofocus`, as a result of user gesture). The scripted
 focus will also only work if it has started with user gesture.
 
-Details on "disabling focus"
+Policy Pseudo Algorithm triggered during the automated focus feature algorithms
 ------------
-All automated focus eventually call into the [focusing steps](https://html.spec.whatwg.org/multipage/interaction.html#focusing-steps) algorithm. When the policy
-is disabled, this algorithm should not run.
-
-In a nutshell:
-  * Around step 4 of the [spec](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autofocus) for `autofocus` the algorithm should return if the policy `focus-without-user-activation` is disabled and the algorithm is not
-  [triggered by user activation](https://html.spec.whatwg.org/multipage/interaction.html#triggered-by-user-activation).
-  * Before starting [steps](https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus) for `element.focus(options)` the same verification for the policy and user activation should be performed.
-  * Around step 2 of the [spec](https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus) for `window.focus()`, the same enforcement should be made (using the browsing context of the `window` itself to obtain the permissions policy state).
-
-Pseudo-algorithm for how the policy would integrate with focus:
 
 ```
 algorithm is_allowed_to_set_focus(focus_setter_frame, currently_focused_frame):
@@ -48,6 +38,17 @@ algorithm is_allowed_to_set_focus(focus_setter_frame, currently_focused_frame):
 ```
 
 Note: An [inclusive descendant](https://html.spec.whatwg.org/#inclusive-descendant-navigables) frame is a frame that is either the same frame or a descendant frame in the frame tree hierarchy.
+
+Details on "disabling focus"
+------------
+All automated focus eventually call into the [focusing steps](https://html.spec.whatwg.org/multipage/interaction.html#focusing-steps) algorithm. When the policy
+is disabled, this algorithm should not run.
+
+In a nutshell:
+  * Around step 4 of the [spec](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autofocus) for `autofocus` the algorithm should return if the policy `focus-without-user-activation` is disabled and the algorithm is not
+  [triggered by user activation](https://html.spec.whatwg.org/multipage/interaction.html#triggered-by-user-activation).
+  * Before starting [steps](https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus) for `element.focus(options)` the same verification for the policy and user activation should be performed.
+  * Around step 2 of the [spec](https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus) for `window.focus()`, the same enforcement should be made (using the browsing context of the `window` itself to obtain the permissions policy state).
 
 Using the Feature
 -------------
