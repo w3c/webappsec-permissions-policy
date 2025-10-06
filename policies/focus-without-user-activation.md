@@ -23,6 +23,22 @@ initialized through user activation. This essentially means that `autofocus` wil
 (unless a new element is inserted, with `autofocus`, as a result of user gesture). The scripted
 focus will also only work if it has started with user gesture.
 
+Policy Pseudo Algorithm triggered during the automated focus feature algorithms
+------------
+
+```
+algorithm is_allowed_to_set_focus(focus_setter_frame, currently_focused_frame):
+  if focus_setter_frame has the policy allowed:
+    return true
+
+  if currently_focused_frame is an inclusive descendant frame of focus_setter_frame:
+    return true
+
+  return false
+```
+
+Note: An [inclusive descendant](https://html.spec.whatwg.org/#inclusive-descendant-navigables) frame is a frame that is either the same frame or a descendant frame in the frame tree hierarchy.
+
 Details on "disabling focus"
 ------------
 All automated focus eventually call into the [focusing steps](https://html.spec.whatwg.org/multipage/interaction.html#focusing-steps) algorithm. When the policy
@@ -49,11 +65,6 @@ To disable the feature for a specific `<iframe>`, the `allow` attribute can be u
 ```
 which would block use of focus (without activation) for the document inside the `<iframe>`
 unless it is a same-origin document.
-
-The Extra Mile
------------
-Automatic focus, in general, poses security concerns. It might be a good idea to disable this policy
-in all sandbox-ed frames (treat the policy as a sandbox flag).
 
 Alternative Solutions Considered
 -----------
@@ -85,3 +96,21 @@ This section lists other possible solutions that were considered during the deve
 3. **Sandbox flag approach**: The possibility of implementing this control as a [sandbox](https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/sandbox) flag was analyzed instead of a permissions policy.
 
    Adding this functionality to the sandbox would be potentially breaking, as it would immediately affect every sandboxed frame and require all sites to update their code if they needed to restore the functionality. In contrast, implementing this as a permissions policy is non-breaking: with a default allowlist of `'self'`, it provides an opt-in control mechanism that is enabled by default everywhere but can be selectively disabled when needed.
+
+Appendix
+-----------
+
+These are some example cases of how focus setting would now work with this new policy in the pseudo-algorithm described above:
+
+| Case | Policy Allowed on `focus_setter_frame` | `focus_setter_frame` | `currently_focused_frame` | Allowed to Set Focus? | Reason |
+|------|----------------------------------------|------------------------|----------------------------|------------------------|--------|
+| 1    | No                                  | Parent                 | Child                      | Yes                 | Parent-child relationship is allowed by default. |
+| 2    | No                                  | Child                  | Parent                     | No                  | No policy and not a permitted direction. |
+| 3    | No                                  | Grandparent            | Grandchild                 | Yes                 | Ancestor allowed to set focus when a descendant has it. |
+| 4    | No                                  | Grandchild             | Grandparent                | No                  | No policy and not a permitted direction. |
+| 5    | No                                  | Same frame             | Same frame                 | Yes                 | A frame is always allowed to set focus on (maybe another element of) itself if it already has focus. |
+| 6    | Yes                                 | Parent                 | Child                      | Yes                 | Policy allows it explicitly. |
+| 7    | Yes                                 | Child                  | Parent                     | Yes                 | Policy allows it explicitly. |
+| 8    | Yes                                 | Grandparent            | Grandchild                 | Yes                 | Policy allows it explicitly. |
+| 9    | Yes                                 | Grandchild             | Grandparent                | Yes                 | Policy allows it explicitly. |
+| 10   | Yes                                 | Same frame             | Same frame                 | Yes                 | Policy allows it explicitly. |
