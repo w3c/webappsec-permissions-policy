@@ -103,6 +103,7 @@ experimentation by web developers.
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `join-ad-interest-group` | [Protected Audience (formerly FLEDGE)][protected-audience] | Behind a flag in Chrome<sup>[4](#fn4)</sup> |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
+| `monetization` | [Draft Spec](https://webmonetization.org/specification/#permissions-policy) | |
 | `run-ad-auction` | [Protected Audience (formerly FLEDGE)][protected-audience] | Behind a flag in Chrome<sup>[4](#fn4)</sup> |
 | `smart-card` | [Draft Spec](https://wicg.github.io/web-smart-card/#permissions-policy) and [Explainer](https://github.com/WICG/web-smart-card#readme) | [Prototyping in Chrome](https://chromestatus.com/feature/6411735804674048) |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
