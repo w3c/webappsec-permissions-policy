@@ -95,13 +95,13 @@ experimentation by web developers.
 | `focus-without-user-activation` | [focus-without-user-activation.md](policies/focus-without-user-activation.md) | Status "[Open](https://bugs.chromium.org/p/chromium/issues/detail?id=965495)" in Chrome |
 | `join-ad-interest-group` | [Protected Audience (formerly FLEDGE)][protected-audience] | Behind a flag in Chrome<sup>[4](#fn4)</sup> |
 | `local-fonts` | [Local Font Access API][local-fonts] and [Explainer](https://github.com/WICG/local-font-access/blob/main/README.md) | [Experimental in Chrome](https://chromestatus.com/feature/6234451761692672) |
+| `monetization` | [Draft Spec](https://webmonetization.org/specification/#permissions-policy) | |
 | `run-ad-auction` | [Protected Audience (formerly FLEDGE)][protected-audience] | Behind a flag in Chrome<sup>[4](#fn4)</sup> |
 | `smart-card` | [Draft Spec](https://wicg.github.io/web-smart-card/#permissions-policy) and [Explainer](https://github.com/WICG/web-smart-card#readme) | [Prototyping in Chrome](https://chromestatus.com/feature/6411735804674048) |
 | `sync-script` | | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
 | `trust-token-redemption` | [Explainer](https://github.com/WICG/trust-token-api) | In [Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/2479231594867458049) in Chrome 84-87 |
 | `unload` | [Explainer](https://github.com/fergald/docs/blob/master/explainers/permissions-policy-unload.md) | Status "[Started](https://crbug.com/1324111) in Chrome |
 | `vertical-scroll` | [vertical\_scroll.md](policies/vertical_scroll.md) | Behind a flag in Chrome<sup>[1](#fn1)</sup> |
-| `monetization` | [Draft Spec](https://webmonetization.org/specification/#permissions-policy) | |
 
 ## Retired Features
 
