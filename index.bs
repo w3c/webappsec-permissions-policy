@@ -1165,9 +1165,9 @@ partial interface HTMLIFrameElement {
     1. Optionally, set |result| to "<code>Disabled</code>" if the user agent deems it necessary.
 
        Note: The user agent may wish to disallow particular contexts or scripts from using the 
-       API. See the <a 
-       href="https://github.com/explainers-by-googlers/selective-permissions-intervention">
-       Selective Permissions Intervention</a> as an example.
+       API, such as to 
+       <a href="https://github.com/explainers-by-googlers/selective-permissions-intervention">
+       prevent ad scripts from accessing sensitive APIs like geolocation</a>.
     1. If |report| is True:
         1. Let |settings| be |document|'s <a>environment settings object</a>.
         1. If |result| is "<code>Disabled</code>":
