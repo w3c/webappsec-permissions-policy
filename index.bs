@@ -712,7 +712,8 @@ partial interface HTMLIFrameElement {
         object's <a>default origin</a>.
     2. Let |policy| be the <a>observable policy</a> for this
         {{PermissionsPolicy}} object's <a>associated node</a>.
-    3. If |feature| is allowed by |policy| for |origin|, return true.
+    3. If |feature| is allowed by |policy| (and the user agent) for |origin|,
+        return true.
     4. Otherwise, return false.
 
     <p>The {{features()}} method must run the following steps:</p>
