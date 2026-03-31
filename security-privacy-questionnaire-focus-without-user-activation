@@ -1,6 +1,6 @@
 # Security & Privacy Self-Review Questionnaire: Permissions Policy \`focus-without-user-activation\`
 
-This document answers the W3C **[Self-Review Questionnaire: Security and Privacy](https://www.w3.org/TR/security-privacy-questionnaire/)** for the **Permissions Policy: `focus-without-user-activation`** feature (see [explainer](explainer.md) for more information).
+This document answers the W3C **[Self-Review Questionnaire: Security and Privacy](https://www.w3.org/TR/security-privacy-questionnaire/)** for the **Permissions Policy: `focus-without-user-activation`** feature (see [explainer](policies/focus-without-user-activation.md) for more information).
 
 ### 2.1 What information does this feature expose, and for what purposes?
 
