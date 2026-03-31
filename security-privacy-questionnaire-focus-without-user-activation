@@ -56,7 +56,7 @@ None.
 
 ### 2.14 How does this specification distinguish between behavior in first-party and third-party contexts?
 
-This feature is specifically designed for embedding scenarios and can restrict programmatic focus in cross-origin iframes unless the policy delegates that capability. In other words, it gives embedders control over whether third-party embedded content can move focus away from the embedding context.
+This feature uses existing Permissions Policy syntax to control where programmatic focus is allowed. Embedders can apply it to first-party content, third-party embedded content, or both.
 
 ### 2.15 How do the features in this specification work in the context of a browser's Private Browsing or Incognito mode?
 
