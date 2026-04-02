@@ -3,7 +3,7 @@
 ## Participate
 
 - [Original Issue: w3c/webappsec-permissions-policy#273](https://github.com/w3c/webappsec-permissions-policy/issues/273)
-- [GitHub Issues on WHATWG HTML](https://github.com/whatwg/html/issues?q=focus-without-user-activation)
+- [GitHub Issues on WHATWG HTML](https://github.com/whatwg/html/issues?q=%22focus-without-user-activation%22)
 
 ## Table of Contents
 
@@ -121,12 +121,12 @@ Today, **developers have no reliable way to prevent embedded content from steali
 
 ### How it works
 
-When the `focus-without-user-activation` policy is **disabled** for a document:
+When the `focus-without-user-activation` policy is **denied** for a document:
 
 - `autofocus` attributes are ignored (unless the element is inserted as a result of a user gesture)
 - `element.focus()` calls have no effect unless triggered by user activation
-- `window.focus()` calls are blocked in the same way
-- `dialog.showModal()` and popover focusing are also restricted
+- `window.focus()` calls have no effect unless triggered by user activation
+- `dialog.showModal()` and popover focusing are blocked unless triggered by user activation
 
 User-initiated focus is **never blocked**. This policy only restricts programmatic focus changes.
 
