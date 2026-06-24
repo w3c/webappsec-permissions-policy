@@ -57,6 +57,7 @@ specification.
 | `payment` | [Payment Request API][payment-request] | Chrome 60 |
 | `picture-in-picture` | [Picture-in-Picture][pip] | [Chrome 71](https://chromestatus.com/feature/5729206566649856) |
 | `publickey-credentials-get` | [Web Authentication API][publickey-credentials-get] | [Chrome 84](https://bugs.chromium.org/p/chromium/issues/detail?id=993007) |
+| `publickey-credentials-remote-client-data-json` | [Web Authentication API][publickey-credentials-remote-client-data-json] | [Open in Chrome](https://issues.chromium.org/issues/506062130) |
 | `screen-wake-lock` | [Wake Lock API][wake-lock] | [Chrome 84](https://www.chromestatus.com/feature/4636879949398016) |
 | `serial` | [Web Serial API][web-serial] | [Chrome 89](https://chromestatus.com/feature/6577673212002304) |
 | `sync-xhr` | [XMLHttpRequest][xhr] | [Chrome 65](https://www.chromestatus.com/feature/5154875084111872) |
@@ -176,6 +177,7 @@ changed in [Chrome 111](https://chromestatus.com/feature/5146352391028736) to `w
 [payment-request]: https://www.w3.org/TR/payment-request/#permissions-policy
 [pip]: https://wicg.github.io/picture-in-picture/#feature-policy
 [publickey-credentials-get]: https://w3c.github.io/webauthn/#sctn-permissions-policy
+[publickey-credentials-remote-client-data-json]: https://w3c.github.io/webauthn/#sctn-permissions-policy
 [storage-access]: https://privacycg.github.io/storage-access/#permissions-policy-integration
 [wake-lock]: https://w3c.github.io/screen-wake-lock/#policy-control
 [webmcp]: https://webmachinelearning.github.io/webmcp/#permissions-policy
