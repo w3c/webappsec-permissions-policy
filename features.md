@@ -86,6 +86,7 @@ integrated into their respective specs.
 | `speaker-selection` | https://github.com/w3c/mediacapture-output/pull/96 | |
 | `summarizer` | https://github.com/webmachinelearning/writing-assistance-apis | Chrome 138 |
 | `translator` | https://github.com/webmachinelearning/translation-api | Chrome 138 |
+| `haptics` | https://github.com/WICG/proposals/issues/262 | |
 | `writer` | https://github.com/webmachinelearning/writing-assistance-apis | |
 
 ## Experimental Features
