@@ -36,6 +36,7 @@ spec:reporting; urlPrefix: https://w3c.github.io/reporting/
 spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   type: dfn
     text: sf-dictionary; url: dictionary
+    text: sf-token; url: token
 </pre>
 <pre class="biblio">
 {
@@ -473,18 +474,18 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     Dictionary.
 
     Each Dictionary Member associates a <a data-lt="policy-controlled feature">feature</a> with an <a>allowlist</a>.
-    The Member Names must be Tokens. If a token does not name one of the user
+    The Member Names must be [=sf-token|Tokens=]. If a [=sf-token|token=] does not name one of the user
     agent's [=supported features=], then the Dictionary Member will be ignored
     by the processing steps.
 
     The Member Values represent <a>allowlists</a>, and must be one of:
     * a String containing the ASCII <a>permissions-source-expression</a>
-    * the Token `*`
-    * the Token `self`
+    * the [=sf-token|Token=] `*`
+    * the [=sf-token|Token=] `self`
     * an Inner List containing zero or more of the above items.
 
     Member Values may have a Parameter named `"report-to"`, whose value must be
-    a String. Any other parameters will be ignored.
+    a [=sf-token|Token=]. Any other parameters will be ignored.
 
     Any other items inside of an Inner List will be ignored by the processing
     steps, and the Member Value will be processed as if they were not present.
@@ -921,17 +922,17 @@ partial interface HTMLIFrameElement {
           <a>policy-controlled feature</a>, then [=iteration/continue=].
         1. Let |feature| be the <a>policy-controlled feature</a> identified by
           |feature-name|.
-        1. If |params|["report-to"] exists, and is a string, then set
+        1. If |params|["report-to"] exists, and is a [=sf-token|token=], then set
           |reporting-config|[|feature|] to |params|["report-to"].
         1. Let |allowlist| be a new <a>allowlist</a>.
-        1. If |value| is the token `*`, or if |value| is a list which contains
-          the token `*`, set |allowlist| to <a>the special value
+        1. If |value| is the [=sf-token|token=] `*`, or if |value| is a list which contains
+          the [=sf-token|token=] `*`, set |allowlist| to <a>the special value
           <code>*</code></a>.
         1. Otherwise:
-            1. If |value| is the token `self`, let |allowlist|'s <a>self-origin</a> be |origin|.
+            1. If |value| is the [=sf-token|token=] `self`, let |allowlist|'s <a>self-origin</a> be |origin|.
             1. Otherwise if |value| is a [=list=], then [=list/for each=]
                |element| in |value|:
-                1. If |element| is the token `self`, let |allowlist|'s <a>self-origin</a> be |origin|.
+                1. If |element| is the [=sf-token|token=] `self`, let |allowlist|'s <a>self-origin</a> be |origin|.
                 1. If |element| is a valid <a>permissions-source-expression</a>, [=list/append=] |element| to |allowlist|'s <a>expressions</a>.
         1. Set |declarations|[|feature|] to |allowlist|.
     1. Return «|declarations|, |reporting-config|».
