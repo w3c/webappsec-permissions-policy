@@ -5,9 +5,9 @@
   <title>Permissions Policy</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
+  <meta content="Bikeshed version ea4009a02, updated Thu Sep 17 15:24:44 2026 -0700" name="generator">
   <link href="https://www.w3.org/TR/permissions-policy/" rel="canonical">
-  <meta content="c10c76d8efc3d1c7bd8278357fbaba9a4147206a" name="revision">
+  <meta content="c6a439ae91ee118d8a994c653c802d9e50663080" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -1013,7 +1013,7 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
 </p>
    <h1 class="no-ref p-name" id="title">Permissions Policy</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-06-18">18 June 2026</time></p>
+    <time class="dt-updated" datetime="2026-09-22">22 September 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1601,7 +1601,7 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
      <p>In this representation, a <a data-link-type="dfn" href="#policy-directive" id="ref-for-policy-directive⑥">policy directive</a> is represented by a
     Dictionary.</p>
      <p>Each Dictionary Member associates a <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①③">feature</a> with an <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①①">allowlist</a>.
-    The Member Names must be Tokens. If a token does not name one of the user
+    The Member Names must be <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token">Tokens</a>. If a <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token①">token</a> does not name one of the user
     agent’s <a data-link-type="dfn" href="#supported-features" id="ref-for-supported-features②">supported features</a>, then the Dictionary Member will be ignored
     by the processing steps.</p>
      <p>The Member Values represent <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①②">allowlists</a>, and must be one of:</p>
@@ -1609,14 +1609,14 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
       <li data-md>
        <p>a String containing the ASCII <a data-link-type="dfn" href="#permissions-source-expression" id="ref-for-permissions-source-expression③">permissions-source-expression</a></p>
       <li data-md>
-       <p>the Token <code>*</code></p>
+       <p>the <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token②">Token</a> <code>*</code></p>
       <li data-md>
-       <p>the Token <code>self</code></p>
+       <p>the <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token③">Token</a> <code>self</code></p>
       <li data-md>
        <p>an Inner List containing zero or more of the above items.</p>
      </ul>
      <p>Member Values may have a Parameter named <code>"report-to"</code>, whose value must be
-    a String. Any other parameters will be ignored.</p>
+    a <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token④">Token</a>. Any other parameters will be ignored.</p>
      <p>Any other items inside of an Inner List will be ignored by the processing
     steps, and the Member Value will be processed as if they were not present.
     Member Values of any other form will cause the entire Dictionary Member to
@@ -2114,25 +2114,25 @@ dictionary and origin</a> on <var>parsed header</var> and <var>origin</var>.</p>
           <p>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature①⑧">policy-controlled feature</a> identified by
 <var>feature-name</var>.</p>
          <li data-md>
-          <p>If <var>params</var>["report-to"] exists, and is a string, then set
+          <p>If <var>params</var>["report-to"] exists, and is a <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token⑤">token</a>, then set
 <var>reporting-config</var>[<var>feature</var>] to <var>params</var>["report-to"].</p>
          <li data-md>
           <p>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑧">allowlist</a>.</p>
          <li data-md>
-          <p>If <var>value</var> is the token <code>*</code>, or if <var>value</var> is a list which contains
-the token <code>*</code>, set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value①">the special value
+          <p>If <var>value</var> is the <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token⑥">token</a> <code>*</code>, or if <var>value</var> is a list which contains
+the <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token⑦">token</a> <code>*</code>, set <var>allowlist</var> to <a data-link-type="dfn" href="#the-special-value" id="ref-for-the-special-value①">the special value
 <code>*</code></a>.</p>
          <li data-md>
           <p>Otherwise:</p>
           <ol>
            <li data-md>
-            <p>If <var>value</var> is the token <code>self</code>, let <var>allowlist</var>’s <a data-link-type="dfn" href="#self-origin" id="ref-for-self-origin②">self-origin</a> be <var>origin</var>.</p>
+            <p>If <var>value</var> is the <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token⑧">token</a> <code>self</code>, let <var>allowlist</var>’s <a data-link-type="dfn" href="#self-origin" id="ref-for-self-origin②">self-origin</a> be <var>origin</var>.</p>
            <li data-md>
             <p>Otherwise if <var>value</var> is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list">list</a>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate" id="ref-for-list-iterate②">for each</a>
  <var>element</var> in <var>value</var>:</p>
             <ol>
              <li data-md>
-              <p>If <var>element</var> is the token <code>self</code>, let <var>allowlist</var>’s <a data-link-type="dfn" href="#self-origin" id="ref-for-self-origin③">self-origin</a> be <var>origin</var>.</p>
+              <p>If <var>element</var> is the <a data-link-type="dfn" href="https://datatracker.ietf.org/doc/html/rfc8941#token" id="ref-for-token⑨">token</a> <code>self</code>, let <var>allowlist</var>’s <a data-link-type="dfn" href="#self-origin" id="ref-for-self-origin③">self-origin</a> be <var>origin</var>.</p>
              <li data-md>
               <p>If <var>element</var> is a valid <a data-link-type="dfn" href="#permissions-source-expression" id="ref-for-permissions-source-expression⑤">permissions-source-expression</a>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append">append</a> <var>element</var> to <var>allowlist</var>’s <a data-link-type="dfn" href="#expressions" id="ref-for-expressions②">expressions</a>.</p>
             </ol>
@@ -3165,6 +3165,7 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
     <a data-link-type="biblio">[RFC8941]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="92871e3b">sf-dictionary</span>
+     <li><span class="dfn-paneled" id="bb423dc4">sf-token</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
@@ -3205,7 +3206,7 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
    <dt id="biblio-rfc3864">[RFC3864]
-   <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://www.rfc-editor.org/rfc/rfc3864"><cite>Registration Procedures for Message Header Fields</cite></a>. September 2004. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc3864">https://www.rfc-editor.org/rfc/rfc3864</a>
+   <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://www.rfc-editor.org/info/rfc3864/"><cite>Registration Procedures for Message Header Fields</cite></a>. September 2004. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc3864/">https://www.rfc-editor.org/info/rfc3864/</a>
    <dt id="biblio-rfc8941">[RFC8941]
    <dd>M. Nottingham; P-H. Kamp. <a href="https://httpwg.org/specs/rfc8941.html"><cite>Structured Field Values for HTTP</cite></a>. February 2021. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc8941.html">https://httpwg.org/specs/rfc8941.html</a>
    <dt id="biblio-url">[URL]
@@ -3558,6 +3559,7 @@ let dfnPanelData = {
 "allowlist": {"dfnID":"allowlist","dfnText":"allowlist","external":false,"refSections":[{"refs":[{"id":"ref-for-allowlist"},{"id":"ref-for-allowlist\u2460"}],"title":"2. Examples"},{"refs":[{"id":"ref-for-allowlist\u2461"}],"title":"4.2. Policies"},{"refs":[{"id":"ref-for-allowlist\u2462"}],"title":"4.6. Policy directives"},{"refs":[{"id":"ref-for-allowlist\u2463"},{"id":"ref-for-allowlist\u2464"},{"id":"ref-for-allowlist\u2465"},{"id":"ref-for-allowlist\u2466"},{"id":"ref-for-allowlist\u2467"},{"id":"ref-for-allowlist\u2468"}],"title":"4.7. Allowlists"},{"refs":[{"id":"ref-for-allowlist\u2460\u24ea"}],"title":"5.1. HTML attribute serialization"},{"refs":[{"id":"ref-for-allowlist\u2460\u2460"},{"id":"ref-for-allowlist\u2460\u2461"}],"title":"5.2. Structured header serialization"},{"refs":[{"id":"ref-for-allowlist\u2460\u2462"},{"id":"ref-for-allowlist\u2460\u2463"}],"title":"6.2. The allow attribute of the iframe element"},{"refs":[{"id":"ref-for-allowlist\u2460\u2464"}],"title":"6.3.1. allowfullscreen"},{"refs":[{"id":"ref-for-allowlist\u2460\u2465"},{"id":"ref-for-allowlist\u2460\u2466"}],"title":"7.2. The permissionsPolicy object"},{"refs":[{"id":"ref-for-allowlist\u2460\u2467"}],"title":"9.2. Construct policy from dictionary and origin"},{"refs":[{"id":"ref-for-allowlist\u2460\u2468"}],"title":"9.3. Parse policy directive"},{"refs":[{"id":"ref-for-allowlist\u2461\u24ea"}],"title":"9.7. Define an inherited policy for feature in container at origin"}],"url":"#allowlist"},
 "associated-node": {"dfnID":"associated-node","dfnText":"associated node","external":false,"refSections":[{"refs":[{"id":"ref-for-associated-node"},{"id":"ref-for-associated-node\u2460"},{"id":"ref-for-associated-node\u2461"},{"id":"ref-for-associated-node\u2462"},{"id":"ref-for-associated-node\u2463"},{"id":"ref-for-associated-node\u2464"},{"id":"ref-for-associated-node\u2465"},{"id":"ref-for-associated-node\u2466"},{"id":"ref-for-associated-node\u2467"}],"title":"7.2. The permissionsPolicy object"}],"url":"#associated-node"},
 "b01b1359": {"dfnID":"b01b1359","dfnText":"opaque origin","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-origin-opaque"}],"title":"4.7. Allowlists"},{"refs":[{"id":"ref-for-concept-origin-opaque\u2460"},{"id":"ref-for-concept-origin-opaque\u2461"}],"title":"7.2. The permissionsPolicy object"},{"refs":[{"id":"ref-for-concept-origin-opaque\u2462"}],"title":"9.3. Parse policy directive"}],"url":"https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque"},
+"bb423dc4": {"dfnID":"bb423dc4","dfnText":"sf-token","external":true,"refSections":[{"refs":[{"id":"ref-for-token"},{"id":"ref-for-token\u2460"},{"id":"ref-for-token\u2461"},{"id":"ref-for-token\u2462"},{"id":"ref-for-token\u2463"}],"title":"5.2. Structured header serialization"},{"refs":[{"id":"ref-for-token\u2464"},{"id":"ref-for-token\u2465"},{"id":"ref-for-token\u2466"},{"id":"ref-for-token\u2467"},{"id":"ref-for-token\u2468"}],"title":"9.2. Construct policy from dictionary and origin"}],"url":"https://datatracker.ietf.org/doc/html/rfc8941#token"},
 "bcdb6841": {"dfnID":"bcdb6841","dfnText":"requestFullscreen()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-requestfullscreen"}],"title":"6.3.1. allowfullscreen"}],"url":"https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen"},
 "bd736ec6": {"dfnID":"bd736ec6","dfnText":"top-level traversable","external":true,"refSections":[{"refs":[{"id":"ref-for-top-level-traversable"},{"id":"ref-for-top-level-traversable\u2460"}],"title":"4.3. Inherited policies"},{"refs":[{"id":"ref-for-top-level-traversable\u2461"},{"id":"ref-for-top-level-traversable\u2462"},{"id":"ref-for-top-level-traversable\u2463"}],"title":"4.8. Default Allowlists"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable"},
 "bf63a402": {"dfnID":"bf63a402","dfnText":"navigable container","external":true,"refSections":[{"refs":[{"id":"ref-for-navigable-container"}],"title":"4.5. Container policies"},{"refs":[{"id":"ref-for-navigable-container\u2460"}],"title":"4.8. Default Allowlists"},{"refs":[{"id":"ref-for-navigable-container\u2461"}],"title":"9.5. Create a Permissions Policy for a navigable"},{"refs":[{"id":"ref-for-navigable-container\u2462"}],"title":"9.6. Create a Permissions Policy for a navigable from response"},{"refs":[{"id":"ref-for-navigable-container\u2463"}],"title":"9.7. Define an inherited policy for feature in container at origin"},{"refs":[{"id":"ref-for-navigable-container\u2464"}],"title":"9.12. Check potential violation of permissions policy in container"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#navigable-container"},
@@ -4166,6 +4168,7 @@ let refsData = {
 "#the-special-value": {"displayText":"the special value *","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions-policy","spec":"permissions-policy-1","status":"local","text":"the special value *","type":"dfn","url":"#the-special-value"},
 "#violate": {"displayText":"violated","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions-policy","spec":"permissions-policy-1","status":"local","text":"violated","type":"dfn","url":"#violate"},
 "https://datatracker.ietf.org/doc/html/rfc8941#dictionary": {"displayText":"sf-dictionary","export":true,"for_":[],"level":"","normative":true,"shortname":"rfc8941","spec":"rfc8941","status":"anchor-block","text":"sf-dictionary","type":"dfn","url":"https://datatracker.ietf.org/doc/html/rfc8941#dictionary"},
+"https://datatracker.ietf.org/doc/html/rfc8941#token": {"displayText":"sf-token","export":true,"for_":[],"level":"","normative":true,"shortname":"rfc8941","spec":"rfc8941","status":"anchor-block","text":"sf-token","type":"dfn","url":"https://datatracker.ietf.org/doc/html/rfc8941#token"},
 "https://dom.spec.whatwg.org/#clone-a-node-document": {"displayText":"document","export":true,"for_":["clone a node"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"document","type":"dfn","url":"https://dom.spec.whatwg.org/#clone-a-node-document"},
 "https://dom.spec.whatwg.org/#concept-document-origin": {"displayText":"origin","export":true,"for_":["Document"],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"origin","type":"dfn","url":"https://dom.spec.whatwg.org/#concept-document-origin"},
 "https://dom.spec.whatwg.org/#concept-element": {"displayText":"element","export":true,"for_":[],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"element","type":"dfn","url":"https://dom.spec.whatwg.org/#concept-element"},
