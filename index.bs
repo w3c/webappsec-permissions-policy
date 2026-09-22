@@ -7,7 +7,8 @@ Status: ED
 TR: https://www.w3.org/TR/permissions-policy/
 Group: WebAppSec
 URL: https://w3c.github.io/webappsec-permissions-policy/
-Editor: Ian Clelland 76841, Google, iclelland@google.com
+Editor: Ian Clelland, w3cid 76841, Google https://google.org, iclelland@google.com
+Editor: Ari Chivukula, w3cid 132484, Google https://google.org, arichiv@google.com
 Abstract: This specification defines a mechanism that allows developers to selectively enable and disable use of various browser features and APIs.
 Repository: https://github.com/w3c/webappsec-permissions-policy/
 Markup Shorthands: css no, markdown yes
