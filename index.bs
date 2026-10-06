@@ -960,6 +960,7 @@ partial interface HTMLIFrameElement {
           <a>policy-controlled feature</a>, then [=iteration/continue=].
         1. Let |feature| be the <a>policy-controlled feature</a> identified by
           |feature-name|.
+        1. If |directive|[|feature|] [=map/exists=], then [=iteration/continue=].
         1. Let |targetlist| be the remaining elements, if any, of |tokens|.
         1. Let |allowlist| be a new <a>allowlist</a>.
         1. If any element of |targetlist| is the string "<code>*</code>", set
