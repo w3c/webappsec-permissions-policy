@@ -919,10 +919,11 @@ partial interface HTMLIFrameElement {
     1. Let |declarations| be an empty [=ordered map=].
     1. Let |reporting-config| be an empty [=ordered map=].
     1. [=map/For each=] |feature-name| → (|value|, |params|) of |dictionary|:
-        1. If |feature-name| does not identify any recognized
-          <a>policy-controlled feature</a>, then [=iteration/continue=].
-        1. Let |feature| be the <a>policy-controlled feature</a> identified by
-          |feature-name|.
+        1. If there is no recognized <a>policy-controlled feature</a> whose
+          [=policy-controlled-feature/token=] [=string/is=] |feature-name|, then
+          [=iteration/continue=].
+        1. Let |feature| be the <a>policy-controlled feature</a> whose
+          [=policy-controlled-feature/token=] [=string/is=] |feature-name|.
         1. If |params|["report-to"] exists, and is a [=sf-token|token=], then set
           |reporting-config|[|feature|] to |params|["report-to"].
         1. Let |allowlist| be a new <a>allowlist</a>.
@@ -956,10 +957,11 @@ partial interface HTMLIFrameElement {
           ASCII whitespace.</a>
         1. If |tokens| is an empty list, then [=iteration/continue=].
         1. Let |feature-name| be the first element of |tokens|.
-        1. If |feature-name| does not identify any recognized
-          <a>policy-controlled feature</a>, then [=iteration/continue=].
-        1. Let |feature| be the <a>policy-controlled feature</a> identified by
-          |feature-name|.
+        1. If there is no recognized <a>policy-controlled feature</a> whose
+          [=policy-controlled-feature/token=] [=string/is=] |feature-name|, then
+          [=iteration/continue=].
+        1. Let |feature| be the <a>policy-controlled feature</a> whose
+          [=policy-controlled-feature/token=] [=string/is=] |feature-name|.
         1. Let |targetlist| be the remaining elements, if any, of |tokens|.
         1. Let |allowlist| be a new <a>allowlist</a>.
         1. If any element of |targetlist| is the string "<code>*</code>", set
