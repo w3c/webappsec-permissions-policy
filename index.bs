@@ -977,11 +977,14 @@ partial interface HTMLIFrameElement {
                     1. Let |allowlist|'s <a>src-origin</a> be |target origin|.
                     1. Continue to the next |element|.
                 1. Let |result| be the result of executing the <a>URL parser</a> on |element|.
-                1. If |result| is not failure:
-                    1. Let |target| be the [=url/origin=] of |result|.
-                    1. If |target| is not an [=opaque origin=], [=list/append=]
-                       the <a lt="serialization of an origin">serialization</a>
-                       of |target| to |allowlist|'s <a>expressions</a>.
+                1. If |result| is failure, then [=iteration/continue=].
+                1. If |result|'s [=url/scheme=] is "<code>blob</code>", |result|'s [=url/username=]
+                   is not the empty string, or |result|'s [=url/password=] is not the empty
+                   string, then [=iteration/continue=].
+                1. Let |origin| be the [=url/origin=] of |result|.
+                1. If |origin| is not an [=opaque origin=], [=list/append=]
+                   the <a lt="serialization of an origin">serialization</a>
+                   of |origin| to |allowlist|'s <a>expressions</a>.
         1. Set |directive|[|feature|] to |allowlist|.
     1. Return |directive|
 
