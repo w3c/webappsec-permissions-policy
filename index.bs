@@ -979,8 +979,9 @@ partial interface HTMLIFrameElement {
                 1. Let |result| be the result of executing the <a>URL parser</a> on |element|.
                 1. If |result| is not failure:
                     1. Let |target| be the [=url/origin=] of |result|.
-                    1. If |target| is not an [=opaque origin=], [=list/append=]
-                       the <a lt="serialization of an origin">serialization</a>
+                    1. If |target| is not an [=opaque origin=], and |target|'s
+                       [=origin/host=] is not a <a spec=url>domain</a> that contains U+002A (*),
+                       [=list/append=] the <a lt="serialization of an origin">serialization</a>
                        of |target| to |allowlist|'s <a>expressions</a>.
         1. Set |directive|[|feature|] to |allowlist|.
     1. Return |directive|
