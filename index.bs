@@ -378,6 +378,8 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
         <li><dfn>src-origin</dfn>, which is an [=origin=] or `null`</li>
       </ul>
     </ul>
+    <p>A <dfn>permissions-source-expression</dfn> is a <a grammar>scheme-source</a>
+    or a <a grammar>host-source</a>.</p>
     <div class="note">
       The keywords <code>'self'</code>, <code>'src'</code>, and
       <code>'none'</code> can appear in the text representation of allowlists in
@@ -449,22 +451,35 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   <h2 id="serialization">Permissions Policy Serialization</h2>
   <section>
     <h3 id="ascii-serialization">HTML attribute serialization</h3>
-    <p><a>Policy Directives</a> in HTML attributes are represented as their
-    ASCII serialization, with the following ABNF:</p>
-    <pre class="abnf">
-      <dfn noexport>serialized-permissions-policy</dfn> = <a>serialized-policy-directive</a> *(";" <a>serialized-policy-directive</a>)
-      <dfn>serialized-policy-directive</dfn> = <a>feature-identifier</a> RWS <a>allow-list</a>
-      <dfn>feature-identifier</dfn> = 1*( ALPHA / DIGIT / "-")
-      <dfn>allow-list</dfn> = <a>allow-list-value</a> *(RWS <a>allow-list-value</a>)
-      <dfn>allow-list-value</dfn> = <a>permissions-source-expression</a> / "*" / "'self'" / "'src'" / "'none'"
-      <dfn>permissions-source-expression</dfn> = <a grammar>scheme-source</a> / <a grammar>host-source</a>
-    </pre>
-    <div class="note">
-      The string "<code>'self'</code>" may be used as an origin in an
-      [=allowlist=]. When it is used in this way, it will refer to the
-      [=Document/origin=] of the {{Document}} which contains the [=permissions
-      policy=].
-    </div>
+    <p>A <dfn noexport id="serialized-permissions-policy">serialized permissions
+    policy</dfn> is a string made of entries separated by U+003B (;). After
+    [=strip leading and trailing ASCII whitespace|stripping leading and trailing
+    ASCII whitespace=], each entry must be one of:</p>
+    <ul>
+      <li>empty;</li>
+      <li>the [=policy-controlled-feature/token=] of a <a>policy-controlled
+      feature</a>;</li>
+      <li>the [=policy-controlled-feature/token=] of a <a>policy-controlled
+      feature</a>, followed by one or more [=ASCII whitespace=] and "<code>'none'</code>";</li>
+      <li>the [=policy-controlled-feature/token=] of a <a>policy-controlled
+      feature</a>, followed by one or more [=ASCII whitespace=] and one or more allowlist
+      values separated by one or more [=ASCII whitespace=].</li>
+    </ul>
+    <p>The same token must not appear in more than one entry.</p>
+    <p>Each allowlist value must be one of:</p>
+    <ul>
+      <li>"<code>*</code>";</li>
+      <li>"<code>'self'</code>", which refers to the [=Document/origin=] of the
+      {{Document}} that contains the element;</li>
+      <li>"<code>'src'</code>", which refers to the element's <a>declared
+      origin</a>;</li>
+      <li>the [=serialization of an origin|serialization=] of an origin that is
+      not an [=opaque origin=] and whose [=origin/host=] does not contain U+002A
+      (*), optionally followed by U+002F (/).</li>
+    </ul>
+    <p class="note">User agents process the attribute with
+    [[#algo-parse-policy-directive]], which also accepts values that do not
+    follow these rules.</p>
   </section>
   <section>
     <h3 id="structured-header-serialization">Structured header serialization</h3>
@@ -515,9 +530,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   </section>
   <section>
     <h3 id="iframe-allow-attribute">The <code>allow</code> attribute of the <code>iframe</code> element</h3>
-    <p><{iframe}> elements have an <{iframe/allow}> attribute, which contains an
-    <a href="#serialized-policy-directive">ASCII-serialized policy
-    directive</a>.</p>
+    <p><{iframe}> elements have an <{iframe/allow}> attribute, whose value must be a <a>serialized permissions policy</a>.</p>
     <p>The [=allowlist=] for the features named in the attribute may be empty; in
     that case, the default value for the allowlist is <code>'src'</code>, which
     represents the origin of the URL in the iframe's <{iframe/src}> attribute.</p>
