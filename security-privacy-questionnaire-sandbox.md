@@ -35,8 +35,7 @@ No.
 4.8. What data does this specification expose to an origin? Please also document what data is identical
 to data exposed by other features, in the same or different contexts.
 
-See 4.1. When coupled with the JS API, this directly exposes the active sandbox flags, which can generally
-be inferred by scripts with more awkward feature detection mechanisms.
+See 4.1.
 
 4.9. Does this specification enable new script execution/loading mechanisms?
 
