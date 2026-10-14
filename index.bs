@@ -557,252 +557,6 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
   </section>
 </section>
 <section>
-  <h2 id="introspection">Policy Introspection from Scripts</h2>
-  <section class="non-normative">
-  <h3 id="introspection-overview">Overview</h3>
-  <p>The current policy which is in effect in a document can be observed by
-  scripts. This can be used to make decisions, for instance, about what user
-  interface to display, in cases where it is not possible to determine otherwise
-  whether a feature is enabled or not. (Some features may not have any
-  observable failure mode, or may have unwanted side effects to feature
-  detection.)</p>
-  <p>Documents and iframes both provide a {{PermissionsPolicy}} object which can
-  be used to inspect the permissions policies which apply to them.</p>
-  <h4 id="document-policies">Document policies</h4>
-  <p>To retreive the currently effective policy, use
-  <code>document.permissionsPolicy</code>. This returns a {{PermissionsPolicy}}
-  object, which can be used to:</p>
-    * query the state (allowed or denied) in the current document for a given
-        feature,
-    * get a list of all available features (allowed or not) in the current
-        document,
-    * get a list of all allowed features in the current document, or
-    * get the allowlist for a given feature in the current document.
-
-  <div class="example">
-  <pre>
-  &lt;!doctype html&gt;
-  &lt;script&gt;
-   const policy = document.permissionsPolicy;
-
-   // This will be true if this document can use WebUSB.
-   const can_use_usb = policy.allowsFeature('usb');
-
-   // True if a new frame at https://example.com will be allowed to use WebXR.
-   if (policy.allowsFeature('xr-spatial-tracking', 'https://example.com')) {
-     // Show UI to create frame at https://example.com.
-   } else {
-     // Show an alternative UI.
-   }
-
-   // Get the list of origins which are allowed to request payment. The result
-   // will be a list of explicit origins, or the single element ['*'] if all
-   // origins are allowed.
-   const allowed_payment_origins = policy.getAllowlistForFeature('payment');
-
-   // Get the list of all features supported in this document (even those
-   // which are not allowed). The result will be an array of strings, each
-   // representing a feature.
-   const all_features = policy.features();
-   if (all_features.includes('geolocation')) {
-     // Append a child frame to a third-party map service.
-   }
-  &lt;/script&gt;
-  </pre>
-  </div>
-  <h4 id="frame-policies">Frame policies</h4>
-  <p>It is also possible to inspect the policy on an iframe element, from the
-  document which contains it. The policy object in this case represents the
-  <a>observable policy</a> for the frame, which depends only on the current
-  document and the attributes of the iframe element. It does not reveal whether
-  a feature is actually currently allowed in the frame, as the document in the
-  frame may have applied its own policy via an HTTP header, or may have
-  navigated away from its initial location to a new origin. Revealing the
-  effective policy in the iframe element's nested navigable in that case could
-  leak information about the behaviour of a cross-origin document.</p>
-
-  <div class="example">
-  <pre>
-  &lt;!doctype html&gt;
-  &lt;iframe id="frame" allow="fullscreen; xr-spatial-tracking"&gt;&lt;/iframe&gt;
-  &lt;script&gt;
-   const iframe_element = document.getElementById("frame");
-   const iframe_policy = iframe_element.permissionsPolicy;
-
-   // True if the framed document will be allowed to use WebXR
-   if (iframe_policy.allowsFeature('xr-spatial-tracking')) {
-    // display virtual reality controls
-   }
-  &lt;/script&gt;
-  </pre>
-  </div>
-
-  <p>The <a>observable policy</a> on an iframe element is independent of any
-  actual content loaded into the frame (to avoid cross-origin information
-  leakage,) or even whether it is in a document tree.</p>
-
-  <div class="example">
-  <pre>
-  &lt;!doctype html&gt;
-  &lt;!-- this frame should not be allowed to use fullscreen when the document
-      in its src attribute is loaded in it --&gt;
-  &lt;iframe id="frame" allow="fullscreen https://example.com" src="https://example.net/" &gt;&lt;/iframe&gt;
-  &lt;script&gt;
-   const iframe_element = document.getElementById("frame");
-   const iframe_policy = iframe_element.permissionsPolicy;
-   // This will be false, as the URL listed in the src attribute is not allowed
-   // by policy to use fullscreen.
-   const is_fullscreen_allowed_in_frame = iframe_policy.allowsFeature('fullscreen');
-
-   const new_frame = document.createElement('iframe');
-   new_frame.allow = 'sync-xhr';
-   // This will be true, as the iframe is allowed to use sync-xhr at whatever URL is
-   // mentioned in its src attribute, even though that attribute is not yet set.
-   const is_sync_xhr_allowed = new_frame.permissionsPolicy.allowsFeature('sync-xhr');
-  &lt;/script&gt;
-  </pre>
-  </div>
-  </section>
-
-  <section>
-    <h3 id="the-policy-object">The permissionsPolicy object</h3>
-    <pre class="idl">
-[Exposed=Window]
-interface PermissionsPolicy {
-  boolean allowsFeature(DOMString feature, optional DOMString origin);
-  sequence&lt;DOMString&gt; features();
-  sequence&lt;DOMString&gt; allowedFeatures();
-  sequence&lt;DOMString&gt; getAllowlistForFeature(DOMString feature);
-};
-
-partial interface Document {
-    [SameObject] readonly attribute PermissionsPolicy permissionsPolicy;
-};
-
-partial interface HTMLIFrameElement {
-    [SameObject] readonly attribute PermissionsPolicy permissionsPolicy;
-};
-    </pre>
-    <p>A {{PermissionsPolicy}} object has an <dfn>associated node</dfn>, which
-    is a {{Node}}. The <a>associated node</a> is set when the
-    {{PermissionsPolicy}} object is created.</p>
-    <p>A {{PermissionsPolicy}} object has a <dfn>default origin</dfn>, which is
-    an <a>origin</a>, whose value depends on the state of the
-    {{PermissionsPolicy}} object's <a>associated node</a>:</p>
-    * If the {{PermissionsPolicy}} object's <a>associated node</a> is a
-        {{Document}}, then its <a>default origin</a> is the {{Document}}'s
-        <a>origin</a>.
-    * If the {{PermissionsPolicy}} object's <a>associated node</a> is an
-        {{Element}}, then its <a>default origin</a> is the {{Element}}'s
-        <a>declared origin</a>.
-
-    <p>Each {{Document}} has a <dfn for="Document">policy object</dfn>, which is
-    a {{PermissionsPolicy}} instance whose <a>associated node</a> is that
-    {{Document}}.</p>
-    <p>A {{Document}}'s {{Document/permissionsPolicy}} IDL attribute, on
-    getting, must return the {{Document}}'s [=Document/policy object=].</p>
-
-    <p>Each <{iframe}> element has a <dfn for="iframe">policy object</dfn>,
-    which is a {{PermissionsPolicy}} instance whose <a>associated node</a> is
-    that element.</p>
-    <p>An <{iframe}>'s {{HTMLIFrameElement/permissionsPolicy}} IDL attribute, on
-    getting, must return the <{iframe}>'s [=iframe/policy object=].</p>
-
-    <p>The {{allowsFeature(feature, origin)}} method must run the following
-    steps:</p>
-    1. If |origin| is omitted, set |origin| to this {{PermissionsPolicy}}
-        object's <a>default origin</a>.
-    2. Let |policy| be the <a>observable policy</a> for this
-        {{PermissionsPolicy}} object's <a>associated node</a>.
-    3. If |feature| is allowed by |policy| for |origin|, return true.
-    4. Otherwise, return false.
-
-    <p>The {{features()}} method must run the following steps:</p>
-    1. Set |result| to an empty ordered set.
-    2. For each <a>supported feature</a> |feature|:
-        1. Append |feature| to |result|.
-    3. return result
-
-    <p>The {{allowedFeatures()}} method must run the following steps:</p>
-    1. Set |result| to an empty ordered set.
-    2. Let |origin| be this {{PermissionsPolicy}} object's <a>default
-        origin</a>.
-    3. Let |policy| be the <a>observable policy</a> for this
-        {{PermissionsPolicy}} object's <a>associated node</a>.
-    4. For each <a>supported feature</a> |feature|:
-        1. If |feature| is allowed by |policy| for |origin|, append |feature| to
-            |result|.
-    5. return result
-
-    <p>The {{getAllowlistForFeature(feature)}} method must run the following
-    steps:</p>
-    1. Set |result| to an empty list.
-    2. Let |origin| be this {{PermissionsPolicy}} object's <a>default
-       origin</a>.
-    3. Let |policy| be the <a>observable policy</a> for this
-       {{PermissionsPolicy}} object's <a>associated node</a>.
-    4. If |feature| is not allowed in |policy| for |origin|, return |result|
-    5. Let |allowlist| be |policy|'s [=/declared policy=][|feature|]'s
-       [=declared policy/declarations=].
-    6. If |allowlist| is the special value `*`:
-        1. Append "`*`" to |result|
-        2. Return |result|.
-    7. If the <a>allowlist</a>'s <a>self-origin</a> is not null,
-       append the <a lt="serialization of an origin">serialization</a> of it to
-       |result|.
-    8. If the <a>allowlist</a>'s <a>src-origin</a> is not null,
-       append the <a lt="serialization of an origin">serialization</a> of it to
-       |result|.
-    9. Otherwise, for each <a>permissions-source-expression</a> |item| in
-       |allowlist|'s <a>expressions</a>:
-        1. Append |item| to |result|
-    10. Return |result|.
-
-    <p>The <dfn>observable policy</dfn> for any Node is a <a>permissions
-    policy</a>, which contains the information about the policy in the navigable
-    represented by that Node which is visible from the current document.</p>
-
-    <p>To get the <a>observable policy</a> for a Document |document|, return
-    |document|'s permissions policy.</p>
-    <p>To get the <a>observable policy</a> for an Element |node|, run the
-    following steps:</p>
-        1. Let |inherited policy| be an empty [=ordered map=].
-        3. [=set/For each=] <a>supported feature</a> |feature|:
-            1. Let |isInherited| be the result of running <a abstract-op>Define
-                an inherited policy for feature in container at origin</a> on
-                |feature|, |node| and |node|'s <a>declared origin</a>.
-            2. Set |inherited policy|[|feature|] to |isInherited|.
-        4. Return a new <a>permissions policy</a> with <a for="permissions
-           policy">inherited policy</a> |inherited policy|, <a
-           for="permissions policy">declared policy</a> a [=struct=] with both
-           [=declared policy/declarations=] and [=declared policy/reporting
-           configuration=] new [=ordered maps=].
-
-    <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
-    following steps:</p>
-        1. If |node|'s <a>node document</a>'s <a>sandboxed origin browsing
-            context flag</a> is set, then return a new [=opaque origin=].
-        2. If |node|'s <{iframe/sandbox}> attribute is set, and does not contain
-            the <code>allow-same-origin</code> keyword, then return a new
-            [=opaque origin=].
-        3. If |node|'s <{iframe/srcdoc}> attribute is set, then return |node|'s
-            <a>node document</a>'s origin.
-        4. If |node|'s <{iframe/src}> attribute is set:
-            1. Let |url| be the result of parsing |node|'s src attribute,
-                relative to |node|'s <a>node document</a>.
-            2. If |url| is not failure, return |url|'s origin.
-        5. Return |node|'s <a>node document</a>'s origin.
-    <p class="note">
-      The <a>declared origin</a> concept is intended to represent the origin of
-      the document which the embedding page intends to load into a frame. This
-      means, for instance, that if the browser does not support the
-      <code>sandbox</code> or <code>srcdoc</code> attributes, it should not take
-      those attributes into account when computing the declared origin.</p>
-  </section>
-
-</section>
-
-<section>
   <h2 id="reporting">Reporting</h2>
   <p><dfn>Permissions policy violation reports</dfn> indicate that some behavior
   of the <a>Document</a> has <a>violated</a> a permissions policy. It is up to
@@ -891,6 +645,28 @@ partial interface HTMLIFrameElement {
 
 <section>
   <h2 id="algorithms">Algorithms</h2>
+  <section>
+    <p>To get the <dfn>declared origin</dfn> for an Element |node|, run the
+    following steps:</p>
+        1. If |node|'s <a>node document</a>'s <a>sandboxed origin browsing
+            context flag</a> is set, then return a new [=opaque origin=].
+        2. If |node|'s <{iframe/sandbox}> attribute is set, and does not contain
+            the <code>allow-same-origin</code> keyword, then return a new
+            [=opaque origin=].
+        3. If |node|'s <{iframe/srcdoc}> attribute is set, then return |node|'s
+            <a>node document</a>'s origin.
+        4. If |node|'s <{iframe/src}> attribute is set:
+            1. Let |url| be the result of parsing |node|'s src attribute,
+                relative to |node|'s <a>node document</a>.
+            2. If |url| is not failure, return |url|'s origin.
+        5. Return |node|'s <a>node document</a>'s origin.
+    <p class="note">
+      The <a>declared origin</a> concept is intended to represent the origin of
+      the document which the embedding page intends to load into a frame. This
+      means, for instance, that if the browser does not support the
+      <code>sandbox</code> or <code>srcdoc</code> attributes, it should not take
+      those attributes into account when computing the declared origin.</p>
+  </section>
   <section>
     ## <dfn export abstract-op id="process-response-policy">Process response policy</dfn> ## {#algo-process-response-policy}
 
@@ -1423,14 +1199,6 @@ partial interface HTMLIFrameElement {
   embedder could disable that feature for the frame, and then listen for the
   resulting events to determine whether or not the user is logged in.</p>
 
-  <p>The introspection API is designed to only show information about a
-  subframe's policy which could already be deduced by the embedding document.
-  This <a>observable policy</a> is not affected by any HTTP headers delivered
-  with the framed document, and does not change when the frame navigates itself,
-  even if such navigation is to a different origin, where a different policy
-  applies. Only navigations caused by setting the `src` attribute of the
-  `<iframe>` element will cause the <a>observable policy</a> to be updated.</p>
-
   <h3 id="privacy-alter-behavior">Unanticipated behavior changes</h3>
 
   <p>The Permissions Policy mechanism grants a document the ability to control
@@ -1476,11 +1244,6 @@ partial interface HTMLIFrameElement {
     <li>Sites should use feature detection to determine whether an API or
     behavior is available before attempting to use it, and should handle any
     documented errors returned or exceptions thrown by the APIs they call.</li>
-
-    <li>In the case where feature detection is not possible, new web content can
-    be written to use the `policy` object to inspect the permissions policy
-    which is currently enforced, and adjust behaviour or user interface
-    accordingly.</li>
   </ul>
 
   <p>Authors integrating their features with Permissions Policy can decide when
