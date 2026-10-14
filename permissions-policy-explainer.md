@@ -172,15 +172,6 @@ from users when a policy is violated in their browser, or respond to violations
 in JavaScript. See the separate explainer, [Permissions Policy Reporting](reporting.md), for 
 details.
 
-## Inspecting the Current Policy
-
-Permissions Policy provides a JavaScript interface to query the policy which is 
-active in the current document. You can use it to tell whether specific 
-features are enabled or not, or whether they would be enabled by iframes 
-(depending on the content loaded into that iframe). See [Policy Introspection 
-from Scripts](https://w3c.github.io/webappsec-feature-policy/#introspection) in
-the specification for more details.
-
 ## Examples
 
 The first set of examples deals with permission features. The `geolocation`

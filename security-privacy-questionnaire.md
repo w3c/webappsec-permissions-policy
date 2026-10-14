@@ -19,7 +19,6 @@
 * In its current state, no, the specification does not expose any new data to origins. Future changes being considered for this spec include:
 
  * a violation reporting api, which will have to be handled carefully to ensure that parent frames cannot infer any sensitive information about their children based on reported policy violations
- * A JavaScript-based policy introspection API, which would give an origin access to the policy which was granted it by its parent frame.
 
 3.6 Does this specification enable new script execution/loading mechanisms?
 
