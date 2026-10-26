@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 49e9fdd4f, updated Tue Oct 13 14:27:53 2026 -0700" name="generator">
   <link href="https://www.w3.org/TR/permissions-policy/" rel="canonical">
-  <meta content="c25886f557102ad49e09ad98a196cb6159ee5702" name="revision">
+  <meta content="960c4e429ee1903147b54c29d3719bbe38c5c23b" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -2189,6 +2189,8 @@ ASCII whitespace.</a></p>
           <p>Let <var>feature</var> be the <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature②③">policy-controlled feature</a> identified by
 <var>feature-name</var>.</p>
          <li data-md>
+          <p>If <var>directive</var>[<var>feature</var>] <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists">exists</a>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue③">continue</a>.</p>
+         <li data-md>
           <p>Let <var>targetlist</var> be the remaining elements, if any, of <var>tokens</var>.</p>
          <li data-md>
           <p>Let <var>allowlist</var> be a new <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑧">allowlist</a>.</p>
@@ -2225,11 +2227,11 @@ case-insensitive</a> match for "<code>'src'</code>":</p>
              <li data-md>
               <p>Let <var>result</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser①">URL parser</a> on <var>element</var>.</p>
              <li data-md>
-              <p>If <var>result</var> is failure, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue③">continue</a>.</p>
+              <p>If <var>result</var> is failure, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue④">continue</a>.</p>
              <li data-md>
               <p>If <var>result</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-scheme" id="ref-for-concept-url-scheme">scheme</a> is "<code>blob</code>", <var>result</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-username" id="ref-for-concept-url-username">username</a>
  is not the empty string, or <var>result</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-password" id="ref-for-concept-url-password">password</a> is not the empty
- string, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue④">continue</a>.</p>
+ string, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue⑤">continue</a>.</p>
              <li data-md>
               <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin⑨">origin</a> of <var>result</var>.</p>
              <li data-md>
@@ -2263,7 +2265,7 @@ the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document-
 <a data-link-type="dfn" href="#declared-origin" id="ref-for-declared-origin④">declared origin</a>.</p>
        <li data-md>
         <p>If <var>element</var>’s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allowfullscreen" id="ref-for-attr-iframe-allowfullscreen④">allowfullscreen</a></code> attribute is specified, and
- <var>container policy</var> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists">contain</a> an entry for the
+ <var>container policy</var> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists①">contain</a> an entry for the
  <code>fullscreen</code> <a data-link-type="dfn" href="#policy-controlled-feature" id="ref-for-policy-controlled-feature②④">feature</a>.</p>
         <ol>
          <li data-md>
@@ -2362,7 +2364,7 @@ and <var>report-only</var> is "<code>Disabled</code>", return
         <p>Let <var>container policy</var> be the result of running <a data-link-type="abstract-op" href="#process-policy-attributes" id="ref-for-process-policy-attributes">Process
 permissions policy attributes</a> on <var>container</var>.</p>
        <li data-md>
-        <p>If <var>feature</var> <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists①">exists</a> in <var>container policy</var>:</p>
+        <p>If <var>feature</var> <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists②">exists</a> in <var>container policy</var>:</p>
         <ol>
          <li data-md>
           <p>If the <a data-link-type="dfn" href="#allowlist" id="ref-for-allowlist①⑨">allowlist</a> for <var>feature</var> in <var>container policy</var>
@@ -3496,7 +3498,7 @@ let dfnPanelData = {
 "0c9b0d3c": {"dfnID":"0c9b0d3c","dfnText":"WorkletGlobalScope","external":true,"refSections":[{"refs":[{"id":"ref-for-workletglobalscope"}],"title":"9.15. Should request be allowed to use feature?"}],"url":"https://html.spec.whatwg.org/multipage/worklets.html#workletglobalscope"},
 "0e6b2056": {"dfnID":"0e6b2056","dfnText":"set","external":true,"refSections":[{"refs":[{"id":"ref-for-map-set"}],"title":"9.4. Process permissions policy attributes"}],"url":"https://infra.spec.whatwg.org/#map-set"},
 "10e25f42": {"dfnID":"10e25f42","dfnText":"HTMLIFrameElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmliframeelement"}],"title":"7.2. The permissionsPolicy object"}],"url":"https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement"},
-"1243a891": {"dfnID":"1243a891","dfnText":"exist","external":true,"refSections":[{"refs":[{"id":"ref-for-map-exists"}],"title":"9.4. Process permissions policy attributes"},{"refs":[{"id":"ref-for-map-exists\u2460"}],"title":"9.7. Define an inherited policy for feature in container at origin"}],"url":"https://infra.spec.whatwg.org/#map-exists"},
+"1243a891": {"dfnID":"1243a891","dfnText":"exist","external":true,"refSections":[{"refs":[{"id":"ref-for-map-exists"}],"title":"9.3. Parse policy directive"},{"refs":[{"id":"ref-for-map-exists\u2460"}],"title":"9.4. Process permissions policy attributes"},{"refs":[{"id":"ref-for-map-exists\u2461"}],"title":"9.7. Define an inherited policy for feature in container at origin"}],"url":"https://infra.spec.whatwg.org/#map-exists"},
 "16d07e10": {"dfnID":"16d07e10","dfnText":"for each (for list)","external":true,"refSections":[{"refs":[{"id":"ref-for-list-iterate"}],"title":"4.7. Allowlists"},{"refs":[{"id":"ref-for-list-iterate\u2460"}],"title":"7.2. The permissionsPolicy object"},{"refs":[{"id":"ref-for-list-iterate\u2461"}],"title":"9.2. Construct policy from dictionary and origin"},{"refs":[{"id":"ref-for-list-iterate\u2462"}],"title":"9.5. Create a Permissions Policy for a navigable"},{"refs":[{"id":"ref-for-list-iterate\u2463"}],"title":"9.12. Check potential violation of permissions policy in container"}],"url":"https://infra.spec.whatwg.org/#list-iterate"},
 "188c6617": {"dfnID":"188c6617","dfnText":"ReportBody","external":true,"refSections":[{"refs":[{"id":"ref-for-reportbody"}],"title":"8. Reporting"}],"url":"https://w3c.github.io/reporting/#reportbody"},
 "1bba3db7": {"dfnID":"1bba3db7","dfnText":"parent","external":true,"refSections":[{"refs":[{"id":"ref-for-nav-parent"},{"id":"ref-for-nav-parent\u2460"}],"title":"4.8. Default Allowlists"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#nav-parent"},
@@ -3547,7 +3549,7 @@ let dfnPanelData = {
 "9cce47fd": {"dfnID":"9cce47fd","dfnText":"sequence","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-sequence"},{"id":"ref-for-idl-sequence\u2460"},{"id":"ref-for-idl-sequence\u2461"}],"title":"7.2. The permissionsPolicy object"}],"url":"https://webidl.spec.whatwg.org/#idl-sequence"},
 "9fe8836b": {"dfnID":"9fe8836b","dfnText":"report","external":true,"refSections":[{"refs":[{"id":"ref-for-report"}],"title":"9.13. Generate report for violation of permissions policy on settings"},{"refs":[{"id":"ref-for-report\u2460"}],"title":"9.14. Generate report for potential violation of permissions policy on settings"}],"url":"https://w3c.github.io/reporting/#report"},
 "a1288f2a": {"dfnID":"a1288f2a","dfnText":"password","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-password"}],"title":"9.3. Parse policy directive"}],"url":"https://url.spec.whatwg.org/#concept-url-password"},
-"a326add7": {"dfnID":"a326add7","dfnText":"contain","external":true,"refSections":[{"refs":[{"id":"ref-for-map-exists"}],"title":"9.4. Process permissions policy attributes"},{"refs":[{"id":"ref-for-map-exists\u2460"}],"title":"9.7. Define an inherited policy for feature in container at origin"}],"url":"https://infra.spec.whatwg.org/#map-exists"},
+"a326add7": {"dfnID":"a326add7","dfnText":"contain","external":true,"refSections":[{"refs":[{"id":"ref-for-map-exists"}],"title":"9.3. Parse policy directive"},{"refs":[{"id":"ref-for-map-exists\u2460"}],"title":"9.4. Process permissions policy attributes"},{"refs":[{"id":"ref-for-map-exists\u2461"}],"title":"9.7. Define an inherited policy for feature in container at origin"}],"url":"https://infra.spec.whatwg.org/#map-exists"},
 "a37f05fd": {"dfnID":"a37f05fd","dfnText":"strip leading and trailing ASCII whitespace","external":true,"refSections":[{"refs":[{"id":"ref-for-strip-leading-and-trailing-ascii-whitespace"}],"title":"5.1. HTML attribute serialization"}],"url":"https://infra.spec.whatwg.org/#strip-leading-and-trailing-ascii-whitespace"},
 "a41102eb": {"dfnID":"a41102eb","dfnText":"permissions policy","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-document-permissions-policy"}],"title":"9.8. Get feature value for origin"},{"refs":[{"id":"ref-for-concept-document-permissions-policy\u2460"},{"id":"ref-for-concept-document-permissions-policy\u2461"}],"title":"9.10. Is feature enabled in document for origin?"},{"refs":[{"id":"ref-for-concept-document-permissions-policy\u2462"}],"title":"9.12. Check potential violation of permissions policy in container"}],"url":"https://html.spec.whatwg.org/multipage/dom.html#concept-document-permissions-policy"},
 "a5c91173": {"dfnID":"a5c91173","dfnText":"SameObject","external":true,"refSections":[{"refs":[{"id":"ref-for-SameObject"},{"id":"ref-for-SameObject\u2460"}],"title":"7.2. The permissionsPolicy object"}],"url":"https://webidl.spec.whatwg.org/#SameObject"},
@@ -3612,7 +3614,7 @@ let dfnPanelData = {
 "f78d5b5c": {"dfnID":"f78d5b5c","dfnText":"origin","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-request-origin"}],"title":"9.15. Should request be allowed to use feature?"}],"url":"https://fetch.spec.whatwg.org/#concept-request-origin"},
 "f7b00a8b": {"dfnID":"f7b00a8b","dfnText":"header list","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-response-header-list"}],"title":"9.1. Process response policy"}],"url":"https://fetch.spec.whatwg.org/#concept-response-header-list"},
 "f8de33a3": {"dfnID":"f8de33a3","dfnText":"long","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-long"},{"id":"ref-for-idl-long\u2460"}],"title":"8. Reporting"}],"url":"https://webidl.spec.whatwg.org/#idl-long"},
-"f937b7b6": {"dfnID":"f937b7b6","dfnText":"continue","external":true,"refSections":[{"refs":[{"id":"ref-for-iteration-continue"}],"title":"9.2. Construct policy from dictionary and origin"},{"refs":[{"id":"ref-for-iteration-continue\u2460"},{"id":"ref-for-iteration-continue\u2461"},{"id":"ref-for-iteration-continue\u2462"},{"id":"ref-for-iteration-continue\u2463"}],"title":"9.3. Parse policy directive"}],"url":"https://infra.spec.whatwg.org/#iteration-continue"},
+"f937b7b6": {"dfnID":"f937b7b6","dfnText":"continue","external":true,"refSections":[{"refs":[{"id":"ref-for-iteration-continue"}],"title":"9.2. Construct policy from dictionary and origin"},{"refs":[{"id":"ref-for-iteration-continue\u2460"},{"id":"ref-for-iteration-continue\u2461"},{"id":"ref-for-iteration-continue\u2462"},{"id":"ref-for-iteration-continue\u2463"},{"id":"ref-for-iteration-continue\u2464"}],"title":"9.3. Parse policy directive"}],"url":"https://infra.spec.whatwg.org/#iteration-continue"},
 "get-feature-value-for-origin": {"dfnID":"get-feature-value-for-origin","dfnText":"Get feature value for origin","external":false,"refSections":[{"refs":[{"id":"ref-for-get-feature-value-for-origin"},{"id":"ref-for-get-feature-value-for-origin\u2460"}],"title":"9.7. Define an inherited policy for feature in container at origin"}],"url":"#get-feature-value-for-origin"},
 "get-reporting-endpoint": {"dfnID":"get-reporting-endpoint","dfnText":"Get the reporting endpoint for a feature","external":false,"refSections":[{"refs":[{"id":"ref-for-get-reporting-endpoint"},{"id":"ref-for-get-reporting-endpoint\u2460"}],"title":"9.10. Is feature enabled in document for origin?"},{"refs":[{"id":"ref-for-get-reporting-endpoint\u2461"},{"id":"ref-for-get-reporting-endpoint\u2462"}],"title":"9.12. Check potential violation of permissions policy in container"}],"url":"#get-reporting-endpoint"},
 "header-policy": {"dfnID":"header-policy","dfnText":"header policy","external":false,"refSections":[{"refs":[{"id":"ref-for-header-policy"}],"title":"4.5. Container policies"}],"url":"#header-policy"},
@@ -4417,7 +4419,7 @@ let refsData = {
 "https://infra.spec.whatwg.org/#list": {"displayText":"list","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"list","type":"dfn","url":"https://infra.spec.whatwg.org/#list"},
 "https://infra.spec.whatwg.org/#list-append": {"displayText":"append","export":true,"for_":["list"],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"append","type":"dfn","url":"https://infra.spec.whatwg.org/#list-append"},
 "https://infra.spec.whatwg.org/#list-iterate": {"displayText":"for each","export":true,"for_":["list","set"],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"for each","type":"dfn","url":"https://infra.spec.whatwg.org/#list-iterate"},
-"https://infra.spec.whatwg.org/#map-exists": {"displayText":"contain","export":true,"for_":["map"],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"contain","type":"dfn","url":"https://infra.spec.whatwg.org/#map-exists"},
+"https://infra.spec.whatwg.org/#map-exists": {"displayText":"exist","export":true,"for_":["map"],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"exist","type":"dfn","url":"https://infra.spec.whatwg.org/#map-exists"},
 "https://infra.spec.whatwg.org/#map-iterate": {"displayText":"for each","export":true,"for_":["map"],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"for each","type":"dfn","url":"https://infra.spec.whatwg.org/#map-iterate"},
 "https://infra.spec.whatwg.org/#map-set": {"displayText":"set","export":true,"for_":["map"],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"set","type":"dfn","url":"https://infra.spec.whatwg.org/#map-set"},
 "https://infra.spec.whatwg.org/#ordered-map": {"displayText":"ordered map","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"ordered map","type":"dfn","url":"https://infra.spec.whatwg.org/#ordered-map"},
