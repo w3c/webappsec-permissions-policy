@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 49e9fdd4f, updated Tue Oct 13 14:27:53 2026 -0700" name="generator">
   <link href="https://www.w3.org/TR/permissions-policy/" rel="canonical">
-  <meta content="901eabae76868e0395754967835923d345e56598" name="revision">
+  <meta content="c25886f557102ad49e09ad98a196cb6159ee5702" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -2225,15 +2225,17 @@ case-insensitive</a> match for "<code>'src'</code>":</p>
              <li data-md>
               <p>Let <var>result</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser①">URL parser</a> on <var>element</var>.</p>
              <li data-md>
-              <p>If <var>result</var> is not failure:</p>
-              <ol>
-               <li data-md>
-                <p>Let <var>target</var> be the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin⑨">origin</a> of <var>result</var>.</p>
-               <li data-md>
-                <p>If <var>target</var> is not an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque④">opaque origin</a>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append①">append</a>
+              <p>If <var>result</var> is failure, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue③">continue</a>.</p>
+             <li data-md>
+              <p>If <var>result</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-scheme" id="ref-for-concept-url-scheme">scheme</a> is "<code>blob</code>", <var>result</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-username" id="ref-for-concept-url-username">username</a>
+ is not the empty string, or <var>result</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-password" id="ref-for-concept-url-password">password</a> is not the empty
+ string, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue④">continue</a>.</p>
+             <li data-md>
+              <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin⑨">origin</a> of <var>result</var>.</p>
+             <li data-md>
+              <p>If <var>origin</var> is not an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque④">opaque origin</a>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append" id="ref-for-list-append①">append</a>
  the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#ascii-serialisation-of-an-origin" id="ref-for-ascii-serialisation-of-an-origin④">serialization</a>
- of <var>target</var> to <var>allowlist</var>’s <a data-link-type="dfn" href="#expressions" id="ref-for-expressions③">expressions</a>.</p>
-              </ol>
+ of <var>origin</var> to <var>allowlist</var>’s <a data-link-type="dfn" href="#expressions" id="ref-for-expressions③">expressions</a>.</p>
             </ol>
           </ol>
          <li data-md>
@@ -3185,7 +3187,10 @@ enabled in document for origin?</a> on <var>feature</var>, <var>document</var>, 
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="959ad97b">origin</span>
+     <li><span class="dfn-paneled" id="a1288f2a">password</span>
+     <li><span class="dfn-paneled" id="3a711be7">scheme</span>
      <li><span class="dfn-paneled" id="ca3ca4ae">URL parser</span>
+     <li><span class="dfn-paneled" id="218c9455">username</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
@@ -3495,10 +3500,12 @@ let dfnPanelData = {
 "16d07e10": {"dfnID":"16d07e10","dfnText":"for each (for list)","external":true,"refSections":[{"refs":[{"id":"ref-for-list-iterate"}],"title":"4.7. Allowlists"},{"refs":[{"id":"ref-for-list-iterate\u2460"}],"title":"7.2. The permissionsPolicy object"},{"refs":[{"id":"ref-for-list-iterate\u2461"}],"title":"9.2. Construct policy from dictionary and origin"},{"refs":[{"id":"ref-for-list-iterate\u2462"}],"title":"9.5. Create a Permissions Policy for a navigable"},{"refs":[{"id":"ref-for-list-iterate\u2463"}],"title":"9.12. Check potential violation of permissions policy in container"}],"url":"https://infra.spec.whatwg.org/#list-iterate"},
 "188c6617": {"dfnID":"188c6617","dfnText":"ReportBody","external":true,"refSections":[{"refs":[{"id":"ref-for-reportbody"}],"title":"8. Reporting"}],"url":"https://w3c.github.io/reporting/#reportbody"},
 "1bba3db7": {"dfnID":"1bba3db7","dfnText":"parent","external":true,"refSections":[{"refs":[{"id":"ref-for-nav-parent"},{"id":"ref-for-nav-parent\u2460"}],"title":"4.8. Default Allowlists"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#nav-parent"},
+"218c9455": {"dfnID":"218c9455","dfnText":"username","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-username"}],"title":"9.3. Parse policy directive"}],"url":"https://url.spec.whatwg.org/#concept-url-username"},
 "27d9b7ea": {"dfnID":"27d9b7ea","dfnText":"element","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-element"}],"title":"9.5. Create a Permissions Policy for a navigable"}],"url":"https://dom.spec.whatwg.org/#concept-element"},
 "296f3551": {"dfnID":"296f3551","dfnText":"Element","external":true,"refSections":[{"refs":[{"id":"ref-for-element"},{"id":"ref-for-element\u2460"}],"title":"7.2. The permissionsPolicy object"}],"url":"https://dom.spec.whatwg.org/#element"},
 "3349d69f": {"dfnID":"3349d69f","dfnText":"associated Document","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-document-window"}],"title":"9.15. Should request be allowed to use feature?"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window"},
 "35972864": {"dfnID":"35972864","dfnText":"active document","external":true,"refSections":[{"refs":[{"id":"ref-for-nav-document"},{"id":"ref-for-nav-document\u2460"},{"id":"ref-for-nav-document\u2461"},{"id":"ref-for-nav-document\u2462"},{"id":"ref-for-nav-document\u2463"}],"title":"4.8. Default Allowlists"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document"},
+"3a711be7": {"dfnID":"3a711be7","dfnText":"scheme","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-scheme"}],"title":"9.3. Parse policy directive"}],"url":"https://url.spec.whatwg.org/#concept-url-scheme"},
 "3c4b330a": {"dfnID":"3c4b330a","dfnText":"visible to reportingobservers","external":true,"refSections":[{"refs":[{"id":"ref-for-visible-to-reportingobservers"}],"title":"8. Reporting"}],"url":"https://w3c.github.io/reporting/#visible-to-reportingobservers"},
 "3e12e042": {"dfnID":"3e12e042","dfnText":"environment settings object","external":true,"refSections":[{"refs":[{"id":"ref-for-environment-settings-object"}],"title":"9.10. Is feature enabled in document for origin?"},{"refs":[{"id":"ref-for-environment-settings-object\u2460"}],"title":"9.12. Check potential violation of permissions policy in container"},{"refs":[{"id":"ref-for-environment-settings-object\u2461"}],"title":"9.13. Generate report for violation of permissions policy on settings"},{"refs":[{"id":"ref-for-environment-settings-object\u2462"}],"title":"9.14. Generate report for potential violation of permissions policy on settings"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object"},
 "3ecc7220": {"dfnID":"3ecc7220","dfnText":"content navigable","external":true,"refSections":[{"refs":[{"id":"ref-for-content-navigable"}],"title":"6.2. The allow attribute of the iframe element"},{"refs":[{"id":"ref-for-content-navigable\u2460"}],"title":"6.3. Additional attributes to support legacy features"},{"refs":[{"id":"ref-for-content-navigable\u2461"}],"title":"6.3.1. allowfullscreen"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#content-navigable"},
@@ -3539,6 +3546,7 @@ let dfnPanelData = {
 "9c19b7fc": {"dfnID":"9c19b7fc","dfnText":"navigable","external":true,"refSections":[{"refs":[{"id":"ref-for-navigable"}],"title":"4.8. Default Allowlists"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#navigable"},
 "9cce47fd": {"dfnID":"9cce47fd","dfnText":"sequence","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-sequence"},{"id":"ref-for-idl-sequence\u2460"},{"id":"ref-for-idl-sequence\u2461"}],"title":"7.2. The permissionsPolicy object"}],"url":"https://webidl.spec.whatwg.org/#idl-sequence"},
 "9fe8836b": {"dfnID":"9fe8836b","dfnText":"report","external":true,"refSections":[{"refs":[{"id":"ref-for-report"}],"title":"9.13. Generate report for violation of permissions policy on settings"},{"refs":[{"id":"ref-for-report\u2460"}],"title":"9.14. Generate report for potential violation of permissions policy on settings"}],"url":"https://w3c.github.io/reporting/#report"},
+"a1288f2a": {"dfnID":"a1288f2a","dfnText":"password","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-password"}],"title":"9.3. Parse policy directive"}],"url":"https://url.spec.whatwg.org/#concept-url-password"},
 "a326add7": {"dfnID":"a326add7","dfnText":"contain","external":true,"refSections":[{"refs":[{"id":"ref-for-map-exists"}],"title":"9.4. Process permissions policy attributes"},{"refs":[{"id":"ref-for-map-exists\u2460"}],"title":"9.7. Define an inherited policy for feature in container at origin"}],"url":"https://infra.spec.whatwg.org/#map-exists"},
 "a37f05fd": {"dfnID":"a37f05fd","dfnText":"strip leading and trailing ASCII whitespace","external":true,"refSections":[{"refs":[{"id":"ref-for-strip-leading-and-trailing-ascii-whitespace"}],"title":"5.1. HTML attribute serialization"}],"url":"https://infra.spec.whatwg.org/#strip-leading-and-trailing-ascii-whitespace"},
 "a41102eb": {"dfnID":"a41102eb","dfnText":"permissions policy","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-document-permissions-policy"}],"title":"9.8. Get feature value for origin"},{"refs":[{"id":"ref-for-concept-document-permissions-policy\u2460"},{"id":"ref-for-concept-document-permissions-policy\u2461"}],"title":"9.10. Is feature enabled in document for origin?"},{"refs":[{"id":"ref-for-concept-document-permissions-policy\u2462"}],"title":"9.12. Check potential violation of permissions policy in container"}],"url":"https://html.spec.whatwg.org/multipage/dom.html#concept-document-permissions-policy"},
@@ -3604,7 +3612,7 @@ let dfnPanelData = {
 "f78d5b5c": {"dfnID":"f78d5b5c","dfnText":"origin","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-request-origin"}],"title":"9.15. Should request be allowed to use feature?"}],"url":"https://fetch.spec.whatwg.org/#concept-request-origin"},
 "f7b00a8b": {"dfnID":"f7b00a8b","dfnText":"header list","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-response-header-list"}],"title":"9.1. Process response policy"}],"url":"https://fetch.spec.whatwg.org/#concept-response-header-list"},
 "f8de33a3": {"dfnID":"f8de33a3","dfnText":"long","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-long"},{"id":"ref-for-idl-long\u2460"}],"title":"8. Reporting"}],"url":"https://webidl.spec.whatwg.org/#idl-long"},
-"f937b7b6": {"dfnID":"f937b7b6","dfnText":"continue","external":true,"refSections":[{"refs":[{"id":"ref-for-iteration-continue"}],"title":"9.2. Construct policy from dictionary and origin"},{"refs":[{"id":"ref-for-iteration-continue\u2460"},{"id":"ref-for-iteration-continue\u2461"}],"title":"9.3. Parse policy directive"}],"url":"https://infra.spec.whatwg.org/#iteration-continue"},
+"f937b7b6": {"dfnID":"f937b7b6","dfnText":"continue","external":true,"refSections":[{"refs":[{"id":"ref-for-iteration-continue"}],"title":"9.2. Construct policy from dictionary and origin"},{"refs":[{"id":"ref-for-iteration-continue\u2460"},{"id":"ref-for-iteration-continue\u2461"},{"id":"ref-for-iteration-continue\u2462"},{"id":"ref-for-iteration-continue\u2463"}],"title":"9.3. Parse policy directive"}],"url":"https://infra.spec.whatwg.org/#iteration-continue"},
 "get-feature-value-for-origin": {"dfnID":"get-feature-value-for-origin","dfnText":"Get feature value for origin","external":false,"refSections":[{"refs":[{"id":"ref-for-get-feature-value-for-origin"},{"id":"ref-for-get-feature-value-for-origin\u2460"}],"title":"9.7. Define an inherited policy for feature in container at origin"}],"url":"#get-feature-value-for-origin"},
 "get-reporting-endpoint": {"dfnID":"get-reporting-endpoint","dfnText":"Get the reporting endpoint for a feature","external":false,"refSections":[{"refs":[{"id":"ref-for-get-reporting-endpoint"},{"id":"ref-for-get-reporting-endpoint\u2460"}],"title":"9.10. Is feature enabled in document for origin?"},{"refs":[{"id":"ref-for-get-reporting-endpoint\u2461"},{"id":"ref-for-get-reporting-endpoint\u2462"}],"title":"9.12. Check potential violation of permissions policy in container"}],"url":"#get-reporting-endpoint"},
 "header-policy": {"dfnID":"header-policy","dfnText":"header policy","external":false,"refSections":[{"refs":[{"id":"ref-for-header-policy"}],"title":"4.5. Container policies"}],"url":"#header-policy"},
@@ -4421,6 +4429,9 @@ let refsData = {
 "https://infra.spec.whatwg.org/#struct-item": {"displayText":"item","export":true,"for_":["struct","tuple"],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"item","type":"dfn","url":"https://infra.spec.whatwg.org/#struct-item"},
 "https://url.spec.whatwg.org/#concept-url-origin": {"displayText":"origin","export":true,"for_":["url"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"origin","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-origin"},
 "https://url.spec.whatwg.org/#concept-url-parser": {"displayText":"URL parser","export":true,"for_":[],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"url parser","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-parser"},
+"https://url.spec.whatwg.org/#concept-url-password": {"displayText":"password","export":true,"for_":["url"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"password","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-password"},
+"https://url.spec.whatwg.org/#concept-url-scheme": {"displayText":"scheme","export":true,"for_":["url"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"scheme","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-scheme"},
+"https://url.spec.whatwg.org/#concept-url-username": {"displayText":"username","export":true,"for_":["url"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"username","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-username"},
 "https://w3c.github.io/mediacapture-main/#dom-mediadevices-getusermedia": {"displayText":"getUserMedia()","export":true,"for_":["MediaDevices"],"level":"1","normative":true,"shortname":"mediacapture-streams","spec":"mediacapture-streams","status":"current","text":"getUserMedia()","type":"method","url":"https://w3c.github.io/mediacapture-main/#dom-mediadevices-getusermedia"},
 "https://w3c.github.io/permissions/#dfn-powerful-feature": {"displayText":"powerful feature","export":true,"for_":[],"level":"1","normative":true,"shortname":"permissions","spec":"permissions","status":"current","text":"powerful feature","type":"dfn","url":"https://w3c.github.io/permissions/#dfn-powerful-feature"},
 "https://w3c.github.io/reporting/#generate-and-queue-a-report": {"displayText":"generate and queue a report","export":true,"for_":[],"level":"1","normative":true,"shortname":"reporting","spec":"reporting-1","status":"current","text":"generate and queue a report","type":"dfn","url":"https://w3c.github.io/reporting/#generate-and-queue-a-report"},
