@@ -147,7 +147,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     <a>allowlist</a> entry "<code>https://*.example.com</code>" and must also be added.</p>
   </div>
   <div class="example">
-    <p>SecureCorp Inc. restructured its services and now needs to needs to delegate
+    <p>SecureCorp Inc. restructured its services and now needs to delegate
     use of the Geolocation API to its origin ("<code>https://example.com</code>")
     as well as three non-default ports ("<code>https://example.com:444</code>",
     "<code>https://example.com:445</code>", and "<code>https://example.com:446</code>").
