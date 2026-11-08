@@ -162,7 +162,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
       <a http-header>Permissions-Policy</a>: geolocation=(self "https://example.com:*")
     </pre>
     <p>Not only would the above header permit "<code>https://example.com:444</code>",
-    "<code>https://example.com:444</code>", and "<code>https://example.com:445</code>"
+    "<code>https://example.com:445</code>", and "<code>https://example.com:446</code>"
     to use the Geolocation API, but any other ports on "<code>https://example.com</code>"
     could use it too.</p>
   </div>
