@@ -3,23 +3,12 @@
 4.1. What information might this feature expose to Web sites or other parties, and for what purposes
 is that exposure necessary?”
 
-* If coupled with the JavaScript introspection API for feature policy, this feature will allow
-sandboxed websites to determine exactly which sandbox features have been applied to them (assuming
-that they do not have the [sandboxed scripts browsing context
-flag](https://html.spec.whatwg.org/#sandboxed-scripts-browsing-context-flag) set). This
-is for consistency with the rest of the JS API, which allows sites to inspect their feature policy.
-
-In practice, this would allow sites to detect the availability of features such as HTML form
-submission, without having to try to use it first and catch exceptions, possibly allowing for better
-UI and user experience.
-
 As currently designed, this will also integrate with reporting, feature policy features can generally
 trigger reporting on violation. 
 
 4.2. Is this specification exposing the minimum amount of information necessary to power the feature?
 
-Technically no (as mentioned above), but it would require special-casing these features, separately
-from all other policy-controlled features, in order to change that.
+TODO: answer this again, since the spec no longer has a script API that shows a page its policy.
 
 4.3. How does this specification deal with personal information or personally-identifiable information
 or information derived thereof?
@@ -46,8 +35,7 @@ No.
 4.8. What data does this specification expose to an origin? Please also document what data is identical
 to data exposed by other features, in the same or different contexts.
 
-See 4.1. When coupled with the JS API, this directly exposes the active sandbox flags, which can generally
-be inferred by scripts with more awkward feature detection mechanisms.
+See 4.1.
 
 4.9. Does this specification enable new script execution/loading mechanisms?
 
