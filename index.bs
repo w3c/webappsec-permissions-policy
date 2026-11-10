@@ -1189,14 +1189,14 @@ partial interface HTMLIFrameElement {
                 |policy|.
             1. Call <a abstract-op>Generate report for violation of permissions
                 policy on settings</a> given |feature|, |settings|,
-                "<code>Enforce</code>", and |endpoint|.
+                "<code>enforce</code>", and |endpoint|.
         1. Else, if |report-only result| is "<code>Disabled</code>":
             1. Let |report-only endpoint| be the result of calling <a
                 abstract-op>Get the reporting endpoint for a feature</a> given
                |feature| and |report-only policy|.
             1. Call <a abstract-op>Generate report for violation of permissions
                 policy on settings</a> given |feature|, |settings|,
-                "<code>Report</code>", and |report-only endpoint|.
+                "<code>report</code>", and |report-only endpoint|.
     1. Return result
 
     </div>
@@ -1235,7 +1235,7 @@ partial interface HTMLIFrameElement {
              |document|'s [=Document/permissions policy=].
           2. Call <a abstract-op>Generate report for potential violation
              of permissions policy on settings</a> given |feature|,
-             |settings|, "<code>Enforce</code>", |endpoint|, |allowAttribute|,
+             |settings|, "<code>enforce</code>", |endpoint|, |allowAttribute|,
              and |srcAttribute|.
         2. Else, if the result of running <a abstract-op>Define an inherited
            policy for feature in container at origin</a> on |feature|,
@@ -1247,7 +1247,7 @@ partial interface HTMLIFrameElement {
              permissions policy=].
           2. Call <a abstract-op>Generate report for potential violation
              of permissions policy on settings</a> given |feature|,
-             |settings|, "<code>Report</code>", |report-only endpoint|,
+             |settings|, "<code>report</code>", |report-only endpoint|,
              |allowAttribute|, and |srcAttribute|.
 
     </div>
