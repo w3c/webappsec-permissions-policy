@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version e0b165ae4, updated Mon Nov 2 15:16:49 2026 -0800" name="generator">
   <link href="https://www.w3.org/TR/permissions-policy/" rel="canonical">
-  <meta content="229db48df209993f436f677cb99b282596bc67ee" name="revision">
+  <meta content="ec5d32277a728365ce570822869bb57305288251" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>
@@ -1019,7 +1019,7 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
 </p>
    <h1 class="no-ref p-name" id="title">Permissions Policy</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-11-08">8 November 2026</time></p>
+    <time class="dt-updated" datetime="2026-11-12">12 November 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -2505,7 +2505,7 @@ permissions policy attributes</a> on <var>container</var>.</p>
            <li data-md>
             <p>Call <a data-link-type="abstract-op" href="#report-permissions-policy-violation" id="ref-for-report-permissions-policy-violation">Generate report for violation of permissions
   policy on settings</a> given <var>feature</var>, <var>settings</var>,
-  "<code>Enforce</code>", and <var>endpoint</var>.</p>
+  "<code>enforce</code>", and <var>endpoint</var>.</p>
           </ol>
          <li data-md>
           <p>Else, if <var>report-only result</var> is "<code>Disabled</code>":</p>
@@ -2516,7 +2516,7 @@ permissions policy attributes</a> on <var>container</var>.</p>
            <li data-md>
             <p>Call <a data-link-type="abstract-op" href="#report-permissions-policy-violation" id="ref-for-report-permissions-policy-violation①">Generate report for violation of permissions
   policy on settings</a> given <var>feature</var>, <var>settings</var>,
-  "<code>Report</code>", and <var>report-only endpoint</var>.</p>
+  "<code>report</code>", and <var>report-only endpoint</var>.</p>
           </ol>
         </ol>
        <li data-md>
@@ -2573,7 +2573,7 @@ permissions policy attributes</a> on <var>container</var>.</p>
            <li data-md>
             <p>Call <a data-link-type="abstract-op" href="#report-potential-permissions-policy-violation" id="ref-for-report-potential-permissions-policy-violation">Generate report for potential violation
  of permissions policy on settings</a> given <var>feature</var>,
- <var>settings</var>, "<code>Enforce</code>", <var>endpoint</var>, <var>allowAttribute</var>,
+ <var>settings</var>, "<code>enforce</code>", <var>endpoint</var>, <var>allowAttribute</var>,
  and <var>srcAttribute</var>.</p>
           </ol>
          <li data-md>
@@ -2588,7 +2588,7 @@ permissions policy attributes</a> on <var>container</var>.</p>
            <li data-md>
             <p>Call <a data-link-type="abstract-op" href="#report-potential-permissions-policy-violation" id="ref-for-report-potential-permissions-policy-violation①">Generate report for potential violation
  of permissions policy on settings</a> given <var>feature</var>,
- <var>settings</var>, "<code>Report</code>", <var>report-only endpoint</var>,
+ <var>settings</var>, "<code>report</code>", <var>report-only endpoint</var>,
  <var>allowAttribute</var>, and <var>srcAttribute</var>.</p>
           </ol>
         </ol>
