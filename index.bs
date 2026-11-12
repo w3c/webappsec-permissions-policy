@@ -916,7 +916,7 @@ partial interface HTMLIFrameElement {
     1. Let |parsed header| be the result of executing <a>get a structured
       field value</a> given |header name| and "dictionary" from |response|’s
       [=response/header list=].
-    1. If |parsed header| is null, return an empty [=ordered map=].
+    1. If |parsed header| is null, set |parsed header| to an empty [=ordered map=].
     1. Let |policy| be the result of executing <a abstract-op>Construct policy from
       dictionary and origin</a> on |parsed header| and |origin|.
     1. Return |policy|.
@@ -949,7 +949,8 @@ partial interface HTMLIFrameElement {
                 1. If |element| is the [=sf-token|token=] `self`, let |allowlist|'s <a>self-origin</a> be |origin|.
                 1. If |element| is a valid <a>permissions-source-expression</a>, [=list/append=] |element| to |allowlist|'s <a>expressions</a>.
         1. Set |declarations|[|feature|] to |allowlist|.
-    1. Return «|declarations|, |reporting-config|».
+    1. Return a new [=/declared policy=] with [=declared policy/declarations=]
+       |declarations| and [=declared policy/reporting configuration=] |reporting-config|.
 
     </div>
   </section>
@@ -1038,9 +1039,12 @@ partial interface HTMLIFrameElement {
           inherited policy for feature in container at origin</a> on |feature|,
           |container| and |origin|.
         1. Set |inherited policy|[|feature|] to |isInherited|.
-    1. Let |policy| be a new <a>permissions policy</a>, with <a for="permissions
-       policy">inherited policy</a> |inherited policy| and <a for="permissions
-       policy">declared policy</a> «[], []».
+    1. Let |declared policy| be a new [=/declared policy=] whose
+       [=declared policy/declarations=] and [=declared policy/reporting configuration=]
+       are both new [=ordered maps=].
+    1. Let |policy| be a new <a>permissions policy</a> with
+       [=permissions policy/inherited policy=] |inherited policy| and
+       [=permissions policy/declared policy=] |declared policy|.
     1. Return |policy|.
 
     </div>
@@ -1058,12 +1062,12 @@ partial interface HTMLIFrameElement {
     1. Let |d| be the result of running <a abstract-op>Process response
       policy</a> given |response|, |origin| and |report-only|.
     1. For each |feature| → |allowlist| of |d|'s [=declared policy/declarations=]:
-        1. If |policy|'s <a for="permissions policy">inherited
-           policy</a>[|feature|] is true, then set |policy|'s <a for="permissions
-           policy">declared policy</a>'s [=declared
-           policy/declarations=][|feature|] to |allowlist|.
-    1. Set |policy|'s <a for="permissions policy">declared
-       policy</a>[|feature|]'s [=declared policy/reporting configuration=] to
+        1. If |policy|'s [=permissions policy/inherited policy=][|feature|]
+           is "<code>Enabled</code>", then set |policy|'s
+           [=permissions policy/declared policy=]'s
+           [=declared policy/declarations=][|feature|] to |allowlist|.
+    1. Set |policy|'s [=permissions policy/declared policy=]'s
+       [=declared policy/reporting configuration=] to
        |d|'s [=declared policy/reporting configuration=].
     1. Return |policy|.
 
