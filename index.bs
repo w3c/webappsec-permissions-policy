@@ -199,7 +199,7 @@ spec: RFC8941; urlPrefix: https://datatracker.ietf.org/doc/html/rfc8941#
     &lt;iframe
       allow="camera https://app1.site.com https://app3.site.com;
              microphone https://app2.site.com https://app3.site.com"
-      src="https://doc1.site.com"
+      src="https://app1.site.com"
       sandbox="allow-same-origin allow-scripts"&gt;
     &lt;/iframe&gt;
     </pre>
