@@ -1116,11 +1116,11 @@ partial interface HTMLIFrameElement {
        [=Document/permissions policy=] otherwise.
     1. If |policy|'s <a for="permissions policy">inherited policy</a> for
        |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
-    1. If |feature| is present in |policy|'s <a for="permissions policy">declared
-       policy</a>:
-        1. If |policy|'s <a for="permissions policy">declared
-           policy</a>'s [=declared policy/declarations=][|feature|]
-           <a>matches</a> |origin|, then return "<code>Enabled</code>".
+    1. Let |declarations| be |policy|'s [=permissions policy/declared policy=]'s
+       [=declared policy/declarations=].
+    1. If |declarations|[|feature|] [=map/exists=]:
+        1. If |declarations|[|feature|] <a>matches</a> |origin|,
+           then return "<code>Enabled</code>".
         1. Otherwise return "<code>Disabled</code>".
     1. Return "<code>Enabled</code>".
 
@@ -1137,11 +1137,11 @@ partial interface HTMLIFrameElement {
     otherwise.
     1. If |policy|'s <a for="permissions policy">inherited policy</a> for
        |feature| is "<code>Disabled</code>", return "<code>Disabled</code>".
-    1. If |feature| is present in |policy|'s <a for="permissions
-       policy">declared policy</a>:
-        1. If |policy|'s <a for="permissions policy">declared
-           policy</a>'s [=declared policy/declarations=][|feature|]
-           <a>matches</a> |origin|, then return "<code>Enabled</code>".
+    1. Let |declarations| be |policy|'s [=permissions policy/declared policy=]'s
+       [=declared policy/declarations=].
+    1. If |declarations|[|feature|] [=map/exists=]:
+        1. If |declarations|[|feature|] <a>matches</a> |origin|,
+           then return "<code>Enabled</code>".
         1. Otherwise return "<code>Disabled</code>".
     1. If |feature|'s <a>default allowlist</a> is <code>*</code>, return
       "<code>Enabled</code>".
